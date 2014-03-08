@@ -1,0 +1,639 @@
+<!--
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+-->
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/composite/components/property"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" class="forumscontainer">
+
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+			<style type="text/css">
+.rf-dt-c {
+	border-right-width: 0;
+	border-right-style: none;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	color: #656565;
+}
+
+.rf-dt-hdr-c {
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #C4C0C9;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C4C0C9;
+	background-color: #DEDEDE;
+	background-image: none;
+	background-position: top left;
+	color: -webkit-text;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+</style>
+			<ui:fragment rendered="#{forum.forum!=null and forum.forum.id!=-1}">
+				<!-- make sure the user is allowed to access both the specified forum and the category that this forum belongs to -->
+				<forums:isAllowed fragment="acl://readCategory"
+					contextData="#{forum.forum.category}"
+					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+					<forums:isAllowed fragment="acl://readForum"
+						contextData="#{forum.forum}"
+						forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
+						<h:form>
+							<div class="forumbread">
+								<ul>
+									<li class="first"><h:commandLink action="viewCategory"
+											value="#{shared.mainPageName}" />
+
+										<ul>
+											<li>&gt; <h:commandLink action="viewCategory"
+													value="#{forum.forum.category.title}">
+													<f:param name="c" value="#{forum.forum.category.id}" />
+												</h:commandLink>
+
+												<ul>
+													<li>&gt; <h:commandLink action="viewForum"
+															value="#{forum.forum.name}">
+															<f:param name="f" value="#{forum.forum.id}" />
+														</h:commandLink>
+													</li>
+												</ul>
+
+											</li>
+										</ul></li>
+								</ul>
+							</div>
+
+							<div class="forumfloatright">
+
+								<ui:fragment rendered="${forums:feedsConfigured()}">
+									<!--  feeds -->
+									<a href="#{forum.rssFeed}"> <img
+										src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
+										RSS
+									</a>
+            &#160;
+            <a href="#{forum.atomFeed}" class="imglink"> <img
+										src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
+										ATOM
+									</a>
+            &#160;
+        </ui:fragment>
+
+								<h:commandLink action="#{forumWatch.deActivateWatch}"
+									rendered="#{forumWatch.watchingForum ne null and userModule.guest==false}">
+									<f:param name="w" value="#{forumWatch.watchingForum}" />
+									<img src="#{themeHelper.getURL('resourceIconUnSubscribeURL')}"
+										alt="${resourcebundle.Unsubscribe_from_forum}"
+										name="unSubscribe" border="0" id="unSubscribe" />
+								</h:commandLink>
+								<h:commandLink action="forumWatch"
+									rendered="#{forumWatch.watchingForum eq null and userModule.guest==false}">
+									<f:param name="f" value="${forum.forum.id}" />
+									<img src="#{themeHelper.getURL('resourceIconSubscribeURL')}"
+										alt="${resourcebundle.Subscribe_to_forum}" name="subscribe"
+										border="0" id="subscribe" />
+								</h:commandLink>
+							</div>
+
+							<div class="forumtitletext">
+								<input type="hidden" name="f" value="#{forum.forum.id}" />
+								<h4>${forum.forum.name}</h4>
+							</div>
+							<c:if test="#{forum.lastPageNumber > 1}">
+								<div class="forumpagination">
+									<ul>
+										<li class="disablepage"
+											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+											<h:outputFormat id="scrollerIntro_head"
+												value="#{resourcebundle.PageNumber}">
+												<f:param value="${currentForumPage.page}" />
+												<f:param value="${forum.lastPageNumber}" />
+											</h:outputFormat>&#160;
+										</li>
+										<rich:dataScroller for="topicsList" maxPages="5"
+											page="#{currentForumPage.page}" id="scTopicsList_head"
+											renderIfSinglePage="false" styleClass="forumpagination"
+											style="padding-top: 0px;" stepControls="hide"
+											selectedStyleClass="currentpage"
+											inactiveStyleClass="disablepage"
+											render="scrollerIntro_head scrollerIntro_footer">
+											<f:facet name="first">
+												<li>${resourcebundle.First}</li>
+											</f:facet>
+											<f:facet name="last">
+												<li>${resourcebundle.Last}</li>
+											</f:facet>
+											<f:facet name="fastRewind">
+												<li>&#60; ${resourcebundle.Previous}</li>
+											</f:facet>
+											<f:facet name="fastForward">
+												<li>${resourcebundle.Next} &#62;</li>
+											</f:facet>
+										</rich:dataScroller>
+									</ul>
+								</div>
+							</c:if>
+
+							<forums:isAllowed fragment="acl://newTopic"
+								contextData="#{forum.forum}"
+								forumsACLProvider="#{forumsACLProvider}"
+								userModule="#{userModule}">
+								<div class="actionbuttons">
+									<ul>
+										<li><f:verbatim rendered="#{forum.locked}">
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostLockedURL')}"
+													alt="${resourcebundle.Forum_locked}" />
+											</f:verbatim> <h:commandLink id="newTopic" action="#{newTopic.start}"
+												rendered="#{!forum.locked}">
+												<f:param name="f" value="#{forum.forum.id}" />
+												<f:verbatim>
+													<img border="0"
+														src="#{themeHelper.getURL('resourcePostNewURL')}"
+														alt="${resourcebundle.Post_new_topic}" />
+												</f:verbatim>
+											</h:commandLink></li>
+									</ul>
+								</div>
+							</forums:isAllowed>
+
+							<!-- display the list of topics associated with this forum -->
+							<table width="100%" border="0" cellpadding="0" cellspacing="0"
+								class="forumtablestyle">
+
+								<tr class="header">
+									<td class="forumheaderfirst" colspan="2">${resourcebundle.Topics}</td>
+									<td class="forumheadercentered">${resourcebundle.Replies}</td>
+									<td class="forumheadercentered">${resourcebundle.Views}</td>
+									<td class="forumheaderlast">${resourcebundle.Last_Post}</td>
+								</tr>
+								<ui:fragment
+									rendered="#{forum.forum.topicCount>0 and forum.announcementsPresent}">
+									<!-- Announcement threads -->
+
+									<tr>
+										<td class="forumspecialized" colspan="5">
+											<h3>${resourcebundle.Announcements}</h3>
+										</td>
+									</tr>
+
+									<c:forEach items="#{forum.announcements}" var="topicrow"
+										varStatus="status">
+										<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
+											<td class="forumlisticon"><img
+												src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+												width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+												title="${resourcebundle.Topic_Moved}" /></td>
+											<td>
+												<h3>
+													${themeHelper.getFolderType(topicrow)}&#160;
+													<h:commandLink action="viewTopic"
+														value="${topicrow.subject}">
+														<f:param name="t" value="${topicrow.id}" />
+														<f:param name="page" value="0" />
+													</h:commandLink>
+												</h3> <p:pagenavigator topicrow="#{topicrow}"
+													component="#{forum}" /> <br /> ${resourcebundle.By}&#160;
+												<h:outputText rendered="#{userModule.guest}"
+													value="${userModule.findUserById(topicrow.poster.userId).userName}" />
+
+												<h:commandLink action="viewProfile"
+													rendered="#{!userModule.guest}"
+													value="${userModule.findUserById(topicrow.poster.userId).userName}">
+													<f:param name="uid" value="${topicrow.poster.userId}" />
+												</h:commandLink>
+											</td>
+											<td class="forumlistcentered">${topicrow.replies}</td>
+											<td class="forumlistcentered">${topicrow.viewCount}</td>
+											<td class="forumlistlast"><h:commandLink
+													action="viewTopic"
+													value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
+													25)}&#8230;">
+													<f:param name="p"
+														value="#{forum.topicLastPosts[topicrow.id].id}" />
+												</h:commandLink> <br /> ${resourcebundle.By} <ui:fragment
+													rendered="#{userModule.guest}">
+                            ${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}
+                        </ui:fragment> <h:commandLink action="viewProfile"
+													rendered="#{!userModule.guest}"
+													value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
+													<f:param name="uid"
+														value="#{forum.topicLastPosts[topicrow.id].poster.userId}" />
+												</h:commandLink> <br /> #{forum.topicLastPosts[topicrow.id].createDate}</td>
+										</tr>
+
+									</c:forEach>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{forum.forum.topicCount>0 and forum.stickyThreadsPresent}">
+									<!-- Sticky Threads -->
+
+									<tr>
+										<td class="forumspecialized" colspan="5">
+											<h3>${resourcebundle.Sticky_Threads}</h3>
+										</td>
+									</tr>
+
+									<c:forEach items="#{forum.stickyThreads}" var="topicrow"
+										varStatus="status">
+										<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
+											<td class="forumlisticon"><img
+												src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+												width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+												title="${resourcebundle.Topic_Moved}" /></td>
+											<td>
+												<h3>
+													${themeHelper.getFolderType(topicrow)}&#160;
+													<h:commandLink action="viewTopic"
+														value="${topicrow.subject}">
+														<f:param name="t" value="${topicrow.id}" />
+														<f:param name="page" value="0" />
+													</h:commandLink>
+												</h3> <p:pagenavigator topicrow="#{topicrow}"
+													component="#{forum}" /> <br /> ${resourcebundle.By}&#160;
+												<h:outputText rendered="#{userModule.guest}"
+													value="${userModule.findUserById(topicrow.poster.userId).userName}" />
+
+												<h:commandLink action="viewProfile"
+													rendered="#{!userModule.guest}"
+													value="${userModule.findUserById(topicrow.poster.userId).userName}">
+													<f:param name="uid" value="${topicrow.poster.userId}" />
+												</h:commandLink>
+
+											</td>
+											<td class="forumlistcentered">${topicrow.replies}</td>
+											<td class="forumlistcentered">${topicrow.viewCount}</td>
+											<td class="forumlistlast"><h:commandLink
+													action="viewTopic"
+													value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
+													25)}&#8230;">
+													<f:param name="p"
+														value="#{forum.topicLastPosts[topicrow.id].id}" />
+												</h:commandLink><br /> ${resourcebundle.By} <h:outputText
+													rendered="#{userModule.guest}"
+													value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}" />
+
+												<h:commandLink action="viewProfile"
+													rendered="#{!userModule.guest}"
+													value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
+													<f:param name="uid"
+														value="#{forum.topicLastPosts[topicrow.id].poster.userId}" />
+												</h:commandLink> <br /> #{forum.topicLastPosts[topicrow.id].createDate}</td>
+										</tr>
+
+									</c:forEach>
+								</ui:fragment>
+
+								<!-- Normal threads -->
+
+								<rich:dataTable id="topicsList"
+									rendered="#{forum.forum.topicCount>0 and forum.normalThreadsPresent}"
+									value="#{forum.normalThreadsDataModel}" var="topicrow"
+									iterationStatusVar="status" styleClass="forumtablestyle"
+									rows="#{prefController.topicsPerForum}"
+									style="width:100%; border:0; cellpadding:0;
+										cellspacing:0;"
+									rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
+									headerClass="forumspecialized">
+									<f:facet name="header">
+										<rich:column>
+											<h3>${resourcebundle.Normal_Threads}</h3>
+										</rich:column>
+									</f:facet>
+									<rich:column styleClass="forumlisticon">
+										<img
+											src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+											width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+											title="${resourcebundle.Topic_Moved}" />
+									</rich:column>
+									<rich:column>
+										<h3>
+											<h:commandLink action="viewTopic" value="${topicrow.subject}">
+												<f:param name="t" value="${topicrow.id}" />
+												<f:param name="page" value="0" />
+											</h:commandLink>
+										</h3>
+										<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
+										<br /> ${resourcebundle.By}&#160;
+												<h:outputText rendered="#{userModule.guest}"
+											value="${userModule.findUserById(topicrow.poster.userId).userName}" />
+
+
+										<h:commandLink action="viewProfile"
+											rendered="#{!userModule.guest}"
+											value="${userModule.findUserById(topicrow.poster.userId).userName}">
+											<f:param name="uid" value="${topicrow.poster.userId}" />
+										</h:commandLink>
+
+									</rich:column>
+									<rich:column styleClass="forumlistcentered">${topicrow.replies}</rich:column>
+									<rich:column styleClass="forumlistcentered">${topicrow.viewCount}</rich:column>
+									<rich:column styleClass="forumlistlast">
+										<h:commandLink action="viewTopic"
+											value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
+													25)}&#8230;">
+											<f:param name="p"
+												value="#{forum.topicLastPosts[topicrow.id].id}" />
+										</h:commandLink>
+										<br /> ${resourcebundle.By} <h:outputText
+											rendered="#{userModule.guest}"
+											value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}" />
+
+
+										<h:commandLink action="viewProfile"
+											rendered="#{!userModule.guest}"
+											value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
+											<f:param name="uid"
+												value="#{forum.topicLastPosts[topicrow.id].poster.userId}" />
+										</h:commandLink>
+										<br /> #{forum.topicLastPosts[topicrow.id].createDate}</rich:column>
+								</rich:dataTable>
+
+								<c:if test="#{forum.lastPageNumber > 1}">
+									<div class="forumpagination">
+										<ul>
+											<li class="disablepage"
+												style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+												<h:outputFormat id="scrollerIntro_footer"
+													value="#{resourcebundle.PageNumber}">
+													<f:param value="${currentForumPage.page}" />
+													<f:param value="${forum.lastPageNumber}" />
+												</h:outputFormat>&#160;
+											</li>
+											<rich:dataScroller for="topicsList" maxPages="5"
+												page="#{currentForumPage.page}" id="scTopicsList_footer"
+												renderIfSinglePage="false" styleClass="forumpagination"
+												style="padding-top: 0px;" stepControls="hide"
+												selectedStyleClass="currentpage"
+												inactiveStyleClass="disablepage"
+												render="scrollerIntro_head scrollerIntro_footer">
+												<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+												<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+												<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+												<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+											</rich:dataScroller>
+										</ul>
+									</div>
+								</c:if>
+
+								<ui:fragment rendered="#{forum.forum.topicCount eq 0}">
+									<tr>
+										<td class="nonewpostRow" colspan="6">
+											<h3>
+												<h:outputText
+													value="#{resourcebundle['No_topics_post_one']}"
+													escape="false" />
+											</h3>
+										</td>
+									</tr>
+								</ui:fragment>
+							</table>
+						</h:form>
+						<h:form>
+							<!-- NEWTOPIC -->
+							<forums:isAllowed fragment="acl://newTopic"
+								contextData="#{forum.forum}"
+								forumsACLProvider="#{forumsACLProvider}"
+								userModule="#{userModule}">
+								<div class="actionbuttons">
+									<ul>
+										<li><f:verbatim rendered="#{forum.locked}">
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostLockedURL')}"
+													alt="${resourcebundle.Forum_locked}" />
+											</f:verbatim> <h:commandLink id="newTopic" action="#{newTopic.start}"
+												rendered="#{!forum.locked}">
+												<f:param name="f" value="#{forum.forum.id}" />
+												<f:verbatim>
+													<img border="0"
+														src="#{themeHelper.getURL('resourcePostNewURL')}"
+														alt="${resourcebundle.Post_new_topic}" />
+												</f:verbatim>
+											</h:commandLink></li>
+									</ul>
+								</div>
+							</forums:isAllowed>
+
+							<!-- MODERATION -->
+							<c:if test="#{!userModule.guest}">
+								<forums:isAllowed fragment="acl://moderateForum"
+									contextData="#{forum.forum}"
+									forumsACLProvider="#{forumsACLProvider}"
+									userModule="#{userModule}">
+									<div class="modtools">
+										<ul>
+											<li>${resourcebundle.Forum_moderation}:</li>
+											<li><h:commandLink action="viewModerator">
+													<f:param name="f" value="#{forum.forum.id}" />
+													<f:verbatim>
+														<img
+															src="${themeHelper.getURL('resourceIconModerateURL')}"
+															alt="${resourcebundle.Moderate}" border="0" />
+													</f:verbatim>
+												</h:commandLink></li>
+										</ul>
+									</div>
+								</forums:isAllowed>
+							</c:if>
+							<!-- ADMINISTRATION -->
+							<c:if test="#{!userModule.guest}">
+								<forums:isAllowed fragment="acl://lockForums"
+									contextData="#{forum.forum}"
+									forumsACLProvider="#{forumsACLProvider}"
+									userModule="#{userModule}">
+									<div class="admintools">
+										<ul>
+											<li>${resourcebundle.Forum_administration}:</li>
+											<li><h:commandLink
+													action="#{adminController.unlockForum}"
+													rendered="#{forum.locked}">
+													<f:param name="f" value="#{forum.forum.id}" />
+													<f:param name="c" value="#{forum.forum.category.id}" />
+													<f:verbatim>
+														<img src="${themeHelper.getURL('resourceIconUnlockURL')}"
+															alt="${resourcebundle.Forum_unlock}" border="0" />
+													</f:verbatim>
+												</h:commandLink> <h:commandLink action="#{adminController.lockForum}"
+													rendered="#{!forum.locked}">
+													<f:param name="f" value="#{forum.forum.id}" />
+													<f:param name="c" value="#{forum.forum.category.id}" />
+													<f:verbatim>
+														<img src="${themeHelper.getURL('resourceIconLockURL')}"
+															alt="${resourcebundle.Forum_lock}" border="0" />
+													</f:verbatim>
+												</h:commandLink></li>
+										</ul>
+									</div>
+								</forums:isAllowed>
+							</c:if>
+
+
+							<hr class="forumdashedHR" />
+							<div class="forumthreadlegend">
+								<ul>
+									<li><img
+										src="#{themeHelper.getURL('resourceFolderNewURL')}"
+										alt="${resourcebundle.New_posts}" width="11" height="14" />
+										${resourcebundle.New_posts}</li>
+									<li><img
+										src="#{themeHelper.getURL('resourceFolderHotNewURL')}"
+										alt="${resourcebundle.New_posts_hot}" width="11" height="14" />
+										${resourcebundle.New_posts_hot}</li>
+									<li><img
+										src="#{themeHelper.getURL('resourceFolderLockedNewURL')}"
+										alt="${resourcebundle.New_posts_locked}" width="11"
+										height="14" /> ${resourcebundle.New_posts_locked}</li>
+								</ul>
+							</div>
+							<div class="forumthreadlegend">
+								<ul>
+									<li><img src="#{themeHelper.getURL('resourceFolderURL')}"
+										alt="${resourcebundle.No_new_posts}" width="11" height="14" />
+										${resourcebundle.No_new_posts}</li>
+									<li><img
+										src="#{themeHelper.getURL('resourceFolderHotURL')}"
+										alt="${resourcebundle.No_new_posts_hot}" width="11"
+										height="14" /> ${resourcebundle.No_new_posts_hot}</li>
+									<li><img
+										src="#{themeHelper.getURL('resourceFolderLockedURL')}"
+										alt="${resourcebundle.No_new_posts_locked}" width="11"
+										height="14" /> ${resourcebundle.No_new_posts_locked}</li>
+								</ul>
+							</div>
+							<div class="forumthreadlegendtext">
+
+								<!-- post new topics link -->
+								<forums:isAllowedChoose>
+									<forums:isAllowedWhen fragment="acl://newTopic"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:outputText value="#{resourcebundle['Rules_post_can']}"
+											escape="false" />
+									</forums:isAllowedWhen>
+									<forums:isAllowedOtherwise>
+										<h:outputText value="#{resourcebundle['Rules_post_cannot']}"
+											escape="false" />
+									</forums:isAllowedOtherwise>
+								</forums:isAllowedChoose>
+								<br />
+
+								<!-- manage poll link -->
+								<forums:isAllowedChoose>
+									<forums:isAllowedWhen fragment="acl://managePoll"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:outputText value="#{resourcebundle['Rules_poll_can']}"
+											escape="false" />
+									</forums:isAllowedWhen>
+									<forums:isAllowedOtherwise>
+										<h:outputText value="#{resourcebundle['Rules_poll_cannot']}"
+											escape="false" />
+									</forums:isAllowedOtherwise>
+								</forums:isAllowedChoose>
+								<br />
+
+								<!-- votePoll link -->
+								<forums:isAllowedChoose>
+									<forums:isAllowedWhen fragment="acl://votePoll"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:outputText value="#{resourcebundle['Rules_vote_can']}"
+											escape="false" />
+									</forums:isAllowedWhen>
+									<forums:isAllowedOtherwise>
+										<h:outputText value="#{resourcebundle['Rules_vote_cannot']}"
+											escape="false" />
+									</forums:isAllowedOtherwise>
+								</forums:isAllowedChoose>
+								<br />
+
+								<!-- moderate forum link -->
+								<forums:isAllowedChoose>
+									<forums:isAllowedWhen fragment="acl://moderateForum"
+										contextData="#{forum.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:outputText value="#{resourcebundle['Rules_moderate_0']}"
+											escape="false" />
+										<h:outputText value="#{resourcebundle['Rules_moderate_2']}"
+											escape="false" />
+									</forums:isAllowedWhen>
+									<forums:isAllowedOtherwise>
+										<h:outputText value="#{resourcebundle['Rules_moderate_1']}"
+											escape="false" />
+										<h:outputText value="#{resourcebundle['Rules_moderate_2']}"
+											escape="false" />
+									</forums:isAllowedOtherwise>
+								</forums:isAllowedChoose>
+								<br />
+
+							</div>
+
+						</h:form>
+
+						<div class="forumlegendjumpboxclear">
+							<ui:include src="/views/jumpbox.xhtml" />
+						</div>
+
+					</forums:isAllowed>
+				</forums:isAllowed>
+			</ui:fragment>
+
+			<ui:fragment rendered="#{forum.forum==null}">
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"
+					class="forumtablestyle">
+					<tr>
+						<td>
+							<table width="100%" cellspacing="0" cellpadding="1" border="0">
+								<tr>
+									<td>&#160;</td>
+								</tr>
+								<tr>
+									<td align="center">${resourcebundle.Forum_not_exist}</td>
+								</tr>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</ui:fragment>
+
+
+		</ui:define>
+	</ui:composition>
+
+</div>

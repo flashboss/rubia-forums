@@ -1,0 +1,330 @@
+<!--
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+-->
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+			<script language="JavaScript" type="text/javascript">
+
+function selectOption(optionVal)
+{
+	document.post.o.value = optionVal;
+}
+
+function selectAttachment(attachmentVal)
+{
+	document.post.ATTACHMENT.value = attachmentVal;
+}
+
+</script>
+
+			<c:if test="#{newTopic.preview}">
+				<ui:include src="/views/topics/posting_new_preview.xhtml" />
+				<br clear="all" />
+			</c:if>
+
+			<div class="forumtitletext">
+				<h4>${resourcebundle.Post_a_new_topic}</h4>
+				<h:messages errorClass="failuretext" layout="table" />
+			</div>
+
+			<div class="PostviewStyle">
+				<h:form id="post">
+					<table border="0" cellpadding="5" cellspacing="0" width="100%"
+						name="table" id="table">
+
+						<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
+						<input type="hidden" name="f" value="#{newTopic.forumId}" />
+
+						<tr>
+							<td colspan="2" class="PostViewMainHeader">${resourcebundle.Compose_Message}</td>
+						</tr>
+						<tr class="PostViewMainDescription">
+							<td colspan="2">${resourcebundle.Posting_Description}</td>
+						</tr>
+
+						<!-- add Subject -->
+						<tr class="PostViewUnderlineBoth">
+							<td><label class="forumformlabelbold">
+									${resourcebundle.Subject} </label></td>
+							<td><h:inputText value="#{newTopic.subject}" maxlength="200"
+									id="SubjectInputText" size="45" style="width: 450px;"
+									tabindex="2" /></td>
+						</tr>
+
+						<!-- Add Message -->
+						<tr>
+							<td valign="top">
+								<table border="0" cellpadding="1" cellspacing="0" width="100%">
+									<tbody>
+										<tr>
+											<td><label class="forumformlabelbold">
+													${resourcebundle.Message_body} </label></td>
+										</tr>
+										<tr>
+											<td align="center" valign="middle"><br />
+												<table border="0" cellpadding="5" cellspacing="0"
+													width="100">
+													<tbody>
+														<tr align="center">
+															<td><b></b></td>
+														</tr>
+													</tbody>
+												</table></td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td valign="top">
+								<table width="100%" border="0" cellpadding="0" cellspacing="0"
+									class="forumline">
+									<tbody>
+										<tr>
+											<td colspan="9"><rich:editor id="message" toolbar="full" skin="forums"
+													value="#{newTopic.message}" styleClass="Posttextarea"
+													style="height:inherit;width:440">
+													<f:facet name="config">
+                    toolbar: 'custom',
+                    startupFocus: true,
+                    height: 150,
+                    language: '#{request.locale}',
+                    enterMode : 2,
+                    shiftEnterMode: 1,
+                    toolbar_custom:
+                        [
+                            { name: 'styles', items : [ 'Styles','Format' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+                            { name: 'links', items : [ 'Link','Unlink'] }
+                        ]
+                    </f:facet>
+
+												</rich:editor></td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+
+						<!-- subject and message invisible input for validator execution workaround -->
+						<h:inputHidden id="validator" value="validator">
+							<f:validator validatorId="subjectLengthValidator" />
+							<f:validator validatorId="messageLengthValidator" />
+						</h:inputHidden>
+
+						<!-- Add Options -->
+						<forums:isAllowed fragment="acl://topicType"
+							contextData="#{newTopic.forumId}"
+							forumsACLProvider="#{forumsACLProvider}"
+							userModule="#{userModule}">
+							<tr class="PostViewUnderlineBoth">
+								<td valign="top"><label class="forumformlabelbold">
+										${resourcebundle.Options} </label></td>
+								<td>${resourcebundle.Post_topic_as}: <h:selectOneRadio
+										value="#{newTopic.topicType}" styleClass="gen">
+										<f:selectItem itemValue="0"
+											itemLabel="${resourcebundle.Post_Normal}">
+											<f:verbatim>&#160;&#160;&#160;</f:verbatim>
+										</f:selectItem>
+										<f:selectItem itemValue="1"
+											itemLabel="${resourcebundle.Post_Sticky}">
+											<f:verbatim>&#160;&#160;&#160;</f:verbatim>
+										</f:selectItem>
+										<f:selectItem itemValue="2"
+											itemLabel="${resourcebundle.Post_Announcement}">
+											<f:verbatim>&#160;&#160;&#160;</f:verbatim>
+										</f:selectItem>
+									</h:selectOneRadio>
+								</td>
+							</tr>
+						</forums:isAllowed>
+
+						<!-- poll ui -->
+						<forums:isAllowed fragment="acl://managePoll"
+							forumsACLProvider="#{forumsACLProvider}"
+							userModule="#{userModule}">
+
+							<tr class="PostViewMainHeader">
+								<td colspan="2">${resourcebundle.Add_poll}</td>
+							</tr>
+							<tr class="PostViewMainDescription">
+								<td colspan="2">${resourcebundle.Add_poll_explain}</td>
+							</tr>
+
+							<!-- setup poll question -->
+							<tr>
+								<td class="PostViewUnderline"><label
+									class="forumformlabelbold">
+										${resourcebundle.Poll_question} </label></td>
+								<td><h:inputText value="#{newTopic.question}" id="question"
+										maxlength="255" style="width: 450px;" /></td>
+							</tr>
+
+							<!-- update poll options already added -->
+							<input type="hidden" name="o" />
+							<c:forEach items="${newTopic.options}" var="optionRow"
+								varStatus="idx">
+								<tr class="PostViewUnderline">
+									<td><label class="forumformlabelbold">
+											${resourcebundle.Poll_option} </label></td>
+									<td><h:inputText id="option_${idx.index+1}"
+											name="option_${idx.index+1}" value="${optionRow}"
+											style="width: 300px;" maxlength="255">
+											<f:converter converterId="pollOptionConverter" />
+										</h:inputText> &#160; <h:commandButton id="UpdateOption_${idx.index+1}"
+											action="#{newTopic.updateOption}"
+											value="${resourcebundle.Update}" styleClass="buttonMed"
+											onclick="selectOption(${idx.index+1});" /> <h:commandButton
+											id="DeleteOption_${idx.index+1}"
+											action="#{newTopic.deleteOption}"
+											value="${resourcebundle.Delete}" styleClass="buttonMed"
+											onclick="selectOption(${idx.index+1});" /></td>
+								</tr>
+							</c:forEach>
+
+							<!-- add poll options -->
+							<tr class="PostViewUnderline">
+								<td><label class="forumformlabelbold">
+										${resourcebundle.Poll_option} </label></td>
+								<td><h:inputText value="#{newTopic.option}" id="newOption"
+										maxlength="255" style="width: 300px;" /> &#160; <h:commandButton
+										action="#{newTopic.addOption}"
+										value="${resourcebundle.Add_option}" styleClass="buttonMed" />
+								</td>
+							</tr>
+
+
+							<!-- setup poll duration -->
+							<tr class="PostViewUnderline">
+								<td><label class="forumformlabelbold">
+										${resourcebundle.Poll_for} </label></td>
+								<td><h:inputText value="#{newTopic.activeDuration}"
+										id="pollDuration" size="3" maxlength="3">
+										<f:converter converterId="pollDurationConverter" />
+									</h:inputText> &#160; <strong> ${resourcebundle.Days} </strong> &#160;
+									${resourcebundle.Poll_for_explain}</td>
+							</tr>
+
+							<!-- poll invisible input for validator execution workaround -->
+							<h:inputHidden id="execute" value="execute">
+								<f:validator validatorId="pollValidator" />
+							</h:inputHidden>
+
+						</forums:isAllowed>
+
+						<!-- attachment ui -->
+						<forums:isAllowed fragment="acl://managePostAttachments"
+							forumsACLProvider="#{forumsACLProvider}"
+							userModule="#{userModule}">
+							<tr>
+								<td colspan="2" class="PostViewMainHeader">
+									${resourcebundle.Add_attachment_title}</td>
+							</tr>
+							<tr class="PostViewMainDescription">
+								<td colspan="2">${resourcebundle.Add_attachment_explain}</td>
+							</tr>
+
+							<!-- upload button -->
+							<tr class="PostViewUnderline">
+								<td><label class="forumformlabelbold">
+										${resourcebundle.File_name} </label></td>
+								<td><input type="file" size="40" class="post" /></td>
+							</tr>
+
+							<!-- comment -->
+							<tr valign="top" class="PostViewUnderline">
+								<td><label class="forumformlabelbold">
+										${resourcebundle.File_comment} </label></td>
+								<td><h:inputTextarea value="#{newTopic.attachmentComment}"
+										rows="3" styleClass="Posttextarea" /></td>
+							</tr>
+							<tr class="PostViewUnderline">
+								<td></td>
+								<td><h:commandButton action="#{newTopic.addAttachment}"
+										value="${resourcebundle.Add_attachment}"
+										styleClass="buttonMed" /></td>
+							</tr>
+
+							<c:if test="#{newTopic.numberOfAttachments>0}">
+								<tr>
+									<th class="thHead" colspan="2">${resourcebundle.Posted_attachments}</th>
+								</tr>
+
+								<!-- uploaded list of attachments -->
+								<input type="hidden" name="ATTACHMENT" />
+								<c:forEach items="#{newTopic.attachments}" var="attachRow"
+									varStatus="idx">
+									<tr class="PostViewUnderline">
+										<td><label class="forumformlabelbold">
+												${resourcebundle.File_name} </label></td>
+										<td>${attachRow.fileName}</td>
+									</tr>
+									<tr valign="top" class="PostViewUnderline">
+										<td><label class="forumformlabelbold">
+												${resourcebundle.File_comment} </label></td>
+										<td><h:inputTextarea id="attachment_${idx.index}"
+												value="#{attachRow.comment}" rows="3" cols="35"
+												styleClass="Posttextarea" /></td>
+									</tr>
+									<tr class="PostViewUnderline">
+										<td></td>
+										<td><h:commandButton id="UpdateAttachment_${idx.index}"
+												action="#{newTopic.updateAttachment}"
+												value="${resourcebundle.Update_comment}"
+												styleClass="buttonMed"
+												onclick="selectAttachment('${idx.index}');" /> &#160; <h:commandButton
+												id="DeleteAttachment_${idx.index}"
+												action="#{newTopic.deleteAttachment}"
+												value="${resourcebundle.Delete_attachment}"
+												styleClass="buttonMed"
+												onclick="selectAttachment('${idx.index}');" /></td>
+									</tr>
+								</c:forEach>
+							</c:if>
+						</forums:isAllowed>
+					</table>
+
+					<!-- hookup the buttons -->
+					<div class="forumformbuttonrow">
+						<ul>
+							<li><h:commandButton action="#{newTopic.preview}"
+									value="${resourcebundle.Preview}" id="Preview"
+									styleClass="buttonMed" tabindex="5" /></li>
+							<li>
+								<!--TODO: Missing execution of javascript checking form - onclick="return checkForm(this.parentNode)" -->
+								<h:commandButton action="#{newTopic.execute}"
+									value="${resourcebundle.Submit}" id="Submit"
+									styleClass="buttonMed" accesskey="s" tabindex="6">
+								</h:commandButton>
+							</li>
+							<li><h:commandButton action="#{newTopic.cancel}"
+									value="${resourcebundle.Cancel}" id="Cancel" accesskey="c"
+									tabindex="7" styleClass="buttonMed" /></li>
+						</ul>
+					</div>
+				</h:form>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+
+</div>

@@ -1,0 +1,263 @@
+<!--
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+-->
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	class="forumscontainer">
+
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+
+			<c:choose>
+				<c:when
+					test="#{splitTopic.topic!=null &amp;&amp; splitTopic.topic.id!=-1}">
+
+					<forums:isAllowedChoose>
+
+						<forums:isAllowedWhen fragment="acl://moderateForum"
+							contextData="#{splitTopic.topic.forum}"
+							forumsACLProvider="#{forumsACLProvider}"
+							userModule="#{userModule}">
+
+							<h:form>
+								<input type="hidden" name="t" value="#{splitTopic.topic.id}" />
+								<div class="forumbread">
+									<ul>
+										<li class="first"><h:commandLink action="viewCategory"
+												value="#{shared.mainPageName}" />
+
+											<ul>
+												<li>&gt; <h:commandLink action="viewCategory"
+														value="#{splitTopic.topic.forum.category.title}">
+														<f:param name="c"
+															value="#{splitTopic.topic.forum.category.id}" />
+													</h:commandLink>
+
+													<ul>
+														<li>&gt; <h:commandLink action="viewForum"
+																value="#{splitTopic.topic.forum.name}">
+																<f:param name="f" value="#{splitTopic.topic.forum.id}" />
+															</h:commandLink>
+
+															<ul>
+																<li>&gt; <h:commandLink action="viewModeratorSplit"
+																		value="${resourcebundle.L_SPLIT_TOPIC}">
+																		<f:param name="t" value="#{splitTopic.topic.id}" />
+																	</h:commandLink>
+																</li>
+															</ul>
+
+														</li>
+													</ul>
+
+												</li>
+											</ul></li>
+									</ul>
+								</div>
+
+								<!-- Topic split title and usability explanation and feedback messages -->
+								<div class="forumtitletext">
+									<h4>${resourcebundle.L_SPLIT_TOPIC}</h4>
+									<p class="successtext">
+										<h:messages layout="table" infoStyle="color:green"
+											warnStyle="color:red" />
+									</p>
+								</div>
+
+								<table width="100%" cellpadding="0" cellspacing="0"
+									class="forumtablestyle">
+									<tr class="oddRow">
+										<td colspan="2">${resourcebundle.L_SPLIT_TOPIC_EXPLAIN}</td>
+									</tr>
+									<tr class="header">
+										<td class="forumheaderfirst" colspan="2">${resourcebundle.L_SPLIT_DESTINATION}</td>
+									</tr>
+									<tr>
+										<td><label class="forumformlabelbold" for="topic_name">${resourcebundle.L_SPLIT_SUBJECT}</label>
+										</td>
+										<td><h:inputText size="35" style="width: 350px"
+												maxlength="60" id="topic_name"
+												value="#{splitTopic.newTopicTitle}" /></td>
+									</tr>
+									<tr>
+										<td><label class="forumformlabelbold" for="forum_to_id">${resourcebundle.L_SPLIT_FORUM}</label>
+										</td>
+										<td><select name="forum_to_id">
+												<option value="-1">${resourcebundle.Select_forum}</option>
+												<c:forEach items="${jumpbox.categories}" var="category">
+													<forums:isAllowed fragment="acl://readCategory"
+														contextData="#{category}"
+														forumsACLProvider="#{forumsACLProvider}"
+														userModule="#{userModule}">
+														<option value="-1"></option>
+														<option value="-1">${category.title}</option>
+														<option value="-1">----------------</option>
+														<c:forEach items="${category.forums}" var="forum">
+															<forums:isAllowed fragment="acl://newTopic"
+																contextData="#{forum}"
+																forumsACLProvider="#{forumsACLProvider}"
+																userModule="#{userModule}">
+																<option value="${forum.id}">${forum.name}</option>
+															</forums:isAllowed>
+														</c:forEach>
+													</forums:isAllowed>
+												</c:forEach>
+										</select></td>
+									</tr>
+								</table>
+								<br />
+
+								<table width="100%" border="0" cellpadding="0" cellspacing="0"
+									class="forumtablestyle">
+									<tr>
+										<td colspan="3" class="buttonrow"><h:commandButton
+												action="${splitTopic.splitPosts}" type="submit"
+												class="buttonMed" value="${resourcebundle.L_SPLIT_POSTS}">
+												<f:param name="t" value="#{splitTopic.topic.id}" />
+											</h:commandButton> <h:commandButton action="${splitTopic.splitAfter}"
+												type="submit" class="buttonMed"
+												value="${resourcebundle.L_SPLIT_AFTER}">
+												<f:param name="t" value="#{splitTopic.topic.id}" />
+											</h:commandButton></td>
+									</tr>
+									<tr class="header">
+										<td class="forumheaderfirst">${resourcebundle.L_AUTHOR}</td>
+										<td class="tableheader">${resoure.L_MESSAGE}</td>
+										<td class="forumheaderopen">${resourcebundle.L_SELECT}</td>
+									</tr>
+
+									<c:forEach items="#{splitTopic.posts}" var="postrow"
+										varStatus="status">
+										<tr class="oddRow">
+											<td class="forumpostleftcolumn"><c:choose>
+
+													<c:when test="#{userModule.guest}">
+                        ${userModule.findUserById(postrow.poster.userId).userName}
+                    </c:when>
+
+													<c:otherwise>
+														<h:commandLink action="viewProfile"
+															value="${userModule.findUserById(postrow.poster.userId).userName}">
+															<f:param name="uid" value="${postrow.poster.userId}" />
+														</h:commandLink>
+													</c:otherwise>
+
+												</c:choose></td>
+											<td class="forumpostspacer">
+												<div class="forumpostinfo">
+													<ul>
+														<li>${resourcebundle.L_POSTED}:${forums:dateStr(postrow.createDate)}
+														</li>
+														<li>${resourcebundle.L_POST_SUBJECT}:${postrow.message.subject}</li>
+													</ul>
+												</div>
+											</td>
+											<td class="forumpostspacer"></td>
+										</tr>
+										<tr>
+											<td class="forumpostleftcolumn"></td>
+											<td class="forumpostcontent">
+												<p>
+													<h:outputText
+														value="#{forums:formatMessage(postrow.message.text,false)}"
+														escape="false" />
+													<br /> <br />
+													${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
+												</p>
+											</td>
+											<td width="5%" align="center" class="forumpostcontent">
+												<h:selectBooleanCheckbox
+													value="${splitTopic.checkboxes[postrow.id]}" />
+											</td>
+										</tr>
+									</c:forEach>
+
+									<tr>
+										<td colspan="3" class="buttonrow"><h:commandButton
+												action="${splitTopic.splitPosts}" type="submit"
+												class="buttonMed" value="${resourcebundle.L_SPLIT_POSTS}">
+												<f:param name="t" value="#{splitTopic.topic.id}" />
+											</h:commandButton> <h:commandButton action="${splitTopic.splitAfter}"
+												type="submit" class="buttonMed"
+												value="${resourcebundle.L_SPLIT_AFTER}">
+												<f:param name="t" value="#{splitTopic.topic.id}" />
+											</h:commandButton></td>
+									</tr>
+								</table>
+							</h:form>
+							<table width="100%" cellspacing="2" border="0" align="center"
+								cellpadding="2">
+								<tr>
+									<!-- integrate jumpbox here -->
+									<td align="right" valign="top" nowrap="nowrap"><ui:include
+											src="/views/jumpbox.xhtml" /></td>
+								</tr>
+							</table>
+							<hr />
+
+						</forums:isAllowedWhen>
+
+						<forums:isAllowedOtherwise>
+							<table width="100%" border="0" cellpadding="0" cellspacing="0"
+								class="forumtablestyle">
+								<tr>
+									<td>
+										<table width="100%" cellspacing="0" cellpadding="1" border="0">
+											<tr>
+												<td>&#160;</td>
+											</tr>
+											<tr>
+												<td align="center">${resourcebundle.Not_Moderator}</td>
+											</tr>
+											<tr>
+												<td>&#160;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</forums:isAllowedOtherwise>
+
+					</forums:isAllowedChoose>
+				</c:when>
+				<c:otherwise>
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						class="forumtablestyle">
+						<tr>
+							<td>
+								<table width="100%" cellspacing="0" cellpadding="1" border="0">
+									<tr>
+										<td>&#160;</td>
+									</tr>
+									<tr>
+										<td align="center">${resourcebundle.Not_Moderator}</td>
+									</tr>
+									<tr>
+										<td>&#160;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</c:otherwise>
+			</c:choose>
+		</ui:define>
+	</ui:composition>
+</div>

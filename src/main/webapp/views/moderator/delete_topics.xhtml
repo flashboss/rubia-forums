@@ -1,0 +1,116 @@
+<!--
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+-->
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	class="forumscontainer">
+
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+			<forums:isAllowedChoose>
+				<forums:isAllowedWhen fragment="acl://moderateForum"
+					contextData="#{moderator.forum}"
+					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+					<c:choose>
+
+						<c:when
+							test="#{moderator.anyCheckboxSelected &amp;&amp; moderator.forum!=null &amp;&amp; moderator.forum.id!=-1}">
+							<div class="dialog">
+								<table cellpadding="0" cellspacing="0" border="0" width="100%">
+									<tr>
+										<td class="icon"><img
+											src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
+											border="0" /></td>
+										<td class="title" width="100%">
+											${resourcebundle.Topic_delete_confirm}</td>
+									</tr>
+									<tr>
+										<td class="icon"></td>
+										<td>${resourcebundle.Confirm_delete_topic} <br /> <br />
+											${resourcebundle.Topics_to_deletion} <br /> <c:forEach
+												items="#{moderator.allSelectedTopics}" var="topicrow">
+                #{topicrow.subject}<br />
+											</c:forEach> <br />
+										</td>
+									</tr>
+									<tr>
+										<td class="buttons" colspan="2"><h:form>
+												<input type="hidden" name="f" value="#{moderator.forum.id}" />
+												<h:commandButton type="submit" value="${resourcebundle.Yes}"
+													styleClass="buttonMed" action="#{moderator.deleteTopic}">
+													<f:param name="f" value="#{moderator.forum.id}" />
+												</h:commandButton>
+												<h:commandButton type="button" value="${resourcebundle.No}"
+													styleClass="buttonMed" onclick="javascript:history.back();">
+													<f:param name="f" value="#{moderator.forum.id}" />
+												</h:commandButton>
+											</h:form></td>
+									</tr>
+								</table>
+							</div>
+						</c:when>
+
+						<c:otherwise>
+							<table width="100%" border="0" cellpadding="0" cellspacing="0"
+								class="forumtablestyle">
+								<tr>
+									<td>
+										<table width="100%" cellspacing="0" cellpadding="1" border="0">
+											<tr>
+												<td>&#160;</td>
+											</tr>
+											<tr>
+												<td align="center">${resourcebundle.Not_Moderator}</td>
+											</tr>
+											<tr>
+												<td>&#160;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</c:otherwise>
+
+					</c:choose>
+				</forums:isAllowedWhen>
+				<forums:isAllowedOtherwise>
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						class="forumtablestyle">
+						<tr>
+							<td>
+								<table width="100%" cellspacing="0" cellpadding="1" border="0">
+									<tr>
+										<td>&#160;</td>
+									</tr>
+									<tr>
+										<td align="center">${resourcebundle.Not_Moderator}</td>
+									</tr>
+									<tr>
+										<td>&#160;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</forums:isAllowedOtherwise>
+			</forums:isAllowedChoose>
+		</ui:define>
+	</ui:composition>
+</div>

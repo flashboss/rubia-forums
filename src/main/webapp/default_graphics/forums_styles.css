@@ -1,0 +1,900 @@
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+.bodyStyle{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #656565;
+}
+
+.scroll {
+	width: 800px;
+	overflow: auto;
+}
+
+.code {
+    border-left: 1px solid #e6e7e8;
+    border-right: 1px solid #e6e7e8;
+    font-family: Courier;
+    font-size: 10px;
+    background-color: #fffdf2;
+    white-space: nowrap;
+}
+
+.quote {
+    border-left: 1px solid #e6e7e8;
+    border-right: 1px solid #e6e7e8;
+    font-size: 10px;
+    background-color: #f5f7fa;
+}
+
+.forumscontainer {
+	margin:0px 25px 0px 15px;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size:11px;
+}
+
+.forumscontainer a {
+	text-decoration: underline;
+	}
+
+.forumsectionhdr {
+	border-bottom: 1px solid #a1a1a1;
+	text-align:right;
+}
+
+.forumsectionhdr ul {
+	margin-bottom: 4px;
+}
+
+.forumsectionhdr li {
+	display:inline;
+	color: #656565;
+	font-size:11px;
+	font-weight:bold;
+}
+
+.forumsectionhdr a {
+	color:#4a5d75;
+}
+
+.forumdashedHR {
+	clear:both;
+	border-top:1px dashed #a1a1a1; 
+	background-color: #FFFFFF;
+	border-bottom:0px;
+	border-left:0px;
+	border-right:0px;
+	margin:10px auto;
+}
+
+
+/* Link workaround for images used as links where spaces may be added */
+.imglink { 
+	text-decoration: none;
+}
+	
+
+/* -------------------------- floats ------------------------------------------- */
+.forumfloatright {
+	float:right;
+}
+
+.forumfloatleft {
+	float:left;
+}
+
+/* -------------------------- titles, headers & text ------------------------------- */
+.forumtitletext {
+}
+
+.forumtitletext h4{
+	margin: 5px auto;
+	color:#233345;
+	font-size:14px;
+	font-weight:bold;	
+}
+.forumtitletext .successtext {
+	margin: 5px auto;
+	color:#226809;
+	font-size:12px;
+	font-weight:bold;	
+}
+.forumtitletext .failuretext {
+	margin: 5px auto;
+	color:#CC0000;
+	font-size:12px;
+	font-weight:bold;	
+}
+.forumtitletext p {
+	margin: 2px auto 12px auto;
+}
+
+.inlinefailure {
+	margin: 5px auto;
+	color:#CC0000;
+	font-size:12px;
+	font-weight: bold;	
+}	
+
+.note {
+	color:#233345;
+	font-size:9px;
+	line-height: 9px;
+}
+/* --------------------------- Buttons ---------------------------------- */
+
+.buttonMed {
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #4a5d75;
+	border-top: 1px solid #94aebd;
+	border-left: 1px solid #94aebd;
+	border-right: 1px solid #233345;
+	border-bottom: 1px solid #233345;
+	height: 20px;
+}
+
+.actionbuttons {
+	padding: 5px 0px;
+}
+
+.actionbuttons ul {
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+	} 
+
+.actionbuttons ul li {
+	list-style: none;
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	}
+
+.actionbuttons ul li img {
+	border: 0px;
+	padding-right: 4px;
+	vertical-align: text-bottom;
+	}
+
+.actionbuttons ul li a {
+	text-decoration:none;
+	}
+
+
+/* -------------------------- Forum Breadcrumb navigation --------------------------------- */
+.forumbread {
+	color: #4a5d75;
+	padding-right: 3px;
+	margin: 10px auto;
+	}
+
+.forumbread ul {
+	margin-left: 0px;
+	padding-left: 0px;
+	display: inline;
+	border: none;
+	} 
+
+.forumbread ul li {
+	margin-left: 3px;
+	font-size:10px;
+	border: none;
+	list-style: none;
+	display: inline;
+	}
+
+.forumbread ul li .first {
+	margin-left:0px;
+	font-size:10px;
+	border: none;
+	list-style: none;
+	display: inline;
+	}
+
+.forumbread a {
+	color:#4a5d75;
+	text-decoration: underline;
+}
+
+/* --------------------  Forum Table styles ------------------------ */
+.forumtablestyle {
+	clear:both;
+}
+
+.forumtablestyle td {
+	border-bottom:1px solid #e6e7e8;
+	padding: 3px 5px;
+	font-size:11px;
+}
+
+.forumtablestyle a {
+	color:#4a5d75;
+}
+
+.forumtablestyle h3 {
+	margin:0px;
+	padding:0px;
+	font-weight: bold;
+	font-size:11px;
+	display:inline;
+}
+
+.forumtablestyle .header {
+	background-color:#233345;
+	font-size:10px;
+	font-weight:bold;
+	color:#94aebd;
+	height: 20px;
+	text-align:left;
+}
+
+.forumtablestyle .secondaryHeader {
+	background-color:#9bb3c1;
+	font-size:10px;
+	font-weight:bold;
+	color:#000000;
+	height: 20px;
+	text-align:left;
+}
+
+.forumtablestyle .forumheaderfirst {
+	border-bottom:1px solid #233345;
+	height:2em;
+
+}
+
+.forumtablestyle .tableheader {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+	height:2em;
+}
+
+.forumtablestyle .forumheadercentered {
+	text-align:center;
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+	width:50px;
+}
+.forumtablestyle .forumheaderopen {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+}
+.forumtablestyle .forumheader250px {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+	width:250px;
+
+}
+
+.forumtablestyle .forumheaderlast {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+	width:250px;
+}
+.forumtablestyle .forumheadernarrow {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #233345;
+	width:30px;
+}
+
+.forumtablestyle .forumlisticon {
+	width:10px;
+	height:40px;
+}
+
+.forumtablestyle .forumlistcentered {
+	width:50px;
+	text-align: center;
+	border-left:1px solid #e6e7e8;
+	height:40px;
+}
+
+.forumtablestyle .forumlistlast {
+	width:250px;
+	border-left:1px solid #e6e7e8;
+	height:40px;
+}
+
+.forumtablestyle .forumlistopen {
+	border-left:1px solid #e6e7e8;
+	height:40px;
+}
+
+.forumtablestyle .forumcategory {
+	background-color:#f4f3f3;
+	border-bottom:1px solid #e6e7e8;
+	height:25px;
+}
+.forumtablestyle .forumspecialized {
+	background-color:#dedede;
+	border-bottom:1px solid #e6e7e8;
+	height:25px;
+	text-align: left;
+}
+.forumtablestyle .forumcategory h3 {
+	font-weight: bold;
+	font-size:11px;
+}
+
+.forumtablestyle .footerrow {
+	background-color:#e6e7e8;
+}
+.forumtablestyle .spacerRow {
+	background-color:#ffffff;
+	height:15px;
+}
+
+.forumtablestyle .oddRow{
+    background-color: #f4f3f3;
+}
+
+.forumtablestyle .evenRow{
+    background-color: #ffffff;
+}
+
+.forumtablestyle .Indent{
+    padding-left:20px;
+}
+
+.forumtablestyle .rowlinefirst {
+	border-bottom:1px solid #e6e7e8;
+}
+
+.forumtablestyle .rowline {
+	border-left:1px solid #e6e7e8;
+	border-bottom:1px solid #e6e7e8;
+}
+.forumtablestyle .editRow{
+	background-color:#fff6e4;
+}
+
+.forumtablestyle .nonewpostRow {
+	background-color: #f4f3f3;
+	font-weight:bold;
+}
+
+.forumtablestyle .labelCell {
+    background-color: #f4f3f3;
+    width: 0%;
+    white-space: nowrap;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.forumtablestyle .valueCell {
+}
+
+.forumtablestyle .bottomline {
+	border-bottom:1px solid #656565;
+}
+.forumsubtablestyle {
+	clear:both;
+}
+
+.forumsubtablestyle td {
+	border-bottom:0px;
+	padding: 0px 0px;
+}
+.forumthreaduserinfo {
+	border-left:1px solid #e6e7e8;
+}
+
+.forumthreaduserinfo ul {
+	padding-left: 4px;
+	margin-left: 0px;
+	display: inline;
+} 
+
+.forumthreaduserinfo ul li {
+	list-style: none;
+	display: inline;
+}
+
+.forumthreaduserinfo ul li img {
+	border: 0px;
+	padding-right: 1px;
+	vertical-align: text-bottom;
+}
+.forumthreaduserinfo ul li a {
+	text-decoration:none;
+}
+
+.forumthreadfooter {
+	background-color: #9da7b2;
+	height: 0px;
+}
+
+.forumpostspacer {
+	border-left:1px solid #e6e7e8;
+	height: 30px;
+}
+
+.forumpostcontent {
+	border-left:1px solid #e6e7e8;
+}
+.forumpostleftcolumn {
+	white-space:nowrap;
+	width:80px;
+}
+
+.forumpostinfo {
+	padding-top: 2px;
+}
+
+.forumpostinfo ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	display: inline;
+} 
+
+.forumpostinfo ul li {
+	list-style: none;
+	display: inline;
+	padding-right: 20px
+}
+.forumpostactions {
+	float:right;
+}
+
+.forumpostactions ul {
+	padding-left: 4px;
+	margin-left: 0px;
+	display: inline;
+} 
+
+.forumpostactions ul li {
+	list-style: none;
+	display: inline;
+}
+
+.forumpostactions ul li img {
+	border: 0px;
+	padding-right: 1px;
+	vertical-align: text-bottom;
+}
+
+/* --------------------  Forum Topic Attachment styles ------------------------ */
+
+.forumAttachmentTable {
+	clear:both;
+	width: 100%;
+	border: 1px solid #e6e7e8;
+	border-bottom: 0px;
+	margin: 4px;
+}
+
+.forumAttachmentTable .header {
+	background-color:#9bb3c1;
+	font-size:10px;
+	font-weight:bold;
+	color:#000000;
+	text-align:left;
+}
+
+.forumAttachmentTable .forumHeaderFirst {
+	border-bottom:1px solid #9bb3c1;
+}
+
+.forumAttachmentTable .tableHeader {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #9bb3c1;
+}
+
+.forumAttachmentTable .forumHeaderLast {
+	border-left:1px solid #94aebd;
+	border-bottom:1px solid #9bb3c1;
+}
+
+.forumAttachmentTable .labelCell {
+    background-color: #f4f3f3;
+    width: 0%;
+    white-space: nowrap;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.forumAttachmentTable .valueCell {
+    width: 100%;
+}
+
+.forumAttachmentTable .downloadCell {
+    border-left:1px solid #e6e7e8;
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* --------------------  Forum Topic Poll styles ------------------------ */
+
+.forumPollTable {
+	clear:both;
+/*	border: 1px solid #e6e7e8; */
+/*	border-bottom: 0px; */
+	margin: 4px;
+}
+
+.forumPollTable .questionCell {
+	background-color:#9bb3c1;
+	width: 100%;
+	font-size:10px;
+	font-weight:bold;
+	color:#000000;
+	text-align:left;
+}
+
+.forumPollTable .radioCell {
+    background-color: #f4f3f3;
+    width: 0%;
+    white-space: nowrap;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.forumPollTable .answerCell {
+/*    background-color: #f4f3f3; */
+    width: 100%;
+    white-space: nowrap;
+}
+
+.forumPollTable .buttonCell {
+	padding-top: 6px;
+	text-align: right;
+	border: 0px;
+}
+
+.forumPollTable .linkCell {
+	padding: 1px;
+	padding-right: 6px;
+	text-align: right;
+	border: 0px;
+}
+
+.forumPollTable td {
+    white-space: nowrap;
+}
+.forumPollTable .totalCell {
+    background-color: #f4f3f3;
+	padding: 1px;
+	padding-right: 12px;
+	text-align: right;
+}
+
+.forumPollTableGraph {
+	padding: 0px;
+	width: 0%;
+}
+
+.forumPollTableGraph td {
+	padding: 0px;
+	width: 0%;
+}
+
+/* -------------------  Forms ------------------------------- */
+
+.forumtablestyle .categorylabel {
+	width: 100px;
+	padding:0px;
+	margin:0px;
+}
+.forumtablestyle label{
+ 	float: left;
+ 	vertical-align: middle;
+}
+
+.forumtablestyle textarea {
+	width: 180px;
+	margin-bottom: 5px;
+	vertical-align:middle;
+}
+
+textarea{
+	width: 250px;
+	height: 150px;
+}
+
+.forumtablestyle br {
+	clear: left;
+}
+#adminbutton {
+	width:90px;
+	margin-left:100px;
+}
+#updateinline {
+	width:90px;
+	margin-left:6px;
+}
+
+
+/* -------------------  Legends ------------------------------- */
+
+.forumlegend {
+	margin-bottom: 10px;
+}
+
+.forumlegend ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	display: inline;
+	text-indent:0px;
+	} 
+
+.forumlegend ul li {
+	font-size:10px;
+	list-style: none;
+	display: inline;
+	}
+
+.forumlegend ul li img {
+	border: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: text-bottom;
+	}
+.forumlegendCentered {
+	clear:both;
+	font-size:11px;
+	font-weight:normal;
+	padding-bottom: 15px;
+	text-align:center;
+}
+.forumthreadlegend {
+	float:left;
+ 	margin-right: 30px;
+}
+
+.forumthreadlegend ul {
+	margin-top:0px;
+	padding-left: 0px;
+	margin-left: 0px;
+	display: block;
+	text-indent:none;
+	} 
+
+.forumthreadlegend ul li {
+	list-style: none;
+	display: block;
+	}
+
+.forumthreadlegend ul li img {
+	border: 0px;
+	padding-top: 4px;
+	padding-right: 4px;
+	vertical-align: text-bottom;
+	}
+
+.forumthreadlegendtext {
+	text-align:right;
+	float:right;
+}
+
+.forumlegendjumpboxfloat {
+	float:right;
+	margin-bottom: 10px;
+}
+.forumlegendjumpboxclear {
+	clear:both;
+	float:right;
+	margin-bottom: 10px;
+}
+.forumlegendjumpboxclear select {
+	margin: 0px; 
+}
+
+
+/* ----------------------- forum pagination ------------------------ */
+
+.forumpagination {
+	float:right;
+	font-size: 11px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.forumpagination ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+.forumpagination li {
+	list-style-type: none;
+	display: inline;
+	padding-bottom: 1px;
+}
+
+.forumpagination a, .forumpagination a:visited{
+	padding: 0px 3px;
+	color: #4a5d75;
+}
+
+.forumpagination li.currentpage{
+	padding: 0px 3px;
+	font-weight:bold;
+	color: #4a5d75;
+}
+
+.forumpagination li.disablepage{
+	padding: 0px 3px;
+	color: #8c8f91;
+}
+
+
+/* ----------------------- Admin/Moderation styles ------------------------ */
+
+.admintools {
+	padding-top: 4px;
+}
+
+.admintools ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	display: inline;
+	} 
+
+.admintools ul li {
+	font-size:10px;
+	list-style: none;
+	display: inline;
+	}
+
+.admintools ul li img {
+	border: 0px;
+	padding-left: 2px;
+	vertical-align: text-bottom;
+	}
+	
+.modtools {
+	padding-top: 4px;
+	float:right;
+	text-align:right;
+}
+
+.modtools ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	display: inline;
+	text-indent:0px;
+} 
+
+.modtools ul li {
+	font-size:10px;
+	list-style: none;
+	display: inline;
+}
+
+.modtools ul li img {
+	border: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: text-bottom;
+}
+
+/*  -------------------------------------- Forms -------------------------------------- */
+.foruminstantreply {
+	margin-top:10px;
+	width: 550px;
+}
+
+.forumformlabelbold {
+	font-size:11px;
+	font-weight:bold;
+}
+
+.forumformtextfield550px {
+	width:550px;
+}
+.forumformbuttonrow {
+	padding-top: 6px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.forumformbuttonrow ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	display: inline;
+} 
+
+.forumformbuttonrow ul li {
+	list-style: none;
+	display: inline;
+}
+
+/* --------------------  confirmations -------------------- */
+
+.forumsubscriptionconfirm  {
+	border:1px solid #a1a1a1;
+	padding: 20px 20px 10px 20px;
+	margin: 30px auto 200px auto;
+	width:400px;
+}
+.forumsubscriptionconfirm h3 {
+	font-size: 12px;
+	font-weight:bold;
+	color:#343434;
+	margin: 0px auto 8px auto;
+}
+.forumsubscriptionconfirm p {
+	margin: 3px auto;
+} 
+.forumsubscriptionconfirm h4 {
+	font-weight:normal;
+	font-size: 12px;
+	color:#343434;
+	margin: 0px auto 8px auto;
+}
+
+/* --------------------SPACER -------------*/
+#adminbottommargin {
+	margin-bottom: 10px;
+}	
+
+/* ----------------------- "Post View" styles _____________________________ */
+
+.PostviewStyle {
+	margin-top:10px;
+}
+
+.PostviewStyle .PostViewMainHeader {
+	font-weight:bold;
+	font-size:12px;
+	line-height:1em;
+	background-color:#e6e7e8;
+}
+.PostviewStyle .PostViewMainDescription {
+	line-height:1.5em;
+	background-color:#f4f3f3;
+	border-bottom:1px solid #e6e7e8;
+	font-size:11px;
+}
+
+.PostviewStyle .PostViewUnderline td {
+	border-bottom:1px solid #e6e7e8;
+	font-size:11px;
+}
+.PostviewStyle .PostViewUnderlineBoth td {
+	border-top:1px solid #e6e7e8;
+	border-bottom:1px solid #e6e7e8;
+	font-size:11px;
+}
+
+.PostviewStyle .Posttextarea {
+   width: 450px;
+   height: 150px;
+   font-family:Verdana,Arial,Helvetica,Sans-Serif,sans-serif;
+   font-size:10px;
+}
+
+/*  ------------ powered by ---------------- */
+
+.PoweredBy {
+	clear:both;
+	text-align:center;
+}
+
+.PoweredBy img {
+	padding-left: 6px;
+	vertical-align:middle;
+}
+
+h4 {
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   font-weight: bold;
+   color: #656565;
+   padding-top: 20px;
+   padding-bottom: 5px;
+   margin: 0px;
+}
