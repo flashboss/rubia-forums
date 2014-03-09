@@ -170,9 +170,9 @@ public class FeedsServlet extends HttpServlet {
 	}
 
 	private void createGlobalFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
-		feed.setTitle("Gatein Forums Global Feed");
+		feed.setTitle("Rubia Forums Global Feed");
 		feed.setLink(globalLink(url, urlType));
-		feed.setDescription("Messages posted in Gatein Forums");
+		feed.setDescription("Messages posted in Rubia Forums");
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
@@ -189,7 +189,7 @@ public class FeedsServlet extends HttpServlet {
 
 		Forum forum = forumsModule.findForumById(id);
 
-		feed.setTitle("Gatein Forums Forum Feed: " + forum.getName());
+		feed.setTitle("Rubia Forums Forum Feed: " + forum.getName());
 		feed.setLink(forumLink(id.toString(), url, urlType));
 		feed.setDescription("Messages posted in forum " + forum.getName() + " in category " + forum.getCategory().getTitle());
 
@@ -209,7 +209,7 @@ public class FeedsServlet extends HttpServlet {
 
 		Topic topic = forumsModule.findTopicById(id);
 
-		feed.setTitle("Gatein Forums Topic Feed: " + topic.getSubject());
+		feed.setTitle("Rubia Forums Topic Feed: " + topic.getSubject());
 		feed.setLink(topicLink(id.toString(), url, urlType));
 		feed.setDescription("Messages posted in topic " + topic.getSubject() + " in forum " + topic.getForum().getName() + " in category " + topic.getForum().getCategory().getTitle());
 
@@ -239,7 +239,7 @@ public class FeedsServlet extends HttpServlet {
 
 		Category category = forumsModule.findCategoryById(id);
 
-		feed.setTitle("Gatein Forums Category Feed: " + category.getTitle());
+		feed.setTitle("Rubia Forums Category Feed: " + category.getTitle());
 		feed.setLink(categoryLink(id.toString(), url, urlType));
 		feed.setDescription("Messages posted in category " + category.getTitle());
 
