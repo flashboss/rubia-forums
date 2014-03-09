@@ -28,13 +28,13 @@
         {
             if (select.options[select.selectedIndex].value.indexOf('forum-') == 0)
             {
-                select.form.action='#{forums:outputLink(shared.links['forum'],true)}';
+                select.form.action='#{urlContext.outputLink(shared.links['forum'],true)}';
                 select.options[select.selectedIndex].value=select.options[select.selectedIndex].value.substring('forum-'.length);
                 select.name='f';
             }
             else 
             {
-            	select.form.action='#{forums:outputLink(shared.links['category'],true)}';
+            	select.form.action='#{urlContext.outputLink(shared.links['category'],true)}';
                 select.options[select.selectedIndex].value=select.options[select.selectedIndex].value.substring('category-'.length);
                 select.name='c';
             }
@@ -43,7 +43,7 @@
 	}
 			</script>
 	<form method="post" name="jumpbox"
-		action="#{forums:outputLink(shared.links['forum'],true)}"
+		action="#{urlContext.outputLink(shared.links['forum'],true)}"
 		onsubmit="if(document.jumpbox.identifier.value == 0){return false;}">
 
 		${resourcebundle.Jump_to}:&#160; <select name="identifier"

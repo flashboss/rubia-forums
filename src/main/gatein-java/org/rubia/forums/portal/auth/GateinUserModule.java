@@ -1,4 +1,4 @@
-package org.rubia.forums.auth.portal;
+package org.rubia.forums.portal.auth;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import static org.exoplatform.container.ExoContainerContext.getCurrentContainer;

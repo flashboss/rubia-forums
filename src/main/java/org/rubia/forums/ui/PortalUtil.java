@@ -25,7 +25,6 @@ import static org.rubia.forums.format.render.bbcodehtml.ToHTMLConfig.FILTER_MODE
 import static org.rubia.forums.format.render.bbcodehtml.ToHTMLConfig.FILTER_MODE_NEVER_PRINT;
 import static org.rubia.forums.format.render.bbcodehtml.ToHTMLConfig.OUTPUT_MODE_REMOVE;
 import static org.rubia.forums.ui.Constants.DEFAULT_DATE_PATTERN;
-import static org.rubia.forums.ui.Constants.p_postId;
 import static org.rubia.forums.ui.JSFUtil.getContextPath;
 import static org.rubia.forums.ui.JSFUtil.getDefaultLocale;
 
@@ -298,29 +297,6 @@ public class PortalUtil {
 			return null;
 		}
 		return (String) VIEW_NAME_TO_ID.get(name);
-	}
-
-	/**
-	 * 
-	 * @author sshah
-	 * 
-	 */
-	public static String outputLink(String outputLink, boolean isAction) {
-		try {
-			String url = null;
-
-			if (!outputLink.startsWith("/")) {
-				outputLink = "/" + outputLink;
-			}
-
-			String contextPath = getContextPath();
-			url = contextPath + outputLink;
-
-			return url;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	public static User getUserNA() {

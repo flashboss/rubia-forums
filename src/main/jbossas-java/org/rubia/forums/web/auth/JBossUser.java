@@ -1,4 +1,4 @@
-package org.rubia.forums.auth.web;
+package org.rubia.forums.web.auth;
 
 import org.rubia.forums.auth.User;
 

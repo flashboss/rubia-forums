@@ -1,4 +1,4 @@
-package org.rubia.forums.auth.portal;
+package org.rubia.forums.portal.auth;
 
 import java.util.Map;
 

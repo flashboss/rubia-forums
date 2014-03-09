@@ -1,4 +1,4 @@
-package org.rubia.forums.auth.web;
+package org.rubia.forums.web.auth;
 
 import static org.rubia.forums.ui.JSFUtil.isAnonymous;
 

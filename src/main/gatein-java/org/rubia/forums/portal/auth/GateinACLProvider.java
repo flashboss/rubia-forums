@@ -1,4 +1,4 @@
-package org.rubia.forums.auth.portal;
+package org.rubia.forums.portal.auth;
 
 import static org.exoplatform.container.ExoContainerContext.getCurrentContainer;
 import static org.rubia.forums.auth.User.GUEST_USER;

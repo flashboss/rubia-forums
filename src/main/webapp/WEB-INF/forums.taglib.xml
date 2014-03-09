@@ -17,15 +17,6 @@
 <facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
 	version="2.0">
 	<namespace>http://www.jboss.com/products/jbossportal/forums</namespace>
-	<!-- function generates an outputLink that works seamlessly within portal 
-		and standalone environment to be used for generating "GET" requests that 
-		can be bookmarked -->
-	<function>
-		<function-name>outputLink</function-name>
-		<function-class>org.rubia.forums.ui.PortalUtil
-		</function-class>
-		<function-signature>java.lang.String outputLink(java.lang.String,boolean)</function-signature>
-	</function>
 
 	<!-- function to check if the application is running in a portal envioronment -->
 	<function>
