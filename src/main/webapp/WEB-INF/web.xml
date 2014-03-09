@@ -98,7 +98,7 @@
 	<!-- RSS Servlet -->
 	<servlet>
 		<servlet-name>FeedsServlet</servlet-name>
-		<servlet-class>org.rubia.forums.feeds.FeedsServlet</servlet-class>
+		<servlet-class>org.vige.rubia.feeds.FeedsServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

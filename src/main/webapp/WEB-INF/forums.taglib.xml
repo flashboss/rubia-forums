@@ -21,7 +21,7 @@
 	<!-- function to check if the application is running in a portal envioronment -->
 	<function>
 		<function-name>isRunningInPortal</function-name>
-		<function-class>org.rubia.forums.ui.PortalUtil</function-class>
+		<function-class>org.vige.rubia.ui.PortalUtil</function-class>
 		<function-signature>boolean isRunningInPortal()</function-signature>
 	</function>
 	
@@ -29,7 +29,7 @@
     -->
     <function>
         <function-name>feedsConfigured</function-name>
-        <function-class>org.rubia.forums.ui.ForumUtil</function-class>
+        <function-class>org.vige.rubia.ui.ForumUtil</function-class>
         <function-signature>boolean isFeedsConfigured()</function-signature>
     </function>
     
@@ -38,7 +38,7 @@
 	-->
 	<function>
   		<function-name>contextPath</function-name>
-  		<function-class>org.rubia.forums.ui.JSFUtil</function-class>
+  		<function-class>org.vige.rubia.ui.JSFUtil</function-class>
   		<function-signature>java.lang.String getContextPath()</function-signature>
 	</function>
 	
@@ -48,7 +48,7 @@
 	-->
 	<function>
   		<function-name>errorMsg</function-name>
-  		<function-class>org.rubia.forums.ui.JSFUtil</function-class>
+  		<function-class>org.vige.rubia.ui.JSFUtil</function-class>
   		<function-signature>java.lang.String getErrorMsg()</function-signature>
 	</function>
         
@@ -57,7 +57,7 @@
     -->
     <function>
 		<function-name>formatMessage</function-name>
-  		<function-class>org.rubia.forums.ui.PortalUtil</function-class>
+  		<function-class>org.vige.rubia.ui.PortalUtil</function-class>
   		<function-signature>java.lang.String formatMessage(java.lang.String,boolean)</function-signature>
 	</function>
 	
@@ -67,7 +67,7 @@
 	-->
 	<function>
   		<function-name>message</function-name>
-  		<function-class>org.rubia.forums.ui.JSFUtil</function-class>
+  		<function-class>org.vige.rubia.ui.JSFUtil</function-class>
   		<function-signature>java.lang.String getMessage(java.lang.String)</function-signature>
 	</function>
 	
@@ -75,7 +75,7 @@
 	-->
 	<function>
 		<function-name>dateStr</function-name>
-  		<function-class>org.rubia.forums.ui.ForumUtil</function-class>
+  		<function-class>org.vige.rubia.ui.ForumUtil</function-class>
   		<function-signature>java.lang.String getDateStr(java.util.Date)</function-signature>
 	</function>	
 	
@@ -83,31 +83,31 @@
 	-->
 	<function>
 		<function-name>votePercent</function-name>
-  		<function-class>org.rubia.forums.ui.PortalUtil</function-class>
-  		<function-signature>java.lang.String getVotePercent(org.rubia.forums.model.Poll,org.rubia.forums.model.PollOption, int)</function-signature>
+  		<function-class>org.vige.rubia.ui.PortalUtil</function-class>
+  		<function-signature>java.lang.String getVotePercent(org.vige.rubia.model.Poll,org.vige.rubia.model.PollOption, int)</function-signature>
 	</function>
 
 	<!-- access control tag -->
 	<tag>
 		<tag-name>isAllowed</tag-name>
-		<handler-class>org.rubia.forums.auth.ACLTagHandler
+		<handler-class>org.vige.rubia.auth.ACLTagHandler
 		</handler-class>
 	</tag>
 
 	<!-- conditional access control tag -->
 	<tag>
 		<tag-name>isAllowedChoose</tag-name>
-		<handler-class>org.rubia.forums.auth.ACLChooseTagHandler
+		<handler-class>org.vige.rubia.auth.ACLChooseTagHandler
 		</handler-class>
 	</tag>
 	<tag>
 		<tag-name>isAllowedWhen</tag-name>
-		<handler-class>org.rubia.forums.auth.ACLWhenTagHandler
+		<handler-class>org.vige.rubia.auth.ACLWhenTagHandler
 		</handler-class>
 	</tag>
 	<tag>
 		<tag-name>isAllowedOtherwise</tag-name>
-		<handler-class>org.rubia.forums.auth.ACLOtherwiseTagHandler
+		<handler-class>org.vige.rubia.auth.ACLOtherwiseTagHandler
 		</handler-class>
 	</tag>
 </facelet-taglib>
