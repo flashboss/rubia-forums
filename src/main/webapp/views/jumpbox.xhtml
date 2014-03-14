@@ -21,44 +21,23 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums">
 
-	<script language="JavaScript" type="text/javascript">
-	function jump(select)
-	{
-		if(select.options[select.selectedIndex].value != '0')
-        {
-            if (select.options[select.selectedIndex].value.indexOf('forum-') == 0)
-            {
-                select.form.action='#{urlContext.outputLink(shared.links['forum'],true)}';
-                select.options[select.selectedIndex].value=select.options[select.selectedIndex].value.substring('forum-'.length);
-                select.name='f';
-            }
-            else 
-            {
-            	select.form.action='#{urlContext.outputLink(shared.links['category'],true)}';
-                select.options[select.selectedIndex].value=select.options[select.selectedIndex].value.substring('category-'.length);
-                select.name='c';
-            }
-            select.form.submit();
-        }
-	}
-			</script>
-	<form method="post" name="jumpbox"
-		action="#{urlContext.outputLink(shared.links['forum'],true)}"
-		onsubmit="if(document.jumpbox.identifier.value == 0){return false;}">
+	<h:form method="post" name="jumpbox">
 
-		${resourcebundle.Jump_to}:&#160; <select name="identifier"
-			onchange="jump(this)">
+		${resourcebundle.Jump_to}:&#160; <h:selectOneMenu name="identifier"
+			valueChangeListener="#{jumpbox.modeChanged}">
 
-			<option value="0">${resourcebundle.Select_forum}</option>
+			<f:selectItem itemValue="0"
+				itemLabel="${resourcebundle.Select_forum}" />
 
 			<c:forEach items="${jumpbox.categories}" var="current_category">
 				<forums:isAllowed fragment="acl://readCategory"
 					contextData="#{current_category}"
 					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 
-					<option value="0"></option>
-					<option value="category-${current_category.id}">${current_category.title}</option>
-					<option value="0">----------------</option>
+					<f:selectItem itemValue="0" itemLabel="" />
+					<f:selectItem itemValue="category-${current_category.id}"
+						itemLabel="${current_category.title}" />
+					<f:selectItem itemValue="0" itemLabel="----------------" />
 
 					<c:forEach items="${current_category.forums}" var="current_forum">
 						<forums:isAllowed fragment="acl://readForum"
@@ -66,15 +45,16 @@
 							forumsACLProvider="#{forumsACLProvider}"
 							userModule="#{userModule}">
 
-							<option value="forum-${current_forum.id}">${current_forum.name}</option>
-
+							<f:selectItem itemValue="forum-${current_forum.id}"
+								itemLabel="${current_forum.name}" />
 						</forums:isAllowed>
 					</c:forEach>
 
 				</forums:isAllowed>
 			</c:forEach>
+			<f:ajax event="change" />
 
-		</select> &#160; <input type="submit" value="${resourcebundle.Go}"
+		</h:selectOneMenu> &#160; <h:commandButton type="button" value="${resourcebundle.Go}"
 			class="buttonMed" />
-	</form>
+	</h:form>
 </div>

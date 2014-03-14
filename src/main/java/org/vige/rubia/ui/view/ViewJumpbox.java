@@ -13,11 +13,18 @@
  ******************************************************************************/
 package org.vige.rubia.ui.view;
 
+import static javax.faces.context.FacesContext.getCurrentInstance;
 import static org.vige.rubia.ui.JSFUtil.handleException;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
@@ -50,6 +57,12 @@ public class ViewJumpbox extends BaseController {
 
 	private List<Category> categories;
 
+	private String redirectUrl;
+
+	public String getRedirectUrl() {
+		return redirectUrl;
+	}
+
 	// ------------user
 	// preferences-------------------------------------------------------------------------------------------------------------
 	/**
@@ -78,7 +91,8 @@ public class ViewJumpbox extends BaseController {
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			categories = forumsModule.findCategoriesFetchForums(forumInstanceId);
+			categories = forumsModule
+					.findCategoriesFetchForums(forumInstanceId);
 			// Luca Stancapiano end
 
 			return categories;
@@ -86,6 +100,34 @@ public class ViewJumpbox extends BaseController {
 			handleException(e);
 		}
 		return null;
+	}
+
+	public void modeChanged(ValueChangeEvent event) {
+		String action = "";
+		String eventParameter = event.getNewValue().toString();
+		if (!eventParameter.equals("0")) {
+			FacesContext facesContext = getCurrentInstance();
+			Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+			if (eventParameter.startsWith("forum-")) {
+				parameters.put(p_forumId, Arrays
+						.asList(new String[] { eventParameter.replace("forum-",
+								"") }));
+				action = "/views/forums/viewforum_body.xhtml";
+			} else {
+				action = "/views/category/viewcategory_body.xhtml";
+				parameters.put(p_categoryId, Arrays
+						.asList(new String[] { eventParameter.replace(
+								"category-", "") }));
+			}
+			redirectUrl = facesContext.getApplication().getViewHandler()
+					.getRedirectURL(facesContext, action, parameters, true);
+			try {
+				facesContext.getExternalContext().redirect(redirectUrl);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

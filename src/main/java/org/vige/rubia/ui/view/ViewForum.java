@@ -257,7 +257,7 @@ public class ViewForum extends BaseController {
       *
       */
 	@PostConstruct
-	private void execute() throws Exception {
+	public void execute() throws Exception {
 		// parse the input parameters
 		int forumId = -1;
 		String f = getParameter(p_forumId);

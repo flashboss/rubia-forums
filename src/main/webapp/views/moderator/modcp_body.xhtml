@@ -48,243 +48,239 @@
 	border-right-width: 0px;
 }
 </style>
-			<c:if
-				test="#{moderator.forum!=null &amp;&amp; moderator.forum.id!=-1}">
-				<forums:isAllowedChoose>
+			<forums:isAllowedChoose>
 
-					<forums:isAllowedWhen fragment="acl://moderateForum"
-						contextData="#{moderator.forum}"
-						forumsACLProvider="#{forumsACLProvider}"
-						userModule="#{userModule}">
+				<forums:isAllowedWhen fragment="acl://moderateForum"
+					contextData="#{moderator.forum}"
+					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 
-						<h:form>
-							<input type="hidden" name="f" value="#{moderator.forum.id}" />
-							<div class="forumbread">
-								<ul>
-									<li class="first"><h:commandLink action="viewCategory"
-											value="#{shared.mainPageName}" />
+					<h:form>
+						<input type="hidden" name="f" value="#{moderator.forum.id}" />
+						<div class="forumbread">
+							<ul>
+								<li class="first"><h:commandLink action="viewCategory"
+										value="#{shared.mainPageName}" />
 
-										<ul>
-											<li>&gt; <h:commandLink action="viewCategory"
-													value="#{moderator.forum.category.title}">
-													<f:param name="c" value="#{moderator.forum.category.id}" />
-												</h:commandLink>
-
-												<ul>
-													<li>&gt; <h:commandLink action="viewForum"
-															value="#{moderator.forum.name}">
-															<f:param name="f" value="#{moderator.forum.id}" />
-														</h:commandLink>
-
-														<ul>
-															<li>&gt; <h:commandLink action="viewModerator"
-																	value="${resourcebundle.Mod_CP}">
-																	<f:param name="f" value="#{moderator.forum.id}" />
-																</h:commandLink>
-															</li>
-														</ul>
-													</li>
-												</ul>
-
-											</li>
-										</ul></li>
-								</ul>
-							</div>
-
-							<!-- Forum moderator tool title and usability explanation and feedback messages -->
-							<div class="forumtitletext">
-								<h4>${resourcebundle.Mod_CP}</h4>
-								<p>${resourcebundle.Mod_CP_explain}</p>
-								<!-- <p class="successtext">
-                <h:messages layout="table" infoStyle="color:green" warnStyle="color:red"/>
-            </p>-->
-							</div>
-							<c:if test="#{moderator.lastPageNumber > 1}">
-								<div class="forumpagination">
 									<ul>
-										<li class="disablepage"
-											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-											<h:outputFormat id="scrollerIntro_head"
-												value="#{resourcebundle.PageNumber}">
-												<f:param value="#{currentModeratorPage.page}" />
-												<f:param value="${moderator.lastPageNumber}" />
-											</h:outputFormat>&#160;
+										<li>&gt; <h:commandLink action="viewCategory"
+												value="#{moderator.forum.category.title}">
+												<f:param name="c" value="#{moderator.forum.category.id}" />
+											</h:commandLink>
+
+											<ul>
+												<li>&gt; <h:commandLink action="viewForum"
+														value="#{moderator.forum.name}">
+														<f:param name="f" value="#{moderator.forum.id}" />
+													</h:commandLink>
+
+													<ul>
+														<li>&gt; <h:commandLink action="viewModerator"
+																value="${resourcebundle.Mod_CP}">
+																<f:param name="f" value="#{moderator.forum.id}" />
+															</h:commandLink>
+														</li>
+													</ul>
+												</li>
+											</ul>
+
 										</li>
-										<!-- PAGINATION -->
-										<rich:dataScroller for="modtopicsList" maxPages="5"
-											page="#{currentModeratorPage.page}" id="scTopicsList_head"
-											renderIfSinglePage="false" styleClass="forumpagination"
-											style="padding-top: 0px;" stepControls="hide"
-											selectedStyleClass="currentpage"
-											inactiveStyleClass="disablepage"
-											render="scrollerIntro_head scrollerIntro_footer">
-											<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-											<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-											<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-											<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-										</rich:dataScroller>
-									</ul>
-								</div>
-							</c:if>
-
-
-							<rich:dataTable id="modtopicsList"
-								style="width:100%; border:0; cellpadding:0;"
-								styleClass="forumtablestyle"
-								value="#{moderator.topicsDataModel}" var="topicrow"
-								iterationStatusVar="status" rowClasses="evenRow,oddRow"
-								rows="#{prefController.topicsPerForum}" headerClass="header">
-								<f:facet name="header">
-									<rich:columnGroup>
-										<rich:column styleClass="forumheaderfirst">&#160;</rich:column>
-										<rich:column styleClass="tableheader">&#160;${resourcebundle.Topics}&#160;</rich:column>
-										<rich:column styleClass="tableheader">&#160;${resourcebundle.Replies}&#160;</rich:column>
-										<rich:column styleClass="tableheader">&#160;${resourcebundle.Last_Post}&#160;</rich:column>
-										<rich:column styleClass="forumheadernarrow">&#160;${resourcebundle.Select}&#160;</rich:column>
-									</rich:columnGroup>
-								</f:facet>
-								<rich:column style="width:20px;align:center;"
-									styleClass="rowlinefirst ${(status.last)?'
-										bottomline':''}">
-									<img
-										src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
-										alt="${resourcebundle.Topic_Moved}"
-										title="${resourcebundle.Topic_Moved}" />
-								</rich:column>
-
-								<rich:column style="width:1100px;"
-									styleClass="rowline ${(status.last)?'bottomline':''}">
-											${themeHelper.getFolderType(topicrow)}&#160; <h:commandLink
-										action="viewTopic" value="${topicrow.subject}">
-										<f:param name="t" value="${topicrow.id}" />
-									</h:commandLink>
-								</rich:column>
-								<rich:column style="width:10px;"
-									styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</rich:column>
-								<rich:column style="width:150px;"
-									styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</rich:column>
-								<rich:column style="width:10px;"
-									styleClass="rowline ${(status.last)?'bottomline':''}">
-									<h:selectBooleanCheckbox
-										value="#{moderator.checkboxes[topicrow.id]}" />
-								</rich:column>
-								<f:facet name="footer">
-									<rich:columnGroup>
-										<rich:column styleClass="buttonrow" colspan="5"
-											style="border-bottom: 0px none; height:29; align:right">
-											<forums:isAllowed fragment="acl://deleteTopics"
-												contextData="#{moderator.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<h:commandButton action="#{moderator.deleteConfirm}"
-													class="buttonMed" value="${resourcebundle.Delete}">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-											</forums:isAllowed>
-											<forums:isAllowed fragment="acl://moveTopics"
-												contextData="#{moderator.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<h:commandButton action="#{moderator.moveConfirm}"
-													class="buttonMed" value="${resourcebundle.Move}">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-											</forums:isAllowed>
-											<forums:isAllowed fragment="acl://lockTopics"
-												contextData="#{moderator.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<h:commandButton action="#{moderator.lockTopic}"
-													class="buttonMed" value="${resourcebundle.Lock}">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-												<h:commandButton action="#{moderator.unlockTopic}"
-													class="buttonMed" value="${resourcebundle.Unlock}">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-											</forums:isAllowed>
-										</rich:column>
-									</rich:columnGroup>
-								</f:facet>
-							</rich:dataTable>
-							<!-- PAGINATION -->
-							<c:if test="#{moderator.lastPageNumber > 1}">
-								<div class="forumpagination">
-									<ul>
-										<li class="disablepage"
-											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-											<h:outputFormat id="scrollerIntro_footer"
-												value="#{resourcebundle.PageNumber}">
-												<f:param value="#{currentModeratorPage.page}" />
-												<f:param value="${moderator.lastPageNumber}" />
-											</h:outputFormat>&#160;
-										</li>
-										<rich:dataScroller for="modtopicsList" maxPages="5"
-											page="#{currentModeratorPage.page}" id="scTopicsList_footer"
-											renderIfSinglePage="false" styleClass="forumpagination"
-											style="padding-top: 0px;" stepControls="hide"
-											selectedStyleClass="currentpage"
-											inactiveStyleClass="disablepage"
-											render="scrollerIntro_head scrollerIntro_footer">
-											<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-											<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-											<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-											<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-										</rich:dataScroller>
-									</ul>
-								</div>
-							</c:if>
-
-						</h:form>
-
-						<hr class="forumdashedHR" />
-
-						<div class="forumlegendjumpboxclear">
-							<ui:include src="/views/jumpbox.xhtml" />
+									</ul></li>
+							</ul>
 						</div>
 
-					</forums:isAllowedWhen>
+						<!-- Forum moderator tool title and usability explanation and feedback messages -->
+						<div class="forumtitletext">
+							<h4>${resourcebundle.Mod_CP}</h4>
+							<p>${resourcebundle.Mod_CP_explain}</p>
+							<!-- <p class="successtext">
+                <h:messages layout="table" infoStyle="color:green" warnStyle="color:red"/>
+            </p>-->
+						</div>
+						<c:if test="#{moderator.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_head"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="#{currentModeratorPage.page}" />
+											<f:param value="${moderator.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<!-- PAGINATION -->
+									<rich:dataScroller for="modtopicsList" maxPages="5"
+										page="#{currentModeratorPage.page}" id="scTopicsList_head"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+										<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+										<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+										<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+									</rich:dataScroller>
+								</ul>
+							</div>
+						</c:if>
 
-					<forums:isAllowedOtherwise>
-						<table width="100%" border="0" cellpadding="0" cellspacing="0"
-							class="forumtablestyle">
-							<tr>
-								<td>
-									<table width="100%" cellspacing="0" cellpadding="1" border="0">
-										<tr>
-											<td>&#160;</td>
-										</tr>
-										<tr>
-											<td align="center">${resourcebundle.Not_Moderator}</td>
-										</tr>
-										<tr>
-											<td>&#160;</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
 
-					</forums:isAllowedOtherwise>
+						<rich:dataTable id="modtopicsList"
+							style="width:100%; border:0; cellpadding:0;"
+							styleClass="forumtablestyle" value="#{moderator.topicsDataModel}"
+							var="topicrow" iterationStatusVar="status"
+							rowClasses="evenRow,oddRow"
+							rows="#{prefController.topicsPerForum}" headerClass="header">
+							<f:facet name="header">
+								<rich:columnGroup>
+									<rich:column styleClass="forumheaderfirst">&#160;</rich:column>
+									<rich:column styleClass="tableheader">&#160;${resourcebundle.Topics}&#160;</rich:column>
+									<rich:column styleClass="tableheader">&#160;${resourcebundle.Replies}&#160;</rich:column>
+									<rich:column styleClass="tableheader">&#160;${resourcebundle.Last_Post}&#160;</rich:column>
+									<rich:column styleClass="forumheadernarrow">&#160;${resourcebundle.Select}&#160;</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+							<rich:column style="width:20px;align:center;"
+								styleClass="rowlinefirst ${(status.last)?'
+										bottomline':''}">
+								<img
+									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+									alt="${resourcebundle.Topic_Moved}"
+									title="${resourcebundle.Topic_Moved}" />
+							</rich:column>
 
-				</forums:isAllowedChoose>
-			</c:if>
+							<rich:column style="width:1100px;"
+								styleClass="rowline ${(status.last)?'bottomline':''}">
+											${themeHelper.getFolderType(topicrow)}&#160; <h:commandLink
+									action="viewTopic" value="${topicrow.subject}">
+									<f:param name="t" value="${topicrow.id}" />
+								</h:commandLink>
+							</rich:column>
+							<rich:column style="width:10px;"
+								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</rich:column>
+							<rich:column style="width:150px;"
+								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</rich:column>
+							<rich:column style="width:10px;"
+								styleClass="rowline ${(status.last)?'bottomline':''}">
+								<h:selectBooleanCheckbox
+									value="#{moderator.checkboxes[topicrow.id]}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup>
+									<rich:column styleClass="buttonrow" colspan="5"
+										style="border-bottom: 0px none; height:29; align:right">
+										<forums:isAllowed fragment="acl://deleteTopics"
+											contextData="#{moderator.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<h:commandButton action="#{moderator.deleteConfirm}"
+												class="buttonMed" value="${resourcebundle.Delete}">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+										</forums:isAllowed>
+										<forums:isAllowed fragment="acl://moveTopics"
+											contextData="#{moderator.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<h:commandButton action="#{moderator.moveConfirm}"
+												class="buttonMed" value="${resourcebundle.Move}">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+										</forums:isAllowed>
+										<forums:isAllowed fragment="acl://lockTopics"
+											contextData="#{moderator.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<h:commandButton action="#{moderator.lockTopic}"
+												class="buttonMed" value="${resourcebundle.Lock}">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+											<h:commandButton action="#{moderator.unlockTopic}"
+												class="buttonMed" value="${resourcebundle.Unlock}">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+										</forums:isAllowed>
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<!-- PAGINATION -->
+						<c:if test="#{moderator.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_footer"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="#{currentModeratorPage.page}" />
+											<f:param value="${moderator.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<rich:dataScroller for="modtopicsList" maxPages="5"
+										page="#{currentModeratorPage.page}" id="scTopicsList_footer"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+										<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+										<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+										<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+									</rich:dataScroller>
+								</ul>
+							</div>
+						</c:if>
+
+					</h:form>
+
+					<hr class="forumdashedHR" />
+
+					<div class="forumlegendjumpboxclear">
+						<ui:include src="/views/jumpbox.xhtml" />
+					</div>
+
+				</forums:isAllowedWhen>
+
+				<forums:isAllowedOtherwise>
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						class="forumtablestyle">
+						<tr>
+							<td>
+								<table width="100%" cellspacing="0" cellpadding="1" border="0">
+									<tr>
+										<td>&#160;</td>
+									</tr>
+									<tr>
+										<td align="center">${resourcebundle.Not_Moderator}</td>
+									</tr>
+									<tr>
+										<td>&#160;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+
+				</forums:isAllowedOtherwise>
+
+			</forums:isAllowedChoose>
 		</ui:define>
 	</ui:composition>
 </div>

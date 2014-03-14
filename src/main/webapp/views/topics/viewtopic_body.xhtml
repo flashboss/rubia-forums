@@ -30,625 +30,619 @@
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 }
 </style>
-			<ui:fragment rendered="#{topic.topic!=null and topic.topic.id!=-1}">
 
-				<!-- make sure the user is allowed to access both the forum and the category that the specified topic belongs to -->
-				<forums:isAllowed fragment="acl://readCategory"
-					contextData="#{topic.topic.forum.category}"
+			<!-- make sure the user is allowed to access both the forum and the category that the specified topic belongs to -->
+			<forums:isAllowed fragment="acl://readCategory"
+				contextData="#{topic.topic.forum.category}"
+				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+				<forums:isAllowed fragment="acl://readForum"
+					contextData="#{topic.topic.forum}"
 					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-					<forums:isAllowed fragment="acl://readForum"
-						contextData="#{topic.topic.forum}"
-						forumsACLProvider="#{forumsACLProvider}"
-						userModule="#{userModule}">
 
-						<a name="top" />
+					<a name="top" />
 
-						<div id="miviewtopicbody1" class="forumbread">
-							<h:form>
-								<ul>
-									<li class="first"><h:commandLink action="viewCategory"
-											id="outputLink1" value="#{shared.mainPageName}">
-											<f:param name="t" value="#{topic.topic.id}" />
-										</h:commandLink>
+					<div id="miviewtopicbody1" class="forumbread">
+						<h:form>
+							<ul>
+								<li class="first"><h:commandLink action="viewCategory"
+										id="outputLink1" value="#{shared.mainPageName}">
+										<f:param name="t" value="#{topic.topic.id}" />
+									</h:commandLink>
 
-										<ul>
-											<li>&gt; <h:commandLink action="viewCategory"
-													id="outputLink2"
-													value="#{topic.topic.forum.category.title}">
-													<f:param name="c" value="#{topic.topic.forum.category.id}" />
-													<f:param name="t" value="#{topic.topic.id}" />
-												</h:commandLink>
+									<ul>
+										<li>&gt; <h:commandLink action="viewCategory"
+												id="outputLink2" value="#{topic.topic.forum.category.title}">
+												<f:param name="c" value="#{topic.topic.forum.category.id}" />
+												<f:param name="t" value="#{topic.topic.id}" />
+											</h:commandLink>
 
-												<ul>
-													<li>&gt; <h:commandLink action="viewForum"
-															id="outputLink3" value="#{topic.topic.forum.name}">
-															<f:param name="f" value="#{topic.topic.forum.id}" />
-															<f:param name="t" value="#{topic.topic.id}" />
-														</h:commandLink>
+											<ul>
+												<li>&gt; <h:commandLink action="viewForum"
+														id="outputLink3" value="#{topic.topic.forum.name}">
+														<f:param name="f" value="#{topic.topic.forum.id}" />
+														<f:param name="t" value="#{topic.topic.id}" />
+													</h:commandLink>
 
-														<ul>
-															<li>&gt; <h:commandLink action="viewTopic"
-																	id="outputLink4" value="#{topic.topic.subject}">
-																	<f:param name="f" value="#{topic.topic.forum.id}" />
-																	<f:param name="t" value="#{topic.topic.id}" />
-																</h:commandLink>
-															</li>
-														</ul>
+													<ul>
+														<li>&gt; <h:commandLink action="viewTopic"
+																id="outputLink4" value="#{topic.topic.subject}">
+																<f:param name="f" value="#{topic.topic.forum.id}" />
+																<f:param name="t" value="#{topic.topic.id}" />
+															</h:commandLink>
+														</li>
+													</ul>
 
-													</li>
-												</ul>
+												</li>
+											</ul>
 
-											</li>
-										</ul></li>
-								</ul>
-							</h:form>
-						</div>
+										</li>
+									</ul></li>
+							</ul>
+						</h:form>
+					</div>
 
-						<div id="miviewtopicbody2" class="forumfloatright">
+					<div id="miviewtopicbody2" class="forumfloatright">
 
-							<h:form>
+						<h:form>
 
-								<c:if test="${forums:feedsConfigured()}">
-									<!--  feeds -->
-									<a href="#{topic.rssFeed}"> <img
-										src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
-										RSS
-									</a>
+							<c:if test="${forums:feedsConfigured()}">
+								<!--  feeds -->
+								<a href="#{topic.rssFeed}"> <img
+									src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
+									RSS
+								</a>
             &#160;
             <a href="#{topic.atomFeed}"> <img
-										src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
-										ATOM
-									</a>
+									src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
+									ATOM
+								</a>
             &#160;
         </c:if>
 
-								<c:if test="#{!userModule.guest}">
-									<c:choose>
-
-										<c:when test="#{topicWatch.watched}">
-											<h:commandLink id="deActivateWatch"
-												action="#{topicWatch.deActivateWatch}">
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img
-														src="#{themeHelper.getURL('resourceIconUnSubscribeURL')}"
-														alt="${resourcebundle.Unsubscribe_from_topic}"
-														name="unSubscribe" border="0" id="unSubscribe" />
-												</f:verbatim>
-											</h:commandLink>
-										</c:when>
-
-										<c:otherwise>
-											<h:commandLink action="topicWatch" id="outputLink5">
-												<f:param name="t" value="#{topic.topic.id}" />
-												<img src="#{themeHelper.getURL('resourceIconSubscribeURL')}"
-													alt="${resourcebundle.Subscribe_to_topic}" name="subscribe"
-													border="0" id="subscribe" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose>
-								</c:if>
-							</h:form>
-						</div>
-
-						<div id="miviewtopicbody3" class="forumtitletext">
-							<input type="hidden" name="f" value="#{topic.topic.forum.id}" />
-							<h4>${topic.topic.forum.name}</h4>
-						</div>
-
-						<!-- PAGINATION -->
-						<h:form>
-							<input type="hidden" name="t" value="#{topic.topic.id}" />
-							<c:if test="#{topic.lastPageNumber > 1}">
-								<div class="forumpagination">
-									<ul>
-										<li class="disablepage"
-											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-											<h:outputFormat id="scrollerIntro_head"
-												value="#{resourcebundle.PageNumber}">
-												<f:param value="${currentTopicPage.page}" />
-												<f:param value="${topic.lastPageNumber}" />
-											</h:outputFormat>&#160;
-										</li>
-										<rich:dataScroller for="postsList" maxPages="5"
-											page="#{currentTopicPage.page}" id="scPostsList_header"
-											renderIfSinglePage="false" styleClass="forumpagination"
-											style="padding-top: 0px;" stepControls="hide"
-											selectedStyleClass="currentpage"
-											inactiveStyleClass="disablepage"
-											render="scrollerIntro_head scrollerIntro_footer">
-											<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-											<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-											<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-											<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-										</rich:dataScroller>
-									</ul>
-								</div>
-							</c:if>
-							<!-- insert the newTopic and replyTopic buttons here -->
-							<div id="miviewtopicbody5" class="actionbuttons">
+							<c:if test="#{!userModule.guest}">
 								<c:choose>
 
-									<c:when test="#{topic.topic != null and topic.forumLocked}">
-
-										<!-- new topic -->
-										<img border="0"
-											src="#{themeHelper.getURL('resourcePostLockedURL')}"
-											alt="${resourcebundle.Forum_locked}" />
-
-										<!-- reply -->
-										<img border="0"
-											src="#{themeHelper.getURL('resourceReplyLockedURL')}"
-											alt="${resourcebundle.Forum_locked}" />
-									</c:when>
-
-									<c:when
-										test="#{topic.topic != null and topic.locked
-                      and not topic.forumLocked}">
-
-										<!-- new topic -->
-										<forums:isAllowed fragment="acl://newTopic"
-											contextData="#{topic.topic.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="newTopic_head" action="#{newTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourcePostNewURL')}"
-														alt="${resourcebundle.Post_new_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
-
-										<!-- reply -->
-										<forums:isAllowed fragment="acl://reply"
-											contextData="#{topic.topic}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<img border="0"
-												src="#{themeHelper.getURL('resourceReplyLockedURL')}"
-												alt="${resourcebundle.Topic_locked}" />
-										</forums:isAllowed>
+									<c:when test="#{topicWatch.watched}">
+										<h:commandLink id="deActivateWatch"
+											action="#{topicWatch.deActivateWatch}">
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img
+													src="#{themeHelper.getURL('resourceIconUnSubscribeURL')}"
+													alt="${resourcebundle.Unsubscribe_from_topic}"
+													name="unSubscribe" border="0" id="unSubscribe" />
+											</f:verbatim>
+										</h:commandLink>
 									</c:when>
 
 									<c:otherwise>
-
-										<!-- new topic -->
-										<forums:isAllowed fragment="acl://newTopic"
-											contextData="#{topic.topic.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="newTopic_head" action="#{newTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourcePostNewURL')}"
-														alt="${resourcebundle.Post_new_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
-
-										<!-- reply -->
-										<forums:isAllowed fragment="acl://reply"
-											contextData="#{topic.topic}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="replyTopic_head"
-												action="#{replyTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourceReplyNewURL')}"
-														alt="${resourcebundle.Reply_to_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
-
+										<h:commandLink action="topicWatch" id="outputLink5">
+											<f:param name="t" value="#{topic.topic.id}" />
+											<img src="#{themeHelper.getURL('resourceIconSubscribeURL')}"
+												alt="${resourcebundle.Subscribe_to_topic}" name="subscribe"
+												border="0" id="subscribe" />
+										</h:commandLink>
 									</c:otherwise>
 
 								</c:choose>
+							</c:if>
+						</h:form>
+					</div>
+
+					<div id="miviewtopicbody3" class="forumtitletext">
+						<input type="hidden" name="f" value="#{topic.topic.forum.id}" />
+						<h4>${topic.topic.forum.name}</h4>
+					</div>
+
+					<!-- PAGINATION -->
+					<h:form>
+						<input type="hidden" name="t" value="#{topic.topic.id}" />
+						<c:if test="#{topic.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_head"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="${currentTopicPage.page}" />
+											<f:param value="${topic.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<rich:dataScroller for="postsList" maxPages="5"
+										page="#{currentTopicPage.page}" id="scPostsList_header"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+										<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+										<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+										<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+									</rich:dataScroller>
+								</ul>
 							</div>
+						</c:if>
+						<!-- insert the newTopic and replyTopic buttons here -->
+						<div id="miviewtopicbody5" class="actionbuttons">
+							<c:choose>
 
-							<table width="100%" border="0" cellpadding="0" cellspacing="0"
-								class="forumtablestyle">
+								<c:when test="#{topic.topic != null and topic.forumLocked}">
 
-								<tr>
-									<!-- POLL DISPLAY -->
-									<c:if
-										test="#{topic.topic != null and topic.pollPresent and topic.ballotView}">
-										<ui:include src="/views/topics/viewtopic_poll_ballot.xhtml">
-											<ui:param name="t" value="#{topic.topic.id}" />
-											<ui:param name="poll" value="#{topic.topic.poll}" />
-										</ui:include>
-									</c:if>
-									<c:if
-										test="#{topic.topic != null and topic.pollPresent and not topic.ballotView}">
-										<ui:include src="/views/topics/viewtopic_poll_result.xhtml">
-											<ui:param name="t" value="#{topic.topic.id}" />
-											<ui:param name="poll" value="#{topic.topic.poll}" />
-										</ui:include>
-									</c:if>
-								</tr>
+									<!-- new topic -->
+									<img border="0"
+										src="#{themeHelper.getURL('resourcePostLockedURL')}"
+										alt="${resourcebundle.Forum_locked}" />
 
-								<tr class="header">
-									<td class="forumheaderfirst" style="width: 81px;">${resourcebundle.Author}</td>
-									<td class="forumheaderopen">${resourcebundle.Message}</td>
-								</tr>
-								<!-- iterate and display each post on this topic in the forum -->
-								<rich:dataTable id="postsList" value="#{topic.topicsDataModel}"
-									var="postrow" iterationStatusVar="status"
-									styleClass="forumtablestyle"
-									style="width:100%; border:0; cellpadding:0;
+									<!-- reply -->
+									<img border="0"
+										src="#{themeHelper.getURL('resourceReplyLockedURL')}"
+										alt="${resourcebundle.Forum_locked}" />
+								</c:when>
+
+								<c:when
+									test="#{topic.topic != null and topic.locked
+                      and not topic.forumLocked}">
+
+									<!-- new topic -->
+									<forums:isAllowed fragment="acl://newTopic"
+										contextData="#{topic.topic.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="newTopic_head" action="#{newTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostNewURL')}"
+													alt="${resourcebundle.Post_new_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
+
+									<!-- reply -->
+									<forums:isAllowed fragment="acl://reply"
+										contextData="#{topic.topic}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<img border="0"
+											src="#{themeHelper.getURL('resourceReplyLockedURL')}"
+											alt="${resourcebundle.Topic_locked}" />
+									</forums:isAllowed>
+								</c:when>
+
+								<c:otherwise>
+
+									<!-- new topic -->
+									<forums:isAllowed fragment="acl://newTopic"
+										contextData="#{topic.topic.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="newTopic_head" action="#{newTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostNewURL')}"
+													alt="${resourcebundle.Post_new_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
+
+									<!-- reply -->
+									<forums:isAllowed fragment="acl://reply"
+										contextData="#{topic.topic}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="replyTopic_head"
+											action="#{replyTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourceReplyNewURL')}"
+													alt="${resourcebundle.Reply_to_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
+
+								</c:otherwise>
+
+							</c:choose>
+						</div>
+
+						<table width="100%" border="0" cellpadding="0" cellspacing="0"
+							class="forumtablestyle">
+
+							<tr>
+								<!-- POLL DISPLAY -->
+								<c:if
+									test="#{topic.topic != null and topic.pollPresent and topic.ballotView}">
+									<ui:include src="/views/topics/viewtopic_poll_ballot.xhtml">
+										<ui:param name="t" value="#{topic.topic.id}" />
+										<ui:param name="poll" value="#{topic.topic.poll}" />
+									</ui:include>
+								</c:if>
+								<c:if
+									test="#{topic.topic != null and topic.pollPresent and not topic.ballotView}">
+									<ui:include src="/views/topics/viewtopic_poll_result.xhtml">
+										<ui:param name="t" value="#{topic.topic.id}" />
+										<ui:param name="poll" value="#{topic.topic.poll}" />
+									</ui:include>
+								</c:if>
+							</tr>
+
+							<tr class="header">
+								<td class="forumheaderfirst" style="width: 81px;">${resourcebundle.Author}</td>
+								<td class="forumheaderopen">${resourcebundle.Message}</td>
+							</tr>
+							<!-- iterate and display each post on this topic in the forum -->
+							<rich:dataTable id="postsList" value="#{topic.topicsDataModel}"
+								var="postrow" iterationStatusVar="status"
+								styleClass="forumtablestyle"
+								style="width:100%; border:0; cellpadding:0;
 										cellspacing:0;"
-									rows="#{prefController.postsPerTopic}" rowClasses="oddRow">
-									<tr>
-										<rich:column styleClass="forumpostleftcolumn">
-											<c:choose>
+								rows="#{prefController.postsPerTopic}" rowClasses="oddRow">
+								<tr>
+									<rich:column styleClass="forumpostleftcolumn">
+										<c:choose>
 
-												<c:when test="#{userModule.guest}">
+											<c:when test="#{userModule.guest}">
                         ${postrow.poster.userId}
                     </c:when>
 
-												<c:otherwise>
-													<h:commandLink action="viewProfile"
-														id="_#{postrow.id}outputLink12"
-														value="${postrow.poster.userId}">
-														<f:param name="uid" value="${postrow.poster.userId}" />
-														<f:param name="t" value="#{topic.topic.id}" />
-													</h:commandLink>
-												</c:otherwise>
+											<c:otherwise>
+												<h:commandLink action="viewProfile"
+													id="_#{postrow.id}outputLink12"
+													value="${postrow.poster.userId}">
+													<f:param name="uid" value="${postrow.poster.userId}" />
+													<f:param name="t" value="#{topic.topic.id}" />
+												</h:commandLink>
+											</c:otherwise>
 
-											</c:choose>
-										</rich:column>
-										<rich:column styleClass="forumpostspacer">
-											<a name="${postrow.id}" />
+										</c:choose>
+									</rich:column>
+									<rich:column styleClass="forumpostspacer">
+										<a name="${postrow.id}" />
 
-											<div id="miviewtopicbody6" class="forumpostactions">
-												<ul>
-
-													<!-- add the quote link -->
-													<forums:isAllowed fragment="acl://reply"
-														contextData="#{topic.topic}"
-														forumsACLProvider="#{forumsACLProvider}"
-														userModule="#{userModule}">
-														<li><h:commandLink action="#{replyTopic.startQuote}">
-																<f:param name="f" value="#{topic.topic.forum.id}" />
-																<f:param name="t" value="#{topic.topic.id}" />
-																<f:param name="p" value="#{postrow.id}" />
-																<f:verbatim>
-																	<img border="0"
-																		src="#{themeHelper.getURL('resourceIconQuoteURL')}" />
-																</f:verbatim>
-															</h:commandLink></li>
-													</forums:isAllowed>
-
-													<!-- add the edit post link -->
-													<h:commandLink action="#{editPost.start}"
-														rendered="#{aclRenderingController.aclCheck('acl://editPost',postrow)}">
-														<f:param name="p" value="#{postrow.id}" />
-														<li><f:verbatim>
-																<img border="0"
-																	src="#{themeHelper.getURL('resourceIconEditURL')}" />
-															</f:verbatim></li>
-													</h:commandLink>
-
-													<!-- add the delete post link -->
-													<h:commandLink action="deletePost"
-														id="_#{postrow.id}outputLink14"
-														rendered="#{aclRenderingController.aclCheck('acl://deletePost',postrow)}">
-														<f:param name="p" value="#{postrow.id}" />
-														<f:param name="t" value="#{topic.topic.id}" />
-														<f:param name="f" value="#{topic.topic.forum.id}" />
-														<li><f:verbatim>
-																<img border="0"
-																	src="#{themeHelper.getURL('resourceIconDelpostURL')}" />
-															</f:verbatim></li>
-													</h:commandLink>
-
-												</ul>
-											</div>
-
-											<div id="miviewtopicbody7" class="forumpostinfo">
-												<ul>
-													<li><h:commandLink id="_${postrow.id}outputLink15"
-															action="viewTopic" value="#{resourcebundle.Permalink}">
-															<f:param name="p" value="#{postrow.id}" />
-														</h:commandLink></li>
-													<li>${resourcebundle.Posted}:&#160;${forums:dateStr(postrow.createDate)}
-													</li>
-													<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
-												</ul>
-											</div>
-										</rich:column>
-									</tr>
-									<rich:columnGroup>
-										<rich:column styleClass="forumpostleftcolumn">&#160;</rich:column>
-										<rich:column styleClass="forumpostcontent">
-
-											<p>
-												<h:outputText
-													value="#{forums:formatMessage(postrow.message.text,false)}"
-													escape="false" />
-												<br /> <br />
-												${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_SIGNATURE')}
-											</p>
-											<!-- show the attachments of this post here -->
-											<p>
-												<c:if test="#{postrow.attachments!=null}">
-													<ui:include src="/views/topics/attachmentsview.xhtml">
-														<ui:param name="attachments"
-															value="#{postrow.attachments}" />
-													</ui:include>
-												</c:if>
-											</p>
-											<c:if test="${postrow.editCount gt 0}">
-												<p>
-													<em> <c:choose>
-															<c:when test="${postrow.editCount eq 1}">
-																<h:outputFormat
-																	value="#{resourcebundle.Edited_time_total}">
-																	<f:param value="${postrow.poster.userId}" />
-																	<f:param value="${postrow.editDate}" />
-																	<f:param value="${postrow.editCount}" />
-																</h:outputFormat>
-															</c:when>
-															<c:otherwise>
-																<h:outputFormat
-																	value="#{resourcebundle.Edited_times_total}">
-																	<f:param value="${postrow.poster.userId}" />
-																	<f:param value="${postrow.editDate}" />
-																	<f:param value="${postrow.editCount}" />
-																</h:outputFormat>
-															</c:otherwise>
-														</c:choose>
-													</em>
-												</p>
-											</c:if>
-
-										</rich:column>
-									</rich:columnGroup>
-									<rich:columnGroup>
-										<rich:column styleClass="forumpostleftcolumn">
-											<a href="#top">${resourcebundle.Back_to_top}</a>
-										</rich:column>
-										<rich:column styleClass="forumthreaduserinfo">
+										<div id="miviewtopicbody6" class="forumpostactions">
 											<ul>
+
+												<!-- add the quote link -->
+												<forums:isAllowed fragment="acl://reply"
+													contextData="#{topic.topic}"
+													forumsACLProvider="#{forumsACLProvider}"
+													userModule="#{userModule}">
+													<li><h:commandLink action="#{replyTopic.startQuote}">
+															<f:param name="f" value="#{topic.topic.forum.id}" />
+															<f:param name="t" value="#{topic.topic.id}" />
+															<f:param name="p" value="#{postrow.id}" />
+															<f:verbatim>
+																<img border="0"
+																	src="#{themeHelper.getURL('resourceIconQuoteURL')}" />
+															</f:verbatim>
+														</h:commandLink></li>
+												</forums:isAllowed>
+
+												<!-- add the edit post link -->
+												<h:commandLink action="#{editPost.start}"
+													rendered="#{aclRenderingController.aclCheck('acl://editPost',postrow)}">
+													<f:param name="p" value="#{postrow.id}" />
+													<li><f:verbatim>
+															<img border="0"
+																src="#{themeHelper.getURL('resourceIconEditURL')}" />
+														</f:verbatim></li>
+												</h:commandLink>
+
+												<!-- add the delete post link -->
+												<h:commandLink action="deletePost"
+													id="_#{postrow.id}outputLink14"
+													rendered="#{aclRenderingController.aclCheck('acl://deletePost',postrow)}">
+													<f:param name="p" value="#{postrow.id}" />
+													<f:param name="t" value="#{topic.topic.id}" />
+													<f:param name="f" value="#{topic.topic.forum.id}" />
+													<li><f:verbatim>
+															<img border="0"
+																src="#{themeHelper.getURL('resourceIconDelpostURL')}" />
+														</f:verbatim></li>
+												</h:commandLink>
+
+											</ul>
+										</div>
+
+										<div id="miviewtopicbody7" class="forumpostinfo">
+											<ul>
+												<li><h:commandLink id="_${postrow.id}outputLink15"
+														action="viewTopic" value="#{resourcebundle.Permalink}">
+														<f:param name="p" value="#{postrow.id}" />
+													</h:commandLink></li>
+												<li>${resourcebundle.Posted}:&#160;${forums:dateStr(postrow.createDate)}
+												</li>
+												<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
+											</ul>
+										</div>
+									</rich:column>
+								</tr>
+								<rich:columnGroup>
+									<rich:column styleClass="forumpostleftcolumn">&#160;</rich:column>
+									<rich:column styleClass="forumpostcontent">
+
+										<p>
+											<h:outputText
+												value="#{forums:formatMessage(postrow.message.text,false)}"
+												escape="false" />
+											<br /> <br />
+											${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_SIGNATURE')}
+										</p>
+										<!-- show the attachments of this post here -->
+										<p>
+											<c:if test="#{postrow.attachments!=null}">
+												<ui:include src="/views/topics/attachmentsview.xhtml">
+													<ui:param name="attachments" value="#{postrow.attachments}" />
+												</ui:include>
+											</c:if>
+										</p>
+										<c:if test="${postrow.editCount gt 0}">
+											<p>
+												<em> <c:choose>
+														<c:when test="${postrow.editCount eq 1}">
+															<h:outputFormat
+																value="#{resourcebundle.Edited_time_total}">
+																<f:param value="${postrow.poster.userId}" />
+																<f:param value="${postrow.editDate}" />
+																<f:param value="${postrow.editCount}" />
+															</h:outputFormat>
+														</c:when>
+														<c:otherwise>
+															<h:outputFormat
+																value="#{resourcebundle.Edited_times_total}">
+																<f:param value="${postrow.poster.userId}" />
+																<f:param value="${postrow.editDate}" />
+																<f:param value="${postrow.editCount}" />
+															</h:outputFormat>
+														</c:otherwise>
+													</c:choose>
+												</em>
+											</p>
+										</c:if>
+
+									</rich:column>
+								</rich:columnGroup>
+								<rich:columnGroup>
+									<rich:column styleClass="forumpostleftcolumn">
+										<a href="#top">${resourcebundle.Back_to_top}</a>
+									</rich:column>
+									<rich:column styleClass="forumthreaduserinfo">
+										<ul>
+											<li><h:commandLink action="viewProfile"
+													id="_${postrow.id}outputLink16">
+													<f:param name="uid" value="#{postrow.poster.userId}" />
+													<f:param name="t" value="#{topic.topic.id}" />
+													<f:verbatim>
+														<img border="0"
+															src="#{themeHelper.getURL('resourceIconProfileURL')}"
+															alt="${resourcebundle.Read_profile}" />
+													</f:verbatim>
+												</h:commandLink></li>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_EMAIL_FAKE') ne null}">
+												<li><a
+													href="mailto:${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_EMAIL_FAKE')}">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconEmailURL')}"
+														alt="${resourcebundle.Send_email}" />
+												</a></li>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_HOMEPAGE') ne null}">
+												<li><a
+													href="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_HOMEPAGE')}">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconWWWURL')}"
+														alt="${resourcebundle.Visit_website}" />
+												</a></li>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_AIM') ne null}">
+												<li><a
+													href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconAIMURL')}"
+														alt="${resourcebundle.AIM}" />
+												</a></li>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_YIM') ne null}">
+												<li><a
+													href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconYIMURL')}"
+														alt="${resourcebundle.YIM}" />
+												</a></li>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_SKYPE') ne null}">
+												<li>
+													<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
+													<a
+													href="skype:#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_SKYPE')}?add">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconSkypeURL')}"
+														alt="${resourcebundle.L_SKYPE}" />
+												</a>
+												</li>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_MSNM') ne null}">
 												<li><h:commandLink action="viewProfile"
-														id="_${postrow.id}outputLink16">
-														<f:param name="uid" value="#{postrow.poster.userId}" />
-														<f:param name="t" value="#{topic.topic.id}" />
+														id="_${postrow.id}outputLink17">
+														<f:param name="uid" value="#{postrow.poster.userId.id}" />
 														<f:verbatim>
 															<img border="0"
-																src="#{themeHelper.getURL('resourceIconProfileURL')}"
+																src="#{themeHelper.getURL('resourceIconMSNMURL')}"
 																alt="${resourcebundle.Read_profile}" />
 														</f:verbatim>
 													</h:commandLink></li>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_EMAIL_FAKE') ne null}">
-													<li><a
-														href="mailto:${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_EMAIL_FAKE')}">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconEmailURL')}"
-															alt="${resourcebundle.Send_email}" />
-													</a></li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_HOMEPAGE') ne null}">
-													<li><a
-														href="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_HOMEPAGE')}">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconWWWURL')}"
-															alt="${resourcebundle.Visit_website}" />
-													</a></li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_AIM') ne null}">
-													<li><a
-														href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconAIMURL')}"
-															alt="${resourcebundle.AIM}" />
-													</a></li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_YIM') ne null}">
-													<li><a
-														href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconYIMURL')}"
-															alt="${resourcebundle.YIM}" />
-													</a></li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_SKYPE') ne null}">
-													<li>
-														<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
-														<a
-														href="skype:#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_SKYPE')}?add">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconSkypeURL')}"
-															alt="${resourcebundle.L_SKYPE}" />
-													</a>
-													</li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_MSNM') ne null}">
-													<li><h:commandLink action="viewProfile"
-															id="_${postrow.id}outputLink17">
-															<f:param name="uid" value="#{postrow.poster.userId.id}" />
-															<f:verbatim>
-																<img border="0"
-																	src="#{themeHelper.getURL('resourceIconMSNMURL')}"
-																	alt="${resourcebundle.Read_profile}" />
-															</f:verbatim>
-														</h:commandLink></li>
-												</c:if>
-												<c:if
-													test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_ICQ') ne null}">
-													<li><a
-														href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_ICQ')}">
-															<img border="0"
-															src="#{themeHelper.getURL('resourceIconICQURL')}"
-															alt="${resourcebundle.ICQ}" />
-													</a></li>
-												</c:if>
-											</ul>
-										</rich:column>
-									</rich:columnGroup>
-									<rich:columnGroup>
-										<rich:column colspan="2" styleClass="forumthreadfooter" />
-									</rich:columnGroup>
-								</rich:dataTable>
+											</c:if>
+											<c:if
+												test="${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_ICQ') ne null}">
+												<li><a
+													href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_IM_ICQ')}">
+														<img border="0"
+														src="#{themeHelper.getURL('resourceIconICQURL')}"
+														alt="${resourcebundle.ICQ}" />
+												</a></li>
+											</c:if>
+										</ul>
+									</rich:column>
+								</rich:columnGroup>
+								<rich:columnGroup>
+									<rich:column colspan="2" styleClass="forumthreadfooter" />
+								</rich:columnGroup>
+							</rich:dataTable>
 
-							</table>
-							<!-- PAGINATION -->
-							<c:if test="#{topic.lastPageNumber > 1}">
-								<div class="forumpagination">
-									<ul>
-										<li class="disablepage"
-											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-											<h:outputFormat id="scrollerIntro_footer"
-												value="#{resourcebundle.PageNumber}">
-												<f:param value="${currentTopicPage.page}" />
-												<f:param value="${topic.lastPageNumber}" />
-											</h:outputFormat>&#160;
-										</li>
-										<rich:dataScroller for="postsList" maxPages="5"
-											page="#{currentTopicPage.page}" id="scPostsList_footer"
-											renderIfSinglePage="false" styleClass="forumpagination"
-											style="padding-top: 0px;" stepControls="hide"
-											selectedStyleClass="currentpage"
-											inactiveStyleClass="disablepage"
-											render="scrollerIntro_head scrollerIntro_footer">
-											<f:facet name="first">
+						</table>
+						<!-- PAGINATION -->
+						<c:if test="#{topic.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_footer"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="${currentTopicPage.page}" />
+											<f:param value="${topic.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<rich:dataScroller for="postsList" maxPages="5"
+										page="#{currentTopicPage.page}" id="scPostsList_footer"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
 								${resourcebundle.First}
 								</f:facet>
-											<f:facet name="last">
+										<f:facet name="last">
 								${resourcebundle.Last}
 								</f:facet>
-											<f:facet name="fastRewind">
+										<f:facet name="fastRewind">
 								&#60; ${resourcebundle.Previous}
 								</f:facet>
-											<f:facet name="fastForward">
+										<f:facet name="fastForward">
 								${resourcebundle.Next} &#62;
 								</f:facet>
-										</rich:dataScroller>
-									</ul>
-								</div>
-							</c:if>
+									</rich:dataScroller>
+								</ul>
+							</div>
+						</c:if>
 
-							<!-- insert the newTopic and replyTopic buttons here -->
-							<div id="miviewtopicbody12" class="actionbuttons">
-								<c:choose>
+						<!-- insert the newTopic and replyTopic buttons here -->
+						<div id="miviewtopicbody12" class="actionbuttons">
+							<c:choose>
 
-									<c:when test="#{topic.topic != null and topic.forumLocked}">
+								<c:when test="#{topic.topic != null and topic.forumLocked}">
 
-										<!-- new topic -->
-										<img border="0"
-											src="#{themeHelper.getURL('resourcePostLockedURL')}"
-											alt="${resourcebundle.Forum_locked}" />
+									<!-- new topic -->
+									<img border="0"
+										src="#{themeHelper.getURL('resourcePostLockedURL')}"
+										alt="${resourcebundle.Forum_locked}" />
 
-										<!-- reply -->
-										<img border="0"
-											src="#{themeHelper.getURL('resourceReplyLockedURL')}"
-											alt="${resourcebundle.Forum_locked}" />
-									</c:when>
+									<!-- reply -->
+									<img border="0"
+										src="#{themeHelper.getURL('resourceReplyLockedURL')}"
+										alt="${resourcebundle.Forum_locked}" />
+								</c:when>
 
-									<c:when
-										test="#{topic.topic != null and topic.locked
+								<c:when
+									test="#{topic.topic != null and topic.locked
                       and not topic.forumLocked}">
 
-										<!-- new topic -->
-										<forums:isAllowed fragment="acl://newTopic"
-											contextData="#{topic.topic.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="newTopic_footer"
-												action="#{newTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourcePostNewURL')}"
-														alt="${resourcebundle.Post_new_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
+									<!-- new topic -->
+									<forums:isAllowed fragment="acl://newTopic"
+										contextData="#{topic.topic.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="newTopic_footer" action="#{newTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostNewURL')}"
+													alt="${resourcebundle.Post_new_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
 
-										<!-- reply -->
-										<forums:isAllowed fragment="acl://reply"
-											contextData="#{topic.topic}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<img border="0"
-												src="#{themeHelper.getURL('resourceReplyLockedURL')}"
-												alt="${resourcebundle.Topic_locked}" />
-										</forums:isAllowed>
-									</c:when>
+									<!-- reply -->
+									<forums:isAllowed fragment="acl://reply"
+										contextData="#{topic.topic}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<img border="0"
+											src="#{themeHelper.getURL('resourceReplyLockedURL')}"
+											alt="${resourcebundle.Topic_locked}" />
+									</forums:isAllowed>
+								</c:when>
 
-									<c:otherwise>
+								<c:otherwise>
 
-										<!-- new topic -->
-										<forums:isAllowed fragment="acl://newTopic"
-											contextData="#{topic.topic.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="newTopic_footer"
-												action="#{newTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourcePostNewURL')}"
-														alt="${resourcebundle.Post_new_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
+									<!-- new topic -->
+									<forums:isAllowed fragment="acl://newTopic"
+										contextData="#{topic.topic.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="newTopic_footer" action="#{newTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourcePostNewURL')}"
+													alt="${resourcebundle.Post_new_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
 
-										<!-- reply -->
-										<forums:isAllowed fragment="acl://reply"
-											contextData="#{topic.topic}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandLink id="replyTopic_footer"
-												action="#{replyTopic.start}">
-												<f:param name="f" value="#{topic.topic.forum.id}" />
-												<f:param name="t" value="#{topic.topic.id}" />
-												<f:verbatim>
-													<img border="0"
-														src="#{themeHelper.getURL('resourceReplyNewURL')}"
-														alt="${resourcebundle.Reply_to_topic}" />
-												</f:verbatim>
-											</h:commandLink>
-										</forums:isAllowed>
+									<!-- reply -->
+									<forums:isAllowed fragment="acl://reply"
+										contextData="#{topic.topic}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandLink id="replyTopic_footer"
+											action="#{replyTopic.start}">
+											<f:param name="f" value="#{topic.topic.forum.id}" />
+											<f:param name="t" value="#{topic.topic.id}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourceReplyNewURL')}"
+													alt="${resourcebundle.Reply_to_topic}" />
+											</f:verbatim>
+										</h:commandLink>
+									</forums:isAllowed>
 
-									</c:otherwise>
+								</c:otherwise>
 
-								</c:choose>
-							</div>
-						</h:form>
+							</c:choose>
+						</div>
+					</h:form>
 
-						<forums:isAllowed fragment="acl://reply"
-							contextData="#{topic.topic}"
-							forumsACLProvider="#{forumsACLProvider}"
-							userModule="#{userModule}">
-							<div class="foruminstantreply">
+					<forums:isAllowed fragment="acl://reply"
+						contextData="#{topic.topic}"
+						forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
+						<div class="foruminstantreply">
 
-								<!-- instant reply widget -->
-								<script language='JavaScript' type='text/javascript'>
+							<!-- instant reply widget -->
+							<script language='JavaScript' type='text/javascript'>
             function checkForm()
 	        {
                 formErrors = false;
@@ -668,154 +662,132 @@
             }
         </script>
 
-								<h:form id="post">
+							<h:form id="post">
 
-									<input type="hidden" name="f" value="#{topic.topic.forum.id}" />
-									<input type="hidden" name="t" value="#{topic.topic.id}" />
-									<!-- add this reply and navigate to the page that will have this reply -->
+								<input type="hidden" name="f" value="#{topic.topic.forum.id}" />
+								<input type="hidden" name="t" value="#{topic.topic.id}" />
+								<!-- add this reply and navigate to the page that will have this reply -->
 
-									<label class="forumformlabelbold">${resourcebundle.Instant_reply}</label>
-									<br />
-									<h:inputTextarea id="message" value="#{replyTopic.message}"
-										rows="8" styleClass="forumformtextfield550px"></h:inputTextarea>
-									<div class="forumformbuttonrow">
-										<ul>
-											<li><h:commandButton
-													action="#{replyTopic.startInstantReplyPreview}"
-													value="${resourcebundle.Preview}" styleClass="buttonMed"
-													onclick="return checkForm();" /></li>
-											<li><h:commandButton
-													action="#{replyTopic.executeInstantReply}"
-													value="${resourcebundle.Submit}" styleClass="buttonMed"
-													onclick="return checkForm();">
-												</h:commandButton></li>
-										</ul>
-									</div>
+								<label class="forumformlabelbold">${resourcebundle.Instant_reply}</label>
+								<br />
+								<h:inputTextarea id="message" value="#{replyTopic.message}"
+									rows="8" styleClass="forumformtextfield550px"></h:inputTextarea>
+								<div class="forumformbuttonrow">
+									<ul>
+										<li><h:commandButton
+												action="#{replyTopic.startInstantReplyPreview}"
+												value="${resourcebundle.Preview}" styleClass="buttonMed"
+												onclick="return checkForm();" /></li>
+										<li><h:commandButton
+												action="#{replyTopic.executeInstantReply}"
+												value="${resourcebundle.Submit}" styleClass="buttonMed"
+												onclick="return checkForm();">
+											</h:commandButton></li>
+									</ul>
+								</div>
+							</h:form>
+						</div>
+					</forums:isAllowed>
+
+					<hr class="forumdashedHR" />
+
+					<div id="miviewtopicbody15" class="forumlegendjumpboxfloat">
+						<ui:include src="/views/jumpbox.xhtml" />
+					</div>
+
+					<forums:isAllowed fragment="acl://moderateForum"
+						contextData="#{topic.topic.forum}"
+						forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
+						<c:if test="#{moderator.forum!=null and moderator.forum.id!=-1}">
+							<div id="miviewtopicbody16" class="admintools">
+								<h:form>
+									<ul>
+
+										<li>${resourcebundle.Thread_moderation}:</li>
+
+										<forums:isAllowed fragment="acl://deleteTopics"
+											contextData="#{topic.topic.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<li><h:commandLink action="#{moderator.deleteConfirm}">
+													<f:param name="t" value="#{topic.topic.id}" />
+													<f:verbatim>
+														<img width="17" height="17" border="0"
+															src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
+															alt="${resourcebundle.Delete_topic}" />
+													</f:verbatim>
+												</h:commandLink></li>
+										</forums:isAllowed>
+
+										<forums:isAllowed fragment="acl://moveTopics"
+											contextData="#{topic.topic.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<li><h:commandLink action="#{moderator.moveConfirm}">
+													<f:param name="t" value="#{topic.topic.id}" />
+													<f:verbatim>
+														<img width="17" height="17" border="0"
+															src="#{themeHelper.getURL('resourceTopicModMoveURL')}"
+															alt="${resourcebundle.Move_topic}" />
+													</f:verbatim>
+												</h:commandLink></li>
+										</forums:isAllowed>
+
+										<forums:isAllowed fragment="acl://lockTopics"
+											contextData="#{topic.topic.forum}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<c:choose>
+
+												<c:when test="#{topic.topic != null and not topic.locked}">
+													<li><h:commandLink action="#{moderator.lockTopic}">
+															<f:param name="t" value="#{topic.topic.id}" />
+															<f:verbatim>
+																<img width="17" height="17" border="0"
+																	src="#{themeHelper.getURL('resourceTopicModLockURL')}"
+																	alt="${resourcebundle.Lock_topic}" />
+															</f:verbatim>
+														</h:commandLink></li>
+												</c:when>
+
+												<c:otherwise>
+													<li><h:commandLink action="#{moderator.unlockTopic}">
+															<f:param name="t" value="#{topic.topic.id}" />
+															<f:verbatim>
+																<img width="17" height="17" border="0"
+																	src="#{themeHelper.getURL('resourceTopicModUnlockURL')}"
+																	alt="${resourcebundle.Unlock_topic}" />
+															</f:verbatim>
+														</h:commandLink></li>
+												</c:otherwise>
+
+											</c:choose>
+										</forums:isAllowed>
+
+										<forums:isAllowed fragment="acl://splitTopic"
+											contextData="#{topic.topic.forum},#{topic.topic}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<li><h:commandLink action="viewModeratorSplit"
+													id="outputLink24">
+													<f:param name="t" value="#{topic.topic.id}" />
+													<f:verbatim>
+														<img width="17" height="17" border="0"
+															src="#{themeHelper.getURL('resourceTopicModSplitURL')}"
+															alt="${resourcebundle.Split_topic}" />
+													</f:verbatim>
+												</h:commandLink></li>
+										</forums:isAllowed>
+
+									</ul>
 								</h:form>
 							</div>
-						</forums:isAllowed>
-
-						<hr class="forumdashedHR" />
-
-						<div id="miviewtopicbody15" class="forumlegendjumpboxfloat">
-							<ui:include src="/views/jumpbox.xhtml" />
-						</div>
-
-						<forums:isAllowed fragment="acl://moderateForum"
-							contextData="#{topic.topic.forum}"
-							forumsACLProvider="#{forumsACLProvider}"
-							userModule="#{userModule}">
-							<c:if test="#{moderator.forum!=null and moderator.forum.id!=-1}">
-								<div id="miviewtopicbody16" class="admintools">
-									<h:form>
-										<ul>
-
-											<li>${resourcebundle.Thread_moderation}:</li>
-
-											<forums:isAllowed fragment="acl://deleteTopics"
-												contextData="#{topic.topic.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<li><h:commandLink action="#{moderator.deleteConfirm}">
-														<f:param name="t" value="#{topic.topic.id}" />
-														<f:verbatim>
-															<img width="17" height="17" border="0"
-																src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
-																alt="${resourcebundle.Delete_topic}" />
-														</f:verbatim>
-													</h:commandLink></li>
-											</forums:isAllowed>
-
-											<forums:isAllowed fragment="acl://moveTopics"
-												contextData="#{topic.topic.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<li><h:commandLink action="#{moderator.moveConfirm}">
-														<f:param name="t" value="#{topic.topic.id}" />
-														<f:verbatim>
-															<img width="17" height="17" border="0"
-																src="#{themeHelper.getURL('resourceTopicModMoveURL')}"
-																alt="${resourcebundle.Move_topic}" />
-														</f:verbatim>
-													</h:commandLink></li>
-											</forums:isAllowed>
-
-											<forums:isAllowed fragment="acl://lockTopics"
-												contextData="#{topic.topic.forum}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<c:choose>
-
-													<c:when test="#{topic.topic != null and not topic.locked}">
-														<li><h:commandLink action="#{moderator.lockTopic}">
-																<f:param name="t" value="#{topic.topic.id}" />
-																<f:verbatim>
-																	<img width="17" height="17" border="0"
-																		src="#{themeHelper.getURL('resourceTopicModLockURL')}"
-																		alt="${resourcebundle.Lock_topic}" />
-																</f:verbatim>
-															</h:commandLink></li>
-													</c:when>
-
-													<c:otherwise>
-														<li><h:commandLink action="#{moderator.unlockTopic}">
-																<f:param name="t" value="#{topic.topic.id}" />
-																<f:verbatim>
-																	<img width="17" height="17" border="0"
-																		src="#{themeHelper.getURL('resourceTopicModUnlockURL')}"
-																		alt="${resourcebundle.Unlock_topic}" />
-																</f:verbatim>
-															</h:commandLink></li>
-													</c:otherwise>
-
-												</c:choose>
-											</forums:isAllowed>
-
-											<forums:isAllowed fragment="acl://splitTopic"
-												contextData="#{topic.topic.forum},#{topic.topic}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<li><h:commandLink action="viewModeratorSplit"
-														id="outputLink24">
-														<f:param name="t" value="#{topic.topic.id}" />
-														<f:verbatim>
-															<img width="17" height="17" border="0"
-																src="#{themeHelper.getURL('resourceTopicModSplitURL')}"
-																alt="${resourcebundle.Split_topic}" />
-														</f:verbatim>
-													</h:commandLink></li>
-											</forums:isAllowed>
-
-										</ul>
-									</h:form>
-								</div>
-							</c:if>
-						</forums:isAllowed>
-
+						</c:if>
 					</forums:isAllowed>
-				</forums:isAllowed>
-			</ui:fragment>
 
-			<ui:fragment rendered="#{topic.topic == null or topic.topic.id==-1}">
-				<table width="100%" border="0" cellpadding="0" cellspacing="0"
-					class="forumtablestyle">
-					<tr>
-						<td>
-							<table width="100%" cellspacing="0" cellpadding="1" border="0">
-								<tr>
-									<td>&#160;</td>
-								</tr>
-								<tr>
-									<td align="center">${resourcebundle.No_posts_topic}</td>
-								</tr>
-								<tr>
-									<td>&#160;</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</ui:fragment>
+				</forums:isAllowed>
+			</forums:isAllowed>
 
 		</ui:define>
 	</ui:composition>
