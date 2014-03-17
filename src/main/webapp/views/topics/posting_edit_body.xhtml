@@ -68,7 +68,7 @@ function selectAttachment(attachmentVal)
 							<td><label class="forumformlabelbold">
 									${resourcebundle.Subject} </label></td>
 							<td><h:inputText value="#{editPost.subject}" maxlength="200"
-									id="SubjectInputText" size="45" style="width: 450px;"
+									id="SubjectInputText" size="45" style="width: 59%;"
 									tabindex="2" /></td>
 						</tr>
 
@@ -102,7 +102,7 @@ function selectAttachment(attachmentVal)
 										<tr>
 											<td colspan="9"><rich:editor id="message" toolbar="full" skin="forums"
 													value="#{editPost.message}" styleClass="Posttextarea"
-													style="height:inherit;width:440">
+													style="height:inherit;width:58%">
 													<f:facet name="config">
                     toolbar: 'custom',
                     startupFocus: true,
@@ -180,7 +180,7 @@ function selectAttachment(attachmentVal)
 										class="forumformlabelbold">
 											${resourcebundle.Poll_question} </label></td>
 									<td><h:inputText value="#{editPost.question}"
-											id="question" maxlength="255" style="width: 450px;" /></td>
+											id="question" maxlength="255" style="width: 59%;" /></td>
 								</tr>
 
 								<!-- update poll options already added -->
@@ -210,7 +210,7 @@ function selectAttachment(attachmentVal)
 									<td><label class="forumformlabelbold">
 											${resourcebundle.Poll_option} </label></td>
 									<td><h:inputText value="#{editPost.option}" id="newOption"
-											maxlength="255" style="width: 300px;" /> &#160; <h:commandButton
+											maxlength="255" style="width: 47%;" /> &#160; <h:commandButton
 											action="#{editPost.addOption}"
 											value="${resourcebundle.Add_option}" styleClass="buttonMed" />
 									</td>
@@ -260,7 +260,7 @@ function selectAttachment(attachmentVal)
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_comment} </label></td>
 								<td><h:inputTextarea value="#{editPost.attachmentComment}"
-										rows="3" styleClass="Posttextarea" /></td>
+										rows="3" styleClass="Posttextarea" style="width: 59%" /></td>
 							</tr>
 							<tr class="PostViewUnderline">
 								<td></td>
