@@ -1,4 +1,4 @@
-package org.vige.rubia.web.auth;
+package org.vige.rubia.eap.seiunozero.auth;
 
 import static org.vige.rubia.ui.JSFUtil.isAnonymous;
 
