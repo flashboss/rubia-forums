@@ -321,7 +321,7 @@
 													contextData="#{topic.topic}"
 													forumsACLProvider="#{forumsACLProvider}"
 													userModule="#{userModule}">
-													<li><h:commandLink action="#{replyTopic.startQuote}">
+													<li><h:commandLink action="${replyTopic.startQuote}">
 															<f:param name="f" value="#{topic.topic.forum.id}" />
 															<f:param name="t" value="#{topic.topic.id}" />
 															<f:param name="p" value="#{postrow.id}" />

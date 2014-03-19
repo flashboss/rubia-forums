@@ -39,23 +39,22 @@ Build
 
     mvn clean install
 
-... and see a ready to run distribution under `rubia-forums-distribution/target/rubia-forums-*-dist.zip`
+... and see a ready to run distribution under `rubia-forums/target/rubia-forums-*-dist.zip`
 
 to deploy in an existent jboss distribution:
 
     export JBOSS_HOME=.....
-    mvn clean -Pjbossas-remote-7
+    mvn clean install -Pjbossas-remote-711
 
 to test all it in jboss:
 
     export JBOSS_HOME=.....
-    mvn clean
-    mvn -Pjbossas-embedded-7 install
+    mvn test -Pjbossas-remote-711
 
 to test it with a single test in jboss:
 
     export JBOSS_HOME=.....
-    mvn -Pjbossas-embedded-7 test -Dtest=xxxxxTest
+    mvn -Pjbossas-remote-711 test -Dtest=xxxxxTest
 
 to test it with selenium:
 

@@ -335,184 +335,16 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>jbossas-embedded-7</id>
-			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-					</resource>
-					<resource>
-						<directory>src/main/jbossas-resources</directory>
-					</resource>
-				</resources>
-				<testResources>
-					<testResource>
-						<directory>src/test/resources</directory>
-					</testResource>
-					<testResource>
-						<directory>src/test/resources-jbossas-7</directory>
-					</testResource>
-				</testResources>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<webResources>
-								<resource>
-									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/jbossas-webapp</directory>
-								</resource>
-							</webResources>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/jbossas-java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack</id>
-								<phase>process-test-classes</phase>
-								<goals>
-									<goal>unpack</goal>
-								</goals>
-								<configuration>
-									<artifactItems>
-										<artifactItem>
-											<groupId>org.jboss.as</groupId>
-											<artifactId>jboss-as-dist</artifactId>
-											<version>${jboss-as-client-7.version}</version>
-											<type>zip</type>
-											<overWrite>false</overWrite>
-											<outputDirectory>target</outputDirectory>
-										</artifactItem>
-									</artifactItems>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<skip>false</skip>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/hexcodes/**</exclude>
-							</excludes>
-							<argLine>
-								-Xmx512m -XX:MaxPermSize=256m
-								-Djava.net.preferIPv4Stack=true
-								-Djava.util.logging.manager=org.jboss.logmanager.LogManager
-								-Djava.endorsed.dirs=${env.JBOSS_HOME}/lib/endorsed
-								-Djboss.home=${env.JBOSS_HOME}
-								-Djboss.boot.server.log.dir=${env.JBOSS_HOME}
-								<!-- -->
-								-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
-							</argLine>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.jboss.arquillian</groupId>
-						<artifactId>arquillian-bom</artifactId>
-						<version>${arquillian-as7.version}</version>
-						<scope>import</scope>
-						<type>pom</type>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-core</artifactId>
-					<version>${weld-as7.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.junit</groupId>
-					<artifactId>arquillian-junit-container</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.spec</groupId>
-					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>${jboss-javaee6-spec.version}</version>
-					<type>pom</type>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-arquillian-container-managed</artifactId>
-					<version>${jboss-as-client-7.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-api</artifactId>
-					<version>5.0.0-2013Jan16</version>
-				</dependency>
-				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-impl</artifactId>
-					<version>5.0.0-2013Jan16</version>
-				</dependency>
-			</dependencies>
-		</profile>
 
 		<profile>
-			<id>jbossas-remote-7</id>
+			<id>jbossas-remote-711</id>
 			<build>
 				<resources>
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
 					<resource>
-						<directory>src/main/jbossas-resources</directory>
+						<directory>src/main/jbossas/711/resources</directory>
 					</resource>
 				</resources>
 				<plugins>
@@ -524,7 +356,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/jbossas-webapp</directory>
+									<directory>src/main/jbossas/711/webapp</directory>
 								</resource>
 							</webResources>
 						</configuration>
@@ -540,7 +372,7 @@
 								</goals>
 								<configuration>
 									<sources>
-										<source>src/main/jbossas-java</source>
+										<source>src/main/jbossas/711/java</source>
 									</sources>
 								</configuration>
 							</execution>
@@ -686,24 +518,16 @@
 		</profile>
 
 		<profile>
-			<id>jbossas-gatein-embedded-7</id>
+			<id>jbossas-gatein-remote-360</id>
 			<build>
 				<resources>
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
 					<resource>
-						<directory>src/main/gatein-resources</directory>
+						<directory>src/main/gatein/360/web/resources</directory>
 					</resource>
 				</resources>
-				<testResources>
-					<testResource>
-						<directory>src/test/resources</directory>
-					</testResource>
-					<testResource>
-						<directory>src/test/resources-jbossas-7</directory>
-					</testResource>
-				</testResources>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -713,7 +537,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/gatein-webapp</directory>
+									<directory>src/main/gatein/360/web/webapp</directory>
 								</resource>
 							</webResources>
 						</configuration>
@@ -729,163 +553,7 @@
 								</goals>
 								<configuration>
 									<sources>
-										<source>src/main/gatein-java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack</id>
-								<phase>process-test-classes</phase>
-								<goals>
-									<goal>unpack</goal>
-								</goals>
-								<configuration>
-									<artifactItems>
-										<artifactItem>
-											<groupId>org.jboss.as</groupId>
-											<artifactId>jboss-as-dist</artifactId>
-											<version>${jboss-as-client-7.version}</version>
-											<type>zip</type>
-											<overWrite>false</overWrite>
-											<outputDirectory>target</outputDirectory>
-										</artifactItem>
-									</artifactItems>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<skip>false</skip>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/hexcodes/**</exclude>
-							</excludes>
-							<argLine>
-								-Xmx512m -XX:MaxPermSize=256m
-								-Djava.net.preferIPv4Stack=true
-								-Djava.util.logging.manager=org.jboss.logmanager.LogManager
-								-Djava.endorsed.dirs=${env.JBOSS_HOME}/lib/endorsed
-								-Djboss.home=${env.JBOSS_HOME}
-								-Djboss.boot.server.log.dir=${env.JBOSS_HOME}
-								<!-- -->
-								-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
-							</argLine>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.jboss.arquillian</groupId>
-						<artifactId>arquillian-bom</artifactId>
-						<version>${arquillian-as7.version}</version>
-						<scope>import</scope>
-						<type>pom</type>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-core</artifactId>
-					<version>${weld-as7.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.junit</groupId>
-					<artifactId>arquillian-junit-container</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.spec</groupId>
-					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>${jboss-javaee6-spec.version}</version>
-					<type>pom</type>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-arquillian-container-managed</artifactId>
-					<version>${jboss-as-client-7.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>javax.portlet</groupId>
-					<artifactId>portlet-api</artifactId>
-					<version>2.0</version>
-				</dependency>
-			</dependencies>
-		</profile>
-
-		<profile>
-			<id>jbossas-gatein-remote-7</id>
-			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-					</resource>
-					<resource>
-						<directory>src/main/gatein-resources</directory>
-					</resource>
-				</resources>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<webResources>
-								<resource>
-									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/gatein-webapp</directory>
-								</resource>
-							</webResources>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/gatein-java</source>
+										<source>src/main/gatein/360/web/java</source>
 									</sources>
 								</configuration>
 							</execution>
@@ -1010,6 +678,183 @@
 					<groupId>org.gatein.sso</groupId>
 					<artifactId>sso-integration</artifactId>
 					<version>1.3.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jbossas-gatein-portlet-remote-360</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/gatein/360/portlet/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/gatein/360/portlet/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/gatein/360/portlet/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.4.Final</version>
+						<executions>
+							<execution>
+								<id>add-forums-datasource</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+									<goal>deploy</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
+									<resource>
+										<enable-resource>true</enable-resource>
+										<properties>
+											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
+											<enabled>true</enabled>
+											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+											<driver-name>h2</driver-name>
+											<user-name>sa</user-name>
+											<min-pool-size>5</min-pool-size>
+											<max-pool-size>20</max-pool-size>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>del-datasource</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+									<goal>execute-commands</goal>
+								</goals>
+								<configuration>
+									<execute-commands>
+										<commands>
+											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
+												{
+												"outcome" => "failed",
+												"failure-description" => "JBAS014749:
+												Operation handler failed: null",
+												"rolled-back" => true
+												}
+											</command>
+										</commands>
+									</execute-commands>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${surefire.version}</version>
+						<configuration>
+							<testNGArtifactName>none:none</testNGArtifactName>
+							<excludes>
+								<exclude>**/ftest/**</exclude>
+								<exclude>**/persistence/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.2</version>
+						<configuration>
+							<!-- activate only when you need to generate the metamodel -->
+							<!-- compilerArgument>-proc:none</compilerArgument -->
+							<source>1.7</source>
+							<target>1.7</target>
+						</configuration>
+						<executions>
+							<execution>
+								<id>default-testCompile</id>
+								<phase>test-compile</phase>
+								<configuration>
+									<testExcludes>
+										<exclude>**/persistence/**</exclude>
+									</testExcludes>
+								</configuration>
+								<goals>
+									<goal>testCompile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.5.3-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.6.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.6.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.5.3-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.3.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.api</groupId>
+					<artifactId>gatein-api</artifactId>
+					<version>1.0.0.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
