@@ -358,7 +358,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-securitydomain</id>
@@ -563,7 +563,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-securitydomain</id>
@@ -590,6 +590,8 @@
 									<executeCommands>
 										<commands>
 											<command>/subsystem=security/security-domain=rubia-domain/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
+											</command>
+											<command>/subsystem=security/security-domain=rubia-domain/acl=classic:add(acl-modules=[{"code"=>"org.jboss.security.acl.ACLProviderImpl"}])
 											</command>
 										</commands>
 									</executeCommands>
@@ -768,7 +770,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-securitydomain</id>
@@ -973,7 +975,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-securitydomain</id>
@@ -1178,7 +1180,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-forums-datasource</id>
@@ -1373,7 +1375,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-forums-datasource</id>
@@ -1574,7 +1576,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-forums-datasource</id>
@@ -1769,7 +1771,7 @@
 					<plugin>
 						<groupId>org.jboss.as.plugins</groupId>
 						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.4.Final</version>
+						<version>7.5.Final</version>
 						<executions>
 							<execution>
 								<id>add-forums-datasource</id>
