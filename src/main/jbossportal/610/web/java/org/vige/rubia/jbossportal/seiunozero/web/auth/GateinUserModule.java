@@ -16,7 +16,6 @@ import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.UserHandler;
 import org.vige.rubia.auth.User;
 import org.vige.rubia.auth.UserModule;
-import org.vige.rubia.gatein.treseizero.web.auth.GateinUser;
 
 @Named("userModule")
 public class GateinUserModule implements UserModule, Serializable {

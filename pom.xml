@@ -1097,7 +1097,7 @@
 			</build>
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.as</groupId>
+					<groupId>org.jboss.as.security</groupId>
 					<artifactId>wildfly-security</artifactId>
 					<version>8.0.0.Final</version>
 					<scope>provided</scope>

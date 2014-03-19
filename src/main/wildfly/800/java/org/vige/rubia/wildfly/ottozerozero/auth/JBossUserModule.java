@@ -13,7 +13,6 @@ import javax.inject.Named;
 
 import org.vige.rubia.auth.User;
 import org.vige.rubia.auth.UserModule;
-import org.vige.rubia.eap.seiduezero.auth.JBossUser;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.config.IdentityConfiguration;
 import org.picketlink.idm.file.internal.FileIdentityStoreConfiguration;
