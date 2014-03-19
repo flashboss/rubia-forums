@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 
 import org.vige.rubia.auth.ForumsACLProvider;
 import org.vige.rubia.auth.ForumsACLResource;
-import org.vige.rubia.auth.ForumsJPAPersistenceStrategy;
 import org.vige.rubia.auth.JSFActionContext;
 import org.vige.rubia.auth.JSFUIContext;
 import org.vige.rubia.auth.SecurityContext;
