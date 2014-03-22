@@ -4,13 +4,12 @@ import static org.jboss.security.acl.BasicACLPermission.READ;
 
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.security.acl.ACLProvider;
-import org.jboss.security.acl.JPAPersistenceStrategy;
+import org.jboss.security.acl.ACLProviderImpl;
 import org.jboss.security.authorization.AuthorizationException;
 import org.jboss.security.identity.Identity;
 import org.jboss.security.identity.plugins.SimpleIdentity;
@@ -32,8 +31,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 	@javax.annotation.Resource
 	private EJBContext ejbContext;
 
-	@Inject
-	private ACLProvider provider;
+	private ACLProvider provider = new ACLProviderImpl();
 
 	@Override
 	public boolean hasAccess(SecurityContext context) {
@@ -45,7 +43,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 
 	public boolean hasAccess(JSFUIContext context) {
 		final String aclContextStr = context.getFragment();
-		provider.setPersistenceStrategy(new JPAPersistenceStrategy());
+		provider.setPersistenceStrategy(new ForumsJPAPersistenceStrategy(em));
 		ForumsACLResource resource = null;
 		resource = em.find(ForumsACLResource.class, aclContextStr);
 		if (resource == null)
@@ -79,7 +77,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 		final String aclContextStr = className.substring(0,
 				className.indexOf("$Proxy$_$$_WeldSubclass"))
 				+ ":" + context.getBusinessAction().getName();
-		provider.setPersistenceStrategy(new JPAPersistenceStrategy());
+		provider.setPersistenceStrategy(new ForumsJPAPersistenceStrategy(em));
 		ForumsACLResource resource = null;
 		resource = em.find(ForumsACLResource.class, aclContextStr);
 		if (resource == null)

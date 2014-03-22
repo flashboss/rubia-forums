@@ -49,6 +49,66 @@
 			</snapshots>
 		</repository>
 		<repository>
+			<id>redhat-eap6.1.0.Beta1-public-repository-group</id>
+			<name>Redhat eap6.1.0.Beta1 Public Maven Repository Group</name>
+			<url>http://maven.repository.redhat.com/techpreview/eap6/6.1.0.Beta1/maven-repository/
+            </url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>redhat-jpp6.1.0-public-repository-group</id>
+			<name>Redhat JPP6.1.0 Public Maven Repository Group</name>
+			<url>http://maven.repository.redhat.com/techpreview/jpp6/6.1.0/maven-repository/
+            </url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>redhat-ip6.0.0.Beta-public-repository-group</id>
+			<name>Redhat IP6.0.0.Beta Public Maven Repository Group</name>
+			<url>http://maven.repository.redhat.com/techpreview/ip6/6.0.0.Beta/maven-repository/
+            </url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>redhat-all-public-repository-group</id>
+			<name>Redhat All Public Maven Repository Group</name>
+			<url>http://maven.repository.redhat.com/techpreview/all/
+            </url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>maven2-repository.java.net</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2/</url>
@@ -591,8 +651,6 @@
 										<commands>
 											<command>/subsystem=security/security-domain=rubia-domain/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
 											</command>
-											<command>/subsystem=security/security-domain=rubia-domain/acl=classic:add(acl-modules=[{"code"=>"org.jboss.security.acl.ACLProviderImpl","flag"=>"required","module-options"=>[("persistenceStrategy"=>"org.jboss.security.plugins.acl.PolicyRegistrationStrategy")]}])
-											</command>
 										</commands>
 									</executeCommands>
 								</configuration>
@@ -691,25 +749,7 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
-					<version>7.2.0.Final</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-					<version>4.2.7.Final</version>
-					<scope>provided</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>antlr</groupId>
-							<artifactId>antlr</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.2.7.Final</version>
+					<version>7.2.0.Final-redhat-8</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -896,13 +936,13 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
-					<version>7.3.0.Final</version>
+					<version>7.3.0.Final-redhat-14</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.2.0.Final</version>
+					<version>4.2.7.SP1-redhat-3</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -914,7 +954,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.2.0.Final</version>
+					<version>4.2.7.SP1-redhat-3</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -1667,13 +1707,13 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
-					<version>7.2.1.Final</version>
+					<version>7.2.1.Final-redhat-10</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.2.0.SP1</version>
+					<version>4.2.0.SP1-redhat-1</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -1685,7 +1725,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.2.0.SP1</version>
+					<version>4.2.0.SP1-redhat-1</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -1862,13 +1902,13 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
-					<version>7.2.1.Final</version>
+					<version>7.2.1.Final-redhat-10</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.2.0.SP1</version>
+					<version>4.2.0.SP1-redhat-1</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -1880,7 +1920,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.2.0.SP1</version>
+					<version>4.2.0.SP1-redhat-1</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
