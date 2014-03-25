@@ -37,7 +37,8 @@ import java.util.TreeMap;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
 import org.vige.rubia.ForumsModule;
 import org.vige.rubia.auth.AuthorizationListener;
 import org.vige.rubia.auth.SecureActionForum;
@@ -76,8 +77,9 @@ public abstract class PostAction extends BaseController {
 	protected String option;
 
 	// attachment related view data
+	private String fileTypesAllowed = "jpg,gif,bmp";
 	protected String attachmentComment;
-	protected FileItem attachment;
+	protected UploadedFile attachment;
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
 
 	// navigation control related data
@@ -205,7 +207,9 @@ public abstract class PostAction extends BaseController {
 			if (map.isEmpty()) {
 				options.put("1", option);
 			} else {
-				options.put(Integer.toString(parseInt((String) map.lastKey()) + 1), option);
+				options.put(
+						Integer.toString(parseInt((String) map.lastKey()) + 1),
+						option);
 			}
 		}
 		option = null;
@@ -248,7 +252,7 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * @return Returns the attachment.
 	 */
-	public FileItem getAttachment() {
+	public UploadedFile getAttachment() {
 		return attachment;
 	}
 
@@ -256,7 +260,7 @@ public abstract class PostAction extends BaseController {
 	 * @param attachment
 	 *            The attachment to set.
 	 */
-	public void setAttachment(FileItem attachment) {
+	public void setAttachment(UploadedFile attachment) {
 		this.attachment = attachment;
 	}
 
@@ -366,7 +370,8 @@ public abstract class PostAction extends BaseController {
 	 * @param tempFiles
 	 * @return
 	 */
-	protected List<Attachment> produceAttachments(Collection<Attachment> tempFiles) {
+	protected List<Attachment> produceAttachments(
+			Collection<Attachment> tempFiles) {
 		return null;
 	}
 
@@ -397,7 +402,8 @@ public abstract class PostAction extends BaseController {
 	 * object
 	 * 
 	 */
-	protected void setupAttachments(Collection<Attachment> attachments) throws Exception {
+	protected void setupAttachments(Collection<Attachment> attachments)
+			throws Exception {
 
 	}
 
@@ -460,7 +466,8 @@ public abstract class PostAction extends BaseController {
 			throw new PollValidationException(INVALID_POLL_TITLE);
 		}
 		for (PollOption option : poll.getOptions()) {
-			if (option.getQuestion() == null || option.getQuestion().trim().length() == 0) {
+			if (option.getQuestion() == null
+					|| option.getQuestion().trim().length() == 0) {
 				throw new PollValidationException(INVALID_POLL_OPTION);
 			}
 		}
@@ -470,7 +477,8 @@ public abstract class PostAction extends BaseController {
 	// -----------------message
 	// related------------------------------------------------------------------------------------------
 
-	public void validateMessage(Message message) throws MessageValidationException {
+	public void validateMessage(Message message)
+			throws MessageValidationException {
 		String subject = message.getSubject();
 		if (subject == null || subject.trim().length() == 0) {
 			throw new MessageValidationException(INVALID_POST_SUBJECT);
@@ -563,8 +571,26 @@ public abstract class PostAction extends BaseController {
 	public Post getPost() throws Exception {
 		Post post = null;
 
-		post = forumsModule.findPostById(new Integer(getRequestParameter(p_postId)));
+		post = forumsModule.findPostById(new Integer(
+				getRequestParameter(p_postId)));
 
 		return post;
+	}
+	
+	public String getFileTypesAllowed() {
+		return fileTypesAllowed;
+	}
+
+	public void setFileTypesAllowed(String fileTypesAllowed) {
+		this.fileTypesAllowed = fileTypesAllowed;
+	}
+
+	public void upload(FileUploadEvent event) throws Exception {
+		UploadedFile item = event.getUploadedFile();
+		Attachment file = new Attachment();
+		file.setComment(attachmentComment);
+		file.setPost(getPost());
+		file.setFile(item);
+		attachments.add(file);
 	}
 }

@@ -24,6 +24,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.richfaces.model.UploadedFile;
+
 /**
  * Created on 29 juil. 2004
  * 
