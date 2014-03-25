@@ -43,7 +43,6 @@ public class JBossACLProvider implements ForumsACLProvider {
 
 	public boolean hasAccess(JSFUIContext context) {
 		final String aclContextStr = context.getFragment();
-		provider.setPersistenceStrategy(new ForumsJPAPersistenceStrategy(em));
 		ForumsACLResource resource = null;
 		resource = em.find(ForumsACLResource.class, aclContextStr);
 		if (resource == null)
@@ -77,7 +76,6 @@ public class JBossACLProvider implements ForumsACLProvider {
 		final String aclContextStr = className.substring(0,
 				className.indexOf("$Proxy$_$$_WeldSubclass"))
 				+ ":" + context.getBusinessAction().getName();
-		provider.setPersistenceStrategy(new ForumsJPAPersistenceStrategy(em));
 		ForumsACLResource resource = null;
 		resource = em.find(ForumsACLResource.class, aclContextStr);
 		if (resource == null)
