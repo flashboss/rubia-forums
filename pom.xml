@@ -29,7 +29,6 @@
 		<seam.version>3.1.0.Final</seam.version>
 		<weld-as7.version>1.1.5.AS71.Final</weld-as7.version>
 		<surefire.version>2.7.2</surefire.version>
-		<portletbridge.version>3.2.1.Final</portletbridge.version>
 	</properties>
 
 	<repositories>

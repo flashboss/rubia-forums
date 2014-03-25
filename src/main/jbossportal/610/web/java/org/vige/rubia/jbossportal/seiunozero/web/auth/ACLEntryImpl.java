@@ -24,7 +24,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.jboss.security.ErrorCodes;
+import org.jboss.security.PicketBoxMessages;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPermission;
 import org.jboss.security.acl.BitMaskPermission;
@@ -43,181 +43,187 @@ import org.jboss.security.identity.Identity;
  */
 @Entity
 @Table(name = "ACL_ENTRY")
-public class ACLEntryImpl implements ACLEntry, Serializable {
-	private static final long serialVersionUID = -2985214023383451768L;
+public class ACLEntryImpl implements ACLEntry, Serializable
+{
+   private static final long serialVersionUID = -2985214023383451768L;
 
-	@Id
-	@GeneratedValue
-	private long entryID;
+   @Id
+   @GeneratedValue
+   private long entryID;
 
-	@Transient
-	private BitMaskPermission permission;
+   @Transient
+   private BitMaskPermission permission;
 
-	/* persist only the bitmask */
-	private int bitMask;
+   /* persist only the bitmask */
+   private int bitMask;
 
-	@Transient
-	private Identity identity;
+   @Transient
+   private Identity identity;
 
-	/* persist the string representation of the identity or role */
-	private String identityOrRole;
+   /* persist the string representation of the identity or role */
+   private String identityOrRole;
 
-	@ManyToOne
-	private ACLImpl acl;
+   @ManyToOne
+   private ACLImpl acl;
 
-	/**
-	 * <p>
-	 * Builds an instance of {@code ACLEntryImpl}. This constructor is required
-	 * by the JPA specification.
-	 * </p>
-	 */
-	ACLEntryImpl() {
-	}
+   /**
+    * <p>
+    * Builds an instance of {@code ACLEntryImpl}. This constructor is required by the JPA specification.
+    * </p>
+    */
+   ACLEntryImpl()
+   {
+   }
 
-	/**
-	 * <p>
-	 * Builds an instance of {@code ACLEntryImpl} with the specified permission
-	 * and identity.
-	 * </p>
-	 * 
-	 * @param permission
-	 *            the {@code ACLPermission} granted to the associated identity.
-	 * @param identity
-	 *            the {@code Identity} for which the permission is being
-	 *            granted.
-	 */
-	public ACLEntryImpl(BitMaskPermission permission, Identity identity) {
-		this.permission = permission;
-		this.identity = identity;
-		this.identityOrRole = identity.getName();
-	}
+   /**
+    * <p>
+    * Builds an instance of {@code ACLEntryImpl} with the specified permission and identity.
+    * </p>
+    * 
+    * @param permission the {@code ACLPermission} granted to the associated identity.
+    * @param identity the {@code Identity} for which the permission is being granted.
+    */
+   public ACLEntryImpl(BitMaskPermission permission, Identity identity)
+   {
+      this.permission = permission;
+      this.identity = identity;
+      this.identityOrRole = identity.getName();
+   }
 
-	/**
-	 * <p>
-	 * Builds an instance of {@code ACLEntryImpl} with the specified permission
-	 * and identity/role name.
-	 * </p>
-	 * 
-	 * @param permission
-	 *            the {@code ACLPermission} granted to the associated identity.
-	 * @param identityOrRole
-	 *            a {@code String} representing the identity or role name.
-	 */
-	public ACLEntryImpl(BitMaskPermission permission, String identityOrRole) {
-		this.permission = permission;
-		this.identityOrRole = identityOrRole;
-	}
+   /**
+    * <p>
+    * Builds an instance of {@code ACLEntryImpl} with the specified permission and identity/role name.
+    * </p>
+    * 
+    * @param permission the {@code ACLPermission} granted to the associated identity.
+    * @param identityOrRole a {@code String} representing the identity or role name.
+    */
+   public ACLEntryImpl(BitMaskPermission permission, String identityOrRole)
+   {
+      this.permission = permission;
+      this.identityOrRole = identityOrRole;
+   }
 
-	/**
-	 * <p>
-	 * Obtains the persistent id of this {@code ACLEntryImpl}.
-	 * </p>
-	 * 
-	 * @return a {@code long} representing the persistent id this entry.
-	 */
-	public long getACLEntryId() {
-		return this.entryID;
-	}
+   /**
+    * <p>
+    * Obtains the persistent id of this {@code ACLEntryImpl}.
+    * </p>
+    * 
+    * @return a {@code long} representing the persistent id this entry.
+    */
+   public long getACLEntryId()
+   {
+      return this.entryID;
+   }
 
-	/**
-	 * <p>
-	 * Method called by the JPA layer before persisting the fields.
-	 * </p>
-	 */
-	@PrePersist
-	private void setPersistentFields() {
-		if (this.permission != null)
-			this.bitMask = this.permission.getMaskValue();
-	}
+   /**
+    * <p>
+    * Method called by the JPA layer before persisting the fields.
+    * </p>
+    */
+   @PrePersist
+   @SuppressWarnings("unused")
+   private void setPersistentFields()
+   {
+      if (this.permission != null)
+         this.bitMask = this.permission.getMaskValue();
+   }
 
-	/**
-	 * <p>
-	 * Method called by the JPA layer after loading the persisted object.
-	 * </p>
-	 */
-	@PostLoad
-	private void loadState() {
-		if (this.permission != null)
-			throw new IllegalStateException(ErrorCodes.PROCESSING_FAILED
-					+ "ACLEntry permission has already been set");
-		this.permission = new CompositeACLPermission(this.bitMask);
-	}
+   /**
+    * <p>
+    * Method called by the JPA layer after loading the persisted object.
+    * </p>
+    */
+   @PostLoad
+   @SuppressWarnings("unused")
+   private void loadState()
+   {
+      if (this.permission != null)
+         throw PicketBoxMessages.MESSAGES.aclEntryPermissionAlreadySet();
+      this.permission = new CompositeACLPermission(this.bitMask);
+   }
 
-	public ACLImpl getAcl() {
-		return this.acl;
-	}
+   public ACLImpl getAcl()
+   {
+      return this.acl;
+   }
 
-	public void setAcl(ACLImpl acl) {
-		this.acl = acl;
-	}
+   public void setAcl(ACLImpl acl)
+   {
+      this.acl = acl;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getIdentityOrRole()
-	 */
-	public String getIdentityOrRole() {
-		return this.identityOrRole;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jboss.security.acl.ACLEntry#getIdentityOrRole()
+    */
+   public String getIdentityOrRole()
+   {
+      return this.identityOrRole;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getIdentity()
-	 */
-	public Identity getIdentity() {
-		return this.identity;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jboss.security.acl.ACLEntry#getIdentity()
+    */
+   public Identity getIdentity()
+   {
+      return this.identity;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getPermission()
-	 */
-	public ACLPermission getPermission() {
-		return this.permission;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jboss.security.acl.ACLEntry#getPermission()
+    */
+   public ACLPermission getPermission()
+   {
+      return this.permission;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLEntry#checkPermission(org.jboss.security.acl
-	 * .ACLPermission)
-	 */
-	public boolean checkPermission(ACLPermission permission) {
-		if (!(permission instanceof BitMaskPermission))
-			return false;
-		BitMaskPermission bitmaskPermission = (BitMaskPermission) permission;
-		// an empty permission is always part of another permission.
-		if (bitmaskPermission.getMaskValue() == 0)
-			return true;
-		// simple implementation: if all bits match, return true.
-		return (this.permission.getMaskValue() & bitmaskPermission
-				.getMaskValue()) == bitmaskPermission.getMaskValue();
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jboss.security.acl.ACLEntry#checkPermission(org.jboss.security.acl.ACLPermission)
+    */
+   public boolean checkPermission(ACLPermission permission)
+   {
+      if (!(permission instanceof BitMaskPermission))
+         return false;
+      BitMaskPermission bitmaskPermission = (BitMaskPermission) permission;
+      // an empty permission is always part of another permission.
+      if (bitmaskPermission.getMaskValue() == 0)
+         return true;
+      // simple implementation: if all bits match, return true.
+      return (this.permission.getMaskValue() & bitmaskPermission.getMaskValue()) == bitmaskPermission.getMaskValue();
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof ACLEntryImpl) {
-			ACLEntryImpl entry = (ACLEntryImpl) obj;
-			return this.identityOrRole.equals(entry.identityOrRole);
-		}
-		return false;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see java.lang.Object#equals(java.lang.Object)
+    */
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (obj instanceof ACLEntryImpl)
+      {
+         ACLEntryImpl entry = (ACLEntryImpl) obj;
+         return this.identityOrRole.equals(entry.identityOrRole);
+      }
+      return false;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return this.identityOrRole.hashCode();
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see java.lang.Object#hashCode()
+    */
+   @Override
+   public int hashCode()
+   {
+      return this.identityOrRole.hashCode();
+   }
 }
