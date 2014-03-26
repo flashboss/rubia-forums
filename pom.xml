@@ -158,16 +158,6 @@
 			<artifactId>richfaces-core-impl</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search</artifactId>
-			<version>4.3.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-			<version>3.6.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
 			<version>${jboss-javaee6-spec.version}</version>
@@ -535,6 +525,16 @@
 					<version>5.0.0-2013Jan16</version>
 				</dependency>
 				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
 					<version>4.0.1.Final</version>
@@ -641,6 +641,16 @@
 					<artifactId>jboss-as-security</artifactId>
 					<version>7.2.0.Final-redhat-8</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
@@ -759,6 +769,16 @@
 					<artifactId>jboss-as-security</artifactId>
 					<version>7.3.0.Final-redhat-14</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
@@ -966,6 +986,18 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.5.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
 					<version>4.3.1.Final</version>
@@ -1134,6 +1166,16 @@
 					<artifactId>jboss-as-security</artifactId>
 					<version>7.1.1.Final</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
@@ -1331,6 +1373,16 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
 					<version>4.0.1.Final</version>
@@ -1480,6 +1532,16 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
 					<version>4.2.0.SP1-redhat-1</version>
@@ -1621,6 +1683,16 @@
 					<artifactId>jboss-as-security</artifactId>
 					<version>7.2.1.Final-redhat-10</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
