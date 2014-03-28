@@ -182,7 +182,7 @@ public class ReplyTopic extends PostAction {
 			// actually post a reply to this topic in the forum
 			poster.incrementPostCount();
 			forumsModule.createPost(topic, forum, message, new Date(), poster,
-					produceAttachments(attachments) // attachments
+					attachments // attachments
 					);
 			currentTopicPage.setPage(viewTopic.getLastPageNumber());
 

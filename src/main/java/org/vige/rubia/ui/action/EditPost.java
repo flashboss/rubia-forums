@@ -242,7 +242,6 @@ public class EditPost extends PostAction {
 			// TODO: cleanup this forums update process............move this as
 			// a private method
 			// setup attachment information
-			Collection<Attachment> attachments = produceAttachments(this.attachments);
 			Collection<Attachment> removeFilter = new ArrayList<Attachment>();
 			Collection<Attachment> newAttachments = new ArrayList<Attachment>();
 

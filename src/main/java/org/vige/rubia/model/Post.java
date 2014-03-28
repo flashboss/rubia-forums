@@ -13,6 +13,8 @@
  ******************************************************************************/
 package org.vige.rubia.model;
 
+import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
 import static org.hibernate.search.annotations.Resolution.MINUTE;
 import static org.hibernate.search.annotations.Store.YES;
 
@@ -141,7 +143,7 @@ public class Post implements Serializable {
 	@JoinColumn(name = "JBP_POSTER_ID")
 	private Poster poster;
 
-	@OneToMany(mappedBy = "post")
+	@OneToMany(mappedBy = "post", fetch = EAGER, cascade = REMOVE)
 	private List<Attachment> attachments;
 
 	/**

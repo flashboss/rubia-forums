@@ -20,6 +20,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
@@ -100,9 +101,9 @@ function selectAttachment(attachmentVal)
 									class="forumline">
 									<tbody>
 										<tr>
-											<td colspan="9"><rich:editor id="message" toolbar="full" skin="forums"
-													value="#{editPost.message}" styleClass="Posttextarea"
-													style="height:inherit;width:58%">
+											<td colspan="9"><rich:editor id="message" toolbar="full"
+													skin="forums" value="#{editPost.message}"
+													styleClass="Posttextarea" style="height:inherit;width:58%">
 													<f:facet name="config">
                     toolbar: 'custom',
                     startupFocus: true,
@@ -249,7 +250,14 @@ function selectAttachment(attachmentVal)
 							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_name} </label></td>
-								<td><input type="file" size="40" class="post" /></td>
+								<td><rich:fileUpload id="fileUploadOp"
+										fileUploadListener="#{editPost.upload}"
+										data="#{editPost.attachments}" styleClass="post"
+										style="height:inherit;width:59%"
+										addLabel="${resourcebundle.Add_attachment}">
+										<a4j:ajax event="uploadcomplete" execute="@none"
+											render="fileUploadOp" />
+									</rich:fileUpload></td>
 							</tr>
 
 							<!-- comment -->

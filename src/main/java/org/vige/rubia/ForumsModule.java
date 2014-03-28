@@ -365,7 +365,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, List<Attachment> attachments, int type) throws ModuleException;
+	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, int type) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -401,7 +401,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Post createPost(Topic topic, Forum forum, Message message, Date creationTime, Poster poster, List<Attachment> attachments) throws ModuleException;
+	Post createPost(Topic topic, Forum forum, Message message, Date creationTime, Poster poster, Collection<Attachment> attachments) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME

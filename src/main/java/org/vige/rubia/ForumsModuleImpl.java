@@ -460,7 +460,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, List<Attachment> attachments, int type) throws ModuleException {
+	public Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, int type) throws ModuleException {
 		try {
 
 			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null)
@@ -478,7 +478,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			if (attachments != null)
 				for (Attachment attachment : attachments) {
 					em.persist(attachment);
-					em.flush();
 					post.addAttachment(attachment);
 				}
 
@@ -493,6 +492,7 @@ public class ForumsModuleImpl implements ForumsModule {
 			topic.setPoll(poll);
 
 			em.persist(topic);
+			em.persist(post);
 			em.flush();
 
 			forum.addTopicSize();
@@ -540,7 +540,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Post createPost(Topic topic, Forum forum, Message message, Date creationDate, Poster poster, List<Attachment> attachments) throws ModuleException {
+	public Post createPost(Topic topic, Forum forum, Message message, Date creationDate, Poster poster, Collection<Attachment> attachments) throws ModuleException {
 		try {
 
 			Poster posterOld = findPosterByUserId(poster.getUserId());

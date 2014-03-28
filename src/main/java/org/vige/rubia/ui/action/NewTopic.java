@@ -136,7 +136,7 @@ public class NewTopic extends PostAction {
 			// actually create the topic in this forum
 			// use this method when poll and attachments are actually integrated
 			forumsModule.createTopic(forum, message, new Date(), poster, poll, // poll
-					produceAttachments(attachments), // attachments
+					attachments, // attachments
 					topicType);
 
 			// setup the navigation state

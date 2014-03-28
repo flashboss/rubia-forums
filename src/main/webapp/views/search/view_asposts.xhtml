@@ -123,11 +123,9 @@
 							</p>
 							<!-- show the attachments of this post here -->
 							<p>
-								<c:if test="#{postrow.attachments!=null}">
-									<ui:include src="/views/topics/attachmentsview.xhtml">
-										<ui:param name="attachments" value="#{postrow.attachments}" />
-									</ui:include>
-								</c:if>
+								<ui:include src="/views/topics/attachmentsview.xhtml">
+									<ui:param name="attachments" value="#{postrow.attachments}" />
+								</ui:include>
 							</p>
 							<c:if test="${postrow.editCount gt 0}">
 								<p>

@@ -22,9 +22,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.richfaces.model.UploadedFile;
 
 /**
  * Created on 29 juil. 2004
@@ -47,15 +44,24 @@ public class Attachment implements Serializable {
 	@GeneratedValue
 	private Integer id;
 
-	@Transient
-	private UploadedFile file;
-
 	@Column(name = "JBP_COMMENT")
 	private String comment;
 
 	@ManyToOne
 	@JoinColumn(name = "JBP_POST_ID")
 	private Post post;
+
+	@Column(name = "JBP_CONTENT_TYPE")
+	private String contentType;
+
+	@Column(name = "JBP_CONTENT", length = 100000)
+	private byte[] content;
+
+	@Column(name = "JBP_SIZE")
+	private long size;
+
+	@Column(name = "JBP_NAME")
+	private String name;
 
 	public Attachment() {
 
@@ -77,20 +83,6 @@ public class Attachment implements Serializable {
 
 	/**
     */
-	public UploadedFile getFile() {
-		return file;
-	}
-
-	/**
-	 * @param file
-	 *            The file to set.
-	 */
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
-
-	/**
-    */
 	public Integer getId() {
 		return id;
 	}
@@ -99,13 +91,43 @@ public class Attachment implements Serializable {
 		this.id = id;
 	}
 
-	/**
-    */
 	public Post getPost() {
 		return post;
 	}
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

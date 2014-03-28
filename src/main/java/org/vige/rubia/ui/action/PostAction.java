@@ -77,7 +77,6 @@ public abstract class PostAction extends BaseController {
 	protected String option;
 
 	// attachment related view data
-	private String fileTypesAllowed = "jpg,gif,bmp";
 	protected String attachmentComment;
 	protected UploadedFile attachment;
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
@@ -364,18 +363,6 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * Takes a collection of tempFiles setup during data setup and produces
-	 * attachments that are to be sent over to the module
-	 * 
-	 * @param tempFiles
-	 * @return
-	 */
-	protected List<Attachment> produceAttachments(
-			Collection<Attachment> tempFiles) {
-		return null;
-	}
-
-	/**
 	 * sets the poll information of a post for the ui from the business object
 	 * 
 	 */
@@ -576,21 +563,15 @@ public abstract class PostAction extends BaseController {
 
 		return post;
 	}
-	
-	public String getFileTypesAllowed() {
-		return fileTypesAllowed;
-	}
-
-	public void setFileTypesAllowed(String fileTypesAllowed) {
-		this.fileTypesAllowed = fileTypesAllowed;
-	}
 
 	public void upload(FileUploadEvent event) throws Exception {
 		UploadedFile item = event.getUploadedFile();
 		Attachment file = new Attachment();
 		file.setComment(attachmentComment);
-		file.setPost(getPost());
-		file.setFile(item);
+		file.setContent(item.getData());
+		file.setContentType(item.getContentType());
+		file.setName(item.getName());
+		file.setSize(item.getSize());
 		attachments.add(file);
 	}
 }
