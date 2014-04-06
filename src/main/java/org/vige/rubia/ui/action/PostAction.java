@@ -24,6 +24,8 @@ import static org.vige.rubia.ui.action.PollValidationException.INVALID_POLL_TITL
 import static org.vige.rubia.ui.action.PollValidationException.TOO_FEW_POLL_OPTION;
 import static org.vige.rubia.ui.action.PollValidationException.TOO_MANY_POLL_OPTION;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -574,4 +576,19 @@ public abstract class PostAction extends BaseController {
 		file.setSize(item.getSize());
 		attachments.add(file);
 	}
+
+	public String clearUploadData() {
+		attachments.clear();
+		return null;
+	}
+
+	public void paint(OutputStream stream, Object object) throws IOException {
+		stream.write(attachments.toArray(new Attachment[0])[(Integer) object]
+				.getContent());
+		stream.close();
+	}
+ 
+    public long getTimeStamp() {
+        return System.currentTimeMillis();
+    }
 }
