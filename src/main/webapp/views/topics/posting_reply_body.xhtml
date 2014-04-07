@@ -146,66 +146,36 @@
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_name} </label></td>
 								<td><rich:fileUpload id="fileUploadOp"
+										clearLabel="${resourcebundle.Delete}"
+										clearAllLabel="${resourcebundle.Delete_attachments}"
+										immediateUpload="true"
 										fileUploadListener="#{replyTopic.upload}"
 										data="#{replyTopic.attachments}" styleClass="post"
-										style="height:inherit;width:59%"
+										style="height:inherit;width:59%;"
+										doneLabel="${resourcebundle.Upload_done}"
 										addLabel="${resourcebundle.Add_attachment}">
-										<a4j:ajax event="uploadcomplete" execute="@none"
-											render="fileUploadOp" />
+										<a4j:ajax event="uploadcomplete" execute="@none" render="info" />
+										<a4j:ajax event="clear" listener="#{replyTopic.clearUpload}"
+											render="info" />
 									</rich:fileUpload></td>
 							</tr>
-
-							<!-- comment -->
-							<tr valign="top" class="PostViewUnderline">
+							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_comment} </label></td>
-								<td><h:inputTextarea
-										value="#{replyTopic.attachmentComment}" rows="3"
-										styleClass="Posttextarea" style="width: 59%" /></td>
+								<td><h:panelGrid id="info"
+										style="width: 59%; border: none;">
+										<ui:repeat value="#{replyTopic.attachments}" var="file">
+											<h:panelGrid columns="2">
+												<h:outputText value="${resourcebundle.File_name}" />
+												<h:outputText value="#{file.name}" />
+												<h:outputText value="${resourcebundle.Filesize}" />
+												<h:outputText value="#{file.size} B" />
+											</h:panelGrid>
+											<h:inputTextarea rows="2" styleClass="Posttextarea"
+												value="#{file.comment}" style="width: 100%" />
+										</ui:repeat>
+									</h:panelGrid></td>
 							</tr>
-							<tr class="PostViewUnderline">
-								<td></td>
-								<td><h:commandButton action="#{replyTopic.addAttachment}"
-										value="${resourcebundle.Add_attachment}"
-										styleClass="buttonMed" /></td>
-							</tr>
-
-							<c:if test="#{replyTopic.numberOfAttachments>0}">
-								<tr>
-									<th class="thHead" colspan="2">${resourcebundle.Posted_attachments}</th>
-								</tr>
-
-								<!-- uploaded list of attachments -->
-								<input type="hidden" name="ATTACHMENT" />
-								<c:forEach items="#{replyTopic.attachments}" var="attachRow"
-									varStatus="idx">
-									<tr class="PostViewUnderline">
-										<td><label class="forumformlabelbold">
-												${resourcebundle.File_name} </label></td>
-										<td>${attachRow.fileName}</td>
-									</tr>
-									<tr valign="top" class="PostViewUnderline">
-										<td><label class="forumformlabelbold">
-												${resourcebundle.File_comment} </label></td>
-										<td><h:inputTextarea id="attachment_${idx.index}"
-												value="#{attachRow.comment}" rows="3" cols="35"
-												styleClass="Posttextarea" /></td>
-									</tr>
-									<tr class="PostViewUnderline">
-										<td></td>
-										<td><h:commandButton id="UpdateAttachment_${idx.index}"
-												action="#{replyTopic.updateAttachment}"
-												value="${resourcebundle.Update_comment}"
-												styleClass="buttonMed"
-												onclick="selectAttachment('${idx.index}');" /> &#160; <h:commandButton
-												id="DeleteAttachment_${idx.index}"
-												action="#{replyTopic.deleteAttachment}"
-												value="${resourcebundle.Delete_attachment}"
-												styleClass="buttonMed"
-												onclick="selectAttachment('${idx.index}');" /></td>
-									</tr>
-								</c:forEach>
-							</c:if>
 						</forums:isAllowed>
 					</table>
 

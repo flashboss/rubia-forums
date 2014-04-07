@@ -110,7 +110,6 @@ public class EditPost extends PostAction {
 				setupPoll(topic.getPoll());
 
 				// setup the attachment related information
-				setupAttachments(post.getAttachments());
 				List<Post> posts = forumsModule.findPostsByTopicId(topic);
 
 				isFirstPost = false;

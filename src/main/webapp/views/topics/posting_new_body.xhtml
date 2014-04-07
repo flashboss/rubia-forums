@@ -53,11 +53,12 @@ function selectOption(optionVal)
 
 .rf-fu-btn-cnt-add {
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .rf-fu-btn-cnt-clr {
-	display: none;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-weight: bold;
 }
 </style>
 			<c:if test="#{newTopic.preview}">
@@ -276,7 +277,9 @@ function selectOption(optionVal)
 										doneLabel="${resourcebundle.Upload_done}"
 										addLabel="${resourcebundle.Add_attachment}">
 										<a4j:ajax event="uploadcomplete" execute="@none"
-											render="info, buttonInfoAttachments" />
+											render="info" />
+										<a4j:ajax event="clear" listener="#{newTopic.clearUpload}"
+											render="info" />
 									</rich:fileUpload></td>
 							</tr>
 							<tr class="PostViewUnderline">
@@ -295,15 +298,6 @@ function selectOption(optionVal)
 												value="#{file.comment}" style="width: 100%" />
 										</ui:repeat>
 									</h:panelGrid></td>
-							</tr>
-							<tr class="PostViewUnderline">
-								<td></td>
-								<td><a4j:commandButton id="buttonInfoAttachments"
-										action="#{newTopic.clearUploadData}"
-										render="info, fileUploadOp, buttonInfoAttachments"
-										styleClass="buttonMed"
-										disabled="#{newTopic.numberOfAttachments==0}"
-										value="${resourcebundle.Delete_attachments}" /></td>
 							</tr>
 						</forums:isAllowed>
 					</table>

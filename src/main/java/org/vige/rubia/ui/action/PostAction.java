@@ -36,9 +36,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
+import org.richfaces.component.UIFileUpload;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.vige.rubia.ForumsModule;
@@ -80,7 +82,6 @@ public abstract class PostAction extends BaseController {
 
 	// attachment related view data
 	protected String attachmentComment;
-	protected UploadedFile attachment;
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
 
 	// navigation control related data
@@ -251,21 +252,6 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @return Returns the attachment.
-	 */
-	public UploadedFile getAttachment() {
-		return attachment;
-	}
-
-	/**
-	 * @param attachment
-	 *            The attachment to set.
-	 */
-	public void setAttachment(UploadedFile attachment) {
-		this.attachment = attachment;
-	}
-
-	/**
 	 * 
 	 * @return
 	 */
@@ -359,7 +345,6 @@ public abstract class PostAction extends BaseController {
 		activeDuration = 0;
 
 		// cleanup attachment related data
-		attachment = null;
 		attachmentComment = null;
 		attachments = new ArrayList<Attachment>();
 	}
@@ -384,16 +369,6 @@ public abstract class PostAction extends BaseController {
 				}
 			}
 		}
-	}
-
-	/**
-	 * sets up the attachment information of a post for the ui from the business
-	 * object
-	 * 
-	 */
-	protected void setupAttachments(Collection<Attachment> attachments)
-			throws Exception {
-
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -577,9 +552,11 @@ public abstract class PostAction extends BaseController {
 		attachments.add(file);
 	}
 
-	public String clearUploadData() {
-		attachments.clear();
-		return null;
+	public void clearUpload(AjaxBehaviorEvent event) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<Attachment> attachments = (List<Attachment>) ((UIFileUpload) event
+				.getSource()).getData();
+		this.attachments.removeAll(attachments);
 	}
 
 	public void paint(OutputStream stream, Object object) throws IOException {
@@ -587,8 +564,8 @@ public abstract class PostAction extends BaseController {
 				.getContent());
 		stream.close();
 	}
- 
-    public long getTimeStamp() {
-        return System.currentTimeMillis();
-    }
+
+	public long getTimeStamp() {
+		return System.currentTimeMillis();
+	}
 }
