@@ -791,6 +791,12 @@ public interface ForumsModule {
 	 * @return
 	 */
 	List<Post> findPostsAsc(int limit) throws ModuleException;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	void addAttachments(Collection<Attachment> attachments);
 
 	/**
 	 * 

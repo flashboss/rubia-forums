@@ -108,6 +108,8 @@ public class EditPost extends PostAction {
 
 				// setup poll related information
 				setupPoll(topic.getPoll());
+				
+				attachments = post.getAttachments();
 
 				// setup the attachment related information
 				List<Post> posts = forumsModule.findPostsByTopicId(topic);
@@ -309,6 +311,7 @@ public class EditPost extends PostAction {
 					post.addAttachment(itr);
 				}
 			}
+			forumsModule.addAttachments(newAttachments);
 			forumsModule.update(topic);
 			forumsModule.update(post);
 			// set the proper navigation state

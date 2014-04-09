@@ -71,7 +71,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@TypedCategory(ForumsModuleImpl.class)
 	private ForumsModuleImplLog logger;
 
-	@PersistenceContext(unitName="forums")
+	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
 	@Inject
@@ -89,6 +89,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	/**
 	 * @jmx.managed-attribute
 	 */
+	@Override
 	public String getGuestUserName() {
 		return guestUserName;
 	}
@@ -96,6 +97,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	/**
 	 * @jmx.managed-attribute
 	 */
+	@Override
 	public void setGuestUserName(String guestUserName) {
 		this.guestUserName = guestUserName;
 	}
@@ -103,6 +105,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	/**
 	 * @jmx.managed-attribute
 	 */
+	@Override
 	public String getFromAddress() {
 		return fromAddress;
 	}
@@ -110,10 +113,12 @@ public class ForumsModuleImpl implements ForumsModule {
 	/**
 	 * @jmx.managed-attribute
 	 */
+	@Override
 	public void setFromAddress(String fromAddress) {
 		this.fromAddress = fromAddress;
 	}
 
+	@Override
 	public Forum findForumById(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
@@ -133,6 +138,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Forum findForumByIdFetchTopics(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
@@ -158,6 +164,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Category findCategoryById(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
@@ -177,12 +184,16 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Category findCategoryByIdFetchForums(Integer id) throws ModuleException {
+	@Override
+	public Category findCategoryByIdFetchForums(Integer id)
+			throws ModuleException {
 		if (id != null) {
 			try {
-				Query query = em.createNamedQuery("findCategoryByIdFetchForums");
+				Query query = em
+						.createNamedQuery("findCategoryByIdFetchForums");
 				query.setParameter("categoryId", id);
-				Category category = (Category) uniqueElement(query.getResultList());
+				Category category = (Category) uniqueElement(query
+						.getResultList());
 				if (category == null) {
 					throw new ModuleException("No category found for " + id);
 				}
@@ -198,6 +209,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Poster findPosterByUserId(String userId) throws ModuleException {
 		if (userId != null) {
 			try {
@@ -215,6 +227,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Poster createPoster(String userId) throws ModuleException {
 		if (userId != null) {
 			try {
@@ -239,7 +252,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * instance
 	 */
 
-	public List<Category> findCategories(Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Category> findCategories(Integer indexInstance)
+			throws ModuleException {
 		try {
 			Query query = em.createNamedQuery("findCategories");
 			query.setParameter("forumInstanceId", indexInstance);
@@ -251,7 +266,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Category> findCategoriesFetchForums(Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Category> findCategoriesFetchForums(Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findCategoriesFetchForums");
@@ -271,6 +288,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public List<Forum> findForums(Integer indexInstance) throws ModuleException {
 		try {
 
@@ -284,7 +302,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Forum> findForumsByCategory(Category category) throws ModuleException {
+	@Override
+	public List<Forum> findForumsByCategory(Category category)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumsByCategoryId");
@@ -297,6 +317,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public List<Post> findAnnouncements(Forum forum) throws ModuleException {
 		try {
 
@@ -315,6 +336,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * findTopics method need to a forumInstanceId argument to take only topics
 	 * of a specific forum instance
 	 */
+	@Override
 	public List<Topic> findTopics(Integer indexInstance) throws ModuleException {
 		try {
 
@@ -339,7 +361,8 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * @return
 	 * @throws ModuleException
 	 */
-	private List<Topic> findTopics(Forum forum, int type, int start, int perPage, String order) throws ModuleException {
+	private List<Topic> findTopics(Forum forum, int type, int start,
+			int perPage, String order) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicsType" + order);
@@ -364,7 +387,8 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * @return
 	 * @throws ModuleException
 	 */
-	private List<Topic> findTopics(Forum forum, int start, int perPage, String order) throws ModuleException {
+	private List<Topic> findTopics(Forum forum, int start, int perPage,
+			String order) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicsForum" + order);
@@ -379,23 +403,33 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicsAsc(Forum forum, int type, int start, int perPage) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsAsc(Forum forum, int type, int start,
+			int perPage) throws ModuleException {
 		return findTopics(forum, type, start, perPage, "asc");
 	}
 
-	public List<Topic> findTopicsDesc(Forum forum, int type, int start, int perPage) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsDesc(Forum forum, int type, int start,
+			int perPage) throws ModuleException {
 		return findTopics(forum, type, start, perPage, "desc");
 	}
 
-	public List<Topic> findTopicsAsc(Forum forum, int start, int perPage) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsAsc(Forum forum, int start, int perPage)
+			throws ModuleException {
 		return findTopics(forum, start, perPage, "asc");
 	}
 
-	public List<Topic> findTopicsDesc(Forum forum, int start, int perPage) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsDesc(Forum forum, int start, int perPage)
+			throws ModuleException {
 		return findTopics(forum, start, perPage, "desc");
 	}
 
-	public List<Topic> findTopicsBefore(Forum forum, int type, int start, int perPage, Date date) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsBefore(Forum forum, int type, int start,
+			int perPage, Date date) throws ModuleException {
 		return null;
 	}
 
@@ -405,7 +439,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * only topics of a specific forum instance
 	 */
 
-	public List<Topic> findTopicsHot(int replies, int limit, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsHot(int replies, int limit,
+			Integer indexInstance) throws ModuleException {
 		try {
 			Query query = em.createNamedQuery("findTopicsHot");
 			query.setMaxResults(limit);
@@ -419,7 +455,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicsByLatestPosts(int limit, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsByLatestPosts(int limit, Integer indexInstance)
+			throws ModuleException {
 		try {
 			Query query = em.createNamedQuery("findTopicsByLatestPosts");
 			query.setMaxResults(limit);
@@ -432,7 +470,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicsHottest(Date after, int limit, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsHottest(Date after, int limit,
+			Integer indexInstance) throws ModuleException {
 		try {
 			Query query = em.createNamedQuery("findTopicsHottest");
 			query.setMaxResults(limit);
@@ -446,7 +486,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicsMostViewed(Date after, int limit, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicsMostViewed(Date after, int limit,
+			Integer indexInstance) throws ModuleException {
 		try {
 			Query query = em.createNamedQuery("findTopicsMostViewed");
 			query.setMaxResults(limit);
@@ -460,10 +502,14 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, int type) throws ModuleException {
+	@Override
+	public Post createTopic(Forum forum, Message message, Date creationDate,
+			Poster poster, Poll poll, Collection<Attachment> attachments,
+			int type) throws ModuleException {
 		try {
 
-			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null)
+			if (poster.getId() == null
+					|| em.find(Poster.class, poster.getId()) == null)
 				em.persist(poster);
 			em.merge(poster);
 			em.persist(poll);
@@ -511,7 +557,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Topic createTopic(Forum forum, String userId, String subject, int type) throws ModuleException {
+	@Override
+	public Topic createTopic(Forum forum, String userId, String subject,
+			int type) throws ModuleException {
 		try {
 
 			Poster poster = findPosterByUserId(userId);
@@ -540,7 +588,10 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Post createPost(Topic topic, Forum forum, Message message, Date creationDate, Poster poster, Collection<Attachment> attachments) throws ModuleException {
+	@Override
+	public Post createPost(Topic topic, Forum forum, Message message,
+			Date creationDate, Poster poster, Collection<Attachment> attachments)
+			throws ModuleException {
 		try {
 
 			Poster posterOld = findPosterByUserId(poster.getUserId());
@@ -567,7 +618,8 @@ public class ForumsModuleImpl implements ForumsModule {
 			em.merge(topic);
 			forum.addPostSize();
 			em.merge(forum);
-			notificationEngine.scheduleForNotification(post.getId(), MODE_REPLY);
+			notificationEngine
+					.scheduleForNotification(post.getId(), MODE_REPLY);
 			em.flush();
 			return post;
 		} catch (Exception e) {
@@ -577,6 +629,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Poll addPollToTopic(Topic topic, Poll poll) throws ModuleException {
 		try {
 
@@ -606,14 +659,18 @@ public class ForumsModuleImpl implements ForumsModule {
 
 			Query query = em.createNamedQuery("getLastCategoryOrder");
 			query.setParameter("forumInstanceId", indexInstance);
-			Integer lastCategoryOrder = (Integer) uniqueElement(query.getResultList());
-			return (lastCategoryOrder != null) ? lastCategoryOrder.intValue() : 0;
+			Integer lastCategoryOrder = (Integer) uniqueElement(query
+					.getResultList());
+			return (lastCategoryOrder != null) ? lastCategoryOrder.intValue()
+					: 0;
 		} catch (Exception e) {
 			return 0;
 		}
 	}
 
-	public Category createCategory(String name, ForumInstance forumInstance) throws ModuleException {
+	@Override
+	public Category createCategory(String name, ForumInstance forumInstance)
+			throws ModuleException {
 		try {
 
 			Category category = new Category();
@@ -630,6 +687,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removeCategory(int categoryId) throws ModuleException {
 
 		try {
@@ -642,6 +700,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removeForum(int forumId) throws ModuleException {
 
 		try {
@@ -654,7 +713,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public void removePost(int postId, boolean isLastPost) throws ModuleException {
+	@Override
+	public void removePost(int postId, boolean isLastPost)
+			throws ModuleException {
 
 		try {
 			Post post = em.find(Post.class, postId);
@@ -678,6 +739,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removePollInTopic(Topic topic) throws ModuleException {
 
 		try {
@@ -695,6 +757,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removeTopic(int topicId) throws ModuleException {
 
 		try {
@@ -702,7 +765,8 @@ public class ForumsModuleImpl implements ForumsModule {
 			Forum forum = topic.getForum();
 			if (forum != null) {
 				topic.setForum(null);
-				forum.setPostCount(forum.getPostCount() - topic.getReplies() - 1);
+				forum.setPostCount(forum.getPostCount() - topic.getReplies()
+						- 1);
 				forum.setTopicCount(forum.getTopicCount() - 1);
 				em.merge(forum);
 				em.remove(em.merge(topic));
@@ -722,14 +786,17 @@ public class ForumsModuleImpl implements ForumsModule {
 
 			Query query = em.createNamedQuery("getLastForumOrder");
 			query.setParameter("categoryId", "" + category.getId());
-			Integer lastForumOrder = (Integer) uniqueElement(query.getResultList());
+			Integer lastForumOrder = (Integer) uniqueElement(query
+					.getResultList());
 			return (lastForumOrder != null) ? lastForumOrder.intValue() : 0;
 		} catch (Exception e) {
 			return 0;
 		}
 	}
 
-	public Forum createForum(Category category, String name, String description) throws ModuleException {
+	@Override
+	public Forum createForum(Category category, String name, String description)
+			throws ModuleException {
 		try {
 
 			Forum forum = new Forum();
@@ -747,6 +814,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Topic findTopicById(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
@@ -767,6 +835,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public List<Topic> findTopics(Forum forum) throws ModuleException {
 		if (forum != null) {
 			try {
@@ -788,6 +857,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * findPosts method need to a forumInstanceId argument to take only posts of
 	 * a specific forum instance
 	 */
+	@Override
 	public List<Post> findPosts(Integer indexInstance) throws ModuleException {
 		try {
 
@@ -801,6 +871,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Post findPostById(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
@@ -821,13 +892,16 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Attachment findFindAttachmentById(Integer attachID) throws ModuleException {
+	@Override
+	public Attachment findFindAttachmentById(Integer attachID)
+			throws ModuleException {
 		if (attachID != null) {
 			try {
 
 				Attachment attach = em.getReference(Attachment.class, attachID);
 				if (attach == null) {
-					throw new ModuleException("No attachment found for " + attachID);
+					throw new ModuleException("No attachment found for "
+							+ attachID);
 				}
 
 				return attach;
@@ -841,7 +915,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	private List<Post> findPostsByTopicId(Topic topic, int start, int limit, String order) throws ModuleException {
+	private List<Post> findPostsByTopicId(Topic topic, int start, int limit,
+			String order) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findPostsByTopicId" + order);
@@ -858,7 +933,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	private List<Post> findPostsByIdsFetchAttachmentsAndPosters(Collection<Post> posts, String order) throws ModuleException {
+	private List<Post> findPostsByIdsFetchAttachmentsAndPosters(
+			Collection<Post> posts, String order) throws ModuleException {
 
 		if (posts == null || posts.size() == 0) {
 			return new LinkedList<Post>();
@@ -866,7 +942,9 @@ public class ForumsModuleImpl implements ForumsModule {
 
 		try {
 
-			Query query = em.createNamedQuery("findPostsByIdsFetchAttachmentsAndPosters" + order);
+			Query query = em
+					.createNamedQuery("findPostsByIdsFetchAttachmentsAndPosters"
+							+ order);
 			query.setParameter("postIds", posts);
 			List<Post> it = query.getResultList();
 			List<Post> list = new LinkedList<Post>();
@@ -883,15 +961,20 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	@Override
+	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(
+			Collection<Post> posts) throws ModuleException {
 		return findPostsByIdsFetchAttachmentsAndPosters(posts, "asc");
 	}
 
-	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	@Override
+	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(
+			Collection<Post> posts) throws ModuleException {
 		return findPostsByIdsFetchAttachmentsAndPosters(posts, "desc");
 	}
 
-	private List<Post> findPostIds(Topic topic, int start, int limit, String order) throws ModuleException {
+	private List<Post> findPostIds(Topic topic, int start, int limit,
+			String order) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findPostIds" + order);
@@ -908,14 +991,19 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Post> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostIdsAsc(Topic topic, int start, int limit)
+			throws ModuleException {
 		return findPostIds(topic, start, limit, "asc");
 	}
 
-	public List<Post> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostIdsDesc(Topic topic, int start, int limit)
+			throws ModuleException {
 		return findPostIds(topic, start, limit, "desc");
 	}
 
+	@Override
 	public List<Post> findPostsByTopicId(Topic topic) throws ModuleException {
 		try {
 
@@ -929,7 +1017,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public void addAllForums(Category source, Category target) throws ModuleException {
+	@Override
+	public void addAllForums(Category source, Category target)
+			throws ModuleException {
 		List<Forum> sourceForums = findForumsByCategory(source);
 		List<Forum> targetForums = findForumsByCategory(target);
 		targetForums.addAll(sourceForums);
@@ -939,11 +1029,15 @@ public class ForumsModuleImpl implements ForumsModule {
 		source.setForums(new ArrayList<Forum>());
 	}
 
-	public List<Post> findPostsByTopicIdAsc(Topic topic, int start, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsByTopicIdAsc(Topic topic, int start, int limit)
+			throws ModuleException {
 		return findPostsByTopicId(topic, start, limit, "asc");
 	}
 
-	public List<Post> findPostsByTopicIdDesc(Topic topic, int start, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsByTopicIdDesc(Topic topic, int start, int limit)
+			throws ModuleException {
 		return findPostsByTopicId(topic, start, limit, "desc");
 	}
 
@@ -960,6 +1054,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Post findLastPost(Forum forum) throws ModuleException {
 		try {
 
@@ -975,11 +1070,13 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Post findFirstPost(Topic topic) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findFirstPost");
-			query.setParameter("lastPostDate", topic.getLastPostDate(), TemporalType.DATE);
+			query.setParameter("lastPostDate", topic.getLastPostDate(),
+					TemporalType.DATE);
 			query.setParameter("topicId", "" + topic.getId());
 			query.setFirstResult(0);
 			query.setMaxResults(1);
@@ -991,6 +1088,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public Post findLastPost(Topic topic) throws ModuleException {
 		try {
 
@@ -1006,15 +1104,19 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public Map<Object, Object> findLastPostsOfTopics(Collection<Topic> topics) throws ModuleException {
+	@Override
+	public Map<Object, Object> findLastPostsOfTopics(Collection<Topic> topics)
+			throws ModuleException {
 		try {
 
 			em.createNamedQuery("findLastPostsOfTopics");
-			List<Object[]> lastPostDates = new ArrayList<Object[]>(topics.size());
+			List<Object[]> lastPostDates = new ArrayList<Object[]>(
+					topics.size());
 			List<Date> dates = new LinkedList<Date>();
 			for (Topic tmpTopic : topics) {
 				dates.add(tmpTopic.getLastPostDate());
-				lastPostDates.add(new Object[] { tmpTopic.getLastPostDate(), tmpTopic.getId() });
+				lastPostDates.add(new Object[] { tmpTopic.getLastPostDate(),
+						tmpTopic.getId() });
 			}
 
 			// if there are no createDates then we return an empty map
@@ -1022,20 +1124,23 @@ public class ForumsModuleImpl implements ForumsModule {
 				return new HashMap<Object, Object>(0);
 			}
 
-			Query query = em.createNamedQuery("findLastPostsOfTopicsCreateDate");
+			Query query = em
+					.createNamedQuery("findLastPostsOfTopicsCreateDate");
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
-			Map<Object, Object> forumPostMap = new HashMap<Object, Object>(dates.size());
+			Map<Object, Object> forumPostMap = new HashMap<Object, Object>(
+					dates.size());
 			for (Object[] dateTopic : lastPostDates) {
-				int index = Collections.binarySearch(posts, dateTopic, new Comparator<Object>() {
-					public int compare(Object o1, Object o2) {
-						Object[] datePostPair1 = (Object[]) o1;
-						Object[] datePostPair2 = (Object[]) o2;
-						Date postDate1 = (Date) datePostPair1[0];
-						Date postDate2 = (Date) datePostPair2[0];
-						return postDate1.compareTo(postDate2);
-					}
-				});
+				int index = Collections.binarySearch(posts, dateTopic,
+						new Comparator<Object>() {
+							public int compare(Object o1, Object o2) {
+								Object[] datePostPair1 = (Object[]) o1;
+								Object[] datePostPair2 = (Object[]) o2;
+								Date postDate1 = (Date) datePostPair1[0];
+								Date postDate2 = (Date) datePostPair2[0];
+								return postDate1.compareTo(postDate2);
+							}
+						});
 				if (index < 0) {
 					continue;
 				}
@@ -1055,7 +1160,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * forumInstanceId argument to take only objects of a specific forum
 	 * instance
 	 */
-	public Map<Object, Post> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
+	@Override
+	public Map<Object, Post> findLastPostsOfForums(Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findLastPostsOfForums");
@@ -1074,17 +1181,19 @@ public class ForumsModuleImpl implements ForumsModule {
 			query = em.createNamedQuery("findLastPostsOfForumsCreateDate");
 			query.setParameter("dates", dates);
 			List<Post[]> posts = query.getResultList();
-			Map<Object, Post> forumPostMap = new HashMap<Object, Post>(createDates.size());
+			Map<Object, Post> forumPostMap = new HashMap<Object, Post>(
+					createDates.size());
 			for (Object[] dateForum : createDates) {
-				int index = Collections.binarySearch(posts, dateForum, new Comparator<Object>() {
-					public int compare(Object o1, Object o2) {
-						Object[] datePostPair1 = (Object[]) o1;
-						Object[] datePostPair2 = (Object[]) o2;
-						Date postDate1 = (Date) datePostPair1[0];
-						Date postDate2 = (Date) datePostPair2[0];
-						return postDate1.compareTo(postDate2);
-					}
-				});
+				int index = Collections.binarySearch(posts, dateForum,
+						new Comparator<Object>() {
+							public int compare(Object o1, Object o2) {
+								Object[] datePostPair1 = (Object[]) o1;
+								Object[] datePostPair2 = (Object[]) o2;
+								Date postDate1 = (Date) datePostPair1[0];
+								Date postDate2 = (Date) datePostPair2[0];
+								return postDate1.compareTo(postDate2);
+							}
+						});
 				if (index < 0) {
 					continue;
 				}
@@ -1098,7 +1207,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<ForumWatch> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<ForumWatch> findForumWatchByUser(User user,
+			Integer indexInstance) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumWatchByUser");
@@ -1112,7 +1223,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Forum> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Forum> findForumWatchedByUser(User user, Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumWatchedByUser");
@@ -1126,7 +1239,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicWatchedByUser(User user, Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicWatchedByUser");
@@ -1140,10 +1255,13 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Topic> findTopicWatchedByUser(User user, Date datePoint, Integer indexInstance) throws ModuleException {
+	@Override
+	public List<Topic> findTopicWatchedByUser(User user, Date datePoint,
+			Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatchedByUserCreateDate");
+			Query query = em
+					.createNamedQuery("findTopicWatchedByUserCreateDate");
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("datePoint", datePoint, TemporalType.TIMESTAMP);
 			query.setParameter("forumInstanceId", indexInstance);
@@ -1164,14 +1282,17 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * @return
 	 * @throws ModuleException
 	 */
-	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
+	@Override
+	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicWatches");
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			HashMap<Object, Object> map = new HashMap<Object, Object>(
+					results.size());
 			for (Object[] element : results) {
 				map.put(element[0], element[1]);
 			}
@@ -1183,7 +1304,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	private List<Post> findPostsFromForum(Forum forum, int limit, String order) throws ModuleException {
+	private List<Post> findPostsFromForum(Forum forum, int limit, String order)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findPostsFromForum" + order);
@@ -1203,15 +1325,20 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Post> findPostsFromForumAsc(Forum forum, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsFromForumAsc(Forum forum, int limit)
+			throws ModuleException {
 		return findPostsFromForum(forum, limit, "asc");
 	}
 
-	public List<Post> findPostsFromForumDesc(Forum forum, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsFromForumDesc(Forum forum, int limit)
+			throws ModuleException {
 		return findPostsFromForum(forum, limit, "desc");
 	}
 
-	private List<Post> findPostsFromCategory(Category category, int limit, String order) throws ModuleException {
+	private List<Post> findPostsFromCategory(Category category, int limit,
+			String order) throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findPostsFromCategory" + order);
@@ -1231,15 +1358,20 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public List<Post> findPostsFromCategoryAsc(Category category, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsFromCategoryAsc(Category category, int limit)
+			throws ModuleException {
 		return findPostsFromCategory(category, limit, "asc");
 	}
 
-	public List<Post> findPostsFromCategoryDesc(Category category, int limit) throws ModuleException {
+	@Override
+	public List<Post> findPostsFromCategoryDesc(Category category, int limit)
+			throws ModuleException {
 		return findPostsFromCategory(category, limit, "desc");
 	}
 
-	private List<Post> findPosts(int limit, String order) throws ModuleException {
+	private List<Post> findPosts(int limit, String order)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findPostsOrder" + order);
@@ -1256,15 +1388,19 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public List<Post> findPostsAsc(int limit) throws ModuleException {
 		return findPosts(limit, "asc");
 	}
 
+	@Override
 	public List<Post> findPostsDesc(int limit) throws ModuleException {
 		return findPosts(limit, "desc");
 	}
 
-	public void createWatch(Poster poster, Forum forum, int mode) throws ModuleException {
+	@Override
+	public void createWatch(Poster poster, Forum forum, int mode)
+			throws ModuleException {
 		try {
 
 			if (poster == null) {
@@ -1296,6 +1432,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removeWatch(Watch watch) throws ModuleException {
 
 		try {
@@ -1309,7 +1446,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public ForumWatch findForumWatchById(Integer forumWatchId) throws ModuleException {
+	@Override
+	public ForumWatch findForumWatchById(Integer forumWatchId)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumWatchById");
@@ -1335,14 +1474,17 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * findForumWatches method need to a forumInstanceId argument to take only
 	 * forums of a specific forum instance
 	 */
-	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
+	@Override
+	public Map<Object, Object> findForumWatches(User user, Integer indexInstance)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumWatches");
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			HashMap<Object, Object> map = new HashMap<Object, Object>(
+					results.size());
 			for (Object[] element : results) {
 				map.put(element[0], element[1]);
 			}
@@ -1354,7 +1496,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public ForumWatch findForumWatchByUserAndForum(User user, int forumId) throws ModuleException {
+	@Override
+	public ForumWatch findForumWatchByUserAndForum(User user, int forumId)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findForumWatchByUserAndForum");
@@ -1373,7 +1517,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public TopicWatch findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException {
+	@Override
+	public TopicWatch findTopicWatchByUserAndTopic(User user, int topicId)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicWatchByUserAndTopic");
@@ -1392,7 +1538,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public void createWatch(Poster poster, Topic topic, int mode) throws ModuleException {
+	@Override
+	public void createWatch(Poster poster, Topic topic, int mode)
+			throws ModuleException {
 		try {
 
 			if (poster == null) {
@@ -1426,7 +1574,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public TopicWatch findTopicWatchById(Integer topicWatchId) throws ModuleException {
+	@Override
+	public TopicWatch findTopicWatchById(Integer topicWatchId)
+			throws ModuleException {
 		try {
 
 			Query query = em.createNamedQuery("findTopicWatchById");
@@ -1439,7 +1589,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl) {
+	@Override
+	public void processNotifications(Integer postId, int watchType,
+			String postUrl, String replyUrl) {
 		notificationEngine.schedule(postId, watchType, postUrl, replyUrl);
 	}
 
@@ -1447,7 +1599,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * I add createForumInstance, removeForumInstance and findForumInstanceById
 	 * methods to manage ForumInstance object
 	 */
-	public ForumInstance createForumInstance(Integer indexInstance, String name) throws ModuleException {
+	@Override
+	public ForumInstance createForumInstance(Integer indexInstance, String name)
+			throws ModuleException {
 		try {
 
 			ForumInstance forumInstance = new ForumInstance();
@@ -1464,11 +1618,13 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void removeForumInstance(int forumInstanceId) throws ModuleException {
 
 		try {
 			// em.flush();
-			ForumInstance forumInstance = em.find(ForumInstance.class, forumInstanceId);
+			ForumInstance forumInstance = em.find(ForumInstance.class,
+					forumInstanceId);
 			em.remove(forumInstance);
 			em.flush(); // it is required
 			// for clustered versions
@@ -1480,11 +1636,14 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	public ForumInstance findForumInstanceById(Integer id) throws ModuleException {
+	@Override
+	public ForumInstance findForumInstanceById(Integer id)
+			throws ModuleException {
 		if (id != null) {
 			try {
 
-				ForumInstance forumInstance = (ForumInstance) em.find(ForumInstance.class, id);
+				ForumInstance forumInstance = (ForumInstance) em.find(
+						ForumInstance.class, id);
 				return forumInstance;
 			} catch (Exception e) {
 				String message = "Cannot find forum instance by id " + id;
@@ -1496,13 +1655,25 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
 	public void update(Object object) {
 
 		em.merge(object);
 		em.flush();
 	}
 
-	static Object uniqueElement(List<Object> list) throws NonUniqueResultException {
+	@Override
+	public void addAttachments(Collection<Attachment> attachments) {
+		if (attachments != null) {
+			for (Attachment attachment : attachments) {
+				em.persist(attachment);
+			}
+			em.flush();
+		}
+	}
+
+	static Object uniqueElement(List<Object> list)
+			throws NonUniqueResultException {
 		int size = list.size();
 		if (size == 0)
 			return null;
