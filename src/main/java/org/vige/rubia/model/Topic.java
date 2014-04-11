@@ -48,6 +48,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @NamedQueries({
 		@NamedQuery(name = "findAnnouncements", query = "select t from Topic as t where t.forum=:forumid and "
 				+ "t.type = :type order by t.lastPostDate"),
+		@NamedQuery(name = "findPoll", query = "select t.poll from Topic as t where t.id=:topicid"),
 		@NamedQuery(name = "findTopics", query = "select t from Topic as t "
 				+ "where t.forum.category.forumInstance.id = :forumInstanceId"),
 		@NamedQuery(name = "findTopicsTypeasc", query = "select t from Topic as t "

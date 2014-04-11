@@ -291,6 +291,7 @@ public class EditPost extends PostAction {
 						if (local.getId().intValue() == storedAttachment.getId().intValue()) {
 							// update this attachment
 							storedAttachment.setComment(local.getComment());
+							forumsModule.update(storedAttachment);
 							break;
 						}
 						// check if this stored attachment should be removed

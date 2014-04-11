@@ -24,17 +24,21 @@ import javax.faces.convert.FacesConverter;
 public class PollOptionConverter implements Converter {
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+	public Object getAsObject(FacesContext context, UIComponent component,
+			String value) {
 		// TODO Auto-generated method stub
 		return value;
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
+	public String getAsString(FacesContext context, UIComponent component,
+			Object value) {
 		if (value == null || value instanceof String) {
 			return "";
 		}
-		return ((Map.Entry) value).getValue() + "";
+		@SuppressWarnings("unchecked")
+		Map.Entry<String, Object> entryValue = (Map.Entry<String, Object>) value;
+		return entryValue.getValue() + "";
 	}
 
 }

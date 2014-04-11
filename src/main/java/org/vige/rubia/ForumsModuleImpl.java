@@ -632,15 +632,19 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public Poll addPollToTopic(Topic topic, Poll poll) throws ModuleException {
 		try {
-
-			Poll oldpoll = topic.getPoll();
+			Query query = em.createNamedQuery("findPoll");
+			query.setParameter("topicid", topic.getId());
+			Poll oldpoll = (Poll) query.getSingleResult();
 			if (oldpoll != null) {
 				em.remove(oldpoll);
 			}
 			em.persist(poll);
 			topic.setPoll(poll);
-			for (PollOption pollOption : poll.getOptions())
+			for (PollOption pollOption : poll.getOptions()) {
+				pollOption.setPoll(poll);
 				em.persist(pollOption);
+			}
+			update(topic);
 			em.flush();
 			return poll;
 		} catch (Exception e) {
