@@ -60,6 +60,10 @@ function selectOption(optionVal)
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 	font-weight: bold;
 }
+
+.rf-fu-itm-rgh {
+	visibility:hidden;
+}
 </style>
 			<c:if test="#{newTopic.preview}">
 				<ui:include src="/views/topics/posting_new_preview.xhtml" />
@@ -276,8 +280,7 @@ function selectOption(optionVal)
 										style="height:inherit;width:59%;"
 										doneLabel="${resourcebundle.Upload_done}"
 										addLabel="${resourcebundle.Add_attachment}">
-										<a4j:ajax event="uploadcomplete" execute="@none"
-											render="info" />
+										<a4j:ajax event="uploadcomplete" execute="@none" render="info" />
 										<a4j:ajax event="clear" listener="#{newTopic.clearUpload}"
 											render="info" />
 									</rich:fileUpload></td>
@@ -287,15 +290,24 @@ function selectOption(optionVal)
 										${resourcebundle.File_comment} </label></td>
 								<td><h:panelGrid id="info"
 										style="width: 59%; border: none;">
-										<ui:repeat value="#{newTopic.attachments}" var="file">
-											<h:panelGrid columns="2">
-												<h:outputText value="${resourcebundle.File_name}" />
-												<h:outputText value="#{file.name}" />
-												<h:outputText value="${resourcebundle.Filesize}" />
-												<h:outputText value="#{file.size} B" />
-											</h:panelGrid>
-											<h:inputTextarea rows="2" styleClass="Posttextarea"
-												value="#{file.comment}" style="width: 100%" />
+										<ui:repeat value="#{newTopic.attachments}" var="file"
+											statusVar="status">
+											<table style="height: inherit; width: 101%;">
+												<tr>
+													<td><h:panelGrid columns="2">
+															<h:outputText value="${resourcebundle.File_name}" />
+															<h:outputText value="#{file.name}" />
+															<h:outputText value="${resourcebundle.Filesize}" />
+															<h:outputText value="#{file.size} B" />
+														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
+															value="#{file.comment}" style="width: 100%" /></td>
+												</tr>
+												<tr class="PostViewUnderline">
+													<td><h:commandButton id="DeleteAttachment_${status}"
+															action="#{newTopic.clearUpload(file)}"
+															value="${resourcebundle.Delete}" styleClass="buttonMed" /></td>
+												</tr>
+											</table>
 										</ui:repeat>
 									</h:panelGrid></td>
 							</tr>

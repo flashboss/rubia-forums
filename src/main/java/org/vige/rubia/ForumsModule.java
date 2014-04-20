@@ -797,6 +797,12 @@ public interface ForumsModule {
 	 * @return
 	 */
 	void addAttachments(Collection<Attachment> attachments);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Collection<Attachment> findAttachments(Post post);
 
 	/**
 	 * 

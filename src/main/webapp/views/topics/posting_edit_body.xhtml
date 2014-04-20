@@ -37,7 +37,39 @@ function selectAttachment(attachmentVal)
 }
 
 </script>
+			<style type="text/css">
+.rf-dg {
+	border: none;
+}
 
+.rf-dg-c {
+	border: none;
+}
+
+.rf-dg-r {
+	border: none;
+}
+
+.rf-fu-hdr {
+	background-image: none;
+	background-color: #e6e7e8;
+	border-color: #e6e7e8;
+}
+
+.rf-fu-btn-cnt-add {
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.rf-fu-btn-cnt-clr {
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.rf-fu-itm-rgh {
+	visibility: hidden;
+}
+</style>
 			<c:if test="#{editPost.preview}">
 				<ui:include src="/views/topics/posting_edit_preview.xhtml" />
 				<br clear="all" />
@@ -268,15 +300,25 @@ function selectAttachment(attachmentVal)
 										${resourcebundle.File_comment} </label></td>
 								<td><h:panelGrid id="info"
 										style="width: 59%; border: none;">
-										<ui:repeat value="#{editPost.attachments}" var="file">
-											<h:panelGrid columns="2">
-												<h:outputText value="${resourcebundle.File_name}" />
-												<h:outputText value="#{file.name}" />
-												<h:outputText value="${resourcebundle.Filesize}" />
-												<h:outputText value="#{file.size} B" />
-											</h:panelGrid>
-											<h:inputTextarea rows="2" styleClass="Posttextarea"
-												value="#{file.comment}" style="width: 100%" />
+										<ui:repeat value="#{editPost.attachments}" var="file"
+											statusVar="status">
+											<table style="height: inherit; width: 101%;">
+												<tr>
+													<h:panelGrid columns="2">
+														<h:outputText value="${resourcebundle.File_name}" />
+														<h:outputText value="#{file.name}" />
+														<h:outputText value="${resourcebundle.Filesize}" />
+														<h:outputText value="#{file.size} B" />
+													</h:panelGrid>
+													<h:inputTextarea rows="2" styleClass="Posttextarea"
+														value="#{file.comment}" style="width: 100%" />
+												</tr>
+												<tr class="PostViewUnderline">
+													<td><h:commandButton id="DeleteAttachment_${status}"
+															action="#{editPost.clearUpload(file)}"
+															value="${resourcebundle.Delete}" styleClass="buttonMed" /></td>
+												</tr>
+											</table>
 										</ui:repeat>
 									</h:panelGrid></td>
 							</tr>

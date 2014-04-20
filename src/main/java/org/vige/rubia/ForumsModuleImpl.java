@@ -1676,6 +1676,15 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
+	@Override
+	public Collection<Attachment> findAttachments(Post post) {
+		@SuppressWarnings("unchecked")
+		Collection<Attachment> attachments = em.createQuery(
+				"select attachments from Post p where p.id = " + post.getId())
+				.getResultList();
+		return attachments;
+	}
+
 	static Object uniqueElement(List<Object> list)
 			throws NonUniqueResultException {
 		int size = list.size();

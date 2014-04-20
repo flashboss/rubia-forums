@@ -559,6 +559,10 @@ public abstract class PostAction extends BaseController {
 		this.attachments.removeAll(attachments);
 	}
 
+	public void clearUpload(Attachment attachment) throws Exception {
+		this.attachments.remove(attachment);
+	}
+
 	public void paint(OutputStream stream, Object object) throws IOException {
 		stream.write(attachments.toArray(new Attachment[0])[(Integer) object]
 				.getContent());

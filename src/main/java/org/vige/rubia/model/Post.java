@@ -19,9 +19,9 @@ import static org.hibernate.search.annotations.Resolution.MINUTE;
 import static org.hibernate.search.annotations.Store.YES;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -144,7 +144,7 @@ public class Post implements Serializable {
 	private Poster poster;
 
 	@OneToMany(mappedBy = "post", fetch = EAGER, cascade = REMOVE)
-	private List<Attachment> attachments;
+	private Collection<Attachment> attachments;
 
 	/**
 	 * Creates a new {@link Post} object.
@@ -287,11 +287,11 @@ public class Post implements Serializable {
 	// TODO:BD - order it by something... is name ok?
 	/**
     */
-	public List<Attachment> getAttachments() {
+	public Collection<Attachment> getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(List<Attachment> attachments) {
+	public void setAttachments(Collection<Attachment> attachments) {
 		this.attachments = attachments;
 	}
 
