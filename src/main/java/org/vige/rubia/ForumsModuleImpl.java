@@ -1677,6 +1677,19 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
+	public Post removeAttachments(Collection<Attachment> attachments, int idPost) {
+		if (attachments != null) {
+			for (Attachment attachment : attachments) {
+				em.remove(em.find(Attachment.class, attachment.getId()));
+			}
+			em.flush();
+		}
+		Post post = em.find(Post.class, idPost);
+		em.refresh(post);
+		return post;
+	}
+
+	@Override
 	public Collection<Attachment> findAttachments(Post post) {
 		@SuppressWarnings("unchecked")
 		Collection<Attachment> attachments = em.createQuery(

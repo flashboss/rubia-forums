@@ -304,14 +304,13 @@ function selectAttachment(attachmentVal)
 											statusVar="status">
 											<table style="height: inherit; width: 101%;">
 												<tr>
-													<h:panelGrid columns="2">
-														<h:outputText value="${resourcebundle.File_name}" />
-														<h:outputText value="#{file.name}" />
-														<h:outputText value="${resourcebundle.Filesize}" />
-														<h:outputText value="#{file.size} B" />
-													</h:panelGrid>
-													<h:inputTextarea rows="2" styleClass="Posttextarea"
-														value="#{file.comment}" style="width: 100%" />
+													<td><h:panelGrid columns="2">
+															<h:outputText value="${resourcebundle.File_name}" />
+															<h:outputText value="#{file.name}" />
+															<h:outputText value="${resourcebundle.Filesize}" />
+															<h:outputText value="#{file.size} B" />
+														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
+															value="#{file.comment}" style="width: 100%" /></td>
 												</tr>
 												<tr class="PostViewUnderline">
 													<td><h:commandButton id="DeleteAttachment_${status}"

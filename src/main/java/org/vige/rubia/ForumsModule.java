@@ -803,6 +803,12 @@ public interface ForumsModule {
 	 * @return
 	 */
 	Collection<Attachment> findAttachments(Post post);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Post removeAttachments(Collection<Attachment> attachments, int idPost);
 
 	/**
 	 * 
