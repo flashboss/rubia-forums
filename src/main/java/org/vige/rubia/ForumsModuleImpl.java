@@ -902,7 +902,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		if (attachID != null) {
 			try {
 
-				Attachment attach = em.getReference(Attachment.class, attachID);
+				Attachment attach = em.find(Attachment.class, attachID);
 				if (attach == null) {
 					throw new ModuleException("No attachment found for "
 							+ attachID);
