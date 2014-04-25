@@ -294,47 +294,72 @@
 		</plugins>
 	</build>
 	<profiles>
+
 		<profile>
-			<id>default</id>
+			<id>development</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!skipFirstProfile</name>
+				</property>
 			</activation>
 			<build>
 				<plugins>
-
 					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
+						<groupId>com.google.code.maven-replacer-plugin</groupId>
+						<artifactId>replacer</artifactId>
+						<version>1.5.3</version>
 						<executions>
 							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
+								<phase>prepare-package</phase>
 								<goals>
-									<goal>testCompile</goal>
+									<goal>replace</goal>
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+							<file>target/classes/META-INF/persistence.xml</file>
+							<replacements>
+								<replacement>
+									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
+									<value>create</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>production</id>
+			<activation>
+				<property>
+					<name>skipFirstProfile</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.code.maven-replacer-plugin</groupId>
+						<artifactId>replacer</artifactId>
+						<version>1.5.3</version>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>replace</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<file>target/classes/META-INF/persistence.xml</file>
+							<replacements>
+								<replacement>
+									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
+									<value>none</value>
+								</replacement>
+							</replacements>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -469,42 +494,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -597,42 +586,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -722,42 +675,6 @@
 										<source>src/main/eap/620/java</source>
 									</sources>
 								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
 							</execution>
 						</executions>
 					</plugin>
@@ -940,42 +857,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1119,42 +1000,6 @@
 										</commands>
 									</execute-commands>
 								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
 							</execution>
 						</executions>
 					</plugin>
@@ -1327,42 +1172,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1486,42 +1295,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1639,42 +1412,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<testNGArtifactName>none:none</testNGArtifactName>
-							<excludes>
-								<exclude>**/ftest/**</exclude>
-								<exclude>**/persistence/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<!-- activate only when you need to generate the metamodel -->
-							<!-- compilerArgument>-proc:none</compilerArgument -->
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/persistence/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1754,63 +1491,6 @@
 					<version>2.0</version>
 				</dependency>
 			</dependencies>
-		</profile>
-
-		<profile>
-			<id>ftest</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.version}</version>
-						<configuration>
-							<systemProperties>
-								<property>
-									<name>browser</name>
-									<value>*safari</value>
-								</property>
-								<property>
-									<name>context.root</name>
-									<value>http://localhost:8080/</value>
-								</property>
-								<property>
-									<name>context.path</name>
-									<value>/rubia-forums</value>
-								</property>
-								<property>
-									<name>selenium.port</name>
-									<value>4444</value>
-								</property>
-							</systemProperties>
-							<excludes>
-								<exclude>**/test/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<configuration>
-							<source>1.7</source>
-							<target>1.7</target>
-						</configuration>
-						<executions>
-							<execution>
-								<id>default-testCompile</id>
-								<phase>test-compile</phase>
-								<configuration>
-									<testExcludes>
-										<exclude>**/test/**</exclude>
-									</testExcludes>
-								</configuration>
-								<goals>
-									<goal>testCompile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 

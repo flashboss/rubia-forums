@@ -24,8 +24,16 @@ Requirements
 ------------
 
 - JDK 1.7
-- Maven 3.0.x
-- JBoss 7.1.1.Final - installed automatically by Maven during build
+- Maven 3.x
+
+Supported application servers and distributions
+------------
+
+- JBoss AS 7.1.1.Final
+- Gatein 3.6.0.Final
+- EAP 6.1.0.Final
+- EAP 6.2.0.Final
+- JBoss Portal 6.1.0.Final
 
 
 Maven repositories
@@ -37,37 +45,29 @@ See example `settings.xml` file in this directory. In the most common case you w
 Build
 -----
 
-    mvn clean install
+    mvn clean install -P${distribution}
 
-... and see a ready to run distribution under `rubia-forums/target/rubia-forums-*-dist.zip`
+... and see a ready to run distribution under `rubia-forums/target/rubia-forums.war`
 
-to deploy in an existent jboss distribution:
+list of distribution profiles:
 
-    export JBOSS_HOME=.....
-    mvn clean install -Pjbossas-remote-711
+    -Pjbossas-remote-711               jboss as 7.1.1
+    -Pgatein-portlet-remote-360        gatein 3.6.0 as portlet
+    -Pgatein-web-remote-360            gatein 3.6.0 as web application  
+    -Pjbossportal-portlet-remote-610   jboss portal 6.1.0 as portlet
+    -Pjbossportal-web-remote-610       jboss portal 6.1.0 as web application
+    -Peap-remote-610                   EAP 6.1.0
+    -Peap-remote-620                   EAP 6.2.0
 
-to test all it in jboss:
+You can also choose the deploy mode using the profiles:
 
-    export JBOSS_HOME=.....
-    mvn test -Pjbossas-remote-711
+    -Pdevelopment
+    -Pproduction
+    
+by default you deploy in development mode. If you want deploy in production mode you must use:
 
-to test it with a single test in jboss:
-
-    export JBOSS_HOME=.....
-    mvn -Pjbossas-remote-711 test -Dtest=xxxxxTest
-
-to test it with selenium:
-
-    download selenium-server from http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar
-    deploy the application in a server
-    start the server with 8080 port
-    java -jar selenium-server-standalone-2.25.0.jar
-    deploy the application with the command: mvn jboss-as:deploy assuming the JBOSS_HOME system variable is correct
-    mvn -Pftest test
-
-to test it with a single test in jboss:
-    mvn -Pftest test -Dtest=xxxxxTest
-
+    mvn clean install -P${distribution},production
+    
 to deploy it with the shell command in jboss:
 
    $JBOSS_HOME/bin/jboss-cli.sh
