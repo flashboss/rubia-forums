@@ -109,7 +109,7 @@ public class EditPost extends PostAction {
 				// setup poll related information
 				setupPoll(topic.getPoll());
 				
-				attachments = post.getAttachments();
+				attachments = forumsModule.findAttachments(post);
 
 				// setup the attachment related information
 				List<Post> posts = forumsModule.findPostsByTopicId(topic);
@@ -185,7 +185,7 @@ public class EditPost extends PostAction {
 				attachments.removeAll(removeFilter);
 
 				// update/remove currently stored attachments on this post
-				Iterator<Attachment> storedAttachments = post.getAttachments().iterator();
+				Iterator<Attachment> storedAttachments = forumsModule.findAttachments(post).iterator();
 				removeFilter = new ArrayList<Attachment>();
 				while (storedAttachments.hasNext()) {
 					Attachment storedAttachment = (Attachment) storedAttachments.next();
