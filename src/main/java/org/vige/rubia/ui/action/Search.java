@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,6 +32,7 @@ import org.vige.rubia.search.SearchCriteria;
 import org.vige.rubia.ui.BaseController;
 
 @Named
+@RequestScoped
 public class Search extends BaseController {
 
 	/**

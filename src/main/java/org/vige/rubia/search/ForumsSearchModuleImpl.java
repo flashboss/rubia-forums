@@ -19,11 +19,11 @@ import static java.util.Calendar.YEAR;
 import static java.util.Calendar.getInstance;
 import static org.apache.lucene.document.DateTools.dateToString;
 import static org.apache.lucene.document.DateTools.Resolution.MINUTE;
-import static org.apache.lucene.facet.search.params.FacetRequest.SortBy.VALUE;
-import static org.apache.lucene.facet.search.params.FacetRequest.SortBy.valueOf;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.util.Version.LUCENE_36;
 import static org.hibernate.search.Search.getFullTextSession;
+import static org.vige.rubia.search.SortBy.valueOf;
+import static org.vige.rubia.search.SortBy.POST_TIME;
 import static org.vige.rubia.search.SortOrder.DESC;
 import static org.vige.rubia.search.TimePeriod.ALL;
 
@@ -40,7 +40,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.facet.search.params.FacetRequest.SortBy;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -259,14 +258,14 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	protected Sort getSort(SortBy sortBy, SortOrder sortOrder) {
 
 		String fieldName = null;
-
-		if (sortBy != null) {
-			fieldName = VALUE.name();
-		}
-
-		if (fieldName == null) {
-			fieldName = VALUE.name();
-		}
+        
+        if (sortBy != null) {
+            fieldName = sortBy.getFieldName();
+        }
+        
+        if (fieldName == null) {
+            fieldName = POST_TIME.getFieldName();
+        }
 
 		int reverse = 1;
 
