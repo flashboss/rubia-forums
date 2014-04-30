@@ -22,7 +22,6 @@ import static org.vige.rubia.ui.PortalUtil.createPoll;
 import static org.vige.rubia.ui.PortalUtil.createPollOption;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +35,6 @@ import javax.interceptor.Interceptors;
 import org.vige.rubia.ForumsModule;
 import org.vige.rubia.auth.AuthorizationListener;
 import org.vige.rubia.auth.SecureActionForum;
-import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
@@ -161,78 +159,11 @@ public class EditPost extends PostAction {
 		try {
 			// setup the business objects to be updated
 			Post post = forumsModule.findPostById(postId);
+			forumsModule.updateAttachments(attachments, post);
 
 			// TODO: cleanup this forums update process............move this as
 			// a private method
 			// setup attachment information
-			Collection<Attachment> removeFilter = new ArrayList<Attachment>();
-			Collection<Attachment> newAttachments = new ArrayList<Attachment>();
-
-			// filter out the newly added attachments
-			if (attachments != null) {
-				for (Attachment cour : attachments) {
-					if (cour.getId() == null) {
-						newAttachments.add(cour); // adds this new attachment to
-													// the
-													// database
-						removeFilter.add(cour); // remove this newly added
-												// attachments from the list
-						// to be compared against the list of stored attachments
-						// for
-						// update/remove
-					}
-				}
-				attachments.removeAll(removeFilter);
-
-				// update/remove currently stored attachments on this post
-				Iterator<Attachment> storedAttachments = forumsModule.findAttachments(post).iterator();
-				removeFilter = new ArrayList<Attachment>();
-				while (storedAttachments.hasNext()) {
-					Attachment storedAttachment = (Attachment) storedAttachments.next();
-
-					// not sure why a record like this is popping out from the
-					// hibernate layer
-					if (storedAttachment.getId() == null) {
-						removeFilter.add(storedAttachment); // clean this record
-															// up
-						continue;
-					}
-
-					// find this storedAttachment in the list of ui attachments.
-					// ones that are found are to be updated. once not found
-					// need to
-					// be removed
-					Iterator<Attachment> uiAttachments = attachments.iterator();
-					if (uiAttachments == null || !uiAttachments.hasNext()) {
-						// basically all attachments on the ui were deleted
-						removeFilter.add(storedAttachment);
-						break;
-					}
-					while (uiAttachments.hasNext()) {
-						Attachment local = (Attachment) uiAttachments.next();
-						if (local.getId().intValue() == storedAttachment.getId().intValue()) {
-							// update this attachment
-							storedAttachment.setComment(local.getComment());
-							forumsModule.update(storedAttachment);
-							break;
-						}
-						// check if this stored attachment should be removed
-						if (!uiAttachments.hasNext()) {
-							// if i get here, no match was made with the list of
-							// ui
-							// attachments
-							// hence this particular stored attachment must be
-							// removed
-							removeFilter.add(storedAttachment);
-						}
-					}
-				}
-				post = forumsModule.removeAttachments(removeFilter, post.getId());
-				// add the newly added attachments
-				for (Attachment itr : newAttachments) {
-					post.addAttachment(itr);
-				}
-			}
 			Topic topic = post.getTopic();
 
 			// make sure this topic is not locked
@@ -311,7 +242,6 @@ public class EditPost extends PostAction {
 					topic.setPoll(null);
 				}
 			}
-			forumsModule.addAttachments(newAttachments);
 			forumsModule.update(topic);
 			forumsModule.update(post);
 			// set the proper navigation state

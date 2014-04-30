@@ -1667,35 +1667,44 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public void addAttachments(Collection<Attachment> attachments) {
+	public Post addAttachments(Collection<Attachment> attachments, Post post) {
 		if (attachments != null) {
 			for (Attachment attachment : attachments) {
+				attachment.setId(null);
+				attachment.setPost(post);
 				em.persist(attachment);
 			}
 			em.flush();
 		}
-	}
-
-	@Override
-	public Post removeAttachments(Collection<Attachment> attachments, int idPost) {
-		if (attachments != null) {
-			for (Attachment attachment : attachments) {
-				em.remove(em.find(Attachment.class, attachment.getId()));
-			}
-			em.flush();
-		}
-		Post post = em.find(Post.class, idPost);
+		post = em.find(Post.class, post.getId());
 		em.refresh(post);
 		return post;
 	}
 
 	@Override
+	public Post removeAttachments(Post post) {
+		Collection<Attachment> attachments = findAttachments(post);
+		if (attachments != null) {
+			for (Attachment attachment : attachments) {
+				em.remove(em.find(Attachment.class, attachment.getId()));
+			}
+		}
+		return post;
+	}
+
+	@Override
+	public Post updateAttachments(Collection<Attachment> attachments, Post post) {
+		Post postForRemove = removeAttachments(post);
+		Post updatedPost = addAttachments(attachments, postForRemove);
+		return updatedPost;
+	}
+
+	@Override
 	public Collection<Attachment> findAttachments(Post post) {
-		@SuppressWarnings("unchecked")
-		Collection<Attachment> attachments = em.createQuery(
-				"select attachments from Post p where p.id = " + post.getId())
-				.getResultList();
-		return attachments;
+
+		Query query = em.createNamedQuery("findAttachments");
+		query.setParameter("postId", post.getId());
+		return query.getResultList();
 	}
 
 	static Object uniqueElement(List<Object> list)

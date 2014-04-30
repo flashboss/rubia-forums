@@ -52,6 +52,7 @@ import org.vige.rubia.auth.User;
  */
 
 @NamedQueries({
+		@NamedQuery(name = "findAttachments", query = "select attachments from Post p where p.id = :postId"),
 		@NamedQuery(name = "findPosts", query = "select p from Post as p "
 				+ "where p.topic.forum.category.forumInstance.id = :forumInstanceId"),
 		@NamedQuery(name = "findPostsByTopicIdasc", query = "select p from Post as p where p.topic=:topicId order by p.createDate asc"),

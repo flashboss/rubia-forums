@@ -796,7 +796,7 @@ public interface ForumsModule {
 	 * 
 	 * @return
 	 */
-	void addAttachments(Collection<Attachment> attachments);
+	Post addAttachments(Collection<Attachment> attachments, Post post);
 	
 	/**
 	 * 
@@ -808,7 +808,13 @@ public interface ForumsModule {
 	 * 
 	 * @return
 	 */
-	Post removeAttachments(Collection<Attachment> attachments, int idPost);
+	Post removeAttachments(Post post);
+
+	/**
+	 * 
+	 * @return
+	 */
+	Post updateAttachments(Collection<Attachment> attachments, Post post);
 
 	/**
 	 * 

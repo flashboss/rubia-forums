@@ -305,7 +305,9 @@ function selectOption(optionVal)
 															<h:outputText value="${resourcebundle.Filesize}" />
 															<h:outputText value="#{file.size} B" />
 														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
-															value="#{file.comment}" style="width: 100%" /></td>
+															value="#{file.comment}" style="width: 100%">
+															<f:ajax event="keyup" />
+														</h:inputTextarea></td>
 												</tr>
 												<tr class="PostViewUnderline">
 													<td><h:commandButton id="DeleteAttachment_${status}"
