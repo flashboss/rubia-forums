@@ -16,6 +16,7 @@ package org.vige.rubia.ui.view;
 import static org.vige.rubia.search.DisplayAs.POSTS;
 import static org.vige.rubia.search.DisplayAs.TOPICS;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.vige.rubia.ForumsModule;
+import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.ForumsSearchModule;
@@ -171,6 +173,19 @@ public class ViewSearch extends BaseController {
 				}
 			}
 		}
+	}
+
+	public int getLastPageNumber() {
+		if (posts != null)
+			return posts.size() / userPreferences.getPostsPerTopic() + 1;
+		else if (topics != null)
+			return topics.size() / userPreferences.getTopicsPerForum() + 1;
+		else
+			return 1;
+	}
+
+	public Collection<Attachment> findAttachments(Post post) {
+		return forumsModule.findAttachments(post);
 	}
 
 }

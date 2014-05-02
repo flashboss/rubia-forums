@@ -17,6 +17,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
@@ -31,7 +32,7 @@
 			<div class="forumtitletext">
 				<h4>
 					<h:outputFormat value="#{resourcebundle.Search_found}">
-						<f:param value="#{viewSearch.posts.size}" />
+						<f:param value="#{fn:length(viewSearch.posts)}" />
 					</h:outputFormat>
 				</h4>
 			</div>
@@ -87,13 +88,13 @@
 							<c:choose>
 
 								<c:when test="#{userModule.guest}">
-				                        ${postrow.poster.user.userName}
+				                        ${userModule.findUserById(postrow.poster.userId).userName}
 				                    </c:when>
 
 								<c:otherwise>
 									<h:commandLink action="viewProfile"
-										value="${postrow.poster.user.userName}">
-										<f:param name="uid" value="${postrow.poster.user.id}" />
+										value="${userModule.findUserById(postrow.poster.userId).userName}">
+										<f:param name="uid" value="${postrow.poster.userId}" />
 									</h:commandLink>
 								</c:otherwise>
 
@@ -119,12 +120,12 @@
 									value="#{forums:formatMessage(postrow.message.text,false)}"
 									escape="false" />
 								<br /> <br />
-								${forums:userProperty(postrow.poster.user,'INFO_USER_SIGNATURE')}
+								${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
 							</p>
 							<!-- show the attachments of this post here -->
 							<p>
 								<ui:include src="/views/topics/attachmentsview.xhtml">
-									<ui:param name="attachments" value="#{postrow.attachments}" />
+									<ui:param name="attachments" value="#{viewSearch.findAttachments(postrow)}" />
 								</ui:include>
 							</p>
 							<c:if test="${postrow.editCount gt 0}">
@@ -132,14 +133,14 @@
 									<em> <c:choose>
 											<c:when test="${postrow.editCount eq 1}">
 												<h:outputFormat value="#{resourcebundle.Edited_time_total}">
-													<f:param value="${postrow.poster.user.userName}" />
+													<f:param value="${userModule.findUserById(postrow.poster.userId).userName}" />
 													<f:param value="${postrow.editDate}" />
 													<f:param value="${postrow.editCount}" />
 												</h:outputFormat>
 											</c:when>
 											<c:otherwise>
 												<h:outputFormat value="#{resourcebundle.Edited_times_total}">
-													<f:param value="${postrow.poster.user.userName}" />
+													<f:param value="${userModule.findUserById(postrow.poster.userId).userName}" />
 													<f:param value="${postrow.editDate}" />
 													<f:param value="${postrow.editCount}" />
 												</h:outputFormat>
@@ -158,79 +159,79 @@
 						<rich:column styleClass="forumthreaduserinfo">
 							<ul>
 								<li><h:commandLink action="viewProfile">
-										<f:param name="uid" value="#{postrow.poster.user.id}" />
+										<f:param name="uid" value="#{postrow.poster.userId}" />
 										<f:verbatim>
 											<img border="0"
-												src="#{forums:themeURL('resourceIconProfileURL')}"
+												src="#{themeHelper.getURL('resourceIconProfileURL')}"
 												alt="${resourcebundle.Read_profile}" />
 										</f:verbatim>
 									</h:commandLink></li>
 
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_EMAIL_FAKE') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE') ne null}">
 									<li><a
-										href="mailto:${forums:userProperty(postrow.poster.user,'INFO_USER_EMAIL_FAKE')}">
+										href="mailto:${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE')}">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconEmailURL')}"
+											src="#{themeHelper.getURL('resourceIconEmailURL')}"
 											alt="${resourcebundle.Send_email}" />
 									</a></li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_HOMEPAGE') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE') ne null}">
 									<li><a
-										href="${forums:userProperty(postrow.poster.user,'INFO_USER_HOMEPAGE')}">
+										href="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE')}">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconWWWURL')}"
+											src="#{themeHelper.getURL('resourceIconWWWURL')}"
 											alt="${resourcebundle.Visit_website}" />
 									</a></li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_IM_AIM') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM') ne null}">
 									<li><a
-										href="aim:goim?screenname=#{forums:userProperty(postrow.poster.user,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
+										href="aim:goim?screenname=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconAIMURL')}"
+											src="#{themeHelper.getURL('resourceIconAIMURL')}"
 											alt="${resourcebundle.AIM}" />
 									</a></li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_IM_YIM') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM') ne null}">
 									<li><a
-										href="http://edit.yahoo.com/config/send_webmesg?.target=#{forums:userProperty(postrow.poster.user,'INFO_USER_IM_YIM')}&amp;.src=pg">
+										href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM')}&amp;.src=pg">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconYIMURL')}"
+											src="#{themeHelper.getURL('resourceIconYIMURL')}"
 											alt="${resourcebundle.YIM}" />
 									</a></li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_IM_SKYPE') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE') ne null}">
 									<li>
 										<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
 										<a
-										href="skype:#{forums:userProperty(postrow.poster.user,'INFO_USER_IM_SKYPE')}?add">
+										href="skype:#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE')}?add">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconSkypeURL')}"
+											src="#{themeHelper.getURL('resourceIconSkypeURL')}"
 											alt="${resourcebundle.L_SKYPE}" />
 									</a>
 									</li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_IM_MSNM') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_MSNM') ne null}">
 									<li><h:commandLink action="viewProfile">
-											<f:param name="uid" value="#{postrow.poster.user.id}" />
+											<f:param name="uid" value="#{postrow.poster.userId}" />
 											<f:verbatim>
 												<img border="0"
-													src="#{forums:themeURL('resourceIconMSNMURL')}"
+													src="#{themeHelper.getURL('resourceIconMSNMURL')}"
 													alt="${resourcebundle.Read_profile}" />
 											</f:verbatim>
 										</h:commandLink></li>
 								</c:if>
 								<c:if
-									test="${forums:userProperty(postrow.poster.user,'INFO_USER_IM_ICQ') ne null}">
+									test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ') ne null}">
 									<li><a
-										href="http://www.icq.com/scripts/search.dll?to=#{forums:userProperty(postrow.poster.user,'INFO_USER_IM_ICQ')}">
+										href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ')}">
 											<img border="0"
-											src="#{forums:themeURL('resourceIconICQURL')}"
+											src="#{themeHelper.getURL('resourceIconICQURL')}"
 											alt="${resourcebundle.ICQ}" />
 									</a></li>
 								</c:if>
@@ -240,7 +241,7 @@
 					</rich:columnGroup>
 					<rich:columnGroup>
 						<rich:column styleClass="forumthreadfooter" colspan="2">
-							<img src="#{forums:themeURL('resourceSpacerURL')}" />
+							<img src="#{themeHelper.getURL('resourceSpacerURL')}" />
 						</rich:column>
 					</rich:columnGroup>
 				</rich:dataTable>

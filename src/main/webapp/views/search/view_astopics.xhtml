@@ -17,6 +17,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://java.sun.com/jsf/composite/components/property"
@@ -32,7 +33,7 @@
 			<div class="forumtitletext">
 				<h4>
 					<h:outputFormat value="#{resourcebundle.Search_found}">
-						<f:param value="#{viewSearch.topics.size}" />
+						<f:param value="#{fn:length(viewSearch.topics)}" />
 					</h:outputFormat>
 				</h4>
 			</div>
@@ -88,7 +89,7 @@
 					<rich:columnGroup>
 
 						<rich:column styleClass="forumlisticon">
-							<img src="#{forums:folderTypeURL(topicrow,userModule.guest)}"
+							<img src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 								width="11" height="14" alt="${resourcebundle.Topic_Moved}"
 								title="${resourcebundle.Topic_Moved}" />
 						</rich:column>
@@ -104,13 +105,13 @@
 							<br /> ${resourcebundle.By}&#160; <c:choose>
 
 								<c:when test="#{userModule.guest}">
-				                            ${topicrow.poster.user.userName}
+				                            ${userModule.findUserById(topicrow.poster.userId).userName}
 				                        </c:when>
 
 								<c:otherwise>
 									<h:commandLink action="viewProfile"
-										value="${topicrow.poster.user.userName}">
-										<f:param name="uid" value="${topicrow.poster.user.id}" />
+										value="${userModule.findUserById(topicrow.poster.userId).userName}">
+										<f:param name="uid" value="${topicrow.poster.userId}" />
 									</h:commandLink>
 								</c:otherwise>
 
@@ -141,14 +142,14 @@
 							<br /> ${resourcebundle.By} <c:choose>
 
 								<c:when test="#{userModule.guest}">
-				                            ${viewSearch.topicLastPosts[topicrow.id].poster.user.userName}
+				                            ${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}
 				                        </c:when>
 
 								<c:otherwise>
 									<h:commandLink action="viewProfile"
-										value="${viewSearch.topicLastPosts[topicrow.id].poster.user.userName}">
+										value="${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}">
 										<f:param name="uid"
-											value="#{viewSearch.topicLastPosts[topicrow.id].poster.user.id}" />
+											value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
 									</h:commandLink>
 								</c:otherwise>
 
