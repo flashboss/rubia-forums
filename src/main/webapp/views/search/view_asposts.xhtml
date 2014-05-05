@@ -23,10 +23,60 @@
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
 	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
 
+	<style type="text/css">
+.rf-dt-c {
+	border-right-width: 0;
+	border-right-style: none;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	color: #656565;
+}
+
+.rf-dt-hdr-c {
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #C4C0C9;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C4C0C9;
+	background-color: #DEDEDE;
+	background-image: none;
+	background-position: top left;
+	color: -webkit-text;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+
+.forumpostspacer {
+	border-left: 1px solid #e6e7e8;
+	height: 30px;
+	background-color: #f4f3f3;
+}
+
+.rf-dt-hdr-c {
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #C4C0C9;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C4C0C9;
+	background-color: black;
+	background-image: none;
+	background-position: top left;
+	color: #94aebd;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+
+</style>
 	<c:choose>
 
 		<c:when test="#{viewSearch.posts != null}">
-
 			<a name="top" />
 
 			<div class="forumtitletext">
@@ -125,7 +175,8 @@
 							<!-- show the attachments of this post here -->
 							<p>
 								<ui:include src="/views/topics/attachmentsview.xhtml">
-									<ui:param name="attachments" value="#{viewSearch.findAttachments(postrow)}" />
+									<ui:param name="attachments"
+										value="#{viewSearch.findAttachments(postrow)}" />
 								</ui:include>
 							</p>
 							<c:if test="${postrow.editCount gt 0}">
@@ -133,14 +184,16 @@
 									<em> <c:choose>
 											<c:when test="${postrow.editCount eq 1}">
 												<h:outputFormat value="#{resourcebundle.Edited_time_total}">
-													<f:param value="${userModule.findUserById(postrow.poster.userId).userName}" />
+													<f:param
+														value="${userModule.findUserById(postrow.poster.userId).userName}" />
 													<f:param value="${postrow.editDate}" />
 													<f:param value="${postrow.editCount}" />
 												</h:outputFormat>
 											</c:when>
 											<c:otherwise>
 												<h:outputFormat value="#{resourcebundle.Edited_times_total}">
-													<f:param value="${userModule.findUserById(postrow.poster.userId).userName}" />
+													<f:param
+														value="${userModule.findUserById(postrow.poster.userId).userName}" />
 													<f:param value="${postrow.editDate}" />
 													<f:param value="${postrow.editCount}" />
 												</h:outputFormat>

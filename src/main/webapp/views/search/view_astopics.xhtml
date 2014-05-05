@@ -24,6 +24,56 @@
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
 	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
 
+	<style type="text/css">
+.rf-dt-c {
+	border-right-width: 0;
+	border-right-style: none;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	color: #656565;
+}
+
+.rf-dt-hdr-c {
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #C4C0C9;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C4C0C9;
+	background-color: #DEDEDE;
+	background-image: none;
+	background-position: top left;
+	color: -webkit-text;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+
+.forumpostspacer {
+	border-left: 1px solid #e6e7e8;
+	height: 30px;
+	background-color: #f4f3f3;
+}
+
+.rf-dt-hdr-c {
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #C4C0C9;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C4C0C9;
+	background-color: black;
+	background-image: none;
+	background-position: top left;
+	color: #94aebd;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px;
+	text-align: left;
+}
+</style>
 	<c:choose>
 
 		<c:when test="#{viewSearch.topics != null}">
@@ -89,7 +139,8 @@
 					<rich:columnGroup>
 
 						<rich:column styleClass="forumlisticon">
-							<img src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+							<img
+								src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 								width="11" height="14" alt="${resourcebundle.Topic_Moved}"
 								title="${resourcebundle.Topic_Moved}" />
 						</rich:column>
@@ -122,22 +173,10 @@
 						<rich:column styleClass="forumlistcentered">${topicrow.replies}</rich:column>
 						<rich:column styleClass="forumlistcentered">${topicrow.viewCount}</rich:column>
 						<rich:column styleClass="forumlistlast">
-							<h:commandLink action="viewTopic">
+							<h:commandLink action="viewTopic"
+								value="#{fn:substring(viewSearch.topicLastPosts[topicrow.id].message.subject,0,25)}&#8230;">
 								<f:param name="p"
 									value="#{viewSearch.topicLastPosts[topicrow.id].id}" />
-
-								<c:choose>
-
-									<c:when
-										test="#{forums:isLongerThan(viewSearch.topicLastPosts[topicrow.id].message.subject,25)}">
-				                                #{forums:subString(viewSearch.topicLastPosts[topicrow.id].message.subject,25)}&#8230;
-				                            </c:when>
-
-									<c:otherwise>
-				                                #{viewSearch.topicLastPosts[topicrow.id].message.subject}
-				                            </c:otherwise>
-
-								</c:choose>
 							</h:commandLink>
 							<br /> ${resourcebundle.By} <c:choose>
 
