@@ -101,7 +101,7 @@ import org.vige.rubia.auth.User;
 				+ "by p.createDate asc"),
 		@NamedQuery(name = "findPostsOrderdesc", query = "select p from Post as p order "
 				+ "by p.createDate desc") })
-@Indexed(index = "posts")
+@Indexed(index = "indexes/posts")
 @Entity
 @Table(name = "JBP_FORUMS_POSTS")
 public class Post implements Serializable {

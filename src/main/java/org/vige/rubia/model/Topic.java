@@ -85,7 +85,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 				+ "t.forum.id = :forumId order by p.createDate desc") })
 @Entity
 @Table(name = "JBP_FORUMS_TOPICS")
-@Indexed(index = "topics")
+@Indexed(index = "indexes/topics")
 public class Topic implements Serializable, Comparable<Topic> {
 
 	/**

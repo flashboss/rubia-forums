@@ -13,15 +13,12 @@
  ******************************************************************************/
 package org.vige.rubia.ui.view;
 
-import static org.vige.rubia.search.DisplayAs.POSTS;
-import static org.vige.rubia.search.DisplayAs.TOPICS;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
@@ -31,14 +28,11 @@ import org.vige.rubia.ForumsModule;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.search.ForumsSearchModule;
-import org.vige.rubia.search.ResultPage;
-import org.vige.rubia.search.SearchCriteria;
 import org.vige.rubia.ui.BaseController;
 import org.vige.rubia.ui.action.PreferenceController;
-import org.vige.rubia.ui.action.Search;
 
 @Named
+@SessionScoped
 public class ViewSearch extends BaseController {
 
 	/**
@@ -47,8 +41,6 @@ public class ViewSearch extends BaseController {
 	private static final long serialVersionUID = -3641493635888766463L;
 	@Inject
 	private ForumsModule forumsModule;
-	@Inject
-	private ForumsSearchModule forumsSearchModule;
 
 	/**
 	 * user preference related data
@@ -64,8 +56,9 @@ public class ViewSearch extends BaseController {
 
 	private Map<Object, Object> topicLastPosts;
 
-	@Inject
-	private Search search;
+	public void setTopicLastPosts(Map<Object, Object> topicLastPosts) {
+		this.topicLastPosts = topicLastPosts;
+	}
 
 	public DataModel<Post> getPostsDataModel() {
 		return postsDataModel;
@@ -87,8 +80,16 @@ public class ViewSearch extends BaseController {
 		return posts;
 	}
 
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
 	public List<Topic> getTopics() {
 		return topics;
+	}
+
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
 	}
 
 	public Map<Object, Object> getTopicLastPosts() {
@@ -96,14 +97,6 @@ public class ViewSearch extends BaseController {
 			topicLastPosts = new HashMap<Object, Object>();
 		}
 		return topicLastPosts;
-	}
-
-	public Search getSearch() {
-		return search;
-	}
-
-	public void setSearch(Search search) {
-		this.search = search;
 	}
 
 	// ------------user
@@ -121,58 +114,6 @@ public class ViewSearch extends BaseController {
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
-	}
-
-	public boolean isDisplayAsTopics() {
-		String displayAs = search.getSearchCriteria().getDisplayAs();
-
-		if (displayAs.equals(TOPICS.name())) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@PostConstruct
-	public void execute() throws Exception {
-
-		int currentPage = 0;
-
-		SearchCriteria criteria = search.getSearchCriteria();
-
-		if (criteria != null) {
-
-			criteria.setPageSize(userPreferences.getPostsPerTopic());
-			criteria.setPageNumber(currentPage);
-
-			if (criteria.getDisplayAs().equals(POSTS.name())) {
-
-				ResultPage<Post> resultPage = forumsSearchModule
-						.findPosts(criteria);
-
-				posts = resultPage.getPage();
-				postsDataModel = new ListDataModel<Post>(posts);
-
-				if (posts != null && posts.isEmpty()) {
-					posts = null;
-					postsDataModel = null;
-				}
-			} else {
-
-				ResultPage<Topic> resultPage = forumsSearchModule
-						.findTopics(criteria);
-
-				topics = resultPage.getPage();
-				topicsDataModel = new ListDataModel<Topic>(topics);
-
-				if (topics != null && topics.isEmpty()) {
-					topics = null;
-					topicsDataModel = null;
-				} else {
-					topicLastPosts = forumsModule.findLastPostsOfTopics(topics);
-				}
-			}
-		}
 	}
 
 	public int getLastPageNumber() {

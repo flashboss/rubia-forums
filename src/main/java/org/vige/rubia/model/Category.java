@@ -50,7 +50,7 @@ import org.hibernate.search.annotations.Indexed;
 		@NamedQuery(name = "getLastCategoryOrder", query = "select max(c.order) from Category " + "as c where c.forumInstance.id = :forumInstanceId") })
 @Entity
 @Table(name = "JBP_FORUMS_CATEGORIES")
-@Indexed(index = "categories")
+@Indexed(index = "indexes/categories")
 public class Category implements Serializable {
 
 	/**

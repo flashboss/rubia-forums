@@ -58,7 +58,7 @@ import org.hibernate.search.annotations.Store;
 		@NamedQuery(name = "findPostsFromCategorydesc", query = "select p from Forum as f join f.topics as " + "t join t.posts as p where f.category.id = :categoryId order by p.createDate desc") })
 @Entity
 @Table(name = "JBP_FORUMS_FORUMS")
-@Indexed(index = "forums")
+@Indexed(index = "indexes/forums")
 public class Forum implements Serializable {
 
 	/**

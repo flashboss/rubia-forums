@@ -13,6 +13,8 @@
  ******************************************************************************/
 package org.vige.rubia.ui.action;
 
+import static org.vige.rubia.search.DisplayAs.POSTS;
+import static org.vige.rubia.search.DisplayAs.TOPICS;
 import static org.vige.rubia.ui.JSFUtil.handleException;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,8 +31,13 @@ import javax.inject.Named;
 import org.vige.rubia.ForumsModule;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
+import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Topic;
+import org.vige.rubia.search.ForumsSearchModule;
+import org.vige.rubia.search.ResultPage;
 import org.vige.rubia.search.SearchCriteria;
 import org.vige.rubia.ui.BaseController;
+import org.vige.rubia.ui.view.ViewSearch;
 
 @Named
 @RequestScoped
@@ -41,6 +49,10 @@ public class Search extends BaseController {
 	private static final long serialVersionUID = -7028498560394081079L;
 	@Inject
 	private ForumsModule forumsModule;
+	@Inject
+	private ForumsSearchModule forumsSearchModule;
+	@Inject
+	private ViewSearch viewSearch;
 	// user preference controller
 	@Inject
 	private PreferenceController userPreferences;
@@ -87,7 +99,8 @@ public class Search extends BaseController {
 
 			if (c != null) {
 				for (Category category : c) {
-					categories.add(new SelectItem(category.getId().toString(), category.getTitle()));
+					categories.add(new SelectItem(category.getId().toString(),
+							category.getTitle()));
 				}
 			}
 
@@ -112,7 +125,8 @@ public class Search extends BaseController {
 
 			if (f != null) {
 				for (Forum forum : f) {
-					forums.add(new SelectItem(forum.getId().toString(), forum.getName()));
+					forums.add(new SelectItem(forum.getId().toString(), forum
+							.getName()));
 				}
 			}
 
@@ -123,13 +137,66 @@ public class Search extends BaseController {
 		return forums;
 	}
 
-	public String search() {
+	public String search() throws Exception {
+
+		int currentPage = 0;
+
+		SearchCriteria criteria = getSearchCriteria();
+
+		if (criteria != null) {
+
+			criteria.setPageSize(userPreferences.getPostsPerTopic());
+			criteria.setPageNumber(currentPage);
+
+			if (criteria.getDisplayAs().equals(POSTS.name())) {
+
+				ResultPage<Post> resultPage = forumsSearchModule
+						.findPosts(criteria);
+
+				viewSearch.setPosts(resultPage.getPage());
+				viewSearch.setPostsDataModel(new ListDataModel<Post>(viewSearch
+						.getPosts()));
+
+				if (viewSearch.getPosts() != null
+						&& viewSearch.getPosts().isEmpty()) {
+					viewSearch.setPosts(null);
+					viewSearch.setPostsDataModel(null);
+				}
+			} else {
+
+				ResultPage<Topic> resultPage = forumsSearchModule
+						.findTopics(criteria);
+
+				viewSearch.setTopics(resultPage.getPage());
+				viewSearch.setTopicsDataModel(new ListDataModel<Topic>(
+						viewSearch.getTopics()));
+
+				if (viewSearch.getTopics() != null
+						&& viewSearch.getTopics().isEmpty()) {
+					viewSearch.setTopics(null);
+					viewSearch.setTopicsDataModel(null);
+				} else {
+					viewSearch.setTopicLastPosts(forumsModule
+							.findLastPostsOfTopics(viewSearch.getTopics()));
+				}
+			}
+		}
 		return "success";
 	}
 
 	@PostConstruct
 	public void execute() throws Exception {
 		searchCriteria = new SearchCriteria();
+	}
+
+	public boolean isDisplayAsTopics() {
+		String displayAs = getSearchCriteria().getDisplayAs();
+
+		if (displayAs.equals(TOPICS.name())) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

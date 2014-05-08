@@ -1701,10 +1701,12 @@ public class ForumsModuleImpl implements ForumsModule {
 
 	@Override
 	public Collection<Attachment> findAttachments(Post post) {
-
-		Query query = em.createNamedQuery("findAttachments");
-		query.setParameter("postId", post.getId());
-		return query.getResultList();
+		if (post != null) {
+			Query query = em.createNamedQuery("findAttachments");
+			query.setParameter("postId", post.getId());
+			return query.getResultList();
+		} else
+			return null;
 	}
 
 	static Object uniqueElement(List<Object> list)

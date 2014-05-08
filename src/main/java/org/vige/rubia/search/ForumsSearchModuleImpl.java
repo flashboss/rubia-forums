@@ -110,7 +110,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 
 				String userName = criteria.getAuthor();
 				if (userName != null && userName.length() != 0) {
-					query.add(new WildcardQuery(new Term("userName", userName)), MUST);
+					query.add(new WildcardQuery(new Term("poster.userId", userName)), MUST);
 				}
 
 				String timePeriod = criteria.getTimePeriod();
