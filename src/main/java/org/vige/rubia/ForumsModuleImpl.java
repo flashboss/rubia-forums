@@ -32,6 +32,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -634,7 +635,12 @@ public class ForumsModuleImpl implements ForumsModule {
 		try {
 			Query query = em.createNamedQuery("findPoll");
 			query.setParameter("topicid", topic.getId());
-			Poll oldpoll = (Poll) query.getSingleResult();
+			Poll oldpoll = null;
+			try {
+				oldpoll = (Poll) query.getSingleResult();
+			} catch (NoResultException ex) {
+				oldpoll = null;
+			}
 			if (oldpoll != null) {
 				em.remove(oldpoll);
 			}

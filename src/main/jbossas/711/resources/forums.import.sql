@@ -84,9 +84,9 @@ insert into ACL (aclID, resource) values ('77', 'org.vige.rubia.auth.ForumsACLRe
 insert into ACL (aclID, resource) values ('78', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.PostAction:addAttachment');
 insert into ACL (aclID, resource) values ('79', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.PostAction:deleteAttachment');
 insert into ACL (aclID, resource) values ('80', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.PostAction:updateAttachment');
-insert into ACL (aclID, resource) values ('81', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.jbossas.setteunouno.ui.action.ReplyTopic:startQuote');
-insert into ACL (aclID, resource) values ('82', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.jbossas.setteunouno.ui.action.ReplyTopic:startInstantReplyPreview');
-insert into ACL (aclID, resource) values ('83', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.jbossas.setteunouno.ui.action.ReplyTopic:executeInstantReply');
+insert into ACL (aclID, resource) values ('81', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.ReplyTopic:startQuote');
+insert into ACL (aclID, resource) values ('82', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.ReplyTopic:startInstantReplyPreview');
+insert into ACL (aclID, resource) values ('83', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.ReplyTopic:executeInstantReply');
 insert into ACL (aclID, resource) values ('84', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.SplitTopic:splitAfter');
 insert into ACL (aclID, resource) values ('85', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.SplitTopic:splitPosts');
 insert into ACL (aclID, resource) values ('86', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.TopicWatchController:activateWatch');

@@ -13,6 +13,8 @@
  ******************************************************************************/
 package org.vige.rubia.model;
 
+import static org.hibernate.search.annotations.Index.YES;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import org.hibernate.search.annotations.Field;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -37,6 +41,7 @@ public class Poster {
 	@GeneratedValue
 	private Integer id;
 
+	@Field(index = YES)
 	@Column(name = "JBP_USER_ID")
 	private String userId;
 

@@ -140,6 +140,7 @@ public class Post implements Serializable {
 	@Embedded
 	private Message message;
 
+	@IndexedEmbedded(targetElement = Poster.class)
 	@ManyToOne
 	@JoinColumn(name = "JBP_POSTER_ID")
 	private Poster poster;

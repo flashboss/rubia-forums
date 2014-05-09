@@ -119,7 +119,7 @@
 				</ul>
 			</div>
 		</c:if>
-		
+
 		<rich:dataTable id="postsList" styleClass="forumtablestyle"
 			style="width:100%; border:0; celladding:0; cellspacing:0;"
 			value="#{viewSearch.postsDataModel}" var="postrow" varStatus="status"
@@ -204,44 +204,44 @@
 								</f:verbatim>
 							</h:commandLink></li>
 
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE') ne null}">
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE') ne null}">
 							<li><a
 								href="mailto:${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE')}">
 									<img border="0"
 									src="#{themeHelper.getURL('resourceIconEmailURL')}"
 									alt="${resourcebundle.Send_email}" />
 							</a></li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE') ne null}">
 							<li><a
 								href="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE')}">
 									<img border="0"
 									src="#{themeHelper.getURL('resourceIconWWWURL')}"
 									alt="${resourcebundle.Visit_website}" />
 							</a></li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM') ne null}">
 							<li><a
 								href="aim:goim?screenname=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
 									<img border="0"
 									src="#{themeHelper.getURL('resourceIconAIMURL')}"
 									alt="${resourcebundle.AIM}" />
 							</a></li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM') ne null}">
 							<li><a
 								href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM')}&amp;.src=pg">
 									<img border="0"
 									src="#{themeHelper.getURL('resourceIconYIMURL')}"
 									alt="${resourcebundle.YIM}" />
 							</a></li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE') ne null}">
 							<li>
 								<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
 								<a
@@ -251,9 +251,9 @@
 									alt="${resourcebundle.L_SKYPE}" />
 							</a>
 							</li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_MSNM') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_MSNM') ne null}">
 							<li><h:commandLink action="viewProfile">
 									<f:param name="uid" value="#{postrow.poster.userId}" />
 									<f:verbatim>
@@ -262,16 +262,16 @@
 											alt="${resourcebundle.Read_profile}" />
 									</f:verbatim>
 								</h:commandLink></li>
-						</c:if>
-						<c:if
-							test="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ') ne null}">
+						</ui:fragment>
+						<ui:fragment
+							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ') ne null}">
 							<li><a
 								href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ')}">
 									<img border="0"
 									src="#{themeHelper.getURL('resourceIconICQURL')}"
 									alt="${resourcebundle.ICQ}" />
 							</a></li>
-						</c:if>
+						</ui:fragment>
 
 					</ul>
 				</rich:column>
