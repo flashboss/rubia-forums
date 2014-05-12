@@ -66,15 +66,17 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	@TypedCategory(ForumsModuleImpl.class)
 	private ForumsSearchModuleImplLog logger;
 
-	@PersistenceContext(unitName="forums")
+	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
 	@SuppressWarnings("unchecked")
-	public ResultPage<Post> findPosts(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<Post> findPosts(SearchCriteria criteria)
+			throws ModuleException {
 		if (criteria != null) {
 			try {
 				EntityManager session = getSession();
-				FullTextSession fullTextSession = getFullTextSession((Session) session.getDelegate());
+				FullTextSession fullTextSession = getFullTextSession((Session) session
+						.getDelegate());
 
 				BooleanQuery query = new BooleanQuery();
 
@@ -82,7 +84,8 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 				if (keywords != null && keywords.length() != 0) {
 					String[] fields = null;
 
-					Searching searching = Searching.valueOf(criteria.getSearching());
+					Searching searching = Searching.valueOf(criteria
+							.getSearching());
 					switch (searching) {
 					case TITLE_MSG:
 						fields = new String[] { "message.text", "topic.subject" };
@@ -94,23 +97,28 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 						break;
 					}
 
-					MultiFieldQueryParser parser = new MultiFieldQueryParser(LUCENE_36, fields, new StandardAnalyzer(LUCENE_36));
+					MultiFieldQueryParser parser = new MultiFieldQueryParser(
+							LUCENE_36, fields, new StandardAnalyzer(LUCENE_36));
 					query.add(parser.parse(keywords), MUST);
 				}
 
 				String forumId = criteria.getForum();
 				if (forumId != null && forumId.length() != 0) {
-					query.add(new TermQuery(new Term("topic.forum.id", forumId)), MUST);
+					query.add(
+							new TermQuery(new Term("topic.forum.id", forumId)),
+							MUST);
 				}
 
 				String categoryId = criteria.getCategory();
 				if (categoryId != null && categoryId.length() != 0) {
-					query.add(new TermQuery(new Term("topic.forum.category.id", categoryId)), MUST);
+					query.add(new TermQuery(new Term("topic.forum.category.id",
+							categoryId)), MUST);
 				}
 
 				String userName = criteria.getAuthor();
 				if (userName != null && userName.length() != 0) {
-					query.add(new WildcardQuery(new Term("poster.userId", userName)), MUST);
+					query.add(new WildcardQuery(new Term("poster.userId",
+							userName)), MUST);
 				}
 
 				String timePeriod = criteria.getTimePeriod();
@@ -118,16 +126,19 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(query, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(query, Post.class);
+				FullTextQuery fullTextQuery = fullTextSession
+						.createFullTextQuery(query, Post.class);
 
-				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
+				SortOrder sortOrder = SortOrder
+						.valueOf(criteria.getSortOrder());
 				String sortByStr = criteria.getSortBy();
 				SortBy sortBy = null;
 				if (sortByStr != null)
 					sortBy = valueOf(sortByStr);
 				fullTextQuery.setSort(getSort(sortBy, sortOrder));
 
-				fullTextQuery.setFirstResult(criteria.getPageSize() * criteria.getPageNumber());
+				fullTextQuery.setFirstResult(criteria.getPageSize()
+						* criteria.getPageNumber());
 				fullTextQuery.setMaxResults(criteria.getPageSize());
 
 				ResultPage<Post> resultPage = new ResultPage<Post>();
@@ -148,11 +159,13 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ResultPage<Topic> findTopics(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<Topic> findTopics(SearchCriteria criteria)
+			throws ModuleException {
 		if (criteria != null) {
 			try {
 				EntityManager session = getSession();
-				FullTextSession fullTextSession = getFullTextSession((Session) session.getDelegate());
+				FullTextSession fullTextSession = getFullTextSession((Session) session
+						.getDelegate());
 
 				BooleanQuery query = new BooleanQuery();
 
@@ -160,7 +173,8 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 				if (keywords != null && keywords.length() != 0) {
 					String[] fields = null;
 
-					Searching searching = Searching.valueOf(criteria.getSearching());
+					Searching searching = Searching.valueOf(criteria
+							.getSearching());
 					switch (searching) {
 					case TITLE_MSG:
 						fields = new String[] { "message.text", "topic.subject" };
@@ -172,23 +186,29 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 						break;
 					}
 
-					MultiFieldQueryParser parser = new MultiFieldQueryParser(LUCENE_36, fields, new StandardAnalyzer(LUCENE_36));
+					MultiFieldQueryParser parser = new MultiFieldQueryParser(
+							LUCENE_36, fields, new StandardAnalyzer(LUCENE_36));
 					query.add(parser.parse(keywords), MUST);
 				}
 
 				String forumId = criteria.getForum();
 				if (forumId != null && forumId.length() != 0) {
-					query.add(new TermQuery(new Term("topic.forum.id", forumId)), MUST);
+					query.add(
+							new TermQuery(new Term("topic.forum.id", forumId)),
+							MUST);
 				}
 
 				String categoryId = criteria.getCategory();
 				if (categoryId != null && categoryId.length() != 0) {
-					query.add(new TermQuery(new Term("topic.forum.category.id", categoryId)), MUST);
+					query.add(new TermQuery(new Term("topic.forum.category.id",
+							categoryId)), MUST);
 				}
 
 				String userName = criteria.getAuthor();
 				if (userName != null && userName.length() != 0) {
-					query.add(new WildcardQuery(new Term("userName", userName)), MUST);
+					query.add(
+							new WildcardQuery(new Term("poster.userId", userName)),
+							MUST);
 				}
 
 				String timePeriod = criteria.getTimePeriod();
@@ -196,9 +216,11 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(query, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(query, Post.class);
+				FullTextQuery fullTextQuery = fullTextSession
+						.createFullTextQuery(query, Post.class);
 
-				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
+				SortOrder sortOrder = SortOrder
+						.valueOf(criteria.getSortOrder());
 				SortBy sortBy = valueOf(criteria.getSortBy());
 				fullTextQuery.setSort(getSort(sortBy, sortOrder));
 
@@ -223,17 +245,21 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					}
 				}
 
-				Query q = session.createQuery("from Topic as t join fetch t.poster where t.id IN ( :topicIds )");
-				q.setParameter("topicIds", topicToDispIds);
+				List<Topic> topics = null;
+				if (topicToDispIds.size() > 0) {
+					Query q = session
+							.createQuery("from Topic as t join fetch t.poster where t.id IN ( :topicIds )");
+					q.setParameter("topicIds", topicToDispIds);
 
-				List<Topic> results = q.getResultList();
+					List<Topic> results = q.getResultList();
 
-				List<Topic> topics = new LinkedList<Topic>();
-				for (Integer id : topicToDispIds) {
-					for (Topic topic : results) {
-						if (id.equals(topic.getId())) {
-							topics.add(topic);
-							break;
+					topics = new LinkedList<Topic>();
+					for (Integer id : topicToDispIds) {
+						for (Topic topic : results) {
+							if (id.equals(topic.getId())) {
+								topics.add(topic);
+								break;
+							}
 						}
 					}
 				}
@@ -258,14 +284,14 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	protected Sort getSort(SortBy sortBy, SortOrder sortOrder) {
 
 		String fieldName = null;
-        
-        if (sortBy != null) {
-            fieldName = sortBy.getFieldName();
-        }
-        
-        if (fieldName == null) {
-            fieldName = POST_TIME.getFieldName();
-        }
+
+		if (sortBy != null) {
+			fieldName = sortBy.getFieldName();
+		}
+
+		if (fieldName == null) {
+			fieldName = POST_TIME.getFieldName();
+		}
 
 		int reverse = 1;
 
@@ -330,7 +356,10 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 			}
 
 			if (startDate != null) {
-				query.add(new TermRangeQuery("createDate", dateToString(startDate, MINUTE), dateToString(endDate, MINUTE), true, true), MUST);
+				query.add(
+						new TermRangeQuery("createDate", dateToString(
+								startDate, MINUTE), dateToString(endDate,
+								MINUTE), true, true), MUST);
 			}
 		}
 	}

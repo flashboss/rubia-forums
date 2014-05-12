@@ -171,8 +171,8 @@ public class Search extends BaseController {
 				viewSearch.setTopicsDataModel(new ListDataModel<Topic>(
 						viewSearch.getTopics()));
 
-				if (viewSearch.getTopics() != null
-						&& viewSearch.getTopics().isEmpty()) {
+				if (viewSearch.getTopics() == null
+						|| viewSearch.getTopics().isEmpty()) {
 					viewSearch.setTopics(null);
 					viewSearch.setTopicsDataModel(null);
 				} else {

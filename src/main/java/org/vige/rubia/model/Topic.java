@@ -14,6 +14,7 @@
 package org.vige.rubia.model;
 
 import static javax.persistence.CascadeType.REMOVE;
+import static org.hibernate.search.annotations.Index.YES;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
@@ -128,6 +130,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	@Column(name = "JBP_STATUS")
 	private int status;
 
+	@Field(index = YES)
 	@Column(name = "JBP_SUBJECT")
 	private String subject;
 
