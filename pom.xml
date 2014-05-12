@@ -24,7 +24,6 @@
 		<jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
 		<junit.version>4.10</junit.version>
 		<richfaces.version>4.3.5.Final</richfaces.version>
-		<seam.version>3.1.0.Final</seam.version>
 		<surefire.version>2.17</surefire.version>
 	</properties>
 
@@ -145,11 +144,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.seam.international</groupId>
-			<artifactId>seam-international</artifactId>
-			<version>${seam.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
 		</dependency>
@@ -163,13 +157,6 @@
 			<version>${jboss-javaee6-spec.version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.solder</groupId>
-			<artifactId>solder-tooling</artifactId>
-			<version>3.2.0.Final</version>
-			<scope>provided</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-digester</groupId>
@@ -240,21 +227,6 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<generatedSourcesDirectory>src/main/java</generatedSourcesDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/main/java</directory>
-							<includes>
-								<include>**/*_.java</include>
-								<include>**/*_$logger.java</include>
-							</includes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
 				</configuration>
 			</plugin>
 			<plugin>

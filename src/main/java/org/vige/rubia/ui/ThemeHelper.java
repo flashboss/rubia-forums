@@ -37,10 +37,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.jboss.solder.logging.TypedCategory;
 import org.vige.rubia.auth.UserModule;
 import org.vige.rubia.auth.UserProfileModule;
-import org.vige.rubia.log.ThemeHelperLog;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.properties.TCCLXProperties;
 import org.vige.rubia.theme.FolderType;
@@ -54,10 +52,6 @@ import org.vige.rubia.theme.ForumsTheme;
 @Singleton
 @Named
 public class ThemeHelper {
-
-	@Inject
-	@TypedCategory(ThemeHelper.class)
-	private ThemeHelperLog logger;
 
 	@Inject
 	private UserModule userModule;
@@ -131,7 +125,6 @@ public class ThemeHelper {
 			}
 			return url;
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -216,7 +209,6 @@ public class ThemeHelper {
 				topicType = bundle.getString("Topic_Moved");
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 			return "";
 		}
 		return topicType;

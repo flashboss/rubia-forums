@@ -50,11 +50,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.solder.logging.TypedCategory;
 import org.vige.rubia.ForumsModule;
-import org.vige.rubia.ForumsModuleImpl;
 import org.vige.rubia.ModuleException;
-import org.vige.rubia.log.FeedServletLog;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Post;
@@ -85,10 +82,6 @@ public class FeedsServlet extends HttpServlet {
 
 	@Inject
 	private ForumsModule forumsModule;
-
-	@Inject
-	@TypedCategory(ForumsModuleImpl.class)
-	private FeedServletLog logger;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -304,7 +297,6 @@ public class FeedsServlet extends HttpServlet {
 			try {
 				url += "&" + VIEW + "=" + encode(getIdForName(viewUrl), "UTF-8") + "&";
 			} catch (UnsupportedEncodingException e) {
-				logger.error(e);
 			}
 		} else {
 			url += viewUrl + "?";

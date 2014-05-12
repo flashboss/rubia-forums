@@ -45,7 +45,6 @@ import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.jboss.solder.logging.TypedCategory;
 import org.vige.rubia.ForumsModule;
 import org.vige.rubia.ModuleException;
 import org.vige.rubia.auth.ForumsACLProvider;
@@ -53,7 +52,6 @@ import org.vige.rubia.auth.JSFUIContext;
 import org.vige.rubia.auth.User;
 import org.vige.rubia.auth.UserModule;
 import org.vige.rubia.auth.UserProfileModule;
-import org.vige.rubia.log.NotificationEngineLog;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Message;
@@ -69,10 +67,6 @@ import org.vige.rubia.ui.PortalUtil;
 @Singleton
 @Named
 public class NotificationEngine {
-
-	@Inject
-	@TypedCategory(NotificationEngine.class)
-	private NotificationEngineLog logger;
 
 	@Inject
 	private ForumsACLProvider forumsACLProvider;
@@ -99,7 +93,6 @@ public class NotificationEngine {
 			tm = (TransactionManager) ctx.lookup("java:/TransactionManager");
 			executor = new ScheduledThreadPoolExecutor(100);
 		} catch (NamingException e) {
-			logger.error("Cannot create notification interceptor", e);
 		}
 	}
 
@@ -115,7 +108,6 @@ public class NotificationEngine {
 
 	public void scheduleForNotification(Integer postId, int mode) {
 		// TODO: IMPLEMENT NOTIFICATION FOR STANDALONE VERSION OF FORUMS.
-		logger.warn("NOTIFICATION FOR STANDALONE HAS NOT BEEN YET IMPLEMENTED");
 	}
 
 	public void schedule(Integer postId, int mode, String absViewURL,
@@ -123,7 +115,6 @@ public class NotificationEngine {
 		try {
 
 			if (postId == null || mode == -1) {
-				logger.warn("Request didn't have needed parameters.");
 				return;
 			}
 
@@ -305,7 +296,6 @@ public class NotificationEngine {
 							}
 						}
 					} catch (Exception e) {
-						logger.error("Cannot send an email notification", e);
 					}
 				}
 
@@ -409,12 +399,10 @@ public class NotificationEngine {
 								}
 							}
 						} catch (Exception e) {
-							logger.error("Cannot send email notification", e);
 						}
 					}
 				}
 			} catch (IllegalArgumentException e) {
-				logger.error("IllegalArgumentException", e);
 			} catch (ModuleException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -458,10 +446,8 @@ public class NotificationEngine {
 
 					}
 				} catch (MessagingException e) {
-					logger.error("MessagingException", e);
 				}
 			} catch (NamingException e) {
-				logger.error("NamingException", e);
 			}
 		}
 

@@ -38,9 +38,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
-import org.jboss.solder.logging.TypedCategory;
 import org.vige.rubia.auth.User;
-import org.vige.rubia.log.ForumsModuleImplLog;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
@@ -67,10 +65,6 @@ import org.vige.rubia.util.NotificationEngine;
 
 @Stateless
 public class ForumsModuleImpl implements ForumsModule {
-
-	@Inject
-	@TypedCategory(ForumsModuleImpl.class)
-	private ForumsModuleImplLog logger;
 
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
@@ -131,7 +125,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return forum;
 			} catch (Exception e) {
 				String message = "Cannot find forum by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -157,7 +150,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				}
 			} catch (Exception e) {
 				String message = "Cannot find forum by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -177,7 +169,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return category;
 			} catch (Exception e) {
 				String message = "Cannot find category by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -202,7 +193,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return category;
 			} catch (Exception e) {
 				String message = "Cannot find category by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -220,7 +210,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return user;
 			} catch (Exception e) {
 				String message = "Cannot find poster by name " + userId;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -239,7 +228,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return user;
 			} catch (Exception e) {
 				String message = "Cannot create Poster";
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -262,7 +250,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find categories";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -284,7 +271,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return categories;
 		} catch (Exception e) {
 			String message = "Cannot find categories";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -298,7 +284,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forums";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -313,7 +298,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forums";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -328,7 +312,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forums";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -346,7 +329,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topics";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 
@@ -451,7 +433,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topics";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -466,7 +447,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topics";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -482,7 +462,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topics";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -498,7 +477,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topics";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -553,7 +531,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return post;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -584,7 +561,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return topic;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -625,7 +601,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return post;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -655,7 +630,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return poll;
 		} catch (Exception e) {
 			String errorMessage = "Cannot add poll to topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -692,7 +666,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return category;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -705,7 +678,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete category";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -718,7 +690,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete forum";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -744,7 +715,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete post";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -762,7 +732,6 @@ public class ForumsModuleImpl implements ForumsModule {
 
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete poll";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -786,7 +755,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete topic";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -819,7 +787,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return forum;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create forum";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -837,7 +804,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return topic;
 			} catch (Exception e) {
 				String message = "Cannot find forum by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -855,7 +821,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return query.getResultList();
 			} catch (Exception e) {
 				String message = "Cannot find topics";
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -876,7 +841,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -894,7 +858,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return post;
 			} catch (Exception e) {
 				String message = "Cannot find post by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -917,7 +880,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return attach;
 			} catch (Exception e) {
 				String message = "Cannot find attachment by id " + attachID;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {
@@ -938,7 +900,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -966,7 +927,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return list;
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -996,7 +956,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find post ids";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1022,7 +981,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1228,7 +1186,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forum watch";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1244,7 +1201,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forum watched";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1260,7 +1216,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topic watched";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1278,7 +1233,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find topic watched";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1309,7 +1263,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return map;
 		} catch (Exception e) {
 			String message = "Cannot find topic watches";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1330,7 +1283,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1363,7 +1315,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1393,7 +1344,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find posts";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1437,7 +1387,6 @@ public class ForumsModuleImpl implements ForumsModule {
 
 		} catch (Exception e) {
 			String errorMessage = "Cannot create forum watch";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -1451,7 +1400,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			// for clustered versions
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete watch";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -1466,7 +1414,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return (ForumWatch) uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find forum watch";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1501,7 +1448,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return map;
 		} catch (Exception e) {
 			String message = "Cannot find forum watches";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1522,7 +1468,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			}
 		} catch (Exception e) {
 			String message = "Cannot find forum watch";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1543,7 +1488,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			}
 		} catch (Exception e) {
 			String message = "Cannot find topic watch";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1579,7 +1523,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			// for clustered versions
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic watch";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -1594,7 +1537,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return (TopicWatch) uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find topic watch";
-			logger.error(message, e);
 			throw new ModuleException(message, e);
 		}
 	}
@@ -1623,7 +1565,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			return forumInstance;
 		} catch (Exception e) {
 			String errorMessage = "Cannot create forum Instance";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -1641,7 +1582,6 @@ public class ForumsModuleImpl implements ForumsModule {
 			// em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete forum Instance";
-			logger.error(errorMessage, e);
 			throw new ModuleException(errorMessage, e);
 		}
 	}
@@ -1657,7 +1597,6 @@ public class ForumsModuleImpl implements ForumsModule {
 				return forumInstance;
 			} catch (Exception e) {
 				String message = "Cannot find forum instance by id " + id;
-				logger.error(message, e);
 				throw new ModuleException(message, e);
 			}
 		} else {

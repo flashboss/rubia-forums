@@ -22,8 +22,8 @@ import static org.apache.lucene.document.DateTools.Resolution.MINUTE;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.util.Version.LUCENE_36;
 import static org.hibernate.search.Search.getFullTextSession;
-import static org.vige.rubia.search.SortBy.valueOf;
 import static org.vige.rubia.search.SortBy.POST_TIME;
+import static org.vige.rubia.search.SortBy.valueOf;
 import static org.vige.rubia.search.SortOrder.DESC;
 import static org.vige.rubia.search.TimePeriod.ALL;
 
@@ -34,7 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -52,19 +51,12 @@ import org.apache.lucene.search.WildcardQuery;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
-import org.jboss.solder.logging.TypedCategory;
-import org.vige.rubia.ForumsModuleImpl;
 import org.vige.rubia.ModuleException;
-import org.vige.rubia.log.ForumsSearchModuleImplLog;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 
 @Stateless
 public class ForumsSearchModuleImpl implements ForumsSearchModule {
-
-	@Inject
-	@TypedCategory(ForumsModuleImpl.class)
-	private ForumsSearchModuleImplLog logger;
 
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
@@ -150,7 +142,6 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 
 				return null;
 			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
 				throw new ModuleException(e.getMessage(), e);
 			}
 		} else {
@@ -273,7 +264,6 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 
 				return null;
 			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
 				throw new ModuleException(e.getMessage(), e);
 			}
 		} else {

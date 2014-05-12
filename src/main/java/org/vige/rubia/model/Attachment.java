@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -33,6 +34,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "JBP_FORUMS_ATTACHMENTS")
+@NamedQuery(name = "findAttachments", query = "select a from Attachment a where a.post.id = :postId")
 public class Attachment implements Serializable {
 	/**
 	 * 
