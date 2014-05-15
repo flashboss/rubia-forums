@@ -45,7 +45,9 @@ See example `settings.xml` file in this directory. In the most common case you w
 Build
 -----
 
-    mvn clean install -P${distribution}
+In development mode:
+
+    mvn clean install -P${distribution},development
 
 ... and see a ready to run distribution under `rubia-forums/target/rubia-forums.war`
 
@@ -64,7 +66,7 @@ You can also choose the deploy mode using the profiles:
     -Pdevelopment
     -Pproduction
     
-by default you deploy in development mode. If you want deploy in production mode you must use:
+If you want deploy in production mode you must use:
 
     mvn clean install -P${distribution},production
     
@@ -93,3 +95,12 @@ Re-enter Password : password
 What roles do you want this user to belong to? (Please enter a comma separated list, or leave blank for none) : users
 The username 'admin' is easy to guess
 Are you sure you want to add user 'admin' yes/no? yes
+
+
+to test it with selenium:
+
+download selenium-server from http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+deploy the application in a server
+start the server with 8080 port
+java -jar selenium-server-standalone-2.41.0.jar
+mvn -P${distribution},selenium test
