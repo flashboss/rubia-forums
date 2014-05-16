@@ -338,6 +338,7 @@
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
+							<argLine>-Duser.language=${user.language} -Duser.region=${user.country}</argLine>
 							<systemProperties>
 								<property>
 									<name>browser</name>
@@ -349,7 +350,7 @@
 								</property>
 								<property>
 									<name>context.path</name>
-									<value>/rubia-forums</value>
+									<value>/rubia-forums/</value>
 								</property>
 								<property>
 									<name>selenium.port</name>
