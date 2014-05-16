@@ -103,7 +103,7 @@ download selenium-server from http://selenium-release.storage.googleapis.com/2.4
 deploy the application in a server
 start the server with 8080 port
 java -jar selenium-server-standalone-2.41.0.jar
-mvn -P${distribution},selenium test -Duser.language=en -Duser.region=EN
+mvn -P${distribution},selenium test
 
 If your web application uses a default locale different by the english you must set in the 'selenium' profile in the pom.xml:
 
