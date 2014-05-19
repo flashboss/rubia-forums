@@ -99,7 +99,7 @@
             &#160;
         </c:if>
 
-							<c:if test="#{!userModule.guest}">
+							<h:panelGroup rendered="#{!userModule.guest}">
 								<c:choose>
 
 									<c:when test="#{topicWatch.watched}">
@@ -125,7 +125,7 @@
 									</c:otherwise>
 
 								</c:choose>
-							</c:if>
+							</h:panelGroup>
 						</h:form>
 					</div>
 

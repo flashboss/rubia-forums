@@ -87,7 +87,7 @@
 
 						<div class="forumfloatright">
 
-							<ui:fragment rendered="${forums:feedsConfigured()}">
+							<h:panelGroup rendered="${forums:feedsConfigured()}">
 								<!--  feeds -->
 								<a href="#{forum.rssFeed}"> <img
 									src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
@@ -99,7 +99,7 @@
 									ATOM
 								</a>
             &#160;
-        </ui:fragment>
+        </h:panelGroup>
 
 							<h:commandLink action="#{forumWatch.deActivateWatch}"
 								rendered="#{forumWatch.watchingForum ne null and userModule.guest==false}">
@@ -189,7 +189,7 @@
 								<td class="forumheadercentered">${resourcebundle.Views}</td>
 								<td class="forumheaderlast">${resourcebundle.Last_Post}</td>
 							</tr>
-							<ui:fragment
+							<h:panelGroup
 								rendered="#{forum.forum.topicCount>0 and forum.announcementsPresent}">
 								<!-- Announcement threads -->
 
@@ -233,10 +233,10 @@
 													25)}&#8230;">
 												<f:param name="p"
 													value="#{forum.topicLastPosts[topicrow.id].id}" />
-											</h:commandLink> <br /> ${resourcebundle.By} <ui:fragment
+											</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
 												rendered="#{userModule.guest}">
                             ${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}
-                        </ui:fragment> <h:commandLink action="viewProfile"
+                        </h:panelGroup> <h:commandLink action="viewProfile"
 												rendered="#{!userModule.guest}"
 												value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
 												<f:param name="uid"
@@ -245,8 +245,8 @@
 									</tr>
 
 								</c:forEach>
-							</ui:fragment>
-							<ui:fragment
+							</h:panelGroup>
+							<h:panelGroup
 								rendered="#{forum.forum.topicCount>0 and forum.stickyThreadsPresent}">
 								<!-- Sticky Threads -->
 
@@ -304,7 +304,7 @@
 									</tr>
 
 								</c:forEach>
-							</ui:fragment>
+							</h:panelGroup>
 
 							<!-- Normal threads -->
 
@@ -406,7 +406,7 @@
 								</div>
 							</c:if>
 
-							<ui:fragment rendered="#{forum.forum.topicCount eq 0}">
+							<h:panelGroup rendered="#{forum.forum.topicCount eq 0}">
 								<tr>
 									<td class="nonewpostRow" colspan="6">
 										<h3>
@@ -415,7 +415,7 @@
 										</h3>
 									</td>
 								</tr>
-							</ui:fragment>
+							</h:panelGroup>
 						</table>
 					</h:form>
 					<h:form>
@@ -444,7 +444,7 @@
 						</forums:isAllowed>
 
 						<!-- MODERATION -->
-						<c:if test="#{!userModule.guest}">
+						<h:panelGroup rendered="#{!userModule.guest}">
 							<forums:isAllowed fragment="acl://moderateForum"
 								contextData="#{forum.forum}"
 								forumsACLProvider="#{forumsACLProvider}"
@@ -462,9 +462,9 @@
 									</ul>
 								</div>
 							</forums:isAllowed>
-						</c:if>
+						</h:panelGroup>
 						<!-- ADMINISTRATION -->
-						<c:if test="#{!userModule.guest}">
+						<h:panelGroup rendered="#{!userModule.guest}">
 							<forums:isAllowed fragment="acl://lockForums"
 								contextData="#{forum.forum}"
 								forumsACLProvider="#{forumsACLProvider}"
@@ -493,7 +493,7 @@
 									</ul>
 								</div>
 							</forums:isAllowed>
-						</c:if>
+						</h:panelGroup>
 
 
 						<hr class="forumdashedHR" />

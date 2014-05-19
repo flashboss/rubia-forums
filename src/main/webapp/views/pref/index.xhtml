@@ -26,7 +26,7 @@
 
 		<ui:define name="mainContent">
 
-			<c:if test="#{!userModule.guest}">
+			<h:panelGroup rendered="#{!userModule.guest}">
 				<h:form>
 					<table width="100%" border="0" cellpadding="0" cellspacing="0"
 						class="forumtablestyle">
@@ -205,10 +205,10 @@
 						</tr>
 					</table>
 				</h:form>
-			</c:if>
+			</h:panelGroup>
 
 			<!-- in case of anonymous access -->
-			<c:if test="#{userModule.guest}">
+			<h:panelGroup rendered="#{userModule.guest}">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0"
 					class="forumtablestyle">
 					<tr>
@@ -228,7 +228,7 @@
 						</td>
 					</tr>
 				</table>
-			</c:if>
+			</h:panelGroup>
 
 		</ui:define>
 	</ui:composition>

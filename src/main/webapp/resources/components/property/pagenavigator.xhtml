@@ -32,7 +32,7 @@
 
 	<cc:implementation>
 		<!-- mini post navigator for this topic -->
-		<ui:fragment
+		<h:panelGroup
 			rendered="#{cc.attrs.component.topicNavigator[cc.attrs.topicrow.id] ne null and cc.attrs.component.topicNavigator[cc.attrs.topicrow.id].totalPages > 1}">
                         &#160;(&#160;
                         <h:commandLink action="viewTopic" value="${1}">
@@ -44,7 +44,7 @@
 				<f:param name="t" value="#{cc.attrs.topicrow.id}" />
 				<f:param name="page" value="1" />
 			</h:commandLink>
-			<ui:fragment
+			<h:panelGroup
 				rendered="#{cc.attrs.component.topicNavigator[cc.attrs.topicrow.id].totalPages gt 2}">
                             &#160;
                             <h:commandLink action="viewTopic"
@@ -52,8 +52,8 @@
 					<f:param name="t" value="#{cc.attrs.topicrow.id}" />
 					<f:param name="page" value="2" />
 				</h:commandLink>
-			</ui:fragment>
-			<ui:fragment
+			</h:panelGroup>
+			<h:panelGroup
 				rendered="#{cc.attrs.component.topicNavigator[cc.attrs.topicrow.id].totalPages gt 3}">                        
                             &#160;&#8230;&#160;
                             <h:commandLink action="viewTopic"
@@ -62,9 +62,9 @@
 					<f:param name="page"
 						value="#{cc.attrs.component.topicNavigator[cc.attrs.topicrow.id].totalPages-1}" />
 				</h:commandLink>
-			</ui:fragment>
+			</h:panelGroup>
                         &#160;)
-                    </ui:fragment>
+                    </h:panelGroup>
 
 	</cc:implementation>
 
