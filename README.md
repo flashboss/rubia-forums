@@ -78,14 +78,12 @@ to deploy it with the shell command in jboss:
    
  to create new users in jboss 7:
 
-1-
-
 $JBOSS_HOME/bin/add_user.sh
 
-What type of user do you wish to add? 
- a) Management User (mgmt-users.properties) 
- b) Application User (application-users.properties)
-(a): b
+    What type of user do you wish to add? 
+     a) Management User (mgmt-users.properties) 
+     b) Application User (application-users.properties)
+    (a): b
 
 Enter the details of the new user to add.
 Realm (ApplicationRealm) : 
@@ -114,6 +112,6 @@ In this sample you must set the testing in the italian language.
 
 To debug the application using Eclipse you can put this parameter:
 
-mvn -Dmaven.surefire.debug test
+    mvn -Dmaven.surefire.debug test
 
 It will start on the 5005 port.
