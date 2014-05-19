@@ -110,4 +110,10 @@ If your web application uses a default locale different by the english you must 
 
 	mvn -P${distribution},selenium test -Duser.language=it -Duser.region=IT
 		
-In this sample you must set the testing in the italian language
+In this sample you must set the testing in the italian language.
+
+To debug the application using Eclipse you can put this parameter:
+
+mvn -Dmaven.surefire.debug test
+
+It will start on the 5005 port.
