@@ -31,6 +31,8 @@ Supported application servers and distributions
 
 - JBoss AS 7.1.1.Final
 - Gatein 3.6.0.Final
+- Gatein 3.7.0.Final
+- Gatein 3.8.1.Final
 - EAP 6.1.0.Final
 - EAP 6.2.0.Final
 - JBoss Portal 6.1.0.Final
