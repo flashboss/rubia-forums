@@ -39,27 +39,27 @@ public class CategoryTest extends AbstractTestCase {
 
 	public final static String CREATED_CATEGORY_1_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Category_created_0")
-			+ "\"First Category\""
+			+ " \"First Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_created_1");
 	public final static String CREATED_CATEGORY_2_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Category_created_0")
-			+ "\"Second Category\""
+			+ " \"Second Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_created_1");
 	public final static String REMOVED_CATEGORY_0_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Category_deleted_0")
-			+ "\"First Category\""
+			+ " \"First Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_deleted_1");
 	public final static String REMOVED_CATEGORY_1_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Category_deleted_0")
-			+ "\"Second Category\""
+			+ " \"Second Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_deleted_1");
 	public final static String UPDATED_CATEGORY_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Category_updated_0")
-			+ "\"Third Category\""
+			+ " \"Third Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_updated_1");
 
@@ -72,42 +72,44 @@ public class CategoryTest extends AbstractTestCase {
 	@Test
 	public void testCreateCategory() {
 		String message = CreateCategory.createCategory(selenium,
-				"First Category");
+				"First Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = CreateCategory.createCategory(selenium, "Second Category");
+		message = CreateCategory.createCategory(selenium,
+				"Second Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
 	@Test
 	public void testMoveUpCategory() {
-		String message = MoveCategory.moveCategory(selenium, "First Category",
-				Move.UP);
+		String message = MoveCategory.moveCategory(selenium,
+				"First Test Category", Move.UP);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 	}
 
 	@Test
 	public void testMoveDownCategory() {
-		String message = MoveCategory.moveCategory(selenium, "First Category",
-				Move.DOWN);
+		String message = MoveCategory.moveCategory(selenium,
+				"First Test Category", Move.DOWN);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 	}
 
 	@Test
 	public void testRemoveCategory() {
 		String message = RemoveCategory.removeCategory(selenium,
-				"First Category");
+				"First Test Category");
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = RemoveCategory.removeCategory(selenium, "Second Category");
+		message = RemoveCategory.removeCategory(selenium,
+				"Second Test Category");
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void testUpdateCategory() {
 		String message = UpdateCategory.updateCategory(selenium,
-				"First Category", "Third Category");
+				"First Test Category", "Third Test Category");
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
 		message = UpdateCategory.updateCategory(selenium,
-				"Not Existent Category", "Third Category");
+				"Not Existent Category", "Third Test Category");
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}
 }

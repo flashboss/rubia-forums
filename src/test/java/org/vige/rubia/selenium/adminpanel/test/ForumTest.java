@@ -41,22 +41,22 @@ public class ForumTest extends AbstractTestCase {
 
 	public final static String CREATED_FORUM_0_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Forum_created_0")
-			+ "\"First Forum\""
+			+ " \"First Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_created_1");
 	public final static String CREATED_FORUM_1_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Forum_created_0")
-			+ "\"Second Forum\""
+			+ " \"Second Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_created_1");
 	public final static String REMOVED_FORUM_0_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Forum_deleted_0")
-			+ "\"First Forum\""
+			+ " \"First Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_deleted_1");
 	public final static String REMOVED_FORUM_1_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Forum_deleted_0")
-			+ "\"Second Forum\""
+			+ " \"Second Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_deleted_1");
 	public final static String LOCKED_FORUM_MESSAGE = ResourceBundle.getBundle(
@@ -65,7 +65,7 @@ public class ForumTest extends AbstractTestCase {
 			.getBundle("ResourceJSF").getString("Forum_unlocked");
 	public final static String UPDATED_FORUM_MESSAGE = ResourceBundle
 			.getBundle("ResourceJSF").getString("Forum_updated_0")
-			+ "\"Third Forum\""
+			+ " \"Third Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_updated_1");
 
@@ -77,56 +77,57 @@ public class ForumTest extends AbstractTestCase {
 
 	@Test
 	public void testCreateForum() {
-		String message = CreateForum.createForum(selenium, "First Forum",
-				"First Description", "First Category");
+		String message = CreateForum.createForum(selenium, "First Test Forum",
+				"First Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = CreateForum.createForum(selenium, "Second Forum",
-				"Second Description", "First Category");
+		message = CreateForum.createForum(selenium, "Second Test Forum",
+				"Second Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@Test
 	public void testMoveUpForum() {
-		String message = MoveForum.moveForum(selenium, "First Forum", Move.UP);
+		String message = MoveForum.moveForum(selenium, "First Test Forum",
+				Move.UP);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 	}
 
 	@Test
 	public void testMoveDownForum() {
-		String message = MoveForum
-				.moveForum(selenium, "First Forum", Move.DOWN);
+		String message = MoveForum.moveForum(selenium, "First Test Forum",
+				Move.DOWN);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 	}
 
 	@Test
 	public void testLockForum() {
-		String message = LockForum.lockForum(selenium, "First Forum");
+		String message = LockForum.lockForum(selenium, "First Test Forum");
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
 	}
 
 	@Test
 	public void testUnlockForum() {
-		String message = UnlockForum.unlockForum(selenium, "First Forum");
+		String message = UnlockForum.unlockForum(selenium, "First Test Forum");
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
 	@Test
 	public void testRemoveForum() {
-		String message = RemoveForum.removeForum(selenium, "First Forum");
+		String message = RemoveForum.removeForum(selenium, "First Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = RemoveForum.removeForum(selenium, "Second Forum");
+		message = RemoveForum.removeForum(selenium, "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 	}
 
 	@Test
 	public void testUpdateForum() {
-		String message = UpdateForum.updateForum(selenium, "First Forum",
-				new String[] { "Third Forum", "Third Description",
-						"Second Category" });
+		String message = UpdateForum.updateForum(selenium, "First Test Forum",
+				new String[] { "Third Test Forum", "Third Test Description",
+						"Second Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_MESSAGE));
 		message = UpdateForum.updateForum(selenium, "Not Existent Forum",
-				new String[] { "Third Forum", "Third Description",
-						"Second Category" });
+				new String[] { "Third Test Forum", "Third Test Description",
+						"Second Test Category" });
 		assertFalse(message.equals(UPDATED_FORUM_MESSAGE));
 	}
 }

@@ -27,7 +27,7 @@ public class CreateCategory {
 		selenium.click(CREATE_CATEGORY_LINK);
 		selenium.waitForPageToLoad();
 		selenium.type(CREATE_CATEGORY_TITLE_INPUT_TEXT, categoryTitle);
-		selenium.click(id("addCategoryForm:editinline"));
+		selenium.click(CREATE_CATEGORY_BUTTON);
 		selenium.waitForPageToLoad();
 		String message = selenium.getText(RESULT_CREATE_CATEGORY);
 		return message;
