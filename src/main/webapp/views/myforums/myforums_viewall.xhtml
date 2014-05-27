@@ -59,40 +59,31 @@
 										</h:commandLink>
 									</h3> <p:pagenavigator id="pageNavigator" topicrow="#{topicrow}"
 										component="#{myForumsAll}" /> <br />
-									${resourcebundle.By}&#160; <c:choose>
-
-										<c:when test="#{userModule.guest}">
+									${resourcebundle.By}&#160; <h:panelGroup
+										rendered="#{userModule.guest}">
                         ${userModule.findUserById(topicrow.poster.userId).userName}
-                    </c:when>
+                    </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+										<h:commandLink action="viewProfile"
+											value="${userModule.findUserById(topicrow.poster.userId).userName}">
+											<f:param name="uid" value="${topicrow.poster.userId}" />
+										</h:commandLink>
+									</h:panelGroup>
 
-										<c:otherwise>
-											<h:commandLink action="viewProfile"
-												value="${userModule.findUserById(topicrow.poster.userId).userName}">
-												<f:param name="uid" value="${topicrow.poster.userId}" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose>
 								</td>
 								<td class="forumlistlast"><h:commandLink action="viewTopic"
 										value="#{fn:substring(myForumsAll.topicsLastPosts[topicrow.id].message.subject,0,25)}&#8230;">
 										<f:param name="p"
 											value="#{myForumsAll.topicsLastPosts[topicrow.id].id}" />
-									</h:commandLink> <br /> ${resourcebundle.By} <c:choose>
-
-										<c:when test="#{userModule.guest}">
+									</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
+										rendered="#{userModule.guest}">
                         ${userModule.findUserById(myForumsAll.topicsLastPosts[topicrow.id].poster.userId).userName}
-                    </c:when>
-
-										<c:otherwise>
-											<h:commandLink action="viewProfile"
-												value="${userModule.findUserById(myForumsAll.topicsLastPosts[topicrow.id].poster.userId).userName}">
-												<f:param name="uid"
-													value="#{myForumsAll.topicsLastPosts[topicrow.id].poster.userId}" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose> <br /> #{myForumsAll.topicsLastPosts[topicrow.id].createDate}</td>
+                    </h:panelGroup> <h:panelGroup rendered="#{userModule.guest}">
+										<h:commandLink action="viewProfile"
+											value="${userModule.findUserById(myForumsAll.topicsLastPosts[topicrow.id].poster.userId).userName}">
+											<f:param name="uid"
+												value="#{myForumsAll.topicsLastPosts[topicrow.id].poster.userId}" />
+										</h:commandLink>
+									</h:panelGroup> <br /> #{myForumsAll.topicsLastPosts[topicrow.id].createDate}</td>
 								<td class="forumlistopen"><input type="hidden" name="t"
 									value="${topicrow.id}" /> <input type="hidden"
 									name="editWatch" value="true" /> <c:choose>
@@ -144,20 +135,15 @@
 										</h:commandLink>
 									</h3> <p:pagenavigator id="pageNavigator_${topicrow.id}"
 										topicrow="#{topicrow}" component="#{myForumsAll}" /> <br />
-									${resourcebundle.By}&#160; <c:choose>
-
-										<c:when test="#{userModule.guest}">
+									${resourcebundle.By}&#160; <h:panelGroup
+										rendered="#{userModule.guest}">
                         ${userModule.findUserById(topicrow.poster.userId).userName}
-                    </c:when>
-
-										<c:otherwise>
-											<h:commandLink action="viewProfile"
-												value="${userModule.findUserById(topicrow.poster.userId).userName}">
-												<f:param name="uid" value="${topicrow.poster.userId}" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose>
+                    </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+										<h:commandLink action="viewProfile"
+											value="${userModule.findUserById(topicrow.poster.userId).userName}">
+											<f:param name="uid" value="${topicrow.poster.userId}" />
+										</h:commandLink>
+									</h:panelGroup>
 								</td>
 								<td colspan="3">
 									<div class="forumfloatright">

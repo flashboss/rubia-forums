@@ -293,22 +293,19 @@
 								rows="#{prefController.postsPerTopic}" rowClasses="oddRow">
 								<tr>
 									<rich:column styleClass="forumpostleftcolumn">
-										<c:choose>
 
-											<c:when test="#{userModule.guest}">
+										<h:panelGroup rendered="#{userModule.guest}">
                         ${postrow.poster.userId}
-                    </c:when>
+                    </h:panelGroup>
 
-											<c:otherwise>
-												<h:commandLink action="viewProfile"
-													id="_#{postrow.id}outputLink12"
-													value="${postrow.poster.userId}">
-													<f:param name="uid" value="${postrow.poster.userId}" />
-													<f:param name="t" value="#{topic.topic.id}" />
-												</h:commandLink>
-											</c:otherwise>
-
-										</c:choose>
+										<h:panelGroup rendered="#{!userModule.guest}">
+											<h:commandLink action="viewProfile"
+												id="_#{postrow.id}outputLink12"
+												value="${postrow.poster.userId}">
+												<f:param name="uid" value="${postrow.poster.userId}" />
+												<f:param name="t" value="#{topic.topic.id}" />
+											</h:commandLink>
+										</h:panelGroup>
 									</rich:column>
 									<rich:column styleClass="forumpostspacer">
 										<a name="${postrow.id}" />

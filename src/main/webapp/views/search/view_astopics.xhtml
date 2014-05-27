@@ -148,20 +148,18 @@
 					</h3>
 					<!-- mini post navigator for this topic -->
 					<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
-					<br /> ${resourcebundle.By}&#160; <c:choose>
+					<br /> ${resourcebundle.By}&#160;
 
-						<c:when test="#{userModule.guest}">
+						<h:panelGroup rendered="#{userModule.guest}">
 				                            ${userModule.findUserById(topicrow.poster.userId).userName}
-				                        </c:when>
+				                        </h:panelGroup>
 
-						<c:otherwise>
-							<h:commandLink action="viewProfile"
-								value="${userModule.findUserById(topicrow.poster.userId).userName}">
-								<f:param name="uid" value="${topicrow.poster.userId}" />
-							</h:commandLink>
-						</c:otherwise>
-
-					</c:choose>
+					<h:panelGroup rendered="#{!userModule.guest}">
+						<h:commandLink action="viewProfile"
+							value="${userModule.findUserById(topicrow.poster.userId).userName}">
+							<f:param name="uid" value="${topicrow.poster.userId}" />
+						</h:commandLink>
+					</h:panelGroup>
 
 				</rich:column>
 
@@ -173,21 +171,19 @@
 						<f:param name="p"
 							value="#{viewSearch.topicLastPosts[topicrow.id].id}" />
 					</h:commandLink>
-					<br /> ${resourcebundle.By} <c:choose>
+					<br /> ${resourcebundle.By}
 
-						<c:when test="#{userModule.guest}">
+						<h:panelGroup rendered="#{userModule.guest}">
 				                            ${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}
-				                        </c:when>
+				                        </h:panelGroup>
 
-						<c:otherwise>
-							<h:commandLink action="viewProfile"
-								value="${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}">
-								<f:param name="uid"
-									value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
-							</h:commandLink>
-						</c:otherwise>
-
-					</c:choose>
+					<h:panelGroup rendered="#{!userModule.guest}">
+						<h:commandLink action="viewProfile"
+							value="${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}">
+							<f:param name="uid"
+								value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
+						</h:commandLink>
+					</h:panelGroup>
 					<br /> #{viewSearch.topicLastPosts[topicrow.id].createDate}</rich:column>
 			</rich:columnGroup>
 

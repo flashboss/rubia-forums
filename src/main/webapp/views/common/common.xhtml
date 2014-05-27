@@ -39,12 +39,12 @@
 								action="viewSearch" />
 						</li>
 
-						<c:if
-							test="#{forums:isRunningInPortal()==false and userModule.guest==false}">
+						<h:panelGroup
+							rendered="#{forums:isRunningInPortal()==false and userModule.guest==false}">
 							<li>&#160;&#160;|&#160;&#160; <h:commandLink
 									value="${resourcebundle.Preferences}" action="viewPreferences" />
 							</li>
-						</c:if>
+						</h:panelGroup>
 
 						<h:panelGroup rendered="#{userModule.guest==false}">
 							<li>&#160;&#160;|&#160;&#160; <h:commandLink

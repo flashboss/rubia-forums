@@ -109,31 +109,27 @@
 										<td class="forumlistcentered">${forumrow.postCount}</td>
 										<td class="forumlistlast"><c:choose>
 												<c:when test="#{category.forumLastPosts[forumrow.id]!=null}">
-											<h:commandLink action="viewTopic"
-												value="#{fn:substring(category.forumLastPosts[forumrow.id].message.subject,0,25)}&#8230;">
-												<f:param name="p"
-													value="#{category.forumLastPosts[forumrow.id].id}" />
-											</h:commandLink>
+													<h:commandLink action="viewTopic"
+														value="#{fn:substring(category.forumLastPosts[forumrow.id].message.subject,0,25)}&#8230;">
+														<f:param name="p"
+															value="#{category.forumLastPosts[forumrow.id].id}" />
+													</h:commandLink>
 
 													<br></br>
                                 ${resourcebundle.By}&#160;
-                                
-	                            <c:choose>
 
-														<c:when test="#{userModule.guest}">
+														<h:panelGroup rendered="#{userModule.guest}">
                                         ${userModule.findUserById(category.forumLastPosts[forumrow.id].poster.userId).userName}
-                                    </c:when>
+                                    </h:panelGroup>
 
-														<c:otherwise>
-															<h:commandLink
-																value="${userModule.findUserById(category.forumLastPosts[forumrow.id].poster.userId).userName}"
-																action="viewProfile">
-																<f:param name="uid"
-																	value="#{category.forumLastPosts[forumrow.id].poster.userId}" />
-															</h:commandLink>
-														</c:otherwise>
-
-													</c:choose>
+													<h:panelGroup rendered="#{!userModule.guest}">
+														<h:commandLink
+															value="${userModule.findUserById(category.forumLastPosts[forumrow.id].poster.userId).userName}"
+															action="viewProfile">
+															<f:param name="uid"
+																value="#{category.forumLastPosts[forumrow.id].poster.userId}" />
+														</h:commandLink>
+													</h:panelGroup>
 
 													<br></br>
                                 #{category.forumLastPosts[forumrow.id].createDate}

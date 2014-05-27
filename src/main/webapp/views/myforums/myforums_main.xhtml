@@ -59,20 +59,15 @@
 										</h:commandLink>
 									</h3> <p:pagenavigator id="pageNavigator" topicrow="#{topicrow}"
 										component="#{myForums}" /><br /> ${resourcebundle.By}&#160;
-									<c:choose>
 
-										<c:when test="#{userModule.guest}">
+									<h:panelGroup rendered="#{userModule.guest}">
                     ${userModule.findUserById(topicrow.poster.userId).userName}
-                </c:when>
-
-										<c:otherwise>
-											<h:commandLink action="viewProfile"
-												value="${userModule.findUserById(topicrow.poster.userId).userName}">
-												<f:param name="uid" value="${topicrow.poster.userId}" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose>
+                </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+										<h:commandLink action="viewProfile"
+											value="${userModule.findUserById(topicrow.poster.userId).userName}">
+											<f:param name="uid" value="${topicrow.poster.userId}" />
+										</h:commandLink>
+									</h:panelGroup>
 								</td>
 								<td class="forumlistcentered">${topicrow.replies}</td>
 								<td class="forumlistcentered">${topicrow.viewCount}</td>
@@ -80,21 +75,16 @@
 										value="#{fn:substring(myForums.topicsLastPosts[topicrow.id].message.subject,0,25)}&#8230;">
 										<f:param name="p"
 											value="#{myForums.topicsLastPosts[topicrow.id].id}" />
-									</h:commandLink> <br /> ${resourcebundle.By} <c:choose>
-
-										<c:when test="#{userModule.guest}">
+									</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
+										rendered="#{userModule.guest}">
                     ${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}
-                </c:when>
-
-										<c:otherwise>
-											<h:commandLink action="viewProfile"
-												value="${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}">
-												<f:param name="uid"
-													value="#{myForums.topicsLastPosts[topicrow.id].poster.userId}" />
-											</h:commandLink>
-										</c:otherwise>
-
-									</c:choose> <br /> #{myForums.topicsLastPosts[topicrow.id].createDate}</td>
+                </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+										<h:commandLink action="viewProfile"
+											value="${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}">
+											<f:param name="uid"
+												value="#{myForums.topicsLastPosts[topicrow.id].poster.userId}" />
+										</h:commandLink>
+									</h:panelGroup> <br /> #{myForums.topicsLastPosts[topicrow.id].createDate}</td>
 								<td class="forumlistcentered">
 									<div class="actionbuttons">
 										<ul>
@@ -174,22 +164,18 @@
 
 											<br></br>
                     ${resourcebundle.By}&#160;
-                    
-                    <c:choose>
 
-												<c:when test="#{userModule.guest}">
+												<h:panelGroup rendered="#{userModule.guest}">
                             ${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}
-                        </c:when>
+                        </h:panelGroup>
 
-												<c:otherwise>
-													<h:commandLink action="viewProfile"
-														value="${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}">
-														<f:param name="uid"
-															value="#{myForums.forumsLastPosts[forumrow.id].poster.userId}" />
-													</h:commandLink>
-												</c:otherwise>
-
-											</c:choose>
+											<h:panelGroup rendered="#{!userModule.guest}">
+												<h:commandLink action="viewProfile"
+													value="${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}">
+													<f:param name="uid"
+														value="#{myForums.forumsLastPosts[forumrow.id].poster.userId}" />
+												</h:commandLink>
+											</h:panelGroup>
 
 											<br></br>
                     #{myForums.forumsLastPosts[forumrow.id].createDate}

@@ -64,30 +64,26 @@
 
 										<c:when
 											test="#{myForumsEdit.forumsLastPosts[forumrow.id]!=null}">
-												<h:commandLink
-													action="viewTopic"
-													value="#{fn:substring(myForumsEdit.forumsLastPosts[forumrow.id].message.subject,0,
+											<h:commandLink action="viewTopic"
+												value="#{fn:substring(myForumsEdit.forumsLastPosts[forumrow.id].message.subject,0,
 												25)}&#8230;">
-													<f:param name="p"
-														value="#{myForumsEdit.forumsLastPosts[forumrow.id].id}" />
-												</h:commandLink>
+												<f:param name="p"
+													value="#{myForumsEdit.forumsLastPosts[forumrow.id].id}" />
+											</h:commandLink>
 											<br />
                     ${resourcebundle.By} 
-                    <c:choose>
 
-												<c:when test="#{userModule.guest}">
+												<h:panelGroup rendered="#{userModule.guest}">
                             ${userModule.findUserById(myForumsEdit.forumsLastPosts[forumrow.id].poster.userId).userName}
-                        </c:when>
+                        </h:panelGroup>
 
-												<c:otherwise>
-													<h:commandLink action="viewProfile"
-														value="${userModule.findUserById(myForumsEdit.forumsLastPosts[forumrow.id].poster.userId).userName}">
-														<f:param name="uid"
-															value="#{myForumsEdit.forumsLastPosts[forumrow.id].poster.userId}" />
-													</h:commandLink>
-												</c:otherwise>
-
-											</c:choose>
+											<h:panelGroup rendered="#{!userModule.guest}">
+												<h:commandLink action="viewProfile"
+													value="${userModule.findUserById(myForumsEdit.forumsLastPosts[forumrow.id].poster.userId).userName}">
+													<f:param name="uid"
+														value="#{myForumsEdit.forumsLastPosts[forumrow.id].poster.userId}" />
+												</h:commandLink>
+											</h:panelGroup>
 											<br />
                     #{myForumsEdit.forumsLastPosts[forumrow.id].createDate}
                     

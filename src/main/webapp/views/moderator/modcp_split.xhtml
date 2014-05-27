@@ -146,20 +146,15 @@
 									<c:forEach items="#{splitTopic.posts}" var="postrow"
 										varStatus="status">
 										<tr class="oddRow">
-											<td class="forumpostleftcolumn"><c:choose>
-
-													<c:when test="#{userModule.guest}">
+											<td class="forumpostleftcolumn"><h:panelGroup
+													rendered="#{userModule.guest}">
                         ${userModule.findUserById(postrow.poster.userId).userName}
-                    </c:when>
-
-													<c:otherwise>
-														<h:commandLink action="viewProfile"
-															value="${userModule.findUserById(postrow.poster.userId).userName}">
-															<f:param name="uid" value="${postrow.poster.userId}" />
-														</h:commandLink>
-													</c:otherwise>
-
-												</c:choose></td>
+                    </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+													<h:commandLink action="viewProfile"
+														value="${userModule.findUserById(postrow.poster.userId).userName}">
+														<f:param name="uid" value="${postrow.poster.userId}" />
+													</h:commandLink>
+												</h:panelGroup></td>
 											<td class="forumpostspacer">
 												<div class="forumpostinfo">
 													<ul>
