@@ -62,6 +62,8 @@ public class CategoryTest extends AbstractTestCase {
 			+ " \"Third Test Category\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Category_updated_1");
+	public final static String SELECT_CATEGORY_TYPE = ResourceBundle.getBundle(
+			"ResourceJSF").getString("Delete_all_forums_topics_posts");
 
 	@BeforeMethod
 	public void setUp() {
@@ -81,25 +83,25 @@ public class CategoryTest extends AbstractTestCase {
 
 	@Test
 	public void testMoveUpCategory() {
-		String message = MoveCategory.moveCategory(selenium,
+		String categoryTitle = MoveCategory.moveCategory(selenium,
 				"First Test Category", Move.UP);
-		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
+		assertTrue(categoryTitle.equals("Second Test Category"));
 	}
 
 	@Test
 	public void testMoveDownCategory() {
-		String message = MoveCategory.moveCategory(selenium,
+		String categoryTitle = MoveCategory.moveCategory(selenium,
 				"First Test Category", Move.DOWN);
-		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
+		assertTrue(categoryTitle.equals("Second Test Category"));
 	}
 
 	@Test
 	public void testRemoveCategory() {
 		String message = RemoveCategory.removeCategory(selenium,
-				"First Test Category");
+				"First Test Category", SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = RemoveCategory.removeCategory(selenium,
-				"Second Test Category");
+				"Second Test Category", SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 

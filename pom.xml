@@ -353,7 +353,8 @@
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
-							<argLine>-Duser.language=${user.language} -Duser.region=${user.country}</argLine>
+							<argLine>-Duser.language=${user.language}
+								-Duser.region=${user.country}</argLine>
 							<systemProperties>
 								<property>
 									<name>browser</name>
@@ -1658,6 +1659,21 @@
 						<version>7.5.Final</version>
 						<executions>
 							<execution>
+								<id>add-acl</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute-commands</goal>
+								</goals>
+								<configuration>
+									<executeCommands>
+										<commands>
+											<command>/subsystem=security/security-domain=rubia-domain/acl=classic:add(acl-modules=[{"code"=>"org.jboss.security.acl.ACLProviderImpl","flag"=>"required","module-options"=>[("persistenceStrategy"=>"org.jboss.security.plugins.acl.PolicyRegistrationStrategy")]}])
+											</command>
+										</commands>
+									</executeCommands>
+								</configuration>
+							</execution>
+							<execution>
 								<id>add-forums-datasource</id>
 								<phase>install</phase>
 								<goals>
@@ -1681,7 +1697,7 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>del-datasource</id>
+								<id>del-resources</id>
 								<phase>clean</phase>
 								<goals>
 									<goal>undeploy</goal>
@@ -1827,6 +1843,21 @@
 						<version>7.5.Final</version>
 						<executions>
 							<execution>
+								<id>add-acl</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute-commands</goal>
+								</goals>
+								<configuration>
+									<executeCommands>
+										<commands>
+											<command>/subsystem=security/security-domain=rubia-domain/acl=classic:add(acl-modules=[{"code"=>"org.jboss.security.acl.ACLProviderImpl","flag"=>"required","module-options"=>[("persistenceStrategy"=>"org.jboss.security.plugins.acl.PolicyRegistrationStrategy")]}])
+											</command>
+										</commands>
+									</executeCommands>
+								</configuration>
+							</execution>
+							<execution>
 								<id>add-forums-datasource</id>
 								<phase>install</phase>
 								<goals>
@@ -1850,7 +1881,7 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>del-datasource</id>
+								<id>del-resources</id>
 								<phase>clean</phase>
 								<goals>
 									<goal>undeploy</goal>

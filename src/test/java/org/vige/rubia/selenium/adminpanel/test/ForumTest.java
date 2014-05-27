@@ -68,6 +68,8 @@ public class ForumTest extends AbstractTestCase {
 			+ " \"Third Test Forum\" "
 			+ ResourceBundle.getBundle("ResourceJSF").getString(
 					"Forum_updated_1");
+	public final static String SELECT_FORUM_TYPE = ResourceBundle.getBundle(
+			"ResourceJSF").getString("Delete_all_topics_posts");
 
 	@BeforeMethod
 	public void setUp() {
@@ -87,16 +89,16 @@ public class ForumTest extends AbstractTestCase {
 
 	@Test
 	public void testMoveUpForum() {
-		String message = MoveForum.moveForum(selenium, "First Test Forum",
+		String forumName = MoveForum.moveForum(selenium, "First Test Forum",
 				Move.UP);
-		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
+		assertTrue(forumName.equals("Second Test Forum"));
 	}
 
 	@Test
 	public void testMoveDownForum() {
-		String message = MoveForum.moveForum(selenium, "First Test Forum",
+		String forumName = MoveForum.moveForum(selenium, "First Test Forum",
 				Move.DOWN);
-		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
+		assertTrue(forumName.equals("Second Test Forum"));
 	}
 
 	@Test
@@ -113,9 +115,11 @@ public class ForumTest extends AbstractTestCase {
 
 	@Test
 	public void testRemoveForum() {
-		String message = RemoveForum.removeForum(selenium, "First Test Forum");
+		String message = RemoveForum.removeForum(selenium, "First Test Forum",
+				SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = RemoveForum.removeForum(selenium, "Second Test Forum");
+		message = RemoveForum.removeForum(selenium, "Second Test Forum",
+				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 	}
 

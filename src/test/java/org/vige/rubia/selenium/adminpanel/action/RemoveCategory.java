@@ -10,12 +10,15 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.JQueryLocator;
 import org.jboss.test.selenium.locator.LinkLocator;
 import org.jboss.test.selenium.locator.XpathLocator;
+import org.jboss.test.selenium.locator.option.OptionLabelLocator;
+import org.jboss.test.selenium.locator.option.OptionLocatorFactory;
 
 public class RemoveCategory {
 
 	public static final LinkLocator ADMIN_PANEL_LINK = link(ResourceBundle
 			.getBundle("ResourceJSF").getString("Admin_panel"));
-	public static final XpathLocator REMOVE_CATEGORY_LINK = xp("//input[type='submit']");
+	public static final JQueryLocator REMOVE_CATEGORY_LINK = jq("[class='buttonMed']");
+	public static final XpathLocator SELECT_TYPE = xp("//form/select");
 	public static final JQueryLocator RESULT_REMOVE_CATEGORY = jq("[class='successtext']");
 
 	public static String removeCategory(AjaxSelenium selenium,
@@ -26,6 +29,9 @@ public class RemoveCategory {
 				+ categoryTitle + "']/td[2]/form/ul/li[3]/a/img");
 		selenium.click(removeCategory);
 		selenium.waitForPageToLoad();
+		OptionLabelLocator categoryOption = OptionLocatorFactory
+				.optionLabel(removeType);
+		selenium.select(SELECT_TYPE, categoryOption);
 		selenium.click(REMOVE_CATEGORY_LINK);
 		selenium.waitForPageToLoad();
 		String message = selenium.getText(RESULT_REMOVE_CATEGORY);
