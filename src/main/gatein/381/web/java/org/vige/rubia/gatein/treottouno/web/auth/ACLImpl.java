@@ -30,13 +30,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.jboss.security.PicketBoxMessages;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPermission;
 import org.jboss.security.acl.Util;
 import org.jboss.security.authorization.Resource;
 import org.jboss.security.identity.Identity;
-import org.picketlink.identity.federation.core.ErrorCodes;
 
 /**
  * <p>
@@ -250,8 +250,7 @@ public class ACLImpl implements ACL, Serializable {
 	 */
 	public void setResource(Resource resource) {
 		if (this.resource != null)
-			throw new IllegalStateException(ErrorCodes.PROCESSING_EXCEPTION
-					+ "ACL resource has already been set");
+			throw PicketBoxMessages.MESSAGES.aclResourceAlreadySet();
 		this.resource = resource;
 	}
 

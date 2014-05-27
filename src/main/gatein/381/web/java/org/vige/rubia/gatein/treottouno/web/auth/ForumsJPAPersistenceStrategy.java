@@ -21,13 +21,13 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.jboss.security.PicketBoxMessages;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPersistenceStrategy;
 import org.jboss.security.acl.ACLResourceFactory;
 import org.jboss.security.acl.Util;
 import org.jboss.security.authorization.Resource;
-import org.picketlink.identity.federation.core.ErrorCodes;
 
 public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 
@@ -63,9 +63,9 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 	 * .Resource, java.util.Collection)
 	 */
 	public ACL createACL(Resource resource, Collection<ACLEntry> entries) {
-		if (resource == null)
-			throw new IllegalArgumentException(ErrorCodes.NULL_ARGUMENT
-					+ "ACLs cannot be created for null resources");
+
+	      if (resource == null)
+	         throw PicketBoxMessages.MESSAGES.invalidNullArgument("resource");
 
 		// check the cache first.
 		ACL acl = aclMap.get(resource);
