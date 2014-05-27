@@ -93,6 +93,7 @@ insert into ACL (aclID, resource) values ('86', 'org.vige.rubia.auth.ForumsACLRe
 insert into ACL (aclID, resource) values ('87', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.TopicWatchController:deActivateWatch');
 insert into ACL (aclID, resource) values ('88', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.AdminController:activateWatch');
 insert into ACL (aclID, resource) values ('89', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.action.AdminController:deActivateWatch');
+insert into ACL (aclID, resource) values ('90', 'org.vige.rubia.auth.ForumsACLResource:org.vige.rubia.ui.view.ViewMyForumsAllSubscribed:getTopicsLastPosts');
 insert into ACL_RESOURCE (id, criteria) values ('acl://editPost', 'param[0].poster.userId.equals(identity.id)');
 insert into ACL_RESOURCE (id, criteria) values ('org.vige.rubia.ui.action.EditPost:execute', 'param[0].post.poster.userId.equals(identity.id)');
 insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('1', '2', 'users', '11');
@@ -168,3 +169,4 @@ insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('71'
 insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('72', '2', 'guests', '54');
 insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('73', '2', 'guests', '55');
 insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('74', '2', 'guests', '56');
+insert into ACL_ENTRY (entryID, bitMask, identityOrRole, acl_aclID) values ('75', '2', 'users', '90');

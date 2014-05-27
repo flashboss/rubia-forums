@@ -77,7 +77,7 @@
 									</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
 										rendered="#{userModule.guest}">
                         ${userModule.findUserById(myForumsAll.topicsLastPosts[topicrow.id].poster.userId).userName}
-                    </h:panelGroup> <h:panelGroup rendered="#{userModule.guest}">
+                    </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
 										<h:commandLink action="viewProfile"
 											value="${userModule.findUserById(myForumsAll.topicsLastPosts[topicrow.id].poster.userId).userName}">
 											<f:param name="uid"
