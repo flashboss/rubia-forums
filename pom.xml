@@ -358,7 +358,7 @@
 							<systemProperties>
 								<property>
 									<name>browser</name>
-									<value>*chrome</value>
+									<value>*firefox</value>
 								</property>
 								<property>
 									<name>context.root</name>

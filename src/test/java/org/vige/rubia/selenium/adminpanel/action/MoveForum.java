@@ -2,10 +2,10 @@ package org.vige.rubia.selenium.adminpanel.action;
 
 import static org.jboss.test.selenium.locator.LocatorFactory.link;
 import static org.jboss.test.selenium.locator.LocatorFactory.xp;
+import static java.util.ResourceBundle.getBundle;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.LinkLocator;
@@ -13,8 +13,8 @@ import org.jboss.test.selenium.locator.XpathLocator;
 
 public class MoveForum {
 
-	public static final LinkLocator ADMIN_PANEL_LINK = link(ResourceBundle
-			.getBundle("ResourceJSF").getString("Admin_panel"));
+	public static final LinkLocator ADMIN_PANEL_LINK = link(getBundle(
+			"ResourceJSF").getString("Admin_panel"));
 
 	public static Map<String, Integer> moveForum(AjaxSelenium selenium,
 			String forumName, Move move) {

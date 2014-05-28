@@ -16,21 +16,23 @@
  */
 package org.vige.rubia.selenium.adminpanel.test;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static java.util.ResourceBundle.getBundle;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
+import static org.vige.rubia.selenium.adminpanel.action.Move.DOWN;
+import static org.vige.rubia.selenium.adminpanel.action.Move.UP;
+import static org.vige.rubia.selenium.adminpanel.action.MoveCategory.moveCategory;
+import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
+import static org.vige.rubia.selenium.adminpanel.action.UpdateCategory.updateCategory;
+import static java.lang.Thread.sleep;
 
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.vige.rubia.selenium.adminpanel.action.CreateCategory;
-import org.vige.rubia.selenium.adminpanel.action.Move;
-import org.vige.rubia.selenium.adminpanel.action.MoveCategory;
-import org.vige.rubia.selenium.adminpanel.action.RemoveCategory;
-import org.vige.rubia.selenium.adminpanel.action.UpdateCategory;
 
 /**
  * This class tests receipts functionality of the example.
@@ -39,75 +41,71 @@ import org.vige.rubia.selenium.adminpanel.action.UpdateCategory;
  */
 public class CategoryTest extends AbstractTestCase {
 
-	public final static String CREATED_CATEGORY_1_MESSAGE = ResourceBundle
-			.getBundle("ResourceJSF").getString("Category_created_0")
+	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle(
+			"ResourceJSF").getString("Category_created_0")
 			+ " \"First Test Category\" "
-			+ ResourceBundle.getBundle("ResourceJSF").getString(
-					"Category_created_1");
-	public final static String CREATED_CATEGORY_2_MESSAGE = ResourceBundle
-			.getBundle("ResourceJSF").getString("Category_created_0")
+			+ getBundle("ResourceJSF").getString("Category_created_1");
+	public final static String CREATED_CATEGORY_2_MESSAGE = getBundle(
+			"ResourceJSF").getString("Category_created_0")
 			+ " \"Second Test Category\" "
-			+ ResourceBundle.getBundle("ResourceJSF").getString(
-					"Category_created_1");
-	public final static String REMOVED_CATEGORY_0_MESSAGE = ResourceBundle
-			.getBundle("ResourceJSF").getString("Category_deleted_0")
+			+ getBundle("ResourceJSF").getString("Category_created_1");
+	public final static String REMOVED_CATEGORY_0_MESSAGE = getBundle(
+			"ResourceJSF").getString("Category_deleted_0")
 			+ " \"First Test Category\" "
-			+ ResourceBundle.getBundle("ResourceJSF").getString(
-					"Category_deleted_1");
-	public final static String REMOVED_CATEGORY_1_MESSAGE = ResourceBundle
-			.getBundle("ResourceJSF").getString("Category_deleted_0")
+			+ getBundle("ResourceJSF").getString("Category_deleted_1");
+	public final static String REMOVED_CATEGORY_1_MESSAGE = getBundle(
+			"ResourceJSF").getString("Category_deleted_0")
 			+ " \"Second Test Category\" "
-			+ ResourceBundle.getBundle("ResourceJSF").getString(
-					"Category_deleted_1");
-	public final static String UPDATED_CATEGORY_MESSAGE = ResourceBundle
-			.getBundle("ResourceJSF").getString("Category_updated_0")
+			+ getBundle("ResourceJSF").getString("Category_deleted_1");
+	public final static String UPDATED_CATEGORY_MESSAGE = getBundle(
+			"ResourceJSF").getString("Category_updated_0")
 			+ " \"Third Test Category\" "
-			+ ResourceBundle.getBundle("ResourceJSF").getString(
-					"Category_updated_1");
-	public final static String SELECT_CATEGORY_TYPE = ResourceBundle.getBundle(
-			"ResourceJSF").getString("Delete_all_forums_topics_posts");
+			+ getBundle("ResourceJSF").getString("Category_updated_1");
+	public final static String SELECT_CATEGORY_TYPE = getBundle("ResourceJSF")
+			.getString("Delete_all_forums_topics_posts");
 
 	@BeforeMethod
 	public void setUp() {
 		selenium.open(contextPath);
-		selenium.waitForPageToLoad();
-		String message = CreateCategory.createCategory(selenium,
-				"First Test Category");
+		try {
+			sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String message = createCategory(selenium, "First Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = CreateCategory.createCategory(selenium,
-				"Second Test Category");
+		message = createCategory(selenium, "Second Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
 	@AfterMethod
 	public void stop() {
-		String message = RemoveCategory.removeCategory(selenium,
-				"First Test Category", SELECT_CATEGORY_TYPE);
+		String message = removeCategory(selenium, "First Test Category",
+				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = RemoveCategory.removeCategory(selenium,
-				"Second Test Category", SELECT_CATEGORY_TYPE);
+		message = removeCategory(selenium, "Second Test Category",
+				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void testMoveCategory() {
-		Map<String, Integer> positions = MoveCategory.moveCategory(selenium,
-				"First Test Category", Move.UP);
+		Map<String, Integer> positions = moveCategory(selenium,
+				"First Test Category", UP);
 		assertTrue(positions.get("newPosition") < positions
 				.get("firstPosition"));
-		positions = MoveCategory.moveCategory(selenium, "First Test Category",
-				Move.DOWN);
+		positions = moveCategory(selenium, "First Test Category", DOWN);
 		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
 	}
 
 	@Test
 	public void testUpdateCategory() {
-		String message = UpdateCategory.updateCategory(selenium,
-				"First Test Category", "Third Test Category");
+		String message = updateCategory(selenium, "First Test Category",
+				"Third Test Category");
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
-		message = UpdateCategory.updateCategory(selenium,
-				"Third Test Category", "First Test Category");
+		message = updateCategory(selenium, "Third Test Category",
+				"First Test Category");
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}
 }
