@@ -19,17 +19,20 @@ package org.vige.rubia.selenium.adminpanel.test;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jboss.test.selenium.AbstractTestCase;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.vige.rubia.selenium.adminpanel.action.CreateCategory;
 import org.vige.rubia.selenium.adminpanel.action.CreateForum;
 import org.vige.rubia.selenium.adminpanel.action.LockForum;
 import org.vige.rubia.selenium.adminpanel.action.Move;
 import org.vige.rubia.selenium.adminpanel.action.MoveForum;
+import org.vige.rubia.selenium.adminpanel.action.RemoveCategory;
 import org.vige.rubia.selenium.adminpanel.action.RemoveForum;
-import org.vige.rubia.selenium.adminpanel.action.UnlockForum;
 import org.vige.rubia.selenium.adminpanel.action.UpdateForum;
 
 /**
@@ -75,11 +78,10 @@ public class ForumTest extends AbstractTestCase {
 	public void setUp() {
 		selenium.open(contextPath);
 		selenium.waitForPageToLoad();
-	}
-
-	@Test
-	public void testCreateForum() {
-		String message = CreateForum.createForum(selenium, "First Test Forum",
+		String message = CreateCategory.createCategory(selenium,
+				"First Test Category");
+		assertTrue(message.equals(CategoryTest.CREATED_CATEGORY_1_MESSAGE));
+		message = CreateForum.createForum(selenium, "First Test Forum",
 				"First Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
 		message = CreateForum.createForum(selenium, "Second Test Forum",
@@ -87,40 +89,36 @@ public class ForumTest extends AbstractTestCase {
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
-	@Test
-	public void testMoveUpForum() {
-		String forumName = MoveForum.moveForum(selenium, "First Test Forum",
-				Move.UP);
-		assertTrue(forumName.equals("Second Test Forum"));
+	@AfterMethod
+	public void stop() {
+		String message = RemoveForum.removeForum(selenium, "First Test Forum",
+				"Second Test Forum");
+		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
+		message = RemoveForum.removeForum(selenium, "Second Test Forum",
+				SELECT_FORUM_TYPE);
+		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
+		message = RemoveCategory.removeCategory(selenium,
+				"First Test Category", CategoryTest.SELECT_CATEGORY_TYPE);
+		assertTrue(message.equals(CategoryTest.REMOVED_CATEGORY_0_MESSAGE));
 	}
 
 	@Test
-	public void testMoveDownForum() {
-		String forumName = MoveForum.moveForum(selenium, "First Test Forum",
-				Move.DOWN);
-		assertTrue(forumName.equals("Second Test Forum"));
+	public void testMoveForum() {
+		Map<String, Integer> positions = MoveForum.moveForum(selenium,
+				"First Test Forum", Move.UP);
+		assertTrue(positions.get("newPosition") < positions
+				.get("firstPosition"));
+		positions = MoveForum.moveForum(selenium, "First Test Forum", Move.DOWN);
+		assertTrue(positions.get("newPosition") > positions
+				.get("firstPosition"));
 	}
 
 	@Test
 	public void testLockForum() {
 		String message = LockForum.lockForum(selenium, "First Test Forum");
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
-	}
-
-	@Test
-	public void testUnlockForum() {
-		String message = UnlockForum.unlockForum(selenium, "First Test Forum");
+		message = LockForum.lockForum(selenium, "First Test Forum");
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
-	}
-
-	@Test
-	public void testRemoveForum() {
-		String message = RemoveForum.removeForum(selenium, "First Test Forum",
-				SELECT_FORUM_TYPE);
-		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = RemoveForum.removeForum(selenium, "Second Test Forum",
-				"Second Test Forum");
-		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 	}
 
 	@Test

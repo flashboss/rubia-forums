@@ -19,9 +19,11 @@ package org.vige.rubia.selenium.adminpanel.test;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jboss.test.selenium.AbstractTestCase;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.vige.rubia.selenium.adminpanel.action.CreateCategory;
@@ -69,10 +71,6 @@ public class CategoryTest extends AbstractTestCase {
 	public void setUp() {
 		selenium.open(contextPath);
 		selenium.waitForPageToLoad();
-	}
-
-	@Test
-	public void testCreateCategory() {
 		String message = CreateCategory.createCategory(selenium,
 				"First Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -81,22 +79,8 @@ public class CategoryTest extends AbstractTestCase {
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
-	@Test
-	public void testMoveUpCategory() {
-		String categoryTitle = MoveCategory.moveCategory(selenium,
-				"First Test Category", Move.UP);
-		assertTrue(categoryTitle.equals("Second Test Category"));
-	}
-
-	@Test
-	public void testMoveDownCategory() {
-		String categoryTitle = MoveCategory.moveCategory(selenium,
-				"First Test Category", Move.DOWN);
-		assertTrue(categoryTitle.equals("Second Test Category"));
-	}
-
-	@Test
-	public void testRemoveCategory() {
+	@AfterMethod
+	public void stop() {
 		String message = RemoveCategory.removeCategory(selenium,
 				"First Test Category", SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
@@ -106,12 +90,24 @@ public class CategoryTest extends AbstractTestCase {
 	}
 
 	@Test
+	public void testMoveCategory() {
+		Map<String, Integer> positions = MoveCategory.moveCategory(selenium,
+				"First Test Category", Move.UP);
+		assertTrue(positions.get("newPosition") < positions
+				.get("firstPosition"));
+		positions = MoveCategory.moveCategory(selenium, "First Test Category",
+				Move.DOWN);
+		assertTrue(positions.get("newPosition") > positions
+				.get("firstPosition"));
+	}
+
+	@Test
 	public void testUpdateCategory() {
 		String message = UpdateCategory.updateCategory(selenium,
 				"First Test Category", "Third Test Category");
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
 		message = UpdateCategory.updateCategory(selenium,
-				"Not Existent Category", "Third Test Category");
+				"Third Test Category", "First Test Category");
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}
 }
