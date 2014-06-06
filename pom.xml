@@ -368,24 +368,6 @@
 						<configuration>
 							<argLine>-Duser.language=${user.language}
 								-Duser.region=${user.country}</argLine>
-							<systemProperties>
-								<property>
-									<name>browser</name>
-									<value>*firefox</value>
-								</property>
-								<property>
-									<name>context.root</name>
-									<value>http://root:gtn@localhost:8080/</value>
-								</property>
-								<property>
-									<name>context.path</name>
-									<value>/rubia-forums/</value>
-								</property>
-								<property>
-									<name>selenium.port</name>
-									<value>4444</value>
-								</property>
-							</systemProperties>
 						</configuration>
 					</plugin>
 				</plugins>
