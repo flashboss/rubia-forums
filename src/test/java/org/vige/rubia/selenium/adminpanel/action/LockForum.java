@@ -1,29 +1,28 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.jboss.test.selenium.locator.LocatorFactory.link;
-import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static java.util.ResourceBundle.getBundle;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.LinkLocator;
-import org.jboss.test.selenium.locator.XpathLocator;
+import static org.openqa.selenium.By.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class LockForum {
 
-	public static final LinkLocator ADMIN_PANEL_LINK = link(getBundle(
-			"ResourceJSF").getString("Admin_panel"));
-	public static final JQueryLocator RESULT_LOCK_FORUM = jq("[class='successtext']");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
+			.getString("Admin_panel");
+	public static final String RESULT_LOCK_FORUM = "successtext";
 
-	public static String lockForum(AjaxSelenium selenium, String forumName) {
-		selenium.click(ADMIN_PANEL_LINK);
-		selenium.waitForPageToLoad();
-		XpathLocator lockForum = xp("//tr[td/strong/text()='" + forumName
-				+ "']/td[2]/form/ul/li[4]/a/img");
-		selenium.click(lockForum);
-		selenium.waitForPageToLoad();
-		String message = selenium.getText(RESULT_LOCK_FORUM);
+	public static String lockForum(WebDriver driver, String forumName) {
+		WebElement adminPanelLink = driver
+				.findElement(linkText(ADMIN_PANEL_LINK));
+		adminPanelLink.click();
+		WebElement lockForum = driver
+				.findElement(xpath("//tr[td/strong/text()='" + forumName
+						+ "']/td[2]/form/ul/li[4]/a/img"));
+		lockForum.click();
+		WebElement resultLockForum = driver
+				.findElement(className("successtext"));
+		String message = resultLockForum.getText();
 		return message;
 	}
 

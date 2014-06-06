@@ -1,42 +1,40 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.link;
-import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static java.util.ResourceBundle.getBundle;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.LinkLocator;
-import org.jboss.test.selenium.locator.XpathLocator;
+import static org.openqa.selenium.By.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class MoveForum {
 
-	public static final LinkLocator ADMIN_PANEL_LINK = link(getBundle(
-			"ResourceJSF").getString("Admin_panel"));
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
+			.getString("Admin_panel");
 
-	public static Map<String, Integer> moveForum(AjaxSelenium selenium,
+	public static Map<String, Integer> moveForum(WebDriver driver,
 			String forumName, Move move) {
-		selenium.click(ADMIN_PANEL_LINK);
-		selenium.waitForPageToLoad();
-		XpathLocator moveForum = xp("//tr[td/strong/text()='" + forumName
-				+ "']/td[2]/form/ul/li[" + (move == Move.UP ? "1" : "2")
-				+ "]/a/img");
-		int firstPosition = findPosition(selenium, forumName);
-		selenium.click(moveForum);
-		selenium.waitForPageToLoad();
-		int newPosition = findPosition(selenium, forumName);
+		WebElement adminPanelLink = driver
+				.findElement(linkText(ADMIN_PANEL_LINK));
+		adminPanelLink.click();
+		WebElement moveForum = driver
+				.findElement(xpath("//tr[td/strong/text()='" + forumName
+						+ "']/td[2]/form/ul/li["
+						+ (move == Move.UP ? "1" : "2") + "]/a/img"));
+		int firstPosition = findPosition(driver, forumName);
+		moveForum.click();
+		int newPosition = findPosition(driver, forumName);
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		result.put("firstPosition", firstPosition);
 		result.put("newPosition", newPosition);
 		return result;
 	}
 
-	private static int findPosition(AjaxSelenium selenium, String forumName) {
-		XpathLocator moveForum = xp("//tr[td/strong/text()='" + forumName
-				+ "']");
-		return selenium.getElementIndex(moveForum);
+	private static int findPosition(WebDriver driver, String forumName) {
+		WebElement moveForum = driver
+				.findElement(xpath("//tr[td/strong/text()='" + forumName + "']"));
+		return moveForum.getLocation().getY();
 	}
-
 }

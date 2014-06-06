@@ -17,29 +17,32 @@
 package org.vige.rubia.selenium.adminpanel.test;
 
 import static java.util.ResourceBundle.getBundle;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.Move.DOWN;
 import static org.vige.rubia.selenium.adminpanel.action.Move.UP;
 import static org.vige.rubia.selenium.adminpanel.action.MoveCategory.moveCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.action.UpdateCategory.updateCategory;
-import static java.lang.Thread.sleep;
 
 import java.util.Map;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * This class tests receipts functionality of the example.
  * 
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
-public class CategoryTest extends AbstractTestCase {
+@RunWith(Arquillian.class)
+public class CategoryTest {
 
 	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle(
 			"ResourceJSF").getString("Category_created_0")
@@ -64,47 +67,45 @@ public class CategoryTest extends AbstractTestCase {
 	public final static String SELECT_CATEGORY_TYPE = getBundle("ResourceJSF")
 			.getString("Delete_all_forums_topics_posts");
 
-	@BeforeMethod
+	@Drone
+	private FirefoxDriver driver;
+
+	@Before
 	public void setUp() {
-		selenium.open(contextPath);
-		try {
-			sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		String message = createCategory(selenium, "First Test Category");
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		String message = createCategory(driver, "First Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(selenium, "Second Test Category");
+		message = createCategory(driver, "Second Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
-	@AfterMethod
+	@After
 	public void stop() {
-		String message = removeCategory(selenium, "First Test Category",
+		String message = removeCategory(driver, "First Test Category",
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(selenium, "Second Test Category",
+		message = removeCategory(driver, "Second Test Category",
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void testMoveCategory() {
-		Map<String, Integer> positions = moveCategory(selenium,
+		Map<String, Integer> positions = moveCategory(driver,
 				"First Test Category", UP);
 		assertTrue(positions.get("newPosition") < positions
 				.get("firstPosition"));
-		positions = moveCategory(selenium, "First Test Category", DOWN);
+		positions = moveCategory(driver, "First Test Category", DOWN);
 		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
 	}
 
 	@Test
 	public void testUpdateCategory() {
-		String message = updateCategory(selenium, "First Test Category",
+		String message = updateCategory(driver, "First Test Category",
 				"Third Test Category");
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
-		message = updateCategory(selenium, "Third Test Category",
+		message = updateCategory(driver, "Third Test Category",
 				"First Test Category");
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}

@@ -74,9 +74,9 @@ If you want deploy in production mode you must use:
     
 to deploy it with the shell command in jboss:
 
-   $JBOSS_HOME/bin/jboss-cli.sh
-   connect localhost
-   deploy /xxxx/rubia-forums.war
+    $JBOSS_HOME/bin/jboss-cli.sh
+    connect localhost
+    deploy /xxxx/rubia-forums.war
    
  to create new users in jboss 7:
 
@@ -99,14 +99,10 @@ Are you sure you want to add user 'admin' yes/no? yes
 
 to test it with selenium:
 
-download selenium-server from http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
-deploy the application in a server
-start the server with 8080 port
-java -jar selenium-server-standalone-2.41.0.jar
-mvn -P${distribution},selenium test
+    deploy the application in a server
+    mvn -P${distribution},selenium test
 
 If your web application uses a default locale different by the english you must set in the 'selenium' profile in the pom.xml:
-
 
 	mvn -P${distribution},selenium test -Duser.language=it -Duser.region=IT
 		

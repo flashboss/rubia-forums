@@ -1,39 +1,38 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.jboss.test.selenium.locator.LocatorFactory.link;
-import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static java.util.ResourceBundle.getBundle;
+import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.xpath;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.LinkLocator;
-import org.jboss.test.selenium.locator.XpathLocator;
-import org.jboss.test.selenium.locator.option.OptionLabelLocator;
-import org.jboss.test.selenium.locator.option.OptionLocatorFactory;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class RemoveForum {
 
-	public static final LinkLocator ADMIN_PANEL_LINK = link(getBundle(
-			"ResourceJSF").getString("Admin_panel"));
-	public static final JQueryLocator REMOVE_FORUM_LINK = jq("[class='buttonMed']");
-	public static final XpathLocator SELECT_TYPE = xp("//form/select");
-	public static final JQueryLocator RESULT_REMOVE_FORUM = jq("[class='successtext']");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
+			.getString("Admin_panel");
+	public static final String REMOVE_FORUM_LINK = "buttonMed";
+	public static final String SELECT_TYPE = "//form/select";
+	public static final String RESULT_REMOVE_FORUM = "successtext";
 
-	public static String removeForum(AjaxSelenium selenium, String forumName,
+	public static String removeForum(WebDriver driver, String forumName,
 			String removeType) {
-		selenium.click(ADMIN_PANEL_LINK);
-		selenium.waitForPageToLoad();
-		XpathLocator removeForum = xp("//tr[td/strong/text()='" + forumName
-				+ "']/td[2]/form/ul/li[3]/a/img");
-		selenium.click(removeForum);
-		selenium.waitForPageToLoad();
-		OptionLabelLocator categoryOption = OptionLocatorFactory
-				.optionLabel(removeType);
-		selenium.select(SELECT_TYPE, categoryOption);
-		selenium.click(REMOVE_FORUM_LINK);
-		selenium.waitForPageToLoad();
-		String message = selenium.getText(RESULT_REMOVE_FORUM);
+		WebElement adminPanelLink = driver
+				.findElement(linkText(ADMIN_PANEL_LINK));
+		adminPanelLink.click();
+		WebElement removeForum = driver
+				.findElement(xpath("//tr[td/strong/text()='" + forumName
+						+ "']/td[2]/form/ul/li[3]/a/img"));
+		removeForum.click();
+		WebElement categoryOption = driver.findElement(xpath(SELECT_TYPE));
+		categoryOption.sendKeys(removeType);
+		WebElement removeForumLink = driver
+				.findElement(className(REMOVE_FORUM_LINK));
+		removeForumLink.click();
+		WebElement resultRemoveForum = driver
+				.findElement(className(RESULT_REMOVE_FORUM));
+		String message = resultRemoveForum.getText();
 		return message;
 	}
 }

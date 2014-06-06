@@ -23,6 +23,8 @@
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
 		<richfaces.version>4.3.5.Final</richfaces.version>
+		<org.jboss.arquillian.version>1.1.4.Final</org.jboss.arquillian.version>
+		<org.jboss.arquillian.drone.version>1.3.0.Final</org.jboss.arquillian.drone.version>
 	</properties>
 
 	<repositories>
@@ -152,6 +154,13 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-drone-bom</artifactId>
+				<version>${org.jboss.arquillian.drone.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -172,14 +181,19 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>1.7</version>
-		</dependency>
-		<dependency>
 			<groupId>org.rometools</groupId>
 			<artifactId>rome-fetcher</artifactId>
 			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -190,27 +204,26 @@
 		<!-- Test dependencies -->
 
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>5.12.1</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.6</version>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<version>${org.jboss.arquillian.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-			<artifactId>selenium-java-client-driver</artifactId>
-			<version>1.0.2</version>
-			<scope>test</scope>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.test</groupId>
-			<artifactId>richfaces-selenium</artifactId>
-			<version>1.5.3.Final</version>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-webdriver-depchain</artifactId>
+			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

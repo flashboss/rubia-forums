@@ -1,34 +1,39 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.id;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.jboss.test.selenium.locator.LocatorFactory.link;
 import static java.util.ResourceBundle.getBundle;
+import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.name;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.IdLocator;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.LinkLocator;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class CreateCategory {
 
-	public static final LinkLocator ADMIN_PANEL_LINK = link(getBundle(
-			"ResourceJSF").getString("Admin_panel"));
-	public static final JQueryLocator CREATE_CATEGORY_LINK = jq("[name='newCategory']");
-	public static final IdLocator CREATE_CATEGORY_TITLE_INPUT_TEXT = id("addCategoryForm:Category");
-	public static final IdLocator CREATE_CATEGORY_BUTTON = id("addCategoryForm:editinline");
-	public static final JQueryLocator RESULT_CREATE_CATEGORY = jq("[class='successtext']");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
+			.getString("Admin_panel");
+	public static final String CREATE_CATEGORY_LINK = "newCategory";
+	public static final String CREATE_CATEGORY_TITLE_INPUT_TEXT = "addCategoryForm:Category";
+	public static final String CREATE_CATEGORY_BUTTON = "addCategoryForm:editinline";
+	public static final String RESULT_CREATE_CATEGORY = "successtext";
 
-	public static String createCategory(AjaxSelenium selenium,
-			String categoryTitle) {
-		selenium.click(ADMIN_PANEL_LINK);
-		selenium.waitForPageToLoad();
-		selenium.click(CREATE_CATEGORY_LINK);
-		selenium.waitForPageToLoad();
-		selenium.type(CREATE_CATEGORY_TITLE_INPUT_TEXT, categoryTitle);
-		selenium.click(CREATE_CATEGORY_BUTTON);
-		selenium.waitForPageToLoad();
-		String message = selenium.getText(RESULT_CREATE_CATEGORY);
+	public static String createCategory(WebDriver driver, String categoryTitle) {
+		WebElement adminPanelLink = driver
+				.findElement(linkText(ADMIN_PANEL_LINK));
+		adminPanelLink.click();
+		WebElement createCategoryLink = driver
+				.findElement(name(CREATE_CATEGORY_LINK));
+		createCategoryLink.click();
+		WebElement createCategoryTitleInputType = driver
+				.findElement(id(CREATE_CATEGORY_TITLE_INPUT_TEXT));
+		createCategoryTitleInputType.sendKeys(categoryTitle);
+		WebElement createCategoryButton = driver
+				.findElement(id(CREATE_CATEGORY_BUTTON));
+		createCategoryButton.click();
+		WebElement resultCreateCategory = driver
+				.findElement(className(RESULT_CREATE_CATEGORY));
+		String message = resultCreateCategory.getText();
 		return message;
 	}
 }

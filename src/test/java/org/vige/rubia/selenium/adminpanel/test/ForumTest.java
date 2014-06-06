@@ -17,7 +17,7 @@
 package org.vige.rubia.selenium.adminpanel.test;
 
 import static java.util.ResourceBundle.getBundle;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.LockForum.lockForum;
@@ -31,21 +31,24 @@ import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEG
 import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_1_MESSAGE;
-import static java.lang.Thread.sleep;
 
 import java.util.Map;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * This class tests receipts functionality of the example.
  * 
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
-public class ForumTest extends AbstractTestCase {
+@RunWith(Arquillian.class)
+public class ForumTest {
 
 	public final static String CREATED_FORUM_0_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_created_0")
@@ -78,67 +81,65 @@ public class ForumTest extends AbstractTestCase {
 	public final static String SELECT_FORUM_TYPE = getBundle("ResourceJSF")
 			.getString("Delete_all_topics_posts");
 
-	@BeforeMethod
+    @Drone
+    private FirefoxDriver driver;
+    
+	@Before
 	public void setUp() {
-		selenium.open(contextPath);
-		try {
-			sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		String message = createCategory(selenium, "First Test Category");
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		String message = createCategory(driver, "First Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(selenium, "Second Test Category");
+		message = createCategory(driver, "Second Test Category");
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(selenium, "First Test Forum",
+		message = createForum(driver, "First Test Forum",
 				"First Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createForum(selenium, "Second Test Forum",
+		message = createForum(driver, "Second Test Forum",
 				"Second Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
-	@AfterMethod
+	@After
 	public void stop() {
-		String message = removeForum(selenium, "First Test Forum",
+		String message = removeForum(driver, "First Test Forum",
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(selenium, "Second Test Forum", SELECT_FORUM_TYPE);
+		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(selenium, "First Test Category",
+		message = removeCategory(driver, "First Test Category",
 				CategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(selenium, "Second Test Category",
+		message = removeCategory(driver, "Second Test Category",
 				CategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void testMoveForum() {
-		Map<String, Integer> positions = moveForum(selenium,
+		Map<String, Integer> positions = moveForum(driver,
 				"First Test Forum", UP);
 		assertTrue(positions.get("newPosition") < positions
 				.get("firstPosition"));
-		positions = moveForum(selenium, "First Test Forum", DOWN);
+		positions = moveForum(driver, "First Test Forum", DOWN);
 		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
 	}
 
 	@Test
 	public void testLockForum() {
-		String message = lockForum(selenium, "First Test Forum");
+		String message = lockForum(driver, "First Test Forum");
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
-		message = lockForum(selenium, "First Test Forum");
+		message = lockForum(driver, "First Test Forum");
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
 	@Test
 	public void testUpdateForum() {
-		String message = updateForum(selenium, "First Test Forum",
+		String message = updateForum(driver, "First Test Forum",
 				new String[] { "Third Test Forum", "Third Test Description",
 						"Second Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_1_MESSAGE));
-		message = updateForum(selenium, "Third Test Forum", new String[] {
+		message = updateForum(driver, "Third Test Forum", new String[] {
 				"First Test Forum", "First Test Description",
 				"First Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
