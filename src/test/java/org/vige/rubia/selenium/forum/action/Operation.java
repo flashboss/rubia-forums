@@ -1,5 +1,5 @@
 package org.vige.rubia.selenium.forum.action;
 
 public enum Operation {
-	SUBMIT, RESET, PREVIEW
+	SUBMIT, RESET, PREVIEW, UPDATE
 }

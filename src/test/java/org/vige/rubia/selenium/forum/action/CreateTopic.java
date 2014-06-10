@@ -2,6 +2,7 @@ package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
@@ -10,6 +11,7 @@ import static org.vige.rubia.selenium.forum.action.Operation.SUBMIT;
 import java.io.File;
 import java.util.Map;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -19,9 +21,14 @@ public class CreateTopic {
 			"Home");
 	public static final String CREATE_TOPIC_LINK = "//div[@class='actionbuttons']/ul/li/a";
 	public static final String SUBJECT_INPUT_TEXT = "post:SubjectInputText";
-	public static final String BODY_INPUT_TEXT = "post:message:inp";
+	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
 	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
+	public static final String OPTION_INPUT_TEXT = "post:option_";
+	public static final String UPDATE_OPTION_BUTTON = "post:UpdateOption_";
+	public static final String RESET_OPTION_BUTTON = "post:UpdateOption_";
+	public static final String ADD_OPTION_BUTTON = "//input[value='"
+			+ getBundle("ResourceJSF").getString("Add_option") + "']";
 	public static final String DAYS_INPUT_TEXT = "post:pollDuration";
 	public static final String TO_IMPLEMENT = "to_implements";
 	public final static String SUCCESS_OPERATION = "forumtitletext";
@@ -34,12 +41,15 @@ public class CreateTopic {
 		home.click();
 		WebElement forum = driver.findElement(linkText(forumName));
 		forum.click();
-		WebElement createForum = driver.findElement(xpath(CREATE_TOPIC_LINK));
-		createForum.click();
+		WebElement createTopic = driver.findElement(xpath(CREATE_TOPIC_LINK));
+		createTopic.click();
 		WebElement subjectInput = driver.findElement(id(SUBJECT_INPUT_TEXT));
 		subjectInput.sendKeys(subject);
-		WebElement bodytInput = driver.findElement(id(BODY_INPUT_TEXT));
-		bodytInput.sendKeys(body);
+		driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
+		WebElement bodytInput = driver.findElement(cssSelector("body"));
+		((JavascriptExecutor) driver).executeScript(
+				"arguments[0].innerHTML = '" + body + "'", bodytInput);
+		driver.switchTo().defaultContent();
 		WebElement topicTypeInput = null;
 		switch (topicType) {
 		case NORMAL:
@@ -58,7 +68,7 @@ public class CreateTopic {
 		topicTypeInput.click();
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(question);
-		createOptions(driver, options, SUBMIT);
+		createOptions(driver, options);
 		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
 		daysInput.sendKeys(days + "");
 		addAttachments(driver, attachments, SUBMIT);
@@ -70,19 +80,64 @@ public class CreateTopic {
 		return updatedForum;
 	}
 
-	public static String createOptions(WebDriver driver, String[] options,
-			Operation operation) {
+	public static String[] updateOptions(WebDriver driver, String[] options) {
 		if (options != null)
-			for (String option : options) {
-				WebElement optionInput = driver
-						.findElement(id(NEW_OPTION_INPUT_TEXT));
-				optionInput.sendKeys(option);
+			for (int i = 0; i < options.length; i++) {
+				WebElement optionInput = null;
+				WebElement optionButton = null;
+				optionInput = driver
+						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
+				optionInput.sendKeys(options[i]);
+				optionButton = driver
+						.findElement(className(UPDATE_OPTION_BUTTON + (i + 1)));
+				optionButton.click();
 			}
-		WebElement optionButton = driver.findElement(id(operation.name()));
-		optionButton.click();
-		WebElement resultOptionOperation = driver.findElement(className(""));
-		String message = resultOptionOperation.getText();
-		return message;
+		WebElement[] updatedElements = driver.findElements(
+				id(OPTION_INPUT_TEXT)).toArray(new WebElement[0]);
+		String[] results = new String[updatedElements.length];
+		for (int i = 0; i < updatedElements.length; i++)
+			results[i] = updatedElements[i].getText();
+		return results;
+
+	}
+
+	public static String[] deleteOptions(WebDriver driver, String[] options) {
+		if (options != null)
+			for (int i = 0; i < options.length; i++) {
+				WebElement optionInput = null;
+				WebElement optionButton = null;
+				optionInput = driver
+						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
+				optionInput.sendKeys(options[i]);
+				optionButton = driver.findElement(className(RESET_OPTION_BUTTON
+						+ (i + 1)));
+				optionButton.click();
+			}
+		WebElement[] updatedElements = driver.findElements(
+				id(OPTION_INPUT_TEXT)).toArray(new WebElement[0]);
+		String[] results = new String[updatedElements.length];
+		for (int i = 0; i < updatedElements.length; i++)
+			results[i] = updatedElements[i].getText();
+		return results;
+
+	}
+
+	public static String[] createOptions(WebDriver driver, String[] options) {
+		if (options != null)
+			for (int i = 0; i < options.length; i++) {
+				WebElement optionInput = null;
+				WebElement optionButton = null;
+				optionInput = driver.findElement(id(NEW_OPTION_INPUT_TEXT));
+				optionInput.sendKeys(options[i]);
+				optionButton = driver.findElement(xpath(ADD_OPTION_BUTTON));
+				optionButton.click();
+			}
+		WebElement[] updatedElements = driver.findElements(
+				id(OPTION_INPUT_TEXT)).toArray(new WebElement[0]);
+		String[] results = new String[updatedElements.length];
+		for (int i = 0; i < updatedElements.length; i++)
+			results[i] = updatedElements[i].getText();
+		return results;
 	}
 
 	public static String addAttachments(WebDriver driver,
