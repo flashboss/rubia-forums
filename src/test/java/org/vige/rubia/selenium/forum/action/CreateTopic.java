@@ -8,6 +8,7 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -28,7 +29,10 @@ public class CreateTopic {
 	public static final String RESET_OPTION_BUTTON = "post:UpdateOption_";
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String DAYS_INPUT_TEXT = "post:pollDuration";
-	public static final String TO_IMPLEMENT = "to_implements";
+	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
+	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
+	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
+	public static final String SUBMIT_BUTTON = "post:Submit";
 	public final static String SUCCESS_OPERATION = "forumtitletext";
 
 	public static String createTopic(WebDriver driver, String forumName,
@@ -71,7 +75,7 @@ public class CreateTopic {
 		daysInput.clear();
 		daysInput.sendKeys(days + "");
 		addAttachments(driver, attachments);
-		WebElement operationButton = driver.findElement(id(operation.name()));
+		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
 		WebElement resultCreateTopic = driver
 				.findElement(className(SUCCESS_OPERATION));
@@ -146,23 +150,27 @@ public class CreateTopic {
 		return results;
 	}
 
-	public static String addAttachments(WebDriver driver,
+	public static String[] addAttachments(WebDriver driver,
 			Map<File, String> attachments) {
-		if (attachments != null)
+		if (attachments != null) {
+			int i = 0;
 			for (File attachment : attachments.keySet()) {
 				String comment = attachments.get(attachment);
 				WebElement attachmentInput = driver
-						.findElement(id(TO_IMPLEMENT));
+						.findElement(className(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getAbsolutePath());
-				WebElement commentInput = driver.findElement(id(TO_IMPLEMENT));
+				WebElement commentInput = driver.findElements(
+						className(FILE_COMMENT_INPUT_TEXT)).get(i + 2);
+				i++;
 				commentInput.sendKeys(comment);
 			}
-		WebElement attachmentButton = driver.findElement(id(""));
-		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
-		return message;
+		}
+		List<WebElement> attachmentResultList = driver
+				.findElements(className(RESULT_ATTACHMENT_LIST));
+		String[] result = new String[attachmentResultList.size()];
+		for (int i = 0; i < result.length; i++)
+			result[i] = attachmentResultList.get(i).getText();
+		return result;
 	}
 
 	public static String deleteAttachments(WebDriver driver,
@@ -170,10 +178,9 @@ public class CreateTopic {
 		if (attachments != null)
 			for (File attachment : attachments.keySet()) {
 				String comment = attachments.get(attachment);
-				WebElement attachmentInput = driver
-						.findElement(id(TO_IMPLEMENT));
+				WebElement attachmentInput = driver.findElement(id(""));
 				attachmentInput.sendKeys(attachment.getAbsolutePath());
-				WebElement commentInput = driver.findElement(id(TO_IMPLEMENT));
+				WebElement commentInput = driver.findElement(id(""));
 				commentInput.sendKeys(comment);
 			}
 		WebElement attachmentButton = driver.findElement(id(""));
