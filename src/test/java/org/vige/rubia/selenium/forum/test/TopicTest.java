@@ -58,12 +58,12 @@ public class TopicTest {
 				"First Test Body", NORMAL, "First Test Question", new String[] {
 						"First Test Answer", "Second Test Answer" }, 4, files,
 				SUBMIT);
-		assertTrue(message.equals("First Test Forum"));
+		assertTrue(message.equals("First Test Topic"));
 		message = createTopic(driver, "First Test Forum", "Second Test Topic",
 				"Second Test Body", IMPORTANT, "Second Test Question",
 				new String[] { "Third Test Answer", "Fourth Test Answer" }, 8,
 				files, SUBMIT);
-		assertTrue(message.equals("First Test Forum"));
+		assertTrue(message.equals("Second Test Topic"));
 		message = createForum(driver, "Second Test Forum",
 				"Second Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
@@ -71,7 +71,7 @@ public class TopicTest {
 				"Third Test Body", ADVICE, "Third Test Question", new String[] {
 						"Fifth Test Answer", "Sixth Test Answer" }, 9, files,
 				SUBMIT);
-		assertTrue(message.equals("Second Test Forum"));
+		assertTrue(message.equals("Third Test Topic"));
 		files.clear();
 		files.put(new File("/fourth"), "Fourth Test File");
 		files.put(new File("/fifth"), "Fifth Test File");
@@ -80,23 +80,23 @@ public class TopicTest {
 				"Foruth Test Body", IMPORTANT, "Fourth Test Question",
 				new String[] { "Seventh Test Answer", "Eight Test Answer" }, 0,
 				files, SUBMIT);
-		assertTrue(message.equals("Second Test Forum"));
+		assertTrue(message.equals("Fourth Test Topic"));
 	}
 
 	@After
 	public void stop() {
 		String message = removeTopic(driver, "First Test Forum",
-				"First Test Topic", SUBMIT);
-		assertTrue(message.equals("First Test Forum"));
+				"First Test Topic", "First Test Body", SUBMIT);
+		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "First Test Forum", "Second Test Topic",
-				SUBMIT);
-		assertTrue(message.equals("First Test Forum"));
+				"Second Test Body", SUBMIT);
+		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "Second Test Forum", "Third Test Topic",
-				SUBMIT);
-		assertTrue(message.equals("Second Test Forum"));
+				"Third Test Body", SUBMIT);
+		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "Second Test Forum", "Fourth Test Topic",
-				SUBMIT);
-		assertTrue(message.equals("Second Test Forum"));
+				"Fourth Test Body", SUBMIT);
+		assertTrue(message.equals("OK"));
 		message = removeForum(driver, "First Test Forum", "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);

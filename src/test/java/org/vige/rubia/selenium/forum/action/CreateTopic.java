@@ -1,6 +1,7 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
@@ -33,7 +34,6 @@ public class CreateTopic {
 	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
 	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
 	public static final String SUBMIT_BUTTON = "post:Submit";
-	public final static String SUCCESS_OPERATION = "forumtitletext";
 
 	public static String createTopic(WebDriver driver, String forumName,
 			String subject, String body, TopicType topicType, String question,
@@ -60,11 +60,11 @@ public class CreateTopic {
 			break;
 		case IMPORTANT:
 			topicTypeInput = driver.findElements(
-					xpath("//input[@type='radio'][1]")).get(1);
+					xpath("//input[@type='radio']")).get(1);
 			break;
 		case ADVICE:
 			topicTypeInput = driver.findElements(
-					xpath("//input[@type='radio'][2]")).get(2);
+					xpath("//input[@type='radio']")).get(2);
 			break;
 		}
 		topicTypeInput.click();
@@ -77,8 +77,7 @@ public class CreateTopic {
 		addAttachments(driver, attachments);
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
-		WebElement resultCreateTopic = driver
-				.findElement(className(SUCCESS_OPERATION));
+		WebElement resultCreateTopic = driver.findElement(linkText(subject));
 		String updatedForum = resultCreateTopic.getText();
 		return updatedForum;
 	}
@@ -159,9 +158,11 @@ public class CreateTopic {
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getAbsolutePath());
+				driver.manage().timeouts().implicitlyWait(10, SECONDS);
 				WebElement commentInput = driver.findElements(
 						className(FILE_COMMENT_INPUT_TEXT)).get(i + 2);
 				i++;
+				driver.manage().timeouts().implicitlyWait(0, SECONDS);
 				commentInput.sendKeys(comment);
 			}
 		}
