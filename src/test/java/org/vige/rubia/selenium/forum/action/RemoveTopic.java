@@ -17,7 +17,7 @@ public class RemoveTopic {
 	public static final String CONFIRM_REMOVE_TOPIC_BUTTON = "//input[@type='submit']";
 
 	public static String removeTopic(WebDriver driver, String forumName,
-			String subject, String body, Operation operation) {
+			String subject, String body) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement forum = driver.findElement(linkText(forumName));

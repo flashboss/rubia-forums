@@ -86,16 +86,16 @@ public class TopicTest {
 	@After
 	public void stop() {
 		String message = removeTopic(driver, "First Test Forum",
-				"First Test Topic", "First Test Body", SUBMIT);
+				"First Test Topic", "First Test Body");
 		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "First Test Forum", "Second Test Topic",
-				"Second Test Body", SUBMIT);
+				"Second Test Body");
 		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "Second Test Forum", "Third Test Topic",
-				"Third Test Body", SUBMIT);
+				"Third Test Body");
 		assertTrue(message.equals("OK"));
 		message = removeTopic(driver, "Second Test Forum", "Fourth Test Topic",
-				"Fourth Test Body", SUBMIT);
+				"Fourth Test Body");
 		assertTrue(message.equals("OK"));
 		message = removeForum(driver, "First Test Forum", "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
