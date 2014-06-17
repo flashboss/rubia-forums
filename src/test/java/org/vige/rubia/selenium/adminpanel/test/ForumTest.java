@@ -72,7 +72,7 @@ public class ForumTest {
 			.getString("Forum_unlocked");
 	public final static String UPDATED_FORUM_0_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_updated_0")
-			+ " \"First Test Forum\" "
+			+ " \"Second Test Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_updated_1");
 	public final static String UPDATED_FORUM_1_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_updated_0")
@@ -112,16 +112,16 @@ public class ForumTest {
 		message = removeCategory(driver, "Second Test Category",
 				CategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
-	}
+	} 
 
 	@Test
 	public void testMoveForum() {
-		Map<String, Integer> positions = moveForum(driver,
+		Map<String, Integer> positions = moveForum(driver, "First Test Forum", DOWN);
+		assertTrue(positions.get("newPosition") > positions
+				.get("firstPosition"));
+		positions = moveForum(driver,
 				"First Test Forum", UP);
 		assertTrue(positions.get("newPosition") < positions
-				.get("firstPosition"));
-		positions = moveForum(driver, "First Test Forum", DOWN);
-		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
 	}
 
@@ -135,12 +135,12 @@ public class ForumTest {
 
 	@Test
 	public void testUpdateForum() {
-		String message = updateForum(driver, "First Test Forum",
+		String message = updateForum(driver, "Second Test Forum",
 				new String[] { "Third Test Forum", "Third Test Description",
 						"Second Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_1_MESSAGE));
 		message = updateForum(driver, "Third Test Forum", new String[] {
-				"First Test Forum", "First Test Description",
+				"Second Test Forum", "First Test Description",
 				"First Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
 	}

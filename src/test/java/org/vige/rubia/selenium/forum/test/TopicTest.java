@@ -15,7 +15,6 @@ import static org.vige.rubia.selenium.adminpanel.test.ForumTest.REMOVED_FORUM_0_
 import static org.vige.rubia.selenium.adminpanel.test.ForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.ForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
-import static org.vige.rubia.selenium.forum.action.Operation.SUBMIT;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.TopicType.ADVICE;
 import static org.vige.rubia.selenium.forum.action.TopicType.IMPORTANT;
@@ -56,30 +55,28 @@ public class TopicTest {
 		files.put(new File("/third"), "Third Test File");
 		message = createTopic(driver, "First Test Forum", "First Test Topic",
 				"First Test Body", NORMAL, "First Test Question", new String[] {
-						"First Test Answer", "Second Test Answer" }, 4, files,
-				SUBMIT);
+						"First Test Answer", "Second Test Answer" }, 4, files);
 		assertTrue(message.equals("First Test Topic"));
 		message = createTopic(driver, "First Test Forum", "Second Test Topic",
 				"Second Test Body", IMPORTANT, "Second Test Question",
 				new String[] { "Third Test Answer", "Fourth Test Answer" }, 8,
-				files, SUBMIT);
+				files);
 		assertTrue(message.equals("Second Test Topic"));
 		message = createForum(driver, "Second Test Forum",
 				"Second Test Description", "First Test Category");
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 		message = createTopic(driver, "Second Test Forum", "Third Test Topic",
 				"Third Test Body", ADVICE, "Third Test Question", new String[] {
-						"Fifth Test Answer", "Sixth Test Answer" }, 9, files,
-				SUBMIT);
+						"Fifth Test Answer", "Sixth Test Answer" }, 9, files);
 		assertTrue(message.equals("Third Test Topic"));
 		files.clear();
 		files.put(new File("/fourth"), "Fourth Test File");
 		files.put(new File("/fifth"), "Fifth Test File");
 		files.put(new File("/sixth"), "Sixth Test File");
 		message = createTopic(driver, "Second Test Forum", "Fourth Test Topic",
-				"Foruth Test Body", IMPORTANT, "Fourth Test Question",
+				"Fourth Test Body", IMPORTANT, "Fourth Test Question",
 				new String[] { "Seventh Test Answer", "Eight Test Answer" }, 0,
-				files, SUBMIT);
+				files);
 		assertTrue(message.equals("Fourth Test Topic"));
 	}
 

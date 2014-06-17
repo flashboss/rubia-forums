@@ -53,7 +53,8 @@ import org.hibernate.search.annotations.Store;
 
 @NamedQueries({ @NamedQuery(name = "findForumByIdFetchTopics", query = "select f from Forum f left outer " + "join fetch f.topics where f.id = :forumId"),
 		@NamedQuery(name = "findForums", query = "select f from Forum as f " + "where f.category.forumInstance.id = :forumInstanceId " + "order by f.order asc"),
-		@NamedQuery(name = "findForumsByCategoryId", query = "select f from Forum as f where f.category=:categoryId " + "order by f.order asc"), @NamedQuery(name = "getLastForumOrder", query = "select max(f.order) from Forum as " + "f where f.category.id = :categoryId"),
+		@NamedQuery(name = "findForumsByCategoryId", query = "select f from Forum as f where f.category=:categoryId " + "order by f.order asc"), 
+		@NamedQuery(name = "getLastForumOrder", query = "select max(f.order) from Forum as " + "f where f.category.id = :categoryId"),
 		@NamedQuery(name = "findPostsFromCategoryasc", query = "select p from Forum as f join f.topics " + "as t join t.posts as p where f.category.id = :categoryId order by p.createDate " + "asc"),
 		@NamedQuery(name = "findPostsFromCategorydesc", query = "select p from Forum as f join f.topics as " + "t join t.posts as p where f.category.id = :categoryId order by p.createDate desc") })
 @Entity

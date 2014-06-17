@@ -2,6 +2,7 @@ package org.vige.rubia.selenium.adminpanel.action;
 
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
@@ -29,9 +30,11 @@ public class CreateForum {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		WebElement createForum = driver
-				.findElement(xpath("//td[strong/text()='" + categoryTitle
-						+ "']/form/div/a/img"));
+		String formId = driver.findElement(
+				xpath("//td[strong/text()='" + categoryTitle + "']/form"))
+				.getAttribute("id");
+		WebElement createForum = driver.findElement(id(formId)).findElement(
+				xpath("div/a/img"));
 		createForum.click();
 		WebElement createForumNameInputText = driver
 				.findElement(xpath(CREATE_FORUM_NAME_INPUT_TEXT));

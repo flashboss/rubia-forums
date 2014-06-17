@@ -1,7 +1,6 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
@@ -37,8 +36,7 @@ public class CreateTopic {
 
 	public static String createTopic(WebDriver driver, String forumName,
 			String subject, String body, TopicType topicType, String question,
-			String[] options, int days, Map<File, String> attachments,
-			Operation operation) {
+			String[] options, int days, Map<File, String> attachments) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement forum = driver.findElement(linkText(forumName));
@@ -158,11 +156,8 @@ public class CreateTopic {
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getAbsolutePath());
-				driver.manage().timeouts().implicitlyWait(10, SECONDS);
-				WebElement commentInput = driver.findElements(
-						className(FILE_COMMENT_INPUT_TEXT)).get(i + 2);
+				WebElement commentInput = addComment(driver, i + 2);
 				i++;
-				driver.manage().timeouts().implicitlyWait(0, SECONDS);
 				commentInput.sendKeys(comment);
 			}
 		}
@@ -172,6 +167,19 @@ public class CreateTopic {
 		for (int i = 0; i < result.length; i++)
 			result[i] = attachmentResultList.get(i).getText();
 		return result;
+	}
+
+	public static WebElement addComment(WebDriver driver, int index) {
+		WebElement commentInput = null;
+		try {
+			commentInput = driver.findElements(
+					className(FILE_COMMENT_INPUT_TEXT)).get(index);
+		} catch (IndexOutOfBoundsException ex) {
+		}
+		if (commentInput == null)
+			return addComment(driver, index);
+		else
+			return commentInput;
 	}
 
 	public static String deleteAttachments(WebDriver driver,

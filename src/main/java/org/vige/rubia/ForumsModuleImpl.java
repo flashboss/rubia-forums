@@ -763,7 +763,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		try {
 
 			Query query = em.createNamedQuery("getLastForumOrder");
-			query.setParameter("categoryId", "" + category.getId());
+			query.setParameter("categoryId", category.getId());
 			Integer lastForumOrder = (Integer) uniqueElement(query
 					.getResultList());
 			return (lastForumOrder != null) ? lastForumOrder.intValue() : 0;
