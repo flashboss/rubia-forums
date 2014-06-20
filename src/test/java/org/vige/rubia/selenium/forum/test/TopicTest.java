@@ -1,5 +1,6 @@
 package org.vige.rubia.selenium.forum.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -19,9 +20,12 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.TopicType.ADVICE;
 import static org.vige.rubia.selenium.forum.action.TopicType.IMPORTANT;
 import static org.vige.rubia.selenium.forum.action.TopicType.NORMAL;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.getTopicsOfForums;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -31,6 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.vige.rubia.model.Topic;
 import org.vige.rubia.selenium.adminpanel.test.CategoryTest;
 
 @RunWith(Arquillian.class)
@@ -80,6 +85,22 @@ public class TopicTest {
 		assertTrue(message.equals("Fourth Test Topic"));
 	}
 
+	@Test
+	public void verifyCreatedTopics() {
+		List<Topic> topics = getTopicsOfForums(driver, "First Test Forum",
+				"Second Test Forum");
+		assertEquals(topics.size(), 4);
+		Date today = new Date();
+		for (Topic topic : topics) {
+			assertEquals(topic.getForum().getName(), "First Test Forum");
+			assertTrue(topic.getLastPostDate().compareTo(today) > 0);
+			assertEquals(topic.getSubject(), "First Test Topic");
+			assertEquals(topic.getStatus(), 10);
+			assertEquals(topic.getType(), 0);
+			assertEquals(topic.getViewCount(), 0);
+		}
+	}
+
 	@After
 	public void stop() {
 		String message = removeTopic(driver, "First Test Forum",
@@ -104,10 +125,5 @@ public class TopicTest {
 		message = removeCategory(driver, "Second Test Category",
 				CategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
-	}
-
-	@Test
-	public void test() {
-
 	}
 }
