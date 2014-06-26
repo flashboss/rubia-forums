@@ -63,146 +63,151 @@ public class VerifyTopic {
 			home.click();
 			WebElement forum = driver.findElement(linkText(forumName));
 			forum.click();
-			List<WebElement> topicComponents = driver
+			List<WebElement> tableComponents = driver
 					.findElements(className(TOPIC_TABLE));
-			for (WebElement topicComponent : topicComponents) {
-				Topic topic = new Topic();
-				WebElement subjectComponent = topicComponent
-						.findElement(xpath(SUBJECT_LINK));
-				String subjectText = subjectComponent.getText();
-				topic.setSubject(subjectText);
-				WebElement subjectTypeComponent = null;
-				try {
-					subjectTypeComponent = topicComponent
-							.findElement(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
-				} catch (NoSuchElementException ex) {
-					topic.setType(0);
-				}
-				if (subjectTypeComponent != null)
-					if (subjectTypeComponent.getText().trim()
+			int tableComponentsSize = tableComponents.size();
+			for (int i = 0; i < tableComponentsSize; i++) {
+				List<WebElement> subjectComponents = driver
+						.findElements(className(TOPIC_TABLE)).get(i)
+						.findElements(xpath(SUBJECT_LINK));
+				int subjectComponentsSize = subjectComponents.size();
+				for (int i4 = 0; i4 < subjectComponentsSize; i4++) {
+					subjectComponents = driver
+							.findElements(className(TOPIC_TABLE)).get(i)
+							.findElements(xpath(SUBJECT_LINK));
+					WebElement subjectComponent = subjectComponents.get(i4);
+					Topic topic = new Topic();
+					String subjectText = subjectComponent.getText();
+					topic.setSubject(subjectText);
+					List<WebElement> subjectTypeComponents = driver
+							.findElements(className(TOPIC_TABLE)).get(i)
+							.findElements(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
+					if (subjectTypeComponents.size() == 0)
+						topic.setType(0);
+					else if (subjectTypeComponents.get(i4).getText().trim()
 							.equals(TOPIC_STICKY))
 						topic.setType(1);
 					else
 						topic.setType(2);
-				String user = topicComponent.findElement(xpath(USER_LINK))
-						.getText();
-				Poster poster = new Poster();
-				poster.setUserId(user);
-				topic.setPoster(poster);
-				subjectComponent.click();
-				WebElement question = null;
-				try {
-					question = driver
-							.findElement(className(QUESTION_OUTPUT_TEXT));
-				} catch (NoSuchElementException ex) {
-
-				}
-				if (question != null) {
-					Poll poll = new Poll();
-					poll.setTitle(question.getText());
-					List<WebElement> pollComponents = driver
-							.findElements(className(ANSWER_OUTPUT_TEXT));
-					List<PollOption> pollOptions = new ArrayList<PollOption>();
-					for (WebElement pollComponent : pollComponents) {
-						PollOption pollOption = new PollOption();
-						pollOption.setQuestion(pollComponent.getText());
-						pollOption.setPoll(poll);
-						pollOptions.add(pollOption);
-					}
-
-					WebElement votesResultComponent = driver
-							.findElement(linkText(RESULT_VOTES_LINK));
-					votesResultComponent.click();
-					List<WebElement> pollComponentsTr = driver.findElement(
-							className(FORUM_POLL_TABLE)).findElements(
-							xpath("tbody/tr"));
-					pollComponents.clear();
-					for (int i = 0; i < pollComponentsTr.size(); i++) {
-						if (i != 0 && i < pollComponentsTr.size() - 2)
-							pollComponents.add(pollComponentsTr.get(i)
-									.findElement(xpath("td")));
-					}
-					for (int i = 0; i < pollComponents.size(); i++) {
-						WebElement pollComponent = pollComponents.get(i);
-						PollOption pollOption = pollOptions.get(i);
-						String numberOfVotes = driver
-								.findElement(className(FORUM_POLL_TABLE))
-								.findElement(
-										xpath("tbody/tr[td/text()='"
-												+ pollComponent.getText()
-												+ "']/td[3]")).getText();
-						String pollOptionPosition = driver
-								.findElement(className(FORUM_POLL_TABLE))
-								.findElement(
-										xpath("tbody/tr[td/text()='"
-												+ pollComponent.getText()
-												+ "']/td[4]")).getText();
-						pollOption.setVotes(new Integer(numberOfVotes
-								.substring(0, numberOfVotes.length() - 1)));
-						pollOption
-								.setPollOptionPosition(new Integer(
-										pollOptionPosition
-												.substring(
-														1,
-														pollOptionPosition
-																.length() - 1)
-												.trim()));
-					}
-					WebElement votesComponent = driver
-							.findElement(linkText(VOTES_LINK));
-					votesComponent.click();
-					poll.setOptions(pollOptions);
-					topic.setPoll(poll);
-				}
-				List<WebElement> postComponents = driver
-						.findElements(className(BODY_OUTPUT_TEXT));
-				List<Post> posts = new ArrayList<Post>();
-				for (WebElement postComponent : postComponents) {
-					Post post = new Post();
-					String body = postComponent.findElement(xpath("p"))
+					String user = driver.findElements(className(TOPIC_TABLE))
+							.get(i).findElements(xpath(USER_LINK)).get(i4)
 							.getText();
-					String post_subject = postComponent
-							.findElement(xpath(POST_SUBJECT_OUTPUT_TEXT))
-							.getText().split(POST_SUBJECT_TEXT)[1];
-					String createDateStr = postComponent
-							.findElement(xpath(CREATE_DATE_OUTPUT_TEXT))
-							.getText().split(CREATE_DATE_TEXT)[1];
-					Date createDate = null;
+					Poster poster = new Poster();
+					poster.setUserId(user);
+					topic.setPoster(poster);
+					subjectComponent.click();
+					WebElement question = null;
 					try {
-						createDate = dateFormat.parse(createDateStr);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						question = driver
+								.findElement(className(QUESTION_OUTPUT_TEXT));
+					} catch (NoSuchElementException ex) {
+
 					}
-					Message message = new Message();
-					message.setSubject(post_subject);
-					message.setText(body);
-					post.setMessage(message);
-					post.setCreateDate(createDate);
-					List<WebElement> attachmentComponents = postComponent
-							.findElements(className(ATTACHMENT_LIST));
-					for (WebElement attachmentComponent : attachmentComponents) {
-						String attachmentName = attachmentComponent
-								.findElement(xpath(ATTACHMENT_NAME_OUTPUT_TEXT))
-								.getText();
-						String attachmentComment = attachmentComponent
-								.findElement(
-										xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT))
-								.getText();
-						String attachmentSize = attachmentComponent
-								.findElement(xpath(ATTACHMENT_SIZE_OUTPUT_TEXT))
-								.getText();
-						Attachment attachment = new Attachment();
-						attachment.setComment(attachmentComment);
-						attachment.setName(attachmentName);
-						attachment.setSize(new Integer(attachmentSize
-								.split(" B")[0]));
-						post.addAttachment(attachment);
+					if (question != null) {
+						Poll poll = new Poll();
+						poll.setTitle(question.getText());
+						List<WebElement> pollComponents = driver
+								.findElements(className(ANSWER_OUTPUT_TEXT));
+						List<PollOption> pollOptions = new ArrayList<PollOption>();
+						for (WebElement pollComponent : pollComponents) {
+							PollOption pollOption = new PollOption();
+							pollOption.setQuestion(pollComponent.getText());
+							pollOption.setPoll(poll);
+							pollOptions.add(pollOption);
+						}
+
+						WebElement votesResultComponent = driver
+								.findElement(linkText(RESULT_VOTES_LINK));
+						votesResultComponent.click();
+						List<WebElement> pollComponentsTr = driver.findElement(
+								className(FORUM_POLL_TABLE)).findElements(
+								xpath("tbody/tr"));
+						pollComponents.clear();
+						for (int i2 = 0; i2 < pollComponentsTr.size(); i2++) {
+							if (i2 != 0 && i < pollComponentsTr.size() - 2)
+								pollComponents.add(pollComponentsTr.get(i2)
+										.findElement(xpath("td")));
+						}
+						for (int i3 = 0; i3 < pollOptions.size(); i3++) {
+							WebElement pollComponent = pollComponents.get(i3);
+							PollOption pollOption = pollOptions.get(i3);
+							String numberOfVotes = driver
+									.findElement(className(FORUM_POLL_TABLE))
+									.findElement(
+											xpath("tbody/tr[td/text()='"
+													+ pollComponent.getText()
+													+ "']/td[3]")).getText();
+							String pollOptionPosition = driver
+									.findElement(className(FORUM_POLL_TABLE))
+									.findElement(
+											xpath("tbody/tr[td/text()='"
+													+ pollComponent.getText()
+													+ "']/td[4]")).getText();
+							pollOption.setVotes(new Integer(numberOfVotes
+									.substring(0, numberOfVotes.length() - 1)));
+							pollOption.setPollOptionPosition(new Integer(
+									pollOptionPosition.substring(1,
+											pollOptionPosition.length() - 1)
+											.trim()));
+						}
+						WebElement votesComponent = driver
+								.findElement(linkText(VOTES_LINK));
+						votesComponent.click();
+						poll.setOptions(pollOptions);
+						topic.setPoll(poll);
 					}
-					posts.add(post);
+					List<WebElement> postComponents = driver
+							.findElements(className(BODY_OUTPUT_TEXT));
+					List<Post> posts = new ArrayList<Post>();
+					for (WebElement postComponent : postComponents) {
+						Post post = new Post();
+						String body = postComponent.findElement(xpath("p"))
+								.getText();
+						String post_subject = postComponent
+								.findElement(xpath(POST_SUBJECT_OUTPUT_TEXT))
+								.getText().split(POST_SUBJECT_TEXT)[1];
+						String createDateStr = postComponent
+								.findElement(xpath(CREATE_DATE_OUTPUT_TEXT))
+								.getText().split(CREATE_DATE_TEXT)[1];
+						Date createDate = null;
+						try {
+							createDate = dateFormat.parse(createDateStr);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						Message message = new Message();
+						message.setSubject(post_subject);
+						message.setText(body);
+						post.setMessage(message);
+						post.setCreateDate(createDate);
+						List<WebElement> attachmentComponents = postComponent
+								.findElements(className(ATTACHMENT_LIST));
+						for (WebElement attachmentComponent : attachmentComponents) {
+							String attachmentName = attachmentComponent
+									.findElement(
+											xpath(ATTACHMENT_NAME_OUTPUT_TEXT))
+									.getText();
+							String attachmentComment = attachmentComponent
+									.findElement(
+											xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT))
+									.getText();
+							String attachmentSize = attachmentComponent
+									.findElement(
+											xpath(ATTACHMENT_SIZE_OUTPUT_TEXT))
+									.getText();
+							Attachment attachment = new Attachment();
+							attachment.setComment(attachmentComment);
+							attachment.setName(attachmentName);
+							attachment.setSize(new Integer(attachmentSize
+									.split(" B")[0]));
+							post.addAttachment(attachment);
+						}
+						posts.add(post);
+					}
+					topic.setPosts(posts);
+					topics.add(topic);
+					driver.findElement(linkText(forumName)).click();
 				}
-				topic.setPosts(posts);
-				topics.add(topic);
 			}
 		}
 		return topics;
