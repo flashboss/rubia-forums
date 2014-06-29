@@ -55,7 +55,7 @@ import org.vige.rubia.model.Topic;
 import org.vige.rubia.selenium.adminpanel.test.CategoryTest;
 
 @RunWith(Arquillian.class)
-public class TopicTest {
+public class OperationTopicTest {
 
 	@Drone
 	private FirefoxDriver driver;
@@ -107,14 +107,30 @@ public class TopicTest {
 				"Second Test Forum");
 		assertEquals(topics.size(), 4);
 		Date today = new Date();
-		for (Topic topic : topics) {
-			assertEquals(topic.getForum().getName(), "First Test Forum");
-			assertTrue(topic.getLastPostDate().compareTo(today) > 0);
-			assertEquals(topic.getSubject(), "First Test Topic");
-			assertEquals(topic.getStatus(), 10);
-			assertEquals(topic.getType(), 0);
-			assertEquals(topic.getViewCount(), 0);
-		}
+
+		assertEquals(topics.get(0).getForum().getName(), "First Test Forum");
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(0).getType(), IMPORTANT.getValue());
+		assertEquals(topics.get(0).getViewCount(), 0);
+
+		assertEquals(topics.get(1).getForum().getName(), "First Test Forum");
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getSubject(), "First Test Topic");
+		assertEquals(topics.get(1).getType(), NORMAL.getValue());
+		assertEquals(topics.get(1).getViewCount(), 0);
+
+		assertEquals(topics.get(2).getForum().getName(), "Second Test Forum");
+		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(2).getType(), ADVICE.getValue());
+		assertEquals(topics.get(2).getViewCount(), 0);
+
+		assertEquals(topics.get(3).getForum().getName(), "Second Test Forum");
+		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(3).getType(), IMPORTANT.getValue());
+		assertEquals(topics.get(3).getViewCount(), 0);
 	}
 
 	@After

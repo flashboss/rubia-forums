@@ -17,5 +17,20 @@
 package org.vige.rubia.selenium.forum.action;
 
 public enum TopicType {
-	NORMAL, IMPORTANT, ADVICE
+	
+	NORMAL(0), IMPORTANT(1), ADVICE(2);
+	
+	private int value;
+
+	private TopicType(int value) {
+		this.setValue(value);
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
 }

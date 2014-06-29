@@ -67,20 +67,8 @@ public class CreateTopic {
 				"arguments[0].innerHTML = '" + body + "'", bodytInput);
 		driver.switchTo().defaultContent();
 		WebElement topicTypeInput = null;
-		switch (topicType) {
-		case NORMAL:
-			topicTypeInput = driver.findElements(
-					xpath("//input[@type='radio']")).get(0);
-			break;
-		case IMPORTANT:
-			topicTypeInput = driver.findElements(
-					xpath("//input[@type='radio']")).get(1);
-			break;
-		case ADVICE:
-			topicTypeInput = driver.findElements(
-					xpath("//input[@type='radio']")).get(2);
-			break;
-		}
+		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
+				.get(topicType.getValue());
 		topicTypeInput.click();
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(question);

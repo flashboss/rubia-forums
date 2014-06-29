@@ -32,6 +32,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Attachment;
+import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
@@ -77,8 +78,8 @@ public class VerifyTopic {
 		for (String forumName : forumNames) {
 			WebElement home = driver.findElement(linkText(HOME_LINK));
 			home.click();
-			WebElement forum = driver.findElement(linkText(forumName));
-			forum.click();
+			WebElement forumEl = driver.findElement(linkText(forumName));
+			forumEl.click();
 			List<WebElement> tableComponents = driver
 					.findElements(className(TOPIC_TABLE));
 			int tableComponentsSize = tableComponents.size();
@@ -175,6 +176,7 @@ public class VerifyTopic {
 					List<WebElement> postComponents = driver
 							.findElements(className(BODY_OUTPUT_TEXT));
 					List<Post> posts = new ArrayList<Post>();
+					Date lastPostDate = null;
 					for (WebElement postComponent : postComponents) {
 						Post post = new Post();
 						String body = postComponent.findElement(xpath("p"))
@@ -188,6 +190,7 @@ public class VerifyTopic {
 						Date createDate = null;
 						try {
 							createDate = dateFormat.parse(createDateStr);
+							lastPostDate = createDate;
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -220,7 +223,12 @@ public class VerifyTopic {
 						}
 						posts.add(post);
 					}
+					Forum forum = new Forum();
+					forum.setName(driver.findElement(linkText(forumName))
+							.getText());
+					topic.setForum(forum);
 					topic.setPosts(posts);
+					topic.setLastPostDate(lastPostDate);
 					topics.add(topic);
 					driver.findElement(linkText(forumName)).click();
 				}
