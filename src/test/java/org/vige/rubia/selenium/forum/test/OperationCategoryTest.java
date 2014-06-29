@@ -21,10 +21,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_2_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_0_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_2_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_1_MESSAGE;
 import static org.vige.rubia.selenium.forum.action.VerifyCategory.getCategories;
 
 import java.util.ArrayList;

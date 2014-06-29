@@ -27,10 +27,10 @@ import static org.vige.rubia.selenium.adminpanel.action.MoveForum.moveForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveForum.removeForum;
 import static org.vige.rubia.selenium.adminpanel.action.UpdateForum.updateForum;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_2_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_0_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_2_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_1_MESSAGE;
 
 import java.util.Map;
 
@@ -48,7 +48,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
 @RunWith(Arquillian.class)
-public class ForumTest {
+public class AdminPanelForumTest {
 
 	public final static String CREATED_FORUM_0_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_created_0")
@@ -107,10 +107,10 @@ public class ForumTest {
 		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 		message = removeCategory(driver, "First Test Category",
-				CategoryTest.SELECT_CATEGORY_TYPE);
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = removeCategory(driver, "Second Test Category",
-				CategoryTest.SELECT_CATEGORY_TYPE);
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	} 
 

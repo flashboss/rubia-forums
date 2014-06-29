@@ -42,7 +42,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
 @RunWith(Arquillian.class)
-public class CategoryTest {
+public class AdminPanelCategoryTest {
 
 	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle(
 			"ResourceJSF").getString("Category_created_0")

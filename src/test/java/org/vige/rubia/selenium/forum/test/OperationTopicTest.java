@@ -22,15 +22,15 @@ import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCat
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveForum.removeForum;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.CREATED_CATEGORY_2_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_0_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.CategoryTest.REMOVED_CATEGORY_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.ForumTest.CREATED_FORUM_0_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.ForumTest.CREATED_FORUM_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.ForumTest.REMOVED_FORUM_0_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.ForumTest.REMOVED_FORUM_1_MESSAGE;
-import static org.vige.rubia.selenium.adminpanel.test.ForumTest.SELECT_FORUM_TYPE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_2_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_0_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.TopicType.ADVICE;
@@ -52,7 +52,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.selenium.adminpanel.test.CategoryTest;
+import org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest;
 
 @RunWith(Arquillian.class)
 public class OperationTopicTest {
@@ -152,10 +152,10 @@ public class OperationTopicTest {
 		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 		message = removeCategory(driver, "First Test Category",
-				CategoryTest.SELECT_CATEGORY_TYPE);
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = removeCategory(driver, "Second Test Category",
-				CategoryTest.SELECT_CATEGORY_TYPE);
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }
