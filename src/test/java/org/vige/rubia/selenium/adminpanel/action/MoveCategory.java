@@ -17,11 +17,12 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
 import static java.util.ResourceBundle.getBundle;
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.xpath;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.openqa.selenium.By.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -37,8 +38,7 @@ public class MoveCategory {
 		adminPanelLink.click();
 		WebElement moveCategory = driver
 				.findElement(xpath("//tr[td/strong/text()='" + categoryTitle
-						+ "']/td[2]/form/ul/li["
-						+ (move == Move.UP ? "1" : "2") + "]/a/img"));
+						+ "']/td[2]/form/ul/li[" + move.getValue() + "]/a/img"));
 		int firstPosition = findPosition(driver, categoryTitle);
 		moveCategory.click();
 		int newPosition = findPosition(driver, categoryTitle);

@@ -17,5 +17,19 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
 public enum Move {
-	UP, DOWN
+	UP(1), DOWN(2);
+
+	private int value;
+
+	private Move(int value) {
+		this.setValue(value);
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
 }

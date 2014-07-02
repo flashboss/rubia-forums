@@ -108,29 +108,37 @@ public class OperationTopicTest {
 		assertEquals(topics.size(), 4);
 		Date today = new Date();
 
-		assertEquals(topics.get(0).getForum().getName(), "First Test Forum");
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(0).getType(), IMPORTANT.getValue());
-		assertEquals(topics.get(0).getViewCount(), 0);
+		Topic secondTestTopic = topics.get(0);
+		assertEquals(secondTestTopic.getForum().getName(), "First Test Forum");
+		assertTrue(secondTestTopic.getLastPostDate().compareTo(today) < 0);
+		assertEquals(secondTestTopic.getSubject(), "Second Test Topic");
+		assertEquals(secondTestTopic.getType(), IMPORTANT.getValue());
+		assertEquals(secondTestTopic.getViewCount(), 0);
+		assertEquals(secondTestTopic.getReplies(), 0);
 
-		assertEquals(topics.get(1).getForum().getName(), "First Test Forum");
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getSubject(), "First Test Topic");
-		assertEquals(topics.get(1).getType(), NORMAL.getValue());
-		assertEquals(topics.get(1).getViewCount(), 0);
+		Topic firstTestTopic = topics.get(1);
+		assertEquals(firstTestTopic.getForum().getName(), "First Test Forum");
+		assertTrue(firstTestTopic.getLastPostDate().compareTo(today) < 0);
+		assertEquals(firstTestTopic.getSubject(), "First Test Topic");
+		assertEquals(firstTestTopic.getType(), NORMAL.getValue());
+		assertEquals(firstTestTopic.getViewCount(), 0);
+		assertEquals(firstTestTopic.getReplies(), 0);
 
-		assertEquals(topics.get(2).getForum().getName(), "Second Test Forum");
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(2).getType(), ADVICE.getValue());
-		assertEquals(topics.get(2).getViewCount(), 0);
+		Topic thirdTestTopic = topics.get(2);
+		assertEquals(thirdTestTopic.getForum().getName(), "Second Test Forum");
+		assertTrue(thirdTestTopic.getLastPostDate().compareTo(today) < 0);
+		assertEquals(thirdTestTopic.getSubject(), "Third Test Topic");
+		assertEquals(thirdTestTopic.getType(), ADVICE.getValue());
+		assertEquals(thirdTestTopic.getViewCount(), 0);
+		assertEquals(thirdTestTopic.getReplies(), 0);
 
-		assertEquals(topics.get(3).getForum().getName(), "Second Test Forum");
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(3).getType(), IMPORTANT.getValue());
-		assertEquals(topics.get(3).getViewCount(), 0);
+		Topic fourthTestTopic = topics.get(3);
+		assertEquals(fourthTestTopic.getForum().getName(), "Second Test Forum");
+		assertTrue(fourthTestTopic.getLastPostDate().compareTo(today) < 0);
+		assertEquals(fourthTestTopic.getSubject(), "Fourth Test Topic");
+		assertEquals(fourthTestTopic.getType(), IMPORTANT.getValue());
+		assertEquals(fourthTestTopic.getViewCount(), 0);
+		assertEquals(fourthTestTopic.getReplies(), 0);
 	}
 
 	@After

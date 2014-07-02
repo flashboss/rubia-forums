@@ -53,6 +53,8 @@ public class VerifyTopic {
 			.getString("Topic_Sticky");
 	public static final String SUBJECT_LINK = "tbody/tr/td[2]/h3/a";
 	public static final String TYPE_SUBJECT_OUTPUT_TEXT = "tbody/tr/td[2]/h3/b";
+	public static final String REPLIED_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[3]";
+	public static final String VIEW_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[4]";
 	public static final String FORUM_POLL_TABLE = "forumPollTable";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 	public static final String POST_SUBJECT_OUTPUT_TEXT = "../../tr/td[2]/div[@id='miviewtopicbody7']/ul/li[3]";
@@ -89,15 +91,15 @@ public class VerifyTopic {
 						.findElements(xpath(SUBJECT_LINK));
 				int subjectComponentsSize = subjectComponents.size();
 				for (int i4 = 0; i4 < subjectComponentsSize; i4++) {
-					subjectComponents = driver
-							.findElements(className(TOPIC_TABLE)).get(i)
+					WebElement topicTable = driver.findElements(
+							className(TOPIC_TABLE)).get(i);
+					subjectComponents = topicTable
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i4);
 					Topic topic = new Topic();
 					String subjectText = subjectComponent.getText();
 					topic.setSubject(subjectText);
-					List<WebElement> subjectTypeComponents = driver
-							.findElements(className(TOPIC_TABLE)).get(i)
+					List<WebElement> subjectTypeComponents = topicTable
 							.findElements(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
 					if (subjectTypeComponents.size() == 0)
 						topic.setType(0);
@@ -106,9 +108,16 @@ public class VerifyTopic {
 						topic.setType(1);
 					else
 						topic.setType(2);
-					String user = driver.findElements(className(TOPIC_TABLE))
-							.get(i).findElements(xpath(USER_LINK)).get(i4)
-							.getText();
+					String user = topicTable.findElements(xpath(USER_LINK))
+							.get(i4).getText();
+					int replies = new Integer(topicTable
+							.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4)
+							.getText());
+					int viewCount = new Integer(topicTable
+							.findElements(xpath(VIEW_OUTPUT_TEXT)).get(i4)
+							.getText());
+					topic.setReplies(replies);
+					topic.setViewCount(viewCount);
 					Poster poster = new Poster();
 					poster.setUserId(user);
 					topic.setPoster(poster);

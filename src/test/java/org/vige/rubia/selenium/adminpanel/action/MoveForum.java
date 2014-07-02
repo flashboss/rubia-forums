@@ -16,13 +16,14 @@
  */
 package org.vige.rubia.selenium.adminpanel.action;
 
-import static org.vige.rubia.selenium.adminpanel.action.Move.UP;
 import static java.util.ResourceBundle.getBundle;
-import static org.openqa.selenium.By.linkText;
-import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.tagName;
+import static org.openqa.selenium.By.xpath;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
@@ -38,23 +39,25 @@ public class MoveForum {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		String formId = driver.findElement(
-				xpath("//tr[td/strong/text()='" + forumName + "']/td[2]/form"))
-				.getAttribute("id");
+		String formId = findForum(driver, forumName).findElement(
+				xpath("td[2]/form")).getAttribute("id");
+		int firstPosition = findForum(driver, forumName).getLocation().getY();
 		WebElement moveForum = driver.findElement(id(formId)).findElement(
-				xpath("ul/li['" + (move == UP ? 1 : 2) + "']/a/img"));
-		int firstPosition = findPosition(driver, forumName);
+				xpath("ul/li['" + move.getValue() + "']/a/img"));
 		moveForum.click();
-		int newPosition = findPosition(driver, forumName);
+		int newPosition = findForum(driver, forumName).getLocation().getY();
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		result.put("firstPosition", firstPosition);
 		result.put("newPosition", newPosition);
 		return result;
 	}
 
-	private static int findPosition(WebDriver driver, String forumName) {
-		WebElement moveForum = driver
-				.findElement(xpath("//tr[td/strong/text()='" + forumName + "']"));
-		return moveForum.getLocation().getY();
+	private static WebElement findForum(WebDriver driver, String forumName) {
+		List<WebElement> moveForums = driver.findElements(tagName("strong"));
+		WebElement foundElement = null;
+		for (WebElement moveForum : moveForums)
+			if (moveForum.getText().equals(forumName))
+				foundElement = moveForum.findElement(xpath("../.."));
+		return foundElement;
 	}
 }
