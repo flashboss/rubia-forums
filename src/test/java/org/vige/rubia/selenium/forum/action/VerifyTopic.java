@@ -20,6 +20,7 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,14 +29,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Message;
-import org.vige.rubia.model.Poll;
-import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
@@ -122,66 +120,7 @@ public class VerifyTopic {
 					poster.setUserId(user);
 					topic.setPoster(poster);
 					subjectComponent.click();
-					WebElement question = null;
-					try {
-						question = driver
-								.findElement(className(QUESTION_OUTPUT_TEXT));
-					} catch (NoSuchElementException ex) {
-
-					}
-					if (question != null) {
-						Poll poll = new Poll();
-						poll.setTitle(question.getText());
-						List<WebElement> pollComponents = driver
-								.findElements(className(ANSWER_OUTPUT_TEXT));
-						List<PollOption> pollOptions = new ArrayList<PollOption>();
-						for (WebElement pollComponent : pollComponents) {
-							PollOption pollOption = new PollOption();
-							pollOption.setQuestion(pollComponent.getText());
-							pollOption.setPoll(poll);
-							pollOptions.add(pollOption);
-						}
-
-						WebElement votesResultComponent = driver
-								.findElement(linkText(RESULT_VOTES_LINK));
-						votesResultComponent.click();
-						List<WebElement> pollComponentsTr = driver.findElement(
-								className(FORUM_POLL_TABLE)).findElements(
-								xpath("tbody/tr"));
-						pollComponents.clear();
-						for (int i2 = 0; i2 < pollComponentsTr.size(); i2++) {
-							if (i2 != 0 && i < pollComponentsTr.size() - 2)
-								pollComponents.add(pollComponentsTr.get(i2)
-										.findElement(xpath("td")));
-						}
-						for (int i3 = 0; i3 < pollOptions.size(); i3++) {
-							WebElement pollComponent = pollComponents.get(i3);
-							PollOption pollOption = pollOptions.get(i3);
-							String numberOfVotes = driver
-									.findElement(className(FORUM_POLL_TABLE))
-									.findElement(
-											xpath("tbody/tr[td/text()='"
-													+ pollComponent.getText()
-													+ "']/td[3]")).getText();
-							String pollOptionPosition = driver
-									.findElement(className(FORUM_POLL_TABLE))
-									.findElement(
-											xpath("tbody/tr[td/text()='"
-													+ pollComponent.getText()
-													+ "']/td[4]")).getText();
-							pollOption.setVotes(new Integer(numberOfVotes
-									.substring(0, numberOfVotes.length() - 1)));
-							pollOption.setPollOptionPosition(new Integer(
-									pollOptionPosition.substring(1,
-											pollOptionPosition.length() - 1)
-											.trim()));
-						}
-						WebElement votesComponent = driver
-								.findElement(linkText(VOTES_LINK));
-						votesComponent.click();
-						poll.setOptions(pollOptions);
-						topic.setPoll(poll);
-					}
+					topic.setPoll(getPollOfCurrentTopic(driver));
 					List<WebElement> postComponents = driver
 							.findElements(className(BODY_OUTPUT_TEXT));
 					List<Post> posts = new ArrayList<Post>();

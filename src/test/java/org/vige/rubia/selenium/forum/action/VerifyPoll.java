@@ -81,7 +81,7 @@ public class VerifyPoll {
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
 					subjectComponent.click();
-					addPollToCurrentTopic(driver, polls);
+					polls.add(getPollOfCurrentTopic(driver));
 					String forumLinkText = driver.findElement(id(FORUM_LINK))
 							.getText();
 					driver.findElement(linkText(forumLinkText)).click();
@@ -91,15 +91,16 @@ public class VerifyPoll {
 		return polls;
 	}
 
-	public static void addPollToCurrentTopic(WebDriver driver, List<Poll> polls) {
+	public static Poll getPollOfCurrentTopic(WebDriver driver) {
 		WebElement question = null;
+		Poll poll = null;
 		try {
 			question = driver.findElement(className(QUESTION_OUTPUT_TEXT));
 		} catch (NoSuchElementException ex) {
 
 		}
 		if (question != null) {
-			Poll poll = new Poll();
+			poll = new Poll();
 			poll.setTitle(question.getText());
 			List<WebElement> pollComponents = driver
 					.findElements(className(ANSWER_OUTPUT_TEXT));
@@ -147,8 +148,7 @@ public class VerifyPoll {
 					.findElement(linkText(VOTES_LINK));
 			votesComponent.click();
 			poll.setOptions(pollOptions);
-			polls.add(poll);
 		}
-
+		return poll;
 	}
 }
