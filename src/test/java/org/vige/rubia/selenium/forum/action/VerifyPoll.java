@@ -18,12 +18,10 @@ package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import static org.openqa.selenium.By.id;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,8 +48,6 @@ public class VerifyPoll {
 	public static final String RESULT_VOTES_LINK = getBundle("ResourceJSF")
 			.getString("View_results");
 	public static final String TOTAL_VOTES_LINK = "totalCell";
-	public static final DateFormat dateFormat = new SimpleDateFormat(
-			"E MMM d, yyyy H:mm a");
 
 	public static List<Poll> getPollsOfTopics(WebDriver driver,
 			String... topicNames) {
