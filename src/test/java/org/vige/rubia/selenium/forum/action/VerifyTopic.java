@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
@@ -44,13 +45,14 @@ public class VerifyTopic {
 	public static final String TOPIC_STICKY = getBundle("ResourceJSF")
 			.getString("Topic_Sticky");
 	public static final String SUBJECT_LINK = "tbody/tr/td[2]/h3/a";
+	public static final String CATEGORY_LINK = "//li[@class='first']/ul/li/a";
 	public static final String TYPE_SUBJECT_OUTPUT_TEXT = "tbody/tr/td[2]/h3/b";
 	public static final String REPLIED_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[3]";
 	public static final String VIEW_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[4]";
 	public static final String LAST_POST_DATE_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[5]";
 	public static final String USER_LINK = "tbody/tr/td[2]/a";
 	public static final DateFormat dateFormat = new SimpleDateFormat(
-			"E MMM d, yyyy H:mm a");
+			"yyyy-MM-dd HH:mm:ss.SSS");
 
 	public static List<Topic> getTopicsOfForums(WebDriver driver,
 			String... forumNames) {
@@ -96,9 +98,11 @@ public class VerifyTopic {
 							.getText());
 					Date lastPostDate = null;
 					try {
-						lastPostDate = dateFormat.parse(topicTable
-								.findElements(xpath(REPLIED_OUTPUT_TEXT))
-								.get(i4).getText());
+						lastPostDate = dateFormat
+								.parse(topicTable
+										.findElements(
+												xpath(LAST_POST_DATE_OUTPUT_TEXT))
+										.get(i4).getText().split("\n")[2]);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -115,6 +119,10 @@ public class VerifyTopic {
 					forum.setName(driver.findElement(linkText(forumName))
 							.getText());
 					topic.setForum(forum);
+					Category category = new Category();
+					category.setTitle(driver.findElement(xpath(CATEGORY_LINK))
+							.getText());
+					forum.setCategory(category);
 					topics.add(topic);
 					driver.findElement(linkText(forumName)).click();
 				}

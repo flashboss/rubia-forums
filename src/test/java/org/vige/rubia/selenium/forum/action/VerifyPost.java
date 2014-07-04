@@ -33,17 +33,25 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Category;
+import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
+import org.vige.rubia.model.Topic;
 
 public class VerifyPost {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
+	public static final String CATEGORY_LINK = "//li[@class='first']/ul/li/a";
 	public static final String FORUM_TABLE = "forumtablestyle";
 	public static final String FORUM_SUBJECT = "tbody/tr/td[not(@class = 'forumcategory')]/h3/a";
+	public static final String SECOND_PAGE_FORUM_SUBJECT = "//li[@class='first']/ul/li/ul/li/a";
 	public static final String FORUM_LINK = "miviewtopicbody3";
 	public static final String SUBJECT_LINK = "//table[contains(@class,'forumtablestyle')]/tbody/tr/td[2]/h3/a";
+	public static final String USER_LINK = "../../tr/td[1]/a";
+	public static final String SECOND_PAGE_SUBJECT_LINK = "//li[@class='first']/ul/li/ul/li/ul/li/a";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 	public static final String POST_SUBJECT_OUTPUT_TEXT = "../../tr/td[2]/div[@id='miviewtopicbody7']/ul/li[3]";
 	public static final String POST_SUBJECT_TEXT = getBundle("ResourceJSF")
@@ -116,7 +124,24 @@ public class VerifyPost {
 			message.setText(body);
 			post.setMessage(message);
 			post.setCreateDate(createDate);
-			post.setAttachments(getAttachmentsOfCurrentPost(driver, postComponent));
+			post.setAttachments(getAttachmentsOfCurrentPost(driver,
+					postComponent));
+			Topic topic = new Topic();
+			topic.setSubject(driver
+					.findElement(xpath(SECOND_PAGE_SUBJECT_LINK)).getText());
+			post.setTopic(topic);
+			Forum forum = new Forum();
+			forum.setName(driver.findElement(xpath(SECOND_PAGE_FORUM_SUBJECT))
+					.getText());
+			topic.setForum(forum);
+			Category category = new Category();
+			category.setTitle(driver.findElement(xpath(CATEGORY_LINK))
+					.getText());
+			forum.setCategory(category);
+			Poster poster = new Poster();
+			poster.setUserId(postComponent.findElement(xpath(USER_LINK))
+					.getText());
+			post.setPoster(poster);
 			posts.add(post);
 		}
 		return posts;

@@ -106,7 +106,6 @@ public class OperationPollTest {
 	public void verifyCreatedPolls() {
 		List<Poll> polls = getPollsOfTopics(driver, "First Test Topic",
 				"Second Test Topic", "Third Test Topic", "Fourth Test Topic");
-		Date today = new Date();
 		assertEquals(polls.size(), 4);
 
 		Poll secondTestPoll = polls.get(0);

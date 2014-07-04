@@ -18,6 +18,8 @@ package org.vige.rubia.selenium.forum.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
@@ -103,46 +105,75 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyCreatedPosts() {
-		List<Post> posts = getPostsOfTopics(driver, "First Test Forum",
-				"Second Test Forum");
+		List<Post> posts = getPostsOfTopics(driver, "First Test Topic",
+				"Second Test Topic", "Third Test Topic", "Fourth Test Topic");
 		assertEquals(posts.size(), 4);
 		Date today = new Date();
 
 		Post secondTestPost = posts.get(0);
-		assertTrue(secondTestPost.getCreateDate().after(today));
+		Date createdDate1 = secondTestPost.getCreateDate();
+		assertFalse(createdDate1.after(today));
 		assertEquals(secondTestPost.getEditCount(), 0);
-		assertEquals(secondTestPost.getEditDate(), 0);
-		assertEquals(secondTestPost.getMessage(), 0);
-		assertEquals(secondTestPost.getPoster(), 0);
-		assertEquals(secondTestPost.getTopic(), 0);
-		assertEquals(secondTestPost.getUser(), 0);
+		assertNull(secondTestPost.getEditDate());
+		assertEquals(secondTestPost.getMessage().getSubject(),
+				"Second Test Topic");
+		assertEquals(secondTestPost.getMessage().getText(), "Second Test Body");
+		assertEquals(secondTestPost.getPoster().getUserId(), "root");
+		assertEquals(secondTestPost.getTopic().getSubject(),
+				"Second Test Topic");
+		assertEquals(secondTestPost.getTopic().getForum().getName(),
+				"First Test Forum");
+		assertEquals(secondTestPost.getTopic().getForum().getCategory()
+				.getTitle(), "First Test Category");
 
 		Post firstTestPost = posts.get(1);
-		assertTrue(firstTestPost.getCreateDate().after(today));
+		Date createdDate2 = firstTestPost.getCreateDate();
+		assertFalse(createdDate2.after(today));
+		assertFalse(createdDate1.before(createdDate2));
 		assertEquals(firstTestPost.getEditCount(), 0);
-		assertEquals(firstTestPost.getEditDate(), 0);
-		assertEquals(firstTestPost.getMessage(), 0);
-		assertEquals(firstTestPost.getPoster(), 0);
-		assertEquals(firstTestPost.getTopic(), 0);
-		assertEquals(firstTestPost.getUser(), 0);
+		assertNull(firstTestPost.getEditDate());
+		assertEquals(firstTestPost.getMessage().getSubject(),
+				"First Test Topic");
+		assertEquals(firstTestPost.getMessage().getText(), "First Test Body");
+		assertEquals(firstTestPost.getPoster().getUserId(), "root");
+		assertEquals(firstTestPost.getTopic().getSubject(), "First Test Topic");
+		assertEquals(firstTestPost.getTopic().getForum().getName(),
+				"First Test Forum");
+		assertEquals(firstTestPost.getTopic().getForum().getCategory()
+				.getTitle(), "First Test Category");
 
 		Post thirdTestPost = posts.get(2);
-		assertTrue(thirdTestPost.getCreateDate().after(today));
+		Date createdDate3 = thirdTestPost.getCreateDate();
+		assertFalse(createdDate3.after(today));
+		assertFalse(createdDate3.before(createdDate1));
 		assertEquals(thirdTestPost.getEditCount(), 0);
-		assertEquals(thirdTestPost.getEditDate(), 0);
-		assertEquals(thirdTestPost.getMessage(), 0);
-		assertEquals(thirdTestPost.getPoster(), 0);
-		assertEquals(thirdTestPost.getTopic(), 0);
-		assertEquals(thirdTestPost.getUser(), 0);
+		assertNull(thirdTestPost.getEditDate());
+		assertEquals(thirdTestPost.getMessage().getSubject(),
+				"Third Test Topic");
+		assertEquals(thirdTestPost.getMessage().getText(), "Third Test Body");
+		assertEquals(thirdTestPost.getPoster().getUserId(), "root");
+		assertEquals(thirdTestPost.getTopic().getSubject(), "Third Test Topic");
+		assertEquals(thirdTestPost.getTopic().getForum().getName(),
+				"Second Test Forum");
+		assertEquals(thirdTestPost.getTopic().getForum().getCategory()
+				.getTitle(), "First Test Category");
 
 		Post fourthTestPost = posts.get(3);
-		assertTrue(fourthTestPost.getCreateDate().after(today));
+		Date createdDate4 = fourthTestPost.getCreateDate();
+		assertFalse(createdDate4.after(today));
+		assertFalse(createdDate4.before(createdDate3));
 		assertEquals(fourthTestPost.getEditCount(), 0);
-		assertEquals(fourthTestPost.getEditDate(), 0);
-		assertEquals(fourthTestPost.getMessage(), 0);
-		assertEquals(fourthTestPost.getPoster(), 0);
-		assertEquals(fourthTestPost.getTopic(), 0);
-		assertEquals(fourthTestPost.getUser(), 0);
+		assertNull(fourthTestPost.getEditDate());
+		assertEquals(fourthTestPost.getMessage().getSubject(),
+				"Fourth Test Topic");
+		assertEquals(fourthTestPost.getMessage().getText(), "Fourth Test Body");
+		assertEquals(fourthTestPost.getPoster().getUserId(), "root");
+		assertEquals(fourthTestPost.getTopic().getSubject(),
+				"Fourth Test Topic");
+		assertEquals(fourthTestPost.getTopic().getForum().getName(),
+				"Second Test Forum");
+		assertEquals(fourthTestPost.getTopic().getForum().getCategory()
+				.getTitle(), "First Test Category");
 	}
 
 	@After

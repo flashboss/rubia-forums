@@ -108,82 +108,82 @@ public class OperationAttachmentTest {
 				"Fourth Test Topic");
 		assertEquals(attachments.size(), 12);
 
-		Attachment firstAttachment = attachments.get(0);
-		assertEquals(firstAttachment.getName(), "first");
-		assertNull(firstAttachment.getContent());
-		assertNull(firstAttachment.getContentType());
-		assertEquals(firstAttachment.getComment(), "First Test File");
-		assertEquals(firstAttachment.getSize(), 0);
-
-		Attachment secondAttachment = attachments.get(1);
-		assertEquals(secondAttachment.getName(), "second");
-		assertNull(secondAttachment.getContent());
-		assertNull(secondAttachment.getContentType());
-		assertEquals(secondAttachment.getComment(), "Second Test File");
-		assertEquals(secondAttachment.getSize(), 0);
-
-		Attachment thirdAttachment = attachments.get(2);
+		Attachment thirdAttachment = attachments.get(0);
 		assertEquals(thirdAttachment.getName(), "third");
 		assertNull(thirdAttachment.getContent());
 		assertNull(thirdAttachment.getContentType());
 		assertEquals(thirdAttachment.getComment(), "Third Test File");
 		assertEquals(thirdAttachment.getSize(), 0);
 
-		Attachment fourthAttachment = attachments.get(3);
-		assertEquals(fourthAttachment.getName(), "first");
-		assertNull(fourthAttachment.getContent());
-		assertNull(fourthAttachment.getContentType());
-		assertEquals(fourthAttachment.getComment(), "First Test File");
-		assertEquals(fourthAttachment.getSize(), 0);
+		Attachment firstAttachment = attachments.get(1);
+		assertEquals(firstAttachment.getName(), "first");
+		assertNull(firstAttachment.getContent());
+		assertNull(firstAttachment.getContentType());
+		assertEquals(firstAttachment.getComment(), "First Test File");
+		assertEquals(firstAttachment.getSize(), 0);
 
-		Attachment fifthAttachment = attachments.get(4);
-		assertEquals(fifthAttachment.getName(), "second");
-		assertNull(fifthAttachment.getContent());
-		assertNull(fifthAttachment.getContentType());
-		assertEquals(fifthAttachment.getComment(), "Second Test File");
-		assertEquals(fifthAttachment.getSize(), 0);
+		Attachment secondAttachment = attachments.get(2);
+		assertEquals(secondAttachment.getName(), "second");
+		assertNull(secondAttachment.getContent());
+		assertNull(secondAttachment.getContentType());
+		assertEquals(secondAttachment.getComment(), "Second Test File");
+		assertEquals(secondAttachment.getSize(), 0);
 
-		Attachment sixthAttachment = attachments.get(5);
+		Attachment sixthAttachment = attachments.get(3);
 		assertEquals(sixthAttachment.getName(), "third");
 		assertNull(sixthAttachment.getContent());
 		assertNull(sixthAttachment.getContentType());
 		assertEquals(sixthAttachment.getComment(), "Third Test File");
 		assertEquals(sixthAttachment.getSize(), 0);
 
-		Attachment seventhAttachment = attachments.get(6);
-		assertEquals(seventhAttachment.getName(), "first");
-		assertNull(seventhAttachment.getContent());
-		assertNull(seventhAttachment.getContentType());
-		assertEquals(seventhAttachment.getComment(), "First Test File");
-		assertEquals(seventhAttachment.getSize(), 0);
+		Attachment fourthAttachment = attachments.get(4);
+		assertEquals(fourthAttachment.getName(), "first");
+		assertNull(fourthAttachment.getContent());
+		assertNull(fourthAttachment.getContentType());
+		assertEquals(fourthAttachment.getComment(), "First Test File");
+		assertEquals(fourthAttachment.getSize(), 0);
 
-		Attachment eigthAttachment = attachments.get(7);
-		assertEquals(eigthAttachment.getName(), "second");
-		assertNull(eigthAttachment.getContent());
-		assertNull(eigthAttachment.getContentType());
-		assertEquals(eigthAttachment.getComment(), "Second Test File");
-		assertEquals(eigthAttachment.getSize(), 0);
+		Attachment fifthAttachment = attachments.get(5);
+		assertEquals(fifthAttachment.getName(), "second");
+		assertNull(fifthAttachment.getContent());
+		assertNull(fifthAttachment.getContentType());
+		assertEquals(fifthAttachment.getComment(), "Second Test File");
+		assertEquals(fifthAttachment.getSize(), 0);
 
-		Attachment ninthAttachment = attachments.get(8);
+		Attachment ninthAttachment = attachments.get(6);
 		assertEquals(ninthAttachment.getName(), "third");
 		assertNull(ninthAttachment.getContent());
 		assertNull(ninthAttachment.getContentType());
 		assertEquals(ninthAttachment.getComment(), "Third Test File");
 		assertEquals(ninthAttachment.getSize(), 0);
 
-		Attachment tenAttachment = attachments.get(9);
-		assertEquals(tenAttachment.getName(), "fourth");
-		assertNull(tenAttachment.getContent());
-		assertNull(tenAttachment.getContentType());
-		assertEquals(tenAttachment.getComment(), "Fourth Test File");
-		assertEquals(tenAttachment.getSize(), 0);
+		Attachment seventhAttachment = attachments.get(7);
+		assertEquals(seventhAttachment.getName(), "first");
+		assertNull(seventhAttachment.getContent());
+		assertNull(seventhAttachment.getContentType());
+		assertEquals(seventhAttachment.getComment(), "First Test File");
+		assertEquals(seventhAttachment.getSize(), 0);
 
-		Attachment elevenAttachment = attachments.get(10);
+		Attachment eigthAttachment = attachments.get(8);
+		assertEquals(eigthAttachment.getName(), "second");
+		assertNull(eigthAttachment.getContent());
+		assertNull(eigthAttachment.getContentType());
+		assertEquals(eigthAttachment.getComment(), "Second Test File");
+		assertEquals(eigthAttachment.getSize(), 0);
+
+		Attachment elevenAttachment = attachments.get(9);
 		assertEquals(elevenAttachment.getName(), "fifth");
 		assertNull(elevenAttachment.getContent());
 		assertNull(elevenAttachment.getContentType());
 		assertEquals(elevenAttachment.getComment(), "Fifth Test File");
 		assertEquals(elevenAttachment.getSize(), 0);
+
+		Attachment tenAttachment = attachments.get(10);
+		assertEquals(tenAttachment.getName(), "fourth");
+		assertNull(tenAttachment.getContent());
+		assertNull(tenAttachment.getContentType());
+		assertEquals(tenAttachment.getComment(), "Fourth Test File");
+		assertEquals(tenAttachment.getSize(), 0);
 
 		Attachment twelveAttachment = attachments.get(11);
 		assertEquals(twelveAttachment.getName(), "sixth");

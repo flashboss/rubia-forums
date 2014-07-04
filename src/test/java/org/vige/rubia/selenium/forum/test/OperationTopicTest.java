@@ -109,36 +109,48 @@ public class OperationTopicTest {
 		Date today = new Date();
 
 		Topic secondTestTopic = topics.get(0);
+		assertEquals(secondTestTopic.getForum().getCategory().getTitle(), "First Test Category");
 		assertEquals(secondTestTopic.getForum().getName(), "First Test Forum");
 		assertTrue(secondTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(secondTestTopic.getSubject(), "Second Test Topic");
 		assertEquals(secondTestTopic.getType(), IMPORTANT.getValue());
 		assertEquals(secondTestTopic.getViewCount(), 0);
 		assertEquals(secondTestTopic.getReplies(), 0);
+		assertEquals(secondTestTopic.getPoster().getUserId(), "root");
+		assertEquals(secondTestTopic.getPosts().size(), 1);
 
 		Topic firstTestTopic = topics.get(1);
+		assertEquals(firstTestTopic.getForum().getCategory().getTitle(), "First Test Category");
 		assertEquals(firstTestTopic.getForum().getName(), "First Test Forum");
 		assertTrue(firstTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(firstTestTopic.getSubject(), "First Test Topic");
 		assertEquals(firstTestTopic.getType(), NORMAL.getValue());
 		assertEquals(firstTestTopic.getViewCount(), 0);
 		assertEquals(firstTestTopic.getReplies(), 0);
+		assertEquals(firstTestTopic.getPoster().getUserId(), "root");
+		assertEquals(firstTestTopic.getPosts().size(), 1);
 
 		Topic thirdTestTopic = topics.get(2);
+		assertEquals(thirdTestTopic.getForum().getCategory().getTitle(), "First Test Category");
 		assertEquals(thirdTestTopic.getForum().getName(), "Second Test Forum");
 		assertTrue(thirdTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(thirdTestTopic.getSubject(), "Third Test Topic");
 		assertEquals(thirdTestTopic.getType(), ADVICE.getValue());
 		assertEquals(thirdTestTopic.getViewCount(), 0);
 		assertEquals(thirdTestTopic.getReplies(), 0);
+		assertEquals(thirdTestTopic.getPoster().getUserId(), "root");
+		assertEquals(thirdTestTopic.getPosts().size(), 1);
 
 		Topic fourthTestTopic = topics.get(3);
+		assertEquals(fourthTestTopic.getForum().getCategory().getTitle(), "First Test Category");
 		assertEquals(fourthTestTopic.getForum().getName(), "Second Test Forum");
 		assertTrue(fourthTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(fourthTestTopic.getSubject(), "Fourth Test Topic");
 		assertEquals(fourthTestTopic.getType(), IMPORTANT.getValue());
 		assertEquals(fourthTestTopic.getViewCount(), 0);
 		assertEquals(fourthTestTopic.getReplies(), 0);
+		assertEquals(fourthTestTopic.getPoster().getUserId(), "root");
+		assertEquals(fourthTestTopic.getPosts().size(), 1);
 	}
 
 	@After
