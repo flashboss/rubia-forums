@@ -21,7 +21,10 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
+import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +33,11 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Attachment;
+import org.vige.rubia.model.Category;
+import org.vige.rubia.model.Forum;
+import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Topic;
 
 public class VerifyAttachment {
 
@@ -44,6 +51,7 @@ public class VerifyAttachment {
 	public static final String ATTACHMENT_NAME_OUTPUT_TEXT = "tbody/tr/td[2]";
 	public static final String ATTACHMENT_COMMENT_OUTPUT_TEXT = "tbody/tr[2]/td[2]";
 	public static final String ATTACHMENT_SIZE_OUTPUT_TEXT = "tbody/tr[3]/td[2]";
+	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 
 	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver,
 			String... topicNames) {
@@ -73,9 +81,12 @@ public class VerifyAttachment {
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
 					subjectComponent.click();
-					List<Post> posts = getPostsOfCurrentTopic(driver);
-					for (Post post : posts)
-						attachments.addAll(post.getAttachments());
+					List<WebElement> postComponents = driver
+							.findElements(className(BODY_OUTPUT_TEXT));
+					for (WebElement postComponent : postComponents) {
+						attachments.addAll(getAttachmentsOfCurrentPost(driver,
+								postComponent));
+					}
 					String forumLinkText = driver.findElement(id(FORUM_LINK))
 							.getText();
 					driver.findElement(linkText(forumLinkText)).click();
@@ -101,8 +112,31 @@ public class VerifyAttachment {
 			attachment.setComment(attachmentComment);
 			attachment.setName(attachmentName);
 			attachment.setSize(new Integer(attachmentSize.split(" B")[0]));
+			addParents(driver, attachment);
 			attachments.add(attachment);
 		}
 		return attachments;
+	}
+
+	private static void addParents(WebDriver driver, Attachment attachment) {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject(driver.findElement(POST_TEMPLATE_LINK.getValue())
+				.getText());
+		post.setMessage(message);
+		Topic topic = new Topic();
+		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue())
+				.getText());
+		post.setTopic(topic);
+		Forum forum = new Forum();
+		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue())
+				.getText());
+		topic.setForum(forum);
+		Category category = new Category();
+		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
+				.getText());
+		forum.setCategory(category);
+		attachment.setPost(post);
+
 	}
 }

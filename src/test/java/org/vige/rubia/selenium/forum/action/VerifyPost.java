@@ -16,6 +16,7 @@
  */
 package org.vige.rubia.selenium.forum.action;
 
+import static org.vige.rubia.selenium.forum.model.Links.*;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
@@ -44,14 +45,11 @@ public class VerifyPost {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
-	public static final String CATEGORY_LINK = "//li[@class='first']/ul/li/a";
 	public static final String FORUM_TABLE = "forumtablestyle";
 	public static final String FORUM_SUBJECT = "tbody/tr/td[not(@class = 'forumcategory')]/h3/a";
-	public static final String SECOND_PAGE_FORUM_SUBJECT = "//li[@class='first']/ul/li/ul/li/a";
 	public static final String FORUM_LINK = "miviewtopicbody3";
 	public static final String SUBJECT_LINK = "//table[contains(@class,'forumtablestyle')]/tbody/tr/td[2]/h3/a";
 	public static final String USER_LINK = "../../tr/td[1]/a";
-	public static final String SECOND_PAGE_SUBJECT_LINK = "//li[@class='first']/ul/li/ul/li/ul/li/a";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 	public static final String POST_SUBJECT_OUTPUT_TEXT = "../../tr/td[2]/div[@id='miviewtopicbody7']/ul/li[3]";
 	public static final String POST_SUBJECT_TEXT = getBundle("ResourceJSF")
@@ -126,18 +124,7 @@ public class VerifyPost {
 			post.setCreateDate(createDate);
 			post.setAttachments(getAttachmentsOfCurrentPost(driver,
 					postComponent));
-			Topic topic = new Topic();
-			topic.setSubject(driver
-					.findElement(xpath(SECOND_PAGE_SUBJECT_LINK)).getText());
-			post.setTopic(topic);
-			Forum forum = new Forum();
-			forum.setName(driver.findElement(xpath(SECOND_PAGE_FORUM_SUBJECT))
-					.getText());
-			topic.setForum(forum);
-			Category category = new Category();
-			category.setTitle(driver.findElement(xpath(CATEGORY_LINK))
-					.getText());
-			forum.setCategory(category);
+			addParents(driver, post);
 			Poster poster = new Poster();
 			poster.setUserId(postComponent.findElement(xpath(USER_LINK))
 					.getText());
@@ -145,5 +132,20 @@ public class VerifyPost {
 			posts.add(post);
 		}
 		return posts;
+	}
+
+	private static void addParents(WebDriver driver, Post post) {
+		Topic topic = new Topic();
+		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue())
+				.getText());
+		post.setTopic(topic);
+		Forum forum = new Forum();
+		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue())
+				.getText());
+		topic.setForum(forum);
+		Category category = new Category();
+		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
+				.getText());
+		forum.setCategory(category);
 	}
 }

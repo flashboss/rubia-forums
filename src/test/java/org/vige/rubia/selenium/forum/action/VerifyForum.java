@@ -16,6 +16,7 @@
  */
 package org.vige.rubia.selenium.forum.action;
 
+import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
@@ -75,10 +76,7 @@ public class VerifyForum {
 				WebElement forumNameComponent = trComponents.get(i)
 						.findElement(xpath(FORUM_NAME_LINK));
 				Forum forum = new Forum();
-				Category category = new Category();
-				category.setTitle(driver.findElement(linkText(categoryName))
-						.getText());
-				forum.setCategory(category);
+				addParents(driver, forum);
 				String forumNameText = forumNameComponent.getText();
 				forum.setName(forumNameText);
 				forum.setDescription(trComponents.get(i)
@@ -121,5 +119,13 @@ public class VerifyForum {
 			}
 		}
 		return forums;
+	}
+
+	private static void addParents(WebDriver driver, Forum forum) {
+		Category category = new Category();
+		category.setTitle(driver.findElement(
+				linkText(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
+						.getText())).getText());
+		forum.setCategory(category);
 	}
 }

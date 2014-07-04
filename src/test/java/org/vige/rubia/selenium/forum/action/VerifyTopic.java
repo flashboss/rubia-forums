@@ -22,6 +22,8 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
+import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,7 +47,6 @@ public class VerifyTopic {
 	public static final String TOPIC_STICKY = getBundle("ResourceJSF")
 			.getString("Topic_Sticky");
 	public static final String SUBJECT_LINK = "tbody/tr/td[2]/h3/a";
-	public static final String CATEGORY_LINK = "//li[@class='first']/ul/li/a";
 	public static final String TYPE_SUBJECT_OUTPUT_TEXT = "tbody/tr/td[2]/h3/b";
 	public static final String REPLIED_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[3]";
 	public static final String VIEW_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[4]";
@@ -115,19 +116,25 @@ public class VerifyTopic {
 					subjectComponent.click();
 					topic.setPoll(getPollOfCurrentTopic(driver));
 					topic.setPosts(getPostsOfCurrentTopic(driver));
-					Forum forum = new Forum();
-					forum.setName(driver.findElement(linkText(forumName))
-							.getText());
-					topic.setForum(forum);
-					Category category = new Category();
-					category.setTitle(driver.findElement(xpath(CATEGORY_LINK))
-							.getText());
-					forum.setCategory(category);
+					addParents(driver, topic);
 					topics.add(topic);
 					driver.findElement(linkText(forumName)).click();
 				}
 			}
 		}
 		return topics;
+	}
+
+	private static void addParents(WebDriver driver, Topic topic) {
+		Forum forum = new Forum();
+		forum.setName(driver.findElement(
+				linkText(driver.findElement(FORUM_TEMPLATE_LINK.getValue())
+						.getText())).getText());
+		topic.setForum(forum);
+		Category category = new Category();
+		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
+				.getText());
+		forum.setCategory(category);
+
 	}
 }
