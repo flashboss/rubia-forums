@@ -24,6 +24,7 @@ import static org.openqa.selenium.By.name;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Category;
 
 public class CreateCategory {
 
@@ -34,7 +35,7 @@ public class CreateCategory {
 	public static final String CREATE_CATEGORY_BUTTON = "addCategoryForm:editinline";
 	public static final String RESULT_CREATE_CATEGORY = "successtext";
 
-	public static String createCategory(WebDriver driver, String categoryTitle) {
+	public static String createCategory(WebDriver driver, Category category) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
@@ -43,7 +44,7 @@ public class CreateCategory {
 		createCategoryLink.click();
 		WebElement createCategoryTitleInputType = driver
 				.findElement(id(CREATE_CATEGORY_TITLE_INPUT_TEXT));
-		createCategoryTitleInputType.sendKeys(categoryTitle);
+		createCategoryTitleInputType.sendKeys(category.getTitle());
 		WebElement createCategoryButton = driver
 				.findElement(id(CREATE_CATEGORY_BUTTON));
 		createCategoryButton.click();

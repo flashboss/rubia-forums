@@ -69,6 +69,11 @@ public class Attachment implements Serializable {
 
 	}
 
+	public Attachment(String name, String comment) {
+		this.name = name;
+		this.comment = comment;
+	}
+
 	/**
     */
 	public String getComment() {

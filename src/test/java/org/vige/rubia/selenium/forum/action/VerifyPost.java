@@ -16,19 +16,20 @@
  */
 package org.vige.rubia.selenium.forum.action;
 
-import static org.vige.rubia.selenium.forum.model.Links.*;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPost;
+import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -60,8 +61,7 @@ public class VerifyPost {
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"E MMM d, yyyy H:mm a");
 
-	public static List<Post> getPostsOfTopics(WebDriver driver,
-			String... topicNames) {
+	public static List<Post> getPostsOfTopics(WebDriver driver, Topic... topics) {
 		List<Post> posts = new ArrayList<Post>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
@@ -82,8 +82,8 @@ public class VerifyPost {
 			int subjectComponentsSize = subjectComponents.size();
 			for (int i = 0; i < subjectComponentsSize; i++) {
 				subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
-				if (Arrays.asList(topicNames).contains(
-						subjectComponents.get(i).getText())) {
+				List<String> topicNames = findTopicNames(topics);
+				if (topicNames.contains(subjectComponents.get(i).getText())) {
 					subjectComponents = driver
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
@@ -147,5 +147,12 @@ public class VerifyPost {
 		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
 				.getText());
 		forum.setCategory(category);
+	}
+
+	private static List<String> findTopicNames(Topic[] topics) {
+		List<String> topicNames = new ArrayList<String>();
+		for (Topic topic : topics)
+			topicNames.add(topic.getSubject());
+		return topicNames;
 	}
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Category;
+import org.vige.rubia.model.ForumInstance;
 
 public class VerifyCategory {
 
@@ -34,7 +35,7 @@ public class VerifyCategory {
 	public static final String CATEGORY_ROW = "forumcategory";
 
 	public static List<Category> getCategories(WebDriver driver,
-			String... forumInstances) {
+			ForumInstance... forumInstances) {
 		List<Category> categories = new ArrayList<Category>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();

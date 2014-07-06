@@ -28,35 +28,36 @@ import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class MoveForum {
 
 	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
 			.getString("Admin_panel");
 
-	public static Map<String, Integer> moveForum(WebDriver driver,
-			String forumName, Move move) {
+	public static Map<String, Integer> moveForum(WebDriver driver, Forum forum,
+			Move move) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		String formId = findForum(driver, forumName).findElement(
+		String formId = findForum(driver, forum).findElement(
 				xpath("td[2]/form")).getAttribute("id");
-		int firstPosition = findForum(driver, forumName).getLocation().getY();
+		int firstPosition = findForum(driver, forum).getLocation().getY();
 		WebElement moveForum = driver.findElement(id(formId)).findElement(
 				xpath("ul/li['" + move.getValue() + "']/a/img"));
 		moveForum.click();
-		int newPosition = findForum(driver, forumName).getLocation().getY();
+		int newPosition = findForum(driver, forum).getLocation().getY();
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		result.put("firstPosition", firstPosition);
 		result.put("newPosition", newPosition);
 		return result;
 	}
 
-	private static WebElement findForum(WebDriver driver, String forumName) {
+	private static WebElement findForum(WebDriver driver, Forum forum) {
 		List<WebElement> moveForums = driver.findElements(tagName("strong"));
 		WebElement foundElement = null;
 		for (WebElement moveForum : moveForums)
-			if (moveForum.getText().equals(forumName))
+			if (moveForum.getText().equals(forum.getName()))
 				foundElement = moveForum.findElement(xpath("../.."));
 		return foundElement;
 	}

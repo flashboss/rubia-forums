@@ -23,6 +23,7 @@ import static org.openqa.selenium.By.xpath;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class RemoveForum {
 
@@ -32,13 +33,13 @@ public class RemoveForum {
 	public static final String SELECT_TYPE = "//form/select";
 	public static final String RESULT_REMOVE_FORUM = "successtext";
 
-	public static String removeForum(WebDriver driver, String forumName,
+	public static String removeForum(WebDriver driver, Forum forum,
 			String removeType) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement removeForum = driver
-				.findElement(xpath("//tr[td/strong/text()='" + forumName
+				.findElement(xpath("//tr[td/strong/text()='" + forum.getName()
 						+ "']/td[2]/form/ul/li[3]/a/img"));
 		removeForum.click();
 		WebElement categoryOption = driver.findElement(xpath(SELECT_TYPE));

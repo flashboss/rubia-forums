@@ -60,6 +60,10 @@ public class PollOption implements Serializable {
 		this.poll = (Poll) poll;
 	}
 
+	public PollOption(String question) {
+		this.question = question;
+	}
+
 	public int getPollOptionPosition() {
 		return pollOptionPosition;
 	}

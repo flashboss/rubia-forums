@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -152,6 +153,16 @@ public class Post implements Serializable {
 	 */
 	public Post() {
 		attachments = new LinkedList<Attachment>();
+	}
+
+	public Post(String text) {
+		this();
+		this.message = new Message(text);
+	}
+
+	public Post(String text, List<Attachment> attachments) {
+		this(text);
+		this.attachments = attachments;
 	}
 
 	/**

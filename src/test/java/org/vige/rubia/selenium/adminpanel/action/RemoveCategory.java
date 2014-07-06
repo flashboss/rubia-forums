@@ -23,6 +23,7 @@ import static org.openqa.selenium.By.xpath;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Category;
 
 public class RemoveCategory {
 
@@ -32,14 +33,14 @@ public class RemoveCategory {
 	public static final String SELECT_TYPE = "//form/select";
 	public static final String RESULT_REMOVE_CATEGORY = "successtext";
 
-	public static String removeCategory(WebDriver driver, String categoryTitle,
+	public static String removeCategory(WebDriver driver, Category category,
 			String removeType) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement removeCategory = driver
-				.findElement(xpath("//tr[td/strong/text()='" + categoryTitle
-						+ "']/td[2]/form/ul/li[3]/a/img"));
+				.findElement(xpath("//tr[td/strong/text()='"
+						+ category.getTitle() + "']/td[2]/form/ul/li[3]/a/img"));
 		removeCategory.click();
 		WebElement categoryOption = driver.findElement(xpath(SELECT_TYPE));
 		categoryOption.sendKeys(removeType);

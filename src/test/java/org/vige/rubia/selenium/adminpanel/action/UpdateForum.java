@@ -17,12 +17,13 @@
 package org.vige.rubia.selenium.adminpanel.action;
 
 import static java.util.ResourceBundle.getBundle;
+import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import static org.openqa.selenium.By.className;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class UpdateForum {
 
@@ -40,13 +41,13 @@ public class UpdateForum {
 			+ ":']/input[6]";
 	public static final String RESULT_UPDATE_FORUM = "successtext";
 
-	public static String updateForum(WebDriver driver, String oldForumName,
+	public static String updateForum(WebDriver driver, Forum oldForum,
 			String[] newParameters) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement updateForum = driver
-				.findElement(xpath("//td[strong/text()='" + oldForumName
+				.findElement(xpath("//td[strong/text()='" + oldForum.getName()
 						+ "']/form/a"));
 		updateForum.click();
 		WebElement updateForumNameInputText = driver

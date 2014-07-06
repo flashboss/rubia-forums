@@ -44,10 +44,18 @@ import org.hibernate.search.annotations.Indexed;
  * @version $Revision: 916 $
  */
 
-@NamedQueries({ @NamedQuery(name = "findCategoryByIdFetchForums", query = "select c from Category as c join fetch c.forums " + "where c.id=:categoryId"),
-		@NamedQuery(name = "findCategories", query = "select c from Category as c where " + "c.forumInstance.id = :forumInstanceId " + "order by c.order asc"),
-		@NamedQuery(name = "findCategoriesFetchForums", query = "select c from Category as c " + "left outer join fetch c.forums " + "where c.forumInstance.id = :forumInstanceId " + "order by c.order asc"),
-		@NamedQuery(name = "getLastCategoryOrder", query = "select max(c.order) from Category " + "as c where c.forumInstance.id = :forumInstanceId") })
+@NamedQueries({
+		@NamedQuery(name = "findCategoryByIdFetchForums", query = "select c from Category as c join fetch c.forums "
+				+ "where c.id=:categoryId"),
+		@NamedQuery(name = "findCategories", query = "select c from Category as c where "
+				+ "c.forumInstance.id = :forumInstanceId "
+				+ "order by c.order asc"),
+		@NamedQuery(name = "findCategoriesFetchForums", query = "select c from Category as c "
+				+ "left outer join fetch c.forums "
+				+ "where c.forumInstance.id = :forumInstanceId "
+				+ "order by c.order asc"),
+		@NamedQuery(name = "getLastCategoryOrder", query = "select max(c.order) from Category "
+				+ "as c where c.forumInstance.id = :forumInstanceId") })
 @Entity
 @Table(name = "JBP_FORUMS_CATEGORIES")
 @Indexed(index = "indexes/categories")
@@ -85,6 +93,11 @@ public class Category implements Serializable {
 	 */
 	public Category() {
 		setForums(new ArrayList<Forum>());
+	}
+
+	public Category(String title) {
+		this();
+		this.title = title;
 	}
 
 	/**

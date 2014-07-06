@@ -56,12 +56,12 @@ public class VerifyTopic {
 			"yyyy-MM-dd HH:mm:ss.SSS");
 
 	public static List<Topic> getTopicsOfForums(WebDriver driver,
-			String... forumNames) {
+			Forum... forums) {
 		List<Topic> topics = new ArrayList<Topic>();
-		for (String forumName : forumNames) {
+		for (Forum forum : forums) {
 			WebElement home = driver.findElement(linkText(HOME_LINK));
 			home.click();
-			WebElement forumEl = driver.findElement(linkText(forumName));
+			WebElement forumEl = driver.findElement(linkText(forum.getName()));
 			forumEl.click();
 			List<WebElement> tableComponents = driver
 					.findElements(className(TOPIC_TABLE));
@@ -118,7 +118,7 @@ public class VerifyTopic {
 					topic.setPosts(getPostsOfCurrentTopic(driver));
 					addParents(driver, topic);
 					topics.add(topic);
-					driver.findElement(linkText(forumName)).click();
+					driver.findElement(linkText(forum.getName())).click();
 				}
 			}
 		}

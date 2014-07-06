@@ -23,13 +23,17 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
-import java.io.File;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Attachment;
+import org.vige.rubia.model.Poll;
+import org.vige.rubia.model.PollOption;
+import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Topic;
 
 public class CreateTopic {
 
@@ -50,56 +54,59 @@ public class CreateTopic {
 	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 
-	public static String createTopic(WebDriver driver, String forumName,
-			String subject, String body, TopicType topicType, String question,
-			String[] options, int days, Map<File, String> attachments) {
+	public static String createTopic(WebDriver driver, Topic topic) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
-		WebElement forum = driver.findElement(linkText(forumName));
-		forum.click();
+		WebElement forumEl = driver.findElement(linkText(topic.getForum()
+				.getName()));
+		forumEl.click();
 		WebElement createTopic = driver.findElement(xpath(CREATE_TOPIC_LINK));
 		createTopic.click();
 		WebElement subjectInput = driver.findElement(id(SUBJECT_INPUT_TEXT));
-		subjectInput.sendKeys(subject);
+		subjectInput.sendKeys(topic.getSubject());
 		driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		((JavascriptExecutor) driver).executeScript(
-				"arguments[0].innerHTML = '" + body + "'", bodytInput);
+				"arguments[0].innerHTML = '"
+						+ topic.getPosts().get(0).getMessage().getText() + "'",
+				bodytInput);
 		driver.switchTo().defaultContent();
 		WebElement topicTypeInput = null;
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
-				.get(topicType.getValue());
+				.get(topic.getType());
 		topicTypeInput.click();
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
-		questionInput.sendKeys(question);
-		createOptions(driver, options);
+		questionInput.sendKeys(topic.getPoll().getTitle());
+		createOptions(driver, topic.getPoll());
 		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
 		daysInput.clear();
-		daysInput.sendKeys(days + "");
-		addAttachments(driver, attachments);
+		daysInput.sendKeys(topic.getPoll().getLength() + "");
+		addAttachments(driver, topic.getPosts().get(0));
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
-		WebElement resultCreateTopic = driver.findElement(linkText(subject));
+		WebElement resultCreateTopic = driver.findElement(linkText(topic
+				.getSubject()));
 		String updatedForum = resultCreateTopic.getText();
 		return updatedForum;
 	}
 
-	public static String[] updateOptions(WebDriver driver, String[] options) {
+	public static String[] updateOptions(WebDriver driver, Poll poll) {
+		List<PollOption> options = poll.getOptions();
 		if (options != null)
-			for (int i = 0; i < options.length; i++) {
+			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;
 				WebElement optionButton = null;
 				optionInput = driver
 						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options[i]);
+				optionInput.sendKeys(options.get(i).getQuestion());
 				optionButton = driver
 						.findElement(className(UPDATE_OPTION_BUTTON + (i + 1)));
 				optionButton.click();
 			}
-		WebElement[] updatedElements = new WebElement[options.length];
-		for (int i = 0; i < options.length; i++)
+		WebElement[] updatedElements = new WebElement[options.size()];
+		for (int i = 0; i < options.size(); i++)
 			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options[i] + "']"));
+					+ options.get(i).getQuestion() + "']"));
 		String[] results = new String[updatedElements.length];
 		for (int i = 0; i < updatedElements.length; i++)
 			results[i] = updatedElements[i].getAttribute("value");
@@ -107,22 +114,23 @@ public class CreateTopic {
 
 	}
 
-	public static String[] deleteOptions(WebDriver driver, String[] options) {
+	public static String[] deleteOptions(WebDriver driver, Poll poll) {
+		List<PollOption> options = poll.getOptions();
 		if (options != null)
-			for (int i = 0; i < options.length; i++) {
+			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;
 				WebElement optionButton = null;
 				optionInput = driver
 						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options[i]);
+				optionInput.sendKeys(options.get(i).getQuestion());
 				optionButton = driver.findElement(className(RESET_OPTION_BUTTON
 						+ (i + 1)));
 				optionButton.click();
 			}
-		WebElement[] updatedElements = new WebElement[options.length];
-		for (int i = 0; i < options.length; i++)
+		WebElement[] updatedElements = new WebElement[options.size()];
+		for (int i = 0; i < options.size(); i++)
 			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options[i] + "']"));
+					+ options.get(i).getQuestion() + "']"));
 		String[] results = new String[updatedElements.length];
 		for (int i = 0; i < updatedElements.length; i++)
 			results[i] = updatedElements[i].getAttribute("value");
@@ -130,36 +138,37 @@ public class CreateTopic {
 
 	}
 
-	public static String[] createOptions(WebDriver driver, String[] options) {
+	public static String[] createOptions(WebDriver driver, Poll poll) {
+		List<PollOption> options = poll.getOptions();
 		if (options != null)
-			for (int i = 0; i < options.length; i++) {
+			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;
 				WebElement optionButton = null;
 				optionInput = driver.findElement(id(NEW_OPTION_INPUT_TEXT));
-				optionInput.sendKeys(options[i]);
+				optionInput.sendKeys(options.get(i).getQuestion());
 				optionButton = driver
 						.findElements(className(ADD_OPTION_BUTTON)).get(i * 2);
 				optionButton.click();
 			}
-		WebElement[] updatedElements = new WebElement[options.length];
-		for (int i = 0; i < options.length; i++)
+		WebElement[] updatedElements = new WebElement[options.size()];
+		for (int i = 0; i < options.size(); i++)
 			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options[i] + "']"));
+					+ options.get(i).getQuestion() + "']"));
 		String[] results = new String[updatedElements.length];
 		for (int i = 0; i < updatedElements.length; i++)
 			results[i] = updatedElements[i].getAttribute("value");
 		return results;
 	}
 
-	public static String[] addAttachments(WebDriver driver,
-			Map<File, String> attachments) {
+	public static String[] addAttachments(WebDriver driver, Post post) {
+		Collection<Attachment> attachments = post.getAttachments();
 		if (attachments != null) {
 			int i = 0;
-			for (File attachment : attachments.keySet()) {
-				String comment = attachments.get(attachment);
+			for (Attachment attachment : attachments) {
+				String comment = attachment.getComment();
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));
-				attachmentInput.sendKeys(attachment.getAbsolutePath());
+				attachmentInput.sendKeys(attachment.getName());
 				WebElement commentInput = addComment(driver, i + 2);
 				i++;
 				commentInput.sendKeys(comment);
@@ -186,13 +195,13 @@ public class CreateTopic {
 			return commentInput;
 	}
 
-	public static String deleteAttachments(WebDriver driver,
-			Map<File, String> attachments) {
+	public static String deleteAttachments(WebDriver driver, Post post) {
+		Collection<Attachment> attachments = post.getAttachments();
 		if (attachments != null)
-			for (File attachment : attachments.keySet()) {
-				String comment = attachments.get(attachment);
+			for (Attachment attachment : attachments) {
+				String comment = attachment.getComment();
 				WebElement attachmentInput = driver.findElement(id(""));
-				attachmentInput.sendKeys(attachment.getAbsolutePath());
+				attachmentInput.sendKeys(attachment.getName());
 				WebElement commentInput = driver.findElement(id(""));
 				commentInput.sendKeys(comment);
 			}

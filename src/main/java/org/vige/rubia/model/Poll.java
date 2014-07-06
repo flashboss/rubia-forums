@@ -56,6 +56,13 @@ public class Poll implements Serializable {
 		setVoted(new HashSet<String>());
 	}
 
+	public Poll(String title, List<PollOption> options, int length) {
+		this();
+		this.title = title;
+		this.options = options;
+		this.length = length;
+	}
+
 	@Id
 	@Column(name = "JBP_POLL_ID")
 	@GeneratedValue

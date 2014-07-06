@@ -41,6 +41,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.vige.rubia.model.Category;
+import org.vige.rubia.model.Forum;
 
 /**
  * This class tests receipts functionality of the example.
@@ -81,67 +83,69 @@ public class AdminPanelForumTest {
 	public final static String SELECT_FORUM_TYPE = getBundle("ResourceJSF")
 			.getString("Delete_all_topics_posts");
 
-    @Drone
-    private FirefoxDriver driver;
-    
+	@Drone
+	private FirefoxDriver driver;
+
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, "First Test Category");
+		String message = createCategory(driver, new Category(
+				"First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, "Second Test Category");
+		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, "First Test Forum",
-				"First Test Description", "First Test Category");
+		message = createForum(driver, new Forum("First Test Forum",
+				"First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createForum(driver, "Second Test Forum",
-				"Second Test Description", "First Test Category");
+		message = createForum(driver, new Forum("Second Test Forum",
+				"Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@After
 	public void stop() {
-		String message = removeForum(driver, "First Test Forum",
+		String message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"),
+				SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, "First Test Category",
+		message = removeCategory(driver, new Category("First Test Category"),
 				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, "Second Test Category",
+		message = removeCategory(driver, new Category("Second Test Category"),
 				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
-	} 
+	}
 
 	@Test
 	public void testMoveForum() {
-		Map<String, Integer> positions = moveForum(driver, "First Test Forum", DOWN);
+		Map<String, Integer> positions = moveForum(driver, new Forum(
+				"First Test Forum"), DOWN);
 		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
-		positions = moveForum(driver,
-				"First Test Forum", UP);
+		positions = moveForum(driver, new Forum("First Test Forum"), UP);
 		assertTrue(positions.get("newPosition") < positions
 				.get("firstPosition"));
 	}
 
 	@Test
 	public void testLockForum() {
-		String message = lockForum(driver, "First Test Forum");
+		String message = lockForum(driver, new Forum("First Test Forum"));
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
-		message = lockForum(driver, "First Test Forum");
+		message = lockForum(driver, new Forum("First Test Forum"));
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
 	@Test
 	public void testUpdateForum() {
-		String message = updateForum(driver, "Second Test Forum",
+		String message = updateForum(driver, new Forum("Second Test Forum"),
 				new String[] { "Third Test Forum", "Third Test Description",
 						"Second Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_1_MESSAGE));
-		message = updateForum(driver, "Third Test Forum", new String[] {
-				"Second Test Forum", "First Test Description",
-				"First Test Category" });
+		message = updateForum(driver, new Forum("Third Test Forum"),
+				new String[] { "Second Test Forum", "First Test Description",
+						"First Test Category" });
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
 	}
 }

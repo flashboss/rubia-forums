@@ -58,12 +58,13 @@ public class VerifyForum {
 			"yyyy-MM-dd HH:mm:ss.SSS");
 
 	public static List<Forum> getForumsOfCategories(WebDriver driver,
-			String... categoryNames) {
+			Category... categories) {
 		List<Forum> forums = new ArrayList<Forum>();
-		for (String categoryName : categoryNames) {
+		for (Category category : categories) {
 			WebElement home = driver.findElement(linkText(HOME_LINK));
 			home.click();
-			WebElement categoryEl = driver.findElement(linkText(categoryName));
+			WebElement categoryEl = driver.findElement(linkText(category
+					.getTitle()));
 			categoryEl.click();
 			WebElement tableComponent = driver
 					.findElement(className(FORUM_TABLE));
@@ -115,7 +116,7 @@ public class VerifyForum {
 				forum.setPostCount(new Integer(trComponents.get(i)
 						.findElement(xpath(POSTS_COUNT_OUTPUT_TEXT)).getText()));
 				forums.add(forum);
-				driver.findElement(linkText(categoryName)).click();
+				driver.findElement(linkText(category.getTitle())).click();
 			}
 		}
 		return forums;

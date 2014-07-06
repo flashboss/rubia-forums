@@ -55,6 +55,14 @@ public class Message implements Serializable, Cloneable {
 	@Transient
 	private boolean signatureEnabled = true;
 
+	public Message() {
+
+	}
+
+	public Message(String text) {
+		this.text = text;
+	}
+
 	/**
     */
 	public String getSubject() {

@@ -24,6 +24,7 @@ import static org.openqa.selenium.By.xpath;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class CreateForum {
 
@@ -41,25 +42,24 @@ public class CreateForum {
 			+ ":']/input[5]";
 	public static final String RESULT_CREATE_FORUM = "successtext";
 
-	public static String createForum(WebDriver driver, String forumName,
-			String forumDescription, String categoryTitle) {
+	public static String createForum(WebDriver driver, Forum forum) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		String formId = driver.findElement(
-				xpath("//td[strong/text()='" + categoryTitle + "']/form"))
-				.getAttribute("id");
+				xpath("//td[strong/text()='" + forum.getCategory().getTitle()
+						+ "']/form")).getAttribute("id");
 		WebElement createForum = driver.findElement(id(formId)).findElement(
 				xpath("div/a/img"));
 		createForum.click();
 		WebElement createForumNameInputText = driver
 				.findElement(xpath(CREATE_FORUM_NAME_INPUT_TEXT));
-		createForumNameInputText.sendKeys(forumName);
+		createForumNameInputText.sendKeys(forum.getName());
 		WebElement createForumDescriptionInputText = driver
 				.findElement(xpath(CREATE_FORUM_DESCRIPTION_INPUT_TEXT));
-		createForumDescriptionInputText.sendKeys(forumDescription);
+		createForumDescriptionInputText.sendKeys(forum.getDescription());
 		WebElement categoryOption = driver.findElement(xpath(SELECT_CATEGORY));
-		categoryOption.sendKeys(categoryTitle);
+		categoryOption.sendKeys(forum.getCategory().getTitle());
 		WebElement createForumButton = driver
 				.findElement(xpath(CREATE_FORUM_BUTTON));
 		createForumButton.click();

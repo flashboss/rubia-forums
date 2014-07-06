@@ -27,7 +27,6 @@ import static org.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -54,7 +53,7 @@ public class VerifyAttachment {
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 
 	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver,
-			String... topicNames) {
+			Topic... topics) {
 		List<Attachment> attachments = new ArrayList<Attachment>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
@@ -75,8 +74,8 @@ public class VerifyAttachment {
 			int subjectComponentsSize = subjectComponents.size();
 			for (int i = 0; i < subjectComponentsSize; i++) {
 				subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
-				if (Arrays.asList(topicNames).contains(
-						subjectComponents.get(i).getText())) {
+				List<String> topicNames = findTopicNames(topics);
+				if (topicNames.contains(subjectComponents.get(i).getText())) {
 					subjectComponents = driver
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
@@ -138,5 +137,12 @@ public class VerifyAttachment {
 		forum.setCategory(category);
 		attachment.setPost(post);
 
+	}
+
+	private static List<String> findTopicNames(Topic[] topics) {
+		List<String> topicNames = new ArrayList<String>();
+		for (Topic topic : topics)
+			topicNames.add(topic.getSubject());
+		return topicNames;
 	}
 }

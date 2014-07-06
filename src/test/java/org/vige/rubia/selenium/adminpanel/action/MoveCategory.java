@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Category;
 
 public class MoveCategory {
 
@@ -32,26 +33,27 @@ public class MoveCategory {
 			.getString("Admin_panel");
 
 	public static Map<String, Integer> moveCategory(WebDriver driver,
-			String categoryTitle, Move move) {
+			Category category, Move move) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement moveCategory = driver
-				.findElement(xpath("//tr[td/strong/text()='" + categoryTitle
-						+ "']/td[2]/form/ul/li[" + move.getValue() + "]/a/img"));
-		int firstPosition = findPosition(driver, categoryTitle);
+				.findElement(xpath("//tr[td/strong/text()='"
+						+ category.getTitle() + "']/td[2]/form/ul/li["
+						+ move.getValue() + "]/a/img"));
+		int firstPosition = findPosition(driver, category);
 		moveCategory.click();
-		int newPosition = findPosition(driver, categoryTitle);
+		int newPosition = findPosition(driver, category);
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		result.put("firstPosition", firstPosition);
 		result.put("newPosition", newPosition);
 		return result;
 	}
 
-	private static int findPosition(WebDriver driver, String categoryTitle) {
+	private static int findPosition(WebDriver driver, Category category) {
 		WebElement moveCategory = driver
-				.findElement(xpath("//tr[td/strong/text()='" + categoryTitle
-						+ "']"));
+				.findElement(xpath("//tr[td/strong/text()='"
+						+ category.getTitle() + "']"));
 		return moveCategory.getLocation().getY();
 	}
 }

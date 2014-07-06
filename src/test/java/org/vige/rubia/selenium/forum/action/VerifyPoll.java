@@ -23,7 +23,6 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -31,6 +30,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
+import org.vige.rubia.model.Topic;
 
 public class VerifyPoll {
 
@@ -49,8 +49,7 @@ public class VerifyPoll {
 			.getString("View_results");
 	public static final String TOTAL_VOTES_LINK = "totalCell";
 
-	public static List<Poll> getPollsOfTopics(WebDriver driver,
-			String... topicNames) {
+	public static List<Poll> getPollsOfTopics(WebDriver driver, Topic... topics) {
 		List<Poll> polls = new ArrayList<Poll>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
@@ -71,8 +70,8 @@ public class VerifyPoll {
 			int subjectComponentsSize = subjectComponents.size();
 			for (int i = 0; i < subjectComponentsSize; i++) {
 				subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
-				if (Arrays.asList(topicNames).contains(
-						subjectComponents.get(i).getText())) {
+				List<String> topicNames = findTopicNames(topics);
+				if (topicNames.contains(subjectComponents.get(i).getText())) {
 					subjectComponents = driver
 							.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
@@ -146,5 +145,12 @@ public class VerifyPoll {
 			poll.setOptions(pollOptions);
 		}
 		return poll;
+	}
+
+	private static List<String> findTopicNames(Topic[] topics) {
+		List<String> topicNames = new ArrayList<String>();
+		for (Topic topic : topics)
+			topicNames.add(topic.getSubject());
+		return topicNames;
 	}
 }

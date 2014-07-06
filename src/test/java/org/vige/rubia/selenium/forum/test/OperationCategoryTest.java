@@ -51,9 +51,10 @@ public class OperationCategoryTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, "First Test Category");
+		String message = createCategory(driver, new Category(
+				"First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, "Second Test Category");
+		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
@@ -75,10 +76,10 @@ public class OperationCategoryTest {
 
 	@After
 	public void stop() {
-		String message = removeCategory(driver, "First Test Category",
-				SELECT_CATEGORY_TYPE);
+		String message = removeCategory(driver, new Category(
+				"First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, "Second Test Category",
+		message = removeCategory(driver, new Category("Second Test Category"),
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}

@@ -35,6 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.vige.rubia.model.Category;
 
 /**
  * This class tests receipts functionality of the example.
@@ -73,40 +74,42 @@ public class AdminPanelCategoryTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, "First Test Category");
+		String message = createCategory(driver, new Category(
+				"First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, "Second Test Category");
+		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
 	@After
 	public void stop() {
-		String message = removeCategory(driver, "First Test Category",
-				SELECT_CATEGORY_TYPE);
+		String message = removeCategory(driver, new Category(
+				"First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, "Second Test Category",
+		message = removeCategory(driver, new Category("Second Test Category"),
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void testMoveCategory() {
-		Map<String, Integer> positions = moveCategory(driver,
-				"First Test Category", UP);
+		Map<String, Integer> positions = moveCategory(driver, new Category(
+				"First Test Category"), UP);
 		assertTrue(positions.get("newPosition") < positions
 				.get("firstPosition"));
-		positions = moveCategory(driver, "First Test Category", DOWN);
+		positions = moveCategory(driver, new Category("First Test Category"),
+				DOWN);
 		assertTrue(positions.get("newPosition") > positions
 				.get("firstPosition"));
 	}
 
 	@Test
 	public void testUpdateCategory() {
-		String message = updateCategory(driver, "First Test Category",
-				"Third Test Category");
+		String message = updateCategory(driver, new Category(
+				"First Test Category"), new Category("Third Test Category"));
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
-		message = updateCategory(driver, "Third Test Category",
-				"First Test Category");
+		message = updateCategory(driver, new Category("Third Test Category"),
+				new Category("First Test Category"));
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}
 }

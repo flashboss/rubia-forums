@@ -42,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
 import org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest;
 
@@ -54,42 +55,46 @@ public class OperationForumTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, "First Test Category");
+		String message = createCategory(driver, new Category(
+				"First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, "Second Test Category");
+		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, "First Test Forum",
-				"First Test Description", "First Test Category");
+		message = createForum(driver, new Forum("First Test Forum",
+				"First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createForum(driver, "Second Test Forum",
-				"Second Test Description", "First Test Category");
+		message = createForum(driver, new Forum("Second Test Forum",
+				"Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@Test
 	public void verifyCreatedForums() {
-		List<Forum> forums = getForumsOfCategories(driver,
-				"First Test Category", "Second Test Category");
+		List<Forum> forums = getForumsOfCategories(driver, new Category(
+				"First Test Category"), new Category("Second Test Category"));
 		assertEquals(forums.size(), 2);
 		assertEquals(forums.get(0).getName(), "First Test Forum");
 		assertEquals(forums.get(0).getDescription(), "First Test Description");
-		assertEquals(forums.get(0).getCategory().getTitle(), "First Test Category");
+		assertEquals(forums.get(0).getCategory().getTitle(),
+				"First Test Category");
 		assertEquals(forums.get(1).getName(), "Second Test Forum");
 		assertEquals(forums.get(1).getDescription(), "Second Test Description");
-		assertEquals(forums.get(1).getCategory().getTitle(), "First Test Category");
+		assertEquals(forums.get(1).getCategory().getTitle(),
+				"First Test Category");
 	}
 
 	@After
 	public void stop() {
-		String message = removeForum(driver, "First Test Forum",
+		String message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, "Second Test Forum", SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"),
+				SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, "First Test Category",
+		message = removeCategory(driver, new Category("First Test Category"),
 				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, "Second Test Category",
+		message = removeCategory(driver, new Category("Second Test Category"),
 				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}

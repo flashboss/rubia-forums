@@ -149,6 +149,24 @@ public class Topic implements Serializable, Comparable<Topic> {
 		setPosts(new ArrayList<Post>());
 	}
 
+	public Topic(String subject) {
+		this();
+		this.subject = subject;
+	}
+
+	public Topic(Forum forum, String subject, List<Post> posts) {
+		this(subject);
+		this.forum = forum;
+		this.posts = posts;
+	}
+
+	public Topic(Forum forum, String subject, List<Post> posts, int type, Poll poll) {
+		this(forum, subject, posts);
+		this.type = type;
+		this.poll = poll;
+	}
+	
+
 	// we are implementing comparable to be able to sort topics by last post
 	// date without to have
 	// a column in db.
