@@ -33,9 +33,9 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
-import static org.vige.rubia.selenium.forum.action.TopicType.ADVICE;
-import static org.vige.rubia.selenium.forum.action.TopicType.IMPORTANT;
-import static org.vige.rubia.selenium.forum.action.TopicType.NORMAL;
+import static org.vige.rubia.model.TopicType.ADVICE;
+import static org.vige.rubia.model.TopicType.IMPORTANT;
+import static org.vige.rubia.model.TopicType.NORMAL;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.getTopicsOfForums;
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class OperationTopicTest {
 						"First Test Topic",
 						Arrays.asList(new Post[] { new Post("First Test Body",
 								files) }),
-						NORMAL.getValue(),
+						NORMAL,
 						new Poll(
 								"First Test Question",
 								Arrays.asList(new PollOption[] {
@@ -102,7 +102,7 @@ public class OperationTopicTest {
 						"Second Test Topic",
 						Arrays.asList(new Post[] { new Post("Second Test Body",
 								files) }),
-						IMPORTANT.getValue(),
+						IMPORTANT,
 						new Poll(
 								"Second Test Question",
 								Arrays.asList(new PollOption[] {
@@ -117,7 +117,7 @@ public class OperationTopicTest {
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Third Test Topic",
 						Arrays.asList(new Post[] { new Post("Third Test Body",
-								files) }), ADVICE.getValue(), new Poll(
+								files) }), ADVICE, new Poll(
 								"Third Test Question",
 								Arrays.asList(new PollOption[] {
 										new PollOption("Fifth Test Answer"),
@@ -132,7 +132,7 @@ public class OperationTopicTest {
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
 						Arrays.asList(new Post[] { new Post("Fourth Test Body",
-								files) }), IMPORTANT.getValue(), new Poll(
+								files) }), IMPORTANT, new Poll(
 								"Fourth Test Question",
 								Arrays.asList(new PollOption[] {
 										new PollOption("Seventh Test Answer"),
@@ -154,7 +154,7 @@ public class OperationTopicTest {
 		assertEquals(secondTestTopic.getForum().getName(), "First Test Forum");
 		assertTrue(secondTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(secondTestTopic.getSubject(), "Second Test Topic");
-		assertEquals(secondTestTopic.getType(), IMPORTANT.getValue());
+		assertEquals(secondTestTopic.getType(), IMPORTANT);
 		assertEquals(secondTestTopic.getViewCount(), 0);
 		assertEquals(secondTestTopic.getReplies(), 0);
 		assertEquals(secondTestTopic.getPoster().getUserId(), "root");
@@ -166,7 +166,7 @@ public class OperationTopicTest {
 		assertEquals(firstTestTopic.getForum().getName(), "First Test Forum");
 		assertTrue(firstTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(firstTestTopic.getSubject(), "First Test Topic");
-		assertEquals(firstTestTopic.getType(), NORMAL.getValue());
+		assertEquals(firstTestTopic.getType(), NORMAL);
 		assertEquals(firstTestTopic.getViewCount(), 0);
 		assertEquals(firstTestTopic.getReplies(), 0);
 		assertEquals(firstTestTopic.getPoster().getUserId(), "root");
@@ -178,7 +178,7 @@ public class OperationTopicTest {
 		assertEquals(thirdTestTopic.getForum().getName(), "Second Test Forum");
 		assertTrue(thirdTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(thirdTestTopic.getSubject(), "Third Test Topic");
-		assertEquals(thirdTestTopic.getType(), ADVICE.getValue());
+		assertEquals(thirdTestTopic.getType(), ADVICE);
 		assertEquals(thirdTestTopic.getViewCount(), 0);
 		assertEquals(thirdTestTopic.getReplies(), 0);
 		assertEquals(thirdTestTopic.getPoster().getUserId(), "root");
@@ -190,7 +190,7 @@ public class OperationTopicTest {
 		assertEquals(fourthTestTopic.getForum().getName(), "Second Test Forum");
 		assertTrue(fourthTestTopic.getLastPostDate().compareTo(today) < 0);
 		assertEquals(fourthTestTopic.getSubject(), "Fourth Test Topic");
-		assertEquals(fourthTestTopic.getType(), IMPORTANT.getValue());
+		assertEquals(fourthTestTopic.getType(), IMPORTANT);
 		assertEquals(fourthTestTopic.getViewCount(), 0);
 		assertEquals(fourthTestTopic.getReplies(), 0);
 		assertEquals(fourthTestTopic.getPoster().getUserId(), "root");

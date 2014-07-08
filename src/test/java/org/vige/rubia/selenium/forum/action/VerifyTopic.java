@@ -20,6 +20,9 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.model.TopicType.ADVICE;
+import static org.vige.rubia.model.TopicType.IMPORTANT;
+import static org.vige.rubia.model.TopicType.NORMAL;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
@@ -83,12 +86,12 @@ public class VerifyTopic {
 					List<WebElement> subjectTypeComponents = topicTable
 							.findElements(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
 					if (subjectTypeComponents.size() == 0)
-						topic.setType(0);
+						topic.setType(NORMAL);
 					else if (subjectTypeComponents.get(i4).getText().trim()
 							.equals(TOPIC_STICKY))
-						topic.setType(1);
+						topic.setType(IMPORTANT);
 					else
-						topic.setType(2);
+						topic.setType(ADVICE);
 					String user = topicTable.findElements(xpath(USER_LINK))
 							.get(i4).getText();
 					int replies = new Integer(topicTable

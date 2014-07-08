@@ -98,21 +98,6 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	int POST_NORMAL = 0;
-
-	/**
-	 * DOCUMENT_ME
-	 */
-	int POST_STICKY = 1;
-
-	/**
-	 * DOCUMENT_ME
-	 */
-	int POST_ANNOUNCE = 2;
-
-	/**
-	 * DOCUMENT_ME
-	 */
 	int POST_GLOBAL_ANNONCE = 3;
 
 	/**

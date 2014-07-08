@@ -165,6 +165,16 @@ public class Post implements Serializable {
 		this.attachments = attachments;
 	}
 
+	public Post(Topic topic, String text, List<Attachment> attachments) {
+		this(text, attachments);
+		this.topic = topic;
+	}
+
+	public Post(Topic topic, String text) {
+		this(text);
+		this.topic = topic;
+	}
+
 	/**
     */
 	public Topic getTopic() {

@@ -18,6 +18,9 @@ import static java.lang.Integer.parseInt;
 import static org.vige.rubia.feeds.FeedConstants.ATOM;
 import static org.vige.rubia.feeds.FeedConstants.FORUM;
 import static org.vige.rubia.feeds.FeedConstants.RSS;
+import static org.vige.rubia.model.TopicType.ADVICE;
+import static org.vige.rubia.model.TopicType.IMPORTANT;
+import static org.vige.rubia.model.TopicType.NORMAL;
 import static org.vige.rubia.ui.ForumUtil.getParameter;
 import static org.vige.rubia.ui.JSFUtil.handleException;
 import static org.vige.rubia.ui.PortalUtil.createFeedLink;
@@ -126,8 +129,8 @@ public class ViewForum extends BaseController {
 		}
 		announcements = new ArrayList<Topic>();
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, POST_ANNOUNCE,
-					0, MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
+					MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -148,8 +151,8 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, POST_ANNOUNCE,
-					0, MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
+					MAX_VALUE);
 			if (announcements != null && announcements.size() > 0) {
 				present = true;
 			}
@@ -172,7 +175,7 @@ public class ViewForum extends BaseController {
 		stickyThreads = new ArrayList<Topic>();
 		try {
 			// ForumsModule fm = this.getForumsModule();
-			stickyThreads = forumsModule.findTopicsDesc(forum, POST_STICKY, 0,
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
 					MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
@@ -194,7 +197,7 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			stickyThreads = forumsModule.findTopicsDesc(forum, POST_STICKY, 0,
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
 					MAX_VALUE);
 			if (stickyThreads != null && stickyThreads.size() > 0) {
 				present = true;
@@ -283,7 +286,7 @@ public class ViewForum extends BaseController {
 			// Getting announcements
 			Collection<Topic> announcements = getAnnouncements();
 
-			normalThreads = fm.findTopicsDesc(forum, POST_NORMAL, 0, MAX_VALUE);
+			normalThreads = fm.findTopicsDesc(forum, NORMAL, 0, MAX_VALUE);
 			normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
 
 			Collection<Topic> listOfTopics = new LinkedList<Topic>();

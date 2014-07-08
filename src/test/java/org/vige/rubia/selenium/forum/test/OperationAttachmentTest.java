@@ -34,9 +34,9 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
-import static org.vige.rubia.selenium.forum.action.TopicType.ADVICE;
-import static org.vige.rubia.selenium.forum.action.TopicType.IMPORTANT;
-import static org.vige.rubia.selenium.forum.action.TopicType.NORMAL;
+import static org.vige.rubia.model.TopicType.ADVICE;
+import static org.vige.rubia.model.TopicType.IMPORTANT;
+import static org.vige.rubia.model.TopicType.NORMAL;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfTopics;
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class OperationAttachmentTest {
 						"First Test Topic",
 						Arrays.asList(new Post[] { new Post("First Test Body",
 								files) }),
-						NORMAL.getValue(),
+						NORMAL,
 						new Poll(
 								"First Test Question",
 								Arrays.asList(new PollOption[] {
@@ -102,7 +102,7 @@ public class OperationAttachmentTest {
 						"Second Test Topic",
 						Arrays.asList(new Post[] { new Post("Second Test Body",
 								files) }),
-						IMPORTANT.getValue(),
+						IMPORTANT,
 						new Poll(
 								"Second Test Question",
 								Arrays.asList(new PollOption[] {
@@ -117,7 +117,7 @@ public class OperationAttachmentTest {
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Third Test Topic",
 						Arrays.asList(new Post[] { new Post("Third Test Body",
-								files) }), ADVICE.getValue(), new Poll(
+								files) }), ADVICE, new Poll(
 								"Third Test Question",
 								Arrays.asList(new PollOption[] {
 										new PollOption("Fifth Test Answer"),
@@ -132,7 +132,7 @@ public class OperationAttachmentTest {
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
 						Arrays.asList(new Post[] { new Post("Fourth Test Body",
-								files) }), IMPORTANT.getValue(), new Poll(
+								files) }), IMPORTANT, new Poll(
 								"Fourth Test Question",
 								Arrays.asList(new PollOption[] {
 										new PollOption("Seventh Test Answer"),

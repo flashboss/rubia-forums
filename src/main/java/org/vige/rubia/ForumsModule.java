@@ -31,6 +31,7 @@ import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
+import org.vige.rubia.model.TopicType;
 import org.vige.rubia.model.TopicWatch;
 import org.vige.rubia.model.Watch;
 
@@ -97,7 +98,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             Throws an excpetion if unable to find the topics.
 	 */
-	List<Topic> findTopicsAsc(Forum forum, int type, int start, int perPage) throws ModuleException;
+	List<Topic> findTopicsAsc(Forum forum, TopicType type, int start, int perPage) throws ModuleException;
 
 	/**
 	 * Returns topics that are ordered by creation date from newest to oldest.
@@ -114,7 +115,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             Throws an excpetion if unable to find the topics.
 	 */
-	List<Topic> findTopicsDesc(Forum forum, int type, int start, int perPage) throws ModuleException;
+	List<Topic> findTopicsDesc(Forum forum, TopicType type, int start, int perPage) throws ModuleException;
 
 	/**
 	 * Returns topics that are ordered by creation date from oldest to newest.
@@ -175,7 +176,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	List<Topic> findTopicsBefore(Forum forum, int type, int start, int perPage, Date date) throws ModuleException;
+	List<Topic> findTopicsBefore(Forum forum, TopicType type, int start, int perPage, Date date) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -365,7 +366,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, int type) throws ModuleException;
+	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, TopicType type) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -382,7 +383,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Topic createTopic(Forum forum, String userID, String subject, int type) throws ModuleException;
+	Topic createTopic(Forum forum, String userID, String subject, TopicType type) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME

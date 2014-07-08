@@ -51,6 +51,8 @@ import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.TopicType;
+import static org.vige.rubia.model.TopicType.*;
 import org.vige.rubia.ui.BaseController;
 import org.vige.rubia.ui.PortalUtil;
 
@@ -72,7 +74,7 @@ public abstract class PostAction extends BaseController {
 	// post related view data
 	protected String subject;
 	protected String message;
-	protected int topicType;
+	protected TopicType topicType;
 
 	// poll related data view data
 	protected String question;
@@ -127,7 +129,7 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * @return Returns the topicType.
 	 */
-	public int getTopicType() {
+	public TopicType getTopicType() {
 		return topicType;
 	}
 
@@ -135,7 +137,7 @@ public abstract class PostAction extends BaseController {
 	 * @param topicType
 	 *            The topicType to set.
 	 */
-	public void setTopicType(int topicType) {
+	public void setTopicType(TopicType topicType) {
 		this.topicType = topicType;
 	}
 
@@ -333,7 +335,7 @@ public abstract class PostAction extends BaseController {
 		// be used in the session
 		subject = null;
 		message = null;
-		topicType = 0;
+		topicType = NORMAL;
 		isPreview = false;
 		forumId = -1;
 		topicId = -1;

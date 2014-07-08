@@ -19,48 +19,47 @@ import org.vige.rubia.theme.FolderType;
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @version $Revision: 878 $
  */
-public class FolderType
-{
-   /**
-    * DOCUMENT_ME
-    */
-   public final String folder;
+public class FolderType {
+	/**
+	 * DOCUMENT_ME
+	 */
+	public final String folder;
 
-   /**
-    * DOCUMENT_ME
-    */
-   public final String folderNew;
+	/**
+	 * DOCUMENT_ME
+	 */
+	public final String folderNew;
 
-   /**
-    * DOCUMENT_ME
-    */
-   public final String type;
+	/**
+	 * DOCUMENT_ME
+	 */
+	public final String type;
 
-   /**
-    * Creates a new {@link FolderType} object.
-    *
-    * @param folder    DOCUMENT_ME
-    * @param folderNew DOCUMENT_ME
-    * @param type      DOCUMENT_ME
-    */
-   public FolderType(String folder,
-                     String folderNew,
-                     String type)
-   {
-      this.folder = folder;
-      this.folderNew = folderNew;
-      this.type = type;
-   }
+	/**
+	 * Creates a new {@link FolderType} object.
+	 * 
+	 * @param folder
+	 *            DOCUMENT_ME
+	 * @param folderNew
+	 *            DOCUMENT_ME
+	 * @param type
+	 *            DOCUMENT_ME
+	 */
+	public FolderType(String folder, String folderNew, String type) {
+		this.folder = folder;
+		this.folderNew = folderNew;
+		this.type = type;
+	}
 
-public String getFolder() {
-	return folder;
-}
+	public String getFolder() {
+		return folder;
+	}
 
-public String getFolderNew() {
-	return folderNew;
-}
+	public String getFolderNew() {
+		return folderNew;
+	}
 
-public String getType() {
-	return type;
-}
+	public String getType() {
+		return type;
+	}
 }

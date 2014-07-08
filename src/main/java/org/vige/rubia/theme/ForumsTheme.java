@@ -13,10 +13,9 @@
  ******************************************************************************/
 package org.vige.rubia.theme;
 
-import static org.vige.rubia.ui.Constants.POST_ANNOUNCE;
-import static org.vige.rubia.ui.Constants.POST_STICKY;
 import static org.vige.rubia.ui.Constants.TOPIC_LOCKED;
 
+import org.vige.rubia.model.TopicType;
 import org.vige.rubia.properties.XProperties;
 
 /**
@@ -36,16 +35,16 @@ public class ForumsTheme {
 	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 */
-	public FolderType getFolderType(int type, int status, boolean hot) {
+	public FolderType getFolderType(TopicType type, int status, boolean hot) {
 		switch (type) {
-		case POST_ANNOUNCE:
+		case ADVICE:
 			if (status == TOPIC_LOCKED) {
 				return FOLDER_ANNOUNCE_LOCKED;
 			} else {
 				return FOLDER_ANNOUNCE;
 			}
 
-		case POST_STICKY:
+		case IMPORTANT:
 			if (status == TOPIC_LOCKED) {
 				return FOLDER_STICKY_LOCKED;
 			} else {

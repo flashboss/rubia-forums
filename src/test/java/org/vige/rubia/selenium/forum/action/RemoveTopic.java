@@ -52,12 +52,12 @@ public class RemoveTopic {
 		WebElement confirmRemoveTopicButton = driver
 				.findElement(xpath(CONFIRM_REMOVE_TOPIC_BUTTON));
 		confirmRemoveTopicButton.click();
-		WebElement resultCreateTopic = null;
+		WebElement resultRemoveTopic = null;
 		String message = "";
 		try {
-			resultCreateTopic = driver
+			resultRemoveTopic = driver
 					.findElement(linkText(topic.getSubject()));
-			message = resultCreateTopic.getText();
+			message = resultRemoveTopic.getText();
 		} catch (NoSuchElementException ex) {
 			message = "OK";
 		}

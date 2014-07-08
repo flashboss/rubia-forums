@@ -13,7 +13,7 @@
  ******************************************************************************/
 package org.vige.rubia;
 
-import static org.vige.rubia.ui.Constants.POST_ANNOUNCE;
+import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.ui.Constants.TOPIC_UNLOCKED;
 import static org.vige.rubia.util.NotificationEngine.MODE_POST;
 import static org.vige.rubia.util.NotificationEngine.MODE_REPLY;
@@ -50,6 +50,7 @@ import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
+import org.vige.rubia.model.TopicType;
 import org.vige.rubia.model.TopicWatch;
 import org.vige.rubia.model.Watch;
 import org.vige.rubia.util.NotificationEngine;
@@ -308,7 +309,7 @@ public class ForumsModuleImpl implements ForumsModule {
 
 			Query query = em.createNamedQuery("findAnnouncements");
 			query.setParameter("forumid", "" + forum.getId());
-			query.setParameter("type", "" + POST_ANNOUNCE);
+			query.setParameter("type", "" + ADVICE);
 			return query.getResultList();
 		} catch (Exception e) {
 			String message = "Cannot find forums";
@@ -344,7 +345,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	 * @return
 	 * @throws ModuleException
 	 */
-	private List<Topic> findTopics(Forum forum, int type, int start,
+	private List<Topic> findTopics(Forum forum, TopicType type, int start,
 			int perPage, String order) throws ModuleException {
 		try {
 
@@ -387,13 +388,13 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public List<Topic> findTopicsAsc(Forum forum, int type, int start,
+	public List<Topic> findTopicsAsc(Forum forum, TopicType type, int start,
 			int perPage) throws ModuleException {
 		return findTopics(forum, type, start, perPage, "asc");
 	}
 
 	@Override
-	public List<Topic> findTopicsDesc(Forum forum, int type, int start,
+	public List<Topic> findTopicsDesc(Forum forum, TopicType type, int start,
 			int perPage) throws ModuleException {
 		return findTopics(forum, type, start, perPage, "desc");
 	}
@@ -411,7 +412,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public List<Topic> findTopicsBefore(Forum forum, int type, int start,
+	public List<Topic> findTopicsBefore(Forum forum, TopicType type, int start,
 			int perPage, Date date) throws ModuleException {
 		return null;
 	}
@@ -484,7 +485,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public Post createTopic(Forum forum, Message message, Date creationDate,
 			Poster poster, Poll poll, Collection<Attachment> attachments,
-			int type) throws ModuleException {
+			TopicType type) throws ModuleException {
 		try {
 
 			if (poster.getId() == null
@@ -537,7 +538,7 @@ public class ForumsModuleImpl implements ForumsModule {
 
 	@Override
 	public Topic createTopic(Forum forum, String userId, String subject,
-			int type) throws ModuleException {
+			TopicType type) throws ModuleException {
 		try {
 
 			Poster poster = findPosterByUserId(userId);

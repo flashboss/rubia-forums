@@ -125,7 +125,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	private Poster poster;
 
 	@Column(name = "JBP_TYPE")
-	private int type;
+	private TopicType type;
 
 	@Column(name = "JBP_STATUS")
 	private int status;
@@ -154,18 +154,22 @@ public class Topic implements Serializable, Comparable<Topic> {
 		this.subject = subject;
 	}
 
-	public Topic(Forum forum, String subject, List<Post> posts) {
+	public Topic(Forum forum, String subject) {
 		this(subject);
 		this.forum = forum;
+	}
+
+	public Topic(Forum forum, String subject, List<Post> posts) {
+		this(forum, subject);
 		this.posts = posts;
 	}
 
-	public Topic(Forum forum, String subject, List<Post> posts, int type, Poll poll) {
+	public Topic(Forum forum, String subject, List<Post> posts, TopicType type,
+			Poll poll) {
 		this(forum, subject, posts);
 		this.type = type;
 		this.poll = poll;
 	}
-	
 
 	// we are implementing comparable to be able to sort topics by last post
 	// date without to have
@@ -299,7 +303,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 
 	/**
     */
-	public int getType() {
+	public TopicType getType() {
 		return type;
 	}
 
@@ -309,7 +313,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	 * @param type
 	 *            DOCUMENT_ME
 	 */
-	public void setType(int type) {
+	public void setType(TopicType type) {
 		this.type = type;
 	}
 

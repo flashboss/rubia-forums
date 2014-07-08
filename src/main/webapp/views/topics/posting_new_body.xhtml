@@ -169,13 +169,13 @@ function selectOption(optionVal)
 										${resourcebundle.Options} </label></td>
 								<td>${resourcebundle.Post_topic_as}: <h:selectOneRadio
 										value="#{newTopic.topicType}" styleClass="gen">
-										<f:selectItem itemValue="0"
+										<f:selectItem itemValue="NORMAL"
 											itemLabel="${resourcebundle.Post_Normal}">
 										</f:selectItem>
-										<f:selectItem itemValue="1"
+										<f:selectItem itemValue="IMPORTANT"
 											itemLabel="${resourcebundle.Post_Sticky}">
 										</f:selectItem>
-										<f:selectItem itemValue="2"
+										<f:selectItem itemValue="ADVICE"
 											itemLabel="${resourcebundle.Post_Announcement}">
 										</f:selectItem>
 									</h:selectOneRadio>

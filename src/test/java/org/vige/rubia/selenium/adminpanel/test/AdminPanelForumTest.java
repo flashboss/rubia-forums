@@ -140,12 +140,12 @@ public class AdminPanelForumTest {
 	@Test
 	public void testUpdateForum() {
 		String message = updateForum(driver, new Forum("Second Test Forum"),
-				new String[] { "Third Test Forum", "Third Test Description",
-						"Second Test Category" });
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")));
 		assertTrue(message.equals(UPDATED_FORUM_1_MESSAGE));
-		message = updateForum(driver, new Forum("Third Test Forum"),
-				new String[] { "Second Test Forum", "First Test Description",
-						"First Test Category" });
+		message = updateForum(driver, new Forum("Third Test Forum"), new Forum(
+				"Second Test Forum", "First Test Description", new Category(
+						"First Test Category")));
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
 	}
 }

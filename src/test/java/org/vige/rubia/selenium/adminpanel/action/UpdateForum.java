@@ -42,7 +42,7 @@ public class UpdateForum {
 	public static final String RESULT_UPDATE_FORUM = "successtext";
 
 	public static String updateForum(WebDriver driver, Forum oldForum,
-			String[] newParameters) {
+			Forum newForum) {
 		WebElement adminPanelLink = driver
 				.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
@@ -53,13 +53,13 @@ public class UpdateForum {
 		WebElement updateForumNameInputText = driver
 				.findElement(xpath(UPDATE_FORUM_NAME_INPUT_TEXT));
 		updateForumNameInputText.clear();
-		updateForumNameInputText.sendKeys(newParameters[0]);
+		updateForumNameInputText.sendKeys(newForum.getName());
 		WebElement updateForumDescriptionInputText = driver
 				.findElement(xpath(UPDATE_FORUM_DESCRIPTION_INPUT_TEXT));
 		updateForumDescriptionInputText.clear();
-		updateForumDescriptionInputText.sendKeys(newParameters[1]);
+		updateForumDescriptionInputText.sendKeys(newForum.getDescription());
 		WebElement categoryOption = driver.findElement(xpath(SELECT_CATEGORY));
-		categoryOption.sendKeys(newParameters[2]);
+		categoryOption.sendKeys(newForum.getCategory().getTitle());
 		WebElement updateForumLink = driver
 				.findElement(xpath(UPDATE_FORUM_LINK));
 		updateForumLink.click();

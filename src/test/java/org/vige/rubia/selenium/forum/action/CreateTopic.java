@@ -73,7 +73,7 @@ public class CreateTopic {
 		driver.switchTo().defaultContent();
 		WebElement topicTypeInput = null;
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
-				.get(topic.getType());
+				.get(topic.getType().getValue());
 		topicTypeInput.click();
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(topic.getPoll().getTitle());
@@ -86,8 +86,8 @@ public class CreateTopic {
 		operationButton.click();
 		WebElement resultCreateTopic = driver.findElement(linkText(topic
 				.getSubject()));
-		String updatedForum = resultCreateTopic.getText();
-		return updatedForum;
+		String updatedTopic = resultCreateTopic.getText();
+		return updatedTopic;
 	}
 
 	public static String[] updateOptions(WebDriver driver, Poll poll) {
