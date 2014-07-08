@@ -212,11 +212,11 @@ public class OperationPostTest {
 		Post nextFifthTestPost = posts.get(1);
 		Date createdNextFifthTestPostDate = nextFifthTestPost.getCreateDate();
 		assertFalse(createdNextFifthTestPostDate.after(today));
-		assertFalse(createdDate1.before(createdNextFifthTestPostDate));
+		assertFalse(createdDate1.after(createdNextFifthTestPostDate));
 		assertEquals(nextFifthTestPost.getEditCount(), 0);
 		assertNull(nextFifthTestPost.getEditDate());
 		assertEquals(nextFifthTestPost.getMessage().getSubject(),
-				"Second Test Topic");
+				"Re: Second Test Topic");
 		assertEquals(nextFifthTestPost.getMessage().getText(),
 				"Fifth Test Post");
 		assertEquals(nextFifthTestPost.getPoster().getUserId(), "root");
@@ -231,11 +231,11 @@ public class OperationPostTest {
 		Date createdNextSixthTestPostDate = nextSixthTestPost.getCreateDate();
 		assertFalse(createdNextSixthTestPostDate.after(today));
 		assertFalse(createdNextFifthTestPostDate
-				.before(createdNextSixthTestPostDate));
+				.after(createdNextSixthTestPostDate));
 		assertEquals(nextSixthTestPost.getEditCount(), 0);
 		assertNull(nextSixthTestPost.getEditDate());
 		assertEquals(nextSixthTestPost.getMessage().getSubject(),
-				"Second Test Topic");
+				"Re: Second Test Topic");
 		assertEquals(nextSixthTestPost.getMessage().getText(),
 				"Sixth Test Post");
 		assertEquals(nextSixthTestPost.getPoster().getUserId(), "root");
@@ -251,11 +251,11 @@ public class OperationPostTest {
 				.getCreateDate();
 		assertFalse(createdNextSeventhTestPostDate.after(today));
 		assertFalse(createdNextSixthTestPostDate
-				.before(createdNextSeventhTestPostDate));
+				.after(createdNextSeventhTestPostDate));
 		assertEquals(nextSeventhTestPost.getEditCount(), 0);
 		assertNull(nextSeventhTestPost.getEditDate());
 		assertEquals(nextSeventhTestPost.getMessage().getSubject(),
-				"Second Test Topic");
+				"Re: Second Test Topic");
 		assertEquals(nextSeventhTestPost.getMessage().getText(),
 				"Seventh Test Post");
 		assertEquals(nextSeventhTestPost.getPoster().getUserId(), "root");
@@ -285,11 +285,11 @@ public class OperationPostTest {
 		Post nextFirstTestPost = posts.get(5);
 		Date createdNextFirstTestPostDate = nextFirstTestPost.getCreateDate();
 		assertFalse(createdNextFirstTestPostDate.after(today));
-		assertFalse(createdDate2.before(createdNextFirstTestPostDate));
+		assertFalse(createdDate2.after(createdNextFirstTestPostDate));
 		assertEquals(nextFirstTestPost.getEditCount(), 0);
 		assertNull(nextFirstTestPost.getEditDate());
 		assertEquals(nextFirstTestPost.getMessage().getSubject(),
-				"First Test Topic");
+				"Re: First Test Topic");
 		assertEquals(nextFirstTestPost.getMessage().getText(),
 				"First Test Post");
 		assertEquals(nextFirstTestPost.getPoster().getUserId(), "root");
@@ -304,11 +304,11 @@ public class OperationPostTest {
 		Date createdNextSecondTestPostDate = nextSecondTestPost.getCreateDate();
 		assertFalse(createdNextSecondTestPostDate.after(today));
 		assertFalse(createdNextFirstTestPostDate
-				.before(createdNextSecondTestPostDate));
+				.after(createdNextSecondTestPostDate));
 		assertEquals(nextSecondTestPost.getEditCount(), 0);
 		assertNull(nextSecondTestPost.getEditDate());
 		assertEquals(nextSecondTestPost.getMessage().getSubject(),
-				"First Test Topic");
+				"Re: First Test Topic");
 		assertEquals(nextSecondTestPost.getMessage().getText(),
 				"Second Test Post");
 		assertEquals(nextSecondTestPost.getPoster().getUserId(), "root");
@@ -323,11 +323,11 @@ public class OperationPostTest {
 		Date createdNextThirdTestPostDate = nextThirdTestPost.getCreateDate();
 		assertFalse(createdNextThirdTestPostDate.after(today));
 		assertFalse(createdNextSecondTestPostDate
-				.before(createdNextThirdTestPostDate));
+				.after(createdNextThirdTestPostDate));
 		assertEquals(nextThirdTestPost.getEditCount(), 0);
 		assertNull(nextThirdTestPost.getEditDate());
 		assertEquals(nextThirdTestPost.getMessage().getSubject(),
-				"First Test Topic");
+				"Re: First Test Topic");
 		assertEquals(nextThirdTestPost.getMessage().getText(),
 				"Third Test Post");
 		assertEquals(nextThirdTestPost.getPoster().getUserId(), "root");
@@ -342,11 +342,11 @@ public class OperationPostTest {
 		Date createdNextFourthTestPostDate = nextFourthTestPost.getCreateDate();
 		assertFalse(createdNextFourthTestPostDate.after(today));
 		assertFalse(createdNextThirdTestPostDate
-				.before(createdNextFourthTestPostDate));
+				.after(createdNextFourthTestPostDate));
 		assertEquals(nextFourthTestPost.getEditCount(), 0);
 		assertNull(nextFourthTestPost.getEditDate());
 		assertEquals(nextFourthTestPost.getMessage().getSubject(),
-				"First Test Topic");
+				"Re: First Test Topic");
 		assertEquals(nextFourthTestPost.getMessage().getText(),
 				"Fourth Test Post");
 		assertEquals(nextFourthTestPost.getPoster().getUserId(), "root");
@@ -360,7 +360,7 @@ public class OperationPostTest {
 		Post thirdTestPost = posts.get(9);
 		Date createdDate3 = thirdTestPost.getCreateDate();
 		assertFalse(createdDate3.after(today));
-		assertFalse(createdDate2.before(createdDate3));
+		assertFalse(createdDate2.after(createdDate3));
 		assertEquals(thirdTestPost.getEditCount(), 0);
 		assertNull(thirdTestPost.getEditDate());
 		assertEquals(thirdTestPost.getMessage().getSubject(),
@@ -376,11 +376,11 @@ public class OperationPostTest {
 		Post nextEightTestPost = posts.get(10);
 		Date createdNextEightTestPostDate = nextEightTestPost.getCreateDate();
 		assertFalse(createdNextEightTestPostDate.after(today));
-		assertFalse(createdDate3.before(createdNextEightTestPostDate));
+		assertFalse(createdDate3.after(createdNextEightTestPostDate));
 		assertEquals(nextEightTestPost.getEditCount(), 0);
 		assertNull(nextEightTestPost.getEditDate());
 		assertEquals(nextEightTestPost.getMessage().getSubject(),
-				"Third Test Topic");
+				"Re: Third Test Topic");
 		assertEquals(nextEightTestPost.getMessage().getText(),
 				"Eight Test Post");
 		assertEquals(nextEightTestPost.getPoster().getUserId(), "root");
@@ -395,11 +395,11 @@ public class OperationPostTest {
 		Date createdNextNinthTestPostDate = nextNinthTestPost.getCreateDate();
 		assertFalse(createdNextNinthTestPostDate.after(today));
 		assertFalse(createdNextEightTestPostDate
-				.before(createdNextNinthTestPostDate));
+				.after(createdNextNinthTestPostDate));
 		assertEquals(nextNinthTestPost.getEditCount(), 0);
 		assertNull(nextNinthTestPost.getEditDate());
 		assertEquals(nextNinthTestPost.getMessage().getSubject(),
-				"Third Test Topic");
+				"Re: Third Test Topic");
 		assertEquals(nextNinthTestPost.getMessage().getText(),
 				"Ninth Test Post");
 		assertEquals(nextNinthTestPost.getPoster().getUserId(), "root");
@@ -413,7 +413,7 @@ public class OperationPostTest {
 		Post fourthTestPost = posts.get(12);
 		Date createdDate4 = fourthTestPost.getCreateDate();
 		assertFalse(createdDate4.after(today));
-		assertFalse(createdDate3.before(createdDate4));
+		assertFalse(createdDate3.after(createdDate4));
 		assertEquals(fourthTestPost.getEditCount(), 0);
 		assertNull(fourthTestPost.getEditDate());
 		assertEquals(fourthTestPost.getMessage().getSubject(),
@@ -430,11 +430,11 @@ public class OperationPostTest {
 		Post nextTenTestPost = posts.get(13);
 		Date createdNextTenTestPostDate = nextTenTestPost.getCreateDate();
 		assertFalse(createdNextTenTestPostDate.after(today));
-		assertFalse(createdDate4.before(createdNextTenTestPostDate));
+		assertFalse(createdDate4.after(createdNextTenTestPostDate));
 		assertEquals(nextTenTestPost.getEditCount(), 0);
 		assertNull(nextTenTestPost.getEditDate());
 		assertEquals(nextTenTestPost.getMessage().getSubject(),
-				"Fourth Test Topic");
+				"Re: Fourth Test Topic");
 		assertEquals(nextTenTestPost.getMessage().getText(), "Ten Test Post");
 		assertEquals(nextTenTestPost.getPoster().getUserId(), "root");
 		assertEquals(nextTenTestPost.getTopic().getSubject(),

@@ -32,7 +32,9 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
+import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
+import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
@@ -95,6 +97,14 @@ public class OperationAttachmentTest {
 										new PollOption("Second Test Answer") }),
 								4)));
 		assertTrue(message.equals("First Test Topic"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"First Test Forum"), "First Test Topic"), "First Test Post",
+				files));
+		assertTrue(message.equals("First Test Post"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"First Test Forum"), "First Test Topic"), "Second Test Post",
+				files));
+		assertTrue(message.equals("Second Test Post"));
 		message = createTopic(
 				driver,
 				new Topic(
@@ -139,6 +149,38 @@ public class OperationAttachmentTest {
 										new PollOption("Eight Test Answer") }),
 								0)));
 		assertTrue(message.equals("Fourth Test Topic"));
+		files.clear();
+		files.add(new Attachment("/seventh", "Seventh Test File"));
+		files.add(new Attachment("/eight", "Eight Test File"));
+		files.add(new Attachment("/ninth", "Ninth Test File"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Third Test Post",
+				files));
+		assertTrue(message.equals("Third Test Post"));
+		files.clear();
+		files.add(new Attachment("/ten", "Ten Test File"));
+		files.add(new Attachment("/eleven", "Eleven Test File"));
+		files.add(new Attachment("/twelve", "Twelve Test File"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Fourth Test Post",
+				files));
+		assertTrue(message.equals("Fourth Test Post"));
+		files.clear();
+		files.add(new Attachment("/thirteen", "Thirteen Test File"));
+		files.add(new Attachment("/fourteen", "Fourteen Test File"));
+		files.add(new Attachment("/fifteen", "Fifteen Test File"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Fifth Test Post",
+				files));
+		assertTrue(message.equals("Fifth Test Post"));
+		files.clear();
+		files.add(new Attachment("/sixteen", "Sixteen Test File"));
+		files.add(new Attachment("/seventeen", "Seventeen Test File"));
+		files.add(new Attachment("/eighteen", "Eighteen Test File"));
+		message = createPost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Sixth Test Post",
+				files));
+		assertTrue(message.equals("Sixth Test Post"));
 	}
 
 	@Test
@@ -146,7 +188,7 @@ public class OperationAttachmentTest {
 		List<Attachment> attachments = getAttachmentsOfTopics(driver,
 				new Topic("First Test Topic"), new Topic("Second Test Topic"),
 				new Topic("Third Test Topic"), new Topic("Fourth Test Topic"));
-		assertEquals(attachments.size(), 12);
+		assertEquals(attachments.size(), 30);
 
 		Attachment firstAttachment = attachments.get(0);
 		assertEquals(firstAttachment.getName(), "first");
@@ -197,12 +239,12 @@ public class OperationAttachmentTest {
 		assertEquals(seventhAttachment.getComment(), "First Test File");
 		assertEquals(seventhAttachment.getSize(), 0);
 
-		Attachment eigthAttachment = attachments.get(7);
-		assertEquals(eigthAttachment.getName(), "second");
-		assertNull(eigthAttachment.getContent());
-		assertNull(eigthAttachment.getContentType());
-		assertEquals(eigthAttachment.getComment(), "Second Test File");
-		assertEquals(eigthAttachment.getSize(), 0);
+		Attachment eightAttachment = attachments.get(7);
+		assertEquals(eightAttachment.getName(), "second");
+		assertNull(eightAttachment.getContent());
+		assertNull(eightAttachment.getContentType());
+		assertEquals(eightAttachment.getComment(), "Second Test File");
+		assertEquals(eightAttachment.getSize(), 0);
 
 		Attachment ninthAttachment = attachments.get(8);
 		assertEquals(ninthAttachment.getName(), "third");
@@ -212,30 +254,118 @@ public class OperationAttachmentTest {
 		assertEquals(ninthAttachment.getSize(), 0);
 
 		Attachment tenAttachment = attachments.get(9);
-		assertEquals(tenAttachment.getName(), "fourth");
+		assertEquals(tenAttachment.getName(), "first");
 		assertNull(tenAttachment.getContent());
 		assertNull(tenAttachment.getContentType());
-		assertEquals(tenAttachment.getComment(), "Fourth Test File");
+		assertEquals(tenAttachment.getComment(), "First Test File");
 		assertEquals(tenAttachment.getSize(), 0);
 
 		Attachment elevenAttachment = attachments.get(10);
-		assertEquals(elevenAttachment.getName(), "fifth");
+		assertEquals(elevenAttachment.getName(), "second");
 		assertNull(elevenAttachment.getContent());
 		assertNull(elevenAttachment.getContentType());
-		assertEquals(elevenAttachment.getComment(), "Fifth Test File");
+		assertEquals(elevenAttachment.getComment(), "Second Test File");
 		assertEquals(elevenAttachment.getSize(), 0);
 
 		Attachment twelveAttachment = attachments.get(11);
-		assertEquals(twelveAttachment.getName(), "sixth");
+		assertEquals(twelveAttachment.getName(), "third");
 		assertNull(twelveAttachment.getContent());
 		assertNull(twelveAttachment.getContentType());
-		assertEquals(twelveAttachment.getComment(), "Sixth Test File");
+		assertEquals(twelveAttachment.getComment(), "Third Test File");
 		assertEquals(twelveAttachment.getSize(), 0);
+
+		Attachment thirteenAttachment = attachments.get(12);
+		assertEquals(thirteenAttachment.getName(), "first");
+		assertNull(thirteenAttachment.getContent());
+		assertNull(thirteenAttachment.getContentType());
+		assertEquals(thirteenAttachment.getComment(), "First Test File");
+		assertEquals(thirteenAttachment.getSize(), 0);
+
+		Attachment fourteenAttachment = attachments.get(13);
+		assertEquals(fourteenAttachment.getName(), "second");
+		assertNull(fourteenAttachment.getContent());
+		assertNull(fourteenAttachment.getContentType());
+		assertEquals(fourteenAttachment.getComment(), "Second Test File");
+		assertEquals(fourteenAttachment.getSize(), 0);
+
+		Attachment fifteenAttachment = attachments.get(14);
+		assertEquals(fifteenAttachment.getName(), "third");
+		assertNull(fifteenAttachment.getContent());
+		assertNull(fifteenAttachment.getContentType());
+		assertEquals(fifteenAttachment.getComment(), "Third Test File");
+		assertEquals(fifteenAttachment.getSize(), 0);
+
+		Attachment sixteenAttachment = attachments.get(15);
+		assertEquals(sixteenAttachment.getName(), "fourth");
+		assertNull(sixteenAttachment.getContent());
+		assertNull(sixteenAttachment.getContentType());
+		assertEquals(sixteenAttachment.getComment(), "Fourth Test File");
+		assertEquals(sixteenAttachment.getSize(), 0);
+
+		Attachment seventeenAttachment = attachments.get(16);
+		assertEquals(seventeenAttachment.getName(), "fifth");
+		assertNull(seventeenAttachment.getContent());
+		assertNull(seventeenAttachment.getContentType());
+		assertEquals(seventeenAttachment.getComment(), "Fifth Test File");
+		assertEquals(seventeenAttachment.getSize(), 0);
+
+		Attachment eighteenAttachment = attachments.get(17);
+		assertEquals(eighteenAttachment.getName(), "seventh");
+		assertNull(eighteenAttachment.getContent());
+		assertNull(eighteenAttachment.getContentType());
+		assertEquals(eighteenAttachment.getComment(), "Seventh Test File");
+		assertEquals(eighteenAttachment.getSize(), 0);
+
+		Attachment ninteenAttachment = attachments.get(18);
+		assertEquals(ninteenAttachment.getName(), "eight");
+		assertNull(ninteenAttachment.getContent());
+		assertNull(ninteenAttachment.getContentType());
+		assertEquals(ninteenAttachment.getComment(), "Eight Test File");
+		assertEquals(ninteenAttachment.getSize(), 0);
+
+		Attachment twentyAttachment = attachments.get(19);
+		assertEquals(twentyAttachment.getName(), "ninth");
+		assertNull(twentyAttachment.getContent());
+		assertNull(twentyAttachment.getContentType());
+		assertEquals(twentyAttachment.getComment(), "Ninth Test File");
+		assertEquals(twentyAttachment.getSize(), 0);
+
+		Attachment twentyoneAttachment = attachments.get(20);
+		assertEquals(twentyoneAttachment.getName(), "ten");
+		assertNull(twentyoneAttachment.getContent());
+		assertNull(twentyoneAttachment.getContentType());
+		assertEquals(twentyoneAttachment.getComment(), "Ten Test File");
+		assertEquals(twentyoneAttachment.getSize(), 0);
+
+		Attachment twentytwoAttachment = attachments.get(21);
+		assertEquals(twentytwoAttachment.getName(), "eleven");
+		assertNull(twentytwoAttachment.getContent());
+		assertNull(twentytwoAttachment.getContentType());
+		assertEquals(twentytwoAttachment.getComment(), "Eleven Test File");
+		assertEquals(twentytwoAttachment.getSize(), 0);
 	}
 
 	@After
 	public void stop() {
-		String message = removeTopic(
+		String message = removePost(driver, new Post(new Topic(new Forum(
+				"First Test Forum"), "First Test Topic"), "First Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, new Post(new Topic(new Forum(
+				"First Test Forum"), "First Test Topic"), "Second Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Third Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Fourth Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Fifth Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, new Post(new Topic(new Forum(
+				"Second Test Forum"), "Fourth Test Topic"), "Sixth Test Post"));
+		assertTrue(message.equals("OK"));
+		message = removeTopic(
 				driver,
 				new Topic(
 						new Forum("First Test Forum"),
