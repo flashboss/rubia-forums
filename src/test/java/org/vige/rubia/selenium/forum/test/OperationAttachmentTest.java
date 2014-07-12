@@ -310,39 +310,46 @@ public class OperationAttachmentTest {
 		assertEquals(seventeenAttachment.getSize(), 0);
 
 		Attachment eighteenAttachment = attachments.get(17);
-		assertEquals(eighteenAttachment.getName(), "seventh");
+		assertEquals(eighteenAttachment.getName(), "sixth");
 		assertNull(eighteenAttachment.getContent());
 		assertNull(eighteenAttachment.getContentType());
-		assertEquals(eighteenAttachment.getComment(), "Seventh Test File");
+		assertEquals(eighteenAttachment.getComment(), "Sixth Test File");
 		assertEquals(eighteenAttachment.getSize(), 0);
 
 		Attachment ninteenAttachment = attachments.get(18);
-		assertEquals(ninteenAttachment.getName(), "eight");
+		assertEquals(ninteenAttachment.getName(), "seventh");
 		assertNull(ninteenAttachment.getContent());
 		assertNull(ninteenAttachment.getContentType());
-		assertEquals(ninteenAttachment.getComment(), "Eight Test File");
+		assertEquals(ninteenAttachment.getComment(), "Seventh Test File");
 		assertEquals(ninteenAttachment.getSize(), 0);
 
 		Attachment twentyAttachment = attachments.get(19);
-		assertEquals(twentyAttachment.getName(), "ninth");
+		assertEquals(twentyAttachment.getName(), "eight");
 		assertNull(twentyAttachment.getContent());
 		assertNull(twentyAttachment.getContentType());
-		assertEquals(twentyAttachment.getComment(), "Ninth Test File");
+		assertEquals(twentyAttachment.getComment(), "Eight Test File");
 		assertEquals(twentyAttachment.getSize(), 0);
 
 		Attachment twentyoneAttachment = attachments.get(20);
-		assertEquals(twentyoneAttachment.getName(), "ten");
+		assertEquals(twentyoneAttachment.getName(), "ninth");
 		assertNull(twentyoneAttachment.getContent());
 		assertNull(twentyoneAttachment.getContentType());
-		assertEquals(twentyoneAttachment.getComment(), "Ten Test File");
+		assertEquals(twentyoneAttachment.getComment(), "Ninth Test File");
 		assertEquals(twentyoneAttachment.getSize(), 0);
 
 		Attachment twentytwoAttachment = attachments.get(21);
-		assertEquals(twentytwoAttachment.getName(), "eleven");
+		assertEquals(twentytwoAttachment.getName(), "ten");
 		assertNull(twentytwoAttachment.getContent());
 		assertNull(twentytwoAttachment.getContentType());
-		assertEquals(twentytwoAttachment.getComment(), "Eleven Test File");
+		assertEquals(twentytwoAttachment.getComment(), "Ten Test File");
 		assertEquals(twentytwoAttachment.getSize(), 0);
+
+		Attachment twentythreeAttachment = attachments.get(22);
+		assertEquals(twentythreeAttachment.getName(), "eleven");
+		assertNull(twentythreeAttachment.getContent());
+		assertNull(twentythreeAttachment.getContentType());
+		assertEquals(twentythreeAttachment.getComment(), "Eleven Test File");
+		assertEquals(twentythreeAttachment.getSize(), 0);
 	}
 
 	@After
