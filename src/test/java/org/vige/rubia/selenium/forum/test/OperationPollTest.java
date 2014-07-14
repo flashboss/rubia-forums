@@ -76,9 +76,9 @@ public class OperationPollTest {
 				"First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
 		List<Attachment> files = new ArrayList<Attachment>();
-		files.add(new Attachment("/first", "First Test File"));
-		files.add(new Attachment("/second", "Second Test File"));
-		files.add(new Attachment("/third", "Third Test File"));
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createTopic(
 				driver,
 				new Topic(
@@ -124,9 +124,9 @@ public class OperationPollTest {
 								9)));
 		assertTrue(message.equals("Third Test Topic"));
 		files.clear();
-		files.add(new Attachment("/fourth", "Fourth Test File"));
-		files.add(new Attachment("/fifth", "Fifth Test File"));
-		files.add(new Attachment("/sixth", "Sixth Test File"));
+		files.add(new Attachment("fourth", "Fourth Test File"));
+		files.add(new Attachment("fifth", "Fifth Test File"));
+		files.add(new Attachment("sixth", "Sixth Test File"));
 		message = createTopic(
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",

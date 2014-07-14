@@ -23,6 +23,10 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -76,6 +80,21 @@ public class CreatePost {
 		if (attachments != null) {
 			int i = 0;
 			for (Attachment attachment : attachments) {
+
+				File file;
+				try {
+					String oldName = attachment.getName();
+					file = File.createTempFile(oldName, ".txt");
+					OutputStream out = new FileOutputStream(file);
+					attachment.setContent(oldName.getBytes());
+					out.write(attachment.getContent());
+					out.close();
+					attachment.setName(file.getAbsolutePath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				String comment = attachment.getComment();
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));

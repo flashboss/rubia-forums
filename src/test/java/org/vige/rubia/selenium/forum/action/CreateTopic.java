@@ -22,17 +22,15 @@ import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.CreatePost.addAttachments;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
-import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 
 public class CreateTopic {
@@ -158,67 +156,5 @@ public class CreateTopic {
 		for (int i = 0; i < updatedElements.length; i++)
 			results[i] = updatedElements[i].getAttribute("value");
 		return results;
-	}
-
-	public static String[] addAttachments(WebDriver driver, Post post) {
-		Collection<Attachment> attachments = post.getAttachments();
-		if (attachments != null) {
-			int i = 0;
-			for (Attachment attachment : attachments) {
-				String comment = attachment.getComment();
-				WebElement attachmentInput = driver
-						.findElement(className(FILE_CHOOSE_BUTTON));
-				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = addComment(driver, i + 2);
-				i++;
-				commentInput.sendKeys(comment);
-			}
-		}
-		List<WebElement> attachmentResultList = driver
-				.findElements(className(RESULT_ATTACHMENT_LIST));
-		String[] result = new String[attachmentResultList.size()];
-		for (int i = 0; i < result.length; i++)
-			result[i] = attachmentResultList.get(i).getText();
-		return result;
-	}
-
-	public static WebElement addComment(WebDriver driver, int index) {
-		WebElement commentInput = null;
-		try {
-			commentInput = driver.findElements(
-					className(FILE_COMMENT_INPUT_TEXT)).get(index);
-		} catch (IndexOutOfBoundsException ex) {
-		}
-		if (commentInput == null)
-			return addComment(driver, index);
-		else
-			return commentInput;
-	}
-
-	public static String deleteAttachments(WebDriver driver, Post post) {
-		Collection<Attachment> attachments = post.getAttachments();
-		if (attachments != null)
-			for (Attachment attachment : attachments) {
-				String comment = attachment.getComment();
-				WebElement attachmentInput = driver.findElement(id(""));
-				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = driver.findElement(id(""));
-				commentInput.sendKeys(comment);
-			}
-		WebElement attachmentButton = driver.findElement(id(""));
-		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
-		return message;
-	}
-
-	public static String deleteAllAttachments(WebDriver driver) {
-		WebElement attachmentButton = driver.findElement(id(""));
-		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
-		return message;
 	}
 }

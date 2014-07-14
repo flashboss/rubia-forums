@@ -26,6 +26,9 @@ import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,8 @@ import org.vige.rubia.model.Topic;
 
 public class VerifyAttachment {
 
+	public final static String download_url = System.getProperty("java.io.tmpdir")+"rubia_downloaded_files";
+
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
 	public static final String FORUM_TABLE = "forumtablestyle";
@@ -50,6 +55,7 @@ public class VerifyAttachment {
 	public static final String ATTACHMENT_NAME_OUTPUT_TEXT = "tbody/tr/td[2]";
 	public static final String ATTACHMENT_COMMENT_OUTPUT_TEXT = "tbody/tr[2]/td[2]";
 	public static final String ATTACHMENT_SIZE_OUTPUT_TEXT = "tbody/tr[3]/td[2]";
+	public static final String ATTACHMENT_DOWNLOAD_LINK = "tbody/tr[2]/td[3]/a";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 
 	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver,
@@ -107,10 +113,21 @@ public class VerifyAttachment {
 					xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
 			String attachmentSize = attachmentComponent.findElement(
 					xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
+			attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK))
+					.click();
+			File file = new File(download_url + "/" + attachmentName);
+			int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
+			byte[] content = new byte[attachmentSizeValue];
+			try {
+				new FileInputStream(file).read(content);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			Attachment attachment = new Attachment();
 			attachment.setComment(attachmentComment);
 			attachment.setName(attachmentName);
-			attachment.setSize(new Integer(attachmentSize.split(" B")[0]));
+			attachment.setSize(attachmentSizeValue);
+			attachment.setContent(content);
 			addParents(driver, attachment);
 			attachments.add(attachment);
 		}

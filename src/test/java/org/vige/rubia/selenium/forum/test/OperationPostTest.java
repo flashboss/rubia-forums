@@ -81,9 +81,9 @@ public class OperationPostTest {
 				"First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
 		List<Attachment> files = new ArrayList<Attachment>();
-		files.add(new Attachment("/first", "First Test File"));
-		files.add(new Attachment("/second", "Second Test File"));
-		files.add(new Attachment("/third", "Third Test File"));
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createTopic(
 				driver,
 				new Topic(
@@ -99,22 +99,42 @@ public class OperationPostTest {
 										new PollOption("Second Test Answer") }),
 								4)));
 		assertTrue(message.equals("First Test Topic"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "First Test Topic"), "First Test Post",
 				files));
 		assertTrue(message.equals("First Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "First Test Topic"), "Second Test Post",
 				files));
 		assertTrue(message.equals("Second Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "First Test Topic"), "Third Test Post",
 				files));
 		assertTrue(message.equals("Third Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "First Test Topic"), "Fourth Test Post",
 				files));
 		assertTrue(message.equals("Fourth Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createTopic(
 				driver,
 				new Topic(
@@ -130,14 +150,26 @@ public class OperationPostTest {
 										new PollOption("Fourth Test Answer") }),
 								8)));
 		assertTrue(message.equals("Second Test Topic"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "Second Test Topic"), "Fifth Test Post",
 				files));
 		assertTrue(message.equals("Fifth Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "Second Test Topic"), "Sixth Test Post",
 				files));
 		assertTrue(message.equals("Sixth Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"First Test Forum"), "Second Test Topic"), "Seventh Test Post",
 				files));
@@ -145,6 +177,10 @@ public class OperationPostTest {
 		message = createForum(driver, new Forum("Second Test Forum",
 				"Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createTopic(
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Third Test Topic",
@@ -156,18 +192,26 @@ public class OperationPostTest {
 										new PollOption("Sixth Test Answer") }),
 								9)));
 		assertTrue(message.equals("Third Test Topic"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"Second Test Forum"), "Third Test Topic"), "Eight Test Post",
 				files));
 		assertTrue(message.equals("Eight Test Post"));
+		files.clear();
+		files.add(new Attachment("first", "First Test File"));
+		files.add(new Attachment("second", "Second Test File"));
+		files.add(new Attachment("third", "Third Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"Second Test Forum"), "Third Test Topic"), "Ninth Test Post",
 				files));
 		assertTrue(message.equals("Ninth Test Post"));
 		files.clear();
-		files.add(new Attachment("/fourth", "Fourth Test File"));
-		files.add(new Attachment("/fifth", "Fifth Test File"));
-		files.add(new Attachment("/sixth", "Sixth Test File"));
+		files.add(new Attachment("fourth", "Fourth Test File"));
+		files.add(new Attachment("fifth", "Fifth Test File"));
+		files.add(new Attachment("sixth", "Sixth Test File"));
 		message = createTopic(
 				driver,
 				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
@@ -179,6 +223,10 @@ public class OperationPostTest {
 										new PollOption("Eight Test Answer") }),
 								0)));
 		assertTrue(message.equals("Fourth Test Topic"));
+		files.clear();
+		files.add(new Attachment("fourth", "Fourth Test File"));
+		files.add(new Attachment("fifth", "Fifth Test File"));
+		files.add(new Attachment("sixth", "Sixth Test File"));
 		message = createPost(driver, new Post(new Topic(new Forum(
 				"Second Test Forum"), "Fourth Test Topic"), "Ten Test Post",
 				files));
