@@ -39,11 +39,10 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
+import static org.vige.rubia.selenium.forum.action.RemoveAttachment.removeAttachments;
 import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
-import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfTopics;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -79,100 +78,122 @@ public class OperationAttachmentTest {
 		message = createForum(driver, new Forum("First Test Forum",
 				"First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		List<Attachment> files = new ArrayList<Attachment>();
-		files.add(new Attachment("first", "First Test File"));
-		files.add(new Attachment("second", "Second Test File"));
-		files.add(new Attachment("third", "Third Test File"));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"),
-				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body", files) }), NORMAL, new Poll(
-						"First Test Question", asList(new PollOption[] {
-								new PollOption("First Test Answer"),
-								new PollOption("Second Test Answer") }), 4)));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("First Test Forum"),
+						"First Test Topic",
+						asList(new Post[] { new Post("First Test Body", asList(
+								new Attachment("first", "First Test File"),
+								new Attachment("second", "Second Test File"),
+								new Attachment("third", "Third Test File"))) }),
+						NORMAL,
+						new Poll(
+								"First Test Question",
+								asList(new PollOption[] {
+										new PollOption("First Test Answer"),
+										new PollOption("Second Test Answer") }),
+								4)));
 		assertTrue(message.equals("First Test Topic"));
-		files.clear();
-		files.add(new Attachment("first", "First Test File"));
-		files.add(new Attachment("second", "Second Test File"));
-		files.add(new Attachment("third", "Third Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"First Test Forum"), "First Test Topic"), "First Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("First Test Forum"),
+						"First Test Topic"), "First Test Post", asList(
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File"))));
 		assertTrue(message.equals("First Test Post"));
-		files.clear();
-		files.add(new Attachment("first", "First Test File"));
-		files.add(new Attachment("second", "Second Test File"));
-		files.add(new Attachment("third", "Third Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"First Test Forum"), "First Test Topic"), "Second Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("First Test Forum"),
+						"First Test Topic"), "Second Test Post", asList(
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File"))));
 		assertTrue(message.equals("Second Test Post"));
-		files.clear();
-		files.add(new Attachment("first", "First Test File"));
-		files.add(new Attachment("second", "Second Test File"));
-		files.add(new Attachment("third", "Third Test File"));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body", files) }), IMPORTANT, new Poll(
-						"Second Test Question", asList(new PollOption[] {
-								new PollOption("Third Test Answer"),
-								new PollOption("Fourth Test Answer") }), 8)));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("First Test Forum"),
+						"Second Test Topic",
+						asList(new Post[] { new Post("Second Test Body",
+								asList(new Attachment("first",
+										"First Test File"), new Attachment(
+										"second", "Second Test File"),
+										new Attachment("third",
+												"Third Test File"))) }),
+						IMPORTANT,
+						new Poll(
+								"Second Test Question",
+								asList(new PollOption[] {
+										new PollOption("Third Test Answer"),
+										new PollOption("Fourth Test Answer") }),
+								8)));
 		assertTrue(message.equals("Second Test Topic"));
 		message = createForum(driver, new Forum("Second Test Forum",
 				"Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		files.clear();
-		files.add(new Attachment("first", "First Test File"));
-		files.add(new Attachment("second", "Second Test File"));
-		files.add(new Attachment("third", "Third Test File"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body", files) }), ADVICE, new Poll(
-						"Third Test Question", asList(new PollOption[] {
-								new PollOption("Fifth Test Answer"),
-								new PollOption("Sixth Test Answer") }), 9)));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("Second Test Forum"),
+						"Third Test Topic",
+						asList(new Post[] { new Post("Third Test Body", asList(
+								new Attachment("first", "First Test File"),
+								new Attachment("second", "Second Test File"),
+								new Attachment("third", "Third Test File"))) }),
+						ADVICE, new Poll("Third Test Question",
+								asList(new PollOption[] {
+										new PollOption("Fifth Test Answer"),
+										new PollOption("Sixth Test Answer") }),
+								9)));
 		assertTrue(message.equals("Third Test Topic"));
-		files.clear();
-		files.add(new Attachment("fourth", "Fourth Test File"));
-		files.add(new Attachment("fifth", "Fifth Test File"));
-		files.add(new Attachment("sixth", "Sixth Test File"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body", files) }), IMPORTANT, new Poll(
-						"Fourth Test Question", asList(new PollOption[] {
-								new PollOption("Seventh Test Answer"),
-								new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(
+				driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth",
+										"Fourth Test File"), new Attachment(
+										"fifth", "Fifth Test File"),
+										new Attachment("sixth",
+												"Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question",
+								asList(new PollOption[] {
+										new PollOption("Seventh Test Answer"),
+										new PollOption("Eight Test Answer") }),
+								0)));
 		assertTrue(message.equals("Fourth Test Topic"));
-		files.clear();
-		files.add(new Attachment("seventh", "Seventh Test File"));
-		files.add(new Attachment("eight", "Eight Test File"));
-		files.add(new Attachment("ninth", "Ninth Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Third Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("Second Test Forum"),
+						"Fourth Test Topic"), "Third Test Post", asList(
+						new Attachment("seventh", "Seventh Test File"),
+						new Attachment("eight", "Eight Test File"),
+						new Attachment("ninth", "Ninth Test File"))));
 		assertTrue(message.equals("Third Test Post"));
-		files.clear();
-		files.add(new Attachment("ten", "Ten Test File"));
-		files.add(new Attachment("eleven", "Eleven Test File"));
-		files.add(new Attachment("twelve", "Twelve Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Fourth Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("Second Test Forum"),
+						"Fourth Test Topic"), "Fourth Test Post", asList(
+						new Attachment("ten", "Ten Test File"), new Attachment(
+								"eleven", "Eleven Test File"), new Attachment(
+								"twelve", "Twelve Test File"))));
 		assertTrue(message.equals("Fourth Test Post"));
-		files.clear();
-		files.add(new Attachment("thirteen", "Thirteen Test File"));
-		files.add(new Attachment("fourteen", "Fourteen Test File"));
-		files.add(new Attachment("fifteen", "Fifteen Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Fifth Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("Second Test Forum"),
+						"Fourth Test Topic"), "Fifth Test Post", asList(
+						new Attachment("thirteen", "Thirteen Test File"),
+						new Attachment("fourteen", "Fourteen Test File"),
+						new Attachment("fifteen", "Fifteen Test File"))));
 		assertTrue(message.equals("Fifth Test Post"));
-		files.clear();
-		files.add(new Attachment("sixteen", "Sixteen Test File"));
-		files.add(new Attachment("seventeen", "Seventeen Test File"));
-		files.add(new Attachment("eighteen", "Eighteen Test File"));
-		message = createPost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Sixth Test Post",
-				files));
+		message = createPost(
+				driver,
+				new Post(new Topic(new Forum("Second Test Forum"),
+						"Fourth Test Topic"), "Sixth Test Post", asList(
+						new Attachment("sixteen", "Sixteen Test File"),
+						new Attachment("seventeen", "Seventeen Test File"),
+						new Attachment("eighteen", "Eighteen Test File"))));
 		assertTrue(message.equals("Sixth Test Post"));
 	}
 
@@ -416,39 +437,98 @@ public class OperationAttachmentTest {
 
 	@After
 	public void stop() {
-		String message = removePost(driver, new Post(new Topic(new Forum(
-				"First Test Forum"), "First Test Topic"), "First Test Post"));
+		Post post = new Post(new Topic(new Forum("First Test Forum"),
+				"First Test Topic"), "First Test Body",
+				asList(new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File")));
+		String message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removePost(driver, new Post(new Topic(new Forum(
-				"First Test Forum"), "First Test Topic"), "Second Test Post"));
+		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removePost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Third Test Post"));
+		post = new Post(new Topic(new Forum("First Test Forum"),
+				"Second Test Topic"), "Second Test Body", asList(
+				new Attachment("first", "First Test File"), new Attachment(
+						"second", "Second Test File"), new Attachment("third",
+						"Third Test File")));
+		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removePost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Fourth Test Post"));
+		message = removePost(driver, post);
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Third Test Topic"), "Third Test Body",
+				asList(new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File")));
+		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removePost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Fifth Test Post"));
+		message = removePost(driver, post);
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Fourth Test Body", asList(
+				new Attachment("fourth", "Fourth Test File"), new Attachment(
+						"fifth", "Fifth Test File"), new Attachment("sixth",
+						"Sixth Test File")));
+		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removePost(driver, new Post(new Topic(new Forum(
-				"Second Test Forum"), "Fourth Test Topic"), "Sixth Test Post"));
+		message = removePost(driver, post);
+		post = new Post(new Topic(new Forum("First Test Forum"),
+				"First Test Topic"), "First Test Post",
+				asList(new Attachment[] {
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File") }));
+		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body") })));
+		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
+		post = new Post(new Topic(new Forum("First Test Forum"),
+				"First Test Topic"), "Second Test Post",
+				asList(new Attachment[] {
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File") }));
+		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body") })));
+		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body") })));
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Third Test Post",
+				asList(new Attachment[] {
+						new Attachment("seventh", "Seventh Test File"),
+						new Attachment("eight", "Eight Test File"),
+						new Attachment("ninth", "Ninth Test File") }));
+		message = removeAttachments(driver, post);
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, post);
+		assertTrue(message.equals("OK"));
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Fourth Test Post",
+				asList(new Attachment[] {
+						new Attachment("ten", "Ten Test File"),
+						new Attachment("eleven", "Eleven Test File"),
+						new Attachment("twelve", "Twelve Test File") }));
+		message = removeAttachments(driver, post);
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, post);
+		assertTrue(message.equals("OK"));
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Fifth Test Post",
+				asList(new Attachment[] {
+						new Attachment("thirteen", "Thirteen Test File"),
+						new Attachment("fourteen", "Fourteen Test File"),
+						new Attachment("fifteen", "Fifteen Test File") }));
+		message = removeAttachments(driver, post);
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, post);
+		assertTrue(message.equals("OK"));
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Sixth Test Post",
+				asList(new Attachment[] {
+						new Attachment("sixteen", "Sixteen Test File"),
+						new Attachment("seventeen", "Seventeen Test File"),
+						new Attachment("eighteen", "Eighteen Test File") }));
+		message = removeAttachments(driver, post);
+		assertTrue(message.equals("OK"));
+		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");

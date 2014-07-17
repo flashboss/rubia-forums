@@ -43,7 +43,8 @@ import org.vige.rubia.model.Topic;
 
 public class VerifyAttachment {
 
-	public final static String download_url = System.getProperty("java.io.tmpdir")+"rubia_downloaded_files";
+	public final static String download_url = System
+			.getProperty("java.io.tmpdir") + "rubia_downloaded_files";
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
@@ -118,11 +119,7 @@ public class VerifyAttachment {
 			File file = new File(download_url + "/" + attachmentName);
 			int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
 			byte[] content = new byte[attachmentSizeValue];
-			try {
-				new FileInputStream(file).read(content);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			writeFile(content, file);
 			Attachment attachment = new Attachment();
 			attachment.setComment(attachmentComment);
 			attachment.setName(attachmentName);
@@ -132,6 +129,15 @@ public class VerifyAttachment {
 			attachments.add(attachment);
 		}
 		return attachments;
+	}
+
+	private static void writeFile(byte[] content, File file) {
+		try {
+			new FileInputStream(file).read(content);
+		} catch (IOException e) {
+			writeFile(content, file);
+		}
+
 	}
 
 	private static void addParents(WebDriver driver, Attachment attachment) {

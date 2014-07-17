@@ -36,8 +36,7 @@ public class CreateCategory {
 	public static final String RESULT_CREATE_CATEGORY = "successtext";
 
 	public static String createCategory(WebDriver driver, Category category) {
-		WebElement adminPanelLink = driver
-				.findElement(linkText(ADMIN_PANEL_LINK));
+		WebElement adminPanelLink = startAdminPanel(driver);
 		adminPanelLink.click();
 		WebElement createCategoryLink = driver
 				.findElement(name(CREATE_CATEGORY_LINK));
@@ -52,5 +51,17 @@ public class CreateCategory {
 				.findElement(className(RESULT_CREATE_CATEGORY));
 		String message = resultCreateCategory.getText();
 		return message;
+	}
+
+	private static WebElement startAdminPanel(WebDriver driver) {
+		WebElement adminPanelLink = null;
+		try {
+			adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
+		} catch (Exception ex) {
+		}
+		if (adminPanelLink == null)
+			return startAdminPanel(driver);
+		else
+			return adminPanelLink;
 	}
 }

@@ -22,18 +22,11 @@ import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.List;
+import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachments;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Post;
 
 public class CreatePost {
@@ -42,9 +35,6 @@ public class CreatePost {
 			"Home");
 	public static final String REPLY_POST_BUTTON = "actionbuttons";
 	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
-	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
-	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
-	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 
 	public static String createPost(WebDriver driver, Post post) {
@@ -59,7 +49,7 @@ public class CreatePost {
 		WebElement bodyText = driver.findElement(className(REPLY_POST_BUTTON))
 				.findElement(xpath("a[2]"));
 		bodyText.click();
-		driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
+		switchFrame(driver);
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		((JavascriptExecutor) driver).executeScript(
 				"arguments[0].innerHTML = '" + post.getMessage().getText()
@@ -75,80 +65,11 @@ public class CreatePost {
 		return updatedPost;
 	}
 
-	public static String[] addAttachments(WebDriver driver, Post post) {
-		Collection<Attachment> attachments = post.getAttachments();
-		if (attachments != null) {
-			int i = 0;
-			for (Attachment attachment : attachments) {
-
-				File file;
-				try {
-					String oldName = attachment.getName();
-					file = File.createTempFile(oldName, ".txt");
-					OutputStream out = new FileOutputStream(file);
-					attachment.setContent(oldName.getBytes());
-					out.write(attachment.getContent());
-					out.close();
-					attachment.setName(file.getAbsolutePath());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				String comment = attachment.getComment();
-				WebElement attachmentInput = driver
-						.findElement(className(FILE_CHOOSE_BUTTON));
-				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = addComment(driver, i + 2);
-				i++;
-				commentInput.sendKeys(comment);
-			}
-		}
-		List<WebElement> attachmentResultList = driver
-				.findElements(className(RESULT_ATTACHMENT_LIST));
-		String[] result = new String[attachmentResultList.size()];
-		for (int i = 0; i < result.length; i++)
-			result[i] = attachmentResultList.get(i).getText();
-		return result;
-	}
-
-	public static WebElement addComment(WebDriver driver, int index) {
-		WebElement commentInput = null;
+	private static void switchFrame(WebDriver driver) {
 		try {
-			commentInput = driver.findElements(
-					className(FILE_COMMENT_INPUT_TEXT)).get(index);
-		} catch (IndexOutOfBoundsException ex) {
+			driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
+		} catch (Exception ex) {
+			switchFrame(driver);
 		}
-		if (commentInput == null)
-			return addComment(driver, index);
-		else
-			return commentInput;
-	}
-
-	public static String deleteAttachments(WebDriver driver, Post post) {
-		Collection<Attachment> attachments = post.getAttachments();
-		if (attachments != null)
-			for (Attachment attachment : attachments) {
-				String comment = attachment.getComment();
-				WebElement attachmentInput = driver.findElement(id(""));
-				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = driver.findElement(id(""));
-				commentInput.sendKeys(comment);
-			}
-		WebElement attachmentButton = driver.findElement(id(""));
-		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
-		return message;
-	}
-
-	public static String deleteAllAttachments(WebDriver driver) {
-		WebElement attachmentButton = driver.findElement(id(""));
-		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
-		return message;
 	}
 }

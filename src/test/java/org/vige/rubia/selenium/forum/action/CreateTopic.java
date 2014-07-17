@@ -17,20 +17,16 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
-import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import static org.vige.rubia.selenium.forum.action.CreatePost.addAttachments;
-
-import java.util.List;
+import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachments;
+import static org.vige.rubia.selenium.forum.action.CreatePoll.createOptions;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Poll;
-import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Topic;
 
 public class CreateTopic {
@@ -40,16 +36,6 @@ public class CreateTopic {
 	public static final String CREATE_TOPIC_LINK = "//div[@class='actionbuttons']/ul/li/a";
 	public static final String SUBJECT_INPUT_TEXT = "post:SubjectInputText";
 	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
-	public static final String QUESTION_INPUT_TEXT = "post:question";
-	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
-	public static final String OPTION_INPUT_TEXT = "post:option_";
-	public static final String UPDATE_OPTION_BUTTON = "post:UpdateOption_";
-	public static final String RESET_OPTION_BUTTON = "post:UpdateOption_";
-	public static final String ADD_OPTION_BUTTON = "buttonMed";
-	public static final String DAYS_INPUT_TEXT = "post:pollDuration";
-	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
-	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
-	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 
 	public static String createTopic(WebDriver driver, Topic topic) {
@@ -73,12 +59,7 @@ public class CreateTopic {
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
 				.get(topic.getType().getValue());
 		topicTypeInput.click();
-		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
-		questionInput.sendKeys(topic.getPoll().getTitle());
 		createOptions(driver, topic.getPoll());
-		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
-		daysInput.clear();
-		daysInput.sendKeys(topic.getPoll().getLength() + "");
 		addAttachments(driver, topic.getPosts().get(0));
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
@@ -86,75 +67,5 @@ public class CreateTopic {
 				.getSubject()));
 		String updatedTopic = resultCreateTopic.getText();
 		return updatedTopic;
-	}
-
-	public static String[] updateOptions(WebDriver driver, Poll poll) {
-		List<PollOption> options = poll.getOptions();
-		if (options != null)
-			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver
-						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElement(className(UPDATE_OPTION_BUTTON + (i + 1)));
-				optionButton.click();
-			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		return results;
-
-	}
-
-	public static String[] deleteOptions(WebDriver driver, Poll poll) {
-		List<PollOption> options = poll.getOptions();
-		if (options != null)
-			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver
-						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver.findElement(className(RESET_OPTION_BUTTON
-						+ (i + 1)));
-				optionButton.click();
-			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		return results;
-
-	}
-
-	public static String[] createOptions(WebDriver driver, Poll poll) {
-		List<PollOption> options = poll.getOptions();
-		if (options != null)
-			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver.findElement(id(NEW_OPTION_INPUT_TEXT));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElements(className(ADD_OPTION_BUTTON)).get(i * 2);
-				optionButton.click();
-			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		return results;
 	}
 }

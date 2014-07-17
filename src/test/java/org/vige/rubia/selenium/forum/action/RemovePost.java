@@ -30,7 +30,7 @@ public class RemovePost {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
-	public static final String REMOVE_TOPIC_BUTTON = "miviewtopicbody6";
+	public static final String REMOVE_POST_BUTTON = "miviewtopicbody6";
 	public static final String CONFIRM_REMOVE_TOPIC_BUTTON = "//input[@type='submit']";
 
 	public static String removePost(WebDriver driver, Post post) {
@@ -42,13 +42,13 @@ public class RemovePost {
 		WebElement topicEl = driver.findElement(linkText(post.getTopic()
 				.getSubject()));
 		topicEl.click();
-		WebElement removeTopicButton = driver
+		WebElement removePostButton = driver
 				.findElement(
 						xpath("//tbody[contains(.,'"
 								+ post.getMessage().getText() + "')]"))
-				.findElement(id(REMOVE_TOPIC_BUTTON))
+				.findElement(id(REMOVE_POST_BUTTON))
 				.findElement(xpath("ul/a[2]"));
-		removeTopicButton.click();
+		removePostButton.click();
 		WebElement confirmRemoveTopicButton = driver
 				.findElement(xpath(CONFIRM_REMOVE_TOPIC_BUTTON));
 		confirmRemoveTopicButton.click();
