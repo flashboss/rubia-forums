@@ -19,8 +19,10 @@ package org.vige.rubia.selenium.forum.action;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.CreateAttachment.FILE_COMMENT_INPUT_TEXT;
+import static org.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import java.util.Collection;
 
@@ -29,24 +31,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Post;
-import org.vige.rubia.model.Topic;
 
 public class RemoveAttachment {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
 			"Home");
-	public static final String UPDATE_POST_BUTTON = "miviewtopicbody6";
 	public static final String ATTACHMENT_DELETE_BUTTON = "buttonMed";
+	public static final String ATTACHMENTS_DELETE_BUTTON = "rf-fu-btn-cnt-clr";
+	public static final String UPDATE_BUTTON = "post:Submit";
 
 	public static String removeAttachments(WebDriver driver, Post post) {
-		WebElement home = driver.findElement(linkText(HOME_LINK));
-		home.click();
-		WebElement forum = driver.findElement(linkText(post.getTopic()
-				.getForum().getName()));
-		forum.click();
-		WebElement topicEl = driver.findElement(linkText(post.getTopic()
-				.getSubject()));
-		topicEl.click();
+		goTo(driver, post.getTopic());
 		WebElement updatePostButton = driver
 				.findElement(
 						xpath("//tbody[contains(.,'"
@@ -71,15 +66,22 @@ public class RemoveAttachment {
 				message = "OK";
 			}
 		}
+		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
+		updateButton.click();
 		return message;
 	}
 
-	public static String removeAllAttachments(WebDriver driver, Topic topic) {
-		WebElement attachmentButton = driver.findElement(id(""));
+	public static String removeAllAttachments(WebDriver driver, Post post) {
+		WebElement attachmentButton = driver
+				.findElement(className(ATTACHMENTS_DELETE_BUTTON));
 		attachmentButton.click();
-		WebElement resultAttachmentnOperation = driver
-				.findElement(className(""));
-		String message = resultAttachmentnOperation.getText();
+		String message = "";
+		int commentSize = driver.findElements(
+				className(FILE_COMMENT_INPUT_TEXT)).size();
+		if (commentSize == 2)
+			message = "OK";
+		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
+		updateButton.click();
 		return message;
 	}
 }

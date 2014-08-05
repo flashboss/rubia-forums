@@ -44,8 +44,6 @@ import org.vige.rubia.model.Topic;
 
 public class VerifyTopic {
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
 	public static final String TOPIC_TABLE = "forumtablestyle";
 	public static final String TOPIC_STICKY = getBundle("ResourceJSF")
 			.getString("Topic_Sticky");
@@ -62,10 +60,7 @@ public class VerifyTopic {
 			Forum... forums) {
 		List<Topic> topics = new ArrayList<Topic>();
 		for (Forum forum : forums) {
-			WebElement home = driver.findElement(linkText(HOME_LINK));
-			home.click();
-			WebElement forumEl = driver.findElement(linkText(forum.getName()));
-			forumEl.click();
+			VerifyForum.goTo(driver, forum);
 			List<WebElement> tableComponents = driver
 					.findElements(className(TOPIC_TABLE));
 			int tableComponentsSize = tableComponents.size();
@@ -126,6 +121,12 @@ public class VerifyTopic {
 			}
 		}
 		return topics;
+	}
+
+	public static void goTo(WebDriver driver, Topic topic) {
+		VerifyForum.goTo(driver, topic.getForum());
+		WebElement topicEl = driver.findElement(linkText(topic.getSubject()));
+		topicEl.click();
 	}
 
 	private static void addParents(WebDriver driver, Topic topic) {

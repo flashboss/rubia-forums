@@ -17,6 +17,7 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.id;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,11 +36,21 @@ public class CreateAttachment {
 	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
 	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
 	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
+	public static final String UPDATE_BUTTON = "post:Submit";
 
+	public static String[] addAttachmentsAndSave(WebDriver driver, Post post) {
+		String[] results = addAttachments(driver, post);
+		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
+		updateButton.click();
+		return results;
+	}
+	
 	public static String[] addAttachments(WebDriver driver, Post post) {
 		Collection<Attachment> attachments = post.getAttachments();
 		if (attachments != null) {
 			int i = 0;
+			int oldCommentsCount = driver.findElements(
+					className(FILE_COMMENT_INPUT_TEXT)).size();
 			for (Attachment attachment : attachments) {
 
 				File file;
@@ -60,7 +71,8 @@ public class CreateAttachment {
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = addComment(driver, i + 2);
+				WebElement commentInput = addComment(driver, oldCommentsCount
+						+ i);
 				i++;
 				commentInput.sendKeys(comment);
 			}

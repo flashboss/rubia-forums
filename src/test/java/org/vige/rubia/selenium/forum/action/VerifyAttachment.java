@@ -21,6 +21,7 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
@@ -103,6 +104,15 @@ public class VerifyAttachment {
 	}
 
 	public static List<Attachment> getAttachmentsOfCurrentPost(
+			WebDriver driver, Post post) {
+		goTo(driver, post.getTopic());
+		WebElement postComponent = driver
+				.findElement(xpath("//td[contains(p/text(),'"
+						+ post.getMessage().getText() + "')]"));
+		return getAttachmentsOfCurrentPost(driver, postComponent);
+	}
+
+	private static List<Attachment> getAttachmentsOfCurrentPost(
 			WebDriver driver, WebElement postComponent) {
 		List<Attachment> attachments = new ArrayList<Attachment>();
 		List<WebElement> attachmentComponents = postComponent

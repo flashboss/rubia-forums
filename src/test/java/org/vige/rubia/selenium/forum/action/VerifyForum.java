@@ -16,11 +16,11 @@
  */
 package org.vige.rubia.selenium.forum.action;
 
-import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -120,6 +120,13 @@ public class VerifyForum {
 			}
 		}
 		return forums;
+	}
+
+	public static void goTo(WebDriver driver, Forum forum) {
+		WebElement home = driver.findElement(linkText(HOME_LINK));
+		home.click();
+		WebElement forumEl = driver.findElement(linkText(forum.getName()));
+		forumEl.click();
 	}
 
 	private static void addParents(WebDriver driver, Forum forum) {

@@ -17,13 +17,10 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
-import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.linkText;
-import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 
 public class RemoveTopic {
@@ -34,33 +31,13 @@ public class RemoveTopic {
 	public static final String CONFIRM_REMOVE_TOPIC_BUTTON = "//input[@type='submit']";
 
 	public static String removeTopic(WebDriver driver, Topic topic) {
-		WebElement home = driver.findElement(linkText(HOME_LINK));
-		home.click();
-		WebElement forum = driver.findElement(linkText(topic.getForum()
-				.getName()));
-		forum.click();
-		WebElement topicEl = driver.findElement(linkText(topic.getSubject()));
-		topicEl.click();
-		WebElement removeTopicButton = driver
-				.findElement(
-						xpath("//tbody[contains(.,'"
-								+ topic.getPosts().get(0).getMessage()
-										.getText() + "')]"))
-				.findElement(id(REMOVE_TOPIC_BUTTON))
-				.findElement(xpath("ul/a[2]"));
-		removeTopicButton.click();
-		WebElement confirmRemoveTopicButton = driver
-				.findElement(xpath(CONFIRM_REMOVE_TOPIC_BUTTON));
-		confirmRemoveTopicButton.click();
-		WebElement resultRemoveTopic = null;
-		String message = "";
-		try {
-			resultRemoveTopic = driver
-					.findElement(linkText(topic.getSubject()));
-			message = resultRemoveTopic.getText();
-		} catch (NoSuchElementException ex) {
-			message = "OK";
+		String result = "";
+		for (Post post : topic.getPosts()) {
+			post.setTopic(topic);
+			result = removePost(driver, post);
+			if (!result.equals("OK"))
+				return "";
 		}
-		return message;
+		return result;
 	}
 }

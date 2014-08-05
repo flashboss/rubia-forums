@@ -37,11 +37,16 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
+import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachments;
+import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachmentsAndSave;
 import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
+import static org.vige.rubia.selenium.forum.action.RemoveAttachment.removeAllAttachments;
 import static org.vige.rubia.selenium.forum.action.RemoveAttachment.removeAttachments;
 import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
+import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPost;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfTopics;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.goTo;
 
 import java.util.List;
 
@@ -195,6 +200,28 @@ public class OperationAttachmentTest {
 						new Attachment("seventeen", "Seventeen Test File"),
 						new Attachment("eighteen", "Eighteen Test File"))));
 		assertTrue(message.equals("Sixth Test Post"));
+	}
+
+	@Test
+	public void verifyRemoveAllAttachments() {
+		Post post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Third Test Post", asList(new Attachment(
+				"newseventh", "New Seventh Test File"), new Attachment(
+				"neweight", "New Eight Test File"), new Attachment("newninth",
+				"New Ninth Test File")));
+		goTo(driver, post);
+		addAttachments(driver, post);
+		removeAllAttachments(driver, post);
+		List<Attachment> attachments = getAttachmentsOfCurrentPost(driver, post);
+		assertEquals(attachments.size(), 0);
+		post = new Post(new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"), "Third Test Post", asList(new Attachment(
+				"seventh", "Seventh Test File"), new Attachment("eight",
+				"Eight Test File"), new Attachment("ninth", "Ninth Test File")));
+		goTo(driver, post);
+		addAttachmentsAndSave(driver, post);
+		attachments = getAttachmentsOfCurrentPost(driver, post);
+		assertEquals(attachments.size(), 3);
 	}
 
 	@Test
@@ -478,10 +505,11 @@ public class OperationAttachmentTest {
 						new Attachment("third", "Third Test File") }));
 		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
+		post.getTopic().setSubject("Re: First Test Topic");
 		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
 		post = new Post(new Topic(new Forum("First Test Forum"),
-				"First Test Topic"), "Second Test Post",
+				"Re: First Test Topic"), "Second Test Post",
 				asList(new Attachment[] {
 						new Attachment("first", "First Test File"),
 						new Attachment("second", "Second Test File"),
@@ -498,10 +526,11 @@ public class OperationAttachmentTest {
 						new Attachment("ninth", "Ninth Test File") }));
 		message = removeAttachments(driver, post);
 		assertTrue(message.equals("OK"));
+		post.getTopic().setSubject("Re: Fourth Test Topic");
 		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
 		post = new Post(new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic"), "Fourth Test Post",
+				"Re: Fourth Test Topic"), "Fourth Test Post",
 				asList(new Attachment[] {
 						new Attachment("ten", "Ten Test File"),
 						new Attachment("eleven", "Eleven Test File"),
@@ -511,7 +540,7 @@ public class OperationAttachmentTest {
 		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
 		post = new Post(new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic"), "Fifth Test Post",
+				"Re: Fourth Test Topic"), "Fifth Test Post",
 				asList(new Attachment[] {
 						new Attachment("thirteen", "Thirteen Test File"),
 						new Attachment("fourteen", "Fourteen Test File"),
@@ -521,7 +550,7 @@ public class OperationAttachmentTest {
 		message = removePost(driver, post);
 		assertTrue(message.equals("OK"));
 		post = new Post(new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic"), "Sixth Test Post",
+				"Re: Fourth Test Topic"), "Sixth Test Post",
 				asList(new Attachment[] {
 						new Attachment("sixteen", "Sixteen Test File"),
 						new Attachment("seventeen", "Seventeen Test File"),

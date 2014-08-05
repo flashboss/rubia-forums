@@ -18,8 +18,8 @@ package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -34,14 +34,7 @@ public class RemovePost {
 	public static final String CONFIRM_REMOVE_TOPIC_BUTTON = "//input[@type='submit']";
 
 	public static String removePost(WebDriver driver, Post post) {
-		WebElement home = driver.findElement(linkText(HOME_LINK));
-		home.click();
-		WebElement forum = driver.findElement(linkText(post.getTopic()
-				.getForum().getName()));
-		forum.click();
-		WebElement topicEl = driver.findElement(linkText(post.getTopic()
-				.getSubject()));
-		topicEl.click();
+		goTo(driver, post.getTopic());
 		WebElement removePostButton = driver
 				.findElement(
 						xpath("//tbody[contains(.,'"

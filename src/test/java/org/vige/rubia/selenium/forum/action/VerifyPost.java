@@ -21,6 +21,7 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPost;
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
@@ -101,9 +102,12 @@ public class VerifyPost {
 	public static List<Post> getPostsOfCurrentTopic(WebDriver driver) {
 		List<WebElement> postComponents = driver
 				.findElements(className(BODY_OUTPUT_TEXT));
+		int postComponentsSize = postComponents.size();
 		List<Post> posts = new ArrayList<Post>();
-		for (WebElement postComponent : postComponents) {
+		for (int i = 0; i < postComponentsSize; i++) {
 			Post post = new Post();
+			WebElement postComponent = driver.findElements(
+					className(BODY_OUTPUT_TEXT)).get(i);
 			String body = postComponent.findElement(xpath("p")).getText();
 			String post_subject = postComponent
 					.findElement(xpath(POST_SUBJECT_OUTPUT_TEXT)).getText()
@@ -122,16 +126,35 @@ public class VerifyPost {
 			message.setText(body);
 			post.setMessage(message);
 			post.setCreateDate(createDate);
-			post.setAttachments(getAttachmentsOfCurrentPost(driver,
-					postComponent));
+			WebElement topicEl = driver.findElement(TOPIC_TEMPLATE_LINK
+					.getValue());
+			Topic topic = new Topic(topicEl.getText());
+			post.setTopic(topic);
+			WebElement forumEl = driver.findElement(FORUM_TEMPLATE_LINK
+					.getValue());
+			topic.setForum(new Forum(forumEl.getText()));
+			post.setAttachments(getAttachmentsOfCurrentPost(driver, post));
 			addParents(driver, post);
 			Poster poster = new Poster();
+			postComponent = driver.findElements(className(BODY_OUTPUT_TEXT))
+					.get(i);
 			poster.setUserId(postComponent.findElement(xpath(USER_LINK))
 					.getText());
 			post.setPoster(poster);
 			posts.add(post);
 		}
 		return posts;
+	}
+
+	public static void goTo(WebDriver driver, Post post) {
+		VerifyTopic.goTo(driver, post.getTopic());
+		WebElement updatePostButton = driver
+				.findElement(
+						xpath("//tbody[contains(.,'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(id(UPDATE_POST_BUTTON))
+				.findElement(xpath("ul/a[1]"));
+		updatePostButton.click();
 	}
 
 	private static void addParents(WebDriver driver, Post post) {

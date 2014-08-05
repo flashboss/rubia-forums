@@ -53,4 +53,11 @@ public class VerifyCategory {
 		}
 		return categories;
 	}
+
+	public static void goTo(WebDriver driver, Category category) {
+		WebElement home = driver.findElement(linkText(HOME_LINK));
+		home.click();
+		WebElement categoryEl = driver.findElement(linkText(category.getTitle()));
+		categoryEl.click();
+	}
 }

@@ -551,6 +551,8 @@ public abstract class PostAction extends BaseController {
 		file.setContentType(item.getContentType());
 		file.setName(item.getName());
 		file.setSize(item.getSize());
+		for (Attachment attachment : attachments)
+			attachment.setPost(null);
 		attachments.add(file);
 	}
 
