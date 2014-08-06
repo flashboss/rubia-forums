@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -62,7 +63,7 @@ public class VerifyAttachment {
 
 	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver,
 			Topic... topics) {
-		List<Attachment> attachments = new ArrayList<Attachment>();
+		List<Attachment> attachments = new LinkedList<Attachment>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
@@ -114,7 +115,7 @@ public class VerifyAttachment {
 
 	private static List<Attachment> getAttachmentsOfCurrentPost(
 			WebDriver driver, WebElement postComponent) {
-		List<Attachment> attachments = new ArrayList<Attachment>();
+		List<Attachment> attachments = new LinkedList<Attachment>();
 		List<WebElement> attachmentComponents = postComponent
 				.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
