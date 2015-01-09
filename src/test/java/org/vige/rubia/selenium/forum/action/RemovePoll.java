@@ -19,39 +19,50 @@ package org.vige.rubia.selenium.forum.action;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
+import org.vige.rubia.model.Topic;
 
 public class RemovePoll {
+	public static final String UPDATE_TOPIC_BUTTON = "miviewtopicbody6";
+	public static final String CONFIRM_UPDATE_TOPIC_BUTTON = "post:Submit";
 	public static final String OPTION_INPUT_TEXT = "post:option_";
-	public static final String RESET_OPTION_BUTTON = "post:UpdateOption_";
+	public static final String DELETE_OPTION_BUTTON = "post:DeleteOption_1";
+	public static final String QUESTION_INPUT_TEXT = "post:question";
+	public static final String RESULT_REMOVE_POLL = "failuretext";
 
-	public static String[] deleteOptions(WebDriver driver, Poll poll) {
-		List<PollOption> options = poll.getOptions();
+	public static String removePoll(WebDriver driver, Topic topic) {
+		goTo(driver, topic);
+		WebElement updateTopicButton = driver.findElements(xpath("//tbody"))
+				.get(2).findElement(id(UPDATE_TOPIC_BUTTON))
+				.findElement(xpath("ul/a[1]"));
+		updateTopicButton.click();
+		List<PollOption> options = topic.getPoll().getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver
-						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver.findElement(className(RESET_OPTION_BUTTON
-						+ (i + 1)));
+				WebElement optionButton = driver
+						.findElement(id(DELETE_OPTION_BUTTON));
 				optionButton.click();
 			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		return results;
+		WebElement questionText = driver.findElement(id(QUESTION_INPUT_TEXT));
+		questionText.clear();
+		WebElement confirmUpdateButton = driver
+				.findElement(id(CONFIRM_UPDATE_TOPIC_BUTTON));
+		confirmUpdateButton.click();
+		String result;
+		try {
+			result = driver.findElement(className(RESULT_REMOVE_POLL))
+					.getText();
+		} catch (NoSuchElementException ex) {
+			result = "OK";
+		}
+		return result;
 
 	}
 }

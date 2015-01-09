@@ -26,6 +26,7 @@ import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCat
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveForum.removeForum;
+import static org.vige.rubia.selenium.forum.action.RemovePoll.removePoll;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
@@ -38,7 +39,13 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.vote;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.addOptions;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.updatePoll;
+import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import java.util.List;
 
@@ -146,6 +153,97 @@ public class OperationPollTest {
 	}
 
 	@Test
+	public void verifyUpdatePoll() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		pollToUpdate.setTitle("Second Test Question");
+		updatePoll(driver, pollToUpdate);
+		pollToUpdate.getOptions().get(0).setQuestion("Third Test Answer");
+		pollToUpdate.getOptions().get(1).setQuestion("Fourth Test Answer");
+		Poll updatedPoll = updateOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Second Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+
+		pollToUpdate.setTitle("Fourth Test Question");
+		updatePoll(driver, pollToUpdate);
+		pollToUpdate.getOptions().get(0).setQuestion("Eight Test Answer");
+		pollToUpdate.getOptions().get(1).setQuestion("Seventh Test Answer");
+		updatedPoll = updateOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Seventh Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+		pollToUpdate.setTitle("Second Test Question");
+		updatePoll(driver, pollToUpdate);
+	}
+
+	@Test
+	public void verifyUpdateOptions() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		updateOptions(driver, pollToUpdate);
+		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		assertEquals(updatedPoll.getTitle(), "Second Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+	}
+
+	@Test
+	public void verifyVote() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		vote(driver, pollToUpdate);
+		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		assertEquals(updatedPoll.getTitle(), "Second Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+	}
+
+	@Test
+	public void verifyAddOptions() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		addOptions(driver, pollToUpdate);
+		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		assertEquals(updatedPoll.getTitle(), "Second Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+	}
+
+	@Test
 	public void verifyCreatedPolls() {
 		List<Poll> polls = getPollsOfTopics(driver, new Topic(
 				"First Test Topic"), new Topic("Second Test Topic"), new Topic(
@@ -195,21 +293,57 @@ public class OperationPollTest {
 
 	@After
 	public void stop() {
-		String message = removeTopic(driver, new Topic(new Forum(
-				"First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body") })));
+		Topic topic = new Topic(new Forum("First Test Forum"),
+				"First Test Topic", asList(new Post[] { new Post(
+						"First Test Body", asList(new Attachment("first",
+								"First Test File"), new Attachment("second",
+								"Second Test File"), new Attachment("third",
+								"Third Test File"))) }), NORMAL, new Poll(
+						"First Test Question", asList(new PollOption[] {
+								new PollOption("First Test Answer"),
+								new PollOption("Second Test Answer") }), 4));
+		String message = removePoll(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
+		message = removeTopic(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body") })));
+		topic = new Topic(new Forum("First Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body", asList(
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File"))) }),
+				IMPORTANT, new Poll("Second Test Question",
+						asList(new PollOption[] {
+								new PollOption("Third Test Answer"),
+								new PollOption("Fourth Test Answer") }), 8));
+		message = removePoll(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body") })));
+		message = removeTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		topic = new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body", asList(
+						new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"),
+						new Attachment("third", "Third Test File"))) }),
+				ADVICE, new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test Answer"),
+								new PollOption("Sixth Test Answer") }), 9));
+		message = removePoll(driver, topic);
+		assertTrue(message.equals("OK"));
+		message = removeTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body", asList(
+						new Attachment("fourth", "Fourth Test File"),
+						new Attachment("fifth", "Fifth Test File"),
+						new Attachment("sixth", "Sixth Test File"))) }),
+				IMPORTANT, new Poll("Fourth Test Question",
+						asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"),
+								new PollOption("Eight Test Answer") }), 0));
+		message = removePoll(driver, topic);
+		assertTrue(message.equals("OK"));
+		message = removeTopic(driver, topic);
 		assertTrue(message.equals("OK"));
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");

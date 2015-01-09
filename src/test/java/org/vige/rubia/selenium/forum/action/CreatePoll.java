@@ -29,38 +29,8 @@ import org.vige.rubia.model.PollOption;
 
 public class CreatePoll {
 	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
-	public static final String OPTION_INPUT_TEXT = "post:option_";
-	public static final String UPDATE_OPTION_BUTTON = "post:UpdateOption_";
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
-	public static final String DAYS_INPUT_TEXT = "post:pollDuration";
-
-	public static String[] updateOptions(WebDriver driver, Poll poll) {
-		List<PollOption> options = poll.getOptions();
-		if (options != null)
-			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver
-						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElement(className(UPDATE_OPTION_BUTTON + (i + 1)));
-				optionButton.click();
-			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
-		daysInput.clear();
-		daysInput.sendKeys(poll.getLength() + "");
-		return results;
-
-	}
 
 	public static String[] createOptions(WebDriver driver, Poll poll) {
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
