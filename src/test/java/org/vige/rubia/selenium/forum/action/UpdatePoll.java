@@ -30,6 +30,8 @@ import org.vige.rubia.model.PollOption;
 
 public class UpdatePoll {
 	public static final String UPDATE_TOPIC_BUTTON = "miviewtopicbody6";
+	public static final String OPTIONS_TO_VOTE_LIST = "radioCell";
+	public static final String VOTE_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
 	public static final String OPTION_INPUT_TEXT = "post:option_";
 	public static final String UPDATE_OPTION_BUTTON = "post:UpdateOption_";
@@ -67,34 +69,14 @@ public class UpdatePoll {
 
 	}
 
-	public static String[] vote(WebDriver driver, Poll poll) {
-		WebElement updateTopicButton = driver.findElements(xpath("//tbody"))
-				.get(2).findElement(id(UPDATE_TOPIC_BUTTON))
-				.findElement(xpath("ul/a[1]"));
-		updateTopicButton.click();
-		List<PollOption> options = poll.getOptions();
-		if (options != null)
-			for (int i = 0; i < options.size(); i++) {
-				WebElement optionInput = null;
-				WebElement optionButton = null;
-				optionInput = driver
-						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
-				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElement(className(UPDATE_OPTION_BUTTON + (i + 1)));
-				optionButton.click();
-			}
-		WebElement[] updatedElements = new WebElement[options.size()];
-		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
-		String[] results = new String[updatedElements.length];
-		for (int i = 0; i < updatedElements.length; i++)
-			results[i] = updatedElements[i].getAttribute("value");
-		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
-		daysInput.clear();
-		daysInput.sendKeys(poll.getLength() + "");
-		return results;
+	public static Poll vote(WebDriver driver, Poll poll, int indexVote) {
+		List<WebElement> optionsToVoteList = driver
+				.findElements(className(OPTIONS_TO_VOTE_LIST));
+		optionsToVoteList.get(indexVote).findElement(xpath("input")).click();
+		WebElement voteButton = driver.findElement(className(VOTE_BUTTON));
+		voteButton.click();
+		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		return updatedPoll;
 
 	}
 
@@ -112,8 +94,8 @@ public class UpdatePoll {
 						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
 				optionInput.clear();
 				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElement(id(UPDATE_OPTION_BUTTON + (i + 1)));
+				optionButton = driver.findElement(id(UPDATE_OPTION_BUTTON
+						+ (i + 1)));
 				optionButton.click();
 			}
 		WebElement submitTopicButton = driver
