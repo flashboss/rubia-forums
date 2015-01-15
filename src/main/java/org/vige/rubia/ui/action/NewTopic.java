@@ -21,8 +21,8 @@ import static org.vige.rubia.ui.PortalUtil.createPoll;
 import static org.vige.rubia.ui.PortalUtil.createPollOption;
 import static org.vige.rubia.ui.PortalUtil.getPoster;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -121,7 +121,7 @@ public class NewTopic extends PostAction {
 			if (question != null && question.trim().length() > 0) {
 				poll.setTitle(question);
 				poll.setLength(activeDuration);
-				List<PollOption> pollOptions = new ArrayList<PollOption>();
+				List<PollOption> pollOptions = new LinkedList<PollOption>();
 				for (String option : options.keySet()) {
 					PollOption pollOption = createPollOption(poll);
 					pollOption.setQuestion((String) options.get(option));

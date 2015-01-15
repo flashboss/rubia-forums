@@ -23,6 +23,7 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -99,7 +100,7 @@ public class VerifyPoll {
 			poll.setTitle(question.getText());
 			List<WebElement> pollComponents = driver
 					.findElements(className(ANSWER_OUTPUT_TEXT));
-			List<PollOption> pollOptions = new ArrayList<PollOption>();
+			List<PollOption> pollOptions = new LinkedList<PollOption>();
 			for (WebElement pollComponent : pollComponents) {
 				PollOption pollOption = new PollOption();
 				pollOption.setQuestion(pollComponent.getText());

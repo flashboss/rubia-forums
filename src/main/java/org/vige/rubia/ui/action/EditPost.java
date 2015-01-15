@@ -21,9 +21,9 @@ import static org.vige.rubia.ui.PortalUtil.createMessage;
 import static org.vige.rubia.ui.PortalUtil.createPoll;
 import static org.vige.rubia.ui.PortalUtil.createPollOption;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -106,7 +106,7 @@ public class EditPost extends PostAction {
 
 				// setup poll related information
 				setupPoll(topic.getPoll());
-				
+
 				attachments = forumsModule.findAttachments(post);
 
 				// setup the attachment related information
@@ -169,7 +169,8 @@ public class EditPost extends PostAction {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME,
+						TOPIC_LOCKED_ERR_KEY));
 			}
 
 			// setup the message/subject related data
@@ -191,7 +192,7 @@ public class EditPost extends PostAction {
 			// TODO: cleanup this poll update process............move this as a
 			// private method
 			// setup poll information
-			List<PollOption> localPollOptions = new ArrayList<PollOption>();
+			List<PollOption> localPollOptions = new LinkedList<PollOption>();
 			for (String key : options.keySet()) {
 				PollOption pollOption = createPollOption(topic.getPoll());
 				pollOption.setQuestion(options.get(key));
@@ -200,9 +201,11 @@ public class EditPost extends PostAction {
 			}
 
 			// update poll information
-			if (topic.getPoll() == null || topic.getPoll().getTitle() == null || topic.getPoll().getTitle().trim().length() == 0) {
+			if (topic.getPoll() == null || topic.getPoll().getTitle() == null
+					|| topic.getPoll().getTitle().trim().length() == 0) {
 				// no existing poll information found in the database
-				if (localPollOptions.size() > 0 && question != null && question.trim().length() > 0) {
+				if (localPollOptions.size() > 0 && question != null
+						&& question.trim().length() > 0) {
 					// need to add a new poll to this topic
 					Poll poll = createPoll();
 					poll.setTitle(question);
@@ -224,11 +227,16 @@ public class EditPost extends PostAction {
 					poll.setCreationDate(topic.getPoll().getCreationDate());
 
 					for (PollOption newPollOption : localPollOptions) {
-						Iterator<PollOption> stored = topic.getPoll().getOptions().iterator();
+						Iterator<PollOption> stored = topic.getPoll()
+								.getOptions().iterator();
 						while (stored.hasNext()) {
-							PollOption oldPollOption = (PollOption) stored.next();
-							if (oldPollOption != null && oldPollOption.getQuestion().equals(newPollOption.getQuestion())) {
-								newPollOption.setVotes(oldPollOption.getVotes());
+							PollOption oldPollOption = (PollOption) stored
+									.next();
+							if (oldPollOption != null
+									&& oldPollOption.getQuestion().equals(
+											newPollOption.getQuestion())) {
+								newPollOption
+										.setVotes(oldPollOption.getVotes());
 								break;
 							}
 						}

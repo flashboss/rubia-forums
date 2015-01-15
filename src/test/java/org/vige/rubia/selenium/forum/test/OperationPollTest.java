@@ -42,6 +42,7 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.vote;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.addOptions;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.deleteOptions;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.updatePoll;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
@@ -153,105 +154,6 @@ public class OperationPollTest {
 	}
 
 	@Test
-	public void verifyUpdatePoll() {
-		Topic topic = new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic");
-		goTo(driver, topic);
-		Poll pollToUpdate = getPollOfCurrentTopic(driver);
-		pollToUpdate.setTitle("Second Test Question");
-		updatePoll(driver, pollToUpdate);
-		pollToUpdate.getOptions().get(0).setQuestion("Third Test Answer");
-		pollToUpdate.getOptions().get(1).setQuestion("Fourth Test Answer");
-		Poll updatedPoll = updateOptions(driver, pollToUpdate);
-		assertEquals(updatedPoll.getTitle(), "Second Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 0);
-		List<PollOption> options = updatedPoll.getOptions();
-		assertEquals(options.get(1).getQuestion(), "Third Test Answer");
-		assertEquals(options.get(0).getQuestion(), "Fourth Test Answer");
-		assertEquals(options.get(0).getVotes(), 0);
-		assertEquals(options.get(1).getVotes(), 0);
-		assertEquals(options.size(), 2);
-
-		pollToUpdate.setTitle("Fourth Test Question");
-		updatePoll(driver, pollToUpdate);
-		pollToUpdate.getOptions().get(0).setQuestion("Seventh Test Answer");
-		pollToUpdate.getOptions().get(1).setQuestion("Eight Test Answer");
-		updatedPoll = updateOptions(driver, pollToUpdate);
-		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 0);
-		options = updatedPoll.getOptions();
-		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
-		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
-		assertEquals(options.get(0).getVotes(), 0);
-		assertEquals(options.get(1).getVotes(), 0);
-		assertEquals(options.size(), 2);
-		pollToUpdate.setTitle("Second Test Question");
-		updatePoll(driver, pollToUpdate);
-	}
-
-	@Test
-	public void verifyUpdateOptions() {
-		Topic topic = new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic");
-		goTo(driver, topic);
-		Poll pollToUpdate = getPollOfCurrentTopic(driver);
-		updateOptions(driver, pollToUpdate);
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
-		assertEquals(updatedPoll.getTitle(), "Second Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 0);
-		List<PollOption> options = updatedPoll.getOptions();
-		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
-		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
-		assertEquals(options.get(0).getVotes(), 0);
-		assertEquals(options.get(1).getVotes(), 0);
-		assertEquals(options.size(), 2);
-	}
-
-	@Test
-	public void verifyVote() {
-		Topic topic = new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic");
-		goTo(driver, topic);
-		Poll pollToUpdate = getPollOfCurrentTopic(driver);
-		Poll updatedPoll = vote(driver, pollToUpdate, 0);
-		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 100);
-		List<PollOption> options = updatedPoll.getOptions();
-		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
-		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
-		assertEquals(options.get(0).getVotes(), 100);
-		assertEquals(options.get(1).getVotes(), 0);
-		assertEquals(options.size(), 2);
-		updatedPoll = vote(driver, pollToUpdate, 1);
-		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 100);
-		options = updatedPoll.getOptions();
-		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
-		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
-		assertEquals(options.get(0).getVotes(), 50);
-		assertEquals(options.get(1).getVotes(), 50);
-		assertEquals(options.size(), 2);
-	}
-
-	@Test
-	public void verifyAddOptions() {
-		Topic topic = new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic");
-		goTo(driver, topic);
-		Poll pollToUpdate = getPollOfCurrentTopic(driver);
-		addOptions(driver, pollToUpdate);
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
-		assertEquals(updatedPoll.getTitle(), "Second Test Question");
-		assertEquals(updatedPoll.getVotesSum(), 0);
-		List<PollOption> options = updatedPoll.getOptions();
-		assertEquals(options.get(0).getQuestion(), "Third Test Answer");
-		assertEquals(options.get(1).getQuestion(), "Fourth Test Answer");
-		assertEquals(options.get(0).getVotes(), 0);
-		assertEquals(options.get(1).getVotes(), 0);
-		assertEquals(options.size(), 2);
-	}
-
-	@Test
 	public void verifyCreatedPolls() {
 		List<Poll> polls = getPollsOfTopics(driver, new Topic(
 				"First Test Topic"), new Topic("Second Test Topic"), new Topic(
@@ -294,6 +196,105 @@ public class OperationPollTest {
 		options = fourthTestPoll.getOptions();
 		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
 		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+	}
+
+	@Test
+	public void verifyUpdatePoll() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		pollToUpdate.setTitle("Second Test Question");
+		pollToUpdate = updatePoll(driver, pollToUpdate);
+		pollToUpdate.getOptions().get(0).setQuestion("Third Test Answer");
+		pollToUpdate.getOptions().get(1).setQuestion("Fourth Test Answer");
+		Poll updatedPoll = updateOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Second Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Fourth Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+
+		pollToUpdate.setTitle("Fourth Test Question");
+		updatePoll(driver, pollToUpdate);
+		pollToUpdate.getOptions().get(0).setQuestion("Eight Test Answer");
+		pollToUpdate.getOptions().get(1).setQuestion("Seventh Test Answer");
+		updatedPoll = updateOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+		pollToUpdate.setTitle("Second Test Question");
+		updatePoll(driver, pollToUpdate);
+	}
+
+	@Test
+	public void verifyVote() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		Poll updatedPoll = vote(driver, pollToUpdate, 0);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 100);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(0).getVotes(), 100);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.size(), 2);
+		updatedPoll = vote(driver, pollToUpdate, 1);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 100);
+		options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(0).getVotes(), 50);
+		assertEquals(options.get(1).getVotes(), 50);
+		assertEquals(options.size(), 2);
+	}
+
+	@Test
+	public void verifyAddDeleteOptions() {
+		Topic topic = new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic");
+		goTo(driver, topic);
+		Poll pollToUpdate = getPollOfCurrentTopic(driver);
+		pollToUpdate.getOptions().clear();
+		pollToUpdate.getOptions().add(new PollOption("Third Test Answer"));
+		pollToUpdate.getOptions().add(new PollOption("Fifth Test Answer"));
+		Poll updatedPoll = addOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		List<PollOption> options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Seventh Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(2).getQuestion(), "Third Test Answer");
+		assertEquals(options.get(3).getQuestion(), "Fifth Test Answer");
+		assertEquals(options.get(0).getVotes(), 0);
+		assertEquals(options.get(1).getVotes(), 0);
+		assertEquals(options.get(2).getVotes(), 0);
+		assertEquals(options.get(3).getVotes(), 0);
+		assertEquals(options.size(), 4);
+		pollToUpdate.getOptions().clear();
+		pollToUpdate.getOptions().add(new PollOption("Third Test Answer"));
+		pollToUpdate.getOptions().add(new PollOption("Fifth Test Answer"));
+		updatedPoll = deleteOptions(driver, pollToUpdate);
+		assertEquals(updatedPoll.getTitle(), "Fourth Test Question");
+		assertEquals(updatedPoll.getVotesSum(), 0);
+		options = updatedPoll.getOptions();
+		assertEquals(options.get(0).getQuestion(), "Eight Test Answer");
+		assertEquals(options.get(1).getQuestion(), "Seventh Test Answer");
 		assertEquals(options.get(0).getVotes(), 0);
 		assertEquals(options.get(1).getVotes(), 0);
 		assertEquals(options.size(), 2);
