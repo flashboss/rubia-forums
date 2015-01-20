@@ -10,6 +10,10 @@
 	<description>Rubia Forums Web and Portlet Application</description>
 	<url>http://vige.it</url>
 
+	<organization>
+		<name>Vige</name>
+		<url>http://www.vige.it</url>
+	</organization>
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License Version 2.0</name>
