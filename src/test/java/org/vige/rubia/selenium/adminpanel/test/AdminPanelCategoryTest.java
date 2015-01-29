@@ -92,7 +92,7 @@ public class AdminPanelCategoryTest {
 	}
 
 	@Test
-	public void testMoveCategory() {
+	public void verifyMoveCategory() {
 		Map<String, Integer> positions = moveCategory(driver, new Category(
 				"First Test Category"), UP);
 		assertTrue(positions.get("newPosition") < positions
@@ -104,7 +104,7 @@ public class AdminPanelCategoryTest {
 	}
 
 	@Test
-	public void testUpdateCategory() {
+	public void verifyUpdateCategory() {
 		String message = updateCategory(driver, new Category(
 				"First Test Category"), new Category("Third Test Category"));
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));

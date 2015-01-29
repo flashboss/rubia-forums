@@ -16,6 +16,12 @@
  */
 package org.vige.rubia.selenium.myforums.action;
 
+import org.openqa.selenium.WebDriver;
+
 public class ViewAllTopics {
+
+	public static String viewAllTopics(WebDriver driver) {
+		return null;
+	}
 
 }

@@ -113,3 +113,5 @@ To debug the application using Eclipse you can put this parameter:
     mvn -Dmaven.surefire.debug test
 
 It will start on the 5005 port.
+
+The tests are done using Firefox 35.0.1

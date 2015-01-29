@@ -51,9 +51,7 @@ public class CreatePost {
 		bodyText.click();
 		switchFrame(driver);
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
-		((JavascriptExecutor) driver).executeScript(
-				"arguments[0].innerHTML = '" + post.getMessage().getText()
-						+ "'", bodytInput);
+		bodytInput.sendKeys(post.getMessage().getText());
 		driver.switchTo().defaultContent();
 		addAttachments(driver, post);
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));

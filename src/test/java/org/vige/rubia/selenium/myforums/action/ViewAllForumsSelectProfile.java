@@ -16,6 +16,12 @@
  */
 package org.vige.rubia.selenium.myforums.action;
 
+import org.openqa.selenium.WebDriver;
+
 public class ViewAllForumsSelectProfile {
+
+	public static String viewAllForumsSelectProfile(WebDriver driver) {
+		return null;
+	}
 
 }

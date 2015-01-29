@@ -50,10 +50,7 @@ public class CreateTopic {
 		subjectInput.sendKeys(topic.getSubject());
 		driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
-		((JavascriptExecutor) driver).executeScript(
-				"arguments[0].innerHTML = '"
-						+ topic.getPosts().get(0).getMessage().getText() + "'",
-				bodytInput);
+		bodytInput.sendKeys(topic.getPosts().get(0).getMessage().getText());
 		driver.switchTo().defaultContent();
 		WebElement topicTypeInput = null;
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))

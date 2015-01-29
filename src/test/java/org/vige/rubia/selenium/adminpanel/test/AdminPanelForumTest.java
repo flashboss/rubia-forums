@@ -60,6 +60,10 @@ public class AdminPanelForumTest {
 			"ResourceJSF").getString("Forum_created_0")
 			+ " \"Second Test Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_2_MESSAGE = getBundle(
+			"ResourceJSF").getString("Forum_created_0")
+			+ " \"Third Test Forum\" "
+			+ getBundle("ResourceJSF").getString("Forum_created_1");
 	public final static String REMOVED_FORUM_0_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_deleted_0")
 			+ " \"First Test Forum\" "
@@ -67,6 +71,10 @@ public class AdminPanelForumTest {
 	public final static String REMOVED_FORUM_1_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_deleted_0")
 			+ " \"Second Test Forum\" "
+			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_2_MESSAGE = getBundle(
+			"ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Third Test Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
 	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
 			.getString("Forum_locked");
@@ -119,7 +127,7 @@ public class AdminPanelForumTest {
 	}
 
 	@Test
-	public void testMoveForum() {
+	public void verifyMoveForum() {
 		Map<String, Integer> positions = moveForum(driver, new Forum(
 				"First Test Forum"), DOWN);
 		assertTrue(positions.get("newPosition") > positions
@@ -130,7 +138,7 @@ public class AdminPanelForumTest {
 	}
 
 	@Test
-	public void testLockForum() {
+	public void verifyLockForum() {
 		String message = lockForum(driver, new Forum("First Test Forum"));
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
 		message = lockForum(driver, new Forum("First Test Forum"));
@@ -138,7 +146,7 @@ public class AdminPanelForumTest {
 	}
 
 	@Test
-	public void testUpdateForum() {
+	public void verifyUpdateForum() {
 		String message = updateForum(driver, new Forum("Second Test Forum"),
 				new Forum("Third Test Forum", "Third Test Description",
 						new Category("Second Test Category")));
