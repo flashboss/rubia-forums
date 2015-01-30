@@ -21,11 +21,11 @@ import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
 import static org.vige.rubia.model.TopicType.NORMAL;
-import static org.vige.rubia.properties.ButtonType.CANCEL;
-import static org.vige.rubia.properties.ButtonType.CONFIRM;
 import static org.vige.rubia.properties.NotificationType.EMAIL_EMBEDED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
+import static org.vige.rubia.properties.OperationType.CANCEL;
+import static org.vige.rubia.properties.OperationType.CONFIRM;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
@@ -44,9 +44,9 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
+import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.isRegistered;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.registerTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterTopic;
-import static org.vige.rubia.selenium.forum.action.VerifyTopic.isRegistered;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -213,7 +213,7 @@ public class MyForumsTopicTest {
 		String message = registerTopic(driver, topic, EMAIL_NO_NOTIFICATION,
 				CANCEL);
 		assertTrue(message.equals("Sixth Test Topic"));
-		assertTrue(isRegistered(driver, topic));
+		assertTrue(!isRegistered(driver, topic));
 	}
 
 	@After

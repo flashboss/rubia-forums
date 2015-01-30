@@ -3,12 +3,13 @@ package org.vige.rubia.selenium.forum.action;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.properties.OperationType.SUBSCRIBE;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.properties.ButtonType;
+import org.vige.rubia.properties.OperationType;
 import org.vige.rubia.properties.NotificationType;
 
 public class SubscriptionTopic {
@@ -20,7 +21,7 @@ public class SubscriptionTopic {
 	public static final String FORUM_TITLE = "//form/ul/li/ul/li/ul/li/a";
 
 	public static String registerTopic(WebDriver driver, Topic topic,
-			NotificationType notificationType, ButtonType buttonType) {
+			NotificationType notificationType, OperationType buttonType) {
 		WebElement topicSubject = driver.findElement(linkText(topic
 				.getSubject()));
 		topicSubject.click();
@@ -45,6 +46,20 @@ public class SubscriptionTopic {
 				className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
 		return "OK";
+	}
+
+	public static boolean isRegistered(WebDriver driver, Topic topic) {
+		WebElement topicSubject = driver.findElement(linkText(topic
+				.getSubject()));
+		topicSubject.click();
+		WebElement registerButton = driver.findElement(
+				className(REGISTRATION_BUTTON))
+				.findElement(xpath("//a[3]/img"));
+		if (registerButton.getAttribute("name").equalsIgnoreCase(
+				SUBSCRIBE.name()))
+			return false;
+		else
+			return true;
 	}
 
 }

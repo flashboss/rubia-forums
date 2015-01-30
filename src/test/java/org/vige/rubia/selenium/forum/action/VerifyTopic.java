@@ -56,10 +56,6 @@ public class VerifyTopic {
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
 
-	public static boolean isRegistered(WebDriver driver, Topic topic) {
-		return true;
-	}
-
 	public static List<Topic> getTopicsOfForums(WebDriver driver,
 			Forum... forums) {
 		List<Topic> topics = new ArrayList<Topic>();

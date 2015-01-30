@@ -57,10 +57,6 @@ public class VerifyForum {
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
 
-	public static boolean isRegistered(WebDriver driver, Forum forum) {
-		return true;
-	}
-
 	public static List<Forum> getForumsOfCategories(WebDriver driver,
 			Category... categories) {
 		List<Forum> forums = new ArrayList<Forum>();

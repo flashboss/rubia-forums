@@ -2,13 +2,14 @@ package org.vige.rubia.selenium.forum.action;
 
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.properties.OperationType.SUBSCRIBE;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Forum;
-import org.vige.rubia.properties.ButtonType;
 import org.vige.rubia.properties.NotificationType;
+import org.vige.rubia.properties.OperationType;
 
 public class SubscriptionForum {
 
@@ -18,7 +19,7 @@ public class SubscriptionForum {
 	public static final String FORUM_TITLE = "forumtitletext";
 
 	public static String registerForum(WebDriver driver, Forum forum,
-			NotificationType notificationType, ButtonType buttonType) {
+			NotificationType notificationType, OperationType buttonType) {
 		goTo(driver, forum);
 		WebElement registerButton = driver.findElement(
 				className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
@@ -39,5 +40,17 @@ public class SubscriptionForum {
 				className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
 		return "OK";
+	}
+
+	public static boolean isRegistered(WebDriver driver, Forum forum) {
+		goTo(driver, forum);
+		WebElement registerButton = driver.findElement(
+				className(REGISTRATION_BUTTON))
+				.findElement(xpath("//a[3]/img"));
+		if (registerButton.getAttribute("name").equalsIgnoreCase(
+				SUBSCRIBE.name()))
+			return false;
+		else
+			return true;
 	}
 }
