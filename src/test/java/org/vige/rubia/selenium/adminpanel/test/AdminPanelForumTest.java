@@ -64,6 +64,10 @@ public class AdminPanelForumTest {
 			"ResourceJSF").getString("Forum_created_0")
 			+ " \"Third Test Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_3_MESSAGE = getBundle(
+			"ResourceJSF").getString("Forum_created_0")
+			+ " \"Fourth Test Forum\" "
+			+ getBundle("ResourceJSF").getString("Forum_created_1");
 	public final static String REMOVED_FORUM_0_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_deleted_0")
 			+ " \"First Test Forum\" "
@@ -75,6 +79,10 @@ public class AdminPanelForumTest {
 	public final static String REMOVED_FORUM_2_MESSAGE = getBundle(
 			"ResourceJSF").getString("Forum_deleted_0")
 			+ " \"Third Test Forum\" "
+			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_3_MESSAGE = getBundle(
+			"ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Fourth Test Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
 	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
 			.getString("Forum_locked");

@@ -7,6 +7,6 @@ public enum NotificationType {
 
 	@Override
 	public String toString() {
-		return getBundle("/ResourceJSF").getString(name());
+		return getBundle("ResourceJSF").getString(name());
 	}
 }

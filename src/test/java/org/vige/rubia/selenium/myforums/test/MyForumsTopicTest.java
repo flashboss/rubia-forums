@@ -21,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
 import static org.vige.rubia.model.TopicType.NORMAL;
+import static org.vige.rubia.properties.ButtonType.CANCEL;
+import static org.vige.rubia.properties.ButtonType.CONFIRM;
 import static org.vige.rubia.properties.NotificationType.EMAIL_EMBEDED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
@@ -44,6 +46,7 @@ import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.registerTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterTopic;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.isRegistered;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -95,7 +98,7 @@ public class MyForumsTopicTest {
 								4)));
 		assertTrue(message.equals("First Test Topic"));
 		message = registerTopic(driver, new Topic("First Test Topic"),
-				EMAIL_LINKED_NOTIFICATION);
+				EMAIL_LINKED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("First Test Topic"));
 		message = createTopic(
 				driver,
@@ -117,7 +120,7 @@ public class MyForumsTopicTest {
 								8)));
 		assertTrue(message.equals("Second Test Topic"));
 		message = registerTopic(driver, new Topic("Second Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION);
+				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Second Test Topic"));
 		message = createForum(driver, new Forum("Second Test Forum",
 				"Second Test Description", new Category("First Test Category")));
@@ -138,7 +141,7 @@ public class MyForumsTopicTest {
 								9)));
 		assertTrue(message.equals("Third Test Topic"));
 		message = registerTopic(driver, new Topic("Third Test Topic"),
-				EMAIL_NO_NOTIFICATION);
+				EMAIL_NO_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Third Test Topic"));
 		message = createTopic(
 				driver,
@@ -156,7 +159,7 @@ public class MyForumsTopicTest {
 								0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = registerTopic(driver, new Topic("Fourth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION);
+				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createForum(driver, new Forum("Third Test Forum",
 				"Third Test Description", new Category("Second Test Category")));
@@ -177,45 +180,78 @@ public class MyForumsTopicTest {
 								8)));
 		assertTrue(message.equals("Fifth Test Topic"));
 		message = registerTopic(driver, new Topic("Fifth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION);
+				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fifth Test Topic"));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("Third Test Forum"),
+						"Sixth Test Topic",
+						asList(new Post[] { new Post("Sixth Test Body", asList(
+								new Attachment("ten", "Ten Test File"),
+								new Attachment("eleven", "Eleven Test File"),
+								new Attachment("twelve", "Twelve Test File"))) }),
+						IMPORTANT,
+						new Poll("Fourth Test Question",
+								asList(new PollOption[] {
+										new PollOption("Ninth Test Answer"),
+										new PollOption("Ten Test Answer") }), 8)));
+		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
 	@Test
-	public void verifyCreatedTopics() {
+	public void verifyRegisteredCanceledTopics() {
+		Topic topic = new Topic(new Forum("Third Test Forum"),
+				"Sixth Test Topic", asList(new Post[] { new Post(
+						"Sixth Test Body", asList(new Attachment("ten",
+								"Ten Test File"), new Attachment("eleven",
+								"Eleven Test File"), new Attachment("twelve",
+								"Twelve Test File"))) }), IMPORTANT, new Poll(
+						"Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Ninth Test Answer"),
+								new PollOption("Ten Test Answer") }), 8));
+		String message = registerTopic(driver, topic, EMAIL_NO_NOTIFICATION,
+				CANCEL);
+		assertTrue(message.equals("Sixth Test Topic"));
+		assertTrue(isRegistered(driver, topic));
 	}
 
 	@After
 	public void stop() {
-		String message = unregisterTopic(driver, new Topic("First Test Topic"));
-		assertTrue(message.equals("OK"));
-		message = unregisterTopic(driver, new Topic("Second Test Topic"));
-		assertTrue(message.equals("OK"));
-		message = unregisterTopic(driver, new Topic("Third Test Topic"));
-		assertTrue(message.equals("OK"));
-		message = unregisterTopic(driver, new Topic("Fourth Test Topic"));
-		assertTrue(message.equals("OK"));
-		message = unregisterTopic(driver, new Topic("Fifth Test Topic"));
-		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
+		Topic topic = new Topic(new Forum("First Test Forum"),
 				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body") })));
+						"First Test Body") }));
+		String message = unregisterTopic(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
+		message = removeTopic(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body") })));
+		topic = new Topic(new Forum("First Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body") }));
+		message = unregisterTopic(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body") })));
+		message = removeTopic(driver, topic);
 		assertTrue(message.equals("OK"));
-		message = removeTopic(driver, new Topic(new Forum("Third Test Forum"),
-				"Fifth Test Topic", asList(new Post[] { new Post(
-						"Fifth Test Body") })));
+		topic = new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body") }));
+		message = unregisterTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		message = removeTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body") }));
+		message = unregisterTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		message = removeTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		topic = new Topic(new Forum("Third Test Forum"), "Fifth Test Topic",
+				asList(new Post[] { new Post("Fifth Test Body") }));
+		message = unregisterTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		message = removeTopic(driver, topic);
+		assertTrue(message.equals("OK"));
+		topic = new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
+				asList(new Post[] { new Post("Sixth Test Body") }));
+		message = removeTopic(driver, topic);
 		assertTrue(message.equals("OK"));
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
