@@ -50,7 +50,7 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.isRegistered;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerForum;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
-import static org.vige.rubia.selenium.forum.action.VerifyForum.getForum;
+import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
 
 import java.util.List;
@@ -192,6 +192,9 @@ public class MyForumsForumTest {
 		for (Forum forum : forums) {
 			assertTrue(isRegistered(driver, forum));
 		}
+		Forum fourthForum = new Forum("Fourth Test Forum");
+		goTo(driver, fourthForum);
+		assertTrue(!isRegistered(driver, fourthForum));
 		assertEquals(forums.get(0).getName(), "First Test Forum");
 		assertEquals(forums.get(1).getName(), "Second Test Forum");
 		assertEquals(forums.get(2).getName(), "Third Test Forum");
