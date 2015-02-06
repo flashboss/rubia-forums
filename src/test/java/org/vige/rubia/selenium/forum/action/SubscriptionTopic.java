@@ -5,12 +5,13 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.properties.OperationType.SUBSCRIBE;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
+import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.properties.OperationType;
 import org.vige.rubia.properties.NotificationType;
+import org.vige.rubia.properties.OperationType;
 
 public class SubscriptionTopic {
 
@@ -18,7 +19,6 @@ public class SubscriptionTopic {
 	public static final String BUTTONS = "forumformbuttonrow";
 	public static final String SELECT_NOTIFICATION = "//form/select";
 	public static final String TOPIC_TITLE = "//form/h4";
-	public static final String FORUM_TITLE = "//form/ul/li/ul/li/ul/li/a";
 
 	public static String registerTopic(WebDriver driver, Topic topic,
 			NotificationType notificationType, OperationType buttonType) {
@@ -35,7 +35,8 @@ public class SubscriptionTopic {
 		WebElement confirmButton = driver.findElement(className(BUTTONS))
 				.findElements(className("buttonMed")).get(buttonType.ordinal());
 		confirmButton.click();
-		WebElement forumLink = driver.findElement(xpath(FORUM_TITLE));
+		WebElement forumLink = driver.findElement(FORUM_TEMPLATE_LINK
+				.getValue());
 		forumLink.click();
 		return topicTitle;
 	}

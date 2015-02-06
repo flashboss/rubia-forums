@@ -16,11 +16,45 @@
  */
 package org.vige.rubia.selenium.myforums.action;
 
+import static java.util.ResourceBundle.getBundle;
+import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyForum.getForum;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class ViewAllForums {
-	
-	public static String viewAllForums(WebDriver driver) {
-		return null;
+	public static final String MY_FORUMS_LINK = getBundle("ResourceJSF")
+			.getString("My_Forums");
+	public static final String MY_FORUMS_LIST = "header";
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
+			"Home");
+
+	public static void goTo(WebDriver driver) {
+		WebElement home = driver.findElement(linkText(MY_FORUMS_LINK));
+		home.click();
+	}
+
+	public static List<Forum> viewAllForums(WebDriver driver) {
+		goTo(driver);
+		List<WebElement> elements = driver
+				.findElements(className(MY_FORUMS_LIST)).get(1)
+				.findElements(xpath("../tr"));
+		int elementsCount = elements.size() - 1;
+		List<Forum> forums = new ArrayList<Forum>();
+		for (int i = 2; i < elementsCount; i++) {
+			WebElement element = driver.findElements(className(MY_FORUMS_LIST))
+					.get(1).findElement(xpath("../tr[" + i + "]/td[2]/h3/a"));
+			element.click();
+			forums.add(getForum(driver));
+			goTo(driver);
+		}
+		return forums;
 	}
 }

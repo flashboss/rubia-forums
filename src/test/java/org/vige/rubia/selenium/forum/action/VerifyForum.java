@@ -45,6 +45,7 @@ public class VerifyForum {
 	public static final String NO_POSTS = getBundle("ResourceJSF").getString(
 			"No_Posts");
 	public static final String FORUM_TABLE = "forumtablestyle";
+	public static final String FORUM_NAME = "forumtitletext";
 	public static final String FORUM_TR = "tbody/tr";
 	public static final String FORUM_NAME_LINK = "td[2]/h3/a";
 	public static final String DESCRIPTION_OUTPUT_TEXT = "td[2]";
@@ -53,9 +54,61 @@ public class VerifyForum {
 	public static final String LAST_POST = "td[5]";
 	public static final String LAST_POST_MESSAGE_LINK = "a";
 	public static final String LAST_POST_CREATE_DATE_OUTPUT_TEXT = "br[2]";
-	public static final String LAST_POST_USER_LINK = "br/a";
+	public static final String LAST_POST_USER_LINK = "a[2]";
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
+
+	public static Forum getForum(WebDriver driver) {
+		Forum forum = new Forum();
+		WebElement forumNameComponent = driver
+				.findElement(className(FORUM_NAME));
+		String forumNameText = forumNameComponent.getText();
+		addParents(driver, forum);
+		forum.setName(forumNameText);
+		return forum;
+	}
+
+	public static Forum getForum(WebDriver driver, WebElement trComponent) {
+		Forum forum = new Forum();
+		WebElement forumNameComponent = trComponent
+				.findElement(xpath(FORUM_NAME_LINK));
+		String forumNameText = forumNameComponent.getText();
+		addParents(driver, forum);
+		forum.setName(forumNameText);
+		forum.setDescription(trComponent
+				.findElement(xpath(DESCRIPTION_OUTPUT_TEXT)).getText()
+				.split("\n")[1]);
+		WebElement lastPostElement = trComponent.findElement(xpath(LAST_POST));
+		if (!lastPostElement.getText().equals(NO_POSTS)) {
+			Post lastPost = new Post();
+			try {
+				lastPost.setCreateDate(dateFormat.parse(lastPostElement
+						.findElement(xpath(LAST_POST_CREATE_DATE_OUTPUT_TEXT))
+						.getText()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			String userIdLastPost = lastPostElement.findElement(
+					xpath(LAST_POST_USER_LINK)).getText();
+			Poster poster = new Poster();
+			poster.setUserId(userIdLastPost);
+			lastPost.setPoster(poster);
+			User user = new TestUser();
+			user.setId(userIdLastPost);
+			user.setUserName(userIdLastPost);
+			lastPost.setUser(user);
+			Message message = new Message();
+			message.setSubject(lastPostElement.findElement(
+					xpath(LAST_POST_MESSAGE_LINK)).getText());
+			lastPost.setMessage(message);
+			forum.setLastPost(lastPost);
+		}
+		forum.setTopicCount(new Integer(trComponent.findElement(
+				xpath(TOPICS_COUNT_OUTPUT_TEXT)).getText()));
+		forum.setPostCount(new Integer(trComponent.findElement(
+				xpath(POSTS_COUNT_OUTPUT_TEXT)).getText()));
+		return forum;
+	}
 
 	public static List<Forum> getForumsOfCategories(WebDriver driver,
 			Category... categories) {
@@ -74,47 +127,8 @@ public class VerifyForum {
 			for (int i = 2; i < trComponentSize; i++) {
 				tableComponent = driver.findElement(className(FORUM_TABLE));
 				trComponents = tableComponent.findElements(xpath(FORUM_TR));
-				WebElement forumNameComponent = trComponents.get(i)
-						.findElement(xpath(FORUM_NAME_LINK));
-				Forum forum = new Forum();
-				addParents(driver, forum);
-				String forumNameText = forumNameComponent.getText();
-				forum.setName(forumNameText);
-				forum.setDescription(trComponents.get(i)
-						.findElement(xpath(DESCRIPTION_OUTPUT_TEXT)).getText()
-						.split("\n")[1]);
-				WebElement lastPostElement = trComponents.get(i).findElement(
-						xpath(LAST_POST));
-				if (!lastPostElement.getText().equals(NO_POSTS)) {
-					Post lastPost = new Post();
-					try {
-						lastPost.setCreateDate(dateFormat
-								.parse(lastPostElement
-										.findElement(
-												xpath(LAST_POST_CREATE_DATE_OUTPUT_TEXT))
-										.getText()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					String userIdLastPost = lastPostElement.findElement(
-							xpath(LAST_POST_USER_LINK)).getText();
-					Poster poster = new Poster();
-					poster.setUserId(userIdLastPost);
-					lastPost.setPoster(poster);
-					User user = new TestUser();
-					user.setId(userIdLastPost);
-					user.setUserName(userIdLastPost);
-					lastPost.setUser(user);
-					Message message = new Message();
-					message.setSubject(lastPostElement.findElement(
-							xpath(LAST_POST_MESSAGE_LINK)).getText());
-					lastPost.setMessage(message);
-					forum.setLastPost(lastPost);
-				}
-				forum.setTopicCount(new Integer(trComponents.get(i)
-						.findElement(xpath(TOPICS_COUNT_OUTPUT_TEXT)).getText()));
-				forum.setPostCount(new Integer(trComponents.get(i)
-						.findElement(xpath(POSTS_COUNT_OUTPUT_TEXT)).getText()));
+				WebElement trComponent = trComponents.get(i);
+				Forum forum = getForum(driver, trComponent);
 				forums.add(forum);
 				driver.findElement(linkText(category.getTitle())).click();
 			}

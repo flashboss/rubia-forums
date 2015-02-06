@@ -17,6 +17,7 @@
 package org.vige.rubia.selenium.myforums.test;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
@@ -49,6 +50,10 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.isRegistered;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerForum;
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
+import static org.vige.rubia.selenium.forum.action.VerifyForum.getForum;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
+
+import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -179,6 +184,18 @@ public class MyForumsForumTest {
 				CANCEL);
 		assertTrue(message.equals("Fourth Test Forum"));
 		assertTrue(!isRegistered(driver, forum));
+	}
+
+	@Test
+	public void verifyRegisteredAuthorizedForums() {
+		List<Forum> forums = viewAllForums(driver);
+		for (Forum forum : forums) {
+			assertTrue(isRegistered(driver, forum));
+		}
+		assertEquals(forums.get(0).getName(), "First Test Forum");
+		assertEquals(forums.get(1).getName(), "Second Test Forum");
+		assertEquals(forums.get(2).getName(), "Third Test Forum");
+		assertEquals(forums.size(), 3);
 	}
 
 	@After
