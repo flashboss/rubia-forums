@@ -17,6 +17,7 @@
 package org.vige.rubia.selenium.myforums.test;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
@@ -47,6 +48,11 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.isRegistered;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.registerTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterTopic;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
+import static org.vige.rubia.selenium.myforums.action.ViewAllTopics.goTo;
+import static org.vige.rubia.selenium.myforums.action.ViewAllTopics.viewAllTopics;
+
+import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -214,6 +220,21 @@ public class MyForumsTopicTest {
 				CANCEL);
 		assertTrue(message.equals("Sixth Test Topic"));
 		assertTrue(!isRegistered(driver, topic));
+	}
+
+	@Test
+	public void verifyRegisteredAuthorizedTopics() {
+		List<Topic> topics = viewAllTopics(driver);
+		for (Topic topic : topics) {
+			assertTrue(isRegistered(driver, topic));
+			goTo(driver);
+		}
+		assertEquals(topics.get(0).getSubject(), "Fifth Test Topic");
+		assertEquals(topics.get(1).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(3).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(4).getSubject(), "First Test Topic");
+		assertEquals(topics.size(), 5);
 	}
 
 	@After
