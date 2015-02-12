@@ -19,6 +19,7 @@ package org.vige.rubia.selenium.forum.action;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -53,7 +54,7 @@ public class RemovePost {
 							+ post.getMessage().getText() + "')]"));
 			message = resultRemovePost.getText();
 		} catch (NoSuchElementException ex) {
-			message = "OK";
+			message = OK;
 		}
 		return message;
 	}

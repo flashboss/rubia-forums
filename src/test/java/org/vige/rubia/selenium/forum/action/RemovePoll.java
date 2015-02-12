@@ -19,6 +19,7 @@ package org.vige.rubia.selenium.forum.action;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class RemovePoll {
 			result = driver.findElement(className(RESULT_REMOVE_POLL))
 					.getText();
 		} catch (NoSuchElementException ex) {
-			result = "OK";
+			result = OK;
 		}
 		return result;
 

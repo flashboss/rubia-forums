@@ -20,6 +20,7 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.CreateAttachment.FILE_COMMENT_INPUT_TEXT;
 import static org.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
@@ -63,7 +64,7 @@ public class RemoveAttachment {
 			try {
 				driver.findElement(xpath("//textarea[text()='" + comment + "']"));
 			} catch (NoSuchElementException ex) {
-				message = "OK";
+				message = OK;
 			}
 		}
 		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
@@ -79,7 +80,7 @@ public class RemoveAttachment {
 		int commentSize = driver.findElements(
 				className(FILE_COMMENT_INPUT_TEXT)).size();
 		if (commentSize == 2)
-			message = "OK";
+			message = OK;
 		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
 		updateButton.click();
 		return message;

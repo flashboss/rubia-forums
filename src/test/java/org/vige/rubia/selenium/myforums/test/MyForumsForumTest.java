@@ -27,6 +27,7 @@ import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATI
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
 import static org.vige.rubia.properties.OperationType.CANCEL;
 import static org.vige.rubia.properties.OperationType.CONFIRM;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
@@ -52,6 +53,7 @@ import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerFor
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
 
 import java.util.List;
 
@@ -206,32 +208,32 @@ public class MyForumsForumTest {
 		String message = removeTopic(driver, new Topic(new Forum(
 				"First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
 				"Second Test Topic", asList(new Post[] { new Post(
 						"Second Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
 				"Third Test Topic", asList(new Post[] { new Post(
 						"Third Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
 				"Fourth Test Topic", asList(new Post[] { new Post(
 						"Fourth Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		Forum forum = new Forum("First Test Forum");
 		message = unregisterForum(driver, forum);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, forum, "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		forum = new Forum("Second Test Forum");
 		message = unregisterForum(driver, forum);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 		forum = new Forum("Third Test Forum");
-		message = unregisterForum(driver, forum);
-		assertTrue(message.equals("OK"));
+		message = viewAllForumsRemoveForum(driver, forum);
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_2_MESSAGE));
 		forum = new Forum("Fourth Test Forum");

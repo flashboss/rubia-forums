@@ -4,6 +4,7 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.properties.OperationType.SUBSCRIBE;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 
@@ -46,7 +47,7 @@ public class SubscriptionTopic {
 		WebElement registerButton = driver.findElement(
 				className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
-		return "OK";
+		return OK;
 	}
 
 	public static boolean isRegistered(WebDriver driver, Topic topic) {

@@ -3,6 +3,7 @@ package org.vige.rubia.selenium.forum.action;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.properties.OperationType.SUBSCRIBE;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 
 import org.openqa.selenium.WebDriver;
@@ -39,7 +40,7 @@ public class SubscriptionForum {
 		WebElement registerButton = driver.findElement(
 				className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
-		return "OK";
+		return OK;
 	}
 
 	public static boolean isRegistered(WebDriver driver, Forum forum) {

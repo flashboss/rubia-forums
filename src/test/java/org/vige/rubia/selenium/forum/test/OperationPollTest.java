@@ -22,11 +22,11 @@ import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
 import static org.vige.rubia.model.TopicType.NORMAL;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveForum.removeForum;
-import static org.vige.rubia.selenium.forum.action.RemovePoll.removePoll;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
@@ -38,12 +38,13 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
+import static org.vige.rubia.selenium.forum.action.RemovePoll.removePoll;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
-import static org.vige.rubia.selenium.forum.action.UpdatePoll.vote;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.addOptions;
-import static org.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.deleteOptions;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
 import static org.vige.rubia.selenium.forum.action.UpdatePoll.updatePoll;
+import static org.vige.rubia.selenium.forum.action.UpdatePoll.vote;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
@@ -312,9 +313,9 @@ public class OperationPollTest {
 								new PollOption("First Test Answer"),
 								new PollOption("Second Test Answer") }), 4));
 		String message = removePoll(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		topic = new Topic(new Forum("First Test Forum"), "Second Test Topic",
 				asList(new Post[] { new Post("Second Test Body", asList(
 						new Attachment("first", "First Test File"),
@@ -325,9 +326,9 @@ public class OperationPollTest {
 								new PollOption("Third Test Answer"),
 								new PollOption("Fourth Test Answer") }), 8));
 		message = removePoll(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		topic = new Topic(new Forum("Second Test Forum"), "Third Test Topic",
 				asList(new Post[] { new Post("Third Test Body", asList(
 						new Attachment("first", "First Test File"),
@@ -338,9 +339,9 @@ public class OperationPollTest {
 								new PollOption("Fifth Test Answer"),
 								new PollOption("Sixth Test Answer") }), 9));
 		message = removePoll(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
 				asList(new Post[] { new Post("Fourth Test Body", asList(
 						new Attachment("fourth", "Fourth Test File"),
@@ -351,9 +352,9 @@ public class OperationPollTest {
 								new PollOption("Seventh Test Answer"),
 								new PollOption("Eight Test Answer") }), 0));
 		message = removePoll(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));

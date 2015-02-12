@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
 import static org.vige.rubia.model.TopicType.NORMAL;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
@@ -207,19 +208,19 @@ public class OperationTopicTest {
 		String message = removeTopic(driver, new Topic(new Forum(
 				"First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
 				"Second Test Topic", asList(new Post[] { new Post(
 						"Second Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
 				"Third Test Topic", asList(new Post[] { new Post(
 						"Third Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
 				"Fourth Test Topic", asList(new Post[] { new Post(
 						"Fourth Test Body") })));
-		assertTrue(message.equals("OK"));
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));

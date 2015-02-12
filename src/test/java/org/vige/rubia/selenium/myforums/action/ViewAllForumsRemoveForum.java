@@ -16,12 +16,44 @@
  */
 package org.vige.rubia.selenium.myforums.action;
 
+import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.Constants.OK;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForums.MY_FORUMS_LIST;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForums.goTo;
+
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Forum;
 
 public class ViewAllForumsRemoveForum {
-	
-	public static String viewAllForumsRemoveForum(WebDriver driver) {
-		return null;
+
+	public static String viewAllForumsRemoveForum(WebDriver driver, Forum forum) {
+		goTo(driver);
+		WebElement element = driver
+				.findElements(className(MY_FORUMS_LIST))
+				.get(1)
+				.findElement(
+						xpath("../tr/td/h3/a[contains(text(),'"
+								+ forum.getName()
+								+ "')]/../../../td[6]/div/ul/li/a"));
+		element.click();
+		WebElement resultRemovePost = null;
+		String message = "";
+		try {
+			resultRemovePost = driver
+					.findElements(className(MY_FORUMS_LIST))
+					.get(1)
+					.findElement(
+							xpath("../tr/td/h3/a[contains(text(),'"
+									+ forum.getName()
+									+ "')]/../../../td[6]/div/ul/li/a"));
+			message = resultRemovePost.getText();
+		} catch (NoSuchElementException ex) {
+			message = OK;
+		}
+		return message;
 	}
 
 }

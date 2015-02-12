@@ -17,6 +17,7 @@
 package org.vige.rubia.selenium.forum.action;
 
 import static java.util.ResourceBundle.getBundle;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
 
 import org.openqa.selenium.WebDriver;
@@ -35,7 +36,7 @@ public class RemoveTopic {
 		for (Post post : topic.getPosts()) {
 			post.setTopic(topic);
 			result = removePost(driver, post);
-			if (!result.equals("OK"))
+			if (!result.equals(OK))
 				return "";
 		}
 		return result;
