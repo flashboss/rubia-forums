@@ -41,10 +41,12 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_3_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_4_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_3_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_4_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
@@ -54,6 +56,8 @@ import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterF
 import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsUpdateForum.viewAllForumsUpdateForum;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
 
 import java.util.List;
 
@@ -176,6 +180,12 @@ public class MyForumsForumTest {
 				new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_3_MESSAGE));
+		forum = new Forum("Fifth Test Forum", "Fifth Test Description",
+				new Category("Second Test Category"));
+		message = createForum(driver, forum);
+		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
+		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Fifth Test Forum"));
 	}
 
 	@Test
@@ -200,7 +210,19 @@ public class MyForumsForumTest {
 		assertEquals(forums.get(0).getName(), "First Test Forum");
 		assertEquals(forums.get(1).getName(), "Second Test Forum");
 		assertEquals(forums.get(2).getName(), "Third Test Forum");
-		assertEquals(forums.size(), 3);
+		assertEquals(forums.get(3).getName(), "Fifth Test Forum");
+		assertEquals(forums.size(), 4);
+	}
+
+	@Test
+	public void verifyUpdatedForum() {
+		Forum forum = new Forum("Second Test Forum");
+		String notificationType = viewAllForumsUpdateForum(driver, forum,
+				EMAIL_NO_NOTIFICATION);
+		assertEquals(notificationType, EMAIL_NO_NOTIFICATION.toString());
+		notificationType = viewAllForumsUpdateForum(driver, forum,
+				EMAIL_EMBEDED_NOTIFICATION);
+		assertEquals(notificationType, EMAIL_EMBEDED_NOTIFICATION.toString());
 	}
 
 	@After
@@ -239,6 +261,11 @@ public class MyForumsForumTest {
 		forum = new Forum("Fourth Test Forum");
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_3_MESSAGE));
+		forum = new Forum("Fifth Test Forum");
+		message = viewAllEditForumsRemoveForum(driver, forum);
+		assertTrue(message.equals(OK));
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
+		assertTrue(message.equals(REMOVED_FORUM_4_MESSAGE));
 		message = removeCategory(driver, new Category("First Test Category"),
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));

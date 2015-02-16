@@ -52,6 +52,7 @@ import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterT
 import static org.vige.rubia.selenium.myforums.action.ViewAllTopics.goTo;
 import static org.vige.rubia.selenium.myforums.action.ViewAllTopics.viewAllTopics;
 import static org.vige.rubia.selenium.myforums.action.ViewAllTopicsRemoveTopic.viewAllTopicsRemoveTopic;
+import static org.vige.rubia.selenium.myforums.action.ViewAllTopicsUpdateTopic.viewAllTopicsUpdateTopic;
 
 import java.util.List;
 
@@ -236,6 +237,18 @@ public class MyForumsTopicTest {
 		assertEquals(topics.get(3).getSubject(), "Second Test Topic");
 		assertEquals(topics.get(4).getSubject(), "First Test Topic");
 		assertEquals(topics.size(), 5);
+	}
+
+	@Test
+	public void verifyUpdatedTopic() {
+		Topic topic = new Topic();
+		topic.setSubject("Third Test Topic");
+		String notificationType = viewAllTopicsUpdateTopic(driver, topic,
+				EMAIL_EMBEDED_NOTIFICATION);
+		assertEquals(notificationType, EMAIL_EMBEDED_NOTIFICATION.toString());
+		notificationType = viewAllTopicsUpdateTopic(driver, topic,
+				EMAIL_NO_NOTIFICATION);
+		assertEquals(notificationType, EMAIL_NO_NOTIFICATION.toString());
 	}
 
 	@After

@@ -56,4 +56,32 @@ public class ViewAllForumsRemoveForum {
 		return message;
 	}
 
+	public static String viewAllEditForumsRemoveForum(WebDriver driver,
+			Forum forum) {
+		ViewAllForumsUpdateForum.goTo(driver);
+		WebElement element = driver
+				.findElements(className(MY_FORUMS_LIST))
+				.get(0)
+				.findElement(
+						xpath("../tr/td/h3/a[contains(text(),'"
+								+ forum.getName()
+								+ "')]/../../../td[5]/div/ul/li/a"));
+		element.click();
+		WebElement resultRemovePost = null;
+		String message = "";
+		try {
+			resultRemovePost = driver
+					.findElements(className(MY_FORUMS_LIST))
+					.get(0)
+					.findElement(
+							xpath("../tr/td/h3/a[contains(text(),'"
+									+ forum.getName()
+									+ "')]/../../../td[5]/div/ul/li/a"));
+			message = resultRemovePost.getText();
+		} catch (NoSuchElementException ex) {
+			message = OK;
+		}
+		return message;
+	}
+
 }
