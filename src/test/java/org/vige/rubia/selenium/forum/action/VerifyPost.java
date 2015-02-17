@@ -61,7 +61,7 @@ public class VerifyPost {
 			.getString("Posted") + ": ";
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"E MMM d, yyyy H:mm a");
-
+	
 	public static List<Post> getPostsOfTopics(WebDriver driver, Topic... topics) {
 		List<Post> posts = new ArrayList<Post>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));

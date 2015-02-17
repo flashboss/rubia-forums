@@ -55,9 +55,9 @@ import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerFor
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsUpdateForum.viewAllForumsUpdateForum;
-import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
 
 import java.util.List;
 
@@ -71,10 +71,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
+import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
+import org.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum;
+import org.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost;
 
 @RunWith(Arquillian.class)
 public class MyForumsForumTest {
@@ -196,6 +200,80 @@ public class MyForumsForumTest {
 				CANCEL);
 		assertTrue(message.equals("Fourth Test Forum"));
 		assertTrue(!isRegistered(driver, forum));
+	}
+
+	@Test
+	public void verifyProfile() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("Second Test Topic");
+		post.setMessage(message);
+		Poster poster = ViewAllForumsSelectForum.selectProfile(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertEquals(poster.getPostCount(), 12);
+	}
+
+	@Test
+	public void verifyPost() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("Second Test Topic");
+		post.setMessage(message);
+		Topic result = ViewAllForumsSelectPost.selectPost(driver, post);
+		assertTrue(result != null);
+		assertEquals(result.getSubject(), message.getSubject());
+		assertEquals(result.getPoster().getUserId(), "root");
+		assertEquals(result.getPosts().size(), 1);
+		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
+				message.getSubject());
+		assertEquals(result.getPosts().get(0).getMessage().getText(),
+				"Second Test Body");
+		assertEquals(result.getPoll().getTitle(), "Second Test Question");
+	}
+
+	@Test
+	public void verifyAllForumsForum() {
+		Forum forum = new Forum("Third Test Forum", "Third Test Description",
+				new Category("Second Test Category"));
+		Forum result = ViewAllForumsSelectForum.selectForum(driver, forum);
+		assertTrue(result != null);
+		assertEquals(result.getName(), forum.getName());
+		assertEquals(result.getTopics().size(), 0);
+		assertEquals(result.getCategory().getTitle(), forum.getCategory()
+				.getTitle());
+	}
+
+	@Test
+	public void verifyAllForumsProfile() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("Fourth Test Topic");
+		post.setMessage(message);
+		Poster poster = ViewAllForumsSelectForum.selectAllForumsProfile(driver,
+				post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertEquals(poster.getPostCount(), 16);
+	}
+
+	@Test
+	public void verifyAllForumsPost() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("Second Test Topic");
+		post.setMessage(message);
+		Topic result = ViewAllForumsSelectPost
+				.selectAllForumsPost(driver, post);
+		assertTrue(result != null);
+		assertEquals(result.getSubject(), message.getSubject());
+		assertEquals(result.getPoster().getUserId(), "root");
+		assertEquals(result.getPosts().size(), 1);
+		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
+				message.getSubject());
+		assertEquals(result.getPosts().get(0).getMessage().getText(),
+				"Second Test Body");
+		assertEquals(result.getPoll().getTitle(), "Second Test Question");
 	}
 
 	@Test

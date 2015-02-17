@@ -66,10 +66,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
+import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
+import org.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectPost;
+import org.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectTopic;
 
 @RunWith(Arquillian.class)
 public class MyForumsTopicTest {
@@ -249,6 +253,46 @@ public class MyForumsTopicTest {
 		notificationType = viewAllTopicsUpdateTopic(driver, topic,
 				EMAIL_NO_NOTIFICATION);
 		assertEquals(notificationType, EMAIL_NO_NOTIFICATION.toString());
+	}
+
+	@Test
+	public void verifyProfile() {
+		Topic topic = new Topic(new Forum("First Test Forum"),
+				"First Test Topic", asList(new Post[] { new Post(
+						"First Test Body") }));
+		Poster poster = ViewAllTopicsSelectTopic.selectProfile(driver, topic);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertEquals(poster.getPostCount(), 18);
+	}
+
+	@Test
+	public void verifyPost() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("First Test Topic");
+		post.setMessage(message);
+		Topic result = ViewAllTopicsSelectPost.selectPost(driver, post);
+		assertTrue(result != null);
+		assertEquals(result.getPosts().size(), 1);
+		assertEquals(result.getPosts().get(0).getPoster().getUserId(), "root");
+		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
+				message.getSubject());
+		assertEquals(result.getPosts().get(0).getMessage().getText(),
+				"First Test Body");
+		assertEquals(result.getSubject(), message.getSubject());
+	}
+
+	@Test
+	public void verifyPostProfile() {
+		Post post = new Post();
+		Message message = new Message();
+		message.setSubject("Fourth Test Topic");
+		post.setMessage(message);
+		Poster poster = ViewAllTopicsSelectPost.selectProfile(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertEquals(poster.getPostCount(), 12);
 	}
 
 	@After
