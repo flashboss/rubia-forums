@@ -107,6 +107,11 @@ public class VerifyAttachment {
 	public static List<Attachment> getAttachmentsOfCurrentPost(
 			WebDriver driver, Post post) {
 		goTo(driver, post.getTopic());
+		return getAttachmentsOfCurrentPostInPage(driver, post);
+	}
+
+	public static List<Attachment> getAttachmentsOfCurrentPostInPage(
+			WebDriver driver, Post post) {
 		WebElement postComponent = driver
 				.findElement(xpath("//td[contains(p/text(),'"
 						+ post.getMessage().getText() + "')]"));

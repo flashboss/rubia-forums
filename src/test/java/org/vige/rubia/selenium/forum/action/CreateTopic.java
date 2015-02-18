@@ -23,9 +23,11 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachments;
 import static org.vige.rubia.selenium.forum.action.CreatePoll.createOptions;
+import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 
 public class CreateTopic {
@@ -59,6 +61,14 @@ public class CreateTopic {
 		addAttachments(driver, topic.getPosts().get(0));
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
+		if (topic.getPosts().size() > 1) {
+			for (int i = 1; i < topic.getPosts().size(); i++) {
+				Post post = topic.getPosts().get(i);
+				if (post.getTopic() == null)
+					post.setTopic(topic);
+				createPost(driver, post);
+			}
+		}
 		WebElement resultCreateTopic = driver.findElement(linkText(topic
 				.getSubject()));
 		String updatedTopic = resultCreateTopic.getText();

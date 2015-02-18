@@ -37,9 +37,6 @@ import org.vige.rubia.model.Message;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.ui.action.MessageValidationException;
-import org.vige.rubia.ui.action.PollValidationException;
-import org.vige.rubia.ui.action.PostAction;
 import org.vige.rubia.ui.view.ViewTopic;
 import org.vige.rubia.util.CurrentTopicPage;
 
@@ -129,7 +126,7 @@ public class ReplyTopic extends PostAction {
 			this.topicId = topicId;
 
 			// set the subject information
-			subject = "Re: " + topic.getSubject();
+			subject = RE + topic.getSubject();
 
 			navState = START_REPLY;
 

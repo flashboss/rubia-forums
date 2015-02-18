@@ -1,15 +1,18 @@
 package org.vige.rubia.selenium.links.action;
 
-import static java.util.Arrays.asList;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
+import static org.vige.rubia.ui.Constants.BY;
+import static org.vige.rubia.ui.Constants.RE;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,24 +48,30 @@ public class ViewRSSLink {
 		result.setCategory(new Category(driver
 				.findElement(id(FEED_SUBTITLE_TEXT)).getText()
 				.split(" in category ")[1]));
-		List<Topic> topics = new ArrayList<Topic>();
+		Map<String, Topic> topics = new HashMap<String, Topic>();
 		List<WebElement> entries = driver.findElements(className(ENTRY_LINK));
 		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (WebElement entry : entries) {
-			String[] entryText = entry.getText().split(" by ");
+			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED))
 					.getText();
-			Topic topic = new Topic(entryText[0]);
-			topic.setPoster(new Poster(entryText[1].split("\n")[0]));
+			String topicTitle = entryText[0].replace(RE, "");
+			Topic topic = topics.get(topicTitle);
+			if (topic == null) {
+				topic = new Topic(topicTitle);
+				topics.put(topicTitle, topic);
+			}
+			Post post = new Post(entry.findElement(
+					className(FEED_ENTRY_CONTENT)).getText());
+			post.setPoster(new Poster(entryText[1].split("\n")[0]));
 			try {
-				topic.setLastPostDate(dateFormat.parse(lastUpdated));
+				post.setCreateDate(dateFormat.parse(lastUpdated));
 			} catch (ParseException e) {
 			}
-			topic.setPosts(asList(new Post[] { new Post(entry.findElement(
-					className(FEED_ENTRY_CONTENT)).getText()) }));
-			topics.add(topic);
+			post.getMessage().setSubject(entryText[0]);
+			topic.getPosts().add(post);
 		}
-		result.setTopics(topics);
+		result.setTopics(new ArrayList<Topic>(topics.values()));
 		return result;
 	}
 
@@ -80,7 +89,7 @@ public class ViewRSSLink {
 		List<WebElement> entries = driver.findElements(className(ENTRY_LINK));
 		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (WebElement entry : entries) {
-			String[] entryText = entry.getText().split(" by ");
+			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED))
 					.getText();
 			Post post = new Post(entryText[0]);
@@ -91,6 +100,7 @@ public class ViewRSSLink {
 			}
 			post.setMessage(new Message(entry.findElement(
 					className(FEED_ENTRY_CONTENT)).getText()));
+			post.getMessage().setSubject(entryText[0]);
 			posts.add(post);
 		}
 		result.setPosts(posts);
