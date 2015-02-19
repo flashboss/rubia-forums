@@ -17,8 +17,8 @@
 package org.vige.rubia.selenium.forum.test;
 
 import static java.util.ResourceBundle.getBundle;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
@@ -36,7 +36,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import org.vige.rubia.model.Category;
 
 @RunWith(Arquillian.class)
@@ -46,7 +46,7 @@ public class OperationCategoryTest {
 			.getString("Delete_all_forums_topics_posts");
 
 	@Drone
-	private FirefoxDriver driver;
+	private WebDriver driver;
 
 	@Before
 	public void setUp() {

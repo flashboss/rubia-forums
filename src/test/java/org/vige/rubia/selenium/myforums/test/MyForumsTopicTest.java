@@ -62,7 +62,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
@@ -79,7 +79,7 @@ import org.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectTopic;
 public class MyForumsTopicTest {
 
 	@Drone
-	private FirefoxDriver driver;
+	private WebDriver driver;
 
 	@Before
 	public void setUp() {
@@ -263,7 +263,7 @@ public class MyForumsTopicTest {
 		Poster poster = ViewAllTopicsSelectTopic.selectProfile(driver, topic);
 		assertTrue(poster != null);
 		assertEquals(poster.getUserId(), "root");
-		assertEquals(poster.getPostCount(), 18);
+		assertTrue(poster.getPostCount() >= 18);
 	}
 
 	@Test
@@ -292,7 +292,7 @@ public class MyForumsTopicTest {
 		Poster poster = ViewAllTopicsSelectPost.selectProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals(poster.getUserId(), "root");
-		assertEquals(poster.getPostCount(), 12);
+		assertTrue(poster.getPostCount() >= 12);
 	}
 
 	@After

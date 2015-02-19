@@ -27,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
@@ -42,7 +42,7 @@ import org.vige.rubia.selenium.links.action.ViewRSSLink;
 public class ExternalLinksTest {
 
 	@Drone
-	private FirefoxDriver driver;
+	private WebDriver driver;
 
 	@Before
 	public void setUp() {

@@ -67,7 +67,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import org.vige.rubia.model.Attachment;
 import org.vige.rubia.model.Category;
 import org.vige.rubia.model.Forum;
@@ -84,7 +84,7 @@ import org.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost;
 public class MyForumsForumTest {
 
 	@Drone
-	private FirefoxDriver driver;
+	private WebDriver driver;
 
 	@Before
 	public void setUp() {
@@ -211,7 +211,7 @@ public class MyForumsForumTest {
 		Poster poster = ViewAllForumsSelectForum.selectProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals(poster.getUserId(), "root");
-		assertEquals(poster.getPostCount(), 12);
+		assertTrue(poster.getPostCount() >= 12);
 	}
 
 	@Test
@@ -254,7 +254,7 @@ public class MyForumsForumTest {
 				post);
 		assertTrue(poster != null);
 		assertEquals(poster.getUserId(), "root");
-		assertEquals(poster.getPostCount(), 16);
+		assertTrue(poster.getPostCount() >= 16);
 	}
 
 	@Test
@@ -324,7 +324,7 @@ public class MyForumsForumTest {
 		Forum forum = new Forum("First Test Forum");
 		message = unregisterForum(driver, forum);
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, forum, "Second Test Forum");
+		message = removeForum(driver, forum, "First Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		forum = new Forum("Second Test Forum");
 		message = unregisterForum(driver, forum);

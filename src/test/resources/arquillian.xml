@@ -7,6 +7,7 @@
 		<property name="instantiationTimeoutInSeconds">0</property>
 	</extension>
 	<extension qualifier="webdriver">
+		<property name="browser">firefox</property>
 		<property name="firefoxUserPreferences">@OUTPUT_DIR@/test-classes/prefs.js</property>
 	</extension>
 </arquillian>
