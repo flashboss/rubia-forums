@@ -500,10 +500,9 @@
 										<properties>
 											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
 											<enabled>true</enabled>
-											<connection-url>jdbc:mysql://localhost:3306/rubia_forums</connection-url>
-											<driver-name>mysql-connector-java-5.1.34-bin.jarcom.mysql.jdbc.Driver_5_1</driver-name>
-											<user-name>alfresco</user-name>
-											<password>alfresco</password>
+											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+											<driver-name>h2</driver-name>
+											<user-name>sa</user-name>
 											<min-pool-size>5</min-pool-size>
 											<max-pool-size>20</max-pool-size>
 										</properties>

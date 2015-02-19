@@ -209,10 +209,6 @@ public class OperationTopicTest {
 				"First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
-		assertTrue(message.equals(OK));
 		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
 				"Third Test Topic", asList(new Post[] { new Post(
 						"Third Test Body") })));
@@ -224,6 +220,10 @@ public class OperationTopicTest {
 		message = removeForum(driver, new Forum("First Test Forum"),
 				"Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
+				"Second Test Topic", asList(new Post[] { new Post(
+						"Second Test Body") })));
+		assertTrue(message.equals(OK));
 		message = removeForum(driver, new Forum("Second Test Forum"),
 				SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
