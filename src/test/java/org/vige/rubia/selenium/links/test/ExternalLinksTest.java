@@ -127,9 +127,9 @@ public class ExternalLinksTest {
 				"First Test Question");
 		assertEquals(result.getTopics().get(0).getPoll().getOptions().size(), 2);
 		assertEquals(result.getTopics().get(0).getPoll().getOptions().get(0)
-				.getQuestion(), "Second Test Answer");
-		assertEquals(result.getTopics().get(0).getPoll().getOptions().get(1)
 				.getQuestion(), "First Test Answer");
+		assertEquals(result.getTopics().get(0).getPoll().getOptions().get(1)
+				.getQuestion(), "Second Test Answer");
 		assertEquals(result.getTopics().get(0).getPosts().size(), 2);
 		assertEquals(result.getTopics().get(0).getPosts().get(0).getPoster()
 				.getUserId(), "root");
@@ -218,9 +218,9 @@ public class ExternalLinksTest {
 		assertEquals(result.getPoll().getTitle(), "First Test Question");
 		assertEquals(result.getPoll().getOptions().size(), 2);
 		assertEquals(result.getPoll().getOptions().get(0).getQuestion(),
-				"Second Test Answer");
-		assertEquals(result.getPoll().getOptions().get(1).getQuestion(),
 				"First Test Answer");
+		assertEquals(result.getPoll().getOptions().get(1).getQuestion(),
+				"Second Test Answer");
 		assertNotNull(result.getPosts().get(0).getAttachments());
 		assertEquals(result.getPosts().get(0).getAttachments().size(), 3);
 		assertEquals(((Attachment) result.getPosts().get(0).getAttachments()
