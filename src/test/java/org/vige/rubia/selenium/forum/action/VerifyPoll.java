@@ -32,11 +32,12 @@ import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Topic;
+import org.vige.rubia.ui.EmptyController;
 
 public class VerifyPoll {
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+	public static final String HOME_LINK = new EmptyController()
+			.getMainPageName();
 	public static final String FORUM_TABLE = "forumtablestyle";
 	public static final String FORUM_SUBJECT = "tbody/tr/td[not(@class = 'forumcategory')]/h3/a";
 	public static final String FORUM_LINK = "miviewtopicbody3";
