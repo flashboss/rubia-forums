@@ -13,12 +13,12 @@ import org.vige.rubia.selenium.profile.action.VerifyProfile;
 
 public class ViewAllTopicsSelectTopic {
 
-	public static final String PROFILE_LINK = "";
+	public static final String PROFILE_LINK = "../tr/td[2]/a";
 
 	public static Poster selectProfile(WebDriver driver, Topic topic) {
 		goTo(driver);
 		WebElement element = driver.findElements(className(MY_FORUMS_LIST))
-				.get(0).findElement(xpath("../tr/td[2]/a"));
+				.get(0).findElement(xpath(PROFILE_LINK));
 		String userId = element.getText();
 		element.click();
 		return VerifyProfile.verifyProfile(driver, userId);

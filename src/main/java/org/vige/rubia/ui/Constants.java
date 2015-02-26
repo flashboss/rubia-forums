@@ -782,7 +782,9 @@ public interface Constants {
 	String ATTACHMENT_TOKENS_MANAGER = "org.gatein.forums.helper.AttachmentTokenManager";
 
 	String RE = "Re: ";
-	
+
 	String BY = " by ";
+
+	String MAIN_PAGE = "Rubia Forums";
 
 }

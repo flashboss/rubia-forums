@@ -26,6 +26,7 @@ import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmen
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -59,9 +60,10 @@ public class VerifyPost {
 	public static final String CREATE_DATE_OUTPUT_TEXT = "../../tr/td[2]/div[@id='miviewtopicbody7']/ul/li[2]";
 	public static final String CREATE_DATE_TEXT = getBundle("ResourceJSF")
 			.getString("Posted") + ": ";
+	public static final String PROFILE_LINK = "header";
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"E MMM d, yyyy H:mm a");
-	
+
 	public static List<Post> getPostsOfTopics(WebDriver driver, Topic... topics) {
 		List<Post> posts = new ArrayList<Post>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
@@ -146,6 +148,19 @@ public class VerifyPost {
 		return posts;
 	}
 
+	public static Post getLastPostOfCurrentForum(WebDriver driver, Topic topic) {
+		WebElement postComponent = driver
+				.findElements(className(PROFILE_LINK))
+				.get(0)
+				.findElement(
+						xpath("../tr/td/a[contains(text(),'"
+								+ topic.getSubject() + "')]"))
+				.findElement(xpath("../a"));
+		postComponent.click();
+		List<Post> posts = getPostsOfCurrentTopic(driver);
+		return posts.get(posts.size() - 1);
+	}
+
 	public static void goTo(WebDriver driver, Post post) {
 		VerifyTopic.goTo(driver, post.getTopic());
 		WebElement updatePostButton = driver
@@ -155,6 +170,41 @@ public class VerifyPost {
 				.findElement(id(UPDATE_POST_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updatePostButton.click();
+	}
+
+	public static Poster getPosterFromLink(WebDriver driver, Post post) {
+		WebElement profileLink = driver
+				.findElements(className(FORUM_TABLE))
+				.get(1)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr/td/a"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Poster getPosterFromButton(WebDriver driver, Post post) {
+		WebElement profileLink = driver
+				.findElements(className(FORUM_TABLE))
+				.get(1)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr/td"));
+		String userId = profileLink.getText();
+		WebElement button = driver
+				.findElements(className(FORUM_TABLE))
+				.get(1)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr[3]/td[2]/ul/li/a"));
+		button.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
 	}
 
 	private static void addParents(WebDriver driver, Post post) {

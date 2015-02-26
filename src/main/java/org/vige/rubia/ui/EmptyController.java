@@ -31,8 +31,8 @@ public class EmptyController extends BaseController {
 	 */
 	private static final long serialVersionUID = -1354549818352820599L;
 
-	private String mainPageName = "Rubia Forums"; // bean=level configuration
-													// supplied by
+	private String mainPageName = MAIN_PAGE; // bean=level configuration
+												// supplied by
 	// the forums-config.xml
 	private Map<String, String> links = new HashMap<String, String>();
 

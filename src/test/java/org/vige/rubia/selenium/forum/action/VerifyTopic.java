@@ -28,6 +28,7 @@ import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentT
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
+import static org.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -61,6 +62,7 @@ public class VerifyTopic {
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
 	private static ResourceBundle bundle = getBundle("ResourceJSF");
+	public static final String PROFILE_LINK = "header";
 
 	public static Topic getTopic(WebDriver driver) {
 		Topic topic = new Topic();
@@ -169,6 +171,43 @@ public class VerifyTopic {
 		VerifyForum.goTo(driver, topic.getForum());
 		WebElement topicEl = driver.findElement(linkText(topic.getSubject()));
 		topicEl.click();
+	}
+
+	public static Poster getPoster(WebDriver driver, Forum forum) {
+		WebElement profileLink = driver.findElement(linkText(forum.getName()))
+				.findElement(xpath("../../../td[5]/a[2]"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Poster getPoster(WebDriver driver, Topic topic) {
+		WebElement profileLink = driver
+				.findElements(className(PROFILE_LINK))
+				.get(0)
+				.findElement(
+						xpath("../tr/td/h3/a[contains(text(),'"
+								+ topic.getSubject() + "')]"))
+				.findElement(xpath("../../a"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Poster getPosterLastPost(WebDriver driver, Topic topic) {
+		WebElement profileLink = driver
+				.findElements(className(PROFILE_LINK))
+				.get(0)
+				.findElement(
+						xpath("../tr/td/a[contains(text(),'"
+								+ topic.getSubject() + "')]"))
+				.findElement(xpath("../a[2]"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
 	}
 
 	private static void addParents(WebDriver driver, Topic topic) {

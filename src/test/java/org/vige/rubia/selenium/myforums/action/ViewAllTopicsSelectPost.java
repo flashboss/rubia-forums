@@ -15,8 +15,8 @@ import org.vige.rubia.model.Topic;
 
 public class ViewAllTopicsSelectPost {
 
-	public static final String POST_LINK = "";
-	public static final String PROFILE_LINK = "";
+	public static final String POST_LINK = "../tr/td[3]";
+	public static final String PROFILE_LINK = "../tr/td[3]";
 
 	public static Topic selectPost(WebDriver driver, Post post) {
 		goTo(driver);
@@ -24,7 +24,7 @@ public class ViewAllTopicsSelectPost {
 				.findElements(className(MY_FORUMS_LIST))
 				.get(0)
 				.findElement(
-						xpath("../tr/td[3]/a[contains(text(),'"
+						xpath(POST_LINK + "/a[contains(text(),'"
 								+ post.getMessage().getSubject() + "')]"));
 		element.click();
 		return getTopic(driver);
@@ -36,7 +36,7 @@ public class ViewAllTopicsSelectPost {
 				.findElements(className(MY_FORUMS_LIST))
 				.get(0)
 				.findElement(
-						xpath("../tr/td[3]/a[contains(text(),'"
+						xpath(PROFILE_LINK + "/a[contains(text(),'"
 								+ post.getMessage().getSubject() + "')]"))
 				.findElement(xpath("../a[2]"));
 		String userId = element.getText();

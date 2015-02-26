@@ -43,7 +43,16 @@ import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemovePost.removePost;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
+import static org.vige.rubia.selenium.forum.action.VerifyCategory.goTo;
+import static org.vige.rubia.selenium.forum.action.VerifyForum.goTo;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.getLastPostOfCurrentForum;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.getPosterFromButton;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.getPosterFromLink;
 import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfTopics;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.getPoster;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.getPosterLastPost;
+import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
+import static org.vige.rubia.ui.Constants.RE;
 
 import java.util.Date;
 import java.util.List;
@@ -61,6 +70,7 @@ import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
 
 @RunWith(Arquillian.class)
@@ -489,6 +499,69 @@ public class OperationPostTest {
 				"Second Test Forum");
 		assertEquals(nextTenTestPost.getTopic().getForum().getCategory()
 				.getTitle(), "First Test Category");
+	}
+
+	@Test
+	public void verifyPostProfileFromCategoryPage() {
+		Category category = new Category("First Test Category");
+		goTo(driver, category);
+		Forum forum = new Forum("Second Test Forum", "Second Test Description",
+				category);
+		Poster poster = getPoster(driver, forum);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 56);
+	}
+
+	@Test
+	public void verifyPostProfileFromForumPage() {
+		Forum forum = new Forum("Second Test Forum", "Second Test Description",
+				new Category("First Test Category"));
+		goTo(driver, forum);
+		Topic topic = new Topic(forum, "Third Test Topic");
+		Poster poster = getPoster(driver, topic);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 28);
+	}
+
+	@Test
+	public void verifyPostFromForumPageLastPost() {
+		Forum forum = new Forum("Second Test Forum", "Second Test Description",
+				new Category("First Test Category"));
+		goTo(driver, forum);
+		Topic topic = new Topic(forum, "Third Test Topic");
+		Poster poster = getPosterLastPost(driver, topic);
+		goTo(driver, forum);
+		Post post = getLastPostOfCurrentForum(driver, topic);
+		assertTrue(post != null);
+		assertEquals(post.getMessage().getSubject(), RE
+				+ "Third Test Topic");
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 56);
+	}
+
+	@Test
+	public void verifyPostProfileFromTopicPage() {
+		goTo(driver, new Topic(new Forum("Second Test Forum"),
+				"Third Test Topic"));
+		Post post = new Post("Ninth Test Post");
+		Poster poster = getPosterFromLink(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 70);
+	}
+
+	@Test
+	public void verifyPostProfileFromTopicPageButton() {
+		goTo(driver, new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic"));
+		Post post = new Post("Fourth Test Body");
+		Poster poster = getPosterFromButton(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 14);
 	}
 
 	@After

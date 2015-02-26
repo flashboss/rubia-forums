@@ -21,6 +21,7 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.ui.Constants.MAIN_PAGE;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,12 +33,9 @@ import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Topic;
-import org.vige.rubia.ui.EmptyController;
 
 public class VerifyPoll {
 
-	public static final String HOME_LINK = new EmptyController()
-			.getMainPageName();
 	public static final String FORUM_TABLE = "forumtablestyle";
 	public static final String FORUM_SUBJECT = "tbody/tr/td[not(@class = 'forumcategory')]/h3/a";
 	public static final String FORUM_LINK = "miviewtopicbody3";
@@ -53,14 +51,14 @@ public class VerifyPoll {
 
 	public static List<Poll> getPollsOfTopics(WebDriver driver, Topic... topics) {
 		List<Poll> polls = new ArrayList<Poll>();
-		WebElement home = driver.findElement(linkText(HOME_LINK));
+		WebElement home = driver.findElement(linkText(MAIN_PAGE));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
 		List<WebElement> forumSubjectComponents = tableComponent
 				.findElements(xpath(FORUM_SUBJECT));
 		int forumComponentSize = forumSubjectComponents.size();
 		for (int j = 0; j < forumComponentSize; j++) {
-			home = driver.findElement(linkText(HOME_LINK));
+			home = driver.findElement(linkText(MAIN_PAGE));
 			home.click();
 			tableComponent = driver.findElement(className(FORUM_TABLE));
 			forumSubjectComponents = tableComponent
