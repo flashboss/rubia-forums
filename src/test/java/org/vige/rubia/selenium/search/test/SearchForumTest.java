@@ -9,6 +9,7 @@ import static org.vige.rubia.properties.NotificationType.EMAIL_EMBEDED_NOTIFICAT
 import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
 import static org.vige.rubia.properties.OperationType.CONFIRM;
+import static org.vige.rubia.search.DisplayAs.TOPICS;
 import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -36,8 +37,10 @@ import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerFor
 import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
-import static org.vige.rubia.selenium.search.action.ViewPageSearch.getForums;
+import static org.vige.rubia.selenium.search.action.ViewPageSearch.getTopics;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.goTo;
+import static org.vige.rubia.selenium.search.action.ViewPageSearch.reset;
+import static org.vige.rubia.selenium.search.action.ViewPageSearch.searchTopic;
 
 import java.util.List;
 
@@ -170,52 +173,70 @@ public class SearchForumTest {
 	}
 
 	@Test
-	public void searchForum() {
+	public void searchTopics() {
 		goTo(driver);
-		SearchCriteria searchCriteria = new SearchCriteria();
-		searchCriteria.setAuthor(null);
-		searchCriteria.setCategory(null);
-		searchCriteria.setDisplayAs(null);
-		searchCriteria.setForum(null);
-		searchCriteria.setKeywords("First");
-		searchCriteria.setPageNumber(0);
-		searchCriteria.setPageSize(0);
-		searchCriteria.setSearching(null);
-		searchCriteria.setSortBy(null);
-		searchCriteria.setSortOrder(null);
-		searchCriteria.setTimePeriod(null);
-		List<Forum> forums = getForums(driver, searchCriteria);
-		assertTrue(forums == null);
-	}
-	
-	@Test
-	public void searchForumNoFields() {
-		goTo(driver);
-		SearchCriteria searchCriteria = new SearchCriteria();
-		List<Forum> forums = getForums(driver, searchCriteria);
-		assertTrue(forums == null);
-	}
-	
-	@Test
-	public void searchForumNoResults() {
-		goTo(driver);
-		SearchCriteria searchCriteria = new SearchCriteria();
-		searchCriteria.setAuthor(null);
-		searchCriteria.setCategory(null);
-		searchCriteria.setDisplayAs(null);
-		searchCriteria.setForum(null);
-		searchCriteria.setKeywords("First");
-		searchCriteria.setPageNumber(0);
-		searchCriteria.setPageSize(0);
-		searchCriteria.setSearching(null);
-		searchCriteria.setSortBy(null);
-		searchCriteria.setSortOrder(null);
-		searchCriteria.setTimePeriod(null);
-		List<Forum> forums = getForums(driver, searchCriteria);
-		assertTrue(forums == null);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor("root");
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Topic");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics != null);
 	}
 
+	@Test
+	public void searchTopicsNoFields() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics == null);
+	}
 
+	@Test
+	public void searchTopicsWithReset() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor(null);
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("First");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		reset(driver, searchForumCriteria);
+		List<Topic> topics = getTopics(driver, searchForumCriteria);
+		assertTrue(topics == null);
+	}
+
+	@Test
+	public void searchTopicsNoResults() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor(null);
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Firstaaaaa");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics == null);
+	}
 
 	@After
 	public void stop() {

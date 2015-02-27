@@ -383,11 +383,6 @@ public class ForumsTheme {
 	/**
 	 * DOCUMENT_ME
 	 */
-	public String resourceIconSpacerURL;
-
-	/**
-	 * DOCUMENT_ME
-	 */
 	public String resourceIconSubscribeURL;
 
 	/**
@@ -429,11 +424,6 @@ public class ForumsTheme {
 	 * DOCUMENT_ME
 	 */
 	public String resourceIconForumsLogoURL;
-
-	/**
-	 * DOCUMENT_ME
-	 */
-	public String resourceSpacerURL;
 
 	/**
 	 * DOCUMENT_ME
@@ -491,7 +481,8 @@ public class ForumsTheme {
 		resourceFolderURL = xprops.getResourceURL("folder");
 		resourceFolderNewURL = xprops.getResourceURL("folder_new");
 		resourceFolderAnnounceURL = xprops.getResourceURL("folder_announce");
-		resourceFolderAnnounceNewURL = xprops.getResourceURL("folder_announce_new");
+		resourceFolderAnnounceNewURL = xprops
+				.getResourceURL("folder_announce_new");
 		resourceFolderStickyURL = xprops.getResourceURL("folder_sticky");
 		resourceFolderStickyNewURL = xprops.getResourceURL("folder_sticky_new");
 		resourceFolderLockedURL = xprops.getResourceURL("folder_locked");
@@ -504,17 +495,21 @@ public class ForumsTheme {
 		resourcePostLockedURL = xprops.getResourceURL("post_locked");
 		resourcePostNewURL = xprops.getResourceURL("post_new");
 		resourceTopicModeDeleteURL = xprops.getResourceURL("topic_mod_delete");
-		resourceTopicModeDeleteDisaURL = xprops.getResourceURL("topic_mod_delete_disa");
+		resourceTopicModeDeleteDisaURL = xprops
+				.getResourceURL("topic_mod_delete_disa");
 		resourceTopicModMoveURL = xprops.getResourceURL("topic_mod_move");
 		resourceTopicModLockURL = xprops.getResourceURL("topic_mod_lock");
 		resourceTopicModUnlockURL = xprops.getResourceURL("topic_mod_unlock");
 		resourceTopicModSplitURL = xprops.getResourceURL("topic_mod_split");
-		resourceAdminNewCategoryURL = xprops.getResourceURL("admin_newcategory");
+		resourceAdminNewCategoryURL = xprops
+				.getResourceURL("admin_newcategory");
 		resourceAdminNewForumURL = xprops.getResourceURL("admin_newforum");
 		resourceAdminArrowUpURL = xprops.getResourceURL("admin_arrowup");
-		resourceAdminArrowUpDisaURL = xprops.getResourceURL("admin_arrowup_disa");
+		resourceAdminArrowUpDisaURL = xprops
+				.getResourceURL("admin_arrowup_disa");
 		resourceAdminArrowDownURL = xprops.getResourceURL("admin_arrowdown");
-		resourceAdminArrowDownDisaURL = xprops.getResourceURL("admin_arrowdown_disa");
+		resourceAdminArrowDownDisaURL = xprops
+				.getResourceURL("admin_arrowdown_disa");
 		resourceTopicUnWatchURL = xprops.getResourceURL("topic_un_watch");
 		resourceTopicWatchURL = xprops.getResourceURL("topic_watch");
 		resourceReplyNewURL = xprops.getResourceURL("reply_new");
@@ -542,20 +537,27 @@ public class ForumsTheme {
 		resourceIconLockURL = xprops.getResourceURL("lock");
 		resourceIconModerateURL = xprops.getResourceURL("moderate");
 		resourceIconForumsLogoURL = xprops.getResourceURL("forums_logo");
-		resourceIconDialogWarningURL = xprops.getResourceURL("icon_dialog_warning");
-		resourceIconDialogQuestionURL = xprops.getResourceURL("icon_dialog_question");
+		resourceIconDialogWarningURL = xprops
+				.getResourceURL("icon_dialog_warning");
+		resourceIconDialogQuestionURL = xprops
+				.getResourceURL("icon_dialog_question");
 		resourceIconDialogErrorURL = xprops.getResourceURL("icon_dialog_error");
-		resourceSpacerURL = xprops.getResourceURL("spacer");
 		resourceHeadStylesheetURL = xprops.getResourceURL("head_stylesheet");
-		resourceIconSpacerURL = xprops.getResourceURL("spacer");
 
 		//
-		FOLDER_ANNOUNCE = new FolderType(resourceFolderAnnounceURL, resourceFolderAnnounceNewURL, "Topic_Announcement");
-		FOLDER_STICKY = new FolderType(resourceFolderStickyURL, resourceFolderStickyNewURL, "Topic_Sticky");
-		FOLDER_ANNOUNCE_LOCKED = new FolderType(resourceFolderLockedURL, resourceFolderLockedNewURL, "Topic_Announcement");
-		FOLDER_STICKY_LOCKED = new FolderType(resourceFolderLockedURL, resourceFolderLockedNewURL, "Topic_Sticky");
-		FOLDER_NORMAL_LOCKED = new FolderType(resourceFolderLockedURL, resourceFolderLockedNewURL, "");
-		FOLDER_HOT = new FolderType(resourceFolderHotURL, resourceFolderHotNewURL, "");
-		FOLDER_NORMAL = new FolderType(resourceFolderURL, resourceForumNewURL, "");
+		FOLDER_ANNOUNCE = new FolderType(resourceFolderAnnounceURL,
+				resourceFolderAnnounceNewURL, "Topic_Announcement");
+		FOLDER_STICKY = new FolderType(resourceFolderStickyURL,
+				resourceFolderStickyNewURL, "Topic_Sticky");
+		FOLDER_ANNOUNCE_LOCKED = new FolderType(resourceFolderLockedURL,
+				resourceFolderLockedNewURL, "Topic_Announcement");
+		FOLDER_STICKY_LOCKED = new FolderType(resourceFolderLockedURL,
+				resourceFolderLockedNewURL, "Topic_Sticky");
+		FOLDER_NORMAL_LOCKED = new FolderType(resourceFolderLockedURL,
+				resourceFolderLockedNewURL, "");
+		FOLDER_HOT = new FolderType(resourceFolderHotURL,
+				resourceFolderHotNewURL, "");
+		FOLDER_NORMAL = new FolderType(resourceFolderURL, resourceForumNewURL,
+				"");
 	}
 }

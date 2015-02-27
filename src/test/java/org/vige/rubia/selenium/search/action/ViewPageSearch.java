@@ -11,12 +11,11 @@ import static org.vige.rubia.search.SortOrder.ASC;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Forum;
+import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.SearchCriteria;
 
@@ -38,68 +37,68 @@ public class ViewPageSearch {
 		searchLink.click();
 	}
 
-	public static List<Forum> getForums(WebDriver driver,
+	public static List<Topic> searchTopic(WebDriver driver,
 			SearchCriteria arguments) {
 		addKeys(driver, arguments);
-		WebElement button = driver.findElements(className(BUTTON)).get(0);
-		button.click();
-		WebElement messageResult = null;
-		try {
-			messageResult = driver.findElement(id(MESSAGE_RESULT));
-		} catch (NoSuchElementException ex) {
-		}
-		if (messageResult == null) {
-			try {
-				messageResult = driver
-						.findElement(className(NOT_FOUND_RESULTS)).findElement(
-								xpath("tbody/tr/td/table/tbody/tr[2]/td"));
-			} catch (NoSuchElementException ex) {
-			}
-		}
-		if (messageResult != null
-				&& (messageResult.getText().contains("Value is required"))
-				|| messageResult.getText().equals(
-						getBundle("ResourceJSF").getString(
-								"Search_posts_not_found")))
-			return null;
-		else
-			return new ArrayList<Forum>();
+		return getTopics(driver, arguments);
+	}
+
+	public static List<Post> searchPost(WebDriver driver,
+			SearchCriteria arguments) {
+		addKeys(driver, arguments);
+		return getPosts(driver, arguments);
 	}
 
 	public static List<Topic> getTopics(WebDriver driver,
 			SearchCriteria arguments) {
-		addKeys(driver, arguments);
 		WebElement button = driver.findElements(className(BUTTON)).get(0);
 		button.click();
-		WebElement messageResult = null;
-		try {
-			messageResult = driver.findElement(id(MESSAGE_RESULT));
-		} catch (NoSuchElementException ex) {
-		}
-		if (messageResult == null) {
-			try {
-				messageResult = driver
-						.findElement(className(NOT_FOUND_RESULTS)).findElement(
-								xpath("tbody/tr/td/table/tbody/tr[2]/td"));
-			} catch (NoSuchElementException ex) {
-			}
-		}
+		WebElement messageResult = getMessageResult(driver);
 		if (messageResult != null
-				&& (messageResult.getText().contains("Value is required"))
-				|| messageResult.getText().equals(
-						getBundle("ResourceJSF").getString(
-								"Search_posts_not_found")))
+				&& (messageResult.getText().contains("Value is required") || messageResult
+						.getText().equals(
+								getBundle("ResourceJSF").getString(
+										"Search_posts_not_found"))))
 			return null;
 		else
 			return new ArrayList<Topic>();
 	}
 
-	public static Map<String, String> reset(WebDriver driver,
-			SearchCriteria arguments) {
+	public static List<Post> getPosts(WebDriver driver, SearchCriteria arguments) {
+		WebElement button = driver.findElements(className(BUTTON)).get(0);
+		button.click();
+		WebElement messageResult = getMessageResult(driver);
+		if (messageResult != null
+				&& (messageResult.getText().contains("Value is required") || messageResult
+						.getText().equals(
+								getBundle("ResourceJSF").getString(
+										"Search_posts_not_found"))))
+			return null;
+		else
+			return new ArrayList<Post>();
+	}
+
+	private static WebElement getMessageResult(WebDriver driver) {
+		WebElement messageResult = null;
+		try {
+			messageResult = driver.findElement(id(MESSAGE_RESULT));
+		} catch (NoSuchElementException ex) {
+		}
+		if (messageResult == null) {
+			try {
+				messageResult = driver
+						.findElement(className(NOT_FOUND_RESULTS)).findElement(
+								xpath("tbody/tr/td/table/tbody/tr[2]/td"));
+			} catch (NoSuchElementException ex) {
+			}
+		}
+		return messageResult;
+	}
+
+	public static void reset(WebDriver driver, SearchCriteria arguments) {
 		addKeys(driver, arguments);
 		WebElement button = driver.findElements(className(BUTTON)).get(1);
 		button.click();
-		return null;
 	}
 
 	private static void addKeys(WebDriver driver, SearchCriteria arguments) {
@@ -114,13 +113,13 @@ public class ViewPageSearch {
 			element.sendKeys(arguments.getCategory());
 		}
 		if (arguments.getDisplayAs() != null) {
-			if (arguments.getDisplayAs().equals(POSTS))
+			if (arguments.getDisplayAs().equals(POSTS.name()))
 				element = table
 						.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[1]/td/input"));
 			else
 				element = table
 						.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[2]/td/input"));
-			element.sendKeys(arguments.getDisplayAs());
+			element.click();
 		}
 		if (arguments.getForum() != null) {
 			element = table.findElement(xpath("tbody/tr[6]/td[2]/select"));
@@ -131,26 +130,26 @@ public class ViewPageSearch {
 			element.sendKeys(arguments.getKeywords());
 		}
 		if (arguments.getSearching() != null) {
-			if (arguments.getSearching().equals(TITLE_MSG))
+			if (arguments.getSearching().equals(TITLE_MSG.name()))
 				element = table
 						.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[1]/td/input"));
 			else
 				element = table
 						.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[2]/td/input"));
-			element.sendKeys(arguments.getSearching());
+			element.click();
 		}
 		if (arguments.getSortBy() != null) {
 			element = table.findElement(xpath("tbody/tr[9]/td[2]/select"));
 			element.sendKeys(arguments.getSortBy());
 		}
 		if (arguments.getSortOrder() != null) {
-			if (arguments.getSortOrder().equals(ASC))
+			if (arguments.getSortOrder().equals(ASC.name()))
 				element = table
 						.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[1]/td/input"));
 			else
 				element = table
 						.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[2]/td/input"));
-			element.sendKeys(arguments.getSortOrder());
+			element.click();
 		}
 		if (arguments.getTimePeriod() != null) {
 			element = table.findElement(xpath("tbody/tr[7]/td[2]/select"));
