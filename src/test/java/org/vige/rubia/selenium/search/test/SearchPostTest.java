@@ -33,6 +33,8 @@ import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.registerTopic;
 import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterTopic;
 import static org.vige.rubia.selenium.myforums.action.ViewAllTopicsRemoveTopic.viewAllTopicsRemoveTopic;
+import static org.vige.rubia.selenium.search.action.ViewPagePostSearch.getPosterFromButton;
+import static org.vige.rubia.selenium.search.action.ViewPagePostSearch.getPosterFromLink;
 import static org.vige.rubia.selenium.search.action.ViewPagePostSearch.getPosts;
 import static org.vige.rubia.selenium.search.action.ViewPagePostSearch.searchPost;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.goTo;
@@ -54,6 +56,7 @@ import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.SearchCriteria;
 
@@ -291,6 +294,52 @@ public class SearchPostTest {
 		searchTopicCriteria.setTimePeriod(null);
 		List<Post> posts = searchPost(driver, searchTopicCriteria);
 		assertTrue(posts == null);
+	}
+
+	@Test
+	public void verifyPostProfileFromTopicPage() {
+		goTo(driver);
+		SearchCriteria searchTopicCriteria = new SearchCriteria();
+		searchTopicCriteria.setAuthor("root");
+		searchTopicCriteria.setCategory(null);
+		searchTopicCriteria.setDisplayAs(POSTS.name());
+		searchTopicCriteria.setForum(null);
+		searchTopicCriteria.setKeywords("Body");
+		searchTopicCriteria.setPageNumber(0);
+		searchTopicCriteria.setPageSize(0);
+		searchTopicCriteria.setSearching(null);
+		searchTopicCriteria.setSortBy(null);
+		searchTopicCriteria.setSortOrder(null);
+		searchTopicCriteria.setTimePeriod(null);
+		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		Post post = posts.get(2);
+		Poster poster = getPosterFromLink(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 36);
+	}
+
+	@Test
+	public void verifyPostProfileFromTopicPageButton() {
+		goTo(driver);
+		SearchCriteria searchTopicCriteria = new SearchCriteria();
+		searchTopicCriteria.setAuthor("root");
+		searchTopicCriteria.setCategory(null);
+		searchTopicCriteria.setDisplayAs(POSTS.name());
+		searchTopicCriteria.setForum(null);
+		searchTopicCriteria.setKeywords("Body");
+		searchTopicCriteria.setPageNumber(0);
+		searchTopicCriteria.setPageSize(0);
+		searchTopicCriteria.setSearching(null);
+		searchTopicCriteria.setSortBy(null);
+		searchTopicCriteria.setSortOrder(null);
+		searchTopicCriteria.setTimePeriod(null);
+		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		Post post = posts.get(3);
+		Poster poster = getPosterFromButton(driver, post);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 6);
 	}
 
 	@After

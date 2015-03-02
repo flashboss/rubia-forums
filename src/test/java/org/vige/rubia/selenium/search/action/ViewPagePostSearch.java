@@ -4,6 +4,8 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPostInPageNoParent;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.FORUM_TABLE;
+import static org.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -88,6 +90,41 @@ public class ViewPagePostSearch extends ViewPageSearch {
 				posts.add(getPost(driver, element));
 			return posts;
 		}
+	}
+
+	public static Poster getPosterFromLink(WebDriver driver, Post post) {
+		WebElement profileLink = driver
+				.findElements(className(FORUM_TABLE))
+				.get(0)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr/td/a"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Poster getPosterFromButton(WebDriver driver, Post post) {
+		WebElement profileLink = driver
+				.findElements(className(FORUM_TABLE))
+				.get(0)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr/td"));
+		String userId = profileLink.getText();
+		WebElement button = driver
+				.findElements(className(FORUM_TABLE))
+				.get(0)
+				.findElement(
+						xpath("tbody/tr/td/p[contains(text(),'"
+								+ post.getMessage().getText() + "')]"))
+				.findElement(xpath("../../../tr[3]/td[2]/ul/li/a"));
+		button.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
 	}
 
 }
