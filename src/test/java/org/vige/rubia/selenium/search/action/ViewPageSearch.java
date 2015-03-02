@@ -9,14 +9,9 @@ import static org.vige.rubia.search.DisplayAs.POSTS;
 import static org.vige.rubia.search.Searching.TITLE_MSG;
 import static org.vige.rubia.search.SortOrder.ASC;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.vige.rubia.model.Post;
-import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.SearchCriteria;
 
 public class ViewPageSearch {
@@ -37,48 +32,7 @@ public class ViewPageSearch {
 		searchLink.click();
 	}
 
-	public static List<Topic> searchTopic(WebDriver driver,
-			SearchCriteria arguments) {
-		addKeys(driver, arguments);
-		return getTopics(driver, arguments);
-	}
-
-	public static List<Post> searchPost(WebDriver driver,
-			SearchCriteria arguments) {
-		addKeys(driver, arguments);
-		return getPosts(driver, arguments);
-	}
-
-	public static List<Topic> getTopics(WebDriver driver,
-			SearchCriteria arguments) {
-		WebElement button = driver.findElements(className(BUTTON)).get(0);
-		button.click();
-		WebElement messageResult = getMessageResult(driver);
-		if (messageResult != null
-				&& (messageResult.getText().contains("Value is required") || messageResult
-						.getText().equals(
-								getBundle("ResourceJSF").getString(
-										"Search_posts_not_found"))))
-			return null;
-		else
-			return new ArrayList<Topic>();
-	}
-
-	public static List<Post> getPosts(WebDriver driver, SearchCriteria arguments) {
-		WebElement button = driver.findElements(className(BUTTON)).get(0);
-		button.click();
-		WebElement messageResult = getMessageResult(driver);
-		if (messageResult != null
-				&& (messageResult.getText().contains("Value is required") || messageResult
-						.getText().equals(
-								getBundle("ResourceJSF").getString(
-										"Search_posts_not_found"))))
-			return null;
-		else
-			return new ArrayList<Post>();
-	}
-
-	private static WebElement getMessageResult(WebDriver driver) {
+	protected static WebElement getMessageResult(WebDriver driver) {
 		WebElement messageResult = null;
 		try {
 			messageResult = driver.findElement(id(MESSAGE_RESULT));
@@ -101,7 +55,7 @@ public class ViewPageSearch {
 		button.click();
 	}
 
-	private static void addKeys(WebDriver driver, SearchCriteria arguments) {
+	protected static void addKeys(WebDriver driver, SearchCriteria arguments) {
 		WebElement table = driver.findElement(className(SEARCH_FIELD));
 		WebElement element = null;
 		if (arguments.getAuthor() != null) {

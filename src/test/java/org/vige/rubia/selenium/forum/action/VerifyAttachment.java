@@ -124,27 +124,52 @@ public class VerifyAttachment {
 		List<WebElement> attachmentComponents = postComponent
 				.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
-			String attachmentName = attachmentComponent.findElement(
-					xpath(ATTACHMENT_NAME_OUTPUT_TEXT)).getText();
-			String attachmentComment = attachmentComponent.findElement(
-					xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
-			String attachmentSize = attachmentComponent.findElement(
-					xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
-			attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK))
-					.click();
-			File file = new File(download_url + "/" + attachmentName);
-			int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
-			byte[] content = new byte[attachmentSizeValue];
-			writeFile(content, file);
-			Attachment attachment = new Attachment();
-			attachment.setComment(attachmentComment);
-			attachment.setName(attachmentName);
-			attachment.setSize(attachmentSizeValue);
-			attachment.setContent(content);
+			Attachment attachment = getAttachment(attachmentComponent);
 			addParents(driver, attachment);
 			attachments.add(attachment);
 		}
 		return attachments;
+	}
+
+	public static List<Attachment> getAttachmentsOfCurrentPostInPageNoParent(
+			WebDriver driver, Post post) {
+		WebElement postComponent = driver
+				.findElement(xpath("//td[contains(p/text(),'"
+						+ post.getMessage().getText() + "')]"));
+		return getAttachmentsOfCurrentPostNoParent(driver, postComponent);
+	}
+
+	private static List<Attachment> getAttachmentsOfCurrentPostNoParent(
+			WebDriver driver, WebElement postComponent) {
+		List<Attachment> attachments = new LinkedList<Attachment>();
+		List<WebElement> attachmentComponents = postComponent
+				.findElements(className(ATTACHMENT_LIST));
+		for (WebElement attachmentComponent : attachmentComponents) {
+			Attachment attachment = getAttachment(attachmentComponent);
+			attachments.add(attachment);
+		}
+		return attachments;
+	}
+
+	private static Attachment getAttachment(WebElement attachmentComponent) {
+		String attachmentName = attachmentComponent.findElement(
+				xpath(ATTACHMENT_NAME_OUTPUT_TEXT)).getText();
+		String attachmentComment = attachmentComponent.findElement(
+				xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
+		String attachmentSize = attachmentComponent.findElement(
+				xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
+		attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK))
+				.click();
+		File file = new File(download_url + "/" + attachmentName);
+		int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
+		byte[] content = new byte[attachmentSizeValue];
+		writeFile(content, file);
+		Attachment attachment = new Attachment();
+		attachment.setComment(attachmentComment);
+		attachment.setName(attachmentName);
+		attachment.setSize(attachmentSizeValue);
+		attachment.setContent(content);
+		return attachment;
 	}
 
 	private static void writeFile(byte[] content, File file) {

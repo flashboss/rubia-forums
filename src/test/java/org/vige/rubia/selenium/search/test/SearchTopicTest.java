@@ -1,6 +1,7 @@
 package org.vige.rubia.selenium.search.test;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
@@ -9,7 +10,7 @@ import static org.vige.rubia.properties.NotificationType.EMAIL_EMBEDED_NOTIFICAT
 import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATION;
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
 import static org.vige.rubia.properties.OperationType.CONFIRM;
-import static org.vige.rubia.search.DisplayAs.POSTS;
+import static org.vige.rubia.search.DisplayAs.TOPICS;
 import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -23,20 +24,26 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.SEL
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_2_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_3_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_4_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_2_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_3_MESSAGE;
+import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_4_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
-import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.registerTopic;
-import static org.vige.rubia.selenium.forum.action.SubscriptionTopic.unregisterTopic;
-import static org.vige.rubia.selenium.myforums.action.ViewAllTopicsRemoveTopic.viewAllTopicsRemoveTopic;
-import static org.vige.rubia.selenium.search.action.ViewPageSearch.getPosts;
+import static org.vige.rubia.selenium.forum.action.SubscriptionForum.registerForum;
+import static org.vige.rubia.selenium.forum.action.SubscriptionForum.unregisterForum;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
+import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.goTo;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.reset;
-import static org.vige.rubia.selenium.search.action.ViewPageSearch.searchPost;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getTopics;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.searchTopic;
 
+import java.util.Date;
 import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -69,8 +76,9 @@ public class SearchTopicTest {
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, new Forum("First Test Forum",
-				"First Test Description", new Category("First Test Category")));
+		Forum forum = new Forum("First Test Forum", "First Test Description",
+				new Category("First Test Category"));
+		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
 		message = createTopic(
 				driver,
@@ -89,13 +97,10 @@ public class SearchTopicTest {
 										new PollOption("Second Test Answer") }),
 								4)));
 		assertTrue(message.equals("First Test Topic"));
-		message = registerTopic(driver, new Topic("First Test Topic"),
-				EMAIL_LINKED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("First Test Topic"));
 		message = createTopic(
 				driver,
 				new Topic(
-						new Forum("First Test Forum"),
+						forum,
 						"Second Test Topic",
 						asList(new Post[] { new Post("Second Test Body",
 								asList(new Attachment("first",
@@ -111,16 +116,17 @@ public class SearchTopicTest {
 										new PollOption("Fourth Test Answer") }),
 								8)));
 		assertTrue(message.equals("Second Test Topic"));
-		message = registerTopic(driver, new Topic("Second Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Second Test Topic"));
-		message = createForum(driver, new Forum("Second Test Forum",
-				"Second Test Description", new Category("First Test Category")));
+		message = registerForum(driver, forum, EMAIL_LINKED_NOTIFICATION,
+				CONFIRM);
+		assertTrue(message.equals("First Test Forum"));
+		forum = new Forum("Second Test Forum", "Second Test Description",
+				new Category("First Test Category"));
+		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 		message = createTopic(
 				driver,
 				new Topic(
-						new Forum("Second Test Forum"),
+						forum,
 						"Third Test Topic",
 						asList(new Post[] { new Post("Third Test Body", asList(
 								new Attachment("first", "First Test File"),
@@ -132,12 +138,9 @@ public class SearchTopicTest {
 										new PollOption("Sixth Test Answer") }),
 								9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = registerTopic(driver, new Topic("Third Test Topic"),
-				EMAIL_NO_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Third Test Topic"));
 		message = createTopic(
 				driver,
-				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				new Topic(forum, "Fourth Test Topic",
 						asList(new Post[] { new Post("Fourth Test Body",
 								asList(new Attachment("fourth",
 										"Fourth Test File"), new Attachment(
@@ -150,159 +153,184 @@ public class SearchTopicTest {
 										new PollOption("Eight Test Answer") }),
 								0)));
 		assertTrue(message.equals("Fourth Test Topic"));
-		message = registerTopic(driver, new Topic("Fourth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fourth Test Topic"));
-		message = createForum(driver, new Forum("Third Test Forum",
-				"Third Test Description", new Category("Second Test Category")));
+		message = registerForum(driver, forum, EMAIL_EMBEDED_NOTIFICATION,
+				CONFIRM);
+		assertTrue(message.equals("Second Test Forum"));
+		forum = new Forum("Third Test Forum", "Third Test Description",
+				new Category("Second Test Category"));
+		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Third Test Forum"),
-						"Fifth Test Topic",
-						asList(new Post[] { new Post("Fifth Test Body", asList(
-								new Attachment("seventh", "Seventh Test File"),
-								new Attachment("eight", "Eight Test File"),
-								new Attachment("ninth", "Ninth Test File"))) }),
-						IMPORTANT, new Poll("Third Test Question",
-								asList(new PollOption[] {
-										new PollOption("Seventh Test Answer"),
-										new PollOption("Eight Test Answer") }),
-								8)));
-		assertTrue(message.equals("Fifth Test Topic"));
-		message = registerTopic(driver, new Topic("Fifth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fifth Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Third Test Forum"),
-						"Sixth Test Topic",
-						asList(new Post[] { new Post("Sixth Test Body", asList(
-								new Attachment("ten", "Ten Test File"),
-								new Attachment("eleven", "Eleven Test File"),
-								new Attachment("twelve", "Twelve Test File"))) }),
-						IMPORTANT,
-						new Poll("Fourth Test Question",
-								asList(new PollOption[] {
-										new PollOption("Ninth Test Answer"),
-										new PollOption("Ten Test Answer") }), 8)));
-		assertTrue(message.equals("Sixth Test Topic"));
+		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Third Test Forum"));
+		forum = new Forum("Fourth Test Forum", "Fourth Test Description",
+				new Category("Second Test Category"));
+		message = createForum(driver, forum);
+		assertTrue(message.equals(CREATED_FORUM_3_MESSAGE));
+		forum = new Forum("Fifth Test Forum", "Fifth Test Description",
+				new Category("Second Test Category"));
+		message = createForum(driver, forum);
+		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
+		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Fifth Test Forum"));
 	}
 
 	@Test
-	public void searchPosts() {
+	public void searchTopics() {
 		goTo(driver);
-		SearchCriteria searchTopicCriteria = new SearchCriteria();
-		searchTopicCriteria.setAuthor("root");
-		searchTopicCriteria.setCategory(null);
-		searchTopicCriteria.setDisplayAs(POSTS.name());
-		searchTopicCriteria.setForum(null);
-		searchTopicCriteria.setKeywords("Body");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
-		searchTopicCriteria.setSearching(null);
-		searchTopicCriteria.setSortBy(null);
-		searchTopicCriteria.setSortOrder(null);
-		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
-		assertTrue(posts != null);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor("root");
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Topic");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		Date today = new Date();
+		assertTrue(topics != null);
+		assertEquals(topics.size(), 4);
+		assertEquals(topics.get(0).getSubject(), "First Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("First Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(2).getPoster().getUserId(), "root");
+		assertEquals(topics.get(2).getReplies(), 0);
+		assertEquals(topics.get(2).getViewCount(), 0);
+		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().size(), 1);
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(3).getPoster().getUserId(), "root");
+		assertEquals(topics.get(3).getReplies(), 0);
+		assertEquals(topics.get(3).getViewCount(), 0);
+		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().size(), 1);
+		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
+				"root");
 	}
 
 	@Test
-	public void searchPostsNoFields() {
+	public void searchTopicsNoFields() {
 		goTo(driver);
-		SearchCriteria searchTopicCriteria = new SearchCriteria();
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
-		assertTrue(posts == null);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics == null);
 	}
 
 	@Test
-	public void searchPostsWithReset() {
+	public void searchTopicsWithReset() {
 		goTo(driver);
-		SearchCriteria searchTopicCriteria = new SearchCriteria();
-		searchTopicCriteria.setAuthor(null);
-		searchTopicCriteria.setCategory(null);
-		searchTopicCriteria.setDisplayAs(POSTS.name());
-		searchTopicCriteria.setForum(null);
-		searchTopicCriteria.setKeywords("First");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
-		searchTopicCriteria.setSearching(null);
-		searchTopicCriteria.setSortBy(null);
-		searchTopicCriteria.setSortOrder(null);
-		searchTopicCriteria.setTimePeriod(null);
-		reset(driver, searchTopicCriteria);
-		List<Post> posts = getPosts(driver, searchTopicCriteria);
-		assertTrue(posts == null);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor(null);
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("First");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		reset(driver, searchForumCriteria);
+		List<Topic> topics = getTopics(driver, searchForumCriteria);
+		assertTrue(topics == null);
 	}
 
 	@Test
-	public void searchPostsNoResults() {
+	public void searchTopicsNoResults() {
 		goTo(driver);
-		SearchCriteria searchTopicCriteria = new SearchCriteria();
-		searchTopicCriteria.setAuthor(null);
-		searchTopicCriteria.setCategory(null);
-		searchTopicCriteria.setDisplayAs(POSTS.name());
-		searchTopicCriteria.setForum(null);
-		searchTopicCriteria.setKeywords("Firstaaaaaa");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
-		searchTopicCriteria.setSearching(null);
-		searchTopicCriteria.setSortBy(null);
-		searchTopicCriteria.setSortOrder(null);
-		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
-		assertTrue(posts == null);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor(null);
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Firstaaaaa");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics == null);
 	}
 
 	@After
 	public void stop() {
-		Topic topic = new Topic(new Forum("First Test Forum"),
-				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body") }));
-		String message = unregisterTopic(driver, topic);
+		String message = removeTopic(driver, new Topic(new Forum(
+				"First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, topic);
+		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
+				"Second Test Topic", asList(new Post[] { new Post(
+						"Second Test Body") })));
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("First Test Forum"), "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body") }));
-		message = unregisterTopic(driver, topic);
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
+				"Third Test Topic", asList(new Post[] { new Post(
+						"Third Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, topic);
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
+				"Fourth Test Topic", asList(new Post[] { new Post(
+						"Fourth Test Body") })));
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Second Test Forum"), "Third Test Topic",
-				asList(new Post[] { new Post("Third Test Body") }));
-		message = unregisterTopic(driver, topic);
+		Forum forum = new Forum("First Test Forum");
+		message = unregisterForum(driver, forum);
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body") }));
-		message = viewAllTopicsRemoveTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		message = removeTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Third Test Forum"), "Fifth Test Topic",
-				asList(new Post[] { new Post("Fifth Test Body") }));
-		message = viewAllTopicsRemoveTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		message = removeTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
-				asList(new Post[] { new Post("Sixth Test Body") }));
-		message = removeTopic(driver, topic);
-		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("First Test Forum"),
-				"Second Test Forum");
+		message = removeForum(driver, forum, "First Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"),
-				SELECT_FORUM_TYPE);
+		forum = new Forum("Second Test Forum");
+		message = unregisterForum(driver, forum);
+		assertTrue(message.equals(OK));
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeForum(driver, new Forum("Third Test Forum"),
-				SELECT_FORUM_TYPE);
+		forum = new Forum("Third Test Forum");
+		message = viewAllForumsRemoveForum(driver, forum);
+		assertTrue(message.equals(OK));
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_2_MESSAGE));
+		forum = new Forum("Fourth Test Forum");
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
+		assertTrue(message.equals(REMOVED_FORUM_3_MESSAGE));
+		forum = new Forum("Fifth Test Forum");
+		message = viewAllEditForumsRemoveForum(driver, forum);
+		assertTrue(message.equals(OK));
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
+		assertTrue(message.equals(REMOVED_FORUM_4_MESSAGE));
 		message = removeCategory(driver, new Category("First Test Category"),
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
@@ -310,5 +338,4 @@ public class SearchTopicTest {
 				SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
-
 }
