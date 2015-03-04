@@ -143,45 +143,43 @@ public class Search extends BaseController {
 
 		SearchCriteria criteria = getSearchCriteria();
 
-		if (criteria != null) {
+		criteria.setPageSize(userPreferences.getPostsPerTopic());
+		criteria.setPageNumber(currentPage);
 
-			criteria.setPageSize(userPreferences.getPostsPerTopic());
-			criteria.setPageNumber(currentPage);
+		if (criteria.getDisplayAs().equals(POSTS.name())) {
 
-			if (criteria.getDisplayAs().equals(POSTS.name())) {
+			ResultPage<Post> resultPage = forumsSearchModule
+					.findPosts(criteria);
 
-				ResultPage<Post> resultPage = forumsSearchModule
-						.findPosts(criteria);
+			viewSearch.setPosts(resultPage.getPage());
+			viewSearch.setPostsDataModel(new ListDataModel<Post>(viewSearch
+					.getPosts()));
 
-				viewSearch.setPosts(resultPage.getPage());
-				viewSearch.setPostsDataModel(new ListDataModel<Post>(viewSearch
-						.getPosts()));
-
-				if (viewSearch.getPosts() != null
-						&& viewSearch.getPosts().isEmpty()) {
-					viewSearch.setPosts(null);
-					viewSearch.setPostsDataModel(null);
-				}
-			} else {
-
-				ResultPage<Topic> resultPage = forumsSearchModule
-						.findTopics(criteria);
-
-				viewSearch.setTopics(resultPage.getPage());
-				viewSearch.setTopicsDataModel(new ListDataModel<Topic>(
-						viewSearch.getTopics()));
-
-				if (viewSearch.getTopics() == null
-						|| viewSearch.getTopics().isEmpty()) {
-					viewSearch.setTopics(null);
-					viewSearch.setTopicsDataModel(null);
-				} else {
-					viewSearch.setTopicLastPosts(forumsModule
-							.findLastPostsOfTopics(viewSearch.getTopics()));
-				}
+			if (viewSearch.getPosts() != null
+					&& viewSearch.getPosts().isEmpty()) {
+				viewSearch.setPosts(null);
+				viewSearch.setPostsDataModel(null);
 			}
+			return "posts";
+		} else {
+
+			ResultPage<Topic> resultPage = forumsSearchModule
+					.findTopics(criteria);
+
+			viewSearch.setTopics(resultPage.getPage());
+			viewSearch.setTopicsDataModel(new ListDataModel<Topic>(viewSearch
+					.getTopics()));
+
+			if (viewSearch.getTopics() == null
+					|| viewSearch.getTopics().isEmpty()) {
+				viewSearch.setTopics(null);
+				viewSearch.setTopicsDataModel(null);
+			} else {
+				viewSearch.setTopicLastPosts(forumsModule
+						.findLastPostsOfTopics(viewSearch.getTopics()));
+			}
+			return "topics";
 		}
-		return "success";
 	}
 
 	@PostConstruct

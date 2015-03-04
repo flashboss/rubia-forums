@@ -22,8 +22,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
 	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
-
-	<style type="text/css">
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+			<style type="text/css">
 .rf-dt-c {
 	border-right-width: 0;
 	border-right-style: none;
@@ -74,266 +75,270 @@
 }
 </style>
 
-	<h:form rendered="#{viewSearch.posts != null}">
-		<a name="top" />
+			<h:form rendered="#{viewSearch.posts != null}">
+				<a name="top" />
 
-		<div class="forumtitletext">
-			<h4>
-				<h:outputFormat value="#{resourcebundle.Search_found}">
-					<f:param value="#{fn:length(viewSearch.posts)}" />
-				</h:outputFormat>
-			</h4>
-		</div>
+				<div class="forumtitletext">
+					<h4>
+						<h:outputFormat value="#{resourcebundle.Search_found}">
+							<f:param value="#{fn:length(viewSearch.posts)}" />
+						</h:outputFormat>
+					</h4>
+				</div>
 
 
-		<c:if test="#{viewSearch.lastPageNumber > 1}">
-			<div class="forumpagination">
-				<ul>
-					<li class="disablepage"
-						style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-						<h:outputFormat id="scrollerIntro_head"
-							value="#{resourcebundle.PageNumber}">
-							<f:param value="#{currentSearchPostPage.page}" />
-							<f:param value="${viewSearch.lastPageNumber}" />
-						</h:outputFormat>&#160;
-					</li>
-					<rich:dataScroller for="postsList" maxPages="5"
-						page="#{currentSearchPostPage.page}" id="scPostsList_head"
-						renderIfSinglePage="false" styleClass="forumpagination"
-						style="padding-top: 0px;" stepControls="hide"
-						selectedStyleClass="currentpage" inactiveStyleClass="disablepage"
-						render="scrollerIntro_head scrollerIntro_footer">
-						<f:facet name="first">
+				<c:if test="#{viewSearch.lastPageNumber > 1}">
+					<div class="forumpagination">
+						<ul>
+							<li class="disablepage"
+								style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+								<h:outputFormat id="scrollerIntro_head"
+									value="#{resourcebundle.PageNumber}">
+									<f:param value="#{currentSearchPostPage.page}" />
+									<f:param value="${viewSearch.lastPageNumber}" />
+								</h:outputFormat>&#160;
+							</li>
+							<rich:dataScroller for="postsList" maxPages="5"
+								page="#{currentSearchPostPage.page}" id="scPostsList_head"
+								renderIfSinglePage="false" styleClass="forumpagination"
+								style="padding-top: 0px;" stepControls="hide"
+								selectedStyleClass="currentpage"
+								inactiveStyleClass="disablepage"
+								render="scrollerIntro_head scrollerIntro_footer">
+								<f:facet name="first">
 								${resourcebundle.First}
 								</f:facet>
-						<f:facet name="last">
+								<f:facet name="last">
 								${resourcebundle.Last}
 								</f:facet>
-						<f:facet name="fastRewind">
+								<f:facet name="fastRewind">
 								&#60; ${resourcebundle.Previous}
 								</f:facet>
-						<f:facet name="fastForward">
+								<f:facet name="fastForward">
 								${resourcebundle.Next} &#62;
 								</f:facet>
-					</rich:dataScroller>
-				</ul>
-			</div>
-		</c:if>
-
-		<rich:dataTable id="postsList" styleClass="forumtablestyle"
-			style="width:100%; border:0; celladding:0; cellspacing:0;"
-			value="#{viewSearch.postsDataModel}" var="postrow" varStatus="status"
-			headerClass="header">
-			<f:facet name="header">
-				<rich:columnGroup>
-					<rich:column styleClass="forumheaderfirst">${resourcebundle.Author}</rich:column>
-					<rich:column styleClass="forumheaderopen">${resourcebundle.Message}</rich:column>
-				</rich:columnGroup>
-			</f:facet>
-			<rich:columnGroup>
-				<rich:column styleClass="forumpostleftcolumn oddRow">
-					<h:outputText rendered="#{userModule.guest}"
-						value="${userModule.findUserById(postrow.poster.userId).userName}" />
-
-					<h:commandLink action="viewProfile" rendered="#{!userModule.guest}"
-						value="${userModule.findUserById(postrow.poster.userId).userName}">
-						<f:param name="uid" value="${postrow.poster.userId}" />
-					</h:commandLink>
-				</rich:column>
-				<rich:column styleClass="forumpostspacer">
-					<a name="${postrow.id}" />
-
-					<div class="forumpostinfo">
-						<ul>
-							<li>${resourcebundle.Posted}:&#160;#{forums:dateStr(postrow.createDate)}</li>
-							<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
+							</rich:dataScroller>
 						</ul>
 					</div>
-				</rich:column>
-			</rich:columnGroup>
-			<rich:columnGroup>
-				<rich:column styleClass="forumpostleftcolumn">&#160;</rich:column>
-				<rich:column styleClass="forumpostcontent">
+				</c:if>
 
-					<p>
-						<h:outputText
-							value="#{forums:formatMessage(postrow.message.text,false)}"
-							escape="false" />
-						<br /> <br />
-						${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
-					</p>
-					<!-- show the attachments of this post here -->
-					<p>
-						<ui:include src="/views/topics/attachmentsview.xhtml">
-							<ui:param name="attachments"
-								value="#{viewSearch.findAttachments(postrow)}" />
-						</ui:include>
-					</p>
-					<p>
-						<em> <h:outputFormat
-								value="#{resourcebundle.Edited_time_total}"
-								rendered="${postrow.editCount eq 1}">
-								<f:param
-									value="${userModule.findUserById(postrow.poster.userId).userName}" />
-								<f:param value="${postrow.editDate}" />
-								<f:param value="${postrow.editCount}" />
-							</h:outputFormat> <h:outputFormat value="#{resourcebundle.Edited_times_total}"
-								rendered="${postrow.editCount gt 1}">
-								<f:param
-									value="${userModule.findUserById(postrow.poster.userId).userName}" />
-								<f:param value="${postrow.editDate}" />
-								<f:param value="${postrow.editCount}" />
-							</h:outputFormat>
-						</em>
-					</p>
+				<rich:dataTable id="postsList" styleClass="forumtablestyle"
+					style="width:100%; border:0; celladding:0; cellspacing:0;"
+					value="#{viewSearch.postsDataModel}" var="postrow"
+					varStatus="status" headerClass="header">
+					<f:facet name="header">
+						<rich:columnGroup>
+							<rich:column styleClass="forumheaderfirst">${resourcebundle.Author}</rich:column>
+							<rich:column styleClass="forumheaderopen">${resourcebundle.Message}</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+					<rich:columnGroup>
+						<rich:column styleClass="forumpostleftcolumn oddRow">
+							<h:outputText rendered="#{userModule.guest}"
+								value="${userModule.findUserById(postrow.poster.userId).userName}" />
 
-				</rich:column>
-			</rich:columnGroup>
-			<rich:columnGroup>
-				<rich:column styleClass="forumpostleftcolumn">
-					<a href="#top">${resourcebundle.Back_to_top}</a>
-				</rich:column>
-				<rich:column styleClass="forumthreaduserinfo">
-					<ul>
-						<li><h:commandLink action="viewProfile">
-								<f:param name="uid" value="#{postrow.poster.userId}" />
-								<f:verbatim>
-									<img border="0"
-										src="#{themeHelper.getURL('resourceIconProfileURL')}"
-										alt="${resourcebundle.Read_profile}" />
-								</f:verbatim>
-							</h:commandLink></li>
+							<h:commandLink action="viewProfile"
+								rendered="#{!userModule.guest}"
+								value="${userModule.findUserById(postrow.poster.userId).userName}">
+								<f:param name="uid" value="${postrow.poster.userId}" />
+							</h:commandLink>
+						</rich:column>
+						<rich:column styleClass="forumpostspacer">
+							<a name="${postrow.id}" />
 
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE') ne null}">
-							<li><a
-								href="mailto:${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE')}">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconEmailURL')}"
-									alt="${resourcebundle.Send_email}" />
-							</a></li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE') ne null}">
-							<li><a
-								href="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE')}">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconWWWURL')}"
-									alt="${resourcebundle.Visit_website}" />
-							</a></li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM') ne null}">
-							<li><a
-								href="aim:goim?screenname=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconAIMURL')}"
-									alt="${resourcebundle.AIM}" />
-							</a></li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM') ne null}">
-							<li><a
-								href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM')}&amp;.src=pg">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconYIMURL')}"
-									alt="${resourcebundle.YIM}" />
-							</a></li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE') ne null}">
-							<li>
-								<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
-								<a
-								href="skype:#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE')}?add">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconSkypeURL')}"
-									alt="${resourcebundle.L_SKYPE}" />
-							</a>
+							<div class="forumpostinfo">
+								<ul>
+									<li>${resourcebundle.Posted}:&#160;#{forums:dateStr(postrow.createDate)}</li>
+									<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
+								</ul>
+							</div>
+						</rich:column>
+					</rich:columnGroup>
+					<rich:columnGroup>
+						<rich:column styleClass="forumpostleftcolumn">&#160;</rich:column>
+						<rich:column styleClass="forumpostcontent">
+
+							<p>
+								<h:outputText
+									value="#{forums:formatMessage(postrow.message.text,false)}"
+									escape="false" />
+								<br /> <br />
+								${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
+							</p>
+							<!-- show the attachments of this post here -->
+							<p>
+								<ui:include src="/views/topics/attachmentsview.xhtml">
+									<ui:param name="attachments"
+										value="#{viewSearch.findAttachments(postrow)}" />
+								</ui:include>
+							</p>
+							<p>
+								<em> <h:outputFormat
+										value="#{resourcebundle.Edited_time_total}"
+										rendered="${postrow.editCount eq 1}">
+										<f:param
+											value="${userModule.findUserById(postrow.poster.userId).userName}" />
+										<f:param value="${postrow.editDate}" />
+										<f:param value="${postrow.editCount}" />
+									</h:outputFormat> <h:outputFormat value="#{resourcebundle.Edited_times_total}"
+										rendered="${postrow.editCount gt 1}">
+										<f:param
+											value="${userModule.findUserById(postrow.poster.userId).userName}" />
+										<f:param value="${postrow.editDate}" />
+										<f:param value="${postrow.editCount}" />
+									</h:outputFormat>
+								</em>
+							</p>
+
+						</rich:column>
+					</rich:columnGroup>
+					<rich:columnGroup>
+						<rich:column styleClass="forumpostleftcolumn">
+							<a href="#top">${resourcebundle.Back_to_top}</a>
+						</rich:column>
+						<rich:column styleClass="forumthreaduserinfo">
+							<ul>
+								<li><h:commandLink action="viewProfile">
+										<f:param name="uid" value="#{postrow.poster.userId}" />
+										<f:verbatim>
+											<img border="0"
+												src="#{themeHelper.getURL('resourceIconProfileURL')}"
+												alt="${resourcebundle.Read_profile}" />
+										</f:verbatim>
+									</h:commandLink></li>
+
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE') ne null}">
+									<li><a
+										href="mailto:${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_EMAIL_FAKE')}">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconEmailURL')}"
+											alt="${resourcebundle.Send_email}" />
+									</a></li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE') ne null}">
+									<li><a
+										href="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_HOMEPAGE')}">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconWWWURL')}"
+											alt="${resourcebundle.Visit_website}" />
+									</a></li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM') ne null}">
+									<li><a
+										href="aim:goim?screenname=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconAIMURL')}"
+											alt="${resourcebundle.AIM}" />
+									</a></li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM') ne null}">
+									<li><a
+										href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_YIM')}&amp;.src=pg">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconYIMURL')}"
+											alt="${resourcebundle.YIM}" />
+									</a></li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE') ne null}">
+									<li>
+										<!-- TODO: some more functionality may be added. Like automatic skype instalation and status checker.-->
+										<a
+										href="skype:#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_SKYPE')}?add">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconSkypeURL')}"
+											alt="${resourcebundle.L_SKYPE}" />
+									</a>
+									</li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_MSNM') ne null}">
+									<li><h:commandLink action="viewProfile">
+											<f:param name="uid" value="#{postrow.poster.userId}" />
+											<f:verbatim>
+												<img border="0"
+													src="#{themeHelper.getURL('resourceIconMSNMURL')}"
+													alt="${resourcebundle.Read_profile}" />
+											</f:verbatim>
+										</h:commandLink></li>
+								</h:panelGroup>
+								<h:panelGroup
+									rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ') ne null}">
+									<li><a
+										href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ')}">
+											<img border="0"
+											src="#{themeHelper.getURL('resourceIconICQURL')}"
+											alt="${resourcebundle.ICQ}" />
+									</a></li>
+								</h:panelGroup>
+
+							</ul>
+						</rich:column>
+					</rich:columnGroup>
+					<rich:columnGroup>
+						<rich:column styleClass="forumthreadfooter" colspan="2" />
+					</rich:columnGroup>
+				</rich:dataTable>
+
+				<c:if test="#{viewSearch.lastPageNumber > 1}">
+					<div class="forumpagination">
+						<ul>
+							<li class="disablepage"
+								style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+								<h:outputFormat id="scrollerIntro_footer"
+									value="#{resourcebundle.PageNumber}">
+									<f:param value="#{currentSearchPostPage.page}" />
+									<f:param value="${viewSearch.lastPageNumber}" />
+								</h:outputFormat>&#160;
 							</li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_MSNM') ne null}">
-							<li><h:commandLink action="viewProfile">
-									<f:param name="uid" value="#{postrow.poster.userId}" />
-									<f:verbatim>
-										<img border="0"
-											src="#{themeHelper.getURL('resourceIconMSNMURL')}"
-											alt="${resourcebundle.Read_profile}" />
-									</f:verbatim>
-								</h:commandLink></li>
-						</h:panelGroup>
-						<h:panelGroup
-							rendered="${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ') ne null}">
-							<li><a
-								href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_IM_ICQ')}">
-									<img border="0"
-									src="#{themeHelper.getURL('resourceIconICQURL')}"
-									alt="${resourcebundle.ICQ}" />
-							</a></li>
-						</h:panelGroup>
-
-					</ul>
-				</rich:column>
-			</rich:columnGroup>
-			<rich:columnGroup>
-				<rich:column styleClass="forumthreadfooter" colspan="2" />
-			</rich:columnGroup>
-		</rich:dataTable>
-
-		<c:if test="#{viewSearch.lastPageNumber > 1}">
-			<div class="forumpagination">
-				<ul>
-					<li class="disablepage"
-						style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-						<h:outputFormat id="scrollerIntro_footer"
-							value="#{resourcebundle.PageNumber}">
-							<f:param value="#{currentSearchPostPage.page}" />
-							<f:param value="${viewSearch.lastPageNumber}" />
-						</h:outputFormat>&#160;
-					</li>
-					<rich:dataScroller for="postsList" maxPages="5"
-						page="#{currentSearchPostPage.page}" id="scPostsList_footer"
-						renderIfSinglePage="false" styleClass="forumpagination"
-						style="padding-top: 0px;" stepControls="hide"
-						selectedStyleClass="currentpage" inactiveStyleClass="disablepage"
-						render="scrollerIntro_head scrollerIntro_footer">
-						<f:facet name="first">
+							<rich:dataScroller for="postsList" maxPages="5"
+								page="#{currentSearchPostPage.page}" id="scPostsList_footer"
+								renderIfSinglePage="false" styleClass="forumpagination"
+								style="padding-top: 0px;" stepControls="hide"
+								selectedStyleClass="currentpage"
+								inactiveStyleClass="disablepage"
+								render="scrollerIntro_head scrollerIntro_footer">
+								<f:facet name="first">
 								${resourcebundle.First}
 								</f:facet>
-						<f:facet name="last">
+								<f:facet name="last">
 								${resourcebundle.Last}
 								</f:facet>
-						<f:facet name="fastRewind">
+								<f:facet name="fastRewind">
 								&#60; ${resourcebundle.Previous}
 								</f:facet>
-						<f:facet name="fastForward">
+								<f:facet name="fastForward">
 								${resourcebundle.Next} &#62;
 								</f:facet>
-					</rich:dataScroller>
-				</ul>
-			</div>
-		</c:if>
-	</h:form>
-	<h:form rendered="#{viewSearch.posts == null}">
-		<table width="100%" border="0" cellpadding="0" cellspacing="0"
-			class="forumtablestyle">
-			<tr>
-				<td>
-					<table width="100%" cellspacing="0" cellpadding="1" border="0">
-						<tr>
-							<td>&#160;</td>
-						</tr>
-						<tr>
-							<td align="center">${resourcebundle.Search_posts_not_found}</td>
-						</tr>
-						<tr>
-							<td>&#160;</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</h:form>
-
+							</rich:dataScroller>
+						</ul>
+					</div>
+				</c:if>
+			</h:form>
+			<h:form rendered="#{viewSearch.posts == null}">
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"
+					class="forumtablestyle">
+					<tr>
+						<td>
+							<table width="100%" cellspacing="0" cellpadding="1" border="0">
+								<tr>
+									<td>&#160;</td>
+								</tr>
+								<tr>
+									<td align="center">${resourcebundle.Search_posts_not_found}</td>
+								</tr>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </div>

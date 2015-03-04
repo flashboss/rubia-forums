@@ -40,6 +40,10 @@ import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.v
 import static org.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.goTo;
 import static org.vige.rubia.selenium.search.action.ViewPageSearch.reset;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getLastPostOfCurrentForum;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getPoster;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getPosterLastPost;
+import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getTopic;
 import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.getTopics;
 import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.searchTopic;
 
@@ -59,6 +63,7 @@ import org.vige.rubia.model.Forum;
 import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.PollOption;
 import org.vige.rubia.model.Post;
+import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.SearchCriteria;
 
@@ -288,6 +293,85 @@ public class SearchTopicTest {
 		searchForumCriteria.setTimePeriod(null);
 		List<Topic> topics = searchTopic(driver, searchForumCriteria);
 		assertTrue(topics == null);
+	}
+
+	@Test
+	public void verifyPostFromTopicPage() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor("root");
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Topic");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		Topic topic = getTopic(driver, topics.get(3));
+		assertTrue(topic != null);
+		assertTrue(topic.getPosts() != null);
+		assertEquals(topic.getSubject(), "Fourth Test Topic");
+		assertEquals(topic.getPoster().getUserId(), "root");
+		assertEquals(topic.getPosts().size(), 1);
+		assertEquals(topic.getPosts().get(0).getMessage().getSubject(),
+				"Fourth Test Topic");
+		assertEquals(topic.getPosts().get(0).getMessage().getText(),
+				"Fourth Test Body");
+		assertEquals(topic.getPoll().getTitle(), "Fourth Test Question");
+	}
+
+	@Test
+	public void verifyPostProfileFromTopicPage() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor("root");
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Topic");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		Topic topic = topics.get(2);
+		Poster poster = getPoster(driver, topic);
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 20);
+	}
+
+	@Test
+	public void verifyPostFromTopicPageLastPost() {
+		goTo(driver);
+		SearchCriteria searchForumCriteria = new SearchCriteria();
+		searchForumCriteria.setAuthor("root");
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setDisplayAs(TOPICS.name());
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setKeywords("Topic");
+		searchForumCriteria.setPageNumber(0);
+		searchForumCriteria.setPageSize(0);
+		searchForumCriteria.setSearching(null);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setTimePeriod(null);
+		List<Topic> topics = searchTopic(driver, searchForumCriteria);
+		Poster poster = getPosterLastPost(driver, topics.get(0));
+		goTo(driver);
+		topics = searchTopic(driver, searchForumCriteria);
+		Post post = getLastPostOfCurrentForum(driver, topics.get(0));
+		assertTrue(post != null);
+		assertEquals(post.getMessage().getSubject(), "First Test Topic");
+		assertTrue(poster != null);
+		assertEquals(poster.getUserId(), "root");
+		assertTrue(poster.getPostCount() >= 4);
 	}
 
 	@After

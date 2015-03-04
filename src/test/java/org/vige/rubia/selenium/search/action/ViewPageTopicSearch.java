@@ -2,7 +2,10 @@ package org.vige.rubia.selenium.search.action;
 
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
+import static org.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
+import static org.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,6 +21,7 @@ import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Poster;
 import org.vige.rubia.model.Topic;
 import org.vige.rubia.search.SearchCriteria;
+import org.vige.rubia.selenium.forum.action.VerifyTopic;
 
 public class ViewPageTopicSearch extends ViewPageSearch {
 
@@ -36,6 +40,8 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 	public static final String TOPIC_REPLIES = "tr/td[3]";
 
 	public static final String TOPIC_VIEWS = "tr/td[4]";
+
+	public static String PROFILE_LINK = "rf-dt-fst-r";
 
 	public static DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
@@ -67,6 +73,13 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 		}
 	}
 
+	public static Topic getTopic(WebDriver driver, Topic topic) {
+		WebElement topicElement = driver.findElement(linkText(topic
+				.getSubject()));
+		topicElement.click();
+		return VerifyTopic.getTopic(driver);
+	}
+
 	private static Topic getTopic(WebDriver driver, WebElement element) {
 		Topic topic = new Topic();
 		topic.setSubject(element.findElement(xpath(TOPIC_SUBJECT)).getText());
@@ -93,6 +106,38 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 		topic.setViewCount(new Integer(element.findElement(xpath(TOPIC_VIEWS))
 				.getText()));
 		return topic;
+	}
+
+	public static Poster getPosterLastPost(WebDriver driver, Topic topic) {
+		WebElement profileLink = driver
+				.findElement(className(PROFILE_LINK))
+				.findElement(
+						xpath("td[5]/a[contains(text(),'" + topic.getSubject()
+								+ "')]")).findElement(xpath("../a[2]"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Poster getPoster(WebDriver driver, Topic topic) {
+		WebElement profileLink = driver.findElement(
+				linkText(topic.getSubject())).findElement(xpath("../../a"));
+		String userId = profileLink.getText();
+		profileLink.click();
+		Poster poster = verifyProfile(driver, userId);
+		return poster;
+	}
+
+	public static Post getLastPostOfCurrentForum(WebDriver driver, Topic topic) {
+		WebElement postComponent = driver
+				.findElement(className(PROFILE_LINK))
+				.findElement(
+						xpath("td[5]/a[contains(text(),'" + topic.getSubject()
+								+ "')]")).findElement(xpath("../a"));
+		postComponent.click();
+		List<Post> posts = getPostsOfCurrentTopic(driver);
+		return posts.get(posts.size() - 1);
 	}
 
 }
