@@ -197,7 +197,7 @@ public class SearchPostTest {
 	}
 
 	@Test
-	public void searchPosts() {
+	public void searchDefaultPosts() {
 		goTo(driver);
 		SearchCriteria searchTopicCriteria = new SearchCriteria();
 		searchTopicCriteria.setAuthor("root");
@@ -247,6 +247,65 @@ public class SearchPostTest {
 		assertEquals(posts.get(5).getMessage().getText(), "Sixth Test Body");
 		assertTrue(posts.get(5).getCreateDate().compareTo(today) < 0);
 		assertEquals(posts.get(5).getAttachments().size(), 3);
+	}
+
+	@Test
+	public void searchPostsInCategory() {
+		goTo(driver);
+		SearchCriteria searchTopicCriteria = new SearchCriteria();
+		searchTopicCriteria.setAuthor("root");
+		searchTopicCriteria.setCategory("First Test Category");
+		searchTopicCriteria.setDisplayAs(POSTS.name());
+		searchTopicCriteria.setForum(null);
+		searchTopicCriteria.setKeywords("Body");
+		searchTopicCriteria.setPageNumber(0);
+		searchTopicCriteria.setPageSize(0);
+		searchTopicCriteria.setSearching(null);
+		searchTopicCriteria.setSortBy(null);
+		searchTopicCriteria.setSortOrder(null);
+		searchTopicCriteria.setTimePeriod(null);
+		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		Date today = new Date();
+		assertTrue(posts != null);
+		assertEquals(posts.size(), 4);
+		assertEquals(posts.get(0).getPoster().getUserId(), "root");
+		assertEquals(posts.get(0).getMessage().getSubject(), "First Test Topic");
+		assertEquals(posts.get(0).getMessage().getText(), "First Test Body");
+		assertTrue(posts.get(0).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(0).getAttachments().size(), 3);
+		assertEquals(posts.get(1).getPoster().getUserId(), "root");
+		assertEquals(posts.get(1).getMessage().getSubject(),
+				"Second Test Topic");
+		assertEquals(posts.get(1).getMessage().getText(), "Second Test Body");
+		assertTrue(posts.get(1).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(1).getAttachments().size(), 3);
+		assertEquals(posts.get(2).getPoster().getUserId(), "root");
+		assertEquals(posts.get(2).getMessage().getSubject(), "Third Test Topic");
+		assertEquals(posts.get(2).getMessage().getText(), "Third Test Body");
+		assertTrue(posts.get(2).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(2).getAttachments().size(), 3);
+		assertEquals(posts.get(3).getPoster().getUserId(), "root");
+		assertEquals(posts.get(3).getMessage().getSubject(),
+				"Fourth Test Topic");
+		assertEquals(posts.get(3).getMessage().getText(), "Fourth Test Body");
+		assertTrue(posts.get(3).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(3).getAttachments().size(), 3);
+
+		goTo(driver);
+		searchTopicCriteria.setCategory("Second Test Category");
+		posts = searchPost(driver, searchTopicCriteria);
+		assertTrue(posts != null);
+		assertEquals(posts.size(), 2);
+		assertEquals(posts.get(0).getPoster().getUserId(), "root");
+		assertEquals(posts.get(0).getMessage().getSubject(), "Fifth Test Topic");
+		assertEquals(posts.get(0).getMessage().getText(), "Fifth Test Body");
+		assertTrue(posts.get(0).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(0).getAttachments().size(), 3);
+		assertEquals(posts.get(1).getPoster().getUserId(), "root");
+		assertEquals(posts.get(1).getMessage().getSubject(), "Sixth Test Topic");
+		assertEquals(posts.get(1).getMessage().getText(), "Sixth Test Body");
+		assertTrue(posts.get(1).getCreateDate().compareTo(today) < 0);
+		assertEquals(posts.get(1).getAttachments().size(), 3);
 	}
 
 	@Test
