@@ -1,6 +1,7 @@
 package org.vige.rubia.selenium.search.test;
 
 import static java.util.Arrays.asList;
+import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
@@ -11,6 +12,9 @@ import static org.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATI
 import static org.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
 import static org.vige.rubia.properties.OperationType.CONFIRM;
 import static org.vige.rubia.search.DisplayAs.TOPICS;
+import static org.vige.rubia.search.Searching.MSG;
+import static org.vige.rubia.search.SortOrder.ASC;
+import static org.vige.rubia.search.SortOrder.DESC;
 import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -49,6 +53,7 @@ import static org.vige.rubia.selenium.search.action.ViewPageTopicSearch.searchTo
 
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -180,7 +185,7 @@ public class SearchTopicTest {
 	}
 
 	@Test
-	public void searchDefaultTopics() {
+	public void searchTopics() {
 		goTo(driver);
 		SearchCriteria searchForumCriteria = new SearchCriteria();
 		searchForumCriteria.setAuthor("root");
@@ -246,25 +251,10 @@ public class SearchTopicTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
 				"root");
-	}
 
-	@Test
-	public void searchTopicsInCategory() {
 		goTo(driver);
-		SearchCriteria searchForumCriteria = new SearchCriteria();
-		searchForumCriteria.setAuthor("root");
 		searchForumCriteria.setCategory("First Test Category");
-		searchForumCriteria.setDisplayAs(TOPICS.name());
-		searchForumCriteria.setForum(null);
-		searchForumCriteria.setKeywords("Topic");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
-		searchForumCriteria.setSearching(null);
-		searchForumCriteria.setSortBy(null);
-		searchForumCriteria.setSortOrder(null);
-		searchForumCriteria.setTimePeriod(null);
-		List<Topic> topics = searchTopic(driver, searchForumCriteria);
-		Date today = new Date();
+		topics = searchTopic(driver, searchForumCriteria);
 		assertTrue(topics != null);
 		assertEquals(topics.size(), 4);
 		assertEquals(topics.get(0).getSubject(), "First Test Topic");
@@ -318,6 +308,239 @@ public class SearchTopicTest {
 
 		goTo(driver);
 		searchForumCriteria.setCategory("Second Test Category");
+		topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics == null);
+
+		goTo(driver);
+		searchForumCriteria.setCategory(null);
+		searchForumCriteria.setForum("First Test Forum");
+		topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics != null);
+		assertEquals(topics.size(), 2);
+		assertEquals(topics.get(0).getSubject(), "First Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("First Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+
+		goTo(driver);
+		searchForumCriteria.setForum("Second Test Forum");
+		topics = searchTopic(driver, searchForumCriteria);
+		assertEquals(topics.size(), 2);
+		assertEquals(topics.get(0).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Third Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+
+		ResourceBundle bundle = getBundle("ResourceJSF");
+		goTo(driver);
+		searchForumCriteria.setForum(null);
+		searchForumCriteria.setTimePeriod(bundle.getString("period_7_Days"));
+		topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics != null);
+		assertEquals(topics.size(), 4);
+		assertEquals(topics.get(0).getSubject(), "First Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("First Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(2).getPoster().getUserId(), "root");
+		assertEquals(topics.get(2).getReplies(), 0);
+		assertEquals(topics.get(2).getViewCount(), 0);
+		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().size(), 1);
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(3).getPoster().getUserId(), "root");
+		assertEquals(topics.get(3).getReplies(), 0);
+		assertEquals(topics.get(3).getViewCount(), 0);
+		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().size(), 1);
+		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
+				"root");
+
+		goTo(driver);
+		searchForumCriteria.setTimePeriod(null);
+		searchForumCriteria.setSortBy(bundle.getString("Post_subject"));
+		searchForumCriteria.setSortOrder(ASC.name());
+		topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics != null);
+		assertEquals(topics.size(), 4);
+		assertEquals(topics.get(0).getSubject(), "First Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("First Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(2).getPoster().getUserId(), "root");
+		assertEquals(topics.get(2).getReplies(), 0);
+		assertEquals(topics.get(2).getViewCount(), 0);
+		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().size(), 1);
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(3).getPoster().getUserId(), "root");
+		assertEquals(topics.get(3).getReplies(), 0);
+		assertEquals(topics.get(3).getViewCount(), 0);
+		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().size(), 1);
+		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
+				"root");
+
+		goTo(driver);
+		searchForumCriteria.setSortOrder(DESC.name());
+		topics = searchTopic(driver, searchForumCriteria);
+		assertTrue(topics != null);
+		assertEquals(topics.size(), 4);
+		assertEquals(topics.get(0).getSubject(), "First Test Topic");
+		assertEquals(topics.get(0).getPoster().getUserId(), "root");
+		assertEquals(topics.get(0).getReplies(), 0);
+		assertEquals(topics.get(0).getViewCount(), 0);
+		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().size(), 1);
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
+				.startsWith("First Test Topic"));
+		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(1).getSubject(), "Second Test Topic");
+		assertEquals(topics.get(1).getPoster().getUserId(), "root");
+		assertEquals(topics.get(1).getReplies(), 0);
+		assertEquals(topics.get(1).getViewCount(), 0);
+		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().size(), 1);
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
+		assertEquals(topics.get(2).getPoster().getUserId(), "root");
+		assertEquals(topics.get(2).getReplies(), 0);
+		assertEquals(topics.get(2).getViewCount(), 0);
+		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().size(), 1);
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
+				"root");
+		assertEquals(topics.get(3).getSubject(), "Fourth Test Topic");
+		assertEquals(topics.get(3).getPoster().getUserId(), "root");
+		assertEquals(topics.get(3).getReplies(), 0);
+		assertEquals(topics.get(3).getViewCount(), 0);
+		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().size(), 1);
+		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
+				.startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
+				.compareTo(today) < 0);
+		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
+				"root");
+
+		goTo(driver);
+		searchForumCriteria.setSortBy(null);
+		searchForumCriteria.setSortOrder(null);
+		searchForumCriteria.setSearching(MSG.name());
 		topics = searchTopic(driver, searchForumCriteria);
 		assertTrue(topics == null);
 	}
