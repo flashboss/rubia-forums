@@ -53,7 +53,6 @@ public class VerifyForum {
 	public static final String POSTS_COUNT_OUTPUT_TEXT = "td[4]";
 	public static final String LAST_POST = "td[5]";
 	public static final String LAST_POST_MESSAGE_LINK = "a";
-	public static final String LAST_POST_CREATE_DATE_OUTPUT_TEXT = "br[2]";
 	public static final String LAST_POST_USER_LINK = "a[2]";
 	public static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.SSS");
@@ -83,8 +82,7 @@ public class VerifyForum {
 			Post lastPost = new Post();
 			try {
 				lastPost.setCreateDate(dateFormat.parse(lastPostElement
-						.findElement(xpath(LAST_POST_CREATE_DATE_OUTPUT_TEXT))
-						.getText()));
+						.getText().split("\n")[2]));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
