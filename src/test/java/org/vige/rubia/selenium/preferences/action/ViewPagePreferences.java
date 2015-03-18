@@ -28,13 +28,7 @@ public class ViewPagePreferences {
 		preferencesLink.click();
 	}
 
-	public static void reset(WebDriver driver, PreferenceController arguments) {
-		addKeys(driver, arguments);
-		WebElement button = driver.findElements(className(BUTTON)).get(1);
-		button.click();
-	}
-
-	protected static void addKeys(WebDriver driver,
+	public static void addKeys(WebDriver driver,
 			PreferenceController arguments) {
 		WebElement table = driver.findElement(className(PREFERENCES_FIELD));
 		WebElement element = null;
@@ -118,12 +112,12 @@ public class ViewPagePreferences {
 			element.sendKeys(arguments.getSummaryMode() + "");
 		}
 		if (arguments.getSummaryTopicDays() != 0) {
-			element = table.findElement(xpath("tbody/tr[13]/td[2]/input"));
+			element = table.findElement(xpath("tbody/tr[14]/td[2]/input"));
 			element.clear();
 			element.sendKeys(arguments.getSummaryTopicDays() + "");
 		}
 		if (arguments.getSummaryTopicLimit() != 0) {
-			element = table.findElement(xpath("tbody/tr[14]/td[2]/input"));
+			element = table.findElement(xpath("tbody/tr[13]/td[2]/input"));
 			element.clear();
 			element.sendKeys(arguments.getSummaryTopicLimit() + "");
 		}

@@ -27,6 +27,7 @@ import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.vige.rubia.model.Poll;
 import org.vige.rubia.model.Post;
 import org.vige.rubia.model.Topic;
 
@@ -57,7 +58,9 @@ public class CreateTopic {
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
 				.get(topic.getType().getValue());
 		topicTypeInput.click();
-		createOptions(driver, topic.getPoll());
+		Poll poll = topic.getPoll();
+		if (poll != null)
+			createOptions(driver, poll);
 		addAttachments(driver, topic.getPosts().get(0));
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();

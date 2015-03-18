@@ -115,8 +115,10 @@ public class VerifyTopic {
 			topic.setType(IMPORTANT);
 		else
 			topic.setType(ADVICE);
-		String user = topicTable.findElements(xpath(USER_LINK)).get(i4)
-				.getText();
+		String[] allRows = topicTable.findElements(xpath(USER_LINK)).get(i4)
+				.findElement(xpath("..")).getText()
+				.split(bundle.getString("By"));
+		String user = allRows[allRows.length - 1].trim();
 		int replies = new Integer(topicTable
 				.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4).getText());
 		int viewCount = new Integer(topicTable
