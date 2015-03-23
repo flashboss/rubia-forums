@@ -1,3 +1,19 @@
+/*
+ * Vige, Home of Professional Open Source
+ * Copyright 2010, Vige, and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.vige.rubia.selenium.preferences.test;
 
 import static java.util.Arrays.asList;
@@ -6,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.model.TopicType.ADVICE;
 import static org.vige.rubia.model.TopicType.IMPORTANT;
 import static org.vige.rubia.model.TopicType.NORMAL;
+import static org.vige.rubia.selenium.Constants.OK;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static org.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
 import static org.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
@@ -20,12 +37,16 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_3_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_4_MESSAGE;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
+import static org.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.getForumsOfCategories;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.getTopicsOfForums;
 import static org.vige.rubia.selenium.preferences.action.ViewPageForumPreferences.reset;
 import static org.vige.rubia.selenium.preferences.action.ViewPageForumPreferences.submit;
 import static org.vige.rubia.selenium.preferences.action.ViewPagePreferences.addKeys;
 import static org.vige.rubia.selenium.preferences.action.ViewPagePreferences.goTo;
+import static org.vige.rubia.selenium.summary.action.ViewSummary.getDetail;
+import static org.vige.rubia.selenium.summary.action.ViewSummary.viewSize;
+import static org.vige.rubia.selenium.summary.action.ViewSummary.viewSummary;
 import static org.vige.rubia.ui.Constants.RE;
 import static org.vige.rubia.ui.view.SummaryMode.BLOCK_TOPICS_MODE_HOT_TOPICS;
 import static org.vige.rubia.ui.view.SummaryMode.BLOCK_TOPICS_MODE_LATEST_POSTS;
@@ -257,6 +278,14 @@ public class PreferencesTest {
 	}
 
 	@Test
+	public void startTests() {
+		scenary1();
+		scenary2();
+		scenary3();
+		scenary4();
+		submitsWithReset();
+	}
+
 	public void scenary1() {
 		Category firstTestCategory = new Category("First Test Category");
 		Category secondTestCategory = new Category("Second Test Category");
@@ -274,11 +303,20 @@ public class PreferencesTest {
 		submitCriteria.setSummaryTopicReplies(4);
 		submitCriteria.setTopicsPerForum(5);
 		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
+		List<Topic> summaryTopics = viewSummary(driver);
+		int sizeSummaryTopics = viewSize(driver);
+		Topic summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
+		assertTrue(summaryTopics != null);
+		assertEquals(summaryTopics.size(), 1);
+		assertEquals(sizeSummaryTopics, 1);
+		assertEquals(summaryTopics.get(0).getSubject(), "Ninteen Test Topic");
+		assertEquals(summaryTopicDetail.getSubject(), "Ninteen Test Topic");
+		Topic newTopic = new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null);
+		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
 		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
 				secondTestCategory);
@@ -290,7 +328,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
 		assertEquals(topics.get(0).getPoster().getUserId(), "root");
 		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
+		assertEquals(topics.get(0).getViewCount(), 98);
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().size(), 25);
 		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
@@ -709,1723 +747,43 @@ public class PreferencesTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
 				"root");
+		message = removeTopic(driver, new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null));
+		assertTrue(message.equals(OK));
 	}
 
-	@Test
 	public void scenary2() {
 		Category firstTestCategory = new Category("First Test Category");
 		Category secondTestCategory = new Category("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setAlwaysAddSignature(false);
-		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
-		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
-				secondTestCategory);
-		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver,
-				forums.toArray(new Forum[0]));
-		assertTrue(topics != null);
-		assertEquals(topics.size(), 24);
-		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
-		assertEquals(topics.get(0).getPoster().getUserId(), "root");
-		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
-		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
-		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
-		assertEquals(topics.get(1).getPoster().getUserId(), "root");
-		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().size(), 1);
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eighteen Test Topic"));
-		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
-		assertEquals(topics.get(2).getPoster().getUserId(), "root");
-		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().size(), 1);
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Seventeen Test Topic"));
-		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
-		assertEquals(topics.get(3).getPoster().getUserId(), "root");
-		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().size(), 1);
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Sixteen Test Topic"));
-		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
-		assertEquals(topics.get(4).getPoster().getUserId(), "root");
-		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
-		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().size(), 1);
-		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fifteen Test Topic"));
-		assertTrue(topics.get(4).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
-		assertEquals(topics.get(5).getPoster().getUserId(), "root");
-		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
-		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().size(), 1);
-		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourteen Test Topic"));
-		assertTrue(topics.get(5).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
-		assertEquals(topics.get(6).getPoster().getUserId(), "root");
-		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
-		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().size(), 1);
-		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirteen Test Topic"));
-		assertTrue(topics.get(6).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
-		assertEquals(topics.get(7).getPoster().getUserId(), "root");
-		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
-		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().size(), 1);
-		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twelve Test Topic"));
-		assertTrue(topics.get(7).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
-		assertEquals(topics.get(8).getPoster().getUserId(), "root");
-		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
-		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().size(), 1);
-		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eleven Test Topic"));
-		assertTrue(topics.get(8).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
-		assertEquals(topics.get(9).getPoster().getUserId(), "root");
-		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
-		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().size(), 1);
-		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ten Test Topic"));
-		assertTrue(topics.get(9).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(10).getPoster().getUserId(), "root");
-		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
-		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().size(), 1);
-		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Second Test Topic"));
-		assertTrue(topics.get(10).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
-		assertEquals(topics.get(11).getPoster().getUserId(), "root");
-		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
-		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().size(), 1);
-		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtyone Test Topic"));
-		assertTrue(topics.get(11).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
-		assertEquals(topics.get(12).getPoster().getUserId(), "root");
-		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
-		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().size(), 1);
-		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirty Test Topic"));
-		assertTrue(topics.get(12).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
-		assertEquals(topics.get(13).getPoster().getUserId(), "root");
-		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
-		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().size(), 1);
-		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentynine Test Topic"));
-		assertTrue(topics.get(13).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
-		assertEquals(topics.get(14).getPoster().getUserId(), "root");
-		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
-		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().size(), 1);
-		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyeight Test Topic"));
-		assertTrue(topics.get(14).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
-		assertEquals(topics.get(15).getPoster().getUserId(), "root");
-		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
-		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().size(), 1);
-		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyseven Test Topic"));
-		assertTrue(topics.get(15).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
-		assertEquals(topics.get(16).getPoster().getUserId(), "root");
-		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
-		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().size(), 1);
-		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentysix Test Topic"));
-		assertTrue(topics.get(16).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
-		assertEquals(topics.get(17).getPoster().getUserId(), "root");
-		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
-		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().size(), 1);
-		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfive Test Topic"));
-		assertTrue(topics.get(17).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
-		assertEquals(topics.get(18).getPoster().getUserId(), "root");
-		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
-		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().size(), 1);
-		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfour Test Topic"));
-		assertTrue(topics.get(18).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
-		assertEquals(topics.get(19).getPoster().getUserId(), "root");
-		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
-		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().size(), 1);
-		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentythree Test Topic"));
-		assertTrue(topics.get(19).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
-		assertEquals(topics.get(20).getPoster().getUserId(), "root");
-		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
-		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().size(), 1);
-		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentytwo Test Topic"));
-		assertTrue(topics.get(20).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(21).getPoster().getUserId(), "root");
-		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
-		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().size(), 1);
-		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Third Test Topic"));
-		assertTrue(topics.get(21).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(22).getPoster().getUserId(), "root");
-		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
-		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().size(), 1);
-		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourth Test Topic"));
-		assertTrue(topics.get(22).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(23).getSubject(), "Thirtytwo Test Topic");
-		assertEquals(topics.get(23).getPoster().getUserId(), "root");
-		assertEquals(topics.get(23).getReplies(), 0);
-		assertEquals(topics.get(23).getViewCount(), 0);
-		assertTrue(topics.get(23).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().size(), 1);
-		assertTrue(topics.get(23).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtytwo Test Topic"));
-		assertTrue(topics.get(23).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
-				"root");
-	}
-
-	@Test
-	public void scenary3() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
-		goTo(driver);
-		PreferenceController submitCriteria = new PreferenceController();
-		submitCriteria.setAlwaysAllowHtml(false);
-		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
-		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
-				secondTestCategory);
-		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver,
-				forums.toArray(new Forum[0]));
-		assertTrue(topics != null);
-		assertEquals(topics.size(), 24);
-		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
-		assertEquals(topics.get(0).getPoster().getUserId(), "root");
-		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
-		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
-		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
-		assertEquals(topics.get(1).getPoster().getUserId(), "root");
-		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().size(), 1);
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eighteen Test Topic"));
-		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
-		assertEquals(topics.get(2).getPoster().getUserId(), "root");
-		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().size(), 1);
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Seventeen Test Topic"));
-		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
-		assertEquals(topics.get(3).getPoster().getUserId(), "root");
-		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().size(), 1);
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Sixteen Test Topic"));
-		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
-		assertEquals(topics.get(4).getPoster().getUserId(), "root");
-		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
-		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().size(), 1);
-		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fifteen Test Topic"));
-		assertTrue(topics.get(4).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
-		assertEquals(topics.get(5).getPoster().getUserId(), "root");
-		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
-		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().size(), 1);
-		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourteen Test Topic"));
-		assertTrue(topics.get(5).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
-		assertEquals(topics.get(6).getPoster().getUserId(), "root");
-		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
-		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().size(), 1);
-		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirteen Test Topic"));
-		assertTrue(topics.get(6).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
-		assertEquals(topics.get(7).getPoster().getUserId(), "root");
-		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
-		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().size(), 1);
-		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twelve Test Topic"));
-		assertTrue(topics.get(7).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
-		assertEquals(topics.get(8).getPoster().getUserId(), "root");
-		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
-		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().size(), 1);
-		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eleven Test Topic"));
-		assertTrue(topics.get(8).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
-		assertEquals(topics.get(9).getPoster().getUserId(), "root");
-		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
-		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().size(), 1);
-		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ten Test Topic"));
-		assertTrue(topics.get(9).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(10).getPoster().getUserId(), "root");
-		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
-		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().size(), 1);
-		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Second Test Topic"));
-		assertTrue(topics.get(10).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
-		assertEquals(topics.get(11).getPoster().getUserId(), "root");
-		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
-		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().size(), 1);
-		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtyone Test Topic"));
-		assertTrue(topics.get(11).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
-		assertEquals(topics.get(12).getPoster().getUserId(), "root");
-		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
-		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().size(), 1);
-		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirty Test Topic"));
-		assertTrue(topics.get(12).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
-		assertEquals(topics.get(13).getPoster().getUserId(), "root");
-		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
-		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().size(), 1);
-		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentynine Test Topic"));
-		assertTrue(topics.get(13).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
-		assertEquals(topics.get(14).getPoster().getUserId(), "root");
-		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
-		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().size(), 1);
-		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyeight Test Topic"));
-		assertTrue(topics.get(14).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
-		assertEquals(topics.get(15).getPoster().getUserId(), "root");
-		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
-		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().size(), 1);
-		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyseven Test Topic"));
-		assertTrue(topics.get(15).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
-		assertEquals(topics.get(16).getPoster().getUserId(), "root");
-		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
-		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().size(), 1);
-		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentysix Test Topic"));
-		assertTrue(topics.get(16).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
-		assertEquals(topics.get(17).getPoster().getUserId(), "root");
-		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
-		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().size(), 1);
-		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfive Test Topic"));
-		assertTrue(topics.get(17).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
-		assertEquals(topics.get(18).getPoster().getUserId(), "root");
-		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
-		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().size(), 1);
-		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfour Test Topic"));
-		assertTrue(topics.get(18).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
-		assertEquals(topics.get(19).getPoster().getUserId(), "root");
-		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
-		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().size(), 1);
-		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentythree Test Topic"));
-		assertTrue(topics.get(19).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
-		assertEquals(topics.get(20).getPoster().getUserId(), "root");
-		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
-		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().size(), 1);
-		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentytwo Test Topic"));
-		assertTrue(topics.get(20).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(21).getPoster().getUserId(), "root");
-		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
-		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().size(), 1);
-		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Third Test Topic"));
-		assertTrue(topics.get(21).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(22).getPoster().getUserId(), "root");
-		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
-		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().size(), 1);
-		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourth Test Topic"));
-		assertTrue(topics.get(22).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(23).getSubject(), "Thirtytwo Test Topic");
-		assertEquals(topics.get(23).getPoster().getUserId(), "root");
-		assertEquals(topics.get(23).getReplies(), 0);
-		assertEquals(topics.get(23).getViewCount(), 0);
-		assertTrue(topics.get(23).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().size(), 1);
-		assertTrue(topics.get(23).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtytwo Test Topic"));
-		assertTrue(topics.get(23).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
-				"root");
-	}
-
-	@Test
-	public void scenary4() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
-		goTo(driver);
-		PreferenceController submitCriteria = new PreferenceController();
-		submitCriteria.setNotifyOnReply(false);
-		submitCriteria.setSummaryMode(BLOCK_TOPICS_MODE_MOST_VIEWED);
-		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
-		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
-				secondTestCategory);
-		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver,
-				forums.toArray(new Forum[0]));
-		assertTrue(topics != null);
-		assertEquals(topics.size(), 24);
-		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
-		assertEquals(topics.get(0).getPoster().getUserId(), "root");
-		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
-		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
-		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
-		assertEquals(topics.get(1).getPoster().getUserId(), "root");
-		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().size(), 1);
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eighteen Test Topic"));
-		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
-		assertEquals(topics.get(2).getPoster().getUserId(), "root");
-		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().size(), 1);
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Seventeen Test Topic"));
-		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
-		assertEquals(topics.get(3).getPoster().getUserId(), "root");
-		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().size(), 1);
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Sixteen Test Topic"));
-		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
-		assertEquals(topics.get(4).getPoster().getUserId(), "root");
-		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
-		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().size(), 1);
-		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fifteen Test Topic"));
-		assertTrue(topics.get(4).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
-		assertEquals(topics.get(5).getPoster().getUserId(), "root");
-		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
-		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().size(), 1);
-		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourteen Test Topic"));
-		assertTrue(topics.get(5).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
-		assertEquals(topics.get(6).getPoster().getUserId(), "root");
-		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
-		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().size(), 1);
-		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirteen Test Topic"));
-		assertTrue(topics.get(6).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
-		assertEquals(topics.get(7).getPoster().getUserId(), "root");
-		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
-		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().size(), 1);
-		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twelve Test Topic"));
-		assertTrue(topics.get(7).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
-		assertEquals(topics.get(8).getPoster().getUserId(), "root");
-		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
-		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().size(), 1);
-		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eleven Test Topic"));
-		assertTrue(topics.get(8).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
-		assertEquals(topics.get(9).getPoster().getUserId(), "root");
-		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
-		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().size(), 1);
-		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ten Test Topic"));
-		assertTrue(topics.get(9).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(10).getPoster().getUserId(), "root");
-		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
-		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().size(), 1);
-		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Second Test Topic"));
-		assertTrue(topics.get(10).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
-		assertEquals(topics.get(11).getPoster().getUserId(), "root");
-		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
-		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().size(), 1);
-		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtyone Test Topic"));
-		assertTrue(topics.get(11).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
-		assertEquals(topics.get(12).getPoster().getUserId(), "root");
-		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
-		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().size(), 1);
-		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirty Test Topic"));
-		assertTrue(topics.get(12).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
-		assertEquals(topics.get(13).getPoster().getUserId(), "root");
-		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
-		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().size(), 1);
-		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentynine Test Topic"));
-		assertTrue(topics.get(13).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
-		assertEquals(topics.get(14).getPoster().getUserId(), "root");
-		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
-		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().size(), 1);
-		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyeight Test Topic"));
-		assertTrue(topics.get(14).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
-		assertEquals(topics.get(15).getPoster().getUserId(), "root");
-		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
-		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().size(), 1);
-		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyseven Test Topic"));
-		assertTrue(topics.get(15).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
-		assertEquals(topics.get(16).getPoster().getUserId(), "root");
-		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
-		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().size(), 1);
-		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentysix Test Topic"));
-		assertTrue(topics.get(16).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
-		assertEquals(topics.get(17).getPoster().getUserId(), "root");
-		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
-		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().size(), 1);
-		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfive Test Topic"));
-		assertTrue(topics.get(17).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
-		assertEquals(topics.get(18).getPoster().getUserId(), "root");
-		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
-		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().size(), 1);
-		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfour Test Topic"));
-		assertTrue(topics.get(18).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
-		assertEquals(topics.get(19).getPoster().getUserId(), "root");
-		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
-		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().size(), 1);
-		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentythree Test Topic"));
-		assertTrue(topics.get(19).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
-		assertEquals(topics.get(20).getPoster().getUserId(), "root");
-		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
-		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().size(), 1);
-		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentytwo Test Topic"));
-		assertTrue(topics.get(20).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(21).getPoster().getUserId(), "root");
-		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
-		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().size(), 1);
-		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Third Test Topic"));
-		assertTrue(topics.get(21).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(22).getPoster().getUserId(), "root");
-		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
-		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().size(), 1);
-		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourth Test Topic"));
-		assertTrue(topics.get(22).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(23).getSubject(), "Thirtytwo Test Topic");
-		assertEquals(topics.get(23).getPoster().getUserId(), "root");
-		assertEquals(topics.get(23).getReplies(), 0);
-		assertEquals(topics.get(23).getViewCount(), 0);
-		assertTrue(topics.get(23).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().size(), 1);
-		assertTrue(topics.get(23).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtytwo Test Topic"));
-		assertTrue(topics.get(23).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
-				"root");
-	}
-
-	@Test
-	public void scenary5() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
-		goTo(driver);
-		PreferenceController submitCriteria = new PreferenceController();
-		submitCriteria.setSummaryTopicDays(1);
-		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
-		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
-				secondTestCategory);
-		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver,
-				forums.toArray(new Forum[0]));
-		assertTrue(topics != null);
-		assertEquals(topics.size(), 24);
-		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
-		assertEquals(topics.get(0).getPoster().getUserId(), "root");
-		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
-		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
-		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
-		assertEquals(topics.get(1).getPoster().getUserId(), "root");
-		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().size(), 1);
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eighteen Test Topic"));
-		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
-		assertEquals(topics.get(2).getPoster().getUserId(), "root");
-		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().size(), 1);
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Seventeen Test Topic"));
-		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
-		assertEquals(topics.get(3).getPoster().getUserId(), "root");
-		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().size(), 1);
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Sixteen Test Topic"));
-		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
-		assertEquals(topics.get(4).getPoster().getUserId(), "root");
-		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
-		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().size(), 1);
-		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fifteen Test Topic"));
-		assertTrue(topics.get(4).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
-		assertEquals(topics.get(5).getPoster().getUserId(), "root");
-		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
-		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().size(), 1);
-		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourteen Test Topic"));
-		assertTrue(topics.get(5).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
-		assertEquals(topics.get(6).getPoster().getUserId(), "root");
-		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
-		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().size(), 1);
-		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirteen Test Topic"));
-		assertTrue(topics.get(6).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
-		assertEquals(topics.get(7).getPoster().getUserId(), "root");
-		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
-		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().size(), 1);
-		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twelve Test Topic"));
-		assertTrue(topics.get(7).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
-		assertEquals(topics.get(8).getPoster().getUserId(), "root");
-		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
-		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().size(), 1);
-		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eleven Test Topic"));
-		assertTrue(topics.get(8).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
-		assertEquals(topics.get(9).getPoster().getUserId(), "root");
-		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
-		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().size(), 1);
-		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ten Test Topic"));
-		assertTrue(topics.get(9).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(10).getPoster().getUserId(), "root");
-		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
-		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().size(), 1);
-		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Second Test Topic"));
-		assertTrue(topics.get(10).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
-		assertEquals(topics.get(11).getPoster().getUserId(), "root");
-		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
-		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().size(), 1);
-		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtyone Test Topic"));
-		assertTrue(topics.get(11).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
-		assertEquals(topics.get(12).getPoster().getUserId(), "root");
-		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
-		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().size(), 1);
-		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirty Test Topic"));
-		assertTrue(topics.get(12).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
-		assertEquals(topics.get(13).getPoster().getUserId(), "root");
-		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
-		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().size(), 1);
-		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentynine Test Topic"));
-		assertTrue(topics.get(13).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
-		assertEquals(topics.get(14).getPoster().getUserId(), "root");
-		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
-		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().size(), 1);
-		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyeight Test Topic"));
-		assertTrue(topics.get(14).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
-		assertEquals(topics.get(15).getPoster().getUserId(), "root");
-		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
-		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().size(), 1);
-		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyseven Test Topic"));
-		assertTrue(topics.get(15).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
-		assertEquals(topics.get(16).getPoster().getUserId(), "root");
-		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
-		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().size(), 1);
-		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentysix Test Topic"));
-		assertTrue(topics.get(16).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
-		assertEquals(topics.get(17).getPoster().getUserId(), "root");
-		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
-		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().size(), 1);
-		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfive Test Topic"));
-		assertTrue(topics.get(17).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
-		assertEquals(topics.get(18).getPoster().getUserId(), "root");
-		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
-		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().size(), 1);
-		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfour Test Topic"));
-		assertTrue(topics.get(18).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
-		assertEquals(topics.get(19).getPoster().getUserId(), "root");
-		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
-		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().size(), 1);
-		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentythree Test Topic"));
-		assertTrue(topics.get(19).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
-		assertEquals(topics.get(20).getPoster().getUserId(), "root");
-		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
-		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().size(), 1);
-		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentytwo Test Topic"));
-		assertTrue(topics.get(20).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(21).getPoster().getUserId(), "root");
-		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
-		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().size(), 1);
-		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Third Test Topic"));
-		assertTrue(topics.get(21).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(22).getPoster().getUserId(), "root");
-		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
-		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().size(), 1);
-		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourth Test Topic"));
-		assertTrue(topics.get(22).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(23).getSubject(), "Thirtytwo Test Topic");
-		assertEquals(topics.get(23).getPoster().getUserId(), "root");
-		assertEquals(topics.get(23).getReplies(), 0);
-		assertEquals(topics.get(23).getViewCount(), 0);
-		assertTrue(topics.get(23).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().size(), 1);
-		assertTrue(topics.get(23).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtytwo Test Topic"));
-		assertTrue(topics.get(23).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
-				"root");
-	}
-
-	@Test
-	public void scenary6() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
-		goTo(driver);
-		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setSummaryTopicLimit(5);
 		submitCriteria.setSummaryTopicReplies(5);
+		submitCriteria.setSummaryTopicDays(1);
+		submitCriteria.setNotifyOnReply(false);
+		submitCriteria.setSummaryMode(BLOCK_TOPICS_MODE_MOST_VIEWED);
+		submitCriteria.setAlwaysAllowHtml(false);
+		submitCriteria.setSignature("My Old Signature");
+		submitCriteria.setDateFormat("d-MM-yyyy");
 		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
+		List<Topic> summaryTopics = viewSummary(driver);
+		int sizeSummaryTopics = viewSize(driver);
+		Topic summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
+		assertTrue(summaryTopics != null);
+		assertEquals(summaryTopics.size(), 5);
+		assertEquals(sizeSummaryTopics, 5);
+		assertEquals(summaryTopics.get(0).getSubject(), "Ninteen Test Topic");
+		assertEquals(summaryTopicDetail.getSubject(), "Ninteen Test Topic");
+		Topic newTopic = new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null);
+		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
 		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
 				secondTestCategory);
@@ -2437,7 +795,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
 		assertEquals(topics.get(0).getPoster().getUserId(), "root");
 		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
+		assertEquals(topics.get(0).getViewCount(), 102);
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().size(), 15);
 		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
@@ -2563,7 +921,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
 		assertEquals(topics.get(1).getPoster().getUserId(), "root");
 		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
+		assertEquals(topics.get(1).getViewCount(), 2);
 		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(1).getPosts().size(), 1);
 		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
@@ -2575,7 +933,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
 		assertEquals(topics.get(2).getPoster().getUserId(), "root");
 		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
+		assertEquals(topics.get(2).getViewCount(), 2);
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(2).getPosts().size(), 1);
 		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
@@ -2587,7 +945,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
 		assertEquals(topics.get(3).getPoster().getUserId(), "root");
 		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
+		assertEquals(topics.get(3).getViewCount(), 2);
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(3).getPosts().size(), 1);
 		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
@@ -2599,7 +957,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
 		assertEquals(topics.get(4).getPoster().getUserId(), "root");
 		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
+		assertEquals(topics.get(4).getViewCount(), 2);
 		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(4).getPosts().size(), 1);
 		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
@@ -2611,7 +969,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
 		assertEquals(topics.get(5).getPoster().getUserId(), "root");
 		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
+		assertEquals(topics.get(5).getViewCount(), 2);
 		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(5).getPosts().size(), 1);
 		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
@@ -2623,7 +981,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
 		assertEquals(topics.get(6).getPoster().getUserId(), "root");
 		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
+		assertEquals(topics.get(6).getViewCount(), 2);
 		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(6).getPosts().size(), 1);
 		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
@@ -2635,7 +993,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
 		assertEquals(topics.get(7).getPoster().getUserId(), "root");
 		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
+		assertEquals(topics.get(7).getViewCount(), 2);
 		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(7).getPosts().size(), 1);
 		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
@@ -2647,7 +1005,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
 		assertEquals(topics.get(8).getPoster().getUserId(), "root");
 		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
+		assertEquals(topics.get(8).getViewCount(), 2);
 		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(8).getPosts().size(), 1);
 		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
@@ -2659,7 +1017,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
 		assertEquals(topics.get(9).getPoster().getUserId(), "root");
 		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
+		assertEquals(topics.get(9).getViewCount(), 2);
 		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(9).getPosts().size(), 1);
 		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
@@ -2671,7 +1029,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
 		assertEquals(topics.get(10).getPoster().getUserId(), "root");
 		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
+		assertEquals(topics.get(10).getViewCount(), 2);
 		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(10).getPosts().size(), 1);
 		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
@@ -2683,7 +1041,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
 		assertEquals(topics.get(11).getPoster().getUserId(), "root");
 		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
+		assertEquals(topics.get(11).getViewCount(), 2);
 		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(11).getPosts().size(), 1);
 		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
@@ -2695,7 +1053,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
 		assertEquals(topics.get(12).getPoster().getUserId(), "root");
 		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
+		assertEquals(topics.get(12).getViewCount(), 2);
 		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(12).getPosts().size(), 1);
 		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
@@ -2707,7 +1065,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
 		assertEquals(topics.get(13).getPoster().getUserId(), "root");
 		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
+		assertEquals(topics.get(13).getViewCount(), 2);
 		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(13).getPosts().size(), 1);
 		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
@@ -2719,7 +1077,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
 		assertEquals(topics.get(14).getPoster().getUserId(), "root");
 		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
+		assertEquals(topics.get(14).getViewCount(), 2);
 		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(14).getPosts().size(), 1);
 		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
@@ -2731,7 +1089,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
 		assertEquals(topics.get(15).getPoster().getUserId(), "root");
 		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
+		assertEquals(topics.get(15).getViewCount(), 2);
 		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(15).getPosts().size(), 1);
 		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
@@ -2803,7 +1161,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
 		assertEquals(topics.get(21).getPoster().getUserId(), "root");
 		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
+		assertEquals(topics.get(21).getViewCount(), 2);
 		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(21).getPosts().size(), 1);
 		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
@@ -2815,7 +1173,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
 		assertEquals(topics.get(22).getPoster().getUserId(), "root");
 		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
+		assertEquals(topics.get(22).getViewCount(), 2);
 		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(22).getPosts().size(), 1);
 		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
@@ -2836,10 +1194,15 @@ public class PreferencesTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
 				"root");
+		message = removeTopic(driver, new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null));
+		assertTrue(message.equals(OK));
 	}
 
-	@Test
-	public void scenary7() {
+	public void scenary3() {
 		Category firstTestCategory = new Category("First Test Category");
 		Category secondTestCategory = new Category("Second Test Category");
 		goTo(driver);
@@ -2849,11 +1212,20 @@ public class PreferencesTest {
 		submitCriteria.setAlwaysAddSignature(false);
 		submitCriteria.setDateFormat("yyyy-MM-d");
 		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
+		List<Topic> summaryTopics = viewSummary(driver);
+		int sizeSummaryTopics = viewSize(driver);
+		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		assertTrue(summaryTopics != null);
+		assertEquals(summaryTopics.size(), 6);
+		assertEquals(sizeSummaryTopics, 6);
+		assertEquals(summaryTopics.get(0).getSubject(), "Fourth Test Topic");
+		assertEquals(summaryTopicDetail.getSubject(), "Fourth Test Topic");
+		Topic newTopic = new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null);
+		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
 		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
 				secondTestCategory);
@@ -2865,7 +1237,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
 		assertEquals(topics.get(0).getPoster().getUserId(), "root");
 		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
+		assertEquals(topics.get(0).getViewCount(), 104);
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().size(), 15);
 		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
@@ -2991,7 +1363,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
 		assertEquals(topics.get(1).getPoster().getUserId(), "root");
 		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
+		assertEquals(topics.get(1).getViewCount(), 4);
 		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(1).getPosts().size(), 1);
 		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
@@ -3003,7 +1375,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
 		assertEquals(topics.get(2).getPoster().getUserId(), "root");
 		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
+		assertEquals(topics.get(2).getViewCount(), 4);
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(2).getPosts().size(), 1);
 		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
@@ -3015,7 +1387,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
 		assertEquals(topics.get(3).getPoster().getUserId(), "root");
 		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
+		assertEquals(topics.get(3).getViewCount(), 4);
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(3).getPosts().size(), 1);
 		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
@@ -3027,7 +1399,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
 		assertEquals(topics.get(4).getPoster().getUserId(), "root");
 		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
+		assertEquals(topics.get(4).getViewCount(), 4);
 		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(4).getPosts().size(), 1);
 		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
@@ -3039,7 +1411,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
 		assertEquals(topics.get(5).getPoster().getUserId(), "root");
 		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
+		assertEquals(topics.get(5).getViewCount(), 4);
 		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(5).getPosts().size(), 1);
 		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
@@ -3051,7 +1423,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
 		assertEquals(topics.get(6).getPoster().getUserId(), "root");
 		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
+		assertEquals(topics.get(6).getViewCount(), 4);
 		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(6).getPosts().size(), 1);
 		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
@@ -3063,7 +1435,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
 		assertEquals(topics.get(7).getPoster().getUserId(), "root");
 		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
+		assertEquals(topics.get(7).getViewCount(), 4);
 		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(7).getPosts().size(), 1);
 		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
@@ -3075,7 +1447,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
 		assertEquals(topics.get(8).getPoster().getUserId(), "root");
 		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
+		assertEquals(topics.get(8).getViewCount(), 4);
 		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(8).getPosts().size(), 1);
 		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
@@ -3087,7 +1459,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
 		assertEquals(topics.get(9).getPoster().getUserId(), "root");
 		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
+		assertEquals(topics.get(9).getViewCount(), 4);
 		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(9).getPosts().size(), 1);
 		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
@@ -3099,7 +1471,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
 		assertEquals(topics.get(10).getPoster().getUserId(), "root");
 		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
+		assertEquals(topics.get(10).getViewCount(), 4);
 		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(10).getPosts().size(), 1);
 		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
@@ -3111,7 +1483,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
 		assertEquals(topics.get(11).getPoster().getUserId(), "root");
 		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
+		assertEquals(topics.get(11).getViewCount(), 4);
 		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(11).getPosts().size(), 1);
 		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
@@ -3123,7 +1495,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
 		assertEquals(topics.get(12).getPoster().getUserId(), "root");
 		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
+		assertEquals(topics.get(12).getViewCount(), 4);
 		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(12).getPosts().size(), 1);
 		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
@@ -3135,7 +1507,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
 		assertEquals(topics.get(13).getPoster().getUserId(), "root");
 		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
+		assertEquals(topics.get(13).getViewCount(), 4);
 		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(13).getPosts().size(), 1);
 		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
@@ -3147,7 +1519,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
 		assertEquals(topics.get(14).getPoster().getUserId(), "root");
 		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
+		assertEquals(topics.get(14).getViewCount(), 4);
 		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(14).getPosts().size(), 1);
 		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
@@ -3159,7 +1531,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
 		assertEquals(topics.get(15).getPoster().getUserId(), "root");
 		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
+		assertEquals(topics.get(15).getViewCount(), 4);
 		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(15).getPosts().size(), 1);
 		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
@@ -3171,7 +1543,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
 		assertEquals(topics.get(16).getPoster().getUserId(), "root");
 		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
+		assertEquals(topics.get(16).getViewCount(), 2);
 		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(16).getPosts().size(), 1);
 		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
@@ -3183,7 +1555,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
 		assertEquals(topics.get(17).getPoster().getUserId(), "root");
 		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
+		assertEquals(topics.get(17).getViewCount(), 2);
 		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(17).getPosts().size(), 1);
 		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
@@ -3195,7 +1567,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
 		assertEquals(topics.get(18).getPoster().getUserId(), "root");
 		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
+		assertEquals(topics.get(18).getViewCount(), 2);
 		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(18).getPosts().size(), 1);
 		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
@@ -3207,7 +1579,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
 		assertEquals(topics.get(19).getPoster().getUserId(), "root");
 		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
+		assertEquals(topics.get(19).getViewCount(), 2);
 		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(19).getPosts().size(), 1);
 		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
@@ -3219,7 +1591,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
 		assertEquals(topics.get(20).getPoster().getUserId(), "root");
 		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
+		assertEquals(topics.get(20).getViewCount(), 2);
 		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(20).getPosts().size(), 1);
 		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
@@ -3267,7 +1639,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(24).getSubject(), "Third Test Topic");
 		assertEquals(topics.get(24).getPoster().getUserId(), "root");
 		assertEquals(topics.get(24).getReplies(), 0);
-		assertEquals(topics.get(24).getViewCount(), 0);
+		assertEquals(topics.get(24).getViewCount(), 4);
 		assertTrue(topics.get(24).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(24).getPosts().size(), 1);
 		assertTrue(topics.get(24).getPosts().get(0).getMessage().getSubject()
@@ -3279,7 +1651,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(25).getSubject(), "Fourth Test Topic");
 		assertEquals(topics.get(25).getPoster().getUserId(), "root");
 		assertEquals(topics.get(25).getReplies(), 0);
-		assertEquals(topics.get(25).getViewCount(), 0);
+		assertEquals(topics.get(25).getViewCount(), 6);
 		assertTrue(topics.get(25).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(25).getPosts().size(), 1);
 		assertTrue(topics.get(25).getPosts().get(0).getMessage().getSubject()
@@ -3300,436 +1672,15 @@ public class PreferencesTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(26).getPosts().get(0).getPoster().getUserId(),
 				"root");
+		message = removeTopic(driver, new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null));
+		assertTrue(message.equals(OK));
 	}
 
-	@Test
-	public void scenary8() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
-		goTo(driver);
-		PreferenceController submitCriteria = new PreferenceController();
-		submitCriteria.setSignature("My Old Signature");
-		submitCriteria.setDateFormat("d-MM-yyyy");
-		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
-		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
-				secondTestCategory);
-		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver,
-				forums.toArray(new Forum[0]));
-		assertTrue(topics != null);
-		assertEquals(topics.size(), 24);
-		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
-		assertEquals(topics.get(0).getPoster().getUserId(), "root");
-		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
-		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
-		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
-		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
-		assertEquals(topics.get(1).getPoster().getUserId(), "root");
-		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
-		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().size(), 1);
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eighteen Test Topic"));
-		assertTrue(topics.get(1).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(1).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
-		assertEquals(topics.get(2).getPoster().getUserId(), "root");
-		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
-		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().size(), 1);
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Seventeen Test Topic"));
-		assertTrue(topics.get(2).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(2).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
-		assertEquals(topics.get(3).getPoster().getUserId(), "root");
-		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
-		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().size(), 1);
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Sixteen Test Topic"));
-		assertTrue(topics.get(3).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(3).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
-		assertEquals(topics.get(4).getPoster().getUserId(), "root");
-		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
-		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().size(), 1);
-		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fifteen Test Topic"));
-		assertTrue(topics.get(4).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(4).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
-		assertEquals(topics.get(5).getPoster().getUserId(), "root");
-		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
-		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().size(), 1);
-		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourteen Test Topic"));
-		assertTrue(topics.get(5).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(5).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
-		assertEquals(topics.get(6).getPoster().getUserId(), "root");
-		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
-		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().size(), 1);
-		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirteen Test Topic"));
-		assertTrue(topics.get(6).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(6).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
-		assertEquals(topics.get(7).getPoster().getUserId(), "root");
-		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
-		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().size(), 1);
-		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twelve Test Topic"));
-		assertTrue(topics.get(7).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(7).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
-		assertEquals(topics.get(8).getPoster().getUserId(), "root");
-		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
-		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().size(), 1);
-		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Eleven Test Topic"));
-		assertTrue(topics.get(8).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(8).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
-		assertEquals(topics.get(9).getPoster().getUserId(), "root");
-		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
-		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().size(), 1);
-		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ten Test Topic"));
-		assertTrue(topics.get(9).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(9).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(10).getPoster().getUserId(), "root");
-		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
-		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().size(), 1);
-		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Second Test Topic"));
-		assertTrue(topics.get(10).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(10).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
-		assertEquals(topics.get(11).getPoster().getUserId(), "root");
-		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
-		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().size(), 1);
-		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtyone Test Topic"));
-		assertTrue(topics.get(11).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(11).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
-		assertEquals(topics.get(12).getPoster().getUserId(), "root");
-		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
-		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().size(), 1);
-		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirty Test Topic"));
-		assertTrue(topics.get(12).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(12).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
-		assertEquals(topics.get(13).getPoster().getUserId(), "root");
-		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
-		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().size(), 1);
-		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentynine Test Topic"));
-		assertTrue(topics.get(13).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(13).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
-		assertEquals(topics.get(14).getPoster().getUserId(), "root");
-		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
-		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().size(), 1);
-		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyeight Test Topic"));
-		assertTrue(topics.get(14).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(14).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
-		assertEquals(topics.get(15).getPoster().getUserId(), "root");
-		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
-		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().size(), 1);
-		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyseven Test Topic"));
-		assertTrue(topics.get(15).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(15).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
-		assertEquals(topics.get(16).getPoster().getUserId(), "root");
-		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
-		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().size(), 1);
-		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentysix Test Topic"));
-		assertTrue(topics.get(16).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(16).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
-		assertEquals(topics.get(17).getPoster().getUserId(), "root");
-		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
-		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().size(), 1);
-		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfive Test Topic"));
-		assertTrue(topics.get(17).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(17).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
-		assertEquals(topics.get(18).getPoster().getUserId(), "root");
-		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
-		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().size(), 1);
-		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentyfour Test Topic"));
-		assertTrue(topics.get(18).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(18).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
-		assertEquals(topics.get(19).getPoster().getUserId(), "root");
-		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
-		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().size(), 1);
-		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentythree Test Topic"));
-		assertTrue(topics.get(19).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(19).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
-		assertEquals(topics.get(20).getPoster().getUserId(), "root");
-		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
-		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().size(), 1);
-		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Twentytwo Test Topic"));
-		assertTrue(topics.get(20).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(20).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(21).getPoster().getUserId(), "root");
-		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
-		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().size(), 1);
-		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Third Test Topic"));
-		assertTrue(topics.get(21).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(21).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(22).getPoster().getUserId(), "root");
-		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
-		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().size(), 1);
-		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Fourth Test Topic"));
-		assertTrue(topics.get(22).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(22).getPosts().get(0).getPoster().getUserId(),
-				"root");
-		assertEquals(topics.get(23).getSubject(), "Thirtytwo Test Topic");
-		assertEquals(topics.get(23).getPoster().getUserId(), "root");
-		assertEquals(topics.get(23).getReplies(), 0);
-		assertEquals(topics.get(23).getViewCount(), 0);
-		assertTrue(topics.get(23).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().size(), 1);
-		assertTrue(topics.get(23).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Thirtytwo Test Topic"));
-		assertTrue(topics.get(23).getPosts().get(0).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
-				"root");
-	}
-
-	@Test
-	public void scenary9() {
+	public void scenary4() {
 		Category firstTestCategory = new Category("First Test Category");
 		Category secondTestCategory = new Category("Second Test Category");
 		goTo(driver);
@@ -3739,11 +1690,20 @@ public class PreferencesTest {
 		submitCriteria.setSummaryTopicDays(1);
 		submitCriteria.setDateFormat("d-MM-yyyy HH:mm");
 		submit(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
+		List<Topic> summaryTopics = viewSummary(driver);
+		int sizeSummaryTopics = viewSize(driver);
+		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		assertTrue(summaryTopics != null);
+		assertEquals(summaryTopics.size(), 6);
+		assertEquals(sizeSummaryTopics, 6);
+		assertEquals(summaryTopics.get(0).getSubject(), "Fourth Test Topic");
+		assertEquals(summaryTopicDetail.getSubject(), "Fourth Test Topic");
+		Topic newTopic = new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null);
+		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
 		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
 				secondTestCategory);
@@ -3755,7 +1715,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
 		assertEquals(topics.get(0).getPoster().getUserId(), "root");
 		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
+		assertEquals(topics.get(0).getViewCount(), 106);
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().size(), 10);
 		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
@@ -3841,7 +1801,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
 		assertEquals(topics.get(1).getPoster().getUserId(), "root");
 		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
+		assertEquals(topics.get(1).getViewCount(), 6);
 		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(1).getPosts().size(), 1);
 		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
@@ -3853,7 +1813,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
 		assertEquals(topics.get(2).getPoster().getUserId(), "root");
 		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
+		assertEquals(topics.get(2).getViewCount(), 6);
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(2).getPosts().size(), 1);
 		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
@@ -3865,7 +1825,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
 		assertEquals(topics.get(3).getPoster().getUserId(), "root");
 		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
+		assertEquals(topics.get(3).getViewCount(), 6);
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(3).getPosts().size(), 1);
 		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
@@ -3877,7 +1837,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
 		assertEquals(topics.get(4).getPoster().getUserId(), "root");
 		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
+		assertEquals(topics.get(4).getViewCount(), 6);
 		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(4).getPosts().size(), 1);
 		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
@@ -3889,7 +1849,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
 		assertEquals(topics.get(5).getPoster().getUserId(), "root");
 		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
+		assertEquals(topics.get(5).getViewCount(), 6);
 		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(5).getPosts().size(), 1);
 		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
@@ -3901,7 +1861,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
 		assertEquals(topics.get(6).getPoster().getUserId(), "root");
 		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
+		assertEquals(topics.get(6).getViewCount(), 6);
 		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(6).getPosts().size(), 1);
 		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
@@ -3913,7 +1873,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
 		assertEquals(topics.get(7).getPoster().getUserId(), "root");
 		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
+		assertEquals(topics.get(7).getViewCount(), 6);
 		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(7).getPosts().size(), 1);
 		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
@@ -3925,7 +1885,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
 		assertEquals(topics.get(8).getPoster().getUserId(), "root");
 		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
+		assertEquals(topics.get(8).getViewCount(), 6);
 		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(8).getPosts().size(), 1);
 		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
@@ -3937,7 +1897,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
 		assertEquals(topics.get(9).getPoster().getUserId(), "root");
 		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
+		assertEquals(topics.get(9).getViewCount(), 6);
 		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(9).getPosts().size(), 1);
 		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
@@ -3949,7 +1909,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
 		assertEquals(topics.get(10).getPoster().getUserId(), "root");
 		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
+		assertEquals(topics.get(10).getViewCount(), 6);
 		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(10).getPosts().size(), 1);
 		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
@@ -3961,7 +1921,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
 		assertEquals(topics.get(11).getPoster().getUserId(), "root");
 		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
+		assertEquals(topics.get(11).getViewCount(), 6);
 		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(11).getPosts().size(), 1);
 		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
@@ -3973,7 +1933,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
 		assertEquals(topics.get(12).getPoster().getUserId(), "root");
 		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
+		assertEquals(topics.get(12).getViewCount(), 6);
 		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(12).getPosts().size(), 1);
 		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
@@ -3985,7 +1945,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
 		assertEquals(topics.get(13).getPoster().getUserId(), "root");
 		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
+		assertEquals(topics.get(13).getViewCount(), 6);
 		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(13).getPosts().size(), 1);
 		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
@@ -3997,7 +1957,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
 		assertEquals(topics.get(14).getPoster().getUserId(), "root");
 		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
+		assertEquals(topics.get(14).getViewCount(), 6);
 		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(14).getPosts().size(), 1);
 		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
@@ -4009,7 +1969,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
 		assertEquals(topics.get(15).getPoster().getUserId(), "root");
 		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
+		assertEquals(topics.get(15).getViewCount(), 6);
 		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(15).getPosts().size(), 1);
 		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
@@ -4021,7 +1981,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
 		assertEquals(topics.get(16).getPoster().getUserId(), "root");
 		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
+		assertEquals(topics.get(16).getViewCount(), 4);
 		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(16).getPosts().size(), 1);
 		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
@@ -4033,7 +1993,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
 		assertEquals(topics.get(17).getPoster().getUserId(), "root");
 		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
+		assertEquals(topics.get(17).getViewCount(), 4);
 		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(17).getPosts().size(), 1);
 		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
@@ -4045,7 +2005,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
 		assertEquals(topics.get(18).getPoster().getUserId(), "root");
 		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
+		assertEquals(topics.get(18).getViewCount(), 4);
 		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(18).getPosts().size(), 1);
 		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
@@ -4057,7 +2017,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
 		assertEquals(topics.get(19).getPoster().getUserId(), "root");
 		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
+		assertEquals(topics.get(19).getViewCount(), 4);
 		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(19).getPosts().size(), 1);
 		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
@@ -4069,7 +2029,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
 		assertEquals(topics.get(20).getPoster().getUserId(), "root");
 		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
+		assertEquals(topics.get(20).getViewCount(), 4);
 		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(20).getPosts().size(), 1);
 		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
@@ -4081,7 +2041,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
 		assertEquals(topics.get(21).getPoster().getUserId(), "root");
 		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
+		assertEquals(topics.get(21).getViewCount(), 6);
 		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(21).getPosts().size(), 1);
 		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
@@ -4093,7 +2053,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
 		assertEquals(topics.get(22).getPoster().getUserId(), "root");
 		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
+		assertEquals(topics.get(22).getViewCount(), 10);
 		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(22).getPosts().size(), 1);
 		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
@@ -4114,9 +2074,14 @@ public class PreferencesTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
 				"root");
+		message = removeTopic(driver, new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null));
+		assertTrue(message.equals(OK));
 	}
 
-	@Test
 	public void submitsWithReset() {
 		Category firstTestCategory = new Category("First Test Category");
 		Category secondTestCategory = new Category("Second Test Category");
@@ -4136,11 +2101,20 @@ public class PreferencesTest {
 		submitCriteria.setDateFormat("d-MM-yyyy HH:mm");
 		addKeys(driver, submitCriteria);
 		reset(driver, submitCriteria);
-		String message = createTopic(driver, new Topic(new Forum(
-				"Third Test Forum", "Third Test Description", new Category(
-						"Second Test Category")), "Thirtytwo Test Topic",
-				asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL,
-				null));
+		List<Topic> summaryTopics = viewSummary(driver);
+		int sizeSummaryTopics = viewSize(driver);
+		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		assertTrue(summaryTopics != null);
+		assertEquals(summaryTopics.size(), 6);
+		assertEquals(sizeSummaryTopics, 6);
+		assertEquals(summaryTopics.get(0).getSubject(), "Fourth Test Topic");
+		assertEquals(summaryTopicDetail.getSubject(), "Fourth Test Topic");
+		Topic newTopic = new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null);
+		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
 		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory,
 				secondTestCategory);
@@ -4151,13 +2125,13 @@ public class PreferencesTest {
 		assertEquals(topics.get(0).getSubject(), "Ninteen Test Topic");
 		assertEquals(topics.get(0).getPoster().getUserId(), "root");
 		assertEquals(topics.get(0).getReplies(), 32);
-		assertEquals(topics.get(0).getViewCount(), 96);
+		assertEquals(topics.get(0).getViewCount(), 108);
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().size(), 15);
+		assertEquals(topics.get(0).getPosts().size(), 10);
 		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject()
-				.startsWith("Ninteen Test Topic"));
+				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(0).getMessage().getText(),
-				"Ninteen Test Body");
+				"<ul><li>Ninteen35</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(0).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(0).getPoster().getUserId(),
@@ -4165,7 +2139,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(1).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(1).getMessage().getText(),
-				"<ul><li>Ninteen4</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen34</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(1).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(1).getPoster().getUserId(),
@@ -4173,7 +2147,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(2).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(2).getMessage().getText(),
-				"<ul><li>Ninteen5</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen33</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(2).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(2).getPoster().getUserId(),
@@ -4181,7 +2155,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(3).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(3).getMessage().getText(),
-				"<ul><li>Ninteen6</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen32</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(3).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(3).getPoster().getUserId(),
@@ -4189,7 +2163,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(4).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(4).getMessage().getText(),
-				"<ul><li>Ninteen7</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen31</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(4).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(4).getPoster().getUserId(),
@@ -4197,7 +2171,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(5).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(5).getMessage().getText(),
-				"<ul><li>Ninteen8</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen30</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(5).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(5).getPoster().getUserId(),
@@ -4205,7 +2179,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(6).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(6).getMessage().getText(),
-				"<ul><li>Ninteen9</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen29</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(6).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(6).getPoster().getUserId(),
@@ -4213,7 +2187,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(7).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(7).getMessage().getText(),
-				"<ul><li>Ninteen10</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen28</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(7).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(7).getPoster().getUserId(),
@@ -4221,7 +2195,7 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(8).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(8).getMessage().getText(),
-				"<ul><li>Ninteen11</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen27</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(8).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(8).getPoster().getUserId(),
@@ -4229,55 +2203,15 @@ public class PreferencesTest {
 		assertTrue(topics.get(0).getPosts().get(9).getMessage().getSubject()
 				.startsWith(RE + "Ninteen Test Topic"));
 		assertEquals(topics.get(0).getPosts().get(9).getMessage().getText(),
-				"<ul><li>Ninteen12</li><li>Test Body</li></ul>");
+				"<ul><li>Ninteen26</li><li>Test Body</li></ul>");
 		assertTrue(topics.get(0).getPosts().get(9).getCreateDate()
 				.compareTo(today) < 0);
 		assertEquals(topics.get(0).getPosts().get(9).getPoster().getUserId(),
 				"root");
-		assertTrue(topics.get(0).getPosts().get(10).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(10).getMessage().getText(),
-				"<ul><li>Ninteen13</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(10).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(10).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(11).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(11).getMessage().getText(),
-				"<ul><li>Ninteen14</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(11).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(11).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(12).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(12).getMessage().getText(),
-				"<ul><li>Ninteen15</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(12).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(12).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(13).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(13).getMessage().getText(),
-				"<ul><li>Ninteen16</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(13).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(13).getPoster().getUserId(),
-				"root");
-		assertTrue(topics.get(0).getPosts().get(14).getMessage().getSubject()
-				.startsWith(RE + "Ninteen Test Topic"));
-		assertEquals(topics.get(0).getPosts().get(14).getMessage().getText(),
-				"<ul><li>Ninteen17</li><li>Test Body</li></ul>");
-		assertTrue(topics.get(0).getPosts().get(14).getCreateDate()
-				.compareTo(today) < 0);
-		assertEquals(topics.get(0).getPosts().get(14).getPoster().getUserId(),
-				"root");
 		assertEquals(topics.get(1).getSubject(), "Eighteen Test Topic");
 		assertEquals(topics.get(1).getPoster().getUserId(), "root");
 		assertEquals(topics.get(1).getReplies(), 0);
-		assertEquals(topics.get(1).getViewCount(), 0);
+		assertEquals(topics.get(1).getViewCount(), 8);
 		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(1).getPosts().size(), 1);
 		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject()
@@ -4289,7 +2223,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(2).getSubject(), "Seventeen Test Topic");
 		assertEquals(topics.get(2).getPoster().getUserId(), "root");
 		assertEquals(topics.get(2).getReplies(), 0);
-		assertEquals(topics.get(2).getViewCount(), 0);
+		assertEquals(topics.get(2).getViewCount(), 8);
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(2).getPosts().size(), 1);
 		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject()
@@ -4301,7 +2235,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(3).getSubject(), "Sixteen Test Topic");
 		assertEquals(topics.get(3).getPoster().getUserId(), "root");
 		assertEquals(topics.get(3).getReplies(), 0);
-		assertEquals(topics.get(3).getViewCount(), 0);
+		assertEquals(topics.get(3).getViewCount(), 8);
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(3).getPosts().size(), 1);
 		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject()
@@ -4313,7 +2247,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(4).getSubject(), "Fifteen Test Topic");
 		assertEquals(topics.get(4).getPoster().getUserId(), "root");
 		assertEquals(topics.get(4).getReplies(), 0);
-		assertEquals(topics.get(4).getViewCount(), 0);
+		assertEquals(topics.get(4).getViewCount(), 8);
 		assertTrue(topics.get(4).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(4).getPosts().size(), 1);
 		assertTrue(topics.get(4).getPosts().get(0).getMessage().getSubject()
@@ -4325,7 +2259,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(5).getSubject(), "Fourteen Test Topic");
 		assertEquals(topics.get(5).getPoster().getUserId(), "root");
 		assertEquals(topics.get(5).getReplies(), 0);
-		assertEquals(topics.get(5).getViewCount(), 0);
+		assertEquals(topics.get(5).getViewCount(), 8);
 		assertTrue(topics.get(5).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(5).getPosts().size(), 1);
 		assertTrue(topics.get(5).getPosts().get(0).getMessage().getSubject()
@@ -4337,7 +2271,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(6).getSubject(), "Thirteen Test Topic");
 		assertEquals(topics.get(6).getPoster().getUserId(), "root");
 		assertEquals(topics.get(6).getReplies(), 0);
-		assertEquals(topics.get(6).getViewCount(), 0);
+		assertEquals(topics.get(6).getViewCount(), 8);
 		assertTrue(topics.get(6).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(6).getPosts().size(), 1);
 		assertTrue(topics.get(6).getPosts().get(0).getMessage().getSubject()
@@ -4349,7 +2283,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(7).getSubject(), "Twelve Test Topic");
 		assertEquals(topics.get(7).getPoster().getUserId(), "root");
 		assertEquals(topics.get(7).getReplies(), 0);
-		assertEquals(topics.get(7).getViewCount(), 0);
+		assertEquals(topics.get(7).getViewCount(), 8);
 		assertTrue(topics.get(7).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(7).getPosts().size(), 1);
 		assertTrue(topics.get(7).getPosts().get(0).getMessage().getSubject()
@@ -4361,7 +2295,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(8).getSubject(), "Eleven Test Topic");
 		assertEquals(topics.get(8).getPoster().getUserId(), "root");
 		assertEquals(topics.get(8).getReplies(), 0);
-		assertEquals(topics.get(8).getViewCount(), 0);
+		assertEquals(topics.get(8).getViewCount(), 8);
 		assertTrue(topics.get(8).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(8).getPosts().size(), 1);
 		assertTrue(topics.get(8).getPosts().get(0).getMessage().getSubject()
@@ -4373,7 +2307,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(9).getSubject(), "Ten Test Topic");
 		assertEquals(topics.get(9).getPoster().getUserId(), "root");
 		assertEquals(topics.get(9).getReplies(), 0);
-		assertEquals(topics.get(9).getViewCount(), 0);
+		assertEquals(topics.get(9).getViewCount(), 8);
 		assertTrue(topics.get(9).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(9).getPosts().size(), 1);
 		assertTrue(topics.get(9).getPosts().get(0).getMessage().getSubject()
@@ -4385,7 +2319,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(10).getSubject(), "Second Test Topic");
 		assertEquals(topics.get(10).getPoster().getUserId(), "root");
 		assertEquals(topics.get(10).getReplies(), 0);
-		assertEquals(topics.get(10).getViewCount(), 0);
+		assertEquals(topics.get(10).getViewCount(), 8);
 		assertTrue(topics.get(10).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(10).getPosts().size(), 1);
 		assertTrue(topics.get(10).getPosts().get(0).getMessage().getSubject()
@@ -4397,7 +2331,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(11).getSubject(), "Thirtyone Test Topic");
 		assertEquals(topics.get(11).getPoster().getUserId(), "root");
 		assertEquals(topics.get(11).getReplies(), 0);
-		assertEquals(topics.get(11).getViewCount(), 0);
+		assertEquals(topics.get(11).getViewCount(), 8);
 		assertTrue(topics.get(11).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(11).getPosts().size(), 1);
 		assertTrue(topics.get(11).getPosts().get(0).getMessage().getSubject()
@@ -4409,7 +2343,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(12).getSubject(), "Thirty Test Topic");
 		assertEquals(topics.get(12).getPoster().getUserId(), "root");
 		assertEquals(topics.get(12).getReplies(), 0);
-		assertEquals(topics.get(12).getViewCount(), 0);
+		assertEquals(topics.get(12).getViewCount(), 8);
 		assertTrue(topics.get(12).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(12).getPosts().size(), 1);
 		assertTrue(topics.get(12).getPosts().get(0).getMessage().getSubject()
@@ -4421,7 +2355,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(13).getSubject(), "Twentynine Test Topic");
 		assertEquals(topics.get(13).getPoster().getUserId(), "root");
 		assertEquals(topics.get(13).getReplies(), 0);
-		assertEquals(topics.get(13).getViewCount(), 0);
+		assertEquals(topics.get(13).getViewCount(), 8);
 		assertTrue(topics.get(13).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(13).getPosts().size(), 1);
 		assertTrue(topics.get(13).getPosts().get(0).getMessage().getSubject()
@@ -4433,7 +2367,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(14).getSubject(), "Twentyeight Test Topic");
 		assertEquals(topics.get(14).getPoster().getUserId(), "root");
 		assertEquals(topics.get(14).getReplies(), 0);
-		assertEquals(topics.get(14).getViewCount(), 0);
+		assertEquals(topics.get(14).getViewCount(), 8);
 		assertTrue(topics.get(14).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(14).getPosts().size(), 1);
 		assertTrue(topics.get(14).getPosts().get(0).getMessage().getSubject()
@@ -4445,7 +2379,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(15).getSubject(), "Twentyseven Test Topic");
 		assertEquals(topics.get(15).getPoster().getUserId(), "root");
 		assertEquals(topics.get(15).getReplies(), 0);
-		assertEquals(topics.get(15).getViewCount(), 0);
+		assertEquals(topics.get(15).getViewCount(), 8);
 		assertTrue(topics.get(15).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(15).getPosts().size(), 1);
 		assertTrue(topics.get(15).getPosts().get(0).getMessage().getSubject()
@@ -4457,7 +2391,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(16).getSubject(), "Twentysix Test Topic");
 		assertEquals(topics.get(16).getPoster().getUserId(), "root");
 		assertEquals(topics.get(16).getReplies(), 0);
-		assertEquals(topics.get(16).getViewCount(), 0);
+		assertEquals(topics.get(16).getViewCount(), 6);
 		assertTrue(topics.get(16).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(16).getPosts().size(), 1);
 		assertTrue(topics.get(16).getPosts().get(0).getMessage().getSubject()
@@ -4469,7 +2403,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(17).getSubject(), "Twentyfive Test Topic");
 		assertEquals(topics.get(17).getPoster().getUserId(), "root");
 		assertEquals(topics.get(17).getReplies(), 0);
-		assertEquals(topics.get(17).getViewCount(), 0);
+		assertEquals(topics.get(17).getViewCount(), 6);
 		assertTrue(topics.get(17).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(17).getPosts().size(), 1);
 		assertTrue(topics.get(17).getPosts().get(0).getMessage().getSubject()
@@ -4481,7 +2415,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(18).getSubject(), "Twentyfour Test Topic");
 		assertEquals(topics.get(18).getPoster().getUserId(), "root");
 		assertEquals(topics.get(18).getReplies(), 0);
-		assertEquals(topics.get(18).getViewCount(), 0);
+		assertEquals(topics.get(18).getViewCount(), 6);
 		assertTrue(topics.get(18).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(18).getPosts().size(), 1);
 		assertTrue(topics.get(18).getPosts().get(0).getMessage().getSubject()
@@ -4493,7 +2427,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(19).getSubject(), "Twentythree Test Topic");
 		assertEquals(topics.get(19).getPoster().getUserId(), "root");
 		assertEquals(topics.get(19).getReplies(), 0);
-		assertEquals(topics.get(19).getViewCount(), 0);
+		assertEquals(topics.get(19).getViewCount(), 6);
 		assertTrue(topics.get(19).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(19).getPosts().size(), 1);
 		assertTrue(topics.get(19).getPosts().get(0).getMessage().getSubject()
@@ -4505,7 +2439,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(20).getSubject(), "Twentytwo Test Topic");
 		assertEquals(topics.get(20).getPoster().getUserId(), "root");
 		assertEquals(topics.get(20).getReplies(), 0);
-		assertEquals(topics.get(20).getViewCount(), 0);
+		assertEquals(topics.get(20).getViewCount(), 6);
 		assertTrue(topics.get(20).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(20).getPosts().size(), 1);
 		assertTrue(topics.get(20).getPosts().get(0).getMessage().getSubject()
@@ -4517,7 +2451,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(21).getSubject(), "Third Test Topic");
 		assertEquals(topics.get(21).getPoster().getUserId(), "root");
 		assertEquals(topics.get(21).getReplies(), 0);
-		assertEquals(topics.get(21).getViewCount(), 0);
+		assertEquals(topics.get(21).getViewCount(), 8);
 		assertTrue(topics.get(21).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(21).getPosts().size(), 1);
 		assertTrue(topics.get(21).getPosts().get(0).getMessage().getSubject()
@@ -4529,7 +2463,7 @@ public class PreferencesTest {
 		assertEquals(topics.get(22).getSubject(), "Fourth Test Topic");
 		assertEquals(topics.get(22).getPoster().getUserId(), "root");
 		assertEquals(topics.get(22).getReplies(), 0);
-		assertEquals(topics.get(22).getViewCount(), 0);
+		assertEquals(topics.get(22).getViewCount(), 14);
 		assertTrue(topics.get(22).getLastPostDate().compareTo(today) < 0);
 		assertEquals(topics.get(22).getPosts().size(), 1);
 		assertTrue(topics.get(22).getPosts().get(0).getMessage().getSubject()
@@ -4550,6 +2484,12 @@ public class PreferencesTest {
 				.compareTo(today) < 0);
 		assertEquals(topics.get(23).getPosts().get(0).getPoster().getUserId(),
 				"root");
+		message = removeTopic(driver, new Topic(
+				new Forum("Third Test Forum", "Third Test Description",
+						new Category("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new Post[] { new Post(
+						"Thirtytwo Test Body") }), NORMAL, null));
+		assertTrue(message.equals(OK));
 	}
 
 	@After

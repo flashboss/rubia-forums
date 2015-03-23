@@ -22,7 +22,7 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
-import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPost;
+import static org.vige.rubia.selenium.forum.action.VerifyAttachment.getAttachmentsOfCurrentPostInPage;
 import static org.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static org.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
@@ -135,7 +135,7 @@ public class VerifyPost {
 			WebElement forumEl = driver.findElement(FORUM_TEMPLATE_LINK
 					.getValue());
 			topic.setForum(new Forum(forumEl.getText()));
-			post.setAttachments(getAttachmentsOfCurrentPost(driver, post));
+			post.setAttachments(getAttachmentsOfCurrentPostInPage(driver, post));
 			addParents(driver, post);
 			Poster poster = new Poster();
 			postComponent = driver.findElements(className(BODY_OUTPUT_TEXT))
