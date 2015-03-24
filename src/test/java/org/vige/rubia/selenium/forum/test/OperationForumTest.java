@@ -16,6 +16,7 @@
  */
 package org.vige.rubia.selenium.forum.test;
 
+import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
@@ -32,6 +33,7 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
+import static org.vige.rubia.selenium.forum.action.LockForum.lockForum;
 import static org.vige.rubia.selenium.forum.action.VerifyForum.getForumsOfCategories;
 
 import java.util.List;
@@ -51,6 +53,11 @@ public class OperationForumTest {
 
 	@Drone
 	private WebDriver driver;
+
+	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
+			.getString("Forum_locked");
+	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
+			.getString("Forum_unlocked");
 
 	@Before
 	public void setUp() {
@@ -81,6 +88,16 @@ public class OperationForumTest {
 		assertEquals(forums.get(1).getDescription(), "Second Test Description");
 		assertEquals(forums.get(1).getCategory().getTitle(),
 				"First Test Category");
+	}
+
+	@Test
+	public void verifyLockForum() {
+		Forum forum = new Forum("First Test Forum", "First Test Description",
+				new Category("First Test Category"));
+		String message = lockForum(driver, forum);
+		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
+		message = lockForum(driver, forum);
+		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
 	@After

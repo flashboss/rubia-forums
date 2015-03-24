@@ -42,7 +42,7 @@ public class LockForum {
 				xpath("td[2]/form/ul/li[4]/a/img"));
 		lockForum.click();
 		WebElement resultLockForum = driver
-				.findElement(className("successtext"));
+				.findElement(className(RESULT_LOCK_FORUM));
 		String message = resultLockForum.getText();
 		return message;
 	}
