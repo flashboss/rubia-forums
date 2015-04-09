@@ -25,10 +25,11 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
-import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
+import static org.vige.rubia.selenium.moderate.action.LockTopic.lockTopic;
 import static org.vige.rubia.selenium.moderate.action.MoveTopic.goToSplitPanel;
+import static org.vige.rubia.selenium.moderate.action.MoveTopic.moveTopic;
 import static org.vige.rubia.selenium.moderate.action.MoveTopic.moveTopicFromSelectedDown;
 import static org.vige.rubia.selenium.moderate.action.MoveTopic.moveTopicFromSelectedUp;
 import static org.vige.rubia.selenium.moderate.action.MoveTopic.moveTopicSelectedDown;
@@ -68,6 +69,14 @@ public class ModerateTopicTest {
 			.getString("ERR_SPLIT_ALL");
 	public final static String SUCC_TOPIC_REMOVED = getBundle("ResourceJSF")
 			.getString("SUCC_TOPIC_REMOVED");
+	public final static String SUCC_TOPIC_LOCKED = getBundle("ResourceJSF")
+			.getString("SUCC_TOPIC_LOCKED");
+	public final static String SUCC_TOPIC_UNLOCKED = getBundle("ResourceJSF")
+			.getString("SUCC_TOPIC_UNLOCKED");
+	public final static String ERR_NO_DEST_FORUM = getBundle("ResourceJSF")
+			.getString("ERR_NO_DEST_FORUM");
+	public final static String SUCC_TOPIC_MOVED = getBundle("ResourceJSF")
+			.getString("SUCC_TOPIC_MOVED");
 
 	@Before
 	public void setUp() {
@@ -237,16 +246,31 @@ public class ModerateTopicTest {
 
 	@Test
 	public void move() {
-		Topic topic = new Topic(new Forum("First Test Forum"),
-				"First Test Topic");
+		Forum srcForum = new Forum("First Test Forum");
+		Topic topic = new Topic(srcForum, "First Test Topic");
+		Forum destForum = new Forum("Second Test Forum");
 		goTo(driver, topic);
+		String message = moveTopic(driver, null, CONFIRM);
+		assertEquals(message, ERR_NO_DEST_FORUM);
+		goTo(driver, topic);
+		message = moveTopic(driver, destForum, CANCEL);
+		assertEquals(message, "");
+		message = moveTopic(driver, destForum, CONFIRM);
+		assertEquals(message, SUCC_TOPIC_MOVED);
+		topic.setForum(destForum);
+		goTo(driver, topic);
+		message = moveTopic(driver, srcForum, CONFIRM);
+		assertEquals(message, SUCC_TOPIC_MOVED);
 	}
 
 	@Test
 	public void lock() {
-		Topic topic = new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic");
-		goTo(driver, topic);
+		Forum forum = new Forum("Second Test Forum");
+		Topic topic = new Topic(forum, "Third Test Topic");
+		String message = lockTopic(driver, topic);
+		assertEquals(message, SUCC_TOPIC_LOCKED);
+		message = lockTopic(driver, topic);
+		assertEquals(message, SUCC_TOPIC_UNLOCKED);
 	}
 
 	@Test
@@ -278,17 +302,35 @@ public class ModerateTopicTest {
 		goToSplitPanel(driver, topic);
 		message = moveTopicSelectedDown(driver, topic, forum);
 		assertEquals(message, ERR_SPLIT_ALL);
-		topic.setPosts(asList(new Post[] { new Post("Fourtyone Test Body") }));
-		message = moveTopicSelectedDown(driver, topic, forum);
-		assertEquals(message, SUCC_TOPIC_SPLITTED);
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
 		topic.setForum(new Forum("Second Test Forum"));
 		topic.setSubject("Fourth Test Topic");
-		Post recreatedPost = new Post("Fourtyone Test Body");
-		recreatedPost.setTopic(topic);
-		message = createPost(driver, recreatedPost);
-		assertTrue(message.equals(recreatedPost.getMessage().getText()));
+		message = removeTopic(driver, CONFIRM, topic);
+		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
+		message = createTopic(
+				driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] {
+								new Post("Fourth Test Body", asList(
+										new Attachment("fourth",
+												"Fourth Test File"),
+										new Attachment("fifth",
+												"Fifth Test File"),
+										new Attachment("sixth",
+												"Sixth Test File"))),
+								new Post("Thirtyseven Test Body"),
+								new Post("Thirtyeight Test Body"),
+								new Post("Thirtynine Test Body"),
+								new Post("Fourty Test Body"),
+								new Post("Fourtyone Test Body"),
+								new Post("Fourtytwo Test Body") }), IMPORTANT,
+						new Poll("Fourth Test Question",
+								asList(new PollOption[] {
+										new PollOption("Seventh Test Answer"),
+										new PollOption("Eight Test Answer") }),
+								0)));
+		assertTrue(message.equals("Fourth Test Topic"));
 	}
 
 	@Test
@@ -315,17 +357,35 @@ public class ModerateTopicTest {
 		goToSplitPanel(driver, topic);
 		message = moveTopicSelectedDown(driver, topic, forum);
 		assertEquals(message, ERR_SPLIT_ALL);
-		topic.setPosts(asList(new Post[] { new Post("Fiftyfour Test Body") }));
-		message = moveTopicSelectedDown(driver, topic, forum);
-		assertEquals(message, SUCC_TOPIC_SPLITTED);
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
 		topic.setForum(new Forum("Third Test Forum"));
 		topic.setSubject("Fifth Test Topic");
-		Post recreatedPost = new Post("Fiftyfour Test Body");
-		recreatedPost.setTopic(topic);
-		message = createPost(driver, recreatedPost);
-		assertTrue(message.equals(recreatedPost.getMessage().getText()));
+		message = removeTopic(driver, CONFIRM, topic);
+		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
+		message = createTopic(
+				driver,
+				new Topic(new Forum("Third Test Forum"), "Fifth Test Topic",
+						asList(new Post[] {
+								new Post("Fifth Test Body", asList(
+										new Attachment("seventh",
+												"Seventh Test File"),
+										new Attachment("eight",
+												"Eight Test File"),
+										new Attachment("ninth",
+												"Ninth Test File"))),
+								new Post("Fourtythree Test Body"),
+								new Post("Fourtyfour Test Body"),
+								new Post("Fourtyfive Test Body"),
+								new Post("Fourtysix Test Body"),
+								new Post("Fourtyseven Test Body"),
+								new Post("Fourtyeight Test Body") }),
+						IMPORTANT, new Poll("Third Test Question",
+								asList(new PollOption[] {
+										new PollOption("Seventh Test Answer"),
+										new PollOption("Eight Test Answer") }),
+								8)));
+		assertTrue(message.equals("Fifth Test Topic"));
 	}
 
 	@Test
@@ -354,17 +414,36 @@ public class ModerateTopicTest {
 		goToSplitPanel(driver, topic);
 		message = moveTopicSelectedDown(driver, topic, forum);
 		assertEquals(message, ERR_SPLIT_ALL);
-		topic.setPosts(asList(new Post[] { new Post("Fiftyfour Test Body") }));
-		message = moveTopicSelectedDown(driver, topic, forum);
-		assertEquals(message, SUCC_TOPIC_SPLITTED);
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
-		topic.setForum(new Forum("Third Test Forum"));
 		topic.setSubject("Sixth Test Topic");
-		Post recreatedPost = new Post("Fiftyfour Test Body");
-		recreatedPost.setTopic(topic);
-		message = createPost(driver, recreatedPost);
-		assertTrue(message.equals(recreatedPost.getMessage().getText()));
+		topic.setForum(new Forum("Third Test Forum"));
+		message = removeTopic(driver, CONFIRM, topic);
+		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("Third Test Forum"),
+						"Sixth Test Topic",
+						asList(new Post[] {
+								new Post("Sixth Test Body", asList(
+										new Attachment("ten", "Ten Test File"),
+										new Attachment("eleven",
+												"Eleven Test File"),
+										new Attachment("twelve",
+												"Twelve Test File"))),
+								new Post("Fourtynine Test Body"),
+								new Post("Fifty Test Body"),
+								new Post("Fiftyone Test Body"),
+								new Post("Fiftytwo Test Body"),
+								new Post("Fiftythree Test Body"),
+								new Post("Fiftyfour Test Body") }),
+						IMPORTANT,
+						new Poll("Fourth Test Question",
+								asList(new PollOption[] {
+										new PollOption("Ninth Test Answer"),
+										new PollOption("Ten Test Answer") }), 8)));
+		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
 	@Test
@@ -391,17 +470,36 @@ public class ModerateTopicTest {
 		goToSplitPanel(driver, topic);
 		message = moveTopicSelectedDown(driver, topic, forum);
 		assertEquals(message, ERR_SPLIT_ALL);
-		topic.setPosts(asList(new Post[] { new Post("Fiftytwo Test Body") }));
-		message = moveTopicSelectedDown(driver, topic, forum);
-		assertEquals(message, SUCC_TOPIC_SPLITTED);
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
 		topic.setForum(new Forum("Third Test Forum"));
 		topic.setSubject("Sixth Test Topic");
-		Post recreatedPost = new Post("Fiftytwo Test Body");
-		recreatedPost.setTopic(topic);
-		message = createPost(driver, recreatedPost);
-		assertTrue(message.equals(recreatedPost.getMessage().getText()));
+		message = removeTopic(driver, CONFIRM, topic);
+		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
+		message = createTopic(
+				driver,
+				new Topic(
+						new Forum("Third Test Forum"),
+						"Sixth Test Topic",
+						asList(new Post[] {
+								new Post("Sixth Test Body", asList(
+										new Attachment("ten", "Ten Test File"),
+										new Attachment("eleven",
+												"Eleven Test File"),
+										new Attachment("twelve",
+												"Twelve Test File"))),
+								new Post("Fourtynine Test Body"),
+								new Post("Fifty Test Body"),
+								new Post("Fiftyone Test Body"),
+								new Post("Fiftytwo Test Body"),
+								new Post("Fiftythree Test Body"),
+								new Post("Fiftyfour Test Body") }),
+						IMPORTANT,
+						new Poll("Fourth Test Question",
+								asList(new PollOption[] {
+										new PollOption("Ninth Test Answer"),
+										new PollOption("Ten Test Answer") }), 8)));
+		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
 	@After
