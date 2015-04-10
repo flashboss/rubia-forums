@@ -1,0 +1,1 @@
+Dependencies: org.gatein.sso,org.gatein.lib
