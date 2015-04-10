@@ -122,7 +122,6 @@ public class ACLEntryImpl implements ACLEntry, Serializable
     * </p>
     */
    @PrePersist
-   @SuppressWarnings("unused")
    private void setPersistentFields()
    {
       if (this.permission != null)
@@ -135,7 +134,6 @@ public class ACLEntryImpl implements ACLEntry, Serializable
     * </p>
     */
    @PostLoad
-   @SuppressWarnings("unused")
    private void loadState()
    {
       if (this.permission != null)

@@ -30,12 +30,19 @@ Supported application servers and distributions
 ------------
 
 - JBoss AS 7.1.1.Final
+- JBoss AS 7.1.2.Final
+- JBoss AS 7.1.3.Final
 - Gatein 3.6.0.Final
 - Gatein 3.7.0.Final
+- Gatein 3.7.1.Final
 - Gatein 3.8.1.Final
+- Gatein 3.8.2.Final
 - EAP 6.1.0.Final
+- EAP 6.1.1.Final
 - EAP 6.2.0.Final
+- EAP 6.3.0.Final
 - JBoss Portal 6.1.0.Final
+- JBoss Portal 6.1.1.Final
 
 
 Maven repositories
@@ -56,12 +63,26 @@ In development mode:
 list of distribution profiles:
 
     -Pjbossas-remote-711               jboss as 7.1.1
+    -Pjbossas-remote-712               jboss as 7.1.2
+    -Pjbossas-remote-713               jboss as 7.1.3
     -Pgatein-portlet-remote-360        gatein 3.6.0 as portlet
     -Pgatein-web-remote-360            gatein 3.6.0 as web application  
+    -Pgatein-portlet-remote-370        gatein 3.7.0 as portlet
+    -Pgatein-web-remote-370            gatein 3.7.0 as web application    
+    -Pgatein-portlet-remote-371        gatein 3.7.1 as portlet
+    -Pgatein-web-remote-371            gatein 3.7.1 as web application
+    -Pgatein-portlet-remote-381        gatein 3.8.1 as portlet
+    -Pgatein-web-remote-381            gatein 3.8.1 as web application  
+    -Pgatein-portlet-remote-382        gatein 3.8.2 as portlet
+    -Pgatein-web-remote-382            gatein 3.8.2 as web application  
     -Pjbossportal-portlet-remote-610   jboss portal 6.1.0 as portlet
     -Pjbossportal-web-remote-610       jboss portal 6.1.0 as web application
+    -Pjbossportal-portlet-remote-611   jboss portal 6.1.1 as portlet
+    -Pjbossportal-web-remote-611       jboss portal 6.1.1 as web application
     -Peap-remote-610                   EAP 6.1.0
+    -Peap-remote-611                   EAP 6.1.1
     -Peap-remote-620                   EAP 6.2.0
+    -Peap-remote-630                   EAP 6.3.0
 
 You can also choose the deploy mode using the profiles:
 

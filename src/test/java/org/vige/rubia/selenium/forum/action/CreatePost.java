@@ -24,6 +24,7 @@ import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 import static org.vige.rubia.selenium.forum.action.CreateAttachment.addAttachments;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.vige.rubia.model.Post;
@@ -35,6 +36,7 @@ public class CreatePost {
 	public static final String REPLY_POST_BUTTON = "actionbuttons";
 	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
 	public static final String SUBMIT_BUTTON = "post:Submit";
+	public static final String LOCKED = "locked";
 
 	public static String createPost(WebDriver driver, Post post) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
@@ -45,9 +47,13 @@ public class CreatePost {
 		WebElement topicSubject = driver.findElement(linkText(post.getTopic()
 				.getSubject()));
 		topicSubject.click();
-		WebElement bodyText = driver.findElement(className(REPLY_POST_BUTTON))
-				.findElement(xpath("a[2]"));
-		bodyText.click();
+		try {
+			WebElement bodyText = driver.findElement(
+					className(REPLY_POST_BUTTON)).findElement(xpath("a[2]"));
+			bodyText.click();
+		} catch (NoSuchElementException e) {
+			return LOCKED;
+		}
 		switchFrame(driver);
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		bodytInput.sendKeys(post.getMessage().getText());

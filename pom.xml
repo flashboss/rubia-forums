@@ -47,51 +47,6 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>redhat-eap6.1.0.Beta1-public-repository-group</id>
-			<name>Redhat eap6.1.0.Beta1 Public Maven Repository Group</name>
-			<url>http://maven.repository.redhat.com/techpreview/eap6/6.1.0.Beta1/maven-repository/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>redhat-jpp6.1.0-public-repository-group</id>
-			<name>Redhat JPP6.1.0 Public Maven Repository Group</name>
-			<url>http://maven.repository.redhat.com/techpreview/jpp6/6.1.0/maven-repository/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>redhat-ip6.0.0.Beta-public-repository-group</id>
-			<name>Redhat IP6.0.0.Beta Public Maven Repository Group</name>
-			<url>http://maven.repository.redhat.com/techpreview/ip6/6.0.0.Beta/maven-repository/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>redhat-all-public-repository-group</id>
 			<name>Redhat All Public Maven Repository Group</name>
 			<url>http://maven.repository.redhat.com/techpreview/all/
@@ -107,9 +62,9 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>redhat-eap6.3.0.Alpha-public-repository-group</id>
-			<name>Redhat EAP6.3.0.Alpha Public Maven Repository Group</name>
-			<url>http://maven.repository.redhat.com/techpreview/eap6/6.3.0.Alpha/maven-repository/
+			<id>redhat-early-public-repository-group</id>
+			<name>Redhat Early Public Maven Repository Group</name>
+			<url>https://maven.repository.redhat.com/nexus/content/groups/product-earlyaccess/
             </url>
 			<layout>default</layout>
 			<releases>
@@ -120,12 +75,6 @@
 				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>maven2-repository.java.net</id>
-			<name>Java.net Repository for Maven</name>
-			<url>http://download.java.net/maven/2/</url>
-			<layout>default</layout>
 		</repository>
 	</repositories>
 
@@ -587,9 +536,373 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+					<version>1.4.01</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jbossas-remote-712</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/jbossas/712/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/jbossas/712/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/jbossas/712/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.5.Final</version>
+						<executions>
+							<execution>
+								<id>add-securitydomain</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=security,security-domain=rubia-domain</address>
+									<resource>
+										<properties>
+											<cache-type>default</cache-type>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>add-authentication</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute-commands</goal>
+								</goals>
+								<configuration>
+									<executeCommands>
+										<commands>
+											<command>/subsystem=security/security-domain=rubia-domain/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
+											</command>
+										</commands>
+									</executeCommands>
+								</configuration>
+							</execution>
+							<execution>
+								<id>add-forums-datasource</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
+									<resource>
+										<enable-resource>true</enable-resource>
+										<properties>
+											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
+											<enabled>true</enabled>
+											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+											<driver-name>h2</driver-name>
+											<user-name>sa</user-name>
+											<min-pool-size>5</min-pool-size>
+											<max-pool-size>20</max-pool-size>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>deploy-application</id>
+								<phase>install</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>del-resources</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+								<configuration>
+									<afterDeployment>
+										<commands>
+											<command>/subsystem=security/security-domain="rubia-domain":remove
+											</command>
+											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
+												{ "outcome" => "failed", "failure-description" =>
+												"JBAS014749: Operation
+												handler failed: null", "rolled-back"
+												=> true }
+											</command>
+										</commands>
+									</afterDeployment>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
-					<version>7.1.1.Final</version>
+					<version>7.1.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-api</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-impl</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.1.2.Final</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.1.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+					<version>1.4.01</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jbossas-remote-713</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/jbossas/713/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/jbossas/713/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/jbossas/713/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.5.Final</version>
+						<executions>
+							<execution>
+								<id>add-securitydomain</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=security,security-domain=rubia-domain</address>
+									<resource>
+										<properties>
+											<cache-type>default</cache-type>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>add-authentication</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute-commands</goal>
+								</goals>
+								<configuration>
+									<executeCommands>
+										<commands>
+											<command>/subsystem=security/security-domain=rubia-domain/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
+											</command>
+										</commands>
+									</executeCommands>
+								</configuration>
+							</execution>
+							<execution>
+								<id>add-forums-datasource</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
+									<resource>
+										<enable-resource>true</enable-resource>
+										<properties>
+											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
+											<enabled>true</enabled>
+											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+											<driver-name>h2</driver-name>
+											<user-name>sa</user-name>
+											<min-pool-size>5</min-pool-size>
+											<max-pool-size>20</max-pool-size>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>deploy-application</id>
+								<phase>install</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>del-resources</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+								<configuration>
+									<afterDeployment>
+										<commands>
+											<command>/subsystem=security/security-domain="rubia-domain":remove
+											</command>
+											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
+												{ "outcome" => "failed", "failure-description" =>
+												"JBAS014749: Operation
+												handler failed: null", "rolled-back"
+												=> true }
+											</command>
+										</commands>
+									</afterDeployment>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.1.3.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-api</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-impl</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.1.6.Final</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.1.6.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -650,6 +963,98 @@
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-security</artifactId>
 					<version>7.2.0.Final-redhat-8</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.2.0.Final-redhat-1</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.2.0.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-api</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-impl</artifactId>
+					<version>5.0.0-2013Jan16</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>eap-remote-611</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/eap/611/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/eap/611/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/eap/611/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.2.1.Final-redhat-10</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -786,14 +1191,14 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-800</id>
+			<id>eap-remote-630</id>
 			<build>
 				<resources>
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
 					<resource>
-						<directory>src/main/wildfly/800/resources</directory>
+						<directory>src/main/eap/630/resources</directory>
 					</resource>
 				</resources>
 				<plugins>
@@ -805,7 +1210,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/wildfly/800/webapp</directory>
+									<directory>src/main/eap/630/webapp</directory>
 								</resource>
 							</webResources>
 						</configuration>
@@ -821,95 +1226,8 @@
 								</goals>
 								<configuration>
 									<sources>
-										<source>src/main/wildfly/800/java</source>
+										<source>src/main/eap/630/java</source>
 									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.wildfly.plugins</groupId>
-						<artifactId>wildfly-maven-plugin</artifactId>
-						<version>1.0.1.Final</version>
-						<executions>
-							<execution>
-								<id>add-securitydomain</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=security,security-domain=rubia-domain</address>
-									<resource>
-										<properties>
-											<cache-type>default</cache-type>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>add-authentication</id>
-								<phase>install</phase>
-								<goals>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<executeCommands>
-										<commands>
-											<command>/subsystem=security/security-domain=rubia-domain/authentication=classic:add(login-modules=[{"code"=>"UsersRoles","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
-											</command>
-										</commands>
-									</executeCommands>
-								</configuration>
-							</execution>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resource>
-										<enable-resource>true</enable-resource>
-										<properties>
-											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-											<enabled>true</enabled>
-											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-											<driver-name>h2</driver-name>
-											<user-name>sa</user-name>
-											<min-pool-size>5</min-pool-size>
-											<max-pool-size>20</max-pool-size>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>deploy-application</id>
-								<phase>install</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>del-resources</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-								</goals>
-								<configuration>
-									<afterDeployment>
-										<commands>
-											<command>/subsystem=security/security-domain="rubia-domain":remove
-											</command>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{ "outcome" => "failed", "failure-description" =>
-												"JBAS014749: Operation
-												handler failed: null", "rolled-back"
-												=> true }
-											</command>
-										</commands>
-									</afterDeployment>
 								</configuration>
 							</execution>
 						</executions>
@@ -918,27 +1236,25 @@
 			</build>
 			<dependencies>
 				<dependency>
-					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-security</artifactId>
-					<version>8.0.0.Final</version>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.4.0.Final-redhat-19</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
 					<artifactId>lucene-core</artifactId>
 					<version>3.6.2</version>
-					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search</artifactId>
-					<version>4.5.0.Final</version>
-					<scope>provided</scope>
+					<version>4.3.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.3.1.Final</version>
+					<version>4.2.14.SP1-redhat-1</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -950,7 +1266,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.1.Final</version>
+					<version>4.2.14.SP1-redhat-1</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -1655,6 +1971,246 @@
 		</profile>
 
 		<profile>
+			<id>gatein-web-remote-371</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/gatein/371/web/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/gatein/371/web/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/gatein/371/web/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.1.3.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.1.6.Final</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.1.6.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.7.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.7.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.4.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>gatein-portlet-remote-371</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/gatein/371/portlet/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/gatein/371/portlet/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/gatein/371/portlet/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.1.3.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.1.6.Final</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.1.6.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.7.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.7.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.4.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.api</groupId>
+					<artifactId>gatein-api</artifactId>
+					<version>1.0.1.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
 			<id>gatein-web-remote-381</id>
 			<build>
 				<resources>
@@ -1895,6 +2451,246 @@
 		</profile>
 
 		<profile>
+			<id>gatein-web-remote-382</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/gatein/382/web/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/gatein/382/web/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/gatein/382/web/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.4.0.Final-redhat-19</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.2.14.SP1-redhat-1</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.2.14.SP1-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.8.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.8.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.4.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>gatein-portlet-remote-382</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/gatein/382/portlet/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/gatein/382/portlet/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/gatein/382/portlet/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.4.0.Final-redhat-19</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.2.14.SP1-redhat-1</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.2.14.SP1-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.8.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.8.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.6.0-GA</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.4.2.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.api</groupId>
+					<artifactId>gatein-api</artifactId>
+					<version>1.1.0.Final</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
 			<id>jbossportal-web-remote-610</id>
 			<build>
 				<resources>
@@ -2112,6 +2908,246 @@
 					<groupId>org.exoplatform.core</groupId>
 					<artifactId>exo.core.component.security.core</artifactId>
 					<version>2.5.4-GA-redhat-2</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.3.4.Final-redhat-2</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.api</groupId>
+					<artifactId>gatein-api</artifactId>
+					<version>1.0.1.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jbossportal-web-remote-611</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/jbossportal/611/web/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/jbossportal/611/web/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/jbossportal/611/web/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.2.1.Final-redhat-10</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.2.0.SP1-redhat-1</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.2.0.SP1-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.5.7-GA-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.6.5.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.6.5.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.5.7-GA-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.sso</groupId>
+					<artifactId>sso-integration</artifactId>
+					<version>1.3.4.Final-redhat-2</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.portlet</groupId>
+					<artifactId>portlet-api</artifactId>
+					<version>2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jbossportal-portlet-remote-611</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>src/main/jbossportal/611/portlet/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>src/main/jbossportal/611/portlet/webapp</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src/main/jbossportal/611/portlet/java</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-security</artifactId>
+					<version>7.2.1.Final-redhat-10</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+					<version>3.6.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-search</artifactId>
+					<version>4.3.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>4.2.0.SP1-redhat-1</version>
+					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>antlr</groupId>
+							<artifactId>antlr</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+					<version>4.2.0.SP1-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.organization.api</artifactId>
+					<version>2.5.7-GA-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.webui.framework</artifactId>
+					<version>3.6.5.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.gatein.portal</groupId>
+					<artifactId>exo.portal.component.web.oauth-common</artifactId>
+					<version>3.6.5.Final-redhat-1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.exoplatform.core</groupId>
+					<artifactId>exo.core.component.security.core</artifactId>
+					<version>2.5.7-GA-redhat-1</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>

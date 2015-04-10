@@ -25,6 +25,8 @@ import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVE
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_2_MESSAGE;
 import static org.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
+import static org.vige.rubia.selenium.forum.action.CreatePost.LOCKED;
+import static org.vige.rubia.selenium.forum.action.CreatePost.createPost;
 import static org.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static org.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static org.vige.rubia.selenium.moderate.action.LockTopic.lockTopic;
@@ -269,6 +271,8 @@ public class ModerateTopicTest {
 		Topic topic = new Topic(forum, "Third Test Topic");
 		String message = lockTopic(driver, topic);
 		assertEquals(message, SUCC_TOPIC_LOCKED);
+		message = createPost(driver, new Post(topic, "new Test Post"));
+		assertEquals(message, LOCKED);
 		message = lockTopic(driver, topic);
 		assertEquals(message, SUCC_TOPIC_UNLOCKED);
 	}
