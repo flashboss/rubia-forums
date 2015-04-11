@@ -1010,6 +1010,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		return findPostsByTopicId(topic, start, limit, "desc");
 	}
 
+	@Override
 	public Date findLastPostDateForUser(User user) throws ModuleException {
 		try {
 

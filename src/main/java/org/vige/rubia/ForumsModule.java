@@ -651,6 +651,12 @@ public interface ForumsModule {
 	 */
 	List<Post> findPostsByTopicIdDesc(Topic topic, int start, int limit) throws ModuleException;
 
+	/**
+	 * 
+	 * @return
+	 */
+	Date findLastPostDateForUser(User user) throws ModuleException;
+
 	Post findLastPost(Forum forum) throws ModuleException;
 
 	Post findFirstPost(Topic topic) throws ModuleException;
