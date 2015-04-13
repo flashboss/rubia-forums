@@ -93,7 +93,7 @@
 	<!-- RSS Servlet -->
 	<servlet>
 		<servlet-name>FeedsServlet</servlet-name>
-		<servlet-class>org.vige.rubia.feeds.FeedsServlet</servlet-class>
+		<servlet-class>it.vige.rubia.feeds.FeedsServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -106,7 +106,7 @@
 	<!-- Download Attachment filter -->
 	<filter>
 		<filter-name>DownloadFilter</filter-name>
-		<filter-class>org.vige.rubia.ui.DownloadFilter</filter-class>
+		<filter-class>it.vige.rubia.ui.DownloadFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>DownloadFilter</filter-name>

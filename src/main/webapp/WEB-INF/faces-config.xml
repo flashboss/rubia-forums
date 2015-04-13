@@ -36,7 +36,7 @@
 		<renderer>
 			<component-family>org.richfaces.DataScroller</component-family>
 			<renderer-type>org.richfaces.DataScrollerRenderer</renderer-type>
-			<renderer-class>org.vige.rubia.renderer.ForumsDataScrollerRenderer</renderer-class>
+			<renderer-class>it.vige.rubia.renderer.ForumsDataScrollerRenderer</renderer-class>
 		</renderer>
 	</render-kit>
 	<navigation-rule>
