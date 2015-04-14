@@ -20,6 +20,12 @@
 			<url>http://www.gnu.org/licenses/lgpl.html</url>
 		</license>
 	</licenses>
+	<scm>
+		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
+		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
+		<tag>1.0.X-SNAPSHOT</tag>
+		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
+	</scm>
 
 	<properties>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
