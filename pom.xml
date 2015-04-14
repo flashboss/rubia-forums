@@ -26,6 +26,15 @@
 		<tag>2.0.X-SNAPSHOT</tag>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
 	</scm>
+	<developers>
+		<developer>
+			<id>flashboss</id>
+			<name>Luca Stancapiano</name>
+			<organization>vige</organization>
+			<organizationUrl>http://www.vige.it</organizationUrl>
+			<url>http://www.vige.it</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
