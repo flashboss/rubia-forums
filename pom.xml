@@ -4,7 +4,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.X-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Rubia Forums</name>
 	<description>Rubia Forums Web and Portlet Application</description>
@@ -23,7 +23,7 @@
 	<scm>
 		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
 		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
-		<tag>1.0.0</tag>
+		<tag>1.0.X-SNAPSHOT</tag>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
 	</scm>
 	<developers>
