@@ -7,8 +7,8 @@ public class JBossUser implements User {
 	private String id;
 	private String userName;
 	
-	public JBossUser(org.picketlink.idm.model.User user) {
-		this.userName = user.getKey();
+	public JBossUser(org.picketlink.idm.model.basic.User user) {
+		this.userName = user.getId();
 		this.id = user.getId();
 	}
 

@@ -14,8 +14,10 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
-	version="2.0">
+<facelet-taglib xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facelettaglibary_2_2.xsd"
+	version="2.2">
 	<namespace>http://www.jboss.com/products/jbossportal/forums</namespace>
 
 	<!-- function to check if the application is running in a portal envioronment -->
@@ -24,67 +26,59 @@
 		<function-class>it.vige.rubia.ui.PortalUtil</function-class>
 		<function-signature>boolean isRunningInPortal()</function-signature>
 	</function>
-	
-    <!--
-    -->
-    <function>
-        <function-name>feedsConfigured</function-name>
-        <function-class>it.vige.rubia.ui.ForumUtil</function-class>
-        <function-signature>boolean isFeedsConfigured()</function-signature>
-    </function>
-    
-	<!-- 
-		 function generates the contextPath of the application
-	-->
+
+	<!-- -->
 	<function>
-  		<function-name>contextPath</function-name>
-  		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
-  		<function-signature>java.lang.String getContextPath()</function-signature>
+		<function-name>feedsConfigured</function-name>
+		<function-class>it.vige.rubia.ui.ForumUtil</function-class>
+		<function-signature>boolean isFeedsConfigured()</function-signature>
 	</function>
-	
-	<!-- 
-		 function retrieves a generic error message if one is found.
-		 return null if nothing is found
-	-->
+
+	<!-- function generates the contextPath of the application -->
 	<function>
-  		<function-name>errorMsg</function-name>
-  		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
-  		<function-signature>java.lang.String getErrorMsg()</function-signature>
+		<function-name>contextPath</function-name>
+		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
+		<function-signature>java.lang.String getContextPath()</function-signature>
 	</function>
-        
-    <!-- 
-     	Method for processing posts's messages.
-    -->
-    <function>
+
+	<!-- function retrieves a generic error message if one is found. return 
+		null if nothing is found -->
+	<function>
+		<function-name>errorMsg</function-name>
+		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
+		<function-signature>java.lang.String getErrorMsg()</function-signature>
+	</function>
+
+	<!-- Method for processing posts's messages. -->
+	<function>
 		<function-name>formatMessage</function-name>
-  		<function-class>it.vige.rubia.ui.PortalUtil</function-class>
-  		<function-signature>java.lang.String formatMessage(java.lang.String,boolean)</function-signature>
+		<function-class>it.vige.rubia.ui.PortalUtil</function-class>
+		<function-signature>java.lang.String
+			formatMessage(java.lang.String,boolean)</function-signature>
 	</function>
-	
-	<!-- 
-		 function retrieves a message if one is found
-		 return null if nothing is found
-	-->
+
+	<!-- function retrieves a message if one is found return null if nothing 
+		is found -->
 	<function>
-  		<function-name>message</function-name>
-  		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
-  		<function-signature>java.lang.String getMessage(java.lang.String)</function-signature>
+		<function-name>message</function-name>
+		<function-class>it.vige.rubia.ui.JSFUtil</function-class>
+		<function-signature>java.lang.String getMessage(java.lang.String)</function-signature>
 	</function>
-	
-	<!--  
-	-->
+
+	<!-- -->
 	<function>
 		<function-name>dateStr</function-name>
-  		<function-class>it.vige.rubia.ui.ForumUtil</function-class>
-  		<function-signature>java.lang.String getDateStr(java.util.Date)</function-signature>
-	</function>	
-	
-	<!--  
-	-->
+		<function-class>it.vige.rubia.ui.ForumUtil</function-class>
+		<function-signature>java.lang.String getDateStr(java.util.Date)</function-signature>
+	</function>
+
+	<!-- -->
 	<function>
 		<function-name>votePercent</function-name>
-  		<function-class>it.vige.rubia.ui.PortalUtil</function-class>
-  		<function-signature>java.lang.String getVotePercent(it.vige.rubia.model.Poll,it.vige.rubia.model.PollOption, int)</function-signature>
+		<function-class>it.vige.rubia.ui.PortalUtil</function-class>
+		<function-signature>java.lang.String
+			getVotePercent(it.vige.rubia.model.Poll,it.vige.rubia.model.PollOption,
+			int)</function-signature>
 	</function>
 
 	<!-- access control tag -->
