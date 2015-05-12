@@ -7,10 +7,13 @@ import it.vige.rubia.auth.UserModule;
 import java.io.Serializable;
 
 import javax.ejb.Stateful;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.picketlink.idm.IdentityManager;
+import org.picketlink.idm.PartitionManager;
+import org.picketlink.idm.config.IdentityConfiguration;
+import org.picketlink.idm.config.IdentityConfigurationBuilder;
+import org.picketlink.idm.internal.DefaultPartitionManager;
 import org.picketlink.idm.query.AttributeParameter;
 import org.picketlink.idm.query.IdentityQuery;
 import org.picketlink.idm.query.QueryParameter;
@@ -23,11 +26,11 @@ public class JBossUserModule implements UserModule, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8560321558665446098L;
-	@Inject
 	private IdentityManager identityManager;
 
 	@Override
 	public User findUserByUserName(String arg0) throws IllegalArgumentException {
+		loadIdentityManager();
 		User user = null;
 		try {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
@@ -41,6 +44,7 @@ public class JBossUserModule implements UserModule, Serializable {
 
 	@Override
 	public User findUserById(String arg0) throws IllegalArgumentException {
+		loadIdentityManager();
 		User user = null;
 		try {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
@@ -66,5 +70,16 @@ public class JBossUserModule implements UserModule, Serializable {
 		org.picketlink.idm.model.basic.User newUser = query.getResultList()
 				.get(0);
 		return newUser;
+	}
+
+	private void loadIdentityManager() {
+		if (identityManager == null) {
+			IdentityConfigurationBuilder identityConfigurationBuilder = new IdentityConfigurationBuilder();
+			IdentityConfiguration identityConfiguration = identityConfigurationBuilder
+					.named("forums").build();
+			PartitionManager partitionManager = new DefaultPartitionManager(
+					identityConfiguration);
+			identityManager = partitionManager.createIdentityManager();
+		}
 	}
 }
