@@ -22,6 +22,7 @@ import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.model.Forum;
@@ -379,49 +380,55 @@ public class ModeratorAction extends BaseController {
 	}
 
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 
-		// trying to get forumId from request parameter
-		int forumId = -1;
-		String f = getParameter(p_forumId);
+		try {
+			// trying to get forumId from request parameter
+			int forumId = -1;
+			String f = getParameter(p_forumId);
 
-		if (f != null && f.trim().length() > 0) {
-			forumId = parseInt(f);
-		}
+			if (f != null && f.trim().length() > 0) {
+				forumId = parseInt(f);
+			}
 
-		checkboxes = new HashMap<Integer, Boolean>();
+			checkboxes = new HashMap<Integer, Boolean>();
 
-		// grab the data to be displayed for this page
-		if (forumId != -1) {
+			// grab the data to be displayed for this page
+			if (forumId != -1) {
 
-			// setup the business objects like the forum, topics etc that will
-			// be displayed
-			forum = forumsModule.findForumById(forumId);
-
-		} else {
-
-			// trying to get forumId from topicId read from request
-			String t = getParameter(p_topicId);
-
-			if (t != null && t.trim().length() > 0) {
-
-				Topic topic = forumsModule.findTopicById(new Integer(t));
-				forum = topic.getForum();
+				// setup the business objects like the forum, topics etc that
+				// will
+				// be displayed
+				forum = forumsModule.findForumById(forumId);
 
 			} else {
-				String p = getParameter(p_postId);
 
-				if (p != null && p.trim().length() > 0) {
+				// trying to get forumId from topicId read from request
+				String t = getParameter(p_topicId);
 
-					Post post = forumsModule.findPostById(new Integer(p));
-					Topic topic = post.getTopic();
+				if (t != null && t.trim().length() > 0) {
+
+					Topic topic = forumsModule.findTopicById(new Integer(t));
 					forum = topic.getForum();
+
+				} else {
+					String p = getParameter(p_postId);
+
+					if (p != null && p.trim().length() > 0) {
+
+						Post post = forumsModule.findPostById(new Integer(p));
+						Topic topic = post.getTopic();
+						forum = topic.getForum();
+					}
 				}
 			}
-		}
-		if (forum != null) {
-			topics = forumsModule.findTopics(forum);
-			topicsDataModel = new ListDataModel<Topic>(topics);
+			if (forum != null) {
+				topics = forumsModule.findTopics(forum);
+				topicsDataModel = new ListDataModel<Topic>(topics);
+			}
+		} catch (ModuleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

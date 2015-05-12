@@ -25,6 +25,7 @@ import static it.vige.rubia.ui.PortalUtil.createFeedLink;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.parseInt;
 import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.model.Forum;
@@ -259,7 +260,7 @@ public class ViewForum extends BaseController {
       *
       */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		// parse the input parameters
 		int forumId = -1;
 		String f = getParameter(p_forumId);
@@ -277,54 +278,59 @@ public class ViewForum extends BaseController {
 			// setup the business objects like the forum, topics etc that
 			// will
 			// be displayed
-			forum = fm.findForumById(forumId);
+			try {
+				forum = fm.findForumById(forumId);
 
-			// Getting sticky topics for this page
-			Collection<Topic> stickies = getStickyThreads();
+				// Getting sticky topics for this page
+				Collection<Topic> stickies = getStickyThreads();
 
-			// Getting announcements
-			Collection<Topic> announcements = getAnnouncements();
+				// Getting announcements
+				Collection<Topic> announcements = getAnnouncements();
 
-			normalThreads = fm.findTopicsDesc(forum, NORMAL, 0, MAX_VALUE);
-			normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
+				normalThreads = fm.findTopicsDesc(forum, NORMAL, 0, MAX_VALUE);
+				normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
 
-			Collection<Topic> listOfTopics = new LinkedList<Topic>();
+				Collection<Topic> listOfTopics = new LinkedList<Topic>();
 
-			listOfTopics.addAll(stickies);
-			listOfTopics.addAll(announcements);
-			listOfTopics.addAll(normalThreads);
+				listOfTopics.addAll(stickies);
+				listOfTopics.addAll(announcements);
+				listOfTopics.addAll(normalThreads);
 
-			// Getting sticky topics for this page
-			topicLastPosts = fm.findLastPostsOfTopics(listOfTopics);
+				// Getting sticky topics for this page
+				topicLastPosts = fm.findLastPostsOfTopics(listOfTopics);
 
-			// setup dummy pageNavigators for all topics being displayed for
-			// topic minipaging
-			for (Topic cour : listOfTopics) {
-				if (cour.getReplies() > 0) {
-					PageNavigator topicNav = new PageNavigator(
-							cour.getReplies() + 1,
-							userPreferences.getPostsPerTopic(), // this
-																// is
-																// user's
-																// posts
-																// per
-																// page
-																// preference
-							0 // current page of the navigator
-					) {
+				// setup dummy pageNavigators for all topics being displayed for
+				// topic minipaging
+				for (Topic cour : listOfTopics) {
+					if (cour.getReplies() > 0) {
+						PageNavigator topicNav = new PageNavigator(
+								cour.getReplies() + 1,
+								userPreferences.getPostsPerTopic(), // this
+																	// is
+																	// user's
+																	// posts
+																	// per
+																	// page
+																	// preference
+								0 // current page of the navigator
+						) {
 
-						/**
+							/**
 						 * 
 						 */
-						private static final long serialVersionUID = 6277599446838264687L;
+							private static final long serialVersionUID = 6277599446838264687L;
 
-						protected Collection<Integer> initializePage() {
-							return null;
-						}
+							protected Collection<Integer> initializePage() {
+								return null;
+							}
 
-					};
-					topicNavigator.put(cour.getId(), topicNav);
+						};
+						topicNavigator.put(cour.getId(), topicNav);
+					}
 				}
+			} catch (ModuleException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

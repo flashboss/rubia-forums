@@ -100,7 +100,8 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	/**
      * 
      */
-	public void setForumImageDescriptions(Map<Integer, String> forumImageDescriptions) {
+	public void setForumImageDescriptions(
+			Map<Integer, String> forumImageDescriptions) {
 		this.forumImageDescriptions = forumImageDescriptions;
 	}
 
@@ -134,7 +135,8 @@ public class ViewMyForumsEditAllForums extends BaseController {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
 
-				forumsLastPosts = forumsModule.findLastPostsOfForums(forumInstanceId);
+				forumsLastPosts = forumsModule
+						.findLastPostsOfForums(forumInstanceId);
 			} catch (Exception e) {
 				handleException(e);
 			}
@@ -175,7 +177,8 @@ public class ViewMyForumsEditAllForums extends BaseController {
 			try {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedForums = forumsModule.findForumWatchedByUser(getUser(userModule), forumInstanceId);
+				watchedForums = forumsModule.findForumWatchedByUser(
+						getUser(userModule), forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -223,14 +226,15 @@ public class ViewMyForumsEditAllForums extends BaseController {
      * 
      */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 
 		Collection<Forum> forums = getWatchedForums();
 
 		try {
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
-			forumWatches = forumsModule.findForumWatches(getUser(userModule), forumInstanceId);
+			forumWatches = forumsModule.findForumWatches(getUser(userModule),
+					forumInstanceId);
 
 		} catch (Exception e) {
 			handleException(e);
@@ -244,10 +248,13 @@ public class ViewMyForumsEditAllForums extends BaseController {
 			// setup folderLook based on whats specified in the theme
 			String folderImage = themeHelper.getResourceForumURL();
 			String folderAlt = "No_new_posts"; // bundle key
-			if (forumsLastPosts != null && forumsLastPosts.containsKey(currentForum.getId())) {
-				Post lastPost = (Post) forumsLastPosts.get(currentForum.getId());
+			if (forumsLastPosts != null
+					&& forumsLastPosts.containsKey(currentForum.getId())) {
+				Post lastPost = (Post) forumsLastPosts
+						.get(currentForum.getId());
 				Date lastPostDate = lastPost.getCreateDate();
-				if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
+				if (lastPostDate != null && userLastLogin != null
+						&& lastPostDate.compareTo(userLastLogin) > 0) {
 					folderAlt = "New_posts"; // bundle key
 					folderImage = themeHelper.getResourceForumNewURL();
 				}
@@ -268,7 +275,8 @@ public class ViewMyForumsEditAllForums extends BaseController {
 				forumId = -1;
 			}
 			if (forumId != -1) {
-				watch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), forumId);
+				watch = forumsModule.findForumWatchByUserAndForum(
+						getUser(userModule), forumId);
 			}
 		} catch (Exception e) {
 			handleException(e);

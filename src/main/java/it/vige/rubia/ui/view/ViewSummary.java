@@ -109,9 +109,14 @@ public class ViewSummary extends BaseController {
      *
      */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		// load the topics
-		loadDefaultTopics();
+		try {
+			loadDefaultTopics();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------------------------
@@ -141,7 +146,8 @@ public class ViewSummary extends BaseController {
 		int forumInstanceId = userPreferences.getForumInstanceId();
 
 		if (forumsModule.findForumInstanceById(forumInstanceId) == null)
-			forumsModule.createForumInstance(forumInstanceId, "by_manual_preferences");
+			forumsModule.createForumInstance(forumInstanceId,
+					"by_manual_preferences");
 
 		// Luca Stancapiano end
 
@@ -153,16 +159,20 @@ public class ViewSummary extends BaseController {
 		 * instance
 		 */
 		case BLOCK_TOPICS_MODE_HOT_TOPICS:
-			topics = forumsModule.findTopicsHot(summaryTopicReplies, summaryTopicLimit, forumInstanceId);
+			topics = forumsModule.findTopicsHot(summaryTopicReplies,
+					summaryTopicLimit, forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_HOTTEST_TOPICS:
-			topics = forumsModule.findTopicsHottest(time, summaryTopicLimit, forumInstanceId);
+			topics = forumsModule.findTopicsHottest(time, summaryTopicLimit,
+					forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_LATEST_POSTS:
-			topics = forumsModule.findTopicsByLatestPosts(summaryTopicLimit, forumInstanceId);
+			topics = forumsModule.findTopicsByLatestPosts(summaryTopicLimit,
+					forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_MOST_VIEWED:
-			topics = forumsModule.findTopicsMostViewed(time, summaryTopicLimit, forumInstanceId);
+			topics = forumsModule.findTopicsMostViewed(time, summaryTopicLimit,
+					forumInstanceId);
 			break;
 		// Luca Stancapiano end
 		}

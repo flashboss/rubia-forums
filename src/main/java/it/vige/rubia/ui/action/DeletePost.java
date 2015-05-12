@@ -17,6 +17,7 @@ import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.model.Post;
@@ -71,7 +72,7 @@ public class DeletePost extends BaseController {
      * 
      */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		// get the post id
 		int postId = -1;
 		String p = getParameter(p_postId);
@@ -80,7 +81,12 @@ public class DeletePost extends BaseController {
 		}
 		this.postId = postId;
 		if (postId != -1) {
-			post = (Post) forumsModule.findPostById(postId);
+			try {
+				post = (Post) forumsModule.findPostById(postId);
+			} catch (ModuleException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -101,7 +107,8 @@ public class DeletePost extends BaseController {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME,
+						TOPIC_LOCKED_ERR_KEY));
 			}
 
 			boolean isFirstPost = false;
@@ -110,7 +117,8 @@ public class DeletePost extends BaseController {
 			if (posts.get(0).getId() == post.getId().intValue()) {
 				isFirstPost = true;
 			}
-			if (posts.get(posts.size() - 1).getId().intValue() == post.getId().intValue()) {
+			if (posts.get(posts.size() - 1).getId().intValue() == post.getId()
+					.intValue()) {
 				isLastPost = true;
 			}
 

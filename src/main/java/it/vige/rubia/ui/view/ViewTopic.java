@@ -188,7 +188,7 @@ public class ViewTopic extends BaseController {
 	 * that id.
 	 */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		// parse input data
 		int topicId = -1;
 		Integer postId = -1;
@@ -198,14 +198,17 @@ public class ViewTopic extends BaseController {
 		if (t != null && t.trim().length() > 0) {
 			topicId = parseInt(t);
 		}
-
-		if (p != null && p.trim().length() > 0) {
-			postId = new Integer(p);
-			Post post = forumsModule.findPostById(postId);
-			topicId = post.getTopic().getId().intValue();
-			topic = post.getTopic();
+		try {
+			if (p != null && p.trim().length() > 0) {
+				postId = new Integer(p);
+				Post post = forumsModule.findPostById(postId);
+				topicId = post.getTopic().getId().intValue();
+				topic = post.getTopic();
+			}
+			refreshTopic(topicId);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		refreshTopic(topicId);
 	}
 
 	public boolean isLocked() {

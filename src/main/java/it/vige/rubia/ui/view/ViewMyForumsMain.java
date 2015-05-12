@@ -89,13 +89,15 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	public Collection<Topic> getWatchedTopics() {
 		if (watchedTopics == null) {
 			try {
-				Date lastLoginDate = getUserLastLoginDate(userModule, userProfileModule);
+				Date lastLoginDate = getUserLastLoginDate(userModule,
+						userProfileModule);
 				if (lastLoginDate == null) {
 					return watchedTopics;
 				}
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedTopics = forumsModule.findTopicWatchedByUser(getUser(userModule), lastLoginDate, forumInstanceId);
+				watchedTopics = forumsModule.findTopicWatchedByUser(
+						getUser(userModule), lastLoginDate, forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -121,7 +123,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 			try {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedForums = forumsModule.findForumWatchedByUser(getUser(userModule), forumInstanceId);
+				watchedForums = forumsModule.findForumWatchedByUser(
+						getUser(userModule), forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -172,7 +175,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
 
-				forumsLastPosts = forumsModule.findLastPostsOfForums(forumInstanceId);
+				forumsLastPosts = forumsModule
+						.findLastPostsOfForums(forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -192,31 +196,40 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
      * 
      */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 
-		super.execute();
-		Collection<Forum> forums = getWatchedForums();
-		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
+		try {
+			super.execute();
+			Collection<Forum> forums = getWatchedForums();
+			Date userLastLogin = getUserLastLoginDate(userModule,
+					userProfileModule);
 
-		for (Forum currentForum : forums) {
+			for (Forum currentForum : forums) {
 
-			// setup folderLook based on whats specified in the theme
-			String folderImage = themeHelper.getResourceForumURL();
-			String folderAlt = "No_new_posts"; // bundle key
-			if (forumsLastPosts != null && forumsLastPosts.containsKey(currentForum.getId())) {
-				Post lastPost = forumsLastPosts.get(currentForum.getId());
-				Date lastPostDate = lastPost.getCreateDate();
-				if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
-					folderAlt = "New_posts"; // bundle key
-					folderImage = themeHelper.getResourceForumNewURL();
+				// setup folderLook based on whats specified in the theme
+				String folderImage = themeHelper.getResourceForumURL();
+				String folderAlt = "No_new_posts"; // bundle key
+				if (forumsLastPosts != null
+						&& forumsLastPosts.containsKey(currentForum.getId())) {
+					Post lastPost = forumsLastPosts.get(currentForum.getId());
+					Date lastPostDate = lastPost.getCreateDate();
+					if (lastPostDate != null && userLastLogin != null
+							&& lastPostDate.compareTo(userLastLogin) > 0) {
+						folderAlt = "New_posts"; // bundle key
+						folderImage = themeHelper.getResourceForumNewURL();
+					}
 				}
+				if (currentForum.getStatus() == Constants.FORUM_LOCKED) {
+					folderImage = themeHelper.getResourceForumLockedURL();
+					folderAlt = "Forum_locked"; // bundle key
+				}
+				getForumImages().put(currentForum.getId(), folderImage);
+				getForumImageDescriptions()
+						.put(currentForum.getId(), folderAlt);
 			}
-			if (currentForum.getStatus() == Constants.FORUM_LOCKED) {
-				folderImage = themeHelper.getResourceForumLockedURL();
-				folderAlt = "Forum_locked"; // bundle key
-			}
-			getForumImages().put(currentForum.getId(), folderImage);
-			getForumImageDescriptions().put(currentForum.getId(), folderAlt);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

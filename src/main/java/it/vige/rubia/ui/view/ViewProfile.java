@@ -15,6 +15,7 @@ package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
 import it.vige.rubia.model.Poster;
 import it.vige.rubia.ui.BaseController;
 
@@ -48,10 +49,15 @@ public class ViewProfile extends BaseController {
 	 * this uid.
 	 */
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		String userId = getParameter(p_userId);
 		if (userId != null && !userId.trim().equals("")) {
-			poster = forumsModule.findPosterByUserId(userId);
+			try {
+				poster = forumsModule.findPosterByUserId(userId);
+			} catch (ModuleException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -182,7 +182,7 @@ public class Search extends BaseController {
 	}
 
 	@PostConstruct
-	public void execute() throws Exception {
+	public void execute() {
 		searchCriteria = new SearchCriteria();
 	}
 
