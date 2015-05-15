@@ -24,6 +24,8 @@ import javax.persistence.NoResultException;
 import org.jboss.security.PicketBoxMessages;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
+import org.jboss.security.acl.ACLEntryImpl;
+import org.jboss.security.acl.ACLImpl;
 import org.jboss.security.acl.ACLPersistenceStrategy;
 import org.jboss.security.acl.ACLResourceFactory;
 import org.jboss.security.acl.Util;
@@ -109,7 +111,7 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 	 */
 	public boolean removeACL(Resource resource) {
 		boolean result = false;
-		
+
 		try {
 			// find the ACL associated with the specified resource and remove it
 			// from the database.
@@ -172,7 +174,7 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 	public boolean updateACL(ACL acl) {
 		if (((ACLImpl) acl).getACLId() == 0)
 			return false;
-		
+
 		try {
 			for (ACLEntry entry : acl.getEntries()) {
 				// persist the new entries that might have been added to the

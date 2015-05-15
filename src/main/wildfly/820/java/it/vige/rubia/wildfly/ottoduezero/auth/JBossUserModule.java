@@ -5,15 +5,16 @@ import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.inject.Named;
 
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
-import org.picketlink.idm.config.IdentityConfiguration;
 import org.picketlink.idm.config.IdentityConfigurationBuilder;
 import org.picketlink.idm.internal.DefaultPartitionManager;
+import org.picketlink.idm.model.basic.Realm;
 import org.picketlink.idm.query.AttributeParameter;
 import org.picketlink.idm.query.IdentityQuery;
 import org.picketlink.idm.query.QueryParameter;
@@ -65,21 +66,43 @@ public class JBossUserModule implements UserModule, Serializable {
 	private org.picketlink.idm.model.basic.User getUser(String userId) {
 		IdentityQuery<org.picketlink.idm.model.basic.User> query = identityManager
 				.createIdentityQuery(org.picketlink.idm.model.basic.User.class);
-		QueryParameter id = new AttributeParameter("id");
+		QueryParameter id = new AttributeParameter("loginName");
 		query.setParameter(id, userId);
-		org.picketlink.idm.model.basic.User newUser = query.getResultList()
-				.get(0);
-		return newUser;
+		List<org.picketlink.idm.model.basic.User> newUsers = query
+				.getResultList();
+		if (newUsers.size() > 0)
+			return newUsers.get(0);
+		else
+			return null;
 	}
 
 	private void loadIdentityManager() {
 		if (identityManager == null) {
-			IdentityConfigurationBuilder identityConfigurationBuilder = new IdentityConfigurationBuilder();
-			IdentityConfiguration identityConfiguration = identityConfigurationBuilder
-					.named("forums").build();
+			IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
+			builder.named("file-store-preserve-state").stores().file()
+					.preserveState(true).supportAllFeatures();
 			PartitionManager partitionManager = new DefaultPartitionManager(
-					identityConfiguration);
-			identityManager = partitionManager.createIdentityManager();
+					builder.buildAll());
+			Realm realm = partitionManager.getPartition(Realm.class,
+					"forums-realm");
+			if (realm == null) {
+				realm = new Realm("forums-realm");
+				partitionManager.add(realm);
+			}
+			identityManager = partitionManager.createIdentityManager(realm);
+			insertUser("root");
+			insertUser("mary");
+			insertUser("john");
+			insertUser("demo");
 		}
+	}
+
+	private void insertUser(String loginName) {
+		org.picketlink.idm.model.basic.User user = getUser(loginName);
+		if (user == null) {
+			user = new org.picketlink.idm.model.basic.User(loginName);
+			identityManager.add(user);
+		}
+
 	}
 }
