@@ -9,7 +9,6 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->
 			<property name="hibernate.hbm2ddl.auto" value="MAVEN_REPLACER_HBM2DDL_AUTO" />
-			<property name="hibernate.show_sql" value="true" />
 			<!-- Only format when you need to debug, because it slows things down -->
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="false" />

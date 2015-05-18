@@ -13,6 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.ottounozero.auth;
 
+import static org.jboss.security.PicketBoxMessages.MESSAGES;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +32,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.jboss.security.ErrorCodes;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPermission;
@@ -250,8 +251,7 @@ public class ACLImpl implements ACL, Serializable {
 	 */
 	public void setResource(Resource resource) {
 		if (this.resource != null)
-			throw new IllegalStateException(ErrorCodes.PROCESSING_FAILED
-					+ "ACL resource has already been set");
+			throw MESSAGES.aclResourceAlreadySet();
 		this.resource = resource;
 	}
 

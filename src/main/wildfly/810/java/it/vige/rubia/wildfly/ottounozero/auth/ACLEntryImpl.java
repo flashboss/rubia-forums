@@ -13,6 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.ottounozero.auth;
 
+import static org.jboss.security.PicketBoxMessages.MESSAGES;
+import it.vige.rubia.wildfly.ottounozero.auth.ACLImpl;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -24,7 +27,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.jboss.security.ErrorCodes;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPermission;
 import org.jboss.security.acl.BitMaskPermission;
@@ -138,8 +140,7 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	@PostLoad
 	private void loadState() {
 		if (this.permission != null)
-			throw new IllegalStateException(ErrorCodes.PROCESSING_FAILED
-					+ "ACLEntry permission has already been set");
+			throw MESSAGES.aclEntryPermissionAlreadySet();
 		this.permission = new CompositeACLPermission(this.bitMask);
 	}
 
