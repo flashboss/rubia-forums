@@ -21,56 +21,56 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
 	colspan="2">
-		<table cellspacing="0" cellpadding="0" border="0"
-			class="forumPollTable">
+	<table cellspacing="0" cellpadding="0" border="0"
+		class="forumPollTable">
 
-			<!-- title -->
+		<!-- title -->
+		<tr>
+			<td class="questionCell" colspan="6">#{poll.title}</td>
+		</tr>
+
+		<!-- option results -->
+		<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
 			<tr>
-				<td class="questionCell" colspan="6">#{poll.title}</td>
+				<td>#{optionrow.question}</td>
+				<td>
+					<table cellspacing="0" cellpadding="0" border="0"
+						class="forumPollTableGraph">
+						<tr>
+							<td><img
+								src="#{themeHelper.getURL('resourcePollVotingLBar')}" width="4"
+								height="12" /></td>
+							<td><img
+								src="#{themeHelper.getURL('resourcePollVotingBar')}"
+								width="#{forums:votePercent(poll,optionrow,205)}" height="12" />
+							</td>
+							<td><img
+								src="#{themeHelper.getURL('resourcePollVotingRBar')}" width="4"
+								height="12" /></td>
+						</tr>
+					</table>
+				</td>
+				<td>${forums:votePercent(poll,optionrow,0)}</td>
+				<td>[ #{optionrow.votes} ]</td>
 			</tr>
+		</c:forEach>
 
-			<!-- option results -->
-			<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
-				<tr>
-					<td>#{optionrow.question}</td>
-					<td>
-						<table cellspacing="0" cellpadding="0" border="0"
-							class="forumPollTableGraph">
-							<tr>
-								<td><img
-									src="#{themeHelper.getURL('resourcePollVotingLBar')}" width="4"
-									height="12" /></td>
-								<td><img
-									src="#{themeHelper.getURL('resourcePollVotingBar')}"
-									width="#{forums:votePercent(poll,optionrow,205)}" height="12" />
-								</td>
-								<td><img
-									src="#{themeHelper.getURL('resourcePollVotingRBar')}" width="4"
-									height="12" /></td>
-							</tr>
-						</table>
-					</td>
-					<td>${forums:votePercent(poll,optionrow,0)}</td>
-					<td>[ #{optionrow.votes} ]</td>
-				</tr>
-			</c:forEach>
+		<!-- total result -->
+		<tr>
+			<td class="totalCell" colspan="6">#{resourcebundle.Total_votes}
+				: #{poll.votesSum}</td>
+		</tr>
 
-			<!-- total result -->
+		<!-- switch back to the voting screen -->
+		<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 			<tr>
-				<td class="totalCell" colspan="6">#{resourcebundle.Total_votes} :
-					#{poll.votesSum}</td>
+				<td class="linkCell" colspan="6"><h:commandLink
+						action="viewTopic" value="${resourcebundle.View_ballot}">
+						<f:param name="t" value="${t}" />
+					</h:commandLink></td>
 			</tr>
+		</forums:isAllowed>
 
-			<!-- switch back to the voting screen -->
-			<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-				<tr>
-					<td class="linkCell" colspan="6"><h:commandLink
-							action="viewTopic" value="${resourcebundle.View_ballot}">
-							<f:param name="t" value="${t}" />
-						</h:commandLink></td>
-				</tr>
-			</forums:isAllowed>
-
-		</table>
-	</td>
+	</table>
+</td>

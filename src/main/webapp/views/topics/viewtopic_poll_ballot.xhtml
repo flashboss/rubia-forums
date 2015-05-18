@@ -20,42 +20,40 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	colspan="2">
-		<input type="hidden" name="t" value="#{t}" />
-		<table cellspacing="0" cellpadding="0" border="0"
-			class="forumPollTable">
+	colspan="2"><input type="hidden" name="t" value="#{t}" />
+	<table cellspacing="0" cellpadding="0" border="0"
+		class="forumPollTable">
+		<tr>
+			<td colspan="2" class="questionCell">#{poll.title}</td>
+		</tr>
+
+		<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
 			<tr>
-				<td colspan="2" class="questionCell">#{poll.title}</td>
+				<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+					<td class="radioCell"><input type="radio" name="vote"
+						value="#{(status.index)}" /></td>
+				</forums:isAllowed>
+				<td class="answerCell">#{optionrow.question}</td>
 			</tr>
+		</c:forEach>
 
-			<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
-				<tr>
-					<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-						forumsACLProvider="#{forumsACLProvider}"
-						userModule="#{userModule}">
-						<td class="radioCell"><input type="radio" name="vote"
-							value="#{(status.index)}" /></td>
-					</forums:isAllowed>
-					<td class="answerCell">#{optionrow.question}</td>
-				</tr>
-			</c:forEach>
-
-			<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-				<tr>
-					<td class="buttonCell" colspan="2"><h:commandButton
-							action="#{pollController.vote}"
-							value="${resourcebundle.Submit_vote}" styleClass="buttonMed" /></td>
-				</tr>
-			</forums:isAllowed>
-
+		<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 			<tr>
-				<td class="linkCell" colspan="2">
-					<!-- view results link --> <h:commandLink action="viewTopic"
-						value="${resourcebundle.View_results}">
-						<f:param name="t" value="${t}" />
-						<f:param name="results" value="1" />
-					</h:commandLink>
-				</td>
+				<td class="buttonCell" colspan="2"><h:commandButton
+						action="#{pollController.vote}"
+						value="${resourcebundle.Submit_vote}" styleClass="buttonMed" /></td>
 			</tr>
-		</table></td>
+		</forums:isAllowed>
+
+		<tr>
+			<td class="linkCell" colspan="2">
+				<!-- view results link --> <h:commandLink action="viewTopic"
+					value="${resourcebundle.View_results}">
+					<f:param name="t" value="${t}" />
+					<f:param name="results" value="1" />
+				</h:commandLink>
+			</td>
+		</tr>
+	</table></td>

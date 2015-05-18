@@ -15,38 +15,36 @@
 -->
 
 <div xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:c="http://java.sun.com/jsp/jstl/core"
-     xmlns:h="http://java.sun.com/jsf/html"
-     xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-     class="PostviewStyle">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	class="PostviewStyle">
 
-<table border="0" cellpadding="5" cellspacing="0" width="100%" name="table" id="table" >
-    <tr>
-        <td colspan="2" class="PostViewMainHeader">
-            ${resourcebundle.Preview}
-        </td>
-    </tr>
-    <tr class="PostViewMainDescription">
-        <td colspan="2">
-            ${resourcebundle.Posted}: ${newTopic.postDate}
-            &#160;&#160;&#160; ${resourcebundle.Post_subject}: ${newTopic.subject}
-        </td>
-    </tr>
-    <tr>
-        <td class="row1">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>
-                        <span class="postbody">
-                            <h:outputText value="#{forums:formatMessage(newTopic.message,false)}" escape="false" />
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<hr />
+	<table border="0" cellpadding="5" cellspacing="0" width="100%"
+		name="table" id="table">
+		<tr>
+			<td colspan="2" class="PostViewMainHeader">
+				${resourcebundle.Preview}</td>
+		</tr>
+		<tr class="PostViewMainDescription">
+			<td colspan="2">${resourcebundle.Posted}: ${newTopic.postDate}
+				&#160;&#160;&#160; ${resourcebundle.Post_subject}:
+				${newTopic.subject}</td>
+		</tr>
+		<tr>
+			<td class="row1">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><span class="postbody"> <h:outputText
+									value="#{forums:formatMessage(newTopic.message,false)}"
+									escape="false" />
+						</span></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<hr />
 </div>
