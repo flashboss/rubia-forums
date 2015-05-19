@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ejb.Stateful;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 
 import it.vige.rubia.auth.User;
@@ -37,7 +37,7 @@ import org.picketlink.idm.model.Partition;
 import org.picketlink.idm.spi.IdentityStoreInvocationContextFactory;
 
 @Named("userModule")
-@Stateful
+@Singleton
 public class JBossUserModule implements UserModule, Serializable {
 
 	/**
