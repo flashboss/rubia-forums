@@ -106,4 +106,4 @@ To debug the application using Eclipse you can put this parameter:
 
 It will start on the 5005 port.
 
-The tests are done using Firefox 36.0.1
+The tests are done using Firefox 38.0.5
