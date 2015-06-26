@@ -37,6 +37,9 @@
 	</developers>
 
 	<properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+    		<maven.compiler.target>1.8</maven.compiler.target>
+    		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.jboss.spec.javaee.7.0>1.0.2.Final</version.jboss.spec.javaee.7.0>
 		<richfaces.version>4.5.5.Final</richfaces.version>
@@ -160,6 +163,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
 			<version>2.1.1</version>
@@ -196,17 +204,6 @@
 		<defaultGoal>package</defaultGoal>
 		<finalName>rubia-forums</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<!-- activate only when you need to generate the metamodel -->
-					<!-- compilerArgument>-proc:none</compilerArgument -->
-					<source>1.8</source>
-					<target>1.8</target>
-					<generatedSourcesDirectory>src/main/java</generatedSourcesDirectory>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>

@@ -80,8 +80,10 @@
 									<td class="buttons" colspan="2"><h:commandButton
 											type="submit" value="${resourcebundle.Move}"
 											styleClass="buttonMed" action="#{moderator.moveTopic}" /> <h:commandButton
-											type="button" value="${resourcebundle.Cancel}"
-											styleClass="buttonMed" onclick="javascript:history.back();" /></td>
+											id="cancel" type="submit" value="${resourcebundle.Cancel}"
+											styleClass="buttonMed">
+											<f:param name="t" value="#{moderator.checkboxes.keySet().toArray()[0]}" />
+										</h:commandButton></td>
 								</tr>
 							</table>
 						</div>

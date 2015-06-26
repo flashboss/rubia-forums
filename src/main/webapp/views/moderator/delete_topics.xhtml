@@ -57,8 +57,8 @@
 													styleClass="buttonMed" action="#{moderator.deleteTopic}">
 													<f:param name="f" value="#{moderator.forum.id}" />
 												</h:commandButton>
-												<h:commandButton type="button" value="${resourcebundle.No}"
-													styleClass="buttonMed" onclick="javascript:history.back();">
+												<h:commandButton id="cancel" type="submit"
+													value="${resourcebundle.No}" styleClass="buttonMed">
 													<f:param name="f" value="#{moderator.forum.id}" />
 												</h:commandButton>
 											</h:form></td>

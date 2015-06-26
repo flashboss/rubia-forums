@@ -47,8 +47,8 @@
 								<h:inputHidden value="#{deletePost.postId}" />
 								<h:commandButton type="submit" value="${resourcebundle.Yes}"
 									styleClass="buttonMed" action="#{deletePost.confirmDelete}" />
-								<h:commandButton type="button" value="${resourcebundle.No}"
-									styleClass="buttonMed" onclick="javascript:history.back();" />
+								<h:commandButton id="cancel" type="submit"
+									value="${resourcebundle.No}" styleClass="buttonMed" />
 							</h:form></td>
 					</tr>
 				</table>
