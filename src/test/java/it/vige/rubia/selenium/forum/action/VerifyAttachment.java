@@ -21,17 +21,12 @@ import static it.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
+import static java.lang.System.getProperty;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,13 +38,18 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.model.Attachment;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Message;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+
 public class VerifyAttachment {
 
-	public final static String download_url = System
-			.getProperty("java.io.tmpdir") + "rubia_downloaded_files";
+	public final static String download_url = getProperty("java.io.tmpdir") + "rubia_downloaded_files";
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String FORUM_TABLE = "forumtablestyle";
 	public static final String FORUM_SUBJECT = "tbody/tr/td[not(@class = 'forumcategory')]/h3/a";
 	public static final String FORUM_LINK = "miviewtopicbody3";
@@ -61,42 +61,34 @@ public class VerifyAttachment {
 	public static final String ATTACHMENT_DOWNLOAD_LINK = "tbody/tr[2]/td[3]/a";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 
-	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver,
-			Topic... topics) {
+	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver, Topic... topics) {
 		List<Attachment> attachments = new LinkedList<Attachment>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
-		List<WebElement> forumSubjectComponents = tableComponent
-				.findElements(xpath(FORUM_SUBJECT));
+		List<WebElement> forumSubjectComponents = tableComponent.findElements(xpath(FORUM_SUBJECT));
 		int forumComponentSize = forumSubjectComponents.size();
 		for (int j = 0; j < forumComponentSize; j++) {
 			home = driver.findElement(linkText(HOME_LINK));
 			home.click();
 			tableComponent = driver.findElement(className(FORUM_TABLE));
-			forumSubjectComponents = tableComponent
-					.findElements(xpath(FORUM_SUBJECT));
+			forumSubjectComponents = tableComponent.findElements(xpath(FORUM_SUBJECT));
 			WebElement forumEl = forumSubjectComponents.get(j);
 			forumEl.click();
-			List<WebElement> subjectComponents = driver
-					.findElements(xpath(SUBJECT_LINK));
+			List<WebElement> subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 			int subjectComponentsSize = subjectComponents.size();
 			for (int i = 0; i < subjectComponentsSize; i++) {
 				subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 				List<String> topicNames = findTopicNames(topics);
 				if (topicNames.contains(subjectComponents.get(i).getText())) {
-					subjectComponents = driver
-							.findElements(xpath(SUBJECT_LINK));
+					subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
 					subjectComponent.click();
-					List<WebElement> postComponents = driver
-							.findElements(className(BODY_OUTPUT_TEXT));
+					List<WebElement> postComponents = driver.findElements(className(BODY_OUTPUT_TEXT));
 					for (WebElement postComponent : postComponents) {
-						attachments.addAll(getAttachmentsOfCurrentPost(driver,
-								postComponent));
+						attachments.addAll(getAttachmentsOfCurrentPost(driver, postComponent));
 					}
-					String forumLinkText = driver.findElement(id(FORUM_LINK))
-							.getText();
+					String forumLinkText = driver.findElement(id(FORUM_LINK)).getText();
 					driver.findElement(linkText(forumLinkText)).click();
 				}
 			}
@@ -104,25 +96,20 @@ public class VerifyAttachment {
 		return attachments;
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPost(
-			WebDriver driver, Post post) {
+	public static List<Attachment> getAttachmentsOfCurrentPost(WebDriver driver, Post post) {
 		goTo(driver, post.getTopic());
 		return getAttachmentsOfCurrentPostInPage(driver, post);
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPostInPage(
-			WebDriver driver, Post post) {
+	public static List<Attachment> getAttachmentsOfCurrentPostInPage(WebDriver driver, Post post) {
 		WebElement postComponent = driver
-				.findElement(xpath("//td[contains(p/text(),'"
-						+ post.getMessage().getText() + "')]"));
+				.findElement(xpath("//td[contains(p/text(),'" + post.getMessage().getText() + "')]"));
 		return getAttachmentsOfCurrentPost(driver, postComponent);
 	}
 
-	private static List<Attachment> getAttachmentsOfCurrentPost(
-			WebDriver driver, WebElement postComponent) {
+	private static List<Attachment> getAttachmentsOfCurrentPost(WebDriver driver, WebElement postComponent) {
 		List<Attachment> attachments = new LinkedList<Attachment>();
-		List<WebElement> attachmentComponents = postComponent
-				.findElements(className(ATTACHMENT_LIST));
+		List<WebElement> attachmentComponents = postComponent.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
 			Attachment attachment = getAttachment(attachmentComponent);
 			addParents(driver, attachment);
@@ -131,19 +118,15 @@ public class VerifyAttachment {
 		return attachments;
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPostInPageNoParent(
-			WebDriver driver, Post post) {
+	public static List<Attachment> getAttachmentsOfCurrentPostInPageNoParent(WebDriver driver, Post post) {
 		WebElement postComponent = driver
-				.findElement(xpath("//td[contains(p/text(),'"
-						+ post.getMessage().getText() + "')]"));
+				.findElement(xpath("//td[contains(p/text(),'" + post.getMessage().getText() + "')]"));
 		return getAttachmentsOfCurrentPostNoParent(driver, postComponent);
 	}
 
-	private static List<Attachment> getAttachmentsOfCurrentPostNoParent(
-			WebDriver driver, WebElement postComponent) {
+	private static List<Attachment> getAttachmentsOfCurrentPostNoParent(WebDriver driver, WebElement postComponent) {
 		List<Attachment> attachments = new LinkedList<Attachment>();
-		List<WebElement> attachmentComponents = postComponent
-				.findElements(className(ATTACHMENT_LIST));
+		List<WebElement> attachmentComponents = postComponent.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
 			Attachment attachment = getAttachment(attachmentComponent);
 			attachments.add(attachment);
@@ -152,19 +135,19 @@ public class VerifyAttachment {
 	}
 
 	private static Attachment getAttachment(WebElement attachmentComponent) {
-		String attachmentName = attachmentComponent.findElement(
-				xpath(ATTACHMENT_NAME_OUTPUT_TEXT)).getText();
-		String attachmentComment = attachmentComponent.findElement(
-				xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
-		String attachmentSize = attachmentComponent.findElement(
-				xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
-		attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK))
-				.click();
+		String attachmentName = attachmentComponent.findElement(xpath(ATTACHMENT_NAME_OUTPUT_TEXT)).getText();
+		String attachmentComment = attachmentComponent.findElement(xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
+		String attachmentSize = attachmentComponent.findElement(xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
+		attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK)).click();
 		File file = new File(download_url + "/" + attachmentName);
 		int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
 		byte[] content = new byte[attachmentSizeValue];
-		writeFile(content, file);
 		Attachment attachment = new Attachment();
+		try {
+			writeFile(content, file);
+		} catch (IOException e) {
+			return attachment;
+		}
 		attachment.setComment(attachmentComment);
 		attachment.setName(attachmentName);
 		attachment.setSize(attachmentSizeValue);
@@ -172,11 +155,17 @@ public class VerifyAttachment {
 		return attachment;
 	}
 
-	private static void writeFile(byte[] content, File file) {
+	private static void writeFile(byte[] content, File file) throws IOException {
+		FileInputStream fis = null;
 		try {
-			new FileInputStream(file).read(content);
+			fis = new FileInputStream(file);
+			fis.read(content);
 		} catch (IOException e) {
 			writeFile(content, file);
+		} finally {
+			if (fis != null) {
+				fis.close();
+			}
 		}
 
 	}
@@ -184,20 +173,16 @@ public class VerifyAttachment {
 	private static void addParents(WebDriver driver, Attachment attachment) {
 		Post post = new Post();
 		Message message = new Message();
-		message.setSubject(driver.findElement(POST_TEMPLATE_LINK.getValue())
-				.getText());
+		message.setSubject(driver.findElement(POST_TEMPLATE_LINK.getValue()).getText());
 		post.setMessage(message);
 		Topic topic = new Topic();
-		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue())
-				.getText());
+		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue()).getText());
 		post.setTopic(topic);
 		Forum forum = new Forum();
-		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue())
-				.getText());
+		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue()).getText());
 		topic.setForum(forum);
 		Category category = new Category();
-		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
-				.getText());
+		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText());
 		forum.setCategory(category);
 		attachment.setPost(post);
 
