@@ -60,9 +60,21 @@ You can also choose the deploy mode using the profiles:
     -Pdevelopment
     -Pproduction
     
-If you want deploy in production mode you must use:
+If you want install in production mode you must use:
 
     mvn clean install -P${distribution},production
+    
+If you want automatically install and deploy the application in a local acttive wildfly server:
+
+    mvn install -P${distribution},production,deploy
+    
+If you want automatically uninstall and undeploy the application in a local acttive wildfly server:
+
+    mvn clean -P${distribution},production,deploy
+    
+If you want automatically reinstall and redeploy the application in a local acttive wildfly server:
+
+    mvn clean install -P${distribution},production,deploy
     
 to deploy it with the shell command in Wildfly:
 
