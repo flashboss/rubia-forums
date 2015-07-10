@@ -13,6 +13,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.hbm2ddl.import_files" value="forums.import.sql" />
+			<property name="hibernate.search.lucene_version" value="LUCENE_CURRENT" />
 		</properties>
 	</persistence-unit>
 </persistence>
