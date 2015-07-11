@@ -1,0 +1,86 @@
+<!--
+/******************************************************************************
+ * Vige, Home of Professional Open Source Copyright 2010, Vige, and           *
+ * individual contributors by the @authors tag. See the copyright.txt in the  *
+ * distribution for a full listing of individual contributors.                *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
+ * not use this file except in compliance with the License. You may obtain    *
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0        *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+-->
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
+	class="forumscontainer">
+
+	<ui:composition template="/views/common/common.xhtml">
+		<ui:define name="mainContent">
+
+			<h:panelGroup rendered="#{!userModule.guest}">
+				<div class="forumsubscriptionconfirm">
+					<h:form>
+
+						<h3>${resourcebundle.Subscribe_to_topic}</h3>
+						<p>${resourcebundle.Selected_topic}:</p>
+						<h4>#{topicWatch.topic.subject}</h4>
+						<label>${resourcebundle.Notification_type}:</label>
+						<br />
+						<select name="notified_watch_type" id="notification">
+							<option value="-1">${resourcebundle.SELECT_NOTIFICATION_TYPE}</option>
+							<option value="2">${resourcebundle.EMAIL_NO_NOTIFICATION}</option>
+							<option value="0">${resourcebundle.EMAIL_LINKED_NOTIFICATION}</option>
+							<option value="1">${resourcebundle.EMAIL_EMBEDED_NOTIFICATION}</option>
+						</select>
+						<div class="forumformbuttonrow">
+							<ul>
+								<li><h:commandButton
+										value="${resourcebundle.Add_Subscribtion}"
+										styleClass="buttonMed" action="#{topicWatch.activateWatch}" />
+								</li>
+								<li><h:commandButton action="#{topicWatch.cancel}"
+										value="${resourcebundle.Cancel}" accesskey="c" tabindex="7"
+										styleClass="buttonMed" /></li>
+							</ul>
+							<input type="hidden" name="t" value="${topicWatch.topicId}" />
+						</div>
+
+					</h:form>
+				</div>
+			</h:panelGroup>
+
+			<!-- in case of anonymous access -->
+			<h:panelGroup rendered="#{userModule.guest}">
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"
+					class="forumtablestyle">
+					<tr>
+						<td>
+							<table width="100%" cellspacing="0" cellpadding="1" border="0">
+								<tr>
+									<td>&#160;</td>
+								</tr>
+								<tr>
+									<td align="center"><h:outputText
+											value="${resourcebundle.Watch_Login_Requirement}" /></td>
+								</tr>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</h:panelGroup>
+
+		</ui:define>
+	</ui:composition>
+
+</div>
