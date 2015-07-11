@@ -201,6 +201,7 @@
 	</dependencies>
 
 	<modules>
+		<module>rubia-forums-ejb</module>
 		<module>rubia-forums-jsf</module>
 	</modules>
 
