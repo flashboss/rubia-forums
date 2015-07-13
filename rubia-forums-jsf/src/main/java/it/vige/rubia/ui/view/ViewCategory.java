@@ -18,20 +18,9 @@ import static it.vige.rubia.feeds.FeedConstants.CATEGORY;
 import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
 import static it.vige.rubia.feeds.FeedConstants.RSS;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.JSFUtil.createFeedLink;
+import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.createFeedLink;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.PortalUtil;
-import it.vige.rubia.ui.ThemeHelper;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +33,18 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.ThemeHelper;
+import it.vige.rubia.ui.action.PreferenceController;
 
 //jsf imports
 
@@ -246,7 +247,7 @@ public class ViewCategory extends BaseController {
 	 * @return
 	 */
 	private void processCategory(Category category) throws Exception {
-		Date userLastLogin = PortalUtil.getUserLastLoginDate(userModule, userProfileModule);
+		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
 		if (category != null) {
 			getCategories().add(category);
 

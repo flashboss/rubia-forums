@@ -13,8 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.auth;
 
-import static it.vige.rubia.ui.PortalUtil.getUser;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static it.vige.rubia.PortalUtil.getUser;
 
 import java.util.StringTokenizer;
 
@@ -47,9 +46,7 @@ public class ACLRenderingController {
 			}
 
 			// check access here
-			FacesContext facesContext = getCurrentInstance();
-			JSFUIContext securityContext = new JSFUIContext(
-					getUser(userModule), facesContext);
+			UIContext securityContext = new UIContext(getUser(userModule));
 			securityContext.setFragment(fragment);
 			securityContext.setContextData(runtime);
 			isAccessAllowed = forumsACLProvider.hasAccess(securityContext);
@@ -65,9 +62,8 @@ public class ACLRenderingController {
 		return isAccessAllowed;
 	}
 
-	public boolean aclCheck(String fragment, String contextData,
-			ForumsACLProvider forumsACLProvider, UserModule userModule,
-			FaceletContext ctx) {
+	public boolean aclCheck(String fragment, String contextData, ForumsACLProvider forumsACLProvider,
+			UserModule userModule, FaceletContext ctx) {
 		boolean isAccessAllowed;
 		// resourcesetup
 		try {
@@ -83,8 +79,7 @@ public class ACLRenderingController {
 
 					// evaluate this expression to a value
 					ExpressionFactory f = ctx.getExpressionFactory();
-					ValueExpression expr = f.createValueExpression(ctx,
-							parameter, Object.class);
+					ValueExpression expr = f.createValueExpression(ctx, parameter, Object.class);
 					parameterValue = expr.getValue(facesContext.getELContext());
 
 					runtime[i++] = parameterValue;
@@ -92,8 +87,7 @@ public class ACLRenderingController {
 			}
 
 			// check access here
-			JSFUIContext securityContext = new JSFUIContext(
-					getUser(userModule), facesContext);
+			UIContext securityContext = new UIContext(getUser(userModule));
 			securityContext.setFragment(fragment);
 			securityContext.setContextData(runtime);
 			isAccessAllowed = forumsACLProvider.hasAccess(securityContext);

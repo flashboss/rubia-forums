@@ -13,10 +13,6 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.ottozerozero.auth;
 
-import static it.vige.rubia.ui.JSFUtil.isAnonymous;
-import it.vige.rubia.auth.User;
-import it.vige.rubia.auth.UserModule;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,6 +27,9 @@ import org.picketlink.idm.model.basic.Realm;
 import org.picketlink.idm.query.AttributeParameter;
 import org.picketlink.idm.query.IdentityQuery;
 import org.picketlink.idm.query.QueryParameter;
+
+import it.vige.rubia.auth.User;
+import it.vige.rubia.auth.UserModule;
 
 @Named("userModule")
 @Singleton
@@ -70,19 +69,12 @@ public class JBossUserModule implements UserModule, Serializable {
 		return user;
 	}
 
-	@Override
-	public boolean isGuest() {
-		// TODO Auto-generated method stub
-		return isAnonymous();
-	}
-
 	private org.picketlink.idm.model.basic.User getUser(String userId) {
 		IdentityQuery<org.picketlink.idm.model.basic.User> query = identityManager
 				.createIdentityQuery(org.picketlink.idm.model.basic.User.class);
 		QueryParameter id = new AttributeParameter("loginName");
 		query.setParameter(id, userId);
-		List<org.picketlink.idm.model.basic.User> newUsers = query
-				.getResultList();
+		List<org.picketlink.idm.model.basic.User> newUsers = query.getResultList();
 		if (newUsers.size() > 0)
 			return newUsers.get(0);
 		else
@@ -92,12 +84,9 @@ public class JBossUserModule implements UserModule, Serializable {
 	private void loadIdentityManager() {
 		if (identityManager == null) {
 			IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
-			builder.named("file-store-preserve-state").stores().file()
-					.preserveState(true).supportAllFeatures();
-			PartitionManager partitionManager = new DefaultPartitionManager(
-					builder.buildAll());
-			Realm realm = partitionManager.getPartition(Realm.class,
-					"forums-realm");
+			builder.named("file-store-preserve-state").stores().file().preserveState(true).supportAllFeatures();
+			PartitionManager partitionManager = new DefaultPartitionManager(builder.buildAll());
+			Realm realm = partitionManager.getPartition(Realm.class, "forums-realm");
 			if (realm == null) {
 				realm = new Realm("forums-realm");
 				partitionManager.add(realm);

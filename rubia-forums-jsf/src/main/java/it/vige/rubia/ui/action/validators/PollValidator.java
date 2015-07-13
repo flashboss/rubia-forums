@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action.validators;
 
-import static it.vige.rubia.ui.Constants.BUNDLE_NAME;
+import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.EMPTY_POLL_OPTION_MSG;
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.EMPTY_POLL_QUESTION_MSG;
@@ -69,7 +69,9 @@ public class PollValidator implements Validator {
 
 		// If there are no question or options provided by the user, we don't
 		// validate.
-		if (!((questionComp.getAttributes().get("value") != null && questionComp.getAttributes().get("value").toString().trim().length() != 0) || (options.size() > 0))) {
+		if (!((questionComp.getAttributes().get("value") != null
+				&& questionComp.getAttributes().get("value").toString().trim().length() != 0)
+				|| (options.size() > 0))) {
 			return;
 		}
 
@@ -80,17 +82,20 @@ public class PollValidator implements Validator {
 		if (options.size() < 2) {
 			throwValidationException(TOO_FEW_OPTIONS_MSG);
 		}
-		if (questionComp.getAttributes().get("value") == null || questionComp.getAttributes().get("value").toString().trim().length() == 0) {
+		if (questionComp.getAttributes().get("value") == null
+				|| questionComp.getAttributes().get("value").toString().trim().length() == 0) {
 			throwValidationException(EMPTY_POLL_QUESTION_MSG);
 		}
 		for (UIComponent option : options) {
-			if (option.getAttributes().get("value") == null || option.getAttributes().get("value").toString().trim().length() == 0) {
+			if (option.getAttributes().get("value") == null
+					|| option.getAttributes().get("value").toString().trim().length() == 0) {
 				throwValidationException(EMPTY_POLL_OPTION_MSG);
 			}
 		}
 
 		int duration = 0;
-		if (pollDurationComp.getAttributes().get("value") != null && pollDurationComp.getAttributes().get("value").toString().trim().length() != 0) {
+		if (pollDurationComp.getAttributes().get("value") != null
+				&& pollDurationComp.getAttributes().get("value").toString().trim().length() != 0) {
 			try {
 				duration = parseInt(pollDurationComp.getAttributes().get("value").toString());
 			} catch (NumberFormatException e) {

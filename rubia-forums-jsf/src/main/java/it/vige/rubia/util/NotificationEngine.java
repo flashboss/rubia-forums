@@ -13,24 +13,10 @@
  ******************************************************************************/
 package it.vige.rubia.util;
 
-import static it.vige.rubia.ui.Constants.WATCH_MODE_EMBEDED;
-import static it.vige.rubia.ui.Constants.WATCH_MODE_LINKED;
-import static it.vige.rubia.ui.Constants.WATCH_MODE_NONE;
+import static it.vige.rubia.Constants.WATCH_MODE_EMBEDED;
+import static it.vige.rubia.Constants.WATCH_MODE_LINKED;
+import static it.vige.rubia.Constants.WATCH_MODE_NONE;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.ForumsACLProvider;
-import it.vige.rubia.auth.JSFUIContext;
-import it.vige.rubia.auth.User;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.Watch;
-import it.vige.rubia.ui.PortalUtil;
 
 import java.io.StringWriter;
 import java.util.Date;
@@ -58,6 +44,21 @@ import javax.rmi.PortableRemoteObject;
 import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.PortalUtil;
+import it.vige.rubia.auth.ForumsACLProvider;
+import it.vige.rubia.auth.UIContext;
+import it.vige.rubia.auth.User;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Message;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.model.Watch;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -109,8 +110,7 @@ public class NotificationEngine {
 		// TODO: IMPLEMENT NOTIFICATION FOR STANDALONE VERSION OF FORUMS.
 	}
 
-	public void schedule(Integer postId, int mode, String absViewURL,
-			String absReplyURL) {
+	public void schedule(Integer postId, int mode, String absViewURL, String absReplyURL) {
 		try {
 
 			if (postId == null || mode == -1) {
@@ -124,12 +124,10 @@ public class NotificationEngine {
 			UIViewRoot uiRoot = getCurrentInstance().getViewRoot();
 			Locale locale = uiRoot.getLocale();
 			ClassLoader ldr = Thread.currentThread().getContextClassLoader();
-			ResourceBundle bundle = ResourceBundle.getBundle("ResourceJSF",
-					locale, ldr);
+			ResourceBundle bundle = ResourceBundle.getBundle("ResourceJSF", locale, ldr);
 
 			// Create task
-			NotificationTask task = new NotificationTask(absViewURL,
-					absReplyURL, postId, mode, bundle);
+			NotificationTask task = new NotificationTask(absViewURL, absReplyURL, postId, mode, bundle);
 
 			// Register at the end of the current tx to broadcast notifications
 			Transaction tx = tm.getTransaction();
@@ -143,13 +141,9 @@ public class NotificationEngine {
 		StringBuffer fromBuf = null;
 		User user = userModule.findUserById(post.getPoster().getUserId());
 		if ((userProfileModule.getProperty(user, User.INFO_USER_NAME_GIVEN) != null)
-				&& (userProfileModule.getProperty(user,
-						User.INFO_USER_NAME_FAMILY) != null)) {
-			fromBuf = new StringBuffer(userProfileModule.getProperty(user,
-					User.INFO_USER_NAME_GIVEN)
-					+ " "
-					+ userProfileModule.getProperty(user,
-							User.INFO_USER_NAME_FAMILY) + " <");
+				&& (userProfileModule.getProperty(user, User.INFO_USER_NAME_FAMILY) != null)) {
+			fromBuf = new StringBuffer(userProfileModule.getProperty(user, User.INFO_USER_NAME_GIVEN) + " "
+					+ userProfileModule.getProperty(user, User.INFO_USER_NAME_FAMILY) + " <");
 		} else {
 			fromBuf = new StringBuffer(user.getUserName() + " <");
 		}
@@ -168,8 +162,7 @@ public class NotificationEngine {
 		private final String viewURL;
 		private final String replyURL;
 
-		NotificationTask(String viewURL, String replyURL, final Integer postId,
-				int mode, ResourceBundle bundle) {
+		NotificationTask(String viewURL, String replyURL, final Integer postId, int mode, ResourceBundle bundle) {
 			this.mode = mode;
 			this.postId = postId;
 			this.viewURL = viewURL;
@@ -192,52 +185,32 @@ public class NotificationEngine {
 				// If this is not an anonymous post, put the user in the
 				// notified list
 				// he won't be notified of his own action
-				User poster = userModule.findUserById(post.getPoster()
-						.getUserId());
+				User poster = userModule.findUserById(post.getPoster().getUserId());
 				if (poster != null) {
 					notifieds.add(poster.getId());
 				}
 				StringWriter out = new StringWriter();
 
-				String forumEmbededArgsSubject = "[" + forum.getName() + "] - "
-						+ message.getSubject()
+				String forumEmbededArgsSubject = "[" + forum.getName() + "] - " + message.getSubject()
 						+ (mode == MODE_REPOST ? " (Repost)" : "");
 
-				String forumEmbededArgsText = out.toString() + "<br /><br />\n"
-						+ bundle.getString("EMAIL_VIEWORIGINAL") + " : "
-						+ "<a href=\"" + viewURL.toString() + "\">"
-						+ viewURL.toString() + "</a>\n" + "<br /><br />\n"
-						+ bundle.getString("EMAIL_REPLY") + " : "
-						+ "<a href=\"" + replyURL.toString() + "\">"
-						+ replyURL.toString() + "</a>" + "<br /><br />\n";
+				String forumEmbededArgsText = out.toString() + "<br /><br />\n" + bundle.getString("EMAIL_VIEWORIGINAL")
+						+ " : " + "<a href=\"" + viewURL.toString() + "\">" + viewURL.toString() + "</a>\n"
+						+ "<br /><br />\n" + bundle.getString("EMAIL_REPLY") + " : " + "<a href=\""
+						+ replyURL.toString() + "\">" + replyURL.toString() + "</a>" + "<br /><br />\n";
 
 				// For now it is just a copy from embeded mode maybe in future
 				// we will differentiate it.
 				String forumLinkedArgsSubject = forumEmbededArgsSubject;
 
-				String forumLinkedArgsText = bundle
-						.getString("EMAIL_LINKED_MODE_INFO")
-						+ " <b>"
-						+ forum.getName()
-						+ "</b> <br /><br />\n"
-						+ bundle.getString("EMAIL_VIEWORIGINAL")
-						+ " : "
-						+ "<a href=\""
-						+ viewURL.toString()
-						+ "\">"
-						+ viewURL.toString()
-						+ "</a>\n"
-						+ "<br /><br />\n"
-						+ bundle.getString("EMAIL_REPLY")
-						+ " : "
-						+ "<a href=\""
-						+ replyURL.toString()
-						+ "\">"
+				String forumLinkedArgsText = bundle.getString("EMAIL_LINKED_MODE_INFO") + " <b>" + forum.getName()
+						+ "</b> <br /><br />\n" + bundle.getString("EMAIL_VIEWORIGINAL") + " : " + "<a href=\""
+						+ viewURL.toString() + "\">" + viewURL.toString() + "</a>\n" + "<br /><br />\n"
+						+ bundle.getString("EMAIL_REPLY") + " : " + "<a href=\"" + replyURL.toString() + "\">"
 						+ replyURL.toString() + "</a>" + "<br /><br />\n";
 
 				// Notify the forum watchers
-				for (Iterator<Watch> i = forum.getWatches().iterator(); i
-						.hasNext();) {
+				for (Iterator<Watch> i = forum.getWatches().iterator(); i.hasNext();) {
 					try {
 						Watch watch = i.next();
 
@@ -246,33 +219,25 @@ public class NotificationEngine {
 						if (watch.getMode() == WATCH_MODE_NONE) {
 							continue;
 						}
-						User watcher = userModule.findUserById(watch
-								.getPoster().getUserId());
+						User watcher = userModule.findUserById(watch.getPoster().getUserId());
 						Object watcherId = watcher.getId();
 
-						if (!notifieds.contains(watcherId)
-								&& !watcherId.equals(PortalUtil.getUserNA()
-										.getId())) {
+						if (!notifieds.contains(watcherId) && !watcherId.equals(PortalUtil.getUserNA().getId())) {
 
 							boolean securityFlag = true;
 
 							// Creating security context for the user
-							JSFUIContext securityContext = new JSFUIContext(
-									watcher, getCurrentInstance());
+							UIContext securityContext = new UIContext(watcher);
 
 							// Checking if user has privileges to read category
 							securityContext.setFragment("acl://readCategory");
-							securityContext
-									.setContextData(new Object[] { category });
-							securityFlag = forumsACLProvider
-									.hasAccess(securityContext) && securityFlag;
+							securityContext.setContextData(new Object[] { category });
+							securityFlag = forumsACLProvider.hasAccess(securityContext) && securityFlag;
 
 							// Checking if user has privileges to read forum
 							securityContext.setFragment("acl://readForum");
-							securityContext
-									.setContextData(new Object[] { forum });
-							securityFlag = forumsACLProvider
-									.hasAccess(securityContext) && securityFlag;
+							securityContext.setContextData(new Object[] { forum });
+							securityFlag = forumsACLProvider.hasAccess(securityContext) && securityFlag;
 
 							if (securityFlag) {
 								notifieds.add(watcherId);
@@ -298,40 +263,22 @@ public class NotificationEngine {
 					}
 				}
 
-				String topicEmbededArgsSubject = "[" + forum.getName() + "] - "
-						+ message.getSubject()
+				String topicEmbededArgsSubject = "[" + forum.getName() + "] - " + message.getSubject()
 						+ (mode == MODE_REPOST ? " (Repost)" : "");
 
-				String topicEmbededArgsText = out.toString() + "<br /><br />\n"
-						+ bundle.getString("EMAIL_VIEWORIGINAL") + " : "
-						+ "<a href=\"" + viewURL.toString() + "\">"
-						+ viewURL.toString() + "</a>\n" + "<br /><br />\n"
-						+ bundle.getString("EMAIL_REPLY") + " : "
-						+ "<a href=\"" + replyURL.toString() + "\">"
-						+ replyURL.toString() + "</a>" + "<br /><br />\n";
+				String topicEmbededArgsText = out.toString() + "<br /><br />\n" + bundle.getString("EMAIL_VIEWORIGINAL")
+						+ " : " + "<a href=\"" + viewURL.toString() + "\">" + viewURL.toString() + "</a>\n"
+						+ "<br /><br />\n" + bundle.getString("EMAIL_REPLY") + " : " + "<a href=\""
+						+ replyURL.toString() + "\">" + replyURL.toString() + "</a>" + "<br /><br />\n";
 
 				// For now it is just a copy from embeded mode maybe in future
 				// we will differentiate it.
 				String topicLinkedArgsSubject = topicEmbededArgsSubject;
 
-				String topicLinkedArgsText = bundle
-						.getString("EMAIL_LINKED_MODE_INFO")
-						+ ": <b>"
-						+ topic.getSubject()
-						+ "</b><br /><br />\n"
-						+ bundle.getString("EMAIL_VIEWORIGINAL")
-						+ " : "
-						+ "<a href=\""
-						+ viewURL.toString()
-						+ "\">"
-						+ viewURL.toString()
-						+ "</a>\n"
-						+ "<br /><br />\n"
-						+ bundle.getString("EMAIL_REPLY")
-						+ " : "
-						+ "<a href=\""
-						+ replyURL.toString()
-						+ "\">"
+				String topicLinkedArgsText = bundle.getString("EMAIL_LINKED_MODE_INFO") + ": <b>" + topic.getSubject()
+						+ "</b><br /><br />\n" + bundle.getString("EMAIL_VIEWORIGINAL") + " : " + "<a href=\""
+						+ viewURL.toString() + "\">" + viewURL.toString() + "</a>\n" + "<br /><br />\n"
+						+ bundle.getString("EMAIL_REPLY") + " : " + "<a href=\"" + replyURL.toString() + "\">"
 						+ replyURL.toString() + "</a>" + "<br /><br />\n";
 
 				// Notify the topic watchers
@@ -346,35 +293,24 @@ public class NotificationEngine {
 								continue;
 							}
 
-							User watcher = userModule.findUserById(watch
-									.getPoster().getUserId());
+							User watcher = userModule.findUserById(watch.getPoster().getUserId());
 							Object watcherId = watcher.getId();
-							if (!notifieds.contains(watcherId)
-									&& !watcherId.equals(PortalUtil.getUserNA()
-											.getId())) {
+							if (!notifieds.contains(watcherId) && !watcherId.equals(PortalUtil.getUserNA().getId())) {
 								boolean securityFlag = true;
 
 								// Creating security context for the user
-								JSFUIContext securityContext = new JSFUIContext(
-										watcher, getCurrentInstance());
+								UIContext securityContext = new UIContext(watcher);
 
 								// Checking if user has privileges to read
 								// category
-								securityContext
-										.setFragment("acl://readCategory");
-								securityContext
-										.setContextData(new Object[] { category });
-								securityFlag = forumsACLProvider
-										.hasAccess(securityContext)
-										&& securityFlag;
+								securityContext.setFragment("acl://readCategory");
+								securityContext.setContextData(new Object[] { category });
+								securityFlag = forumsACLProvider.hasAccess(securityContext) && securityFlag;
 
 								// Checking if user has privileges to read forum
 								securityContext.setFragment("acl://readForum");
-								securityContext
-										.setContextData(new Object[] { forum });
-								securityFlag = forumsACLProvider
-										.hasAccess(securityContext)
-										&& securityFlag;
+								securityContext.setContextData(new Object[] { forum });
+								securityFlag = forumsACLProvider.hasAccess(securityContext) && securityFlag;
 
 								if (securityFlag) {
 									// Authorized
@@ -411,22 +347,19 @@ public class NotificationEngine {
 		public void beforeCompletion() {
 		}
 
-		private void notify(User watcher, String from, String subject,
-				String text) {
+		private void notify(User watcher, String from, String subject, String text) {
 
 			Session session = null;
 
 			try {
-				session = (Session) PortableRemoteObject
-						.narrow(new InitialContext().lookup("java:Mail"),
-								Session.class);
+				session = (Session) PortableRemoteObject.narrow(new InitialContext().lookup("java:Mail"),
+						Session.class);
 				try {
 
 					StringBuffer buffer = null;
 					Address[] to = null;
 					MimeMessage m = new MimeMessage(session);
-					String email = userProfileModule.getProperty(watcher,
-							User.INFO_USER_EMAIL_REAL).toString();
+					String email = userProfileModule.getProperty(watcher, User.INFO_USER_EMAIL_REAL).toString();
 					if (email != null) {
 						m.setFrom(new InternetAddress(from));
 						to = new InternetAddress[] { new InternetAddress(email) };
@@ -439,8 +372,7 @@ public class NotificationEngine {
 						buffer.append(text);
 						buffer.append(bundle.getString("EMAIL_FOOTER_MESSAGE"));
 
-						m.setContent(buffer.toString(),
-								"text/html; charset=\"UTF-8\"");
+						m.setContent(buffer.toString(), "text/html; charset=\"UTF-8\"");
 						Transport.send(m);
 
 					}

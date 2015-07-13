@@ -14,11 +14,39 @@
 package it.vige.rubia.auth;
 
 /*
- * Created on May 18, 2006
+ * Created on May 19, 2006
  *
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
-public interface SecurityContext 
-{
-    Object getIdentity();
+public abstract class IdentitySecurityContext implements SecurityContext {
+
+	/**
+	 * this is current user that needs to be authorized.. left the type of this
+	 * identity open ended.. the actual provider can then cast it based on what
+	 * it expects it to be
+	 */
+	private Object identity;
+
+	/**
+	 * 
+	 *
+	 */
+	public IdentitySecurityContext(Object identity) {
+		this.identity = identity;
+	}
+
+	/**
+	 * @return Returns the identity.
+	 */
+	public Object getIdentity() {
+		return identity;
+	}
+
+	/**
+	 * @param identity
+	 *            The identity to set.
+	 */
+	public void setIdentity(Object identity) {
+		this.identity = identity;
+	}
 }

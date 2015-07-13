@@ -13,11 +13,19 @@
  ******************************************************************************/
 package it.vige.rubia.ui;
 
-import static it.vige.rubia.ui.Constants.ERROR;
+import static it.vige.rubia.Constants.ERROR;
+import static it.vige.rubia.PortalUtil.getGuestPoster;
+import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.auth.User.INFO_USER_LAST_LOGIN_DATE;
+import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
+import static java.lang.Long.valueOf;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -26,7 +34,14 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.User;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.model.Poster;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -43,8 +58,7 @@ public class JSFUtil {
 	public static String getRequestParameter(String name) {
 		String parameter = null;
 
-		Map<String, String> requestParameterMap = getCurrentInstance()
-				.getExternalContext().getRequestParameterMap();
+		Map<String, String> requestParameterMap = getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap != null) {
 			parameter = requestParameterMap.get(name);
 		}
@@ -53,23 +67,22 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static boolean isRunningInPortal() {
 		boolean isRunningInPortal = false;
 		return isRunningInPortal;
 	}
 
 	/**
-     * 
-     * 
-     */
+	 * 
+	 * 
+	 */
 	public static String getContextPath() {
 		String contextPath = "";
 
-		contextPath = getCurrentInstance().getExternalContext()
-				.getRequestContextPath();
+		contextPath = getCurrentInstance().getExternalContext().getRequestContextPath();
 
 		return contextPath;
 	}
@@ -81,8 +94,7 @@ public class JSFUtil {
 	public static boolean isAnonymous() {
 		boolean anonymous = true;
 
-		String remoteUser = getCurrentInstance().getExternalContext()
-				.getRemoteUser();
+		String remoteUser = getCurrentInstance().getExternalContext().getRemoteUser();
 		if (remoteUser != null && remoteUser.trim().length() > 0) {
 			anonymous = false;
 		}
@@ -103,8 +115,7 @@ public class JSFUtil {
 		UIComponent component = root.findComponent(componentId);
 
 		if (component != null) {
-			Object o = component.getValueExpression("value").getValue(
-					getCurrentInstance().getELContext());
+			Object o = component.getValueExpression("value").getValue(getCurrentInstance().getELContext());
 			value = (String) o;
 		}
 
@@ -135,8 +146,8 @@ public class JSFUtil {
 	public static String handleException(Exception e) {
 		String genericNavState = ERROR;
 		String msg = e.toString();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(ERROR, message);
@@ -163,9 +174,9 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static boolean isErrorOccurred() {
 		boolean errorOccurred = false;
 
@@ -178,33 +189,33 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static void setMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(id, message);
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static void setErrorMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(id, message);
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static String getMessage(String id) {
 		String msg = null;
 
@@ -220,9 +231,9 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static String getBundleMessage(String bundleName, String messageKey) {
 		String bundleMessage = null;
 
@@ -239,23 +250,100 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public static Locale getSelectedLocale() {
 		return getCurrentInstance().getExternalContext().getRequestLocale();
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public static Locale getDefaultLocale() {
 		return getCurrentInstance().getApplication().getDefaultLocale();
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public static Iterator<Locale> getSupportedLocales() {
 		return getCurrentInstance().getApplication().getSupportedLocales();
+	}
+
+	/**
+	 * Creates feed link.
+	 * 
+	 * @param type
+	 *            RSS/Atom. See FeedConstants
+	 * @param what
+	 *            Kind of the link. See available kinds in FeedConstants
+	 * @param id
+	 *            Id - for kind FeedCostants.GLOBAL is ignored
+	 * @return String with proper address
+	 */
+	public static String createFeedLink(String type, String what, Integer id) {
+
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		String url = ctx.getRequestContextPath() + "/feeds/" + type + "/" + what
+				+ (GLOBAL.equals(what) ? "" : "/" + id.toString());
+		String urlParam = getContextPath();
+		String urlType = "s";
+
+		url += "?url=" + urlParam + "&urlType=" + urlType;
+
+		return url;
+	}
+
+	public static Date getUserLastLoginDate(UserModule userModule, UserProfileModule userProfileModule) {
+		try {
+			User user = getUser(userModule);
+			if (user == null) {
+				return null;
+			}
+			Object property = userProfileModule.getProperty(user, INFO_USER_LAST_LOGIN_DATE);
+			if (property != null) {
+				long time = 0;
+				try {
+					time = valueOf(property.toString());
+				} catch (NumberFormatException ex) {
+
+				}
+				Date date;
+				if (time == 0) {
+					DateFormat sdfForLastLoginDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",
+							getDefaultLocale());
+					date = sdfForLastLoginDate.parse(property.toString());
+				} else
+					date = new Date(time);
+				return date;
+			}
+		} catch (Exception e) {
+			JSFUtil.handleException(e);
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static Poster getPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
+		Poster poster = null;
+
+		if (!isAnonymous()) {
+			User user = getUser(userModule);
+
+			Object userId = user.getId();
+			poster = forumsModule.findPosterByUserId(userId.toString());
+
+			if (poster == null) {
+				poster = new Poster(userId.toString());
+			}
+		} else {
+			poster = getGuestPoster(userModule, forumsModule);
+		}
+
+		return poster;
 	}
 }

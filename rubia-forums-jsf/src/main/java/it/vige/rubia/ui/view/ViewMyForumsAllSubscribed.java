@@ -13,16 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
+import static it.vige.rubia.PortalUtil.getUser;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.getUser;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.Watch;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.Collection;
 import java.util.Map;
@@ -31,6 +24,14 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.model.Watch;
+import it.vige.rubia.ui.action.PreferenceController;
 
 @Named("myForumsAll")
 public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
@@ -89,36 +90,36 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Watch getWatch() {
 		return watch;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setWatch(Watch watch) {
 		this.watch = watch;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getWatchedTopics() {
@@ -136,8 +137,8 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Map<Object, Object> getTopicWatches() {
@@ -155,8 +156,8 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setWatchedTopics(Collection<Topic> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}

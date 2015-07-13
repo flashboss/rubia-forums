@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action.converters;
 
-import static it.vige.rubia.ui.Constants.BUNDLE_NAME;
+import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.POLL_DURATION_MSG;
 import static java.lang.Integer.valueOf;

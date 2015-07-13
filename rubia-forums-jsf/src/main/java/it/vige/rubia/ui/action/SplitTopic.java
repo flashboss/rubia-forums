@@ -13,22 +13,13 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
-import static it.vige.rubia.ui.PortalUtil.getUser;
 import static java.lang.Integer.parseInt;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +33,16 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
 
 /**
  * SplitTopic is a bean which keeps data and has actions needed to achieve
@@ -147,8 +148,7 @@ public class SplitTopic extends BaseController {
 		List<Post> posts;
 		try {
 			posts = forumsModule.findPostsByTopicId(topic);
-			if (posts.get(0).getId()
-					.equals(checkboxes.keySet().iterator().next())) {
+			if (posts.get(0).getId().equals(checkboxes.keySet().iterator().next())) {
 				setWarnBundleMessage("ERR_SPLIT_ALL");
 				return "";
 			}
@@ -162,16 +162,13 @@ public class SplitTopic extends BaseController {
 
 		// Trying to get destination forum for new topic.
 		String toForumId = getParameter(p_forum_to_id);
-		if (toForumId == null
-				|| toForumId.trim().compareToIgnoreCase("-1") == 0
-				|| toForumId.trim().length() == 0) {
+		if (toForumId == null || toForumId.trim().compareToIgnoreCase("-1") == 0 || toForumId.trim().length() == 0) {
 			setWarnBundleMessage("ERR_DEST_FORUM");
 			return "";
 		}
 
 		// Checking if user gave subject for new topic.
-		if (newTopicTitle == null
-				|| newTopicTitle.trim().compareToIgnoreCase("-1") == 0
+		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0
 				|| newTopicTitle.trim().length() == 0) {
 			setWarnBundleMessage("ERR_NO_SUBJECT_GIVEN");
 			return "";
@@ -179,17 +176,14 @@ public class SplitTopic extends BaseController {
 
 		try {
 
-			Forum destForum = forumsModule
-					.findForumById(new Integer(toForumId));
+			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
 
 			// Creating new topic in destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum,
-					getUser(userModule).getId().toString(), newTopicTitle,
+			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
 					topic.getType());
 
 			// Getting post id after which the topic must be splitted.
-			Integer selectedPostId = (Integer) checkboxes.keySet().iterator()
-					.next();
+			Integer selectedPostId = (Integer) checkboxes.keySet().iterator().next();
 
 			// Searching for the split pointing post in topic.
 			Iterator<Post> it = posts.iterator();
@@ -216,21 +210,17 @@ public class SplitTopic extends BaseController {
 				postsToRemove.add(post);
 			}
 			newTopic = forumsModule.findTopicById(newTopic.getId());
-			List<Post> postsNewTopic = forumsModule
-					.findPostsByTopicId(newTopic);
+			List<Post> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
 			newTopic.setReplies(postsNewTopic.size() - 1);
-			newTopic.setLastPostDate(postsNewTopic
-					.get(postsNewTopic.size() - 1).getCreateDate());
+			newTopic.setLastPostDate(postsNewTopic.get(postsNewTopic.size() - 1).getCreateDate());
 
 			Forum fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - newTopic.getReplies() - 1);
-			fromForum.setPostCount(fromForum.getPostCount()
-					- newTopic.getReplies() - 1);
+			fromForum.setPostCount(fromForum.getPostCount() - newTopic.getReplies() - 1);
 			topic.setLastPostDate(posts.get(posts.size() - 1).getCreateDate());
 
 			destForum.addTopicSize();
-			destForum.setPostCount(destForum.getPostCount()
-					+ newTopic.getReplies() + 1);
+			destForum.setPostCount(destForum.getPostCount() + newTopic.getReplies() + 1);
 			forumsModule.update(newTopic);
 			forumsModule.update(topic);
 			forumsModule.update(fromForum);
@@ -287,28 +277,23 @@ public class SplitTopic extends BaseController {
 
 		// Trying to get destination forum for new topic.
 		String toForumId = getParameter(p_forum_to_id);
-		if (toForumId == null
-				|| toForumId.trim().compareToIgnoreCase("-1") == 0
-				|| toForumId.trim().length() == 0) {
+		if (toForumId == null || toForumId.trim().compareToIgnoreCase("-1") == 0 || toForumId.trim().length() == 0) {
 			setWarnBundleMessage("ERR_DEST_FORUM");
 			return "";
 		}
 
 		// Checking if user gave subject for new topic.
-		if (newTopicTitle == null
-				|| newTopicTitle.trim().compareToIgnoreCase("-1") == 0
+		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0
 				|| newTopicTitle.trim().length() == 0) {
 			setWarnBundleMessage("ERR_NO_SUBJECT_GIVEN");
 			return "";
 		}
 		try {
 
-			Forum destForum = forumsModule
-					.findForumById(new Integer(toForumId));
+			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
 
 			// Creating new topic in selected destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum,
-					getUser(userModule).getId().toString(), newTopicTitle,
+			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
 					topic.getType());
 
 			// Moving all selected posts to new topic.
@@ -324,19 +309,15 @@ public class SplitTopic extends BaseController {
 
 			Forum fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - checkboxes.size());
-			fromForum
-					.setPostCount(fromForum.getPostCount() - checkboxes.size());
+			fromForum.setPostCount(fromForum.getPostCount() - checkboxes.size());
 			topic.setLastPostDate(posts.get(posts.size() - 1).getCreateDate());
 
 			newTopic.setReplies(checkboxes.size() - 1);
-			List<Post> postsNewTopic = forumsModule
-					.findPostsByTopicId(newTopic);
-			newTopic.setLastPostDate(postsNewTopic
-					.get(postsNewTopic.size() - 1).getCreateDate());
+			List<Post> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
+			newTopic.setLastPostDate(postsNewTopic.get(postsNewTopic.size() - 1).getCreateDate());
 
 			destForum.addTopicSize();
-			destForum.setPostCount(destForum.getPostCount()
-					+ newTopic.getReplies() + 1);
+			destForum.setPostCount(destForum.getPostCount() + newTopic.getReplies() + 1);
 			forumsModule.update(topic);
 			forumsModule.update(newTopic);
 			forumsModule.update(fromForum);
@@ -386,14 +367,12 @@ public class SplitTopic extends BaseController {
 
 	private void setWarnBundleMessage(String bundleKey) {
 		String message = getBundleMessage("ResourceJSF", bundleKey);
-		getCurrentInstance().addMessage("message",
-				new FacesMessage(SEVERITY_WARN, message, "moderate"));
+		getCurrentInstance().addMessage("message", new FacesMessage(SEVERITY_WARN, message, "moderate"));
 	}
 
 	private void setInfoBundleMessage(String bundleKey) {
 		String message = getBundleMessage("ResourceJSF", bundleKey);
-		getCurrentInstance().addMessage("message",
-				new FacesMessage(SEVERITY_INFO, message, "moderate"));
+		getCurrentInstance().addMessage("message", new FacesMessage(SEVERITY_INFO, message, "moderate"));
 	}
 
 }

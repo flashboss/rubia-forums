@@ -15,6 +15,8 @@ package it.vige.rubia.ui;
 
 import java.io.Serializable;
 
+import it.vige.rubia.Constants;
+
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  * 
@@ -24,6 +26,6 @@ public abstract class BaseController implements Serializable, Constants {
 	 * 
 	 */
 	private static final long serialVersionUID = -4481043447596826941L;
-	
-	//public abstract boolean isAllowed();
+
+	// public abstract boolean isAllowed();
 }

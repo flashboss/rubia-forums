@@ -20,19 +20,10 @@ import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.model.TopicType.IMPORTANT;
 import static it.vige.rubia.model.TopicType.NORMAL;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.createFeedLink;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.parseInt;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.PageNavigator;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +39,16 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.PageNavigator;
+import it.vige.rubia.ui.action.PreferenceController;
 
 //jsf imports
 
@@ -82,22 +83,19 @@ public class ViewForum extends BaseController {
 	private Map<Object, Object> topicLastPosts;
 	private List<Topic> stickyThreads;
 	private List<Topic> announcements;
-	private DataModel<Topic> normalThreadsDataModel = new ListDataModel<Topic>(
-			normalThreads);
+	private DataModel<Topic> normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
 
 	public DataModel<Topic> getNormalThreadsDataModel() {
 		return normalThreadsDataModel;
 	}
 
-	public void setNormalThreadsDataModel(
-			DataModel<Topic> normalThreadsDataModel) {
+	public void setNormalThreadsDataModel(DataModel<Topic> normalThreadsDataModel) {
 		this.normalThreadsDataModel = normalThreadsDataModel;
 	}
 
 	public int getLastPageNumber() {
 		if (forum != null)
-			return forum.getTopicCount() / userPreferences.getTopicsPerForum()
-					+ 1;
+			return forum.getTopicCount() / userPreferences.getTopicsPerForum() + 1;
 		else
 			return 1;
 	}
@@ -106,8 +104,8 @@ public class ViewForum extends BaseController {
 	// components like
 	// facelets---------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Forum getForum() {
 		return forum;
 	}
@@ -118,9 +116,9 @@ public class ViewForum extends BaseController {
 
 	// --------------------------------------------------------------------------------------------
 	/**
-      * 
-      *
-      */
+	  * 
+	  *
+	  */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getAnnouncements() {
@@ -129,8 +127,7 @@ public class ViewForum extends BaseController {
 		}
 		announcements = new ArrayList<Topic>();
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
-					MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -151,8 +148,7 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
-					MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
 			if (announcements != null && announcements.size() > 0) {
 				present = true;
 			}
@@ -175,8 +171,7 @@ public class ViewForum extends BaseController {
 		stickyThreads = new ArrayList<Topic>();
 		try {
 			// ForumsModule fm = this.getForumsModule();
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
-					MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -197,8 +192,7 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
-					MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
 			if (stickyThreads != null && stickyThreads.size() > 0) {
 				present = true;
 			}
@@ -209,8 +203,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-      * 
-      */
+	  * 
+	  */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getNormalThreads() {
@@ -218,8 +212,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-      * 
-      */
+	  * 
+	  */
 	public boolean isNormalThreadsPresent() {
 		return normalThreads.size() > 0;
 	}
@@ -256,9 +250,9 @@ public class ViewForum extends BaseController {
 	// -------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-      * 
-      *
-      */
+	  * 
+	  *
+	  */
 	@PostConstruct
 	public void execute() {
 		// parse the input parameters
@@ -303,8 +297,7 @@ public class ViewForum extends BaseController {
 				// topic minipaging
 				for (Topic cour : listOfTopics) {
 					if (cour.getReplies() > 0) {
-						PageNavigator topicNav = new PageNavigator(
-								cour.getReplies() + 1,
+						PageNavigator topicNav = new PageNavigator(cour.getReplies() + 1,
 								userPreferences.getPostsPerTopic(), // this
 																	// is
 																	// user's
@@ -316,8 +309,8 @@ public class ViewForum extends BaseController {
 						) {
 
 							/**
-						 * 
-						 */
+							* 
+							*/
 							private static final long serialVersionUID = 6277599446838264687L;
 
 							protected Collection<Integer> initializePage() {

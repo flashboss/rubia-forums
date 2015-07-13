@@ -14,9 +14,14 @@
 package it.vige.rubia.ui.action;
 
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.getPoster;
 import static java.lang.Integer.parseInt;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
@@ -26,10 +31,6 @@ import it.vige.rubia.model.PollOption;
 import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.ui.BaseController;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 /**
  * Created on May 5, 2006

@@ -13,6 +13,14 @@
  ******************************************************************************/
 package it.vige.rubia.feeds;
 
+import static it.vige.rubia.Constants.BY;
+import static it.vige.rubia.Constants.p_categoryId;
+import static it.vige.rubia.Constants.p_forumId;
+import static it.vige.rubia.Constants.p_postId;
+import static it.vige.rubia.Constants.p_topicId;
+import static it.vige.rubia.PortalUtil.VIEW;
+import static it.vige.rubia.PortalUtil.getIdForName;
+import static it.vige.rubia.PortalUtil.getNameForId;
 import static it.vige.rubia.feeds.FeedConstants.ATOM;
 import static it.vige.rubia.feeds.FeedConstants.CATEGORY;
 import static it.vige.rubia.feeds.FeedConstants.FORUM;
@@ -25,25 +33,11 @@ import static it.vige.rubia.feeds.FeedConstants.URL_TYPE_INIT_PARAM_NAME;
 import static it.vige.rubia.feeds.FeedConstants.WRONG_FEED_REQ;
 import static it.vige.rubia.feeds.FeedConstants.WRONG_FEED_SHOW_TYPE;
 import static it.vige.rubia.feeds.FeedConstants.WRONG_FEED_TYPE;
-import static it.vige.rubia.ui.Constants.BY;
-import static it.vige.rubia.ui.Constants.p_categoryId;
-import static it.vige.rubia.ui.Constants.p_forumId;
-import static it.vige.rubia.ui.Constants.p_postId;
-import static it.vige.rubia.ui.Constants.p_topicId;
-import static it.vige.rubia.ui.PortalUtil.VIEW;
-import static it.vige.rubia.ui.PortalUtil.getIdForName;
-import static it.vige.rubia.ui.PortalUtil.getNameForId;
 import static java.lang.Integer.valueOf;
 import static java.net.URLEncoder.encode;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -65,6 +59,13 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedOutput;
 
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+
 /**
  * Servlet used for showing RSS entries
  * 
@@ -76,15 +77,15 @@ import com.rometools.rome.io.SyndFeedOutput;
 public class FeedsServlet extends HttpServlet {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ForumsModule forumsModule;
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			String[] uri = request.getRequestURI().split("/");
 
@@ -115,22 +116,16 @@ public class FeedsServlet extends HttpServlet {
 			String urlRequestParam = request.getParameter("url");
 			String urlTypeRequestParam = request.getParameter("urlType");
 
-			if (urlRequestParam != null
-					&& urlRequestParam.trim().length() != 0
-					&& urlTypeRequestParam != null
+			if (urlRequestParam != null && urlRequestParam.trim().length() != 0 && urlTypeRequestParam != null
 					&& urlTypeRequestParam.trim().length() != 0
-					&& (urlTypeRequestParam.compareTo("p") == 0 || urlTypeRequestParam
-							.compareTo("s") == 0)) {
+					&& (urlTypeRequestParam.compareTo("p") == 0 || urlTypeRequestParam.compareTo("s") == 0)) {
 				url = request.getParameter("url");
 				urlType = urlTypeRequestParam;
 			}
 
-			String urlInitParam = getServletContext().getInitParameter(
-					URL_INIT_PARAM_NAME);
-			String urlTypeInitParam = getServletContext().getInitParameter(
-					URL_TYPE_INIT_PARAM_NAME);
-			if (urlInitParam != null && urlInitParam.trim().length() != 0
-					&& urlTypeInitParam != null
+			String urlInitParam = getServletContext().getInitParameter(URL_INIT_PARAM_NAME);
+			String urlTypeInitParam = getServletContext().getInitParameter(URL_TYPE_INIT_PARAM_NAME);
+			if (urlInitParam != null && urlInitParam.trim().length() != 0 && urlTypeInitParam != null
 					&& urlTypeInitParam.trim().length() != 0) {
 				url = urlInitParam;
 				urlType = urlTypeInitParam;
@@ -151,8 +146,7 @@ public class FeedsServlet extends HttpServlet {
 				} else if (what.equals(GLOBAL)) {
 					createGlobalFeed(feed, id, url, urlType);
 				} else {
-					response.sendError(SC_BAD_REQUEST, WRONG_FEED_SHOW_TYPE
-							+ what);
+					response.sendError(SC_BAD_REQUEST, WRONG_FEED_SHOW_TYPE + what);
 					return;
 				}
 			} catch (ModuleException e) {
@@ -174,8 +168,7 @@ public class FeedsServlet extends HttpServlet {
 
 	}
 
-	private void createGlobalFeed(SyndFeed feed, Integer id, String url,
-			String urlType) throws ModuleException {
+	private void createGlobalFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 		feed.setTitle("Rubia Forums Global Feed");
 		feed.setLink(globalLink(url, urlType));
 		feed.setDescription("Messages posted in Rubia Forums");
@@ -191,20 +184,18 @@ public class FeedsServlet extends HttpServlet {
 		feed.setEntries(entries);
 	}
 
-	private void createForumFeed(SyndFeed feed, Integer id, String url,
-			String urlType) throws ModuleException {
+	private void createForumFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
 		Forum forum = forumsModule.findForumById(id);
 
 		feed.setTitle("Rubia Forums Forum Feed: " + forum.getName());
 		feed.setLink(forumLink(id.toString(), url, urlType));
-		feed.setDescription("Messages posted in forum " + forum.getName()
-				+ " in category " + forum.getCategory().getTitle());
+		feed.setDescription(
+				"Messages posted in forum " + forum.getName() + " in category " + forum.getCategory().getTitle());
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsFromForumDesc(forum,
-				POST_LIMIT);
+		List<Post> posts = forumsModule.findPostsFromForumDesc(forum, POST_LIMIT);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -214,16 +205,14 @@ public class FeedsServlet extends HttpServlet {
 
 	}
 
-	private void createTopicFeed(SyndFeed feed, Integer id, String url,
-			String urlType) throws ModuleException {
+	private void createTopicFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
 		Topic topic = forumsModule.findTopicById(id);
 
 		feed.setTitle("Rubia Forums Topic Feed: " + topic.getSubject());
 		feed.setLink(topicLink(id.toString(), url, urlType));
-		feed.setDescription("Messages posted in topic " + topic.getSubject()
-				+ " in forum " + topic.getForum().getName() + " in category "
-				+ topic.getForum().getCategory().getTitle());
+		feed.setDescription("Messages posted in topic " + topic.getSubject() + " in forum " + topic.getForum().getName()
+				+ " in category " + topic.getForum().getCategory().getTitle());
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
@@ -247,20 +236,17 @@ public class FeedsServlet extends HttpServlet {
 		return true;
 	}
 
-	private void createCategoryFeed(SyndFeed feed, Integer id, String url,
-			String urlType) throws ModuleException {
+	private void createCategoryFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
 		Category category = forumsModule.findCategoryById(id);
 
 		feed.setTitle("Rubia Forums Category Feed: " + category.getTitle());
 		feed.setLink(categoryLink(id.toString(), url, urlType));
-		feed.setDescription("Messages posted in category "
-				+ category.getTitle());
+		feed.setDescription("Messages posted in category " + category.getTitle());
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsFromCategoryDesc(category,
-				POST_LIMIT);
+		List<Post> posts = forumsModule.findPostsFromCategoryDesc(category, POST_LIMIT);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -274,17 +260,14 @@ public class FeedsServlet extends HttpServlet {
 		SyndContent description;
 
 		entry = new SyndEntryImpl();
-		entry.setTitle(post.getMessage().getSubject() + BY
-				+ post.getPoster().getUserId());
+		entry.setTitle(post.getMessage().getSubject() + BY + post.getPoster().getUserId());
 		entry.setLink(postLink(post.getId().toString(), url, urlType));
 		entry.setPublishedDate(post.getCreateDate());
 		description = new SyndContentImpl();
 		description.setType("text/html");
 
 		String text = post.getMessage().getText();
-		description
-				.setValue(post.getMessage().getHTMLEnabled() ? escapeHtml(text)
-						: text);
+		description.setValue(post.getMessage().getHTMLEnabled() ? escapeHtml(text) : text);
 		entry.setDescription(description);
 
 		return entry;
@@ -320,8 +303,7 @@ public class FeedsServlet extends HttpServlet {
 	private String buildCompleteUrl(String url, String urlType, String viewUrl) {
 		if (urlType.compareTo("p") == 0) {
 			try {
-				url += "&" + VIEW + "="
-						+ encode(getIdForName(viewUrl), "UTF-8") + "&";
+				url += "&" + VIEW + "=" + encode(getIdForName(viewUrl), "UTF-8") + "&";
 			} catch (UnsupportedEncodingException e) {
 			}
 		} else {

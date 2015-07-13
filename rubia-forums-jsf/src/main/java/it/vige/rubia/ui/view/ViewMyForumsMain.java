@@ -13,20 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
+import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.getUser;
-import static it.vige.rubia.ui.PortalUtil.getUserLastLoginDate;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.Constants;
-import it.vige.rubia.ui.ThemeHelper;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.Collection;
 import java.util.Date;
@@ -37,6 +26,18 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.Constants;
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.ThemeHelper;
+import it.vige.rubia.ui.action.PreferenceController;
 
 @Named("myForums")
 public class ViewMyForumsMain extends ViewMyForumsBase {
@@ -82,22 +83,21 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getWatchedTopics() {
 		if (watchedTopics == null) {
 			try {
-				Date lastLoginDate = getUserLastLoginDate(userModule,
-						userProfileModule);
+				Date lastLoginDate = getUserLastLoginDate(userModule, userProfileModule);
 				if (lastLoginDate == null) {
 					return watchedTopics;
 				}
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedTopics = forumsModule.findTopicWatchedByUser(
-						getUser(userModule), lastLoginDate, forumInstanceId);
+				watchedTopics = forumsModule.findTopicWatchedByUser(getUser(userModule), lastLoginDate,
+						forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -107,15 +107,15 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setWatchedTopics(Collection<Topic> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Forum> getWatchedForums() {
@@ -123,8 +123,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 			try {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedForums = forumsModule.findForumWatchedByUser(
-						getUser(userModule), forumInstanceId);
+				watchedForums = forumsModule.findForumWatchedByUser(getUser(userModule), forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -134,8 +133,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setWatchedForums(Collection<Forum> watchedForums) {
 		this.watchedForums = watchedForums;
 	}
@@ -165,8 +164,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Map<Object, Post> getForumsLastPosts() {
@@ -175,8 +174,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
 
-				forumsLastPosts = forumsModule
-						.findLastPostsOfForums(forumInstanceId);
+				forumsLastPosts = forumsModule.findLastPostsOfForums(forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -186,35 +184,32 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@PostConstruct
 	public void execute() {
 
 		try {
 			super.execute();
 			Collection<Forum> forums = getWatchedForums();
-			Date userLastLogin = getUserLastLoginDate(userModule,
-					userProfileModule);
+			Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
 
 			for (Forum currentForum : forums) {
 
 				// setup folderLook based on whats specified in the theme
 				String folderImage = themeHelper.getResourceForumURL();
 				String folderAlt = "No_new_posts"; // bundle key
-				if (forumsLastPosts != null
-						&& forumsLastPosts.containsKey(currentForum.getId())) {
+				if (forumsLastPosts != null && forumsLastPosts.containsKey(currentForum.getId())) {
 					Post lastPost = forumsLastPosts.get(currentForum.getId());
 					Date lastPostDate = lastPost.getCreateDate();
-					if (lastPostDate != null && userLastLogin != null
-							&& lastPostDate.compareTo(userLastLogin) > 0) {
+					if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
 						folderAlt = "New_posts"; // bundle key
 						folderImage = themeHelper.getResourceForumNewURL();
 					}
@@ -224,8 +219,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 					folderAlt = "Forum_locked"; // bundle key
 				}
 				getForumImages().put(currentForum.getId(), folderImage);
-				getForumImageDescriptions()
-						.put(currentForum.getId(), folderAlt);
+				getForumImageDescriptions().put(currentForum.getId(), folderAlt);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

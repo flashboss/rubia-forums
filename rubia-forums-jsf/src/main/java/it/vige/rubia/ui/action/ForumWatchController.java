@@ -13,12 +13,18 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.getPoster;
-import static it.vige.rubia.ui.PortalUtil.getUser;
 import static java.lang.Boolean.valueOf;
 import static java.lang.Integer.parseInt;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
@@ -28,11 +34,6 @@ import it.vige.rubia.model.Forum;
 import it.vige.rubia.model.ForumWatch;
 import it.vige.rubia.model.Watch;
 import it.vige.rubia.ui.BaseController;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 /**
  * This controller is used for activating/deactivating/managing forum watches
@@ -80,15 +81,15 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Forum getForum() {
 		return forum;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setForum(Forum forum) {
 		this.forum = forum;
 	}
@@ -109,24 +110,24 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public boolean isEditMode() {
 		return editMode;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@PostConstruct
 	public void execute() {
 		try {
@@ -173,9 +174,9 @@ public class ForumWatchController extends BaseController {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String activateWatch() {
@@ -219,9 +220,9 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String deActivateWatch() {
@@ -253,8 +254,8 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public String updateNotificationType() {
 
 		try {
@@ -289,18 +290,18 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public String updateWatch() {
 		return null;
 	}
 
 	// --------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	private boolean isDuplicateWatch(int forumId) {
 		try {
 			ForumWatch watch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), selectedForum);
@@ -312,16 +313,16 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public String dummyAction() {
 		return null;
 	}
 
 	/**
-     * 
-     * 
-     */
+	 * 
+	 * 
+	 */
 	public String getWatchingForum() {
 		String watchId = null;
 

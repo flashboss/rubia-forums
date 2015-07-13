@@ -17,16 +17,8 @@ import static it.vige.rubia.feeds.FeedConstants.ATOM;
 import static it.vige.rubia.feeds.FeedConstants.RSS;
 import static it.vige.rubia.feeds.FeedConstants.TOPIC;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
-import static it.vige.rubia.ui.PortalUtil.createFeedLink;
+import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static java.lang.Integer.parseInt;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.action.PreferenceController;
-import it.vige.rubia.util.CurrentTopicPage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +31,15 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.action.PreferenceController;
+import it.vige.rubia.util.CurrentTopicPage;
 
 /**
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
@@ -105,24 +106,22 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public long getPostDays() {
 		return postDays;
 	}
 
 	/**
-    * 
-    *
-    */
+	* 
+	*
+	*/
 	public boolean isPollPresent() {
 		boolean isPollPresent = false;
 
-		if (topic.getPoll() != null && topic.getPoll().getId() != null
-				&& topic.getPoll().getId().intValue() > 0
-				&& topic.getPoll().getOptions() != null
-				&& !topic.getPoll().getOptions().isEmpty()) {
+		if (topic.getPoll() != null && topic.getPoll().getId() != null && topic.getPoll().getId().intValue() > 0
+				&& topic.getPoll().getOptions() != null && !topic.getPoll().getOptions().isEmpty()) {
 			isPollPresent = true;
 		}
 
@@ -130,9 +129,9 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-    * 
-    *
-    */
+	* 
+	*
+	*/
 	public boolean isBallotView() {
 		boolean isBallotView = true; // in ballot view by default
 
@@ -157,9 +156,9 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-    * 
-    *
-    */
+	* 
+	*
+	*/
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Post> getTopics() {
@@ -239,17 +238,13 @@ public class ViewTopic extends BaseController {
 				// default
 				if (postOrder.compareToIgnoreCase("ascending") == 0) {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsAsc(
-							topic, 0, 0);
-					topics = forumsModule
-							.findPostsByIdsAscFetchAttachmentsAndPosters(pagePosts);
+					Collection<Post> pagePosts = forumsModule.findPostIdsAsc(topic, 0, 0);
+					topics = forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(pagePosts);
 
 				} else {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsDesc(
-							topic, 0, 0);
-					topics = forumsModule
-							.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
+					Collection<Post> pagePosts = forumsModule.findPostIdsDesc(topic, 0, 0);
+					topics = forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
 
 				}
 				topicsDataModel = new ListDataModel<Post>(topics);

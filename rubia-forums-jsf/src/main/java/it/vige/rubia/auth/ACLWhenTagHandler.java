@@ -14,7 +14,7 @@
 package it.vige.rubia.auth;
 
 //core java
-import static it.vige.rubia.ui.PortalUtil.getUser;
+import static it.vige.rubia.PortalUtil.getUser;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -71,9 +71,9 @@ public class ACLWhenTagHandler extends TagHandler {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public boolean isAllowed(FaceletContext ctx) {
 		boolean isAllowed = false;
 
@@ -128,7 +128,7 @@ public class ACLWhenTagHandler extends TagHandler {
 			}
 
 			// check access here
-			JSFUIContext securityContext = new JSFUIContext(getUser(userModule), facesContext);
+			UIContext securityContext = new UIContext(getUser(userModule));
 			securityContext.setFragment(resource);
 			securityContext.setContextData(runtime);
 

@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.properties;
 
-import static it.vige.rubia.ui.Constants.THEMENAME;
+import static it.vige.rubia.Constants.THEMENAME;
 import static it.vige.rubia.ui.JSFUtil.getContextPath;
 import static java.lang.Thread.currentThread;
 

@@ -13,12 +13,18 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.getPoster;
-import static it.vige.rubia.ui.PortalUtil.getUser;
 import static java.lang.Boolean.valueOf;
 import static java.lang.Integer.parseInt;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
@@ -26,11 +32,6 @@ import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.model.TopicWatch;
 import it.vige.rubia.ui.BaseController;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 /**
  * This controller is used for activating/deactivating topic watches
@@ -60,72 +61,72 @@ public class TopicWatchController extends BaseController {
 	private Topic topic;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public int getWatchType() {
 		return watchType;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setWatchType(int watchType) {
 		this.watchType = watchType;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public String dummyAction() {
 		return "success";
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Topic getTopic() {
 		return topic;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public boolean getEditMode() {
 		return editMode;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@PostConstruct
 	public void startService() {
 		try {
@@ -171,9 +172,9 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String activateWatch() {
@@ -207,9 +208,9 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String deActivateWatch() {
@@ -229,8 +230,8 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public String updateNotificationType() {
 		String navState = null;
 		if (watchType == -1 || topicId == -1) {

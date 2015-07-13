@@ -13,11 +13,10 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.novezerozero.auth;
 
-import static it.vige.rubia.ui.JSFUtil.isAnonymous;
-
 import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.EJBContext;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -45,6 +44,9 @@ public class JBossUserModule implements UserModule, Serializable {
 	private static final long serialVersionUID = -8560321558665446098L;
 	private IdentityManager identityManager;
 
+	@javax.annotation.Resource
+	private EJBContext ejbContext;
+
 	@Override
 	public User findUserByUserName(String arg0) throws IllegalArgumentException {
 		loadIdentityManager();
@@ -71,12 +73,6 @@ public class JBossUserModule implements UserModule, Serializable {
 			e.printStackTrace();
 		}
 		return user;
-	}
-
-	@Override
-	public boolean isGuest() {
-		// TODO Auto-generated method stub
-		return isAnonymous();
 	}
 
 	private org.picketlink.idm.model.basic.User getUser(String userId) {
@@ -118,5 +114,15 @@ public class JBossUserModule implements UserModule, Serializable {
 			identityManager.add(user);
 		}
 
+	}
+
+	@Override
+	public boolean isGuest() {
+		boolean anonymous = true;
+		String remoteUser = ejbContext.getCallerPrincipal().getName();
+		if (remoteUser != null && !remoteUser.isEmpty()) {
+			anonymous = false;
+		}
+		return anonymous;
 	}
 }

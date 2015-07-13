@@ -13,20 +13,14 @@
  ******************************************************************************/
 package it.vige.rubia.ui;
 
-import static it.vige.rubia.ui.Constants.THEMENAME;
+import static it.vige.rubia.Constants.THEMENAME;
 import static it.vige.rubia.ui.JSFUtil.getDefaultLocale;
 import static it.vige.rubia.ui.JSFUtil.getSelectedLocale;
 import static it.vige.rubia.ui.JSFUtil.getSupportedLocales;
-import static it.vige.rubia.ui.PortalUtil.getUserLastLoginDate;
+import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.properties.TCCLXProperties;
-import it.vige.rubia.theme.FolderType;
-import it.vige.rubia.theme.ForumsTheme;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -42,6 +36,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import it.vige.rubia.Constants;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.properties.TCCLXProperties;
+import it.vige.rubia.theme.FolderType;
+import it.vige.rubia.theme.ForumsTheme;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -65,19 +67,19 @@ public class ThemeHelper {
 	public static final int hotThreshold = 10;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private Set<String> supportedLanguages;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private ForumsTheme theme;
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public ThemeHelper() throws Exception {
 		// Start the theme
 		theme = new ForumsTheme();
@@ -93,8 +95,8 @@ public class ThemeHelper {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private boolean isSupportedLanguage(String language) {
 		return supportedLanguages.contains(language);
 	}
@@ -102,9 +104,9 @@ public class ThemeHelper {
 	// method linked to facelet
 	// functions---------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public String getURL(String urlKey) {
 		try {
 			String url = null;
@@ -155,13 +157,14 @@ public class ThemeHelper {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public String getFolderTypeURL(Topic topic, boolean isAnonymous) {
 		String folderTypeURL = getURL("resourceFolderURL");
 
-		FolderType folderType = theme.getFolderType(topic.getType(), topic.getStatus(), topic.getReplies() >= hotThreshold);
+		FolderType folderType = theme.getFolderType(topic.getType(), topic.getStatus(),
+				topic.getReplies() >= hotThreshold);
 
 		if (!isAnonymous) {
 			Date lastPostDate = topic.getLastPostDate();
@@ -180,9 +183,9 @@ public class ThemeHelper {
 	}
 
 	/**
-     *
-     *
-     */
+	 *
+	 *
+	 */
 	public String getFolderType(Topic topic) {
 
 		// Getting ResourceBundle with current Locale

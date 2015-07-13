@@ -13,8 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.model.TopicType.*;
+import static it.vige.rubia.model.TopicType.NORMAL;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.ForumUtil.getSDF;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static it.vige.rubia.ui.action.MessageValidationException.INVALID_POST_SUBJECT;
@@ -24,17 +25,6 @@ import static it.vige.rubia.ui.action.PollValidationException.INVALID_POLL_TITLE
 import static it.vige.rubia.ui.action.PollValidationException.TOO_FEW_POLL_OPTION;
 import static it.vige.rubia.ui.action.PollValidationException.TOO_MANY_POLL_OPTION;
 import static java.lang.Integer.parseInt;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.TopicType;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.PortalUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -55,6 +45,17 @@ import javax.interceptor.Interceptors;
 import org.richfaces.component.UIFileUpload;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Attachment;
+import it.vige.rubia.model.Message;
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.TopicType;
+import it.vige.rubia.ui.BaseController;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -148,7 +149,7 @@ public abstract class PostAction extends BaseController {
 	public String getPostDate() {
 		String dateStr = null;
 
-		SimpleDateFormat dateFormat = PortalUtil.getSDF();
+		SimpleDateFormat dateFormat = getSDF();
 
 		dateStr = dateFormat.format(new Date());
 
@@ -211,9 +212,7 @@ public abstract class PostAction extends BaseController {
 			if (map.isEmpty()) {
 				options.put("1", option);
 			} else {
-				options.put(
-						Integer.toString(parseInt((String) map.lastKey()) + 1),
-						option);
+				options.put(Integer.toString(parseInt((String) map.lastKey()) + 1), option);
 			}
 		}
 		option = null;
@@ -278,16 +277,16 @@ public abstract class PostAction extends BaseController {
 	// -----navigation related
 	// data---------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * 
+	 */
 	public boolean isPreview() {
 		return isPreview;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public boolean isPollPresent() {
 		boolean isPollPresent = false;
 
@@ -299,25 +298,25 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public int getForumId() {
 		return forumId;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public int getPostId() {
 		return postId;
 	}
@@ -432,8 +431,7 @@ public abstract class PostAction extends BaseController {
 			throw new PollValidationException(INVALID_POLL_TITLE);
 		}
 		for (PollOption option : poll.getOptions()) {
-			if (option.getQuestion() == null
-					|| option.getQuestion().trim().length() == 0) {
+			if (option.getQuestion() == null || option.getQuestion().trim().length() == 0) {
 				throw new PollValidationException(INVALID_POLL_OPTION);
 			}
 		}
@@ -443,8 +441,7 @@ public abstract class PostAction extends BaseController {
 	// -----------------message
 	// related------------------------------------------------------------------------------------------
 
-	public void validateMessage(Message message)
-			throws MessageValidationException {
+	public void validateMessage(Message message) throws MessageValidationException {
 		String subject = message.getSubject();
 		if (subject == null || subject.trim().length() == 0) {
 			throw new MessageValidationException(INVALID_POST_SUBJECT);
@@ -460,8 +457,8 @@ public abstract class PostAction extends BaseController {
 	// related------------------------------------------------------------------------------------------
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String addAttachment() {
@@ -532,13 +529,12 @@ public abstract class PostAction extends BaseController {
 	// utility
 	// methods-------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Post getPost() throws Exception {
 		Post post = null;
 
-		post = forumsModule.findPostById(new Integer(
-				getRequestParameter(p_postId)));
+		post = forumsModule.findPostById(new Integer(getRequestParameter(p_postId)));
 
 		return post;
 	}
@@ -558,8 +554,7 @@ public abstract class PostAction extends BaseController {
 
 	public void clearUpload(AjaxBehaviorEvent event) throws Exception {
 		@SuppressWarnings("unchecked")
-		List<Attachment> attachments = (List<Attachment>) ((UIFileUpload) event
-				.getSource()).getData();
+		List<Attachment> attachments = (List<Attachment>) ((UIFileUpload) event.getSource()).getData();
 		this.attachments.removeAll(attachments);
 	}
 
@@ -568,8 +563,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	public void paint(OutputStream stream, Object object) throws IOException {
-		stream.write(attachments.toArray(new Attachment[0])[(Integer) object]
-				.getContent());
+		stream.write(attachments.toArray(new Attachment[0])[(Integer) object].getContent());
 		stream.close();
 	}
 

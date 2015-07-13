@@ -13,12 +13,21 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.createMessage;
+import static it.vige.rubia.PortalUtil.getPoster;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.createMessage;
-import static it.vige.rubia.ui.PortalUtil.getPoster;
 import static java.lang.Integer.parseInt;
+
+import java.util.Date;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
@@ -30,14 +39,6 @@ import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.ui.view.ViewTopic;
 import it.vige.rubia.util.CurrentTopicPage;
-
-import java.util.Date;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -136,9 +137,9 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String startInstantReplyPreview() {
@@ -171,15 +172,13 @@ public class ReplyTopic extends PostAction {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME,
-						TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
 			}
 
 			// actually post a reply to this topic in the forum
 			poster.incrementPostCount();
-			forumsModule.createPost(topic, forum, message, new Date(), poster,
-					attachments // attachments
-					);
+			forumsModule.createPost(topic, forum, message, new Date(), poster, attachments // attachments
+			);
 			currentTopicPage.setPage(viewTopic.getLastPageNumber());
 
 			// setup the navigation state
@@ -212,9 +211,9 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String executeInstantReply() {
@@ -241,9 +240,9 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String startQuote() {
@@ -257,10 +256,8 @@ public class ReplyTopic extends PostAction {
 			// setup the quote information
 			Post post = forumsModule.findPostById(postId);
 			Poster poster = getPoster(forumsModule, userModule);
-			String userName = userModule.findUserById(poster.getUserId())
-					.getUserName();
-			message = userName + "<" + QUOTE + ">"
-					+ post.getMessage().getText() + "</" + QUOTE + "></br>";
+			String userName = userModule.findUserById(poster.getUserId()).getUserName();
+			message = userName + "<" + QUOTE + ">" + post.getMessage().getText() + "</" + QUOTE + "></br>";
 		} catch (Exception e) {
 			handleException(e);
 		}

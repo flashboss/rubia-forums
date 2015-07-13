@@ -16,15 +16,12 @@
  */
 package it.vige.rubia.selenium.forum.action;
 
-import static it.vige.rubia.ui.Constants.MAIN_PAGE;
+import static it.vige.rubia.Constants.MAIN_PAGE;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Topic;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -33,6 +30,10 @@ import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
+import it.vige.rubia.model.Topic;
 
 public class VerifyPoll {
 
@@ -43,10 +44,8 @@ public class VerifyPoll {
 	public static final String FORUM_POLL_TABLE = "forumPollTable";
 	public static final String QUESTION_OUTPUT_TEXT = "questionCell";
 	public static final String ANSWER_OUTPUT_TEXT = "answerCell";
-	public static final String VOTES_LINK = getBundle("ResourceJSF").getString(
-			"View_ballot");
-	public static final String RESULT_VOTES_LINK = getBundle("ResourceJSF")
-			.getString("View_results");
+	public static final String VOTES_LINK = getBundle("ResourceJSF").getString("View_ballot");
+	public static final String RESULT_VOTES_LINK = getBundle("ResourceJSF").getString("View_results");
 	public static final String TOTAL_VOTES_LINK = "totalCell";
 
 	public static List<Poll> getPollsOfTopics(WebDriver driver, Topic... topics) {
@@ -54,31 +53,26 @@ public class VerifyPoll {
 		WebElement home = driver.findElement(linkText(MAIN_PAGE));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
-		List<WebElement> forumSubjectComponents = tableComponent
-				.findElements(xpath(FORUM_SUBJECT));
+		List<WebElement> forumSubjectComponents = tableComponent.findElements(xpath(FORUM_SUBJECT));
 		int forumComponentSize = forumSubjectComponents.size();
 		for (int j = 0; j < forumComponentSize; j++) {
 			home = driver.findElement(linkText(MAIN_PAGE));
 			home.click();
 			tableComponent = driver.findElement(className(FORUM_TABLE));
-			forumSubjectComponents = tableComponent
-					.findElements(xpath(FORUM_SUBJECT));
+			forumSubjectComponents = tableComponent.findElements(xpath(FORUM_SUBJECT));
 			WebElement forumEl = forumSubjectComponents.get(j);
 			forumEl.click();
-			List<WebElement> subjectComponents = driver
-					.findElements(xpath(SUBJECT_LINK));
+			List<WebElement> subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 			int subjectComponentsSize = subjectComponents.size();
 			for (int i = 0; i < subjectComponentsSize; i++) {
 				subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 				List<String> topicNames = findTopicNames(topics);
 				if (topicNames.contains(subjectComponents.get(i).getText())) {
-					subjectComponents = driver
-							.findElements(xpath(SUBJECT_LINK));
+					subjectComponents = driver.findElements(xpath(SUBJECT_LINK));
 					WebElement subjectComponent = subjectComponents.get(i);
 					subjectComponent.click();
 					polls.add(getPollOfCurrentTopic(driver));
-					String forumLinkText = driver.findElement(id(FORUM_LINK))
-							.getText();
+					String forumLinkText = driver.findElement(id(FORUM_LINK)).getText();
 					driver.findElement(linkText(forumLinkText)).click();
 				}
 			}
@@ -97,8 +91,7 @@ public class VerifyPoll {
 		if (question != null) {
 			poll = new Poll();
 			poll.setTitle(question.getText());
-			List<WebElement> pollComponents = driver
-					.findElements(className(ANSWER_OUTPUT_TEXT));
+			List<WebElement> pollComponents = driver.findElements(className(ANSWER_OUTPUT_TEXT));
 			List<PollOption> pollOptions = new LinkedList<PollOption>();
 			for (WebElement pollComponent : pollComponents) {
 				PollOption pollOption = new PollOption();
@@ -107,40 +100,27 @@ public class VerifyPoll {
 				pollOptions.add(pollOption);
 			}
 
-			WebElement votesResultComponent = driver
-					.findElement(linkText(RESULT_VOTES_LINK));
+			WebElement votesResultComponent = driver.findElement(linkText(RESULT_VOTES_LINK));
 			votesResultComponent.click();
-			List<WebElement> pollComponentsTr = driver.findElement(
-					className(FORUM_POLL_TABLE))
+			List<WebElement> pollComponentsTr = driver.findElement(className(FORUM_POLL_TABLE))
 					.findElements(xpath("tbody/tr"));
 			pollComponents.clear();
 			for (int i2 = 0; i2 < pollComponentsTr.size(); i2++) {
 				if (i2 != 0 && i2 < pollComponentsTr.size() - 2)
-					pollComponents.add(pollComponentsTr.get(i2).findElement(
-							xpath("td")));
+					pollComponents.add(pollComponentsTr.get(i2).findElement(xpath("td")));
 			}
 			for (int i3 = 0; i3 < pollOptions.size(); i3++) {
 				WebElement pollComponent = pollComponents.get(i3);
 				PollOption pollOption = pollOptions.get(i3);
-				String numberOfVotes = driver
-						.findElement(className(FORUM_POLL_TABLE))
-						.findElement(
-								xpath("tbody/tr[td/text()='"
-										+ pollComponent.getText() + "']/td[3]"))
-						.getText();
-				String pollOptionPosition = driver
-						.findElement(className(FORUM_POLL_TABLE))
-						.findElement(
-								xpath("tbody/tr[td/text()='"
-										+ pollComponent.getText() + "']/td[4]"))
-						.getText();
-				pollOption.setVotes(new Integer(numberOfVotes.substring(0,
-						numberOfVotes.length() - 1)));
-				pollOption.setPollOptionPosition(new Integer(pollOptionPosition
-						.substring(1, pollOptionPosition.length() - 1).trim()));
+				String numberOfVotes = driver.findElement(className(FORUM_POLL_TABLE))
+						.findElement(xpath("tbody/tr[td/text()='" + pollComponent.getText() + "']/td[3]")).getText();
+				String pollOptionPosition = driver.findElement(className(FORUM_POLL_TABLE))
+						.findElement(xpath("tbody/tr[td/text()='" + pollComponent.getText() + "']/td[4]")).getText();
+				pollOption.setVotes(new Integer(numberOfVotes.substring(0, numberOfVotes.length() - 1)));
+				pollOption.setPollOptionPosition(
+						new Integer(pollOptionPosition.substring(1, pollOptionPosition.length() - 1).trim()));
 			}
-			WebElement votesComponent = driver
-					.findElement(linkText(VOTES_LINK));
+			WebElement votesComponent = driver.findElement(linkText(VOTES_LINK));
 			votesComponent.click();
 			poll.setOptions(pollOptions);
 		}

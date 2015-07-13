@@ -13,11 +13,28 @@
  ******************************************************************************/
 package it.vige.rubia.ui;
 
+import static it.vige.rubia.Constants.DEFAULT_DATE_PATTERN;
+import static it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig.FILTER_MODE_ALWAYS_PRINT;
+import static it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig.FILTER_MODE_NEVER_PRINT;
+import static it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig.OUTPUT_MODE_REMOVE;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
-import static it.vige.rubia.ui.PortalUtil.getSDF;
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Thread.currentThread;
+import static java.util.ResourceBundle.getBundle;
+import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.io.StringWriter;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+
+import it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig;
+import it.vige.rubia.format.render.bbcodehtml.ToHTMLRenderer;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -38,9 +55,9 @@ public class ForumUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	public static String getPercentStr(double input) {
 		String percent = "";
 
@@ -60,22 +77,100 @@ public class ForumUtil {
 	public static boolean isFeedsConfigured() {
 		return true;
 	}
-    
-    /**
-     * 
-     *
-     */
-    public static String getDateStr(Date date)
-    {
-        String dateStr = "";
-                        
-        if(date!=null)
-        {
-            dateStr = getSDF().format(date);
-        }
-        
-        
-        return dateStr;
-    }
+
+	/**
+	 * 
+	 *
+	 */
+	public static String getDateStr(Date date) {
+		String dateStr = "";
+
+		if (date != null) {
+			dateStr = getSDF().format(date);
+		}
+
+		return dateStr;
+	}
+
+	/**
+	 * Get a <code>SimpleDateFormat</code> object from the session. The object
+	 * is stored in the session because it is expensive to create and we want to
+	 * reuse it as much as we can. Also it is configured with the date format
+	 * taken from the preference of the user if it exists.
+	 * 
+	 * @param req
+	 *            the request that maybe contains the format object
+	 * @return the format object
+	 */
+	public static SimpleDateFormat getSDF() {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern(DEFAULT_DATE_PATTERN);
+		return sdf;
+	}
+
+	/**
+	 * Method used for parsing bbcode and return properly formated text of
+	 * message.
+	 * 
+	 * @return
+	 */
+	public static String formatMessage(String text, boolean allowHTML) {
+
+		try {
+			Object req = getCurrentInstance().getExternalContext().getRequest();
+
+			if (allowHTML) {
+				getToHTMLRenderer(req).getConfig().setFilterMode(FILTER_MODE_ALWAYS_PRINT);
+				getToHTMLRenderer(req).getConfig().setOuputMode(OUTPUT_MODE_REMOVE);
+				getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
+			} else {
+				getToHTMLRenderer(req).getConfig().setFilterMode(FILTER_MODE_NEVER_PRINT);
+				getToHTMLRenderer(req).getConfig().setOuputMode(OUTPUT_MODE_REMOVE);
+				getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
+			}
+			return formatTitle(req, text);
+		} catch (Exception e) {
+			// Now if something goes wrong it just returns message with bbcode.
+			return text;
+		}
+
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private static ToHTMLRenderer getToHTMLRenderer(Object req) {
+		ToHTMLRenderer renderer = null;
+		// TODO: GETTING RENDERER FROM APPLICATION SCOPE ATTRIBUTE
+		if (renderer == null) {
+
+			// Getting ResourceBundle with current Locale
+			FacesContext ctx = getCurrentInstance();
+			UIViewRoot uiRoot = ctx.getViewRoot();
+			Locale locale = uiRoot.getLocale();
+			ClassLoader ldr = currentThread().getContextClassLoader();
+			ResourceBundle bundle = getBundle("ResourceJSF", locale, ldr);
+
+			// Create the HTMLRenderer for BBCode
+			ToHTMLConfig config = new ToHTMLConfig();
+			renderer = new ToHTMLRenderer(config, bundle);
+		}
+		return renderer;
+	}
+
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static String formatTitle(Object req, String text) {
+
+		StringWriter stringWriter = new StringWriter();
+		getToHTMLRenderer(req).render(text.toCharArray(), 0, text.length());
+		getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
+		return stringWriter.toString();
+
+	}
 
 }

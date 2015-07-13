@@ -13,14 +13,12 @@
  ******************************************************************************/
 package it.vige.rubia.auth;
 
-import static it.vige.rubia.ui.PortalUtil.getUser;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static it.vige.rubia.PortalUtil.getUser;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import javax.faces.FacesException;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -48,15 +46,13 @@ public class AuthorizationListener implements Serializable {
 		Method businessAction = ctx.getMethod();
 		Object managedBean = ctx.getTarget();
 		boolean isAccessAllowed = false;
-		FacesContext facesContext = getCurrentInstance();
 
 		// enforce authorization security
 		try {
 
 			// start building the SecurityContext here for the Authorization
 			// System
-			JSFActionContext securityContext = new JSFActionContext(
-					getUser(userModule), facesContext);
+			ActionContext securityContext = new ActionContext(getUser(userModule));
 			securityContext.setBusinessAction(businessAction);
 			securityContext.setManagedBean(managedBean);
 
@@ -67,12 +63,9 @@ public class AuthorizationListener implements Serializable {
 			if (!isAccessAllowed)
 				return null;
 		} catch (NoSuchMethodException nsme) {
-			throw new FacesException(
-					"Error calling action method of component with id " + nsme,
-					nsme);
+			throw new FacesException("Error calling action method of component with id " + nsme, nsme);
 		} catch (Exception e) {
-			throw new FacesException(
-					"Error calling action method of component with id " + e, e);
+			throw new FacesException("Error calling action method of component with id " + e, e);
 		}
 		return ctx.proceed();
 	}

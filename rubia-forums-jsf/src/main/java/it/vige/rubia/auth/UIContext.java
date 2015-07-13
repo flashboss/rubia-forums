@@ -13,58 +13,54 @@
  ******************************************************************************/
 package it.vige.rubia.auth;
 
-import javax.faces.context.FacesContext;
-
 /*
  * Created on May 23, 2006
  *
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
-public class JSFUIContext extends JSFSecurityContext
-{
-    /**
-     * 
-     *
-     */
-    private String fragment;
-    private Object[] contextData;
-    
-    /**
-     * 
-     *
-     */
-    public JSFUIContext(Object identity,FacesContext facesContext)
-    {
-       super(identity,facesContext);
-    }
-    
-    
-    /**
-     * @return Returns the contextData.
-     */
-    public Object[] getContextData() 
-    {
-        return contextData;
-    }
-    /**
-     * @param contextData The contextData to set.
-     */
-    public void setContextData(Object[] contextData) 
-    {
-        this.contextData = contextData;
-    }
-    /**
-     * @return Returns the fragment.
-     */
-    public String getFragment() 
-    {
-        return fragment;
-    }
-    /**
-     * @param fragment The fragment to set.
-     */
-    public void setFragment(String fragment)
-    {
-        this.fragment = fragment;
-    }
+public class UIContext extends IdentitySecurityContext {
+	/**
+	 * 
+	 *
+	 */
+	private String fragment;
+	private Object[] contextData;
+
+	/**
+	 * 
+	 *
+	 */
+	public UIContext(Object identity) {
+		super(identity);
+	}
+
+	/**
+	 * @return Returns the contextData.
+	 */
+	public Object[] getContextData() {
+		return contextData;
+	}
+
+	/**
+	 * @param contextData
+	 *            The contextData to set.
+	 */
+	public void setContextData(Object[] contextData) {
+		this.contextData = contextData;
+	}
+
+	/**
+	 * @return Returns the fragment.
+	 */
+	public String getFragment() {
+		return fragment;
+	}
+
+	/**
+	 * @param fragment
+	 *            The fragment to set.
+	 */
+	public void setFragment(String fragment) {
+		this.fragment = fragment;
+	}
 }

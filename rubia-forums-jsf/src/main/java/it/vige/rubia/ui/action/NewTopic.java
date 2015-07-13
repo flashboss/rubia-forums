@@ -13,22 +13,13 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.createMessage;
+import static it.vige.rubia.PortalUtil.createPoll;
+import static it.vige.rubia.PortalUtil.createPollOption;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.createMessage;
-import static it.vige.rubia.ui.PortalUtil.createPoll;
-import static it.vige.rubia.ui.PortalUtil.createPollOption;
-import static it.vige.rubia.ui.PortalUtil.getPoster;
 import static java.lang.Integer.parseInt;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Poster;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -38,6 +29,16 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Message;
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
+import it.vige.rubia.model.Poster;
 
 //myfaces
 

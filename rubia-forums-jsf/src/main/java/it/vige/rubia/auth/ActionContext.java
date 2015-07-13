@@ -13,55 +13,62 @@
  ******************************************************************************/
 package it.vige.rubia.auth;
 
-import javax.faces.context.FacesContext;
+import java.lang.reflect.Method;
 
 /*
- * Created on May 19, 2006
+ * Created on May 23, 2006
  *
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
-public abstract class JSFSecurityContext implements SecurityContext {
+public class ActionContext extends IdentitySecurityContext {
 	/**
-     * 
-     */
-	private FacesContext facesContext;
-
-	/**
-	 * this is current user that needs to be authorized.. left the type of this
-	 * identity open ended.. the actual provider can then cast it based on what
-	 * it expects it to be
+	 * this is the action method on a JSF Managed Bean that is being called and
+	 * needs to be authorized access to
 	 */
-	private Object identity;
+	private Method businessAction = null;
 
 	/**
-     * 
-     *
-     */
-	public JSFSecurityContext(Object identity, FacesContext facesContext) {
-		this.facesContext = facesContext;
-		this.identity = identity;
+	 * This is the JSF Managed Bean that is being used
+	 */
+	private Object managedBean = null;
+
+	/**
+	 * 
+	 *
+	 */
+	public ActionContext(Object identity) {
+		super(identity);
 	}
 
 	/**
-	 * @return Returns the identity.
+	 * 
+	 *
 	 */
-	public Object getIdentity() {
-		return identity;
+	public Method getBusinessAction() {
+		return this.businessAction;
 	}
 
 	/**
-	 * @param identity
-	 *            The identity to set.
+	 * 
+	 *
 	 */
-	public void setIdentity(Object identity) {
-		this.identity = identity;
+	public void setBusinessAction(Method businessAction) {
+		this.businessAction = businessAction;
 	}
 
 	/**
-     * 
-     *
-     */
-	public FacesContext getFacesContext() {
-		return facesContext;
+	 * 
+	 *
+	 */
+	public Object getManagedBean() {
+		return this.managedBean;
+	}
+
+	/**
+	 * 
+	 *
+	 */
+	public void setManagedBean(Object managedBean) {
+		this.managedBean = managedBean;
 	}
 }

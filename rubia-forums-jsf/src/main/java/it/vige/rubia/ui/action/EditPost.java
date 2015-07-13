@@ -13,21 +13,13 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.PortalUtil.createMessage;
+import static it.vige.rubia.PortalUtil.createPoll;
+import static it.vige.rubia.PortalUtil.createPollOption;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static it.vige.rubia.ui.PortalUtil.createMessage;
-import static it.vige.rubia.ui.PortalUtil.createPoll;
-import static it.vige.rubia.ui.PortalUtil.createPollOption;
 import static java.lang.Integer.parseInt;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -39,6 +31,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Message;
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
 
 /**
  * Created on May 2, 2006
@@ -67,9 +68,9 @@ public class EditPost extends PostAction {
 	// action processing
 	// methods-----------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String start() {
@@ -125,9 +126,9 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String deletePoll() {
@@ -147,9 +148,9 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String execute() {
@@ -168,8 +169,7 @@ public class EditPost extends PostAction {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME,
-						TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
 			}
 
 			// setup the message/subject related data
@@ -203,8 +203,7 @@ public class EditPost extends PostAction {
 			if (topic.getPoll() == null || topic.getPoll().getTitle() == null
 					|| topic.getPoll().getTitle().trim().length() == 0) {
 				// no existing poll information found in the database
-				if (localPollOptions.size() > 0 && question != null
-						&& question.trim().length() > 0) {
+				if (localPollOptions.size() > 0 && question != null && question.trim().length() > 0) {
 					// need to add a new poll to this topic
 					Poll poll = createPoll();
 					poll.setTitle(question);
@@ -226,16 +225,12 @@ public class EditPost extends PostAction {
 					poll.setCreationDate(topic.getPoll().getCreationDate());
 
 					for (PollOption newPollOption : localPollOptions) {
-						Iterator<PollOption> stored = topic.getPoll()
-								.getOptions().iterator();
+						Iterator<PollOption> stored = topic.getPoll().getOptions().iterator();
 						while (stored.hasNext()) {
-							PollOption oldPollOption = (PollOption) stored
-									.next();
+							PollOption oldPollOption = (PollOption) stored.next();
 							if (oldPollOption != null
-									&& oldPollOption.getQuestion().equals(
-											newPollOption.getQuestion())) {
-								newPollOption
-										.setVotes(oldPollOption.getVotes());
+									&& oldPollOption.getQuestion().equals(newPollOption.getQuestion())) {
+								newPollOption.setVotes(oldPollOption.getVotes());
 								break;
 							}
 						}

@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action.validators;
 
-import static it.vige.rubia.ui.Constants.BUNDLE_NAME;
+import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -48,7 +48,8 @@ abstract class LengthValidator implements Validator {
 		UIComponent formComp = component.getParent();
 		UIComponent validatedComp = getComponentToValidation(formComp);
 
-		if (validatedComp.getAttributes().get("value") == null || validatedComp.getAttributes().get("value").toString().trim().length() < 1) {
+		if (validatedComp.getAttributes().get("value") == null
+				|| validatedComp.getAttributes().get("value").toString().trim().length() < 1) {
 			FacesMessage message = new FacesMessage();
 			message.setDetail(getBundleMessage(BUNDLE_NAME, getMessage()));
 			message.setSummary(getBundleMessage(BUNDLE_NAME, getMessage()));
