@@ -16,6 +16,15 @@ package it.vige.rubia.ui.action;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
@@ -23,14 +32,6 @@ import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.ui.BaseController;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
 
 /*
  * Created on May 3, 2006
@@ -46,7 +47,7 @@ public class DeletePost extends BaseController {
 	 */
 	private static final long serialVersionUID = 8446392847381813917L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	private int postId;

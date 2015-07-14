@@ -21,7 +21,7 @@ import static java.lang.Boolean.valueOf;
 import static java.lang.Integer.parseInt;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -49,10 +49,10 @@ public class TopicWatchController extends BaseController {
 	 */
 	private static final long serialVersionUID = 1444693287363025185L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	private int topicId;

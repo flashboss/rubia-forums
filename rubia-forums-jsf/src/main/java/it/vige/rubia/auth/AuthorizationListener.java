@@ -18,8 +18,8 @@ import static it.vige.rubia.PortalUtil.getUser;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+import javax.ejb.EJB;
 import javax.faces.FacesException;
-import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -35,10 +35,10 @@ public class AuthorizationListener implements Serializable {
 
 	private static final long serialVersionUID = 1297507762601849153L;
 
-	@Inject
+	@EJB
 	private ForumsACLProvider forumsACLProvider;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	@AroundInvoke

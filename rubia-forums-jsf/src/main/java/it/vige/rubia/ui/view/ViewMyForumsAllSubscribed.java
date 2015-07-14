@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
@@ -40,9 +41,9 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 * 
 	 */
 	private static final long serialVersionUID = -722807880085740058L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
-	@Inject
+	@EJB
 	private UserModule userModule;
 	// user preference controller
 	@Inject

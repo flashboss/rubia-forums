@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
@@ -45,11 +46,11 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	 * 
 	 */
 	private static final long serialVersionUID = -6587070080682393388L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
-	@Inject
+	@EJB
 	private UserModule userModule;
-	@Inject
+	@EJB
 	private UserProfileModule userProfileModule;
 	@Inject
 	private ThemeHelper themeHelper;

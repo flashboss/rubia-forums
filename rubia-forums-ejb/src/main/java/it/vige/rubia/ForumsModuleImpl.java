@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -70,7 +70,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
-	@Inject
+	@EJB
 	private NotificationEngine notificationEngine;
 
 	private String guestUserName = "guest";

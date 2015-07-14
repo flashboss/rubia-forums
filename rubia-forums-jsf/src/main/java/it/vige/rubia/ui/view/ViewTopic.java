@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -53,7 +54,7 @@ public class ViewTopic extends BaseController {
 	 */
 	private static final long serialVersionUID = 5205743830388129653L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 	/**
 	 * user preference related data

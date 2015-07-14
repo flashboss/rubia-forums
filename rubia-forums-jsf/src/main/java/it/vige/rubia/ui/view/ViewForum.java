@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -66,7 +67,7 @@ public class ViewForum extends BaseController {
 	 */
 	private static final long serialVersionUID = -1193917741044670669L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	// preference related data

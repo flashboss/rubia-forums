@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -52,7 +53,7 @@ public class AdminController extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = -1977660655542809904L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 	// user preference controller
 	@Inject

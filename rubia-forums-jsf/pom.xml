@@ -68,28 +68,6 @@
 							</excludes>
 						</configuration>
 					</plugin>
-					<plugin>
-						<groupId>com.google.code.maven-replacer-plugin</groupId>
-						<artifactId>replacer</artifactId>
-						<version>1.5.3</version>
-						<executions>
-							<execution>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>replace</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<file>${project.build.directory}/classes/META-INF/persistence.xml</file>
-							<replacements>
-								<replacement>
-									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
-									<value>create</value>
-								</replacement>
-							</replacements>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -105,28 +83,6 @@
 							<excludes>
 								<exclude>**/selenium/**</exclude>
 							</excludes>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>com.google.code.maven-replacer-plugin</groupId>
-						<artifactId>replacer</artifactId>
-						<version>1.5.3</version>
-						<executions>
-							<execution>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>replace</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<file>${project.build.directory}/classes/META-INF/persistence.xml</file>
-							<replacements>
-								<replacement>
-									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
-									<value>none</value>
-								</replacement>
-							</replacements>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -208,9 +164,6 @@
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
-					<resource>
-						<directory>src/main/wildfly/800/resources</directory>
-					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -224,28 +177,17 @@
 									<directory>src/main/wildfly/800/webapp</directory>
 								</resource>
 							</webResources>
+							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/wildfly/800/java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
+				<dependency>
+					<groupId>it.vige</groupId>
+					<artifactId>rubia-forums-ejb</artifactId>
+					<version>${project.version}</version>
+				</dependency>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
@@ -313,9 +255,6 @@
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
-					<resource>
-						<directory>src/main/wildfly/810/resources</directory>
-					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -329,28 +268,17 @@
 									<directory>src/main/wildfly/810/webapp</directory>
 								</resource>
 							</webResources>
+							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/wildfly/810/java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
+				<dependency>
+					<groupId>it.vige</groupId>
+					<artifactId>rubia-forums-ejb</artifactId>
+					<version>${project.version}</version>
+				</dependency>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
@@ -418,9 +346,6 @@
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
-					<resource>
-						<directory>src/main/wildfly/820/resources</directory>
-					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -434,28 +359,17 @@
 									<directory>src/main/wildfly/820/webapp</directory>
 								</resource>
 							</webResources>
+							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/wildfly/820/java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
+				<dependency>
+					<groupId>it.vige</groupId>
+					<artifactId>rubia-forums-ejb</artifactId>
+					<version>${project.version}</version>
+				</dependency>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
@@ -521,9 +435,6 @@
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
-					<resource>
-						<directory>src/main/wildfly/900/resources</directory>
-					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -537,28 +448,17 @@
 									<directory>src/main/wildfly/900/webapp</directory>
 								</resource>
 							</webResources>
+							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/main/wildfly/900/java</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
+				<dependency>
+					<groupId>it.vige</groupId>
+					<artifactId>rubia-forums-ejb</artifactId>
+					<version>${project.version}</version>
+				</dependency>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
@@ -628,7 +528,7 @@
 		</profile>
 
 		<profile>
-			<id>deploy</id>
+			<id>deploy-jsf</id>
 			<build>
 				<plugins>
 					<plugin>

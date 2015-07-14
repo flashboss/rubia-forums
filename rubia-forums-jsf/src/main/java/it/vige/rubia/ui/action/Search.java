@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
@@ -46,9 +47,9 @@ public class Search extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = -7028498560394081079L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
-	@Inject
+	@EJB
 	private ForumsSearchModule forumsSearchModule;
 	@Inject
 	private ViewSearch viewSearch;

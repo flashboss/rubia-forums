@@ -31,9 +31,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.ejb.EJB;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -54,10 +54,10 @@ import it.vige.rubia.theme.ForumsTheme;
 @Named
 public class ThemeHelper {
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
-	@Inject
+	@EJB
 	private UserProfileModule userProfileModule;
 
 	/**

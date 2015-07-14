@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -47,7 +48,7 @@ public class ViewSummary extends BaseController {
 	 */
 	private static final long serialVersionUID = 6950361977869824L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	// user preference controller

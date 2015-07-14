@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,13 +61,13 @@ public class ViewCategory extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = 5349549910762005145L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 	@Inject
 	private ThemeHelper themeHelper;
-	@Inject
+	@EJB
 	private UserModule userModule;
-	@Inject
+	@EJB
 	private UserProfileModule userProfileModule;
 	// user preference controller
 	@Inject

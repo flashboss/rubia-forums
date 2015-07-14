@@ -38,8 +38,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
 import org.richfaces.component.UIFileUpload;
@@ -69,7 +69,7 @@ public abstract class PostAction extends BaseController {
 	 */
 	private static final long serialVersionUID = 295137515236191246L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	// post related view data

@@ -27,8 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -56,7 +56,7 @@ public class EditPost extends PostAction {
 	 */
 	private static final long serialVersionUID = -4314224138089009378L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	private boolean isFirstPost;

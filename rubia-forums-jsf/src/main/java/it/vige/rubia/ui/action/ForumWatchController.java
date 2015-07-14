@@ -21,7 +21,7 @@ import static java.lang.Boolean.valueOf;
 import static java.lang.Integer.parseInt;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -51,10 +51,10 @@ public class ForumWatchController extends BaseController {
 	 */
 	private static final long serialVersionUID = 701065663010513552L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	// ui data supporting the AddForumWatch widget

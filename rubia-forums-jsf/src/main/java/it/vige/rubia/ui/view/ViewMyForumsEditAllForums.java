@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
@@ -47,14 +48,14 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = -7833189733125983452L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 	// user preference controller
 	@Inject
 	private PreferenceController userPreferences;
-	@Inject
+	@EJB
 	private UserModule userModule;
-	@Inject
+	@EJB
 	private UserProfileModule userProfileModule;
 	@Inject
 	private ThemeHelper themeHelper;

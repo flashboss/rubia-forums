@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -59,10 +59,10 @@ public class SplitTopic extends BaseController {
 	 */
 	private static final long serialVersionUID = -1573920430742051428L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	// Title for newly created topic

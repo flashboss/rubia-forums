@@ -17,23 +17,23 @@ import static it.vige.rubia.PortalUtil.getUser;
 
 import java.util.StringTokenizer;
 
+import javax.ejb.EJB;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.FaceletContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("aclRenderingController")
 @RequestScoped
 public class ACLRenderingController {
 
-	@Inject
+	@EJB
 	private ForumsACLProvider forumsACLProvider;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	public boolean aclCheck(String fragment, Object contextData) {

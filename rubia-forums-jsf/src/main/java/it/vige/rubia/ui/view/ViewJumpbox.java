@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -47,7 +48,7 @@ public class ViewJumpbox extends BaseController {
 	 */
 	private static final long serialVersionUID = 2141380006506609949L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 	// user preference controller
 

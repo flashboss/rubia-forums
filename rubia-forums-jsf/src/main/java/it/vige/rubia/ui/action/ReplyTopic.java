@@ -23,6 +23,7 @@ import static java.lang.Integer.parseInt;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,10 +55,10 @@ public class ReplyTopic extends PostAction {
 	 */
 	private static final long serialVersionUID = 6918238036659797067L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	@Inject

@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
@@ -65,7 +66,7 @@ public class ModeratorAction extends BaseController {
 	 */
 	private static final long serialVersionUID = 557502988546166382L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	// preference related data

@@ -16,6 +16,7 @@ package it.vige.rubia.wildfly.ottozerozero.auth;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.EJBContext;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -40,6 +41,9 @@ public class JBossUserModule implements UserModule, Serializable {
 	 */
 	private static final long serialVersionUID = -8960321558695446098L;
 	private IdentityManager identityManager;
+
+	@javax.annotation.Resource
+	private EJBContext ejbContext;
 
 	@Override
 	public User findUserByUserName(String arg0) throws IllegalArgumentException {
@@ -106,5 +110,15 @@ public class JBossUserModule implements UserModule, Serializable {
 			identityManager.add(user);
 		}
 
+	}
+
+	@Override
+	public boolean isGuest() {
+		boolean anonymous = true;
+		String remoteUser = ejbContext.getCallerPrincipal().getName();
+		if (remoteUser != null && !remoteUser.isEmpty()) {
+			anonymous = false;
+		}
+		return anonymous;
 	}
 }

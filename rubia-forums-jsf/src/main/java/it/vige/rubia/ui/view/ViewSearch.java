@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -39,7 +40,7 @@ public class ViewSearch extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = -3641493635888766463L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	/**

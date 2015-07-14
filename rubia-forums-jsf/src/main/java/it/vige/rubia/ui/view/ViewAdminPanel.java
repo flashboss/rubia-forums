@@ -24,6 +24,7 @@ import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
@@ -40,7 +41,7 @@ public class ViewAdminPanel extends BaseController {
 	 */
 	private static final long serialVersionUID = 2921359509888139037L;
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	// user preference controller

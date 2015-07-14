@@ -13,15 +13,17 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.ottoduezero.auth;
 
+import java.util.Map;
+
+import javax.ejb.Stateless;
+import javax.inject.Named;
+
 import it.vige.rubia.auth.ProfileInfo;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserProfileModule;
 
-import java.util.Map;
-
-import javax.inject.Named;
-
 @Named("userProfileModule")
+@Stateless
 public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
@@ -31,7 +33,7 @@ public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
 	public void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException {
-		
+
 	}
 
 	@Override

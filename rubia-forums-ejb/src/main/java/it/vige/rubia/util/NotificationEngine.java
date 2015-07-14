@@ -27,10 +27,10 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
 import javax.faces.component.UIViewRoot;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.mail.Address;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
@@ -68,13 +68,13 @@ import it.vige.rubia.model.Watch;
 @Named
 public class NotificationEngine {
 
-	@Inject
+	@EJB
 	private ForumsACLProvider forumsACLProvider;
 
-	@Inject
+	@EJB
 	private UserModule userModule;
 
-	@Inject
+	@EJB
 	private UserProfileModule userProfileModule;
 
 	// Types of post

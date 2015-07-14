@@ -25,8 +25,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -54,9 +54,9 @@ public class NewTopic extends PostAction {
 	 * 
 	 */
 	private static final long serialVersionUID = -4942677404675560696L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------

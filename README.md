@@ -55,7 +55,7 @@ list of distribution profiles:
     -Pwildfly-remote-810               wildfly as 8.1.0
     -Pwildfly-remote-820               wildfly as 8.2.0
 
-You can also choose the deploy mode using the profiles:
+You can also choose the package mode using the profiles:
 
     -Pdevelopment
     -Pproduction
@@ -64,18 +64,18 @@ If you want install in production mode you must use:
 
     mvn clean install -P${distribution},production
     
-If you want automatically install and deploy the application in a local acttive wildfly server:
+If you want automatically install and deploy the jsf application in a local acttive wildfly server:
 
-    mvn install -P${distribution},production,deploy
+    mvn install -P${distribution},production,deploy-jsf
     
 If you want automatically uninstall and undeploy the application in a local acttive wildfly server:
 
-    mvn clean -P${distribution},production,deploy
+    mvn clean -P${distribution},production,deploy-jsf
     
 If you want automatically reinstall and redeploy the application in a local acttive wildfly server:
 
-    mvn clean install -P${distribution},production,deploy
-    
+    mvn clean install -P${distribution},production,deploy-jsf
+
 to deploy it with the shell command in Wildfly:
 
     $JBOSS_HOME/bin/jboss-cli.sh
@@ -120,7 +120,7 @@ It will start on the 5005 port.
 
 The tests are done using:
 
-Firefox 38.0.5 on wildfly 8.0.0
-Firefox 38.0.5 on wildfly 8.1.0
-Firefox 38.0.5 on wildfly 8.2.0
-Firefox 39.0   on wildfly 9.0.0
+- Firefox 38.0.5 on wildfly 8.0.0
+- Firefox 38.0.5 on wildfly 8.1.0
+- Firefox 38.0.5 on wildfly 8.2.0
+- Firefox 39.0   on wildfly 9.0.0

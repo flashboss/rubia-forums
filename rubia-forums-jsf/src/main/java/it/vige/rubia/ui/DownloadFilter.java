@@ -22,15 +22,12 @@
  ******************************************************************************/
 package it.vige.rubia.ui;
 
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.model.Attachment;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -38,6 +35,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.model.Attachment;
 
 /**
  * @author sohil shah
@@ -48,7 +48,7 @@ public class DownloadFilter implements Filter {
      */
 	private final static String WRONG_REQ_RESP = "Error accessing the requested resource.";
 
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
 
 	/**

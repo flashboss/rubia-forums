@@ -18,7 +18,7 @@ import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.parseInt;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
@@ -45,9 +45,9 @@ public class PollController extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = 5114581627888779169L;
-	@Inject
+	@EJB
 	private ForumsModule forumsModule;
-	@Inject
+	@EJB
 	private UserModule userModule;
 
 	/**
