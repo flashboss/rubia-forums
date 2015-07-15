@@ -15,7 +15,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-		<finalName>rubia-forums</finalName>
+		<finalName>rubia-forums-rest</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>

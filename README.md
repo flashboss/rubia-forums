@@ -1,6 +1,6 @@
 Rubia Forums
 =============
-Rubia Forums is a JSF (Java Server Faces) based application designed as standalone application and as portlet.
+Rubia Forums is a javaee based application designed as standalone application, portlet, service layer and api.
 It is an open source project. This means you can download the Rubia Forums package, throw it into your deploy directory and gain fully featured Forums Application or Portlet.
 
 It covers the following features:
@@ -32,6 +32,7 @@ Supported application servers and distributions
 - Wildfly AS 8.0.0.Final
 - Wildfly AS 8.1.0.Final
 - Wildfly AS 8.2.0.Final
+- Wildfly AS 9.0.0.Final
 
 
 Maven repositories
@@ -54,6 +55,7 @@ list of distribution profiles:
     -Pwildfly-remote-800               wildfly as 8.0.0
     -Pwildfly-remote-810               wildfly as 8.1.0
     -Pwildfly-remote-820               wildfly as 8.2.0
+    -Pwildfly-remote-900               wildfly as 9.0.0
 
 You can also choose the package mode using the profiles:
 
