@@ -1,6 +1,6 @@
 Rubia Forums
 =============
-Rubia Forums is a javaee based application designed as standalone application, portlet, service layer and api.
+Rubia Forums is a javaee 7 based application designed as standalone application, portlet, service layer and api.
 It is an open source project. This means you can download the Rubia Forums package, throw it into your deploy directory and gain fully featured Forums Application or Portlet.
 
 It covers the following features:
