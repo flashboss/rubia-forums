@@ -840,7 +840,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public Attachment findFindAttachmentById(Integer attachID) throws ModuleException {
+	public Attachment findAttachmentById(Integer attachID) throws ModuleException {
 		if (attachID != null) {
 			try {
 

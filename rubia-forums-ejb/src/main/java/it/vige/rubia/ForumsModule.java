@@ -709,7 +709,7 @@ public interface ForumsModule {
 	 */
 	Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
 
-	Attachment findFindAttachmentById(Integer attachID) throws ModuleException;
+	Attachment findAttachmentById(Integer attachID) throws ModuleException;
 
 	Poster createPoster(String userID) throws ModuleException;
 

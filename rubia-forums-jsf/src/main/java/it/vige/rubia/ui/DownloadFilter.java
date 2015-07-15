@@ -69,7 +69,7 @@ public class DownloadFilter implements Filter {
 				// get this attachment data
 				int attachmentId = Integer.parseInt(request.getParameter("id"));
 				Attachment attachment = forumsModule
-						.findFindAttachmentById(attachmentId);
+						.findAttachmentById(attachmentId);
 
 				// set the attachment headers
 				httpResponse.setContentLength((int) attachment.getSize());

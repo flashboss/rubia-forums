@@ -203,6 +203,7 @@
 	<modules>
 		<module>rubia-forums-ejb</module>
 		<module>rubia-forums-jsf</module>
+                <module>rubia-forums-rest</module>
 	</modules>
 
 </project>
