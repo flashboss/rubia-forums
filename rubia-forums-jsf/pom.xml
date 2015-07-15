@@ -15,7 +15,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-		<finalName>rubia-forums-jsf</finalName>
+		<finalName>rubia-forums</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
