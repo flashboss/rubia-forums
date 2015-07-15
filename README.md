@@ -75,6 +75,10 @@ If you want automatically uninstall and undeploy the application in a local actt
 If you want automatically reinstall and redeploy the application in a local acttive wildfly server:
 
     mvn clean install -P${distribution},production,deploy-jsf
+    
+As the same manner you can deploy the rest application instead of the jsf application using the goal deploy-rest. Here a sample:
+
+    mvn clean install -P${distribution},production,deploy-rest
 
 to deploy it with the shell command in Wildfly:
 
