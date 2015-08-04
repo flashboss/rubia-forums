@@ -33,7 +33,7 @@ public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
 	public void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException {
-		
+
 	}
 
 	@Override
@@ -48,7 +48,6 @@ public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
 	public Object getPropertyFromId(String arg0, String arg1) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

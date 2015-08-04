@@ -87,8 +87,7 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the current topic
 	 */
 	public Topic getTopic() {
 		return topic;
@@ -99,25 +98,23 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @param postDays
+	 *            the post days
 	 */
 	public void setPostDays(long postDays) {
 		this.postDays = postDays;
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the post days
 	 */
 	public long getPostDays() {
 		return postDays;
 	}
 
 	/**
-	* 
-	*
-	*/
+	 * @return true if a poll is present in the topic
+	 */
 	public boolean isPollPresent() {
 		boolean isPollPresent = false;
 
@@ -130,9 +127,8 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	* 
-	*
-	*/
+	 * @return true if a ballot is present in the topic
+	 */
 	public boolean isBallotView() {
 		boolean isBallotView = true; // in ballot view by default
 
@@ -157,9 +153,8 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	* 
-	*
-	*/
+	 * @return the posts of the current topic
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Post> getTopics() {

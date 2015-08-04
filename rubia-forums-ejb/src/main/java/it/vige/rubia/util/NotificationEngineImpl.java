@@ -334,7 +334,6 @@ public class NotificationEngineImpl implements NotificationEngine {
 				}
 			} catch (IllegalArgumentException e) {
 			} catch (ModuleException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

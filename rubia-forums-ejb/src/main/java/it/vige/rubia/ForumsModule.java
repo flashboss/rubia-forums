@@ -39,23 +39,33 @@ import javax.ejb.Local;
 public interface ForumsModule {
 
 	/**
-	 * *
-	 * */
+	 * DOCUMENT_ME
+	 * 
+	 * @return DOCUMENT_ME
+	 */
 	String getGuestUserName();
 
 	/**
-	 * *
-	 * */
+	 * DOCUMENT_ME
+	 * 
+	 * @param guestUserName
+	 *            the username of the guest
+	 */
 	void setGuestUserName(String guestUserName);
 
 	/**
-    *
-    */
+	 * DOCUMENT_ME
+	 * 
+	 * @return DOCUMENT_ME
+	 */
 	String getFromAddress();
 
 	/**
-    *
-    */
+	 * DOCUMENT_ME
+	 * 
+	 * @param fromAddress
+	 *            DOCUMENT_ME
+	 */
 	void setFromAddress(String fromAddress);
 
 	/**
@@ -70,15 +80,16 @@ public interface ForumsModule {
 	List<Post> findAnnouncements(Forum forum) throws ModuleException;
 
 	/**
-	 * Returns some topics of a forum that are not of a certain type
+	 * Returns some topics of a forum that are not of a certain type. Need to a
+	 * forumInstanceId argument to take only topics of a specific forum
+	 * instance. FindTopics method need to a forumInstanceId argument to take
+	 * only topics of a specific forum instance
 	 * 
+	 * @param indexInstance
+	 *            the forum instance where find the topics
 	 * @return List of topics
 	 * @throws ModuleException
 	 *             Throws an excpetion if unable to find the topics.
-	 */
-	/*
-	 * Luca Stancapiano - findTopics method need to a forumInstanceId argument
-	 * to take only topics of a specific forum instance
 	 */
 	List<Topic> findTopics(Integer indexInstance) throws ModuleException;
 
@@ -179,22 +190,23 @@ public interface ForumsModule {
 	List<Topic> findTopicsBefore(Forum forum, TopicType type, int start, int perPage, Date date) throws ModuleException;
 
 	/**
-	 * DOCUMENT_ME
+	 * FindTopicsHot, findTopicsByLatestPosts, findTopicsHottest,
+	 * findTopicsMostViewed methods need to a forumInstanceId argument to take
+	 * only topics of a specific forum instance
 	 * 
 	 * @param replies
 	 *            DOCUMENT_ME
 	 * @param limit
 	 *            DOCUMENT_ME
-	 * @return DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the list of topics
+	 * 
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
 
-	/*
-	 * Luca Stancapiano start - findTopicsHot, findTopicsByLatestPosts,
-	 * findTopicsHottest, findTopicsMostViewed methods need to a forumInstanceId
-	 * argument to take only objects of a specific forum instance
-	 */
 	List<Topic> findTopicsHot(int replies, int limit, Integer indexInstance) throws ModuleException;
 
 	/**
@@ -202,6 +214,10 @@ public interface ForumsModule {
 	 * 
 	 * @param limit
 	 *            DOCUMENT_ME
+	 * 
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
@@ -214,6 +230,8 @@ public interface ForumsModule {
 	 * @param after
 	 *            DOCUMENT_ME
 	 * @param limit
+	 *            DOCUMENT_ME
+	 * @param indexInstance
 	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
@@ -228,13 +246,13 @@ public interface ForumsModule {
 	 *            DOCUMENT_ME
 	 * @param limit
 	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
 	List<Topic> findTopicsMostViewed(Date after, int limit, Integer indexInstance) throws ModuleException;
-
-	// Luca Stancapiano end
 
 	/**
 	 * Find a forum by specifying its ID
@@ -274,16 +292,16 @@ public interface ForumsModule {
 	Forum createForum(Category category, String name, String description) throws ModuleException;
 
 	/**
-	 * DOCUMENT_ME
+	 * Need to a forumInstanceId argument to take only posts of a specific forum
+	 * instance. FindPosts method need to a forumInstanceId argument to take
+	 * only posts of a specific forum instance
 	 * 
-	 * @return DOCUMENT_ME
+	 * @param indexInstance
+	 *            the forum instance where find the posts
+	 * 
+	 * @return the list of posts for the index instance
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
-	 */
-
-	/*
-	 * Luca Stancapiano - findPosts method need to a forumInstanceId argument to
-	 * take only posts of a specific forum instance
 	 */
 	List<Post> findPosts(Integer indexInstance) throws ModuleException;
 
@@ -310,29 +328,38 @@ public interface ForumsModule {
 	Poster findPosterByUserId(String userID) throws ModuleException;
 
 	/**
-	 * Get all the categories of forums.
+	 * Get all the categories of forums.. FindCategories,
+	 * findCategoriesFetchForums and findForums methods need to a
+	 * forumInstanceId argument to take only categories of a specific forum
+	 * instance. FindCategories, findCategoriesFetchForums, findForums methods
+	 * need to a forumInstanceId argument to take only objects of a specific
+	 * forum instance
 	 * 
-	 * @return All the categories
+	 * @param indexInstance
+	 *            the forum instance where find the categories
+	 * @return the list of categories
 	 * @throws ModuleException
-	 */
-
-	/*
-	 * Luca Stancapiano start - findCategories, findCategoriesFetchForums and
-	 * findForums methods need to a forumInstanceId argument to take only
-	 * categories of a specific forum instance
+	 *             DOCUMENT_ME
 	 */
 	List<Category> findCategories(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * Get all the categories of forums and fetch forums.
 	 * 
+	 * @param indexInstance
+	 *            the forum instance where find the categories
+	 * 
 	 * @return All the categories
 	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Category> findCategoriesFetchForums(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
+	 * 
+	 * @param indexInstance
+	 *            the forum instance where find the categories
 	 * 
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
@@ -340,14 +367,14 @@ public interface ForumsModule {
 	 */
 	List<Forum> findForums(Integer indexInstance) throws ModuleException;
 
-	// Luca Stancapiano end
-
 	/**
 	 * Get all the forums of a category
 	 * 
-	 * @param categoryID
+	 * @param category
 	 *            Category of forums
 	 * @return Forums of one category
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Forum> findForumsByCategory(Category category) throws ModuleException;
 
@@ -362,11 +389,18 @@ public interface ForumsModule {
 	 *            DOCUMENT_ME
 	 * @param poster
 	 *            DOCUMENT_ME
+	 * @param poll
+	 *            DOCUMENT_ME
+	 * @param attachments
+	 *            DOCUMENT_ME
+	 * @param type
+	 *            DOCUMENT_ME
 	 * @return The new post created
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll, Collection<Attachment> attachments, TopicType type) throws ModuleException;
+	Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll,
+			Collection<Attachment> attachments, TopicType type) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -398,11 +432,14 @@ public interface ForumsModule {
 	 *            DOCUMENT_ME
 	 * @param poster
 	 *            DOCUMENT_ME
+	 * @param attachments
+	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	Post createPost(Topic topic, Forum forum, Message message, Date creationTime, Poster poster, Collection<Attachment> attachments) throws ModuleException;
+	Post createPost(Topic topic, Forum forum, Message message, Date creationTime, Poster poster,
+			Collection<Attachment> attachments) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -418,40 +455,43 @@ public interface ForumsModule {
 	Poll addPollToTopic(Topic topic, Poll poll) throws ModuleException;
 
 	/**
-	 * DOCUMENT_ME
+	 * Need to a forumInstanceId argument to create only categories of a
+	 * specific forum instance
 	 * 
 	 * @param name
 	 *            DOCUMENT_ME
+	 * 
+	 * @param forumInstance
+	 *            DOCUMENT_ME
+	 * 
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	/*
-	 * Luca Stancapiano - createCategory method need to a forumInstanceId
-	 * argument to create only categories of a specific forum instance
-	 */
 	Category createCategory(String name, ForumInstance forumInstance) throws ModuleException;
 
 	/**
-	 * DOCUMENT_ME
+	 * add createForumInstance and removeForumInstance methods to manage create
+	 * and remove of a ForumInstance.
 	 * 
-	 * @param category
+	 * @param categoryId
 	 *            DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
 	void removeCategory(int categoryId) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano start - I add createForumInstance and
-	 * removeForumInstance methods to manage create and remove of a
-	 * ForumInstance.
-	 */
 	/**
-	 * DOCUMENT_ME
+	 * 
+	 * I add createForumInstance, removeForumInstance and findForumInstanceById
+	 * methods to manage ForumInstance object
+	 * 
+	 * @param indexInstance
+	 *            DOCUMENT_ME
 	 * 
 	 * @param name
 	 *            DOCUMENT_ME
+	 * 
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
@@ -461,19 +501,17 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forumInstance
+	 * @param indexInstance
 	 *            DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
 	void removeForumInstance(int indexInstance) throws ModuleException;
 
-	// Luca Stancapiano end
-
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
+	 * @param forumId
 	 *            DOCUMENT_ME
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
@@ -483,8 +521,12 @@ public interface ForumsModule {
 	/**
 	 * Delete a post
 	 * 
-	 * @param post
+	 * @param postId
 	 *            Post to delete
+	 * 
+	 * @param isLastPost
+	 *            if the post is the last of the list
+	 * 
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
@@ -503,7 +545,7 @@ public interface ForumsModule {
 	/**
 	 * Delete a topic
 	 * 
-	 * @param topic
+	 * @param topicId
 	 *            Topic to delete
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
@@ -546,14 +588,17 @@ public interface ForumsModule {
 
 	/**
 	 * @param topicID
+	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	Topic findTopicById(Integer topicID) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
+	 * @param topic
 	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
@@ -564,11 +609,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
+	 * @param posts
 	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
@@ -579,11 +620,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
+	 * @param posts
 	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException
@@ -594,7 +631,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
+	 * @param topic
 	 *            DOCUMENT_ME
 	 * @param start
 	 *            DOCUMENT_ME
@@ -609,7 +646,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
+	 * @param topic
 	 *            DOCUMENT_ME
 	 * @param start
 	 *            DOCUMENT_ME
@@ -624,7 +661,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
+	 * @param topic
 	 *            DOCUMENT_ME
 	 * @param start
 	 *            DOCUMENT_ME
@@ -639,7 +676,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topicID
+	 * @param topic
 	 *            DOCUMENT_ME
 	 * @param start
 	 *            DOCUMENT_ME
@@ -652,46 +689,125 @@ public interface ForumsModule {
 	List<Post> findPostsByTopicIdDesc(Topic topic, int start, int limit) throws ModuleException;
 
 	/**
-	 * 
-	 * @return
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @return the last post date of the user
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	Date findLastPostDateForUser(User user) throws ModuleException;
 
+	/**
+	 * @param forum
+	 *            DOCUMENT_ME
+	 * @return the last post in the forum
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
+	 */
 	Post findLastPost(Forum forum) throws ModuleException;
 
+	/**
+	 * @param topic
+	 *            DOCUMENT_ME
+	 * @return the first post of the topic
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
+	 */
 	Post findFirstPost(Topic topic) throws ModuleException;
 
+	/**
+	 * @param topic
+	 *            DOCUMENT_ME
+	 * @return the last post of the topic
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
+	 */
 	Post findLastPost(Topic topic) throws ModuleException;
 
+	/**
+	 * @param topics
+	 *            DOCUMENT_ME
+	 * @return the last posts of the topic
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
+	 */
 	Map<Object, Object> findLastPostsOfTopics(Collection<Topic> topics) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findLastPostsOfForums method need to a forumInstanceId
-	 * argument to take only posts of a specific forum instance
+	/**
+	 * findLastPostsOfForums method need to a forumInstanceId argument to take
+	 * only posts of a specific forum instance. FindLastPostsOfForums,
+	 * findForumWatchByUser, findForumWatchedByUser, findTopicWatchedByUser and
+	 * findTopicWatches methods need to a forumInstanceId argument to take only
+	 * objects of a specific forum instance
+	 * 
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the last posts of the forum instance
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	Map<Object, Post> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findForumWatchByUser method need to a forumInstanceId
-	 * argument to take only categories of a specific forum instance
+	/**
+	 * findForumWatchByUser method need to a forumInstanceId argument to take
+	 * only categories of a specific forum instance
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the forum watches list
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<ForumWatch> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findForumWatchedByUser method need to a
-	 * forumInstanceId argument to take only forums of a specific forum instance
+	/**
+	 * findForumWatchedByUser method need to a forumInstanceId argument to take
+	 * only forums of a specific forum instance
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the forums watched by the user
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Forum> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findTopicWatchedByUser method need to a
-	 * forumInstanceId argument to take only topics of a specific forum instance
+	/**
+	 * findTopicWatchedByUser method need to a forumInstanceId argument to take
+	 * only topics of a specific forum instance
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the topics watched by the user
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Topic> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findTopicWatchedByUser method need to a
-	 * forumInstanceId argument to take only topics of a specific forum instance
+	/**
+	 * findTopicWatchedByUser method need to a forumInstanceId argument to take
+	 * only topics of a specific forum instance
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param date
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the topics watched by the user
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Topic> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException;
 
@@ -703,9 +819,19 @@ public interface ForumsModule {
 
 	List<Post> findPostsFromCategoryDesc(Category category, int limit) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findTopicWatches method need to a forumInstanceId
-	 * argument to take only topics of a specific forum instance
+	/**
+	 * findTopicWatches method need to a forumInstanceId argument to take only
+	 * topics of a specific forum instance. This method returns a map of
+	 * Integer,TopicWatch pairs where Integer key is watched topic id.
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * 
+	 * @return the map of topic watches
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
 
@@ -715,44 +841,67 @@ public interface ForumsModule {
 
 	/**
 	 * @param poster
+	 *            DOCUMENT_ME
 	 * @param forum
+	 *            DOCUMENT_ME
 	 * @param i
+	 *            DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	void createWatch(Poster poster, Forum forum, int i) throws ModuleException;
 
 	/**
 	 * @param forumWatchID
+	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	ForumWatch findForumWatchById(Integer forumWatchID) throws ModuleException;
 
-	/*
-	 * Luca Stancapiano - findForumWatches method need to a forumInstanceId
-	 * argument to take only forums of a specific forum instance
+	/**
+	 * findForumWatches method need to a forumInstanceId argument to take only
+	 * forums of a specific forum instance. This method returns a map of
+	 * Integer,ForumWatch pairs where Integer key is watched forum id. Need to a
+	 * forumInstanceId argument to take only forums of a specific forum instance
+	 * 
+	 * @param user
+	 *            DOCUMENT_ME
+	 * @param indexInstance
+	 *            DOCUMENT_ME
+	 * @return the map of the forum watches
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * 
 	 * @param user
+	 *            DOCUMENT_ME
 	 * @param forumId
+	 *            DOCUMENT_ME
 	 * @return ForumWatch
 	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	ForumWatch findForumWatchByUserAndForum(User user, int forumId) throws ModuleException;
 
 	/**
 	 * 
 	 * @param user
+	 *            DOCUMENT_ME
 	 * @param topicId
+	 *            DOCUMENT_ME
 	 * @return TopicWatch
 	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	TopicWatch findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException;
 
-	// Luca Stancapiano start - search method for forum instances
 	/**
-	 * DOCUMENT_ME
+	 * Search method for forum instances
 	 * 
 	 * @param forumInstanceID
 	 *            DOCUMENT_ME
@@ -762,70 +911,106 @@ public interface ForumsModule {
 	 */
 	ForumInstance findForumInstanceById(Integer forumInstanceID) throws ModuleException;
 
-	// Luca Stancapiano end
-
 	/**
 	 * @param poster
+	 *            DOCUMENT_ME
 	 * @param topic
+	 *            DOCUMENT_ME
+	 * @param mode
+	 *            DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	void createWatch(Poster poster, Topic topic, int mode) throws ModuleException;
 
 	/**
 	 * @param topicWatchID
+	 *            DOCUMENT_ME
 	 * @return DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	TopicWatch findTopicWatchById(Integer topicWatchID) throws ModuleException;
 
 	/**
 	 * @param watch
+	 *            DOCUMENT_ME
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	void removeWatch(Watch watch) throws ModuleException;
 
 	/**
-    * 
-    *
-    */
+	 * @param postId
+	 *            DOCUMENT_ME
+	 * @param watchType
+	 *            DOCUMENT_ME
+	 * @param postUrl
+	 *            DOCUMENT_ME
+	 * @param replyUrl
+	 *            DOCUMENT_ME
+	 * 
+	 */
 	void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl);
 
 	/**
+	 * @param limit
+	 *            DOCUMENT_ME
 	 * 
-	 * @return
+	 * @return the list of posts in the limit
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Post> findPostsDesc(int limit) throws ModuleException;
 
 	/**
+	 * @param limit
+	 *            DOCUMENT_ME
 	 * 
-	 * @return
+	 * @return the list of ascendent posts in the limit
+	 * @throws ModuleException
+	 *             DOCUMENT_ME
 	 */
 	List<Post> findPostsAsc(int limit) throws ModuleException;
-	
+
 	/**
+	 * @param attachments
+	 *            DOCUMENT_ME
+	 * @param post
+	 *            DOCUMENT_ME
 	 * 
-	 * @return
+	 * @return the post where the attachment is done
 	 */
 	Post addAttachments(Collection<Attachment> attachments, Post post);
-	
+
 	/**
+	 * @param post
+	 *            DOCUMENT_ME
 	 * 
-	 * @return
+	 * @return the list of attachments of the post
 	 */
 	Collection<Attachment> findAttachments(Post post);
-	
+
 	/**
-	 * 
-	 * @return
+	 * @param post
+	 *            DOCUMENT_ME
+	 * @return the post where the attachments are removed
 	 */
 	Post removeAttachments(Post post);
 
 	/**
+	 * @param attachments
+	 *            DOCUMENT_ME
+	 * @param post
+	 *            DOCUMENT_ME
 	 * 
-	 * @return
+	 * @return the post where the attachments are updated
 	 */
 	Post updateAttachments(Collection<Attachment> attachments, Post post);
 
 	/**
-	 * 
-	 * @return
+	 * @param object
+	 *            DOCUMENT_ME
 	 */
 	void update(Object object);
 

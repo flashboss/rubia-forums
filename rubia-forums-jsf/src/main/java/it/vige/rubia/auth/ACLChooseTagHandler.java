@@ -34,13 +34,14 @@ import javax.faces.view.facelets.TagHandler;
 public class ACLChooseTagHandler extends TagHandler {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private ACLWhenTagHandler when;
 	private ACLOtherwiseTagHandler otherwise;
 
 	/**
 	 * @param config
+	 *            the configuration tag for the handler
 	 */
 	public ACLChooseTagHandler(TagConfig config) {
 		super(config);
@@ -48,14 +49,11 @@ public class ACLChooseTagHandler extends TagHandler {
 		// setup when tag handler
 		FaceletHandler itr = nextHandler;
 		if (itr instanceof CompositeFaceletHandler) {
-			FaceletHandler[] handlers = ((CompositeFaceletHandler) itr)
-					.getHandlers();
-			if (handlers != null && handlers.length > 0
-					&& handlers[0] instanceof ACLWhenTagHandler) {
+			FaceletHandler[] handlers = ((CompositeFaceletHandler) itr).getHandlers();
+			if (handlers != null && handlers.length > 0 && handlers[0] instanceof ACLWhenTagHandler) {
 				when = (ACLWhenTagHandler) handlers[0];
 			} else {
-				throw new TagException(tag,
-						"isAllowedChoose Tag must have a isAllowedWhen Tag");
+				throw new TagException(tag, "isAllowedChoose Tag must have a isAllowedWhen Tag");
 			}
 
 			// setup otherwise tag handler
@@ -66,8 +64,7 @@ public class ACLChooseTagHandler extends TagHandler {
 				}
 			}
 		} else {
-			throw new TagException(tag,
-					"isAllowedChoose Tag must have a CompositeFaceletHandler Tag");
+			throw new TagException(tag, "isAllowedChoose Tag must have a CompositeFaceletHandler Tag");
 		}
 	}
 
@@ -75,8 +72,7 @@ public class ACLChooseTagHandler extends TagHandler {
 	 * Threadsafe Method for controlling evaluation of its child tags,
 	 * represented by "nextHandler"
 	 */
-	public void apply(FaceletContext ctx, UIComponent parent)
-			throws IOException, FacesException, ELException {
+	public void apply(FaceletContext ctx, UIComponent parent) throws IOException, FacesException, ELException {
 		if (when.isAllowed(ctx)) {
 			when.apply(ctx, parent);
 			return;

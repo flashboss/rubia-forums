@@ -64,13 +64,15 @@ public class Watch implements Serializable {
 	private Poster poster;
 
 	/**
-    */
+	 * @return the id of the watch
+	 */
 	public Integer getId() {
 		return id;
 	}
 
 	/**
-    */
+	 * @return the poster of the watch
+	 */
 	public Poster getPoster() {
 		return poster;
 	}
@@ -80,7 +82,8 @@ public class Watch implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the mode of the watch
+	 */
 	public int getMode() {
 		return mode;
 	}

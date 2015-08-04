@@ -26,6 +26,4 @@ public abstract class BaseController implements Serializable, Constants {
 	 * 
 	 */
 	private static final long serialVersionUID = -4481043447596826941L;
-
-	// public abstract boolean isAllowed();
 }

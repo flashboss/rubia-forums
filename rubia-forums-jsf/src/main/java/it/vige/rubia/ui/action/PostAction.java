@@ -144,7 +144,7 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the date of the current post
 	 */
 	public String getPostDate() {
 		String dateStr = null;
@@ -158,7 +158,7 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the current question
 	 */
 	public String getQuestion() {
 		return question;
@@ -167,6 +167,7 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @param question
+	 *            the question to select
 	 */
 	public void setQuestion(String question) {
 		this.question = question;
@@ -188,14 +189,15 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @return
+	 * @return the option of the poll of the post
 	 */
 	public String getOption() {
 		return option;
 	}
 
 	/**
-	 * @param
+	 * @param option
+	 *            the option of the poll of the post
 	 */
 	public void setOption(String option) {
 		this.option = option;
@@ -254,7 +256,7 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the attachments list of the post
 	 */
 	public Collection<Attachment> getAttachments() {
 		return attachments;
@@ -262,7 +264,7 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the number of attachments of the post
 	 */
 	public int getNumberOfAttachments() {
 		int numberOfAttachments = 0;
@@ -277,14 +279,14 @@ public abstract class PostAction extends BaseController {
 	// -----navigation related
 	// data---------------------------------------------------------------------------------------------------------------
 	/**
-	 * 
+	 * @return true if the current post is a preview
 	 */
 	public boolean isPreview() {
 		return isPreview;
 	}
 
 	/**
-	 * 
+	 * @return true if there is a poll in the post
 	 *
 	 */
 	public boolean isPollPresent() {
@@ -298,24 +300,21 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the id of the forum
 	 */
 	public int getForumId() {
 		return forumId;
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the id of the topic
 	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the id of the post
 	 */
 	public int getPostId() {
 		return postId;
@@ -353,6 +352,8 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * sets the poll information of a post for the ui from the business object
 	 * 
+	 * @param poll
+	 *            the poll to configure
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -377,6 +378,8 @@ public abstract class PostAction extends BaseController {
 	 * 
 	 * @author sshah
 	 * 
+	 * @return the navigation state of the application
+	 * 
 	 */
 	public abstract String start();
 
@@ -385,6 +388,8 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @author sshah
+	 * 
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -457,7 +462,7 @@ public abstract class PostAction extends BaseController {
 	// related------------------------------------------------------------------------------------------
 
 	/**
-	 * 
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -468,6 +473,8 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @author sshah
+	 * 
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -486,6 +493,8 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
+	 * 
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -496,7 +505,7 @@ public abstract class PostAction extends BaseController {
 	// ------------preview-------------------------------------------------------------------------------------------------------
 	/**
 	 * 
-	 * @return
+	 * @return the navigation state of the application
 	 */
 	public String preview() {
 		String navState = null;
@@ -513,6 +522,8 @@ public abstract class PostAction extends BaseController {
 	 * 
 	 * @author sshah
 	 * 
+	 * @return the name of the operation
+	 * 
 	 */
 	public String cancel() {
 		cleanup();
@@ -522,7 +533,7 @@ public abstract class PostAction extends BaseController {
 	// --------execute-------------------------------------------------------------------------------------------------------------
 	/**
 	 * 
-	 * @return
+	 * @return the navigation state of the application
 	 */
 	public abstract String execute();
 
@@ -530,6 +541,9 @@ public abstract class PostAction extends BaseController {
 	// methods-------------------------------------------------------------------------------------------------------------
 	/**
 	 * 
+	 * @return the current post
+	 * @throws Exception
+	 *             the error exception
 	 */
 	public Post getPost() throws Exception {
 		Post post = null;

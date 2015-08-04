@@ -45,6 +45,7 @@ public class ACLWhenTagHandler extends TagHandler {
 
 	/**
 	 * @param config
+	 *            the configuration tag for the handler
 	 */
 	public ACLWhenTagHandler(TagConfig config) {
 		super(config);
@@ -71,7 +72,9 @@ public class ACLWhenTagHandler extends TagHandler {
 	}
 
 	/**
-	 * 
+	 * @param ctx
+	 *            the context to check
+	 * @return true is the passed context is allowed
 	 *
 	 */
 	public boolean isAllowed(FaceletContext ctx) {

@@ -44,7 +44,8 @@ public class ForumUtil {
 	/**
 	 * 
 	 * @param param
-	 * @return
+	 *            the param to find
+	 * @return the param of the request
 	 */
 	public static String getParameter(String param) {
 		String parameter = null;
@@ -55,7 +56,9 @@ public class ForumUtil {
 	}
 
 	/**
-	 * 
+	 * @param input
+	 *            the percent number to convert
+	 * @return the converted percent number
 	 *
 	 */
 	public static String getPercentStr(double input) {
@@ -79,7 +82,10 @@ public class ForumUtil {
 	}
 
 	/**
+	 * @param date
+	 *            the date to convert
 	 * 
+	 * @return the converted date
 	 *
 	 */
 	public static String getDateStr(Date date) {
@@ -98,8 +104,6 @@ public class ForumUtil {
 	 * reuse it as much as we can. Also it is configured with the date format
 	 * taken from the preference of the user if it exists.
 	 * 
-	 * @param req
-	 *            the request that maybe contains the format object
 	 * @return the format object
 	 */
 	public static SimpleDateFormat getSDF() {
@@ -112,7 +116,11 @@ public class ForumUtil {
 	 * Method used for parsing bbcode and return properly formated text of
 	 * message.
 	 * 
-	 * @return
+	 * @param text
+	 *            the text of the message
+	 * @param allowHTML
+	 *            if true, the message will be formatted in html
+	 * @return the formatted message
 	 */
 	public static String formatMessage(String text, boolean allowHTML) {
 
@@ -137,8 +145,9 @@ public class ForumUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param req
+	 *            the request that maybe contains the format object
+	 * @return the renderer for the requested request
 	 */
 	private static ToHTMLRenderer getToHTMLRenderer(Object req) {
 		ToHTMLRenderer renderer = null;
@@ -160,9 +169,11 @@ public class ForumUtil {
 	}
 
 	/**
-	 * 
+	 * @param req
+	 *            the request that maybe contains the format object
 	 * @param text
-	 * @return
+	 *            the text to render
+	 * @return the formatted text
 	 */
 	public static String formatTitle(Object req, String text) {
 

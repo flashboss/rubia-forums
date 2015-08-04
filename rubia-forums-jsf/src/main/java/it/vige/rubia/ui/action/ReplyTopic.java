@@ -138,8 +138,7 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -152,10 +151,10 @@ public class ReplyTopic extends PostAction {
 		return navState;
 	}
 
-	// --------execute-------------------------------------------------------------------------------------------------------------
 	/**
+	 * Execute
 	 * 
-	 * @return
+	 * @return the navigation state of the application
 	 */
 	public String execute() {
 		String navState = null;
@@ -212,8 +211,7 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -241,8 +239,7 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)

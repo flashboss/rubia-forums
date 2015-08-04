@@ -84,58 +84,63 @@ public class Poll implements Serializable {
 	private Date creationDate;
 
 	/**
-    */
+	 * @return the id of the poll
+	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.gatein.forums.model.Poll#setTitle(java.lang.String)
+	 * @param string
+	 *            the title of the poll
 	 */
 	public void setTitle(String string) {
 		this.title = string;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.gatein.forums.model.Poll#setLength(int)
+	 * @param i
+	 *            the length of the poll
 	 */
 	public void setLength(int i) {
 		this.length = i;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.gatein.forums.model.Poll#setOptions(java.util.LinkedList)
+	 * @param list
+	 *            the list of poll options
 	 */
 	public void setOptions(List<PollOption> list) {
 		this.options = list;
 	}
 
 	/**
-    */
+	 * @return the poll options of the poll
+	 */
 	public List<PollOption> getOptions() {
 		return this.options;
 	}
 
 	/**
-    */
+	 * @return the title of the poll
+	 */
 	public String getTitle() {
 		return this.title;
 	}
 
 	/**
-    */
+	 * @return the length of the poll
+	 */
 	public int getLength() {
 		return this.length;
 	}
 
 	/**
-    */
+	 * @return the voted questions of the poll
+	 */
 	public Set<String> getVoted() {
 		return voted;
 	}
@@ -154,7 +159,8 @@ public class Poll implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the creation date of the poll
+	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}

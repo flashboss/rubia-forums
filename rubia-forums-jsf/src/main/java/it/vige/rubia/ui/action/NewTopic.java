@@ -64,6 +64,7 @@ public class NewTopic extends PostAction {
 	 * 
 	 * @author sshah
 	 * 
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -96,10 +97,10 @@ public class NewTopic extends PostAction {
 		return navState;
 	}
 
-	// --------execute-------------------------------------------------------------------------------------------------------------
 	/**
+	 * Execute
 	 * 
-	 * @return
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)

@@ -109,7 +109,7 @@ public class ViewCategory extends BaseController {
 	// facelets---------------------------------------------------------------------------------------
 	/**
 	 * 
-	 * @return
+	 * @return the list of all the categories
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -122,7 +122,7 @@ public class ViewCategory extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the map of forums in the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)

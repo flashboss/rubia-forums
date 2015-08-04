@@ -52,23 +52,21 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 		this.resourceFactory = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#createACL(org.jboss.security.authorization
-	 * .Resource)
+	/**
+	 * @param resource
+	 *            the resource to create
+	 * @return the referred ACL
 	 */
 	public ACL createACL(Resource resource) {
 		return this.createACL(resource, new ArrayList<ACLEntry>());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#createACL(org.jboss.security.authorization
-	 * .Resource, java.util.Collection)
+	/**
+	 * @param resource
+	 *            the resource to create
+	 * @param entries
+	 *            the entries for the ACL
+	 * @return the referred ACL
 	 */
 	public ACL createACL(Resource resource, Collection<ACLEntry> entries) {
 		if (resource == null)
@@ -90,22 +88,20 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 		return acl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#removeACL(org.jboss.security.acl.ACL)
+	/**
+	 * @param acl
+	 *            the ACL to remove
+	 * @return true if the ACL is removed with success
 	 */
 	public boolean removeACL(ACL acl) {
 		return this.removeACL(acl.getResource());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * @param resource
+	 *            the resource to remove
 	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#removeACL(org.jboss.security.authorization
-	 * .Resource)
+	 * @return true if the resource is removed with success
 	 */
 	public boolean removeACL(Resource resource) {
 		boolean result = false;
@@ -125,12 +121,10 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#getACL(org.jboss.security.authorization
-	 * .Resource)
+	/**
+	 * @param resource
+	 *            the resource
+	 * @return the referred ACL for the resource
 	 */
 	public ACL getACL(Resource resource) {
 		// check the cache first.
@@ -143,10 +137,8 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 		return acl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLPersistenceStrategy#getACLs()
+	/**
+	 * @return the current persisted ACLs
 	 */
 	@SuppressWarnings("unchecked")
 	public Collection<ACL> getACLs() {
@@ -156,18 +148,16 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 			for (ACL acl : acls) {
 				ACLImpl impl = (ACLImpl) acl;
 				String[] resourceName = impl.getResourceAsString().split(":");
-				impl.setResource(this.resourceFactory.instantiateResource(
-						resourceName[0], resourceName[1]));
+				impl.setResource(this.resourceFactory.instantiateResource(resourceName[0], resourceName[1]));
 			}
 		}
 		return acls;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLProvider#updateACL(org.jboss.security.acl.ACL)
+	/**
+	 * @param acl
+	 *            the ACL to update
+	 * @return true if the ACL is updated with success
 	 */
 	public boolean updateACL(ACL acl) {
 		if (((ACLImpl) acl).getACLId() == 0)
@@ -206,14 +196,11 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 	 * @return the {@code ACL} retrieved from the database, or {@code null} if
 	 *         no {@code ACL} could be found.
 	 */
-	private ACLImpl findACLByResource(Resource resource,
-			EntityManager entityManager) {
+	private ACLImpl findACLByResource(Resource resource, EntityManager entityManager) {
 		ACLImpl acl = null;
 		try {
-			acl = (ACLImpl) entityManager.createQuery(
-					"SELECT a FROM ACLImpl a WHERE a.resourceAsString LIKE '"
-							+ Util.getResourceAsString(resource) + "'")
-					.getSingleResult();
+			acl = (ACLImpl) entityManager.createQuery("SELECT a FROM ACLImpl a WHERE a.resourceAsString LIKE '"
+					+ Util.getResourceAsString(resource) + "'").getSingleResult();
 			acl.setResource(resource);
 		} catch (NoResultException nre) {
 			// ignore the exception when no ACL could be found for the given

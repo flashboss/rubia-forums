@@ -61,63 +61,67 @@ public class TopicWatchController extends BaseController {
 	private Topic topic;
 
 	/**
-	 * 
+	 * @return the current watch type
 	 */
 	public int getWatchType() {
 		return watchType;
 	}
 
 	/**
-	 * 
+	 * @param watchType
+	 *            the current watch type
 	 */
 	public void setWatchType(int watchType) {
 		this.watchType = watchType;
 	}
 
 	/**
-	 * 
+	 * @return the name of the operation
 	 */
 	public String dummyAction() {
 		return "success";
 	}
 
 	/**
-	 * 
+	 * @return the current topic id
 	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-	 * 
+	 * @param topicId
+	 *            the current topic id
 	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
 
 	/**
-	 * 
+	 * @return the current topic
 	 */
 	public Topic getTopic() {
 		return topic;
 	}
 
 	/**
-	 * 
+	 * @param topic
+	 *            the current topic
 	 */
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
 
 	/**
-	 * 
+	 * @param editMode
+	 *            the current edit mode
 	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 	}
 
 	/**
-	 * 
+	 * @return the current edit mode
 	 */
 	public boolean getEditMode() {
 		return editMode;
@@ -172,8 +176,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -208,8 +211,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -230,7 +232,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return the navigation state of the application
 	 */
 	public String updateNotificationType() {
 		String navState = null;
@@ -253,6 +255,8 @@ public class TopicWatchController extends BaseController {
 	/**
 	 * When user cancels creating topic notification then this action is
 	 * executed.
+	 * 
+	 * @return the name of the operation
 	 */
 	public String cancel() {
 		return "cancel";

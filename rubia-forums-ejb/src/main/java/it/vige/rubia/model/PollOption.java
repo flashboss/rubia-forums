@@ -81,7 +81,8 @@ public class PollOption implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the votes number of the poll option
+	 */
 	public int getVotes() {
 		return votes;
 	}
@@ -91,7 +92,10 @@ public class PollOption implements Serializable {
 	}
 
 	/**
-    */
+	 * the question of the poll option
+	 * 
+	 * @return the question of the poll option
+	 */
 	public String getQuestion() {
 		return question;
 	}

@@ -189,9 +189,6 @@ public class PortalUtil {
 		TEMP_VIEW_ID_TO_NAME.put("sr", "/views/search/viewsearch_results.xhtml");
 		TEMP_VIEW_NAME_TO_ID.put("/views/search/viewsearch_results.xhtml", "sr");
 
-		// TEMP_VIEW_ID_TO_NAME.put("sr","/views/search/myforums_viewall.xhtml");
-		// TEMP_VIEW_NAME_TO_ID.put("/views/search/myforums_viewall.xhtml","sa");
-
 		VIEW_ID_TO_NAME = Collections.unmodifiableSortedMap(TEMP_VIEW_ID_TO_NAME);
 		VIEW_NAME_TO_ID = Collections.unmodifiableSortedMap(TEMP_VIEW_NAME_TO_ID);
 
@@ -199,7 +196,7 @@ public class PortalUtil {
 
 	/**
 	 * 
-	 * 
+	 * @return true if the application runs inside a portal platform
 	 */
 	public static boolean isRunningInPortal() {
 		boolean isRunningInPortal = false;
@@ -207,9 +204,11 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param userModule
+	 *            the current user module
+	 * @return the current user where you are logged
 	 * @throws Exception
+	 *             DOCUMENT_ME
 	 */
 	public static User getUser(UserModule userModule) throws Exception {
 		User user = null;
@@ -229,6 +228,10 @@ public class PortalUtil {
 	/**
 	 * This method translates standard view file path into short view id
 	 * parameter.
+	 * 
+	 * @param name
+	 *            DOCUMENT_ME
+	 * @return the id for the name
 	 */
 	public static String getIdForName(String name) {
 		if (name == null) {
@@ -292,7 +295,7 @@ public class PortalUtil {
 	/**
 	 * 
 	 * @author sshah
-	 * 
+	 * @return the created message
 	 * 
 	 */
 	public static Message createMessage() {
@@ -302,7 +305,7 @@ public class PortalUtil {
 
 	/**
 	 * 
-	 * @return
+	 * @return the created poll
 	 */
 	public static Poll createPoll() {
 		Poll poll = new Poll();
@@ -314,8 +317,9 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param poll
+	 *            the poll where create the poll option
+	 * @return the created poll option
 	 */
 	public static PollOption createPollOption(Poll poll) {
 		PollOption pollOption = new PollOption(poll);
@@ -325,6 +329,10 @@ public class PortalUtil {
 	/**
 	 * This method translates short id view parameter into standard view file
 	 * path.
+	 * 
+	 * @param id
+	 *            the view id
+	 * @return the view name for the passed id
 	 */
 	public static String getNameForId(String id) {
 		if (id == null) {
@@ -334,9 +342,13 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param forumsModule
+	 *            DOCUMENT_ME
+	 * @param userModule
+	 *            DOCUMENT_ME
+	 * @return the current user
 	 * @throws Exception
+	 *             DOCUMENT_ME
 	 */
 	public static Poster getPoster(ForumsModule forumsModule, UserModule userModule) throws Exception {
 		Poster poster = null;
@@ -354,7 +366,13 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
+	 * @param poll
+	 *            DOCUMENT_ME
+	 * @param option
+	 *            DOCUMENT_ME
+	 * @param multiplicator
+	 *            DOCUMENT_ME
+	 * @return the current vote percent of the poll
 	 * 
 	 */
 	public static String getVotePercent(Poll poll, PollOption option, int multiplicator) {

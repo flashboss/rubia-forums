@@ -70,8 +70,8 @@ public class DeletePost extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@PostConstruct
 	public void execute() {
 		// get the post id
@@ -93,8 +93,8 @@ public class DeletePost extends BaseController {
 
 	// actions---------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String confirmDelete() {
@@ -108,8 +108,7 @@ public class DeletePost extends BaseController {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME,
-						TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
 			}
 
 			boolean isFirstPost = false;
@@ -118,8 +117,7 @@ public class DeletePost extends BaseController {
 			if (posts.get(0).getId() == post.getId().intValue()) {
 				isFirstPost = true;
 			}
-			if (posts.get(posts.size() - 1).getId().intValue() == post.getId()
-					.intValue()) {
+			if (posts.get(posts.size() - 1).getId().intValue() == post.getId().intValue()) {
 				isLastPost = true;
 			}
 

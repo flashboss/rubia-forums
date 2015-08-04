@@ -55,7 +55,6 @@ public class JBossUserModule implements UserModule, Serializable {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
 			user = new JBossUser(newUser);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return user;
@@ -69,7 +68,6 @@ public class JBossUserModule implements UserModule, Serializable {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
 			user = new JBossUser(newUser);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return user;

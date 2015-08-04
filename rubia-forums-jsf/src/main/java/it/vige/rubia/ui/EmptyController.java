@@ -80,15 +80,16 @@ public class EmptyController extends BaseController {
 	/**
 	 * 
 	 * @param mainPageName
+	 *            the name of the main page
 	 */
 	public void setMainPageName(String mainPageName) {
 		this.mainPageName = mainPageName;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param links
+	 *            the list of links of the application
+	 */
 	public void setLinks(Map<String, String> links) {
 		this.links = links;
 	}

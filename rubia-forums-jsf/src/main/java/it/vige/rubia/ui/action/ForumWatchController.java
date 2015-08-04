@@ -81,14 +81,15 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return the current forum
 	 */
 	public Forum getForum() {
 		return forum;
 	}
 
 	/**
-	 * 
+	 * @param forum
+	 *            the forum to watch
 	 */
 	public void setForum(Forum forum) {
 		this.forum = forum;
@@ -110,14 +111,15 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return true if the context id in edit mode
 	 */
 	public boolean isEditMode() {
 		return editMode;
 	}
 
 	/**
-	 * 
+	 * @param editMode
+	 *            the edit mode of the context
 	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
@@ -125,8 +127,7 @@ public class ForumWatchController extends BaseController {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * 
-	 *
+	 * Execution of the watch controller
 	 */
 	@PostConstruct
 	public void execute() {
@@ -172,10 +173,8 @@ public class ForumWatchController extends BaseController {
 		}
 	}
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -220,8 +219,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -254,7 +252,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return the name of the operation
 	 */
 	public String updateNotificationType() {
 
@@ -284,14 +282,15 @@ public class ForumWatchController extends BaseController {
 	/**
 	 * When user cancels creating forum notification then this action is
 	 * executed.
+	 * 
+	 * @return the name of the operation
 	 */
 	public String cancel() {
 		return "cancel";
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the name of the operation
 	 */
 	public String updateWatch() {
 		return null;
@@ -299,8 +298,10 @@ public class ForumWatchController extends BaseController {
 
 	// --------------------------------------------------------------------------------------------------------------
 	/**
-	 * 
+	 * @param the
+	 *            forum id to check
 	 *
+	 * @return true if the forum has duplicate watches
 	 */
 	private boolean isDuplicateWatch(int forumId) {
 		try {
@@ -313,15 +314,14 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return the name of the operation
 	 */
 	public String dummyAction() {
 		return null;
 	}
 
 	/**
-	 * 
-	 * 
+	 * @return the current watch id of the forum
 	 */
 	public String getWatchingForum() {
 		String watchId = null;

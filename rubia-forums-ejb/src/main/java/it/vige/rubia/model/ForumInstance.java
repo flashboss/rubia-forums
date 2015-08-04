@@ -50,6 +50,7 @@ public class ForumInstance implements Serializable {
 	private List<Category> categories;
 
 	/**
+	 * @return the id of the forum instance
 	 */
 	public Integer getId() {
 		return id;
@@ -60,6 +61,7 @@ public class ForumInstance implements Serializable {
 	}
 
 	/**
+	 * @return the name of the forum instance
 	 */
 	public String getName() {
 		return name;
@@ -76,6 +78,7 @@ public class ForumInstance implements Serializable {
 	}
 
 	/**
+	 * @return the categories of the forum instance
 	 */
 	public List<Category> getCategories() {
 		return categories;

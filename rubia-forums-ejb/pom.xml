@@ -19,6 +19,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.10</version>
 				<configuration>
 					<additionalBuildcommands>
 						<buildCommand>
@@ -62,6 +63,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.5.1</version>
 				<configuration>
 					<generateClient>false</generateClient>
 					<ejbVersion>3.2</ejbVersion>
@@ -132,33 +134,6 @@
 		</profile>
 
 		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
 			<id>wildfly-remote-800</id>
 			<build>
 				<resources>
@@ -173,6 +148,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>
@@ -265,6 +241,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>
@@ -357,6 +334,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>
@@ -447,6 +425,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>
@@ -547,6 +526,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>

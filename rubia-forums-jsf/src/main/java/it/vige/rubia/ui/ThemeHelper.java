@@ -77,8 +77,8 @@ public class ThemeHelper {
 	private ForumsTheme theme;
 
 	/**
-	 * 
-	 *
+	 * @throws Exception
+	 *             the error exception
 	 */
 	public ThemeHelper() throws Exception {
 		// Start the theme
@@ -95,7 +95,10 @@ public class ThemeHelper {
 	}
 
 	/**
+	 * @param language
+	 *            the language to check
 	 * 
+	 * @return true if the requested language is supported
 	 */
 	private boolean isSupportedLanguage(String language) {
 		return supportedLanguages.contains(language);
@@ -104,8 +107,10 @@ public class ThemeHelper {
 	// method linked to facelet
 	// functions---------------------------------------------------------------------------------------------------------
 	/**
-	 * 
+	 * @param urlKey
+	 *            the id of the requested url
 	 *
+	 * @return the requested url
 	 */
 	public String getURL(String urlKey) {
 		try {
@@ -130,34 +135,34 @@ public class ThemeHelper {
 		}
 	}
 
-	// --------------------------------------------------------------------------------------------------------------------------------------------
-
 	/**
-	 * 
-	 * @return
+	 * @return the url of the theme resource
 	 */
 	public String getResourceForumURL() {
 		return theme.resourceForumURL;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the url for the forum theme resource
 	 */
 	public String getResourceForumNewURL() {
 		return theme.resourceForumNewURL;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the url for the locked forum theme resource
 	 */
 	public String getResourceForumLockedURL() {
 		return theme.resourceForumLockedURL;
 	}
 
 	/**
+	 * @param topic
+	 *            the topic to find
+	 * @param isAnonymous
+	 *            true if you want search the guest folder url
 	 * 
+	 * @return the folder type url
 	 *
 	 */
 	public String getFolderTypeURL(Topic topic, boolean isAnonymous) {
@@ -183,8 +188,11 @@ public class ThemeHelper {
 	}
 
 	/**
-	 *
-	 *
+	 * @param topic
+	 *            the topic to find
+	 * 
+	 * @return the folder type
+	 * 
 	 */
 	public String getFolderType(Topic topic) {
 

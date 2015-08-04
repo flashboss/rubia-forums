@@ -91,7 +91,8 @@ public class Poster {
 	}
 
 	/**
-    */
+	 * @return the posts count of the poster
+	 */
 	public int getPostCount() {
 		return nbPosts;
 	}

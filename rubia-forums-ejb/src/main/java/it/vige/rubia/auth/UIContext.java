@@ -28,7 +28,8 @@ public class UIContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @param identity
+	 *            the jboss security identity to assign
 	 */
 	public UIContext(Object identity) {
 		super(identity);

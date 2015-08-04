@@ -34,7 +34,8 @@ public class ActionContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @param identity
+	 *            the security identity to wrap
 	 */
 	public ActionContext(Object identity) {
 		super(identity);
@@ -42,7 +43,7 @@ public class ActionContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @return the method for the current business action
 	 */
 	public Method getBusinessAction() {
 		return this.businessAction;
@@ -50,7 +51,8 @@ public class ActionContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @param businessAction
+	 *            the method of the business action to set
 	 */
 	public void setBusinessAction(Method businessAction) {
 		this.businessAction = businessAction;
@@ -58,7 +60,7 @@ public class ActionContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @return the current managed bean
 	 */
 	public Object getManagedBean() {
 		return this.managedBean;
@@ -66,7 +68,8 @@ public class ActionContext extends IdentitySecurityContext {
 
 	/**
 	 * 
-	 *
+	 * @param managedBean
+	 *            the managed bean to set
 	 */
 	public void setManagedBean(Object managedBean) {
 		this.managedBean = managedBean;

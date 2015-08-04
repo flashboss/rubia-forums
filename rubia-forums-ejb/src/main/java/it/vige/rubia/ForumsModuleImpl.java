@@ -61,7 +61,6 @@ import it.vige.rubia.util.NotificationEngine;
  *         Dawidowicz</a>
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
  * @version $Revision: 3217 $
- * @ejb3
  */
 
 @Stateless
@@ -83,7 +82,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * @jmx.managed-attribute
+	 * @see it.vige.rubia.ForumsModule#getGuestUserName()
 	 */
 	@Override
 	public String getGuestUserName() {
@@ -91,7 +90,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * @jmx.managed-attribute
+	 * @see it.vige.rubia.ForumsModule#setGuestUserName(java.lang.String)
 	 */
 	@Override
 	public void setGuestUserName(String guestUserName) {
@@ -99,7 +98,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * @jmx.managed-attribute
+	 * @see it.vige.rubia.ForumsModule#getFromAddress()
 	 */
 	@Override
 	public String getFromAddress() {
@@ -107,7 +106,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * @jmx.managed-attribute
+	 * @see it.vige.rubia.ForumsModule#setFromAddress(java.lang.String)
 	 */
 	@Override
 	public void setFromAddress(String fromAddress) {
@@ -233,12 +232,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	/*
-	 * findCategories, findCategoriesFetchForums, findForums methods need to a
-	 * forumInstanceId argument to take only objects of a specific forum
-	 * instance
+	/**
+	 * @see it.vige.rubia.ForumsModule#findCategories(java.lang.Integer)
 	 */
-
 	@Override
 	public List<Category> findCategories(Integer indexInstance) throws ModuleException {
 		try {
@@ -311,9 +307,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	/*
-	 * findTopics method need to a forumInstanceId argument to take only topics
-	 * of a specific forum instance
+	/**
+	 * @see it.vige.rubia.ForumsModule#findTopics(java.lang.Integer)
 	 */
 	@Override
 	public List<Topic> findTopics(Integer indexInstance) throws ModuleException {
@@ -406,12 +401,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		return null;
 	}
 
-	/*
-	 * findTopicsHot, findTopicsByLatestPosts, findTopicsHottest,
-	 * findTopicsMostViewed methods need to a forumInstanceId argument to take
-	 * only topics of a specific forum instance
+	/**
+	 * @see it.vige.rubia.ForumsModule#findTopicsHot(int,int,java.lang.Integer)
 	 */
-
 	@Override
 	public List<Topic> findTopicsHot(int replies, int limit, Integer indexInstance) throws ModuleException {
 		try {
@@ -615,9 +607,11 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	/*
+	/**
 	 * getLastCategoryOrder and createCategory methods need to a forumInstanceId
 	 * argument to take only categories of a specific forum instance
+	 * 
+	 * @return the order number of the last category
 	 */
 	private int getLastCategoryOrder(Integer indexInstance) {
 		try {
@@ -802,9 +796,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	/*
-	 * findPosts method need to a forumInstanceId argument to take only posts of
-	 * a specific forum instance
+	/**
+	 * @see it.vige.rubia.ForumsModule#findPosts(java.lang.Integer)
 	 */
 	@Override
 	public List<Post> findPosts(Integer indexInstance) throws ModuleException {
@@ -1077,11 +1070,8 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	/*
-	 * findLastPostsOfForums, findForumWatchByUser, findForumWatchedByUser,
-	 * findTopicWatchedByUser and findTopicWatches methods need to a
-	 * forumInstanceId argument to take only objects of a specific forum
-	 * instance
+	/**
+	 * @see it.vige.rubia.ForumsModule#findLastPostsOfForums(java.lang.Integer)
 	 */
 	@Override
 	public Map<Object, Post> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
@@ -1185,13 +1175,8 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * 
-	 * This method returns Map<Integer,TopicWatch> pairs where Integer key is
-	 * watched topic id.
-	 * 
-	 * @param user
-	 * @return
-	 * @throws ModuleException
+	 * @see it.vige.rubia.ForumsModule#findTopicWatches(it.vige.rubia.auth.User,
+	 *      java.lang.Integer)
 	 */
 	@Override
 	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
@@ -1355,17 +1340,8 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	/**
-	 * 
-	 * This method returns Map<Integer,ForumWatch> pairs where Integer key is
-	 * watched forum id.
-	 * 
-	 * @param user
-	 * @return
-	 * @throws ModuleException
-	 */
-	/*
-	 * findForumWatches method need to a forumInstanceId argument to take only
-	 * forums of a specific forum instance
+	 * @see it.vige.rubia.ForumsModule#findForumWatches(it.vige.rubia.auth.User,
+	 *      java.lang.Integer)
 	 */
 	@Override
 	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
@@ -1476,9 +1452,9 @@ public class ForumsModuleImpl implements ForumsModule {
 		notificationEngine.schedule(postId, watchType, postUrl, replyUrl);
 	}
 
-	/*
-	 * I add createForumInstance, removeForumInstance and findForumInstanceById
-	 * methods to manage ForumInstance object
+	/**
+	 * @see it.vige.rubia.ForumsModule#createForumInstance(java.lang.Integer,
+	 *      java.lang.String)
 	 */
 	@Override
 	public ForumInstance createForumInstance(Integer indexInstance, String name) throws ModuleException {
@@ -1501,12 +1477,10 @@ public class ForumsModuleImpl implements ForumsModule {
 	public void removeForumInstance(int forumInstanceId) throws ModuleException {
 
 		try {
-			// em.flush();
 			ForumInstance forumInstance = em.find(ForumInstance.class, forumInstanceId);
 			em.remove(forumInstance);
 			em.flush(); // it is required
 			// for clustered versions
-			// em.flush();
 		} catch (Exception e) {
 			String errorMessage = "Cannot delete forum Instance";
 			throw new ModuleException(errorMessage, e);

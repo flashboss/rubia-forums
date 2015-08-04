@@ -69,7 +69,7 @@ public class ViewSummary extends BaseController {
 	// facelets---------------------------------------------------------------------------------------
 	/**
 	 * 
-	 * @return
+	 * @return the list of topics in the summary
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -82,7 +82,7 @@ public class ViewSummary extends BaseController {
 
 	/**
 	 * 
-	 * @return
+	 * @return the number of topics found
 	 */
 	public String getNumberOfTopicsFound() {
 		return String.valueOf(getTopics().size());
@@ -106,9 +106,9 @@ public class ViewSummary extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 *
+	 */
 	@PostConstruct
 	public void execute() {
 		// load the topics
@@ -125,7 +125,7 @@ public class ViewSummary extends BaseController {
 	 * This method returns the blockTopicType based on the summaryMode set for
 	 * this application
 	 * 
-	 * @return
+	 * @return the block topics type
 	 */
 	public String getBlockTopicsType() {
 		return userPreferences.getSummaryMode().name();
@@ -134,6 +134,7 @@ public class ViewSummary extends BaseController {
 	/**
 	 * 
 	 * @throws Exception
+	 *             the error exception
 	 */
 	private void loadDefaultTopics() throws Exception {
 		Calendar after = getInstance();
@@ -142,40 +143,30 @@ public class ViewSummary extends BaseController {
 		int summaryTopicReplies = userPreferences.getSummaryTopicReplies();
 		int summaryTopicLimit = userPreferences.getSummaryTopicLimit();
 
-		// Luca Stancapiano start
 		// get the forumInstanceId where this forum should be added
 		int forumInstanceId = userPreferences.getForumInstanceId();
 
 		if (forumsModule.findForumInstanceById(forumInstanceId) == null)
-			forumsModule.createForumInstance(forumInstanceId,
-					"by_manual_preferences");
-
-		// Luca Stancapiano end
+			forumsModule.createForumInstance(forumInstanceId, "by_manual_preferences");
 
 		switch (userPreferences.getSummaryMode()) {
 		/*
-		 * Luca Stancapiano start - findTopicsHot, findTopicsHottest,
-		 * findTopicsByLatestPosts, findTopicsMostViewed methods need to a
-		 * forumInstanceId argument to take only categories of a specific forum
-		 * instance
+		 * FindTopicsHot, findTopicsHottest, findTopicsByLatestPosts,
+		 * findTopicsMostViewed methods need to a forumInstanceId argument to
+		 * take only categories of a specific forum instance
 		 */
 		case BLOCK_TOPICS_MODE_HOT_TOPICS:
-			topics = forumsModule.findTopicsHot(summaryTopicReplies,
-					summaryTopicLimit, forumInstanceId);
+			topics = forumsModule.findTopicsHot(summaryTopicReplies, summaryTopicLimit, forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_HOTTEST_TOPICS:
-			topics = forumsModule.findTopicsHottest(time, summaryTopicLimit,
-					forumInstanceId);
+			topics = forumsModule.findTopicsHottest(time, summaryTopicLimit, forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_LATEST_POSTS:
-			topics = forumsModule.findTopicsByLatestPosts(summaryTopicLimit,
-					forumInstanceId);
+			topics = forumsModule.findTopicsByLatestPosts(summaryTopicLimit, forumInstanceId);
 			break;
 		case BLOCK_TOPICS_MODE_MOST_VIEWED:
-			topics = forumsModule.findTopicsMostViewed(time, summaryTopicLimit,
-					forumInstanceId);
+			topics = forumsModule.findTopicsMostViewed(time, summaryTopicLimit, forumInstanceId);
 			break;
-		// Luca Stancapiano end
 		}
 	}
 }

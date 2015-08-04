@@ -88,7 +88,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @return the map of the image descriptions
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -100,14 +100,15 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @param forumImageDescriptions
+	 *            the map of the image descriptions
 	 */
 	public void setForumImageDescriptions(Map<Integer, String> forumImageDescriptions) {
 		this.forumImageDescriptions = forumImageDescriptions;
 	}
 
 	/**
-	 * 
+	 * @return the map of the images
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -119,14 +120,15 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @param forumImages
+	 *            the map of the images
 	 */
 	public void setForumImages(Map<Integer, String> forumImages) {
 		this.forumImages = forumImages;
 	}
 
 	/**
-	 * 
+	 * @return the map of the forum last posts
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -145,14 +147,15 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @param forumsLastPosts
+	 *            the map of the forum last posts
 	 */
 	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
 	/**
-	 * 
+	 * @return the forum watches
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -161,14 +164,15 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @param forumWatches
+	 *            the forum watches
 	 */
 	public void setForumWatches(Map<Object, Object> forumWatches) {
 		this.forumWatches = forumWatches;
 	}
 
 	/**
-	 * 
+	 * @return the list of watched forums
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -187,35 +191,38 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * 
+	 * @param watchedForums
+	 *            the list of watched forums
 	 */
 	public void setWatchedForums(Collection<Forum> watchedForums) {
 		this.watchedForums = watchedForums;
 	}
 
 	/**
-	 * 
+	 * @return the current watch
 	 */
 	public Watch getWatch() {
 		return watch;
 	}
 
 	/**
-	 * 
+	 * @param watch
+	 *            the current watch
 	 */
 	public void setWatch(Watch watch) {
 		this.watch = watch;
 	}
 
 	/**
-	 * 
+	 * @return the current forum id
 	 */
 	public int getForumId() {
 		return forumId;
 	}
 
 	/**
-	 * 
+	 * @param forumId
+	 *            the current forum id to set
 	 */
 	public void setForumId(int forumId) {
 		this.forumId = forumId;

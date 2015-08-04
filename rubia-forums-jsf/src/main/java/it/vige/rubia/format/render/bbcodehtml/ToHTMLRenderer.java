@@ -29,7 +29,14 @@ public class ToHTMLRenderer {
 	 * Templates.
 	 */
 
-	/** Setup the renderer with the given template repository. */
+	/**
+	 * Setup the renderer with the given template repository.
+	 * 
+	 * @param config
+	 *            the configuration for the renderer
+	 * @param bundle
+	 *            the resource bunde for the renderer
+	 */
 	public ToHTMLRenderer(ToHTMLConfig config, ResourceBundle bundle) {
 	}
 

@@ -54,6 +54,11 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
+	 * @param name
+	 *            the name to find in the request
+	 * 
+	 * @return the found parameter of the request
+	 * 
 	 */
 	public static String getRequestParameter(String name) {
 		String parameter = null;
@@ -67,7 +72,7 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
+	 * @return true if the application is inside a portal
 	 *
 	 */
 	public static boolean isRunningInPortal() {
@@ -76,8 +81,7 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 * 
+	 * @return the context path of the application
 	 */
 	public static String getContextPath() {
 		String contextPath = "";
@@ -88,8 +92,7 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return true if the user is not logged
 	 */
 	public static boolean isAnonymous() {
 		boolean anonymous = true;
@@ -106,6 +109,10 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
+	 * @param componentId
+	 *            the id component to check
+	 * 
+	 * @return the value of the choosen component
 	 * 
 	 */
 	public static String getComponentValue(String componentId) {
@@ -126,6 +133,8 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
+	 * @param componentId
+	 *            the id component to check
 	 * 
 	 */
 	public static void removeComponent(String componentId) {
@@ -142,6 +151,11 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
+	 * @param e
+	 *            the exception to handle
+	 * 
+	 * @return the navigation state of the application
+	 * 
 	 */
 	public static String handleException(Exception e) {
 		String genericNavState = ERROR;
@@ -157,7 +171,7 @@ public class JSFUtil {
 
 	/**
 	 * 
-	 * @return
+	 * @return the current error message
 	 */
 	public static String getErrorMsg() {
 		String errorMsg = null;
@@ -174,8 +188,7 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return true if there is an error in the application context
 	 */
 	public static boolean isErrorOccurred() {
 		boolean errorOccurred = false;
@@ -189,8 +202,10 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 *
+	 * @param id
+	 *            the id of the message to create
+	 * @param msg
+	 *            the text of the message to create
 	 */
 	public static void setMessage(String id, String msg) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, // severity
@@ -201,8 +216,10 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 *
+	 * @param id
+	 *            the id of the error message to create
+	 * @param msg
+	 *            the text of the error message to create
 	 */
 	public static void setErrorMessage(String id, String msg) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
@@ -213,8 +230,10 @@ public class JSFUtil {
 	}
 
 	/**
+	 * @param id
+	 *            the id of the message to find
 	 * 
-	 *
+	 * @return the text of the message
 	 */
 	public static String getMessage(String id) {
 		String msg = null;
@@ -231,8 +250,12 @@ public class JSFUtil {
 	}
 
 	/**
+	 * @param bundleName
+	 *            the name of the bundle
+	 * @param messageKey
+	 *            the key of the bundle to find
 	 * 
-	 *
+	 * @return the value for the requested id
 	 */
 	public static String getBundleMessage(String bundleName, String messageKey) {
 		String bundleMessage = null;
@@ -250,21 +273,21 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
+	 * @return the current localization of the application
 	 */
 	public static Locale getSelectedLocale() {
 		return getCurrentInstance().getExternalContext().getRequestLocale();
 	}
 
 	/**
-	 * 
+	 * @return the default localization of the application
 	 */
 	public static Locale getDefaultLocale() {
 		return getCurrentInstance().getApplication().getDefaultLocale();
 	}
 
 	/**
-	 * 
+	 * @return the list of supported localizations in the application
 	 */
 	public static Iterator<Locale> getSupportedLocales() {
 		return getCurrentInstance().getApplication().getSupportedLocales();
@@ -324,9 +347,14 @@ public class JSFUtil {
 	}
 
 	/**
+	 * @param userModule
+	 *            the user module of the application
+	 * @param forumsModule
+	 *            the forums module of the application
 	 * 
-	 * @return
+	 * @return the current poster
 	 * @throws Exception
+	 *             the error exception
 	 */
 	public static Poster getPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
 		Poster poster = null;

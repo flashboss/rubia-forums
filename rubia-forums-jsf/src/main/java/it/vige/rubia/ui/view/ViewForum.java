@@ -105,7 +105,7 @@ public class ViewForum extends BaseController {
 	// components like
 	// facelets---------------------------------------------------------------------------------------
 	/**
-	 * 
+	 * @return the current forum
 	 */
 	public Forum getForum() {
 		return forum;
@@ -115,11 +115,9 @@ public class ViewForum extends BaseController {
 		this.forum = forum;
 	}
 
-	// --------------------------------------------------------------------------------------------
 	/**
-	  * 
-	  *
-	  */
+	 * @return the topics of the announcement
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getAnnouncements() {
@@ -138,6 +136,8 @@ public class ViewForum extends BaseController {
 	/**
 	 * 
 	 * TODO: Make a special method in ForumsModule for that.
+	 * 
+	 * @return true if an announcement is present
 	 */
 	public boolean isAnnouncementsPresent() {
 		if (announcements != null) {
@@ -162,6 +162,8 @@ public class ViewForum extends BaseController {
 	/**
 	 * 
 	 * TODO: Make a special method in ForumsModule for that.
+	 * 
+	 * @return all the sticky topicsof the forum
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -182,6 +184,8 @@ public class ViewForum extends BaseController {
 	/**
 	 * 
 	 * TODO: Make a special method in ForumsModule for that.
+	 * 
+	 * @return true if a sticky thread is present
 	 */
 	public boolean isStickyThreadsPresent() {
 		if (stickyThreads != null) {
@@ -204,8 +208,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	  * 
-	  */
+	 * @return all the normal threads of the forum
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getNormalThreads() {
@@ -213,8 +217,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	  * 
-	  */
+	 * @return true if a normal thread is present
+	 */
 	public boolean isNormalThreadsPresent() {
 		return normalThreads.size() > 0;
 	}
@@ -247,8 +251,6 @@ public class ViewForum extends BaseController {
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
 	}
-
-	// -------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
 	  * 
@@ -349,5 +351,4 @@ public class ViewForum extends BaseController {
 		return topicNavigator;
 	}
 
-	// -------------------------------------------------------------------------------------------------------------------------------------
 }

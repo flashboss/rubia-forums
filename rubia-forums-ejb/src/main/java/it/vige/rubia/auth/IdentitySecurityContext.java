@@ -28,7 +28,8 @@ public abstract class IdentitySecurityContext implements SecurityContext {
 	private Object identity;
 
 	/**
-	 * 
+	 * @param identity
+	 *            the security identity to set
 	 *
 	 */
 	public IdentitySecurityContext(Object identity) {

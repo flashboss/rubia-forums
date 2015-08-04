@@ -68,8 +68,7 @@ public class EditPost extends PostAction {
 	// action processing
 	// methods-----------------------------------------------------------------------------------------------------
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -126,8 +125,7 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -148,8 +146,7 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)

@@ -65,8 +65,8 @@ public class ACLImpl implements ACL, Serializable {
 	@Transient
 	private Map<String, ACLEntry> entriesMap;
 
-	@OneToMany(mappedBy = "acl", fetch = FetchType.EAGER, cascade = {
-			CascadeType.REMOVE, CascadeType.PERSIST }, orphanRemoval = true)
+	@OneToMany(mappedBy = "acl", fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE,
+			CascadeType.PERSIST }, orphanRemoval = true)
 	private Collection<ACLEntryImpl> entries;
 
 	/**
@@ -132,10 +132,16 @@ public class ACLImpl implements ACL, Serializable {
 		return this.aclID;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * <p>
+	 * Adds an entry to this ACL. If the ACL already has an {@code ACLEntry}
+	 * associated to the new entry's identity, then the new entry will not be
+	 * added.
+	 * </p>
 	 * 
-	 * @see org.jboss.security.acl.ACL#addEntry(org.jboss.security.acl.ACLEntry)
+	 * @param entry
+	 *            the {@code ACLEntry} to be added.
+	 * @return {@code true} if the entry was added; {@code false} otherwise.
 	 */
 	public boolean addEntry(ACLEntry entry) {
 		if (this.entriesMap == null)
@@ -143,8 +149,7 @@ public class ACLImpl implements ACL, Serializable {
 
 		// don't add a null entry or an entry that already existSELECT * FROM
 		// ACL_ENTRYs.
-		if (entry == null
-				|| this.entriesMap.get(entry.getIdentityOrRole()) != null)
+		if (entry == null || this.entriesMap.get(entry.getIdentityOrRole()) != null)
 			return false;
 		this.entries.add((ACLEntryImpl) entry);
 		((ACLEntryImpl) entry).setAcl(this);
@@ -152,11 +157,10 @@ public class ACLImpl implements ACL, Serializable {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACL#removeEntry(org.jboss.security.acl.ACLEntry)
+	/**
+	 * @param entry
+	 *            the entry to remove
+	 * @return true if the remove operation has success
 	 */
 	public boolean removeEntry(ACLEntry entry) {
 		if (this.entriesMap == null)
@@ -165,10 +169,8 @@ public class ACLImpl implements ACL, Serializable {
 		return this.entries.remove(entry);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACL#getEntries()
+	/**
+	 * @return the list of the entries of the ACL
 	 */
 	public Collection<? extends ACLEntry> getEntries() {
 		if (this.entriesMap == null)
@@ -176,11 +178,10 @@ public class ACLImpl implements ACL, Serializable {
 		return Collections.unmodifiableCollection(this.entries);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACL#getEntry(org.jboss.security.identity.Identity)
+	/**
+	 * @param identity
+	 *            the identity
+	 * @return th eentry for the identity
 	 */
 	public ACLEntry getEntry(Identity identity) {
 		if (this.entriesMap == null)
@@ -188,10 +189,10 @@ public class ACLImpl implements ACL, Serializable {
 		return this.entriesMap.get(identity.getName());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACL#getEntry(java.lang.String)
+	/**
+	 * @param identityOrRole
+	 *            the identity or role
+	 * @return the referred entry for the role or identity
 	 */
 	public ACLEntry getEntry(String identityOrRole) {
 		if (this.entriesMap == null)
@@ -199,12 +200,12 @@ public class ACLImpl implements ACL, Serializable {
 		return this.entriesMap.get(identityOrRole);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACL#isGranted(org.jboss.security.acl.ACLPermission
-	 * , org.jboss.security.identity.Identity)
+	/**
+	 * @param permission
+	 *            the permission to check
+	 * @param identity
+	 *            the identity to check
+	 * @return true if it is granted
 	 */
 	public boolean isGranted(ACLPermission permission, Identity identity) {
 		if (this.entriesMap == null)
@@ -231,10 +232,8 @@ public class ACLImpl implements ACL, Serializable {
 		return this.resourceAsString;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACL#getResource()
+	/**
+	 * @return the current resource to check
 	 */
 	public Resource getResource() {
 		return this.resource;

@@ -48,11 +48,9 @@ import org.hibernate.search.annotations.Indexed;
 		@NamedQuery(name = "findCategoryByIdFetchForums", query = "select c from Category as c join fetch c.forums "
 				+ "where c.id=:categoryId"),
 		@NamedQuery(name = "findCategories", query = "select c from Category as c where "
-				+ "c.forumInstance.id = :forumInstanceId "
-				+ "order by c.order asc"),
+				+ "c.forumInstance.id = :forumInstanceId " + "order by c.order asc"),
 		@NamedQuery(name = "findCategoriesFetchForums", query = "select c from Category as c "
-				+ "left outer join fetch c.forums "
-				+ "where c.forumInstance.id = :forumInstanceId "
+				+ "left outer join fetch c.forums " + "where c.forumInstance.id = :forumInstanceId "
 				+ "order by c.order asc"),
 		@NamedQuery(name = "getLastCategoryOrder", query = "select max(c.order) from Category "
 				+ "as c where c.forumInstance.id = :forumInstanceId") })
@@ -68,9 +66,9 @@ public class Category implements Serializable {
 	@OneToMany(mappedBy = "category", cascade = REMOVE)
 	@OrderBy("order ASC")
 	private List<Forum> forums;
-	/*
-	 * Luca Stancapiano - forumInstance field to tie category to it, so that
-	 * each forum can to get different categories
+	/**
+	 * forumInstance field to tie category to it, so that each forum can to get
+	 * different categories
 	 */
 	@ManyToOne
 	@JoinColumn(name = "JBP_FORUM_INSTANCE_ID")
@@ -101,7 +99,8 @@ public class Category implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the list of forums of the category
+	 */
 	public List<Forum> getForums() {
 		return forums;
 	}
@@ -128,7 +127,8 @@ public class Category implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the order number of the category
+	 */
 	public int getOrder() {
 		return order;
 	}
@@ -144,7 +144,8 @@ public class Category implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the title of the category
+	 */
 	public String getTitle() {
 		return title;
 	}
@@ -160,16 +161,19 @@ public class Category implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the id of teh category
+	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/*
-	 * Luca Stancapiano start - I add accessors to manage ForumInstance field so
-	 * Category is tied to the Forum Instance. Now each category belong to a
-	 * Forum Instance so that we can to get different instances of forums with
-	 * different categories and different sub objects
+	/**
+	 * Accessors to manage ForumInstance field so Category is tied to the Forum
+	 * Instance. Now each category belong to a Forum Instance so that we can to
+	 * get different instances of forums with different categories and different
+	 * sub objects
+	 * 
+	 * @return the forum instance of the category
 	 */
 	public ForumInstance getForumInstance() {
 		return forumInstance;
@@ -178,11 +182,10 @@ public class Category implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
+	 * @param forumInstance
 	 *            DOCUMENT_ME
 	 */
 	public void setForumInstance(ForumInstance forumInstance) {
 		this.forumInstance = forumInstance;
 	}
-	// Luca Stancapiano end
 }

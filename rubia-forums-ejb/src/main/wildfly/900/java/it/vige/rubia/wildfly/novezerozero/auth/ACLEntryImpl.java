@@ -151,39 +151,31 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 		this.acl = acl;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getIdentityOrRole()
+	/**
+	 * @return the current role or identity name
 	 */
 	public String getIdentityOrRole() {
 		return this.identityOrRole;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getIdentity()
+	/**
+	 * @return the current identity
 	 */
 	public Identity getIdentity() {
 		return this.identity;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.security.acl.ACLEntry#getPermission()
+	/**
+	 * @return the current permission
 	 */
 	public ACLPermission getPermission() {
 		return this.permission;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.security.acl.ACLEntry#checkPermission(org.jboss.security.acl
-	 * .ACLPermission)
+	/**
+	 * @param permission
+	 *            the permission to check
+	 * @return true if accessed
 	 */
 	public boolean checkPermission(ACLPermission permission) {
 		if (!(permission instanceof BitMaskPermission))
@@ -193,12 +185,10 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 		if (bitmaskPermission.getMaskValue() == 0)
 			return true;
 		// simple implementation: if all bits match, return true.
-		return (this.permission.getMaskValue() & bitmaskPermission
-				.getMaskValue()) == bitmaskPermission.getMaskValue();
+		return (this.permission.getMaskValue() & bitmaskPermission.getMaskValue()) == bitmaskPermission.getMaskValue();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -211,8 +201,7 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */

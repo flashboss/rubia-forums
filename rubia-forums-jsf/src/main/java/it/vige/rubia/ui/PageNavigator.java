@@ -37,8 +37,8 @@ public abstract class PageNavigator implements Serializable {
 	public static final int PAGINATION_SIZE = 8;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private int totalPages;
 	private int pageSize;
 	private int currentPage;
@@ -48,9 +48,14 @@ public abstract class PageNavigator implements Serializable {
 	private SortedSet<Integer> currentPaginationRight;
 
 	/**
-     * 
-     *
-     */
+	 * @param numberOfEntries
+	 *            the total number of entries
+	 * @param pageSize
+	 *            the number of entries in a page
+	 * @param currentPage
+	 *            the number of the current page
+	 *
+	 */
 	public PageNavigator(int numberOfEntries, int pageSize, int currentPage) {
 		if (numberOfEntries < 0) {
 			throw new IllegalStateException("PageNavigator cannot be initialized for negative number of entries");
@@ -96,45 +101,42 @@ public abstract class PageNavigator implements Serializable {
 	/**
 	 * Every non-abstract class extending this class will have to implement this
 	 * method and initialize page with objects.
+	 * 
+	 * @return the list of number pages
 	 */
 	protected abstract Collection<Integer> initializePage();
 
 	/**
-     *
-     * 
-     */
+	 * @return the total number of entries
+	 */
 	public int getNumberOfEntries() {
 		return numberOfEntries;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the total number of pages
+	 */
 	public int getTotalPages() {
 		return totalPages;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the current number of page
+	 */
 	public int getCurrentPage() {
 		return currentPage;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the number of entries in a page
+	 */
 	public int getPageSize() {
 		return pageSize;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the initial page number
+	 */
 	public int getBeginIndex() {
 		int beginIndex = 0;
 
@@ -144,9 +146,10 @@ public abstract class PageNavigator implements Serializable {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * the final number page
+	 * 
+	 * @return the final number page
+	 */
 	public int getEndIndex() {
 		int endIndex = 0;
 
@@ -159,9 +162,8 @@ public abstract class PageNavigator implements Serializable {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the number of entries in the page
+	 */
 	public Collection<Integer> getPage() {
 		if (page == null) {
 			return new ArrayList<Integer>();
@@ -170,17 +172,15 @@ public abstract class PageNavigator implements Serializable {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the current number page
+	 */
 	public String getPageNumber() {
 		return valueOf(getCurrentPage() + 1);
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return all the pages ids
+	 */
 	public int[] getPages() {
 		int[] pages = new int[getTotalPages()];
 		for (int i = 0; i < pages.length; i++) {
@@ -190,9 +190,8 @@ public abstract class PageNavigator implements Serializable {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the page number after an insert of an entry
+	 */
 	public int getPageAfterAdd() {
 		int pageAfterAdd = 0;
 
@@ -205,9 +204,10 @@ public abstract class PageNavigator implements Serializable {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param currentPage
+	 *            the current page number to set
+	 *
+	 */
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}

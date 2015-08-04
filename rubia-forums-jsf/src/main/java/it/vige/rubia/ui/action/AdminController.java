@@ -55,7 +55,9 @@ public class AdminController extends BaseController {
 	private static final long serialVersionUID = -1977660655542809904L;
 	@EJB
 	private ForumsModule forumsModule;
-	// user preference controller
+	/**
+	 * user preference controller
+	 */
 	@Inject
 	private PreferenceController userPreferences;
 
@@ -94,9 +96,9 @@ public class AdminController extends BaseController {
 	private boolean addCategoryMode;
 	private boolean addForumMode;
 
-	// ------------user
-	// preferences-------------------------------------------------------------------------------------------------------------
 	/**
+	 * User Preferences
+	 * 
 	 * @return Returns the userPreferences.
 	 */
 	public PreferenceController getUserPreferences() {
@@ -111,8 +113,6 @@ public class AdminController extends BaseController {
 		this.userPreferences = userPreferences;
 	}
 
-	// -----ui
-	// data-------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return Returns the categoryName.
 	 */
@@ -159,70 +159,66 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the selected category
+	 */
 	public int getSelectedCategory() {
 		return selectedCategory;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param selectedCategory
+	 *            the selected category
+	 */
 	public void setSelectedCategory(int selectedCategory) {
 		this.selectedCategory = selectedCategory;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the selected forum
+	 */
 	public int getSelectedForum() {
 		return selectedForum;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param selectedForum
+	 *            the selected forum
+	 */
 	public void setSelectedForum(int selectedForum) {
 		this.selectedForum = selectedForum;
 	}
 
 	/**
-     * 
-     */
+	 * @return true if the category mode is edit
+	 */
 	public boolean isEditCategoryMode() {
 		return editCategoryMode;
 	}
 
 	/**
-     * 
-     */
+	 * @return true if the forum mode is edit
+	 */
 	public boolean isEditForumMode() {
 		return editForumMode;
 	}
 
 	/**
-     * 
-     */
+	 * @return true if the category mode is add
+	 */
 	public boolean isAddCategoryMode() {
 		return addCategoryMode;
 	}
 
 	/**
-     * 
-     */
+	 * @return true if the forum mode is add
+	 */
 	public boolean isAddForumMode() {
 		return addForumMode;
 	}
 
-	// cleanup
-	// related----------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * Cleanup related
+	 */
 	public void cleanup() {
 		categoryName = null;
 		forumName = null;
@@ -235,11 +231,9 @@ public class AdminController extends BaseController {
 		addForumMode = false;
 	}
 
-	// -------------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * Start the admin controller as service
+	 */
 	@PostConstruct
 	public void startService() {
 		try {
@@ -315,6 +309,7 @@ public class AdminController extends BaseController {
 	/**
 	 * adds a category
 	 * 
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -347,6 +342,8 @@ public class AdminController extends BaseController {
 
 	/**
 	 * edit category
+	 * 
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -383,9 +380,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String deleteCategory() {
 		String navState = null;
 		boolean success = false;
@@ -432,6 +429,8 @@ public class AdminController extends BaseController {
 	/**
 	 * adds a new forum
 	 * 
+	 * @return the navigation state of the application
+	 * 
 	 */
 	public String addForum() {
 		String navState = null;
@@ -458,9 +457,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String editForum() {
 		String navState = null;
 		boolean success = false;
@@ -497,9 +496,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String deleteForum() {
 		String navState = null;
 		boolean success = false;
@@ -552,9 +551,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String moveCategoryUp() {
 		String navState = null;
 		try {
@@ -586,9 +585,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String moveCategoryDown() {
 		String navState = null;
 		try {
@@ -620,9 +619,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String moveForumUp() {
 		String navState = null;
 		try {
@@ -649,9 +648,9 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 *
+	 */
 	public String moveForumDown() {
 		String navState = null;
 		try {
@@ -678,8 +677,8 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * @return the navigation state of the application
+	 */
 	public String lockForum() {
 		try {
 			// get the forumId where this forum should be added
@@ -705,8 +704,8 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * @return the navigation state of the application
+	 */
 	public String unlockForum() {
 		try {
 			// get the forumId where this forum should be added
@@ -732,8 +731,8 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * @return the action name of the operation
+	 */
 	public String cancel() {
 		cleanup();
 		return "cancel";
