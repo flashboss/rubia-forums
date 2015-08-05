@@ -109,8 +109,8 @@ public class SplitTopic extends BaseController {
 
 	/**
 	 * This user interface action is spliting topic after post selected by user.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -167,7 +167,8 @@ public class SplitTopic extends BaseController {
 		}
 
 		// Checking if user gave subject for new topic.
-		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0 || newTopicTitle.trim().length() == 0) {
+		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0
+				|| newTopicTitle.trim().length() == 0) {
 			setWarnBundleMessage("ERR_NO_SUBJECT_GIVEN");
 			return "";
 		}
@@ -177,7 +178,8 @@ public class SplitTopic extends BaseController {
 			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
 
 			// Creating new topic in destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle, topic.getType());
+			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
+					topic.getType());
 
 			// Getting post id after which the topic must be splitted.
 			Integer selectedPostId = (Integer) checkboxes.keySet().iterator().next();
@@ -238,8 +240,8 @@ public class SplitTopic extends BaseController {
 	/**
 	 * This user interface action is spliting topic bh=y moving all selected by
 	 * user posts into newly created topic.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -280,7 +282,8 @@ public class SplitTopic extends BaseController {
 		}
 
 		// Checking if user gave subject for new topic.
-		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0 || newTopicTitle.trim().length() == 0) {
+		if (newTopicTitle == null || newTopicTitle.trim().compareToIgnoreCase("-1") == 0
+				|| newTopicTitle.trim().length() == 0) {
 			setWarnBundleMessage("ERR_NO_SUBJECT_GIVEN");
 			return "";
 		}
@@ -289,7 +292,8 @@ public class SplitTopic extends BaseController {
 			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
 
 			// Creating new topic in selected destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle, topic.getType());
+			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
+					topic.getType());
 
 			// Moving all selected posts to new topic.
 			selectIt = checkboxes.keySet().iterator();
@@ -333,8 +337,8 @@ public class SplitTopic extends BaseController {
 	 * Bean's attributes initialization.
 	 * 
 	 * @throws Exception
+	 *             the error exception
 	 */
-
 	@PostConstruct
 	public void execute() throws Exception {
 		// parse input data

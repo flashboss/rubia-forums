@@ -52,8 +52,8 @@ public abstract class ViewMyForumsBase extends BaseController {
 	public abstract void setWatchedTopics(Collection<Topic> watchedTopics);
 
 	/**
-     * 
-     */
+	 * @return a map of the last posts and respective topics
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Map<Object, Object> getTopicsLastPosts() {
@@ -77,8 +77,9 @@ public abstract class ViewMyForumsBase extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * @param topicsLastPosts
+	 *            the last posts of the topics
+	 */
 	public void setTopicsLastPosts(Map<Object, Object> topicsLastPosts) {
 		this.topicsLastPosts = topicsLastPosts;
 	}
@@ -97,8 +98,9 @@ public abstract class ViewMyForumsBase extends BaseController {
 	public abstract void setUserPreferences(PreferenceController userPreferences);
 
 	/**
-     * 
-     */
+	 * @throws Exception
+	 *             an error exception is launched
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public void execute() throws Exception {
@@ -110,13 +112,14 @@ public abstract class ViewMyForumsBase extends BaseController {
 		if (topics != null) {
 			for (Topic courTopic : topics) {
 				if (courTopic.getReplies() > 0) {
-					PageNavigator topicNav = new PageNavigator(courTopic.getReplies() + 1, getUserPreferences().getPostsPerTopic(), // this
-																																	// is
-																																	// user's
-																																	// posts
-																																	// per
-																																	// page
-																																	// preference
+					PageNavigator topicNav = new PageNavigator(courTopic.getReplies() + 1,
+							getUserPreferences().getPostsPerTopic(), // this
+																		// is
+																		// user's
+																		// posts
+																		// per
+																		// page
+																		// preference
 							0 // current page of the navigator
 					) {
 						/**

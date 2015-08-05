@@ -89,36 +89,38 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @return the current watch
+	 */
 	public Watch getWatch() {
 		return watch;
 	}
 
 	/**
-     * 
-     */
+	 * @param watch
+	 *            the current watch to set
+	 */
 	public void setWatch(Watch watch) {
 		this.watch = watch;
 	}
 
 	/**
-     * 
-     */
+	 * @return the current topic id
+	 */
 	public int getTopicId() {
 		return topicId;
 	}
 
 	/**
-     * 
-     */
+	 * @param topicId
+	 *            the topic id to set
+	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
 
 	/**
-     * 
-     */
+	 * @return the list of watched topics
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getWatchedTopics() {
@@ -136,8 +138,8 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @return the map of watched topics
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Map<Object, Object> getTopicWatches() {
@@ -155,8 +157,9 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @param watchedTopics
+	 *            the watched topics to set
+	 */
 	public void setWatchedTopics(Collection<Topic> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}

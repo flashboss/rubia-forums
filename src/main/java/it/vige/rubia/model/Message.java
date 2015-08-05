@@ -64,7 +64,8 @@ public class Message implements Serializable, Cloneable {
 	}
 
 	/**
-    */
+	 * @return the subject of the message
+	 */
 	public String getSubject() {
 		return subject;
 	}
@@ -80,7 +81,8 @@ public class Message implements Serializable, Cloneable {
 	}
 
 	/**
-    */
+	 * @return the text of the message
+	 */
 	public String getText() {
 		return text;
 	}

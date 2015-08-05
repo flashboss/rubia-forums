@@ -137,8 +137,8 @@ public class ModeratorAction extends BaseController {
 
 	/**
 	 * UI Action for deleting topic(s) from the forum.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -170,8 +170,8 @@ public class ModeratorAction extends BaseController {
 
 	/**
 	 * UI Action for moveing topic(s) from one forum to other.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -204,12 +204,10 @@ public class ModeratorAction extends BaseController {
 					}
 
 					topic.setForum(forumDest);
-					forumDest.setPostCount(forumDest.getPostCount()
-							+ topic.getReplies() + 1);
+					forumDest.setPostCount(forumDest.getPostCount() + topic.getReplies() + 1);
 					forumDest.setTopicCount(forumDest.getTopicCount() + 1);
 
-					forum.setPostCount(forum.getPostCount()
-							- topic.getReplies() - 1);
+					forum.setPostCount(forum.getPostCount() - topic.getReplies() - 1);
 					forum.setTopicCount(forum.getTopicCount() - 1);
 					forumsModule.update(forum);
 					forumsModule.update(forumDest);
@@ -229,8 +227,8 @@ public class ModeratorAction extends BaseController {
 
 	/**
 	 * UI Action for locking selected topic(s).
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -265,8 +263,8 @@ public class ModeratorAction extends BaseController {
 
 	/**
 	 * UI Action for unlocking selected topic(s).
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -301,8 +299,8 @@ public class ModeratorAction extends BaseController {
 	/**
 	 * Action checking if user selected at least one topic and forwards him to
 	 * delete confirmation view.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -320,8 +318,8 @@ public class ModeratorAction extends BaseController {
 	/**
 	 * Action checking if user selected at least one topic and forwards him to
 	 * move topic view.
-	 * 
-	 * @return
+	 *
+	 * @return the name of the operation
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -339,8 +337,8 @@ public class ModeratorAction extends BaseController {
 	/**
 	 * Method checks if user selected at least one topic from checkboxes or
 	 * there is topic id sent in request.
-	 * 
-	 * @return
+	 *
+	 * @return true if almost one checkbox is selected
 	 */
 	public boolean isAnyCheckboxSelected() {
 		// Looking for selected topicId's in checkboxes Map
@@ -427,14 +425,12 @@ public class ModeratorAction extends BaseController {
 
 	private void setWarnBundleMessage(String bundleKey) {
 		String message = getBundleMessage("ResourceJSF", bundleKey);
-		getCurrentInstance().addMessage("message",
-				new FacesMessage(SEVERITY_WARN, message, "moderate"));
+		getCurrentInstance().addMessage("message", new FacesMessage(SEVERITY_WARN, message, "moderate"));
 	}
 
 	private void setInfoBundleMessage(String bundleKey) {
 		String message = getBundleMessage("ResourceJSF", bundleKey);
-		getCurrentInstance().addMessage("message",
-				new FacesMessage(SEVERITY_INFO, message, "moderate"));
+		getCurrentInstance().addMessage("message", new FacesMessage(SEVERITY_INFO, message, "moderate"));
 	}
 
 	private void updateStatus(Topic topic, int status) {
@@ -448,8 +444,7 @@ public class ModeratorAction extends BaseController {
 
 	public int getLastPageNumber() {
 		if (forum != null)
-			return forum.getTopicCount() / userPreferences.getTopicsPerForum()
-					+ 1;
+			return forum.getTopicCount() / userPreferences.getTopicsPerForum() + 1;
 		else
 			return 1;
 	}

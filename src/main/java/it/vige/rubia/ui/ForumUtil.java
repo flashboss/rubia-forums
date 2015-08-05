@@ -25,9 +25,10 @@ import java.util.Date;
  */
 public class ForumUtil {
 	/**
-	 * 
+	 *
 	 * @param param
-	 * @return
+	 *            the param to find
+	 * @return the param of the request
 	 */
 	public static String getParameter(String param) {
 		String parameter = null;
@@ -38,9 +39,11 @@ public class ForumUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param input
+	 *            the percent number to convert
+	 * @return the converted percent number
+	 *
+	 */
 	public static String getPercentStr(double input) {
 		String percent = "";
 
@@ -60,22 +63,22 @@ public class ForumUtil {
 	public static boolean isFeedsConfigured() {
 		return true;
 	}
-    
-    /**
-     * 
-     *
-     */
-    public static String getDateStr(Date date)
-    {
-        String dateStr = "";
-                        
-        if(date!=null)
-        {
-            dateStr = getSDF().format(date);
-        }
-        
-        
-        return dateStr;
-    }
+
+	/**
+	 * @param date
+	 *            the date to convert
+	 *
+	 * @return the converted date
+	 *
+	 */
+	public static String getDateStr(Date date) {
+		String dateStr = "";
+
+		if (date != null) {
+			dateStr = getSDF().format(date);
+		}
+
+		return dateStr;
+	}
 
 }

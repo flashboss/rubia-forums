@@ -67,9 +67,8 @@ public class EditPost extends PostAction {
 	// action processing
 	// methods-----------------------------------------------------------------------------------------------------
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String start() {
@@ -125,9 +124,8 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String deletePoll() {
@@ -147,9 +145,8 @@ public class EditPost extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String execute() {
@@ -168,8 +165,7 @@ public class EditPost extends PostAction {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME,
-						TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
 			}
 
 			// setup the message/subject related data
@@ -203,8 +199,7 @@ public class EditPost extends PostAction {
 			if (topic.getPoll() == null || topic.getPoll().getTitle() == null
 					|| topic.getPoll().getTitle().trim().length() == 0) {
 				// no existing poll information found in the database
-				if (localPollOptions.size() > 0 && question != null
-						&& question.trim().length() > 0) {
+				if (localPollOptions.size() > 0 && question != null && question.trim().length() > 0) {
 					// need to add a new poll to this topic
 					Poll poll = createPoll();
 					poll.setTitle(question);
@@ -226,16 +221,12 @@ public class EditPost extends PostAction {
 					poll.setCreationDate(topic.getPoll().getCreationDate());
 
 					for (PollOption newPollOption : localPollOptions) {
-						Iterator<PollOption> stored = topic.getPoll()
-								.getOptions().iterator();
+						Iterator<PollOption> stored = topic.getPoll().getOptions().iterator();
 						while (stored.hasNext()) {
-							PollOption oldPollOption = (PollOption) stored
-									.next();
+							PollOption oldPollOption = (PollOption) stored.next();
 							if (oldPollOption != null
-									&& oldPollOption.getQuestion().equals(
-											newPollOption.getQuestion())) {
-								newPollOption
-										.setVotes(oldPollOption.getVotes());
+									&& oldPollOption.getQuestion().equals(newPollOption.getQuestion())) {
+								newPollOption.setVotes(oldPollOption.getVotes());
 								break;
 							}
 						}

@@ -95,16 +95,17 @@ public class PreferenceController extends BaseController {
 
 	// ------accessors-------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * @return true if notification of a reply is selected
+	 */
 	public boolean isNotifyOnReply() {
 		return this.notifyOnReply;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param notifyOnReply
+	 *            notification for the replies
+	 *
+	 */
 	public void setNotifyOnReply(boolean notifyOnReply) {
 		this.notifyOnReply = notifyOnReply;
 	}
@@ -193,64 +194,70 @@ public class PreferenceController extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the selected summary mode. It can be:
+	 *         BLOCK_TOPICS_MODE_HOT_TOPICS, BLOCK_TOPICS_MODE_HOTTEST_TOPICS,
+	 *         BLOCK_TOPICS_MODE_LATEST_POSTS or BLOCK_TOPICS_MODE_MOST_VIEWED
+	 *
+	 */
 	public SummaryMode getSummaryMode() {
 		return summaryMode;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param summaryMode
+	 *            the summary mode to select
 	 */
 	public void setSummaryMode(SummaryMode summaryMode) {
 		this.summaryMode = summaryMode;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the maximum limit of the topics in the summary
+	 *
+	 */
 	public int getSummaryTopicLimit() {
 		return summaryTopicLimit;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param summaryTopicLimit
+	 *            the maximum limit of the topics in the summary
 	 */
 	public void setSummaryTopicLimit(int summaryTopicLimit) {
 		this.summaryTopicLimit = summaryTopicLimit;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the number of days of the topics to show in the summary
+	 *
+	 */
 	public int getSummaryTopicDays() {
 		return this.summaryTopicDays;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param summaryTopicDays
+	 *            the number of days of the topics to show in the summary
 	 */
 	public void setSummaryTopicDays(int summaryTopicDays) {
 		this.summaryTopicDays = summaryTopicDays;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the maximum number of topics to show in the summary
+	 *
+	 */
 	public int getSummaryTopicReplies() {
 		return summaryTopicReplies;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param summaryTopicReplies
+	 *            the maximum number of topics to show in the summary
 	 */
 	public void setSummaryTopicReplies(int summaryTopicReplies) {
 		this.summaryTopicReplies = summaryTopicReplies;

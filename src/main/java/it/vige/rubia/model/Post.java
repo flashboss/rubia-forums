@@ -58,49 +58,34 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 		@NamedQuery(name = "findPostsByTopicIdasc", query = "select p from Post as p where p.topic=:topicId order by p.createDate asc"),
 		@NamedQuery(name = "findPostsByTopicIddesc", query = "select p from Post as p where p.topic=:topicId order by p.createDate desc"),
 		@NamedQuery(name = "findPostsByIdsFetchAttachmentsAndPostersasc", query = "select p from Post as p "
-				+ "join fetch p.poster "
-				+ "left outer join fetch p.attachments "
-				+ "where p.id IN ( :postIds ) " + "order by p.createDate asc"),
-		@NamedQuery(name = "findPostsByIdsFetchAttachmentsAndPostersdesc", query = "select p from Post as p "
-				+ "join fetch p.poster "
-				+ "left outer join fetch p.attachments "
-				+ "where p.id IN ( :postIds ) " + "order by p.createDate desc"),
-		@NamedQuery(name = "findPostIdsasc", query = "select p.id "
-				+ "from Post as p " + "where p.topic=:topicId "
+				+ "join fetch p.poster " + "left outer join fetch p.attachments " + "where p.id IN ( :postIds ) "
 				+ "order by p.createDate asc"),
-		@NamedQuery(name = "findPostIdsdesc", query = "select p.id "
-				+ "from Post as p " + "where p.topic=:topicId "
+		@NamedQuery(name = "findPostsByIdsFetchAttachmentsAndPostersdesc", query = "select p from Post as p "
+				+ "join fetch p.poster " + "left outer join fetch p.attachments " + "where p.id IN ( :postIds ) "
+				+ "order by p.createDate desc"),
+		@NamedQuery(name = "findPostIdsasc", query = "select p.id " + "from Post as p " + "where p.topic=:topicId "
+				+ "order by p.createDate asc"),
+		@NamedQuery(name = "findPostIdsdesc", query = "select p.id " + "from Post as p " + "where p.topic=:topicId "
 				+ "order by p.createDate desc"),
 		@NamedQuery(name = "findPostsByTopicIdNoOrder", query = "select p from Post as p where p.topic=:topicId"),
 		@NamedQuery(name = "findLastPostDateForUser", query = "select max(p.createDate) from Post as p where p.poster.userId = :userId"),
-		@NamedQuery(name = "findLastPost", query = "select p "
-				+ "from Post as p " + "join fetch p.poster "
-				+ "where p.createDate = ( "
-				+ "select DISTINCT MAX(tc.lastPostDate) " + "from Topic as tc "
+		@NamedQuery(name = "findLastPost", query = "select p " + "from Post as p " + "join fetch p.poster "
+				+ "where p.createDate = ( " + "select DISTINCT MAX(tc.lastPostDate) " + "from Topic as tc "
 				+ "where tc.forum = :forumId " + ")"),
-		@NamedQuery(name = "findFirstPost", query = "select p "
-				+ "from Post as p " + "join fetch p.poster "
-				+ "where p.topic = :topicId "
-				+ "AND p.createDate = :lastPostDate"),
+		@NamedQuery(name = "findFirstPost", query = "select p " + "from Post as p " + "join fetch p.poster "
+				+ "where p.topic = :topicId " + "AND p.createDate = :lastPostDate"),
 		@NamedQuery(name = "findLastPostOrder", query = "select p from Post as p where p.topic  = :topicId order by p.createDate desc"),
 		@NamedQuery(name = "findLastPostsOfTopics", query = "select tc.lastPostDate as maxDate , tc.id "
 				+ "from Topic as tc " + "where tc.forum.id = :forumId"),
-		@NamedQuery(name = "findLastPostsOfTopicsCreateDate", query = "select pt.createDate, pt "
-				+ "from Post as pt "
-				+ "join fetch pt.poster "
-				+ "where pt.createDate IN (:dates) " + "order by pt.createDate"),
+		@NamedQuery(name = "findLastPostsOfTopicsCreateDate", query = "select pt.createDate, pt " + "from Post as pt "
+				+ "join fetch pt.poster " + "where pt.createDate IN (:dates) " + "order by pt.createDate"),
 		@NamedQuery(name = "findLastPostsOfForums", query = "select MAX(tc.lastPostDate) as maxDate , tc.forum.id "
-				+ "from Topic as tc "
-				+ "where tc.forum.category.forumInstance.id = :forumInstanceId "
+				+ "from Topic as tc " + "where tc.forum.category.forumInstance.id = :forumInstanceId "
 				+ "group by tc.forum.id"),
-		@NamedQuery(name = "findLastPostsOfForumsCreateDate", query = "select pt.createDate, pt "
-				+ "from Post as pt "
-				+ "join fetch pt.poster "
-				+ "where pt.createDate IN (:dates) " + "order by pt.createDate"),
-		@NamedQuery(name = "findPostsOrderasc", query = "select p from Post as p order "
-				+ "by p.createDate asc"),
-		@NamedQuery(name = "findPostsOrderdesc", query = "select p from Post as p order "
-				+ "by p.createDate desc") })
+		@NamedQuery(name = "findLastPostsOfForumsCreateDate", query = "select pt.createDate, pt " + "from Post as pt "
+				+ "join fetch pt.poster " + "where pt.createDate IN (:dates) " + "order by pt.createDate"),
+		@NamedQuery(name = "findPostsOrderasc", query = "select p from Post as p order " + "by p.createDate asc"),
+		@NamedQuery(name = "findPostsOrderdesc", query = "select p from Post as p order " + "by p.createDate desc") })
 @Indexed(index = "indexes/posts")
 @Entity
 @Table(name = "JBP_FORUMS_POSTS")
@@ -176,7 +161,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the topic of the post
+	 */
 	public Topic getTopic() {
 		return topic;
 	}
@@ -211,7 +197,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the number of updates of the topic
+	 */
 	public int getEditCount() {
 		return count;
 	}
@@ -227,7 +214,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the edit date of the post
+	 */
 	public Date getEditDate() {
 		return date;
 	}
@@ -243,7 +231,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the id of the post
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -259,7 +248,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the create date of the post
+	 */
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -275,7 +265,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the message of the post
+	 */
 	public Message getMessage() {
 		return message;
 	}
@@ -291,7 +282,8 @@ public class Post implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the poster user of the post
+	 */
 	public Poster getPoster() {
 		return poster;
 	}
@@ -308,7 +300,8 @@ public class Post implements Serializable {
 
 	// TODO:BD - order it by something... is name ok?
 	/**
-    */
+	 * @return the attachments list of the post
+	 */
 	public Collection<Attachment> getAttachments() {
 		return attachments;
 	}

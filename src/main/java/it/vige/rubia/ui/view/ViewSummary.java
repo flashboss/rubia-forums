@@ -67,8 +67,8 @@ public class ViewSummary extends BaseController {
 	// components like
 	// facelets---------------------------------------------------------------------------------------
 	/**
-	 * 
-	 * @return
+	 *
+	 * @return the list of topics in the summary
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -80,8 +80,8 @@ public class ViewSummary extends BaseController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 *
+	 * @return the number of topics found
 	 */
 	public String getNumberOfTopicsFound() {
 		return String.valueOf(getTopics().size());
@@ -105,9 +105,10 @@ public class ViewSummary extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * 
+	 * @throws Exception
+	 *             the error exception
+	 */
 	@PostConstruct
 	public void execute() throws Exception {
 		// load the topics
@@ -115,11 +116,11 @@ public class ViewSummary extends BaseController {
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------------------------
-	/**
+    /**
 	 * This method returns the blockTopicType based on the summaryMode set for
 	 * this application
-	 * 
-	 * @return
+	 *
+	 * @return the block topics type
 	 */
 	public String getBlockTopicsType() {
 		return userPreferences.getSummaryMode().name();

@@ -32,6 +32,7 @@ public class ACLOtherwiseTagHandler extends TagHandler {
 
 	/**
 	 * @param config
+	 *            the configuration tag for the handler
 	 */
 	public ACLOtherwiseTagHandler(TagConfig config) {
 		super(config);

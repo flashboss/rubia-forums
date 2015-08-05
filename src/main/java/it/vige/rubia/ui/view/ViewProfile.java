@@ -46,6 +46,9 @@ public class ViewProfile extends BaseController {
 	/**
 	 * This method gets userId from parameters and tries to find Poster with
 	 * this uid.
+	 * 
+	 * @throws Exception
+	 *             the error exception
 	 */
 	@PostConstruct
 	public void execute() throws Exception {

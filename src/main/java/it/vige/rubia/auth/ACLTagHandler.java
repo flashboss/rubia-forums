@@ -34,6 +34,7 @@ public class ACLTagHandler extends TagHandler {
 
 	/**
 	 * @param config
+	 *            the configuration tag for the handler
 	 */
 	public ACLTagHandler(TagConfig config) {
 		super(config);
@@ -56,10 +57,8 @@ public class ACLTagHandler extends TagHandler {
 	 * represented by "nextHandler"
 	 */
 	@TransactionAttribute
-	public void apply(FaceletContext ctx, UIComponent parent)
-			throws IOException, FacesException, ELException {
-		ForumsACLProvider forumsACLProvider = (ForumsACLProvider) forumsACLProviderAttr
-				.getObject(ctx);
+	public void apply(FaceletContext ctx, UIComponent parent) throws IOException, FacesException, ELException {
+		ForumsACLProvider forumsACLProvider = (ForumsACLProvider) forumsACLProviderAttr.getObject(ctx);
 		UserModule userModule = (UserModule) userModuleAttr.getObject(ctx);
 		// make sure an authorization provider has been hooked in
 		boolean skipAuth = false;
@@ -86,8 +85,8 @@ public class ACLTagHandler extends TagHandler {
 		if (this.contextData != null) {
 			contextStr = contextData.getValue();
 		}
-		boolean isAccessAllowed = new ACLRenderingController().aclCheck(
-				resource, contextStr, forumsACLProvider, userModule, ctx);
+		boolean isAccessAllowed = new ACLRenderingController().aclCheck(resource, contextStr, forumsACLProvider,
+				userModule, ctx);
 
 		if (isAccessAllowed) {
 			nextHandler.apply(ctx, parent);

@@ -51,7 +51,8 @@ public class PollController extends BaseController {
 
 	/**
 	 * accepts a vote and processes it
-	 * 
+	 *
+	 * @return the navigation state of the application
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)

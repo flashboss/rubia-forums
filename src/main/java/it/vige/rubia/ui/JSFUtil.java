@@ -36,15 +36,19 @@ import javax.faces.context.FacesContext;
 public class JSFUtil {
 
 	/**
-	 * 
+	 *
 	 * @author sshah
-	 * 
+	 *
+	 * @param name
+	 *            the name to find in the request
+	 *
+	 * @return the found parameter of the request
+	 *
 	 */
 	public static String getRequestParameter(String name) {
 		String parameter = null;
 
-		Map<String, String> requestParameterMap = getCurrentInstance()
-				.getExternalContext().getRequestParameterMap();
+		Map<String, String> requestParameterMap = getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap != null) {
 			parameter = requestParameterMap.get(name);
 		}
@@ -53,36 +57,32 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return true if the application is inside a portal
+	 *
+	 */
 	public static boolean isRunningInPortal() {
 		boolean isRunningInPortal = false;
 		return isRunningInPortal;
 	}
 
 	/**
-     * 
-     * 
-     */
+	 * @return the context path of the application
+	 */
 	public static String getContextPath() {
 		String contextPath = "";
 
-		contextPath = getCurrentInstance().getExternalContext()
-				.getRequestContextPath();
+		contextPath = getCurrentInstance().getExternalContext().getRequestContextPath();
 
 		return contextPath;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return true if the user is not logged
 	 */
 	public static boolean isAnonymous() {
 		boolean anonymous = true;
 
-		String remoteUser = getCurrentInstance().getExternalContext()
-				.getRemoteUser();
+		String remoteUser = getCurrentInstance().getExternalContext().getRemoteUser();
 		if (remoteUser != null && remoteUser.trim().length() > 0) {
 			anonymous = false;
 		}
@@ -91,10 +91,14 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author sshah
-	 * 
-	 * 
+	 *
+	 * @param componentId
+	 *            the id component to check
+	 *
+	 * @return the value of the choosen component
+	 *
 	 */
 	public static String getComponentValue(String componentId) {
 		String value = null;
@@ -103,8 +107,7 @@ public class JSFUtil {
 		UIComponent component = root.findComponent(componentId);
 
 		if (component != null) {
-			Object o = component.getValueExpression("value").getValue(
-					getCurrentInstance().getELContext());
+			Object o = component.getValueExpression("value").getValue(getCurrentInstance().getELContext());
 			value = (String) o;
 		}
 
@@ -112,10 +115,12 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author sshah
-	 * 
-	 * 
+	 *
+	 * @param componentId
+	 *            the id component to check
+	 *
 	 */
 	public static void removeComponent(String componentId) {
 		UIViewRoot root = getCurrentInstance().getViewRoot();
@@ -128,15 +133,20 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author sshah
-	 * 
+	 *
+	 * @param e
+	 *            the exception to handle
+	 *
+	 * @return the navigation state of the application
+	 *
 	 */
 	public static String handleException(Exception e) {
 		String genericNavState = ERROR;
 		String msg = e.toString();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(ERROR, message);
@@ -145,8 +155,8 @@ public class JSFUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 *
+	 * @return the current error message
 	 */
 	public static String getErrorMsg() {
 		String errorMsg = null;
@@ -163,9 +173,8 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return true if there is an error in the application context
+	 */
 	public static boolean isErrorOccurred() {
 		boolean errorOccurred = false;
 
@@ -178,33 +187,39 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param id
+	 *            the id of the message to create
+	 * @param msg
+	 *            the text of the message to create
+	 */
 	public static void setMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(id, message);
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param id
+	 *            the id of the error message to create
+	 * @param msg
+	 *            the text of the error message to create
+	 */
 	public static void setErrorMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,// severity
-				msg,// summary
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+				msg, // summary
 				msg// detail
 		);
 		getCurrentInstance().addMessage(id, message);
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param id
+	 *            the id of the message to find
+	 *
+	 * @return the text of the message
+	 */
 	public static String getMessage(String id) {
 		String msg = null;
 
@@ -220,9 +235,13 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @param bundleName
+	 *            the name of the bundle
+	 * @param messageKey
+	 *            the key of the bundle to find
+	 *
+	 * @return the value for the requested id
+	 */
 	public static String getBundleMessage(String bundleName, String messageKey) {
 		String bundleMessage = null;
 
@@ -239,22 +258,22 @@ public class JSFUtil {
 	}
 
 	/**
-     * 
-     */
+	 * @return the current localization of the application
+	 */
 	public static Locale getSelectedLocale() {
 		return getCurrentInstance().getExternalContext().getRequestLocale();
 	}
 
 	/**
-     * 
-     */
+	 * @return the default localization of the application
+	 */
 	public static Locale getDefaultLocale() {
 		return getCurrentInstance().getApplication().getDefaultLocale();
 	}
 
 	/**
-     * 
-     */
+	 * @return the list of supported localizations in the application
+	 */
 	public static Iterator<Locale> getSupportedLocales() {
 		return getCurrentInstance().getApplication().getSupportedLocales();
 	}

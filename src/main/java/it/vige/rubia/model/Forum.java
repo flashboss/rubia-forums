@@ -55,15 +55,13 @@ import org.hibernate.search.annotations.Store;
 		@NamedQuery(name = "findForumByIdFetchTopics", query = "select f from Forum f left outer "
 				+ "join fetch f.topics where f.id = :forumId"),
 		@NamedQuery(name = "findForums", query = "select f from Forum as f "
-				+ "where f.category.forumInstance.id = :forumInstanceId "
-				+ "order by f.order asc"),
+				+ "where f.category.forumInstance.id = :forumInstanceId " + "order by f.order asc"),
 		@NamedQuery(name = "findForumsByCategoryId", query = "select f from Forum as f where f.category=:categoryId "
 				+ "order by f.order asc"),
 		@NamedQuery(name = "getLastForumOrder", query = "select max(f.order) from Forum as "
 				+ "f where f.category.id = :categoryId"),
 		@NamedQuery(name = "findPostsFromCategoryasc", query = "select p from Forum as f join f.topics "
-				+ "as t join t.posts as p where f.category.id = :categoryId order by p.createDate "
-				+ "asc"),
+				+ "as t join t.posts as p where f.category.id = :categoryId order by p.createDate " + "asc"),
 		@NamedQuery(name = "findPostsFromCategorydesc", query = "select p from Forum as f join f.topics as "
 				+ "t join t.posts as p where f.category.id = :categoryId order by p.createDate desc") })
 @Entity
@@ -132,11 +130,12 @@ public class Forum implements Serializable {
 	private Collection<Watch> watch;
 
 	@ManyToMany
-	@JoinTable(name = "JBP_FORUMS_FORUMSWATCH", joinColumns = @JoinColumn(name = "JBP_FORUM_ID"), inverseJoinColumns = @JoinColumn(name = "JBP_ID"))
+	@JoinTable(name = "JBP_FORUMS_FORUMSWATCH", joinColumns = @JoinColumn(name = "JBP_FORUM_ID") , inverseJoinColumns = @JoinColumn(name = "JBP_ID") )
 	private List<Watch> watches;
 
 	/**
-    */
+	 * @return the category of teh forum
+	 */
 	public Category getCategory() {
 		return category;
 	}
@@ -152,7 +151,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the description of the forum
+	 */
 	public String getDescription() {
 		return description;
 	}
@@ -168,7 +168,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the id of the forum
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -183,7 +184,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the name of the forum
+	 */
 	public String getName() {
 		return name;
 	}
@@ -199,7 +201,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the order number of the forum
+	 */
 	public int getOrder() {
 		return order;
 	}
@@ -215,7 +218,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the number of topics of the forum
+	 */
 	public int getTopicCount() {
 		return topicCount;
 	}
@@ -238,7 +242,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the posts count of the forum
+	 */
 	public int getPostCount() {
 		return postCount;
 	}
@@ -263,6 +268,8 @@ public class Forum implements Serializable {
 	/**
 	 * _@___ hibernate.property column="jbp_prune_enable" unique="false"
 	 * update="true"
+	 *
+	 * @return the prune enable
 	 */
 	public boolean getPruneEnable() {
 		// return pruneEnable;
@@ -271,7 +278,7 @@ public class Forum implements Serializable {
 
 	/**
 	 * DOCUMENT_ME
-	 * 
+	 *
 	 * @param enable
 	 *            DOCUMENT_ME
 	 */
@@ -282,7 +289,10 @@ public class Forum implements Serializable {
 	/**
 	 * _@___ hibernate.property column="jbp_prune_next" unique="false"
 	 * update="true"
+	 *
+	 * @return the next prune of the forum
 	 */
+
 	public int getPruneNext() {
 		// return pruneNext;
 		return 0;
@@ -299,7 +309,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the status of the forum
+	 */
 	public int getStatus() {
 		return status;
 	}
@@ -315,7 +326,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the topics of the forum
+	 */
 	public List<Topic> getTopics() {
 		return topics;
 
@@ -332,7 +344,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the forum watches of the forum
+	 */
 	public Collection<Watch> getForumWatch() {
 		return watch;
 	}
@@ -348,7 +361,8 @@ public class Forum implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the watches of the forum
+	 */
 	public List<Watch> getWatches() {
 		return watches;
 	}

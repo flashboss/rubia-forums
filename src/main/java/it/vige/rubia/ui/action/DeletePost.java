@@ -68,8 +68,9 @@ public class DeletePost extends BaseController {
 	}
 
 	/**
-     * 
-     */
+	 * @throws Exception
+	 *             the error exception
+	 */
 	@PostConstruct
 	public void execute() throws Exception {
 		// get the post id
@@ -86,8 +87,8 @@ public class DeletePost extends BaseController {
 
 	// actions---------------------------------------------------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String confirmDelete() {

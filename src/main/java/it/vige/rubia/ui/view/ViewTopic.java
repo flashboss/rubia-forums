@@ -85,8 +85,7 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @return the current topic
 	 */
 	public Topic getTopic() {
 		return topic;
@@ -97,32 +96,28 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * 
-	 *
+	 * @param postDays
+	 *            the post days
 	 */
 	public void setPostDays(long postDays) {
 		this.postDays = postDays;
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the post days
+	 */
 	public long getPostDays() {
 		return postDays;
 	}
 
 	/**
-    * 
-    *
-    */
+	 * @return true if a poll is present in the topic
+	 */
 	public boolean isPollPresent() {
 		boolean isPollPresent = false;
 
-		if (topic.getPoll() != null && topic.getPoll().getId() != null
-				&& topic.getPoll().getId().intValue() > 0
-				&& topic.getPoll().getOptions() != null
-				&& !topic.getPoll().getOptions().isEmpty()) {
+		if (topic.getPoll() != null && topic.getPoll().getId() != null && topic.getPoll().getId().intValue() > 0
+				&& topic.getPoll().getOptions() != null && !topic.getPoll().getOptions().isEmpty()) {
 			isPollPresent = true;
 		}
 
@@ -130,9 +125,8 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-    * 
-    *
-    */
+	 * @return true if a ballot is present in the topic
+	 */
 	public boolean isBallotView() {
 		boolean isBallotView = true; // in ballot view by default
 
@@ -157,9 +151,8 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-    * 
-    *
-    */
+	 * @return the posts of the current topic
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Post> getTopics() {
@@ -186,6 +179,9 @@ public class ViewTopic extends BaseController {
 	/**
 	 * This method gets topicId from parameters and tries to find topic with
 	 * that id.
+	 * 
+	 * @throws Exception
+	 *             the error exception
 	 */
 	@PostConstruct
 	public void execute() throws Exception {
@@ -236,17 +232,13 @@ public class ViewTopic extends BaseController {
 				// default
 				if (postOrder.compareToIgnoreCase("ascending") == 0) {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsAsc(
-							topic, 0, 0);
-					topics = forumsModule
-							.findPostsByIdsAscFetchAttachmentsAndPosters(pagePosts);
+					Collection<Post> pagePosts = forumsModule.findPostIdsAsc(topic, 0, 0);
+					topics = forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(pagePosts);
 
 				} else {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsDesc(
-							topic, 0, 0);
-					topics = forumsModule
-							.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
+					Collection<Post> pagePosts = forumsModule.findPostIdsDesc(topic, 0, 0);
+					topics = forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
 
 				}
 				topicsDataModel = new ListDataModel<Post>(topics);

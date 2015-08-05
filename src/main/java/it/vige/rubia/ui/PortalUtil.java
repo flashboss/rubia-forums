@@ -104,10 +104,8 @@ public class PortalUtil {
 		TEMP_VIEW_NAME_TO_ID.put("/views/admin/deleteForum.xhtml", "d");
 
 		// category views
-		TEMP_VIEW_ID_TO_NAME
-				.put("c", "/views/category/viewcategory_body.xhtml");
-		TEMP_VIEW_NAME_TO_ID
-				.put("/views/category/viewcategory_body.xhtml", "c");
+		TEMP_VIEW_ID_TO_NAME.put("c", "/views/category/viewcategory_body.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/category/viewcategory_body.xhtml", "c");
 
 		// common views
 		TEMP_VIEW_ID_TO_NAME.put("b", "/views/common/common.xhtml");
@@ -177,30 +175,20 @@ public class PortalUtil {
 		TEMP_VIEW_ID_TO_NAME.put("pa", "/views/topics/attachmentsview.xhtml");
 		TEMP_VIEW_NAME_TO_ID.put("/views/topics/attachmentsview.xhtml", "pa");
 
-		TEMP_VIEW_ID_TO_NAME.put("pe",
-				"/views/topics/posting_edit_preview.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_edit_preview.xhtml",
-				"pe");
+		TEMP_VIEW_ID_TO_NAME.put("pe", "/views/topics/posting_edit_preview.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_edit_preview.xhtml", "pe");
 
-		TEMP_VIEW_ID_TO_NAME.put("pi",
-				"/views/topics/posting_new_preview.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_new_preview.xhtml",
-				"pi");
+		TEMP_VIEW_ID_TO_NAME.put("pi", "/views/topics/posting_new_preview.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_new_preview.xhtml", "pi");
 
-		TEMP_VIEW_ID_TO_NAME.put("pr",
-				"/views/topics/posting_reply_preview.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_reply_preview.xhtml",
-				"pr");
+		TEMP_VIEW_ID_TO_NAME.put("pr", "/views/topics/posting_reply_preview.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/topics/posting_reply_preview.xhtml", "pr");
 
-		TEMP_VIEW_ID_TO_NAME.put("pc",
-				"/views/topics/viewtopic_poll_ballot.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/topics/viewtopic_poll_ballot.xhtml",
-				"pc");
+		TEMP_VIEW_ID_TO_NAME.put("pc", "/views/topics/viewtopic_poll_ballot.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/topics/viewtopic_poll_ballot.xhtml", "pc");
 
-		TEMP_VIEW_ID_TO_NAME.put("pk",
-				"/views/topics/viewtopic_poll_result.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/topics/viewtopic_poll_result.xhtml",
-				"pk");
+		TEMP_VIEW_ID_TO_NAME.put("pk", "/views/topics/viewtopic_poll_result.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/topics/viewtopic_poll_result.xhtml", "pk");
 
 		// watches views
 		TEMP_VIEW_ID_TO_NAME.put("w", "/views/watches/forumWatch.xhtml");
@@ -212,32 +200,24 @@ public class PortalUtil {
 		TEMP_VIEW_ID_TO_NAME.put("my", "/views/myforums/myforums_main.xhtml");
 		TEMP_VIEW_NAME_TO_ID.put("/views/myforums/myforums_main.xhtml", "my");
 
-		TEMP_VIEW_ID_TO_NAME
-				.put("ma", "/views/myforums/myforums_viewall.xhtml");
-		TEMP_VIEW_NAME_TO_ID
-				.put("/views/myforums/myforums_viewall.xhtml", "ma");
+		TEMP_VIEW_ID_TO_NAME.put("ma", "/views/myforums/myforums_viewall.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/myforums/myforums_viewall.xhtml", "ma");
 
-		TEMP_VIEW_ID_TO_NAME.put("me",
-				"/views/myforums/myforums_editforums.xhtml");
-		TEMP_VIEW_NAME_TO_ID.put("/views/myforums/myforums_editforums.xhtml",
-				"me");
+		TEMP_VIEW_ID_TO_NAME.put("me", "/views/myforums/myforums_editforums.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/myforums/myforums_editforums.xhtml", "me");
 
 		// Search views
 		TEMP_VIEW_ID_TO_NAME.put("se", "/views/search/viewsearch_body.xhtml");
 		TEMP_VIEW_NAME_TO_ID.put("/views/search/viewsearch_body.xhtml", "se");
 
-		TEMP_VIEW_ID_TO_NAME
-				.put("sr", "/views/search/viewsearch_results.xhtml");
-		TEMP_VIEW_NAME_TO_ID
-				.put("/views/search/viewsearch_results.xhtml", "sr");
+		TEMP_VIEW_ID_TO_NAME.put("sr", "/views/search/viewsearch_results.xhtml");
+		TEMP_VIEW_NAME_TO_ID.put("/views/search/viewsearch_results.xhtml", "sr");
 
 		// TEMP_VIEW_ID_TO_NAME.put("sr","/views/search/myforums_viewall.xhtml");
 		// TEMP_VIEW_NAME_TO_ID.put("/views/search/myforums_viewall.xhtml","sa");
 
-		VIEW_ID_TO_NAME = Collections
-				.unmodifiableSortedMap(TEMP_VIEW_ID_TO_NAME);
-		VIEW_NAME_TO_ID = Collections
-				.unmodifiableSortedMap(TEMP_VIEW_NAME_TO_ID);
+		VIEW_ID_TO_NAME = Collections.unmodifiableSortedMap(TEMP_VIEW_ID_TO_NAME);
+		VIEW_NAME_TO_ID = Collections.unmodifiableSortedMap(TEMP_VIEW_NAME_TO_ID);
 
 	}
 
@@ -247,8 +227,6 @@ public class PortalUtil {
 	 * reuse it as much as we can. Also it is configured with the date format
 	 * taken from the preference of the user if it exists.
 	 * 
-	 * @param req
-	 *            the request that maybe contains the format object
 	 * @return the format object
 	 */
 	public static SimpleDateFormat getSDF() {
@@ -258,23 +236,24 @@ public class PortalUtil {
 	}
 
 	/**
-     * 
-     * 
-     */
+	 * @return true if the application is inside a portal
+	 *
+	 */
 	public static boolean isRunningInPortal() {
 		boolean isRunningInPortal = false;
 		return isRunningInPortal;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param userModule
+	 *            the user module where search the user
+	 * @return the current user
 	 * @throws Exception
+	 *             the error exception
 	 */
 	public static User getUser(UserModule userModule) throws Exception {
 		User user = null;
-		String userName = getCurrentInstance().getExternalContext()
-				.getRemoteUser();
+		String userName = getCurrentInstance().getExternalContext().getRemoteUser();
 		if (userName != null && userName.trim().length() > 0) {
 			try {
 				user = userModule.findUserByUserName(userName);
@@ -290,6 +269,11 @@ public class PortalUtil {
 	/**
 	 * This method translates standard view file path into short view id
 	 * parameter.
+	 * 
+	 * @param name
+	 *            the name to set
+	 * 
+	 * @return the related id
 	 */
 	public static String getIdForName(String name) {
 		if (name == null) {
@@ -303,6 +287,7 @@ public class PortalUtil {
 
 			private String id;
 			private String userName;
+
 			{
 				this.userName = GUEST_USER;
 				this.id = GUEST_USER;
@@ -342,10 +327,9 @@ public class PortalUtil {
 	 */
 	public static String createFeedLink(String type, String what, Integer id) {
 
-		ExternalContext ctx = FacesContext.getCurrentInstance()
-				.getExternalContext();
-		String url = ctx.getRequestContextPath() + "/feeds/" + type + "/"
-				+ what + (GLOBAL.equals(what) ? "" : "/" + id.toString());
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		String url = ctx.getRequestContextPath() + "/feeds/" + type + "/" + what
+				+ (GLOBAL.equals(what) ? "" : "/" + id.toString());
 		String urlParam = getContextPath();
 		String urlType = "s";
 
@@ -354,15 +338,13 @@ public class PortalUtil {
 		return url;
 	}
 
-	public static Date getUserLastLoginDate(UserModule userModule,
-			UserProfileModule userProfileModule) {
+	public static Date getUserLastLoginDate(UserModule userModule, UserProfileModule userProfileModule) {
 		try {
 			User user = getUser(userModule);
 			if (user == null) {
 				return null;
 			}
-			Object property = userProfileModule.getProperty(user,
-					INFO_USER_LAST_LOGIN_DATE);
+			Object property = userProfileModule.getProperty(user, INFO_USER_LAST_LOGIN_DATE);
 			if (property != null) {
 				long time = 0;
 				try {
@@ -372,8 +354,8 @@ public class PortalUtil {
 				}
 				Date date;
 				if (time == 0) {
-					DateFormat sdfForLastLoginDate = new SimpleDateFormat(
-							"EEE MMM dd HH:mm:ss zzz yyyy", getDefaultLocale());
+					DateFormat sdfForLastLoginDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",
+							getDefaultLocale());
 					date = sdfForLastLoginDate.parse(property.toString());
 				} else
 					date = new Date(time);
@@ -386,12 +368,16 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param userModule
+	 *            the user module of the application
+	 * @param forumsModule
+	 *            the forums module of the application
+	 *
+	 * @return the current poster
 	 * @throws Exception
+	 *             the error exception
 	 */
-	public static Poster getPoster(UserModule userModule,
-			ForumsModule forumsModule) throws Exception {
+	public static Poster getPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
 		Poster poster = null;
 
 		if (!userModule.isGuest()) {
@@ -410,8 +396,7 @@ public class PortalUtil {
 		return poster;
 	}
 
-	public static Poster getGuestPoster(UserModule userModule,
-			ForumsModule forumsModule) throws Exception {
+	public static Poster getGuestPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
 		Poster poster = null;
 		User user = null;
 
@@ -435,7 +420,7 @@ public class PortalUtil {
 	 * 
 	 * @author sshah
 	 * 
-	 * 
+	 * @return the created message
 	 */
 	public static Message createMessage() {
 		Message message = new Message();
@@ -444,7 +429,7 @@ public class PortalUtil {
 
 	/**
 	 * 
-	 * @return
+	 * @return the created poll
 	 */
 	public static Poll createPoll() {
 		Poll poll = new Poll();
@@ -456,8 +441,9 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param poll
+	 *            the poll where create the option
+	 * @return the created poll option
 	 */
 	public static PollOption createPollOption(Poll poll) {
 		PollOption pollOption = new PollOption(poll);
@@ -465,8 +451,9 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param req
+	 *            the request to set
+	 * @return the related renderer
 	 */
 	private static ToHTMLRenderer getToHTMLRenderer(Object req) {
 		ToHTMLRenderer renderer = null;
@@ -491,7 +478,11 @@ public class PortalUtil {
 	 * Method used for parsing bbcode and return properly formated text of
 	 * message.
 	 * 
-	 * @return
+	 * @param text
+	 *            the text to format
+	 * @param allowHTML
+	 *            true if the text supports html *
+	 * @return the formatted message
 	 */
 	public static String formatMessage(String text, boolean allowHTML) {
 
@@ -499,16 +490,12 @@ public class PortalUtil {
 			Object req = getCurrentInstance().getExternalContext().getRequest();
 
 			if (allowHTML) {
-				getToHTMLRenderer(req).getConfig().setFilterMode(
-						FILTER_MODE_ALWAYS_PRINT);
-				getToHTMLRenderer(req).getConfig().setOuputMode(
-						OUTPUT_MODE_REMOVE);
+				getToHTMLRenderer(req).getConfig().setFilterMode(FILTER_MODE_ALWAYS_PRINT);
+				getToHTMLRenderer(req).getConfig().setOuputMode(OUTPUT_MODE_REMOVE);
 				getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
 			} else {
-				getToHTMLRenderer(req).getConfig().setFilterMode(
-						FILTER_MODE_NEVER_PRINT);
-				getToHTMLRenderer(req).getConfig().setOuputMode(
-						OUTPUT_MODE_REMOVE);
+				getToHTMLRenderer(req).getConfig().setFilterMode(FILTER_MODE_NEVER_PRINT);
+				getToHTMLRenderer(req).getConfig().setOuputMode(OUTPUT_MODE_REMOVE);
 				getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
 			}
 			return formatTitle(req, text);
@@ -520,9 +507,11 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
+	 * @param req
+	 *            the request where take the renderer
 	 * @param text
-	 * @return
+	 *            the text to format
+	 * @return the formatted message
 	 */
 	public static String formatTitle(Object req, String text) {
 
@@ -536,6 +525,10 @@ public class PortalUtil {
 	/**
 	 * This method translates short id view parameter into standard view file
 	 * path.
+	 * 
+	 * @param id
+	 *            the id to set
+	 * @return the name related to the id
 	 */
 	public static String getNameForId(String id) {
 		if (id == null) {
@@ -545,12 +538,15 @@ public class PortalUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param forumsModule
+	 *            the current forum module
+	 * @param userModule
+	 *            the current user module
+	 * @return the current poster
 	 * @throws Exception
+	 *             the error exception
 	 */
-	public static Poster getPoster(ForumsModule forumsModule,
-			UserModule userModule) throws Exception {
+	public static Poster getPoster(ForumsModule forumsModule, UserModule userModule) throws Exception {
 		Poster poster = null;
 
 		User user = getUser(userModule);
@@ -566,11 +562,16 @@ public class PortalUtil {
 	}
 
 	/**
-     * 
-     * 
-     */
-	public static String getVotePercent(Poll poll, PollOption option,
-			int multiplicator) {
+	 * @param poll
+	 *            the poll where search the option
+	 * @param option
+	 *            the option where search the value
+	 * @param multiplicator
+	 *            the multiplicator to calculate the new percent
+	 * @return the formatted percent value
+	 * 
+	 */
+	public static String getVotePercent(Poll poll, PollOption option, int multiplicator) {
 		float votePercent = 0;
 
 		float votesSum = poll.getVotesSum();

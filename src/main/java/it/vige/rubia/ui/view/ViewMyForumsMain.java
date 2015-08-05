@@ -82,8 +82,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @return the watched topics
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getWatchedTopics() {
@@ -95,7 +95,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 				}
 				// get the forumInstanceId where this forum should be added
 				int forumInstanceId = userPreferences.getForumInstanceId();
-				watchedTopics = forumsModule.findTopicWatchedByUser(getUser(userModule), lastLoginDate, forumInstanceId);
+				watchedTopics = forumsModule.findTopicWatchedByUser(getUser(userModule), lastLoginDate,
+						forumInstanceId);
 
 			} catch (Exception e) {
 				handleException(e);
@@ -105,15 +106,16 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @param watchedTopics
+	 *            the watched topics
+	 */
 	public void setWatchedTopics(Collection<Topic> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}
 
 	/**
-     * 
-     */
+	 * @return the watched forums
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Forum> getWatchedForums() {
@@ -131,8 +133,9 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @param watchedForums
+	 *            the watched forums
+	 */
 	public void setWatchedForums(Collection<Forum> watchedForums) {
 		this.watchedForums = watchedForums;
 	}
@@ -162,8 +165,8 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @return the forums last posts
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Map<Object, Post> getForumsLastPosts() {
@@ -182,15 +185,16 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-     * 
-     */
+	 * @param forumsLastPosts
+	 *            the forums last posts
+	 */
 	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	@PostConstruct
 	public void execute() throws Exception {
 

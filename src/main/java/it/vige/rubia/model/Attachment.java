@@ -79,8 +79,7 @@ public class Attachment implements Serializable {
 		this.content = content;
 	}
 
-	public Attachment(String name, String comment, byte[] content, Post post,
-			String contentType, long size) {
+	public Attachment(String name, String comment, byte[] content, Post post, String contentType, long size) {
 		this(name, comment, content);
 		this.post = post;
 		this.contentType = contentType;
@@ -88,7 +87,8 @@ public class Attachment implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the comment of the attachment
+	 */
 	public String getComment() {
 		return comment;
 	}
@@ -102,7 +102,8 @@ public class Attachment implements Serializable {
 	}
 
 	/**
-    */
+	 * @return the id of the attachment
+	 */
 	public Integer getId() {
 		return id;
 	}

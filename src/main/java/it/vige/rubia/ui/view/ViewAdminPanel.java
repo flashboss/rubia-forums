@@ -68,9 +68,8 @@ public class ViewAdminPanel extends BaseController {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the list of categories in the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public List<Category> getCategories() {

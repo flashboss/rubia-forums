@@ -22,8 +22,8 @@ import javax.faces.context.FacesContext;
  */
 public abstract class JSFSecurityContext implements SecurityContext {
 	/**
-     * 
-     */
+	 * 
+	 */
 	private FacesContext facesContext;
 
 	/**
@@ -34,9 +34,12 @@ public abstract class JSFSecurityContext implements SecurityContext {
 	private Object identity;
 
 	/**
-     * 
-     *
-     */
+	 * @param identity
+	 *            the security identity to set
+	 * @param facesContext
+	 *            the faces context
+	 *
+	 */
 	public JSFSecurityContext(Object identity, FacesContext facesContext) {
 		this.facesContext = facesContext;
 		this.identity = identity;
@@ -58,9 +61,8 @@ public abstract class JSFSecurityContext implements SecurityContext {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the faces context
+	 */
 	public FacesContext getFacesContext() {
 		return facesContext;
 	}

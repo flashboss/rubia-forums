@@ -53,33 +53,22 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 		@NamedQuery(name = "findPoll", query = "select t.poll from Topic as t where t.id=:topicid"),
 		@NamedQuery(name = "findTopics", query = "select t from Topic as t "
 				+ "where t.forum.category.forumInstance.id = :forumInstanceId"),
-		@NamedQuery(name = "findTopicsTypeasc", query = "select t from Topic as t "
-				+ "join fetch t.poster "
-				+ "where t.forum = :forumid "
-				+ "and t.type = :type " + "order by t.lastPostDate asc"),
-		@NamedQuery(name = "findTopicsTypedesc", query = "select t from Topic as t "
-				+ "join fetch t.poster "
-				+ "where t.forum = :forumid "
-				+ "and t.type = :type " + "order by t.lastPostDate desc"),
-		@NamedQuery(name = "findTopicsForumasc", query = "select t from Topic as t "
-				+ "join fetch t.poster "
-				+ "where t.forum = :forumid "
-				+ "order by t.lastPostDate asc"),
-		@NamedQuery(name = "findTopicsForumdesc", query = "select t from Topic as t "
-				+ "join fetch t.poster "
-				+ "where t.forum = :forumid "
-				+ "order by t.lastPostDate desc"),
+		@NamedQuery(name = "findTopicsTypeasc", query = "select t from Topic as t " + "join fetch t.poster "
+				+ "where t.forum = :forumid " + "and t.type = :type " + "order by t.lastPostDate asc"),
+		@NamedQuery(name = "findTopicsTypedesc", query = "select t from Topic as t " + "join fetch t.poster "
+				+ "where t.forum = :forumid " + "and t.type = :type " + "order by t.lastPostDate desc"),
+		@NamedQuery(name = "findTopicsForumasc", query = "select t from Topic as t " + "join fetch t.poster "
+				+ "where t.forum = :forumid " + "order by t.lastPostDate asc"),
+		@NamedQuery(name = "findTopicsForumdesc", query = "select t from Topic as t " + "join fetch t.poster "
+				+ "where t.forum = :forumid " + "order by t.lastPostDate desc"),
 		@NamedQuery(name = "findTopicsHot", query = "select t from Topic as t where t.replies > :replies "
-				+ "and t.forum.category.forumInstance.id = :forumInstanceId "
-				+ "order by t.lastPostDate desc"),
+				+ "and t.forum.category.forumInstance.id = :forumInstanceId " + "order by t.lastPostDate desc"),
 		@NamedQuery(name = "findTopicsByLatestPosts", query = "select t from Topic as t where t.forum.category.forumInstance.id = :forumInstanceId "
 				+ "order by t.lastPostDate desc"),
 		@NamedQuery(name = "findTopicsHottest", query = "select t from Topic as t where t.lastPostDate > :after "
-				+ "and t.forum.category.forumInstance.id = :forumInstanceId "
-				+ "order by t.replies desc"),
+				+ "and t.forum.category.forumInstance.id = :forumInstanceId " + "order by t.replies desc"),
 		@NamedQuery(name = "findTopicsMostViewed", query = "select t from Topic as t where t.lastPostDate > :after "
-				+ "and t.forum.category.forumInstance.id = :forumInstanceId "
-				+ "order by t.viewCount desc"),
+				+ "and t.forum.category.forumInstance.id = :forumInstanceId " + "order by t.viewCount desc"),
 		@NamedQuery(name = "findTopicsForumNoOrder", query = "select t from Topic as t where t.forum = :forumid"),
 		@NamedQuery(name = "findPostsFromForumasc", query = "select p from Topic as t join t.posts as p where "
 				+ "t.forum.id = :forumId order by p.createDate asc"),
@@ -135,7 +124,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	private String subject;
 
 	@ManyToMany
-	@JoinTable(name = "JBP_FORUMS_TOPICSWATCH", joinColumns = @JoinColumn(name = "JBP_TOPIC_ID"), inverseJoinColumns = @JoinColumn(name = "JBP_ID"))
+	@JoinTable(name = "JBP_FORUMS_TOPICSWATCH", joinColumns = @JoinColumn(name = "JBP_TOPIC_ID") , inverseJoinColumns = @JoinColumn(name = "JBP_ID") )
 	private List<Watch> watches;
 
 	@ManyToOne(cascade = REMOVE)
@@ -164,8 +153,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 		this.posts = posts;
 	}
 
-	public Topic(Forum forum, String subject, List<Post> posts, TopicType type,
-			Poll poll) {
+	public Topic(Forum forum, String subject, List<Post> posts, TopicType type, Poll poll) {
 		this(forum, subject, posts);
 		this.type = type;
 		this.poll = poll;
@@ -189,7 +177,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the id of the topic
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -205,7 +194,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the posts of the topic
+	 */
 	public List<Post> getPosts() {
 		return posts;
 	}
@@ -221,7 +211,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the forum of the topic
+	 */
 	public Forum getForum() {
 		return forum;
 	}
@@ -237,7 +228,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the count of visitors
+	 */
 	public int getViewCount() {
 		return viewCount;
 	}
@@ -253,7 +245,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the number of replies
+	 */
 	public int getReplies() {
 		return replies;
 	}
@@ -269,7 +262,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the last post date
+	 */
 	public Date getLastPostDate() {
 		return lastPostDate;
 
@@ -286,7 +280,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the poster
+	 */
 	public Poster getPoster() {
 		return poster;
 	}
@@ -302,7 +297,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the topic type. It can be NORMAL, IMPORTANT or ADVICE
+	 */
 	public TopicType getType() {
 		return type;
 	}
@@ -318,7 +314,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the status of the topic
+	 */
 	public int getStatus() {
 		return status;
 	}
@@ -334,7 +331,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the subject of the topic
+	 */
 	public String getSubject() {
 		return subject;
 	}
@@ -350,7 +348,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the watches list of the topic
+	 */
 	public List<Watch> getWatches() {
 		return watches;
 	}
@@ -360,7 +359,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-    */
+	 * @return the poll of the topic
+	 */
 	public Poll getPoll() {
 		return poll;
 	}

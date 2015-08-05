@@ -81,22 +81,19 @@ public class ViewForum extends BaseController {
 	private Map<Object, Object> topicLastPosts;
 	private List<Topic> stickyThreads;
 	private List<Topic> announcements;
-	private DataModel<Topic> normalThreadsDataModel = new ListDataModel<Topic>(
-			normalThreads);
+	private DataModel<Topic> normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
 
 	public DataModel<Topic> getNormalThreadsDataModel() {
 		return normalThreadsDataModel;
 	}
 
-	public void setNormalThreadsDataModel(
-			DataModel<Topic> normalThreadsDataModel) {
+	public void setNormalThreadsDataModel(DataModel<Topic> normalThreadsDataModel) {
 		this.normalThreadsDataModel = normalThreadsDataModel;
 	}
 
 	public int getLastPageNumber() {
 		if (forum != null)
-			return forum.getTopicCount() / userPreferences.getTopicsPerForum()
-					+ 1;
+			return forum.getTopicCount() / userPreferences.getTopicsPerForum() + 1;
 		else
 			return 1;
 	}
@@ -105,8 +102,8 @@ public class ViewForum extends BaseController {
 	// components like
 	// facelets---------------------------------------------------------------------------------------
 	/**
-     * 
-     */
+	 * @return the current forum
+	 */
 	public Forum getForum() {
 		return forum;
 	}
@@ -117,9 +114,8 @@ public class ViewForum extends BaseController {
 
 	// --------------------------------------------------------------------------------------------
 	/**
-      * 
-      *
-      */
+	 * @return the topics of the announcement
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getAnnouncements() {
@@ -128,8 +124,7 @@ public class ViewForum extends BaseController {
 		}
 		announcements = new ArrayList<Topic>();
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
-					MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -137,8 +132,10 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	 * 
+	 *
 	 * TODO: Make a special method in ForumsModule for that.
+	 *
+	 * @return true if an announcement is present
 	 */
 	public boolean isAnnouncementsPresent() {
 		if (announcements != null) {
@@ -150,8 +147,7 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0,
-					MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
 			if (announcements != null && announcements.size() > 0) {
 				present = true;
 			}
@@ -162,8 +158,10 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	 * 
+	 *
 	 * TODO: Make a special method in ForumsModule for that.
+	 *
+	 * @return all the sticky topicsof the forum
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
@@ -174,8 +172,7 @@ public class ViewForum extends BaseController {
 		stickyThreads = new ArrayList<Topic>();
 		try {
 			// ForumsModule fm = this.getForumsModule();
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
-					MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -183,8 +180,10 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	 * 
+	 *
 	 * TODO: Make a special method in ForumsModule for that.
+	 *
+	 * @return true if a sticky thread is present
 	 */
 	public boolean isStickyThreadsPresent() {
 		if (stickyThreads != null) {
@@ -196,8 +195,7 @@ public class ViewForum extends BaseController {
 		}
 		boolean present = false;
 		try {
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0,
-					MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
 			if (stickyThreads != null && stickyThreads.size() > 0) {
 				present = true;
 			}
@@ -208,8 +206,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-      * 
-      */
+	 * @return all the normal threads of the forum
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public Collection<Topic> getNormalThreads() {
@@ -217,8 +215,8 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-      * 
-      */
+	 * @return true if a normal thread is present
+	 */
 	public boolean isNormalThreadsPresent() {
 		return normalThreads.size() > 0;
 	}
@@ -255,9 +253,10 @@ public class ViewForum extends BaseController {
 	// -------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-      * 
-      *
-      */
+	 * 
+	 * @throws Exception
+	 *             the error exception
+	 */
 	@PostConstruct
 	public void execute() throws Exception {
 		// parse the input parameters
@@ -301,8 +300,7 @@ public class ViewForum extends BaseController {
 			// topic minipaging
 			for (Topic cour : listOfTopics) {
 				if (cour.getReplies() > 0) {
-					PageNavigator topicNav = new PageNavigator(
-							cour.getReplies() + 1,
+					PageNavigator topicNav = new PageNavigator(cour.getReplies() + 1,
 							userPreferences.getPostsPerTopic(), // this
 																// is
 																// user's

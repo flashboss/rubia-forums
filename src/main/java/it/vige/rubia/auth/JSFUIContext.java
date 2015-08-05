@@ -20,51 +20,52 @@ import javax.faces.context.FacesContext;
  *
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
-public class JSFUIContext extends JSFSecurityContext
-{
-    /**
-     * 
-     *
-     */
-    private String fragment;
-    private Object[] contextData;
-    
-    /**
-     * 
-     *
-     */
-    public JSFUIContext(Object identity,FacesContext facesContext)
-    {
-       super(identity,facesContext);
-    }
-    
-    
-    /**
-     * @return Returns the contextData.
-     */
-    public Object[] getContextData() 
-    {
-        return contextData;
-    }
-    /**
-     * @param contextData The contextData to set.
-     */
-    public void setContextData(Object[] contextData) 
-    {
-        this.contextData = contextData;
-    }
-    /**
-     * @return Returns the fragment.
-     */
-    public String getFragment() 
-    {
-        return fragment;
-    }
-    /**
-     * @param fragment The fragment to set.
-     */
-    public void setFragment(String fragment)
-    {
-        this.fragment = fragment;
-    }
+public class JSFUIContext extends JSFSecurityContext {
+	/**
+	 * 
+	 *
+	 */
+	private String fragment;
+	private Object[] contextData;
+
+	/**
+	 *
+	 * @param identity
+	 *            the jboss security identity to assign
+	 * @param facesContext
+	 *            the faces context
+	 */
+	public JSFUIContext(Object identity, FacesContext facesContext) {
+		super(identity, facesContext);
+	}
+
+	/**
+	 * @return Returns the contextData.
+	 */
+	public Object[] getContextData() {
+		return contextData;
+	}
+
+	/**
+	 * @param contextData
+	 *            The contextData to set.
+	 */
+	public void setContextData(Object[] contextData) {
+		this.contextData = contextData;
+	}
+
+	/**
+	 * @return Returns the fragment.
+	 */
+	public String getFragment() {
+		return fragment;
+	}
+
+	/**
+	 * @param fragment
+	 *            The fragment to set.
+	 */
+	public void setFragment(String fragment) {
+		this.fragment = fragment;
+	}
 }

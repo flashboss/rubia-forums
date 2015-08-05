@@ -136,9 +136,8 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String startInstantReplyPreview() {
@@ -152,8 +151,9 @@ public class ReplyTopic extends PostAction {
 
 	// --------execute-------------------------------------------------------------------------------------------------------------
 	/**
-	 * 
-	 * @return
+	 * Execute
+	 *
+	 * @return the navigation state of the application
 	 */
 	public String execute() {
 		String navState = null;
@@ -171,15 +171,13 @@ public class ReplyTopic extends PostAction {
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
 				// should not allow posting a reply since the topic is locked
-				throw new Exception(getBundleMessage(BUNDLE_NAME,
-						TOPIC_LOCKED_ERR_KEY));
+				throw new Exception(getBundleMessage(BUNDLE_NAME, TOPIC_LOCKED_ERR_KEY));
 			}
 
 			// actually post a reply to this topic in the forum
 			poster.incrementPostCount();
-			forumsModule.createPost(topic, forum, message, new Date(), poster,
-					attachments // attachments
-					);
+			forumsModule.createPost(topic, forum, message, new Date(), poster, attachments // attachments
+			);
 			currentTopicPage.setPage(viewTopic.getLastPageNumber());
 
 			// setup the navigation state
@@ -212,9 +210,8 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String executeInstantReply() {
@@ -241,9 +238,8 @@ public class ReplyTopic extends PostAction {
 	}
 
 	/**
-     * 
-     *
-     */
+	 * @return the navigation state of the application
+	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String startQuote() {
@@ -257,10 +253,8 @@ public class ReplyTopic extends PostAction {
 			// setup the quote information
 			Post post = forumsModule.findPostById(postId);
 			Poster poster = getPoster(forumsModule, userModule);
-			String userName = userModule.findUserById(poster.getUserId())
-					.getUserName();
-			message = userName + "<" + QUOTE + ">"
-					+ post.getMessage().getText() + "</" + QUOTE + "></br>";
+			String userName = userModule.findUserById(poster.getUserId()).getUserName();
+			message = userName + "<" + QUOTE + ">" + post.getMessage().getText() + "</" + QUOTE + "></br>";
 		} catch (Exception e) {
 			handleException(e);
 		}

@@ -22,61 +22,60 @@ import javax.faces.context.FacesContext;
  *
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
-public class JSFActionContext extends JSFSecurityContext
-{
-    /**
-     * this is the action method on a JSF Managed Bean that is being called
-     * and needs to be authorized access to
-     */
-    private Method businessAction = null;
-    
-    /**
-     * This is the JSF Managed Bean that is being used
-     */
-    private Object managedBean = null;
-    
-    /**
-     * 
-     *
-     */
-    public JSFActionContext(Object identity,FacesContext facesContext)
-    {
-       super(identity,facesContext);
-    }
-    
-    /**
-     * 
-     *
-     */
-    public Method getBusinessAction()
-    {
-        return this.businessAction;
-    }
-    
-    /**
-     * 
-     *
-     */
-    public void setBusinessAction(Method businessAction)
-    {
-        this.businessAction = businessAction;
-    }
-    
-    /**
-     * 
-     *
-     */
-    public Object getManagedBean()
-    {
-        return this.managedBean;
-    }
-    
-    /**
-     * 
-     *
-     */
-    public void setManagedBean(Object managedBean)
-    {
-        this.managedBean = managedBean;
-    }
+public class JSFActionContext extends JSFSecurityContext {
+	/**
+	 * this is the action method on a JSF Managed Bean that is being called and
+	 * needs to be authorized access to
+	 */
+	private Method businessAction = null;
+
+	/**
+	 * This is the JSF Managed Bean that is being used
+	 */
+	private Object managedBean = null;
+
+	/**
+	 *
+	 * @param identity
+	 *            the security identity to wrap
+	 * @param facesContext
+	 *            the faces context to wrap
+	 */
+	public JSFActionContext(Object identity, FacesContext facesContext) {
+		super(identity, facesContext);
+	}
+
+	/**
+	 *
+	 * @return the method for the current business action
+	 */
+	public Method getBusinessAction() {
+		return this.businessAction;
+	}
+
+	/**
+	 *
+	 * @param businessAction
+	 *            the method of the business action to set
+	 */
+	public void setBusinessAction(Method businessAction) {
+		this.businessAction = businessAction;
+	}
+
+	/**
+	 *
+	 * @return the current managed bean
+	 */
+	public Object getManagedBean() {
+		return this.managedBean;
+	}
+
+	/**
+	 *
+	 * @param managedBean
+	 *            the managed bean to set
+	 */
+	public void setManagedBean(Object managedBean) {
+		this.managedBean = managedBean;
+	}
 }
