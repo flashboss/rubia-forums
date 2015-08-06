@@ -4,7 +4,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>war</packaging>
 	<name>Rubia Forums</name>
 	<description>Rubia Forums Web and Portlet Application</description>
