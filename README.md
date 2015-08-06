@@ -84,16 +84,36 @@ list of distribution profiles:
     -Peap-remote-620                   EAP 6.2.0
     -Peap-remote-630                   EAP 6.3.0
 
-You can also choose the deploy mode using the profiles:
+You can also choose the install mode using the profiles:
 
     -Pdevelopment
     -Pproduction
     
-If you want deploy in production mode you must use:
+If you want install in production mode you must use:
 
     mvn clean install -P${distribution},production
     
-to deploy it with the shell command in jboss:
+If you want automatically install and deploy the jsf application in a local active jboss as server:
+
+    mvn install -P${distribution},production,deploy
+
+If you want automatically uninstall and undeploy the application in a local active jboss as server:
+
+    mvn clean -P${distribution},production,deploy
+
+If you want automatically reinstall and redeploy the application in a local active jboss as server:
+
+    mvn clean install -P${distribution},production,deploy
+    
+Note: the automatic deploy works only for the following profiles:
+
+jbossas-remote-711
+jbossas-remote-712
+jbossas-remote-713
+
+because EAP doesn't support the jboss-as-maven-plugin.
+
+To deploy it with the shell command in jboss:
 
     $JBOSS_HOME/bin/jboss-cli.sh
     connect localhost
