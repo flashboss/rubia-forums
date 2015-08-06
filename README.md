@@ -68,15 +68,15 @@ If you want install in production mode you must use:
 
     mvn clean install -P${distribution},production
     
-If you want automatically install and deploy the jsf application in a local acttive wildfly server:
+If you want automatically install and deploy the jsf application in a local active wildfly server:
 
     mvn install -P${distribution},production,deploy-jsf
     
-If you want automatically uninstall and undeploy the application in a local acttive wildfly server:
+If you want automatically uninstall and undeploy the application in a local active wildfly server:
 
     mvn clean -P${distribution},production,deploy-jsf
     
-If you want automatically reinstall and redeploy the application in a local acttive wildfly server:
+If you want automatically reinstall and redeploy the application in a local active wildfly server:
 
     mvn clean install -P${distribution},production,deploy-jsf
     
