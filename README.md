@@ -41,6 +41,7 @@ Supported application servers and distributions
 - EAP 6.1.1.Final
 - EAP 6.2.0.Final
 - EAP 6.3.0.Final
+- EAP 6.4.0.Final
 - JBoss Portal 6.1.0.Final
 - JBoss Portal 6.1.1.Final
 
@@ -83,6 +84,7 @@ list of distribution profiles:
     -Peap-remote-611                   EAP 6.1.1
     -Peap-remote-620                   EAP 6.2.0
     -Peap-remote-630                   EAP 6.3.0
+    -Peap-remote-640                   EAP 6.4.0
 
 You can also choose the install mode using the profiles:
 
