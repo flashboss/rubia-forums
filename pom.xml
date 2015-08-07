@@ -1241,58 +1241,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.jboss.as.plugins</groupId>
-						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.5.Final</version>
-						<executions>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-									<goal>deploy</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resource>
-										<enable-resource>true</enable-resource>
-										<properties>
-											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-											<enabled>true</enabled>
-											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-											<driver-name>h2</driver-name>
-											<user-name>sa</user-name>
-											<min-pool-size>5</min-pool-size>
-											<max-pool-size>20</max-pool-size>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>del-datasource</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<execute-commands>
-										<commands>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{
-												"outcome" => "failed",
-												"failure-description" => "JBAS014749:
-												Operation handler failed: null",
-												"rolled-back" => true
-												}
-											</command>
-										</commands>
-									</execute-commands>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1406,58 +1354,6 @@
 									<sources>
 										<source>src/main/gatein/360/portlet/java</source>
 									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.jboss.as.plugins</groupId>
-						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.5.Final</version>
-						<executions>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-									<goal>deploy</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resource>
-										<enable-resource>true</enable-resource>
-										<properties>
-											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-											<enabled>true</enabled>
-											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-											<driver-name>h2</driver-name>
-											<user-name>sa</user-name>
-											<min-pool-size>5</min-pool-size>
-											<max-pool-size>20</max-pool-size>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>del-datasource</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<execute-commands>
-										<commands>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{
-												"outcome" => "failed",
-												"failure-description" => "JBAS014749:
-												Operation handler failed: null",
-												"rolled-back" => true
-												}
-											</command>
-										</commands>
-									</execute-commands>
 								</configuration>
 							</execution>
 						</executions>
@@ -1585,58 +1481,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.jboss.as.plugins</groupId>
-						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.5.Final</version>
-						<executions>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-									<goal>deploy</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resource>
-										<enable-resource>true</enable-resource>
-										<properties>
-											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-											<enabled>true</enabled>
-											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-											<driver-name>h2</driver-name>
-											<user-name>sa</user-name>
-											<min-pool-size>5</min-pool-size>
-											<max-pool-size>20</max-pool-size>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>del-datasource</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<execute-commands>
-										<commands>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{
-												"outcome" => "failed",
-												"failure-description" => "JBAS014749:
-												Operation handler failed: null",
-												"rolled-back" => true
-												}
-											</command>
-										</commands>
-									</execute-commands>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -1750,58 +1594,6 @@
 									<sources>
 										<source>src/main/gatein/370/portlet/java</source>
 									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.jboss.as.plugins</groupId>
-						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.5.Final</version>
-						<executions>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-									<goal>deploy</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resource>
-										<enable-resource>true</enable-resource>
-										<properties>
-											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-											<enabled>true</enabled>
-											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-											<driver-name>h2</driver-name>
-											<user-name>sa</user-name>
-											<min-pool-size>5</min-pool-size>
-											<max-pool-size>20</max-pool-size>
-										</properties>
-									</resource>
-								</configuration>
-							</execution>
-							<execution>
-								<id>del-datasource</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<execute-commands>
-										<commands>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{
-												"outcome" => "failed",
-												"failure-description" => "JBAS014749:
-												Operation handler failed: null",
-												"rolled-back" => true
-												}
-											</command>
-										</commands>
-									</execute-commands>
 								</configuration>
 							</execution>
 						</executions>
@@ -3089,7 +2881,7 @@
 
 		<!-- Only for JBoss AS 7.X -->
 		<profile>
-			<id>deploy</id>
+			<id>deploy-as</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -3167,6 +2959,70 @@
 										<commands>
 											<command>/subsystem=security/security-domain="rubia-domain":remove
 											</command>
+											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
+												{ "outcome" => "failed", "failure-description" =>
+												"JBAS014749: Operation
+												handler failed: null", "rolled-back"
+												=> true }
+											</command>
+										</commands>
+									</afterDeployment>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Only for Gatein 3.X -->
+		<profile>
+			<id>deploy-gatein</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.5.Final</version>
+						<executions>
+							<execution>
+								<id>add-forums-datasource</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
+									<resource>
+										<enable-resource>true</enable-resource>
+										<properties>
+											<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
+											<enabled>true</enabled>
+											<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+											<driver-name>h2</driver-name>
+											<user-name>sa</user-name>
+											<min-pool-size>5</min-pool-size>
+											<max-pool-size>20</max-pool-size>
+										</properties>
+									</resource>
+								</configuration>
+							</execution>
+							<execution>
+								<id>deploy-application</id>
+								<phase>install</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>del-resources</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+								<configuration>
+									<afterDeployment>
+										<commands>
 											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
 												{ "outcome" => "failed", "failure-description" =>
 												"JBAS014749: Operation

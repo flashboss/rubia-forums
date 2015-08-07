@@ -97,21 +97,46 @@ If you want install in production mode you must use:
     
 If you want automatically install and deploy the jsf application in a local active jboss as server:
 
-    mvn install -P${distribution},production,deploy
+    mvn install -P${distribution},production,deploy-as
 
 If you want automatically uninstall and undeploy the application in a local active jboss as server:
 
-    mvn clean -P${distribution},production,deploy
+    mvn clean -P${distribution},production,deploy-as
 
 If you want automatically reinstall and redeploy the application in a local active jboss as server:
 
-    mvn clean install -P${distribution},production,deploy
+    mvn clean install -P${distribution},production,deploy-as
     
 Note: the automatic deploy works only for the following profiles:
 
 jbossas-remote-711
 jbossas-remote-712
 jbossas-remote-713
+    
+If you want automatically install and deploy the jsf application in a local active gatein server:
+
+    mvn install -P${distribution},production,deploy-gatein
+
+If you want automatically uninstall and undeploy the application in a local active gatein server:
+
+    mvn clean -P${distribution},production,deploy-gatein
+
+If you want automatically reinstall and redeploy the application in a local active gatein server:
+
+    mvn clean install -P${distribution},production,deploy-gatein
+    
+Note: the automatic deploy works only for the following profiles:
+
+gatein-web-remote-360
+gatein-portlet-remote-360
+gatein-web-remote-370
+gatein-portlet-remote-370
+gatein-web-remote-371
+gatein-portlet-remote-371
+gatein-web-remote-381
+gatein-portlet-remote-381
+gatein-web-remote-382
+gatein-portlet-remote-382
 
 because EAP doesn't support the jboss-as-maven-plugin.
 
