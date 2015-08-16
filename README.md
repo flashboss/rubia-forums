@@ -37,12 +37,6 @@ Supported application servers and distributions
 - Wildfly AS 9.0.1.Final
 
 
-Maven repositories
-------------------
-
-See example `settings.xml` file in this directory. In the most common case you will want to copy this file to `$HOME/.m2`
-(`%HOMEPATH%\.m2` on Windows) with the following content:
-
 Build
 -----
 
