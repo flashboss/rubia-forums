@@ -16,16 +16,6 @@ package it.vige.rubia.ui.action;
 import static it.vige.rubia.search.DisplayAs.POSTS;
 import static it.vige.rubia.search.DisplayAs.TOPICS;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.search.ForumsSearchModule;
-import it.vige.rubia.search.ResultPage;
-import it.vige.rubia.search.SearchCriteria;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.view.ViewSearch;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +28,17 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.search.ForumsSearchModule;
+import it.vige.rubia.search.ResultPage;
+import it.vige.rubia.search.SearchCriteria;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.view.ViewSearch;
 
 @Named
 @RequestScoped
@@ -138,7 +139,6 @@ public class Search extends BaseController {
 	}
 
 	public String search() throws Exception {
-
 		int currentPage = 0;
 
 		SearchCriteria criteria = getSearchCriteria();
