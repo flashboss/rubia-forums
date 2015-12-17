@@ -1,6 +1,6 @@
 Rubia Forums
 =============
-Rubia Forums is a JSF (Java Server Faces) based application designed as standalone application and as portlet.
+Is a JSF (Java Server Faces) based application designed as standalone application and as portlet.
 It is an open source project. This means you can download the Rubia Forums package, throw it into your deploy directory and gain fully featured Forums Application or Portlet.
 
 It covers the following features:
