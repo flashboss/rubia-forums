@@ -93,7 +93,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-800</id>
+			<id>wildfly-remote-900</id>
 			<build>
 				<resources>
 					<resource>
@@ -109,7 +109,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/wildfly/800/webapp</directory>
+									<directory>src/main/wildfly/900/webapp</directory>
 								</resource>
 							</webResources>
 							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
@@ -126,40 +126,48 @@
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
-					<version>8.0.0.Final</version>
+					<version>9.0.0.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.5.2.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.5.2.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
 					<artifactId>lucene-core</artifactId>
-					<version>3.6.2</version>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-queryparser</artifactId>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<version>4.10.4</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-engine</artifactId>
-					<version>4.5.0.Final</version>
-					<scope>provided</scope>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-orm</artifactId>
-					<version>4.5.0.Final</version>
-					<scope>provided</scope>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.3.1.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -171,7 +179,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.1.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -184,7 +192,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-810</id>
+			<id>wildfly-remote-901</id>
 			<build>
 				<resources>
 					<resource>
@@ -200,7 +208,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/wildfly/810/webapp</directory>
+									<directory>src/main/wildfly/901/webapp</directory>
 								</resource>
 							</webResources>
 							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
@@ -217,40 +225,48 @@
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
-					<version>8.1.0.Final</version>
+					<version>9.0.1.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.5.2.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.5.2.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
 					<artifactId>lucene-core</artifactId>
-					<version>3.6.2</version>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-queryparser</artifactId>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<version>4.10.4</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-engine</artifactId>
-					<version>4.5.1.Final</version>
-					<scope>provided</scope>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-orm</artifactId>
-					<version>4.5.1.Final</version>
-					<scope>provided</scope>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.3.5.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -262,7 +278,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.5.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -275,7 +291,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-820</id>
+			<id>wildfly-remote-902</id>
 			<build>
 				<resources>
 					<resource>
@@ -291,7 +307,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/wildfly/820/webapp</directory>
+									<directory>src/main/wildfly/902/webapp</directory>
 								</resource>
 							</webResources>
 							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
@@ -308,38 +324,48 @@
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
-					<version>8.2.0.Final</version>
+					<version>9.0.2.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.6.0.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.6.0.Final</version>
+					<version>2.7.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
 					<artifactId>lucene-core</artifactId>
-					<version>3.6.2</version>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-queryparser</artifactId>
+					<version>4.10.4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<version>4.10.4</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-engine</artifactId>
-					<version>4.5.1.Final</version>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-orm</artifactId>
-					<version>4.5.1.Final</version>
+					<version>5.2.0.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.3.7.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -351,96 +377,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.7.Final</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-					<version>1.4.01</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-
-		<profile>
-			<id>wildfly-remote-821</id>
-			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-					</resource>
-				</resources>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<webResources>
-								<resource>
-									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/wildfly/821/webapp</directory>
-								</resource>
-							</webResources>
-							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-			<dependencies>
-				<dependency>
-					<groupId>it.vige</groupId>
-					<artifactId>rubia-forums-ejb</artifactId>
-					<version>${project.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-security</artifactId>
-					<version>8.2.1.Final</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.6.0.Final</version>
-				</dependency>
-				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.6.0.Final</version>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.lucene</groupId>
-					<artifactId>lucene-core</artifactId>
-					<version>3.6.2</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-search-engine</artifactId>
-					<version>4.5.1.Final</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-search-orm</artifactId>
-					<version>4.5.1.Final</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-					<version>4.3.7.Final</version>
-					<scope>provided</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>antlr</groupId>
-							<artifactId>antlr</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.7.Final</version>
+					<version>4.3.10.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>

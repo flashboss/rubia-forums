@@ -95,7 +95,7 @@ public class Forum implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "JBP_CATEGORY_ID")
-	@IndexedEmbedded(targetElement = Category.class)
+	@IndexedEmbedded(includeEmbeddedObjectId = true, targetElement = Category.class)
 	private Category category;
 
 	@Column(name = "JBP_DESCRIPTION")

@@ -95,7 +95,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 
 	@ManyToOne
 	@JoinColumn(name = "JBP_FORUM_ID")
-	@IndexedEmbedded(targetElement = Forum.class)
+	@IndexedEmbedded(includeEmbeddedObjectId = true, targetElement = Forum.class)
 	private Forum forum;
 
 	@Column(name = "JBP_VIEW_COUNT")

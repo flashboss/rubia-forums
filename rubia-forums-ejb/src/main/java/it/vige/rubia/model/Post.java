@@ -96,7 +96,7 @@ public class Post implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@IndexedEmbedded(targetElement = Topic.class)
+	@IndexedEmbedded(includeEmbeddedObjectId = true, targetElement = Topic.class)
 	@ManyToOne
 	@JoinColumn(name = "JBP_TOPIC_ID")
 	private Topic topic;
