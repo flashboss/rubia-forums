@@ -33,9 +33,6 @@ Supported application servers and distributions
 - Wildfly AS 8.1.0.Final
 - Wildfly AS 8.2.0.Final
 - Wildfly AS 8.2.1.Final
-- Wildfly AS 9.0.0.Final
-- Wildfly AS 9.0.1.Final
-- Wildfly AS 9.0.2.Final
 
 
 Build
@@ -53,9 +50,6 @@ list of distribution profiles:
     -Pwildfly-remote-810               wildfly as 8.1.0
     -Pwildfly-remote-820               wildfly as 8.2.0
     -Pwildfly-remote-821               wildfly as 8.2.1
-    -Pwildfly-remote-900               wildfly as 9.0.0
-    -Pwildfly-remote-901               wildfly as 9.0.1
-    -Pwildfly-remote-902               wildfly as 9.0.2
 
 You can also choose the package mode using the profiles:
 
@@ -130,6 +124,3 @@ The tests are done using:
 - Firefox 38.0.5 on wildfly 8.1.0
 - Firefox 38.0.5 on wildfly 8.2.0
 - Firefox 39.0   on wildfly 8.2.1
-- Firefox 39.0   on wildfly 9.0.0
-- Firefox 39.0   on wildfly 9.0.1
-- Firefox 43.0.2 on wildfly 9.0.2
