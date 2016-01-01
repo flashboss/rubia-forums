@@ -21,11 +21,9 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 import static java.util.Calendar.getInstance;
-import static org.apache.lucene.document.DateTools.dateToString;
-import static org.apache.lucene.document.DateTools.Resolution.MINUTE;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
+import static org.apache.lucene.search.NumericRangeQuery.newLongRange;
 import static org.apache.lucene.search.SortField.Type.STRING;
-import static org.apache.lucene.search.TermRangeQuery.newStringRange;
 import static org.hibernate.search.Search.getFullTextSession;
 
 import java.util.Calendar;
@@ -331,8 +329,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 			}
 
 			if (startDate != null) {
-				query.add(newStringRange("createDate", dateToString(startDate, MINUTE), dateToString(endDate, MINUTE),
-						true, true), MUST);
+				query.add(newLongRange("createDate", startDate.getTime(), endDate.getTime(), true, true), MUST);
 			}
 		}
 	}
