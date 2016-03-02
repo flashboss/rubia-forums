@@ -17,7 +17,6 @@ import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.LAZY;
 import static org.hibernate.search.annotations.Resolution.MINUTE;
 import static org.hibernate.search.annotations.Store.YES;
-import it.vige.rubia.auth.User;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -43,6 +42,9 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.SortableField;
+
+import it.vige.rubia.auth.User;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -119,6 +121,7 @@ public class Post implements Serializable {
 	@Field(store = YES)
 	@DateBridge(resolution = MINUTE)
 	@Column(name = "JBP_CREATE_DATE")
+	@SortableField
 	private Date createDate;
 
 	@IndexedEmbedded(targetElement = Message.class)
