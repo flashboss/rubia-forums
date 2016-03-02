@@ -15,6 +15,8 @@ package it.vige.rubia.model;
 
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.LAZY;
+import static org.hibernate.search.annotations.Resolution.MINUTE;
+import static org.hibernate.search.annotations.Store.YES;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -34,6 +36,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.search.annotations.DateBridge;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 import it.vige.rubia.auth.User;
 
