@@ -18,7 +18,7 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on Wildfly 10.0.0.Final.
+This draft version has been tested on Wildfly 9.0.2.Final.
 
 Requirements
 ------------
@@ -29,7 +29,9 @@ Requirements
 Supported application servers and distributions
 ------------
 
-- Wildfly AS 10.0.0.Final
+- Wildfly AS 9.0.0.Final
+- Wildfly AS 9.0.1.Final
+- Wildfly AS 9.0.2.Final
 
 
 Build
@@ -43,7 +45,9 @@ In development mode:
 
 list of distribution profiles:
 
-    -Pwildfly-remote-1000              wildfly as 10.0.0
+    -Pwildfly-remote-900               wildfly as 9.0.0
+    -Pwildfly-remote-901               wildfly as 9.0.1
+    -Pwildfly-remote-902               wildfly as 9.0.2
 
 You can also choose the package mode using the profiles:
 
@@ -114,4 +118,6 @@ It will start on the 5005 port.
 
 The tests are done using:
 
-- Firefox 44.0.2 on wildfly 10.0.0
+- Firefox 43.0.3 on wildfly 9.0.0
+- Firefox 43.0.3 on wildfly 9.0.1
+- Firefox 43.0.3 on wildfly 9.0.2
