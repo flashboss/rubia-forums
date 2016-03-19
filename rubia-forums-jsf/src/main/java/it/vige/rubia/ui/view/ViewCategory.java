@@ -18,6 +18,7 @@ import static it.vige.rubia.feeds.FeedConstants.CATEGORY;
 import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
 import static it.vige.rubia.feeds.FeedConstants.RSS;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
@@ -165,6 +166,17 @@ public class ViewCategory extends BaseController {
 			forumLastPosts = new HashMap<Object, Post>();
 		}
 		return forumLastPosts;
+	}
+
+	@SecureActionForum
+	@Interceptors(AuthorizationListener.class)
+	public String getLastPostSubject(int id) {
+		Post post = getForumLastPosts().get(id);
+		if (post != null) {
+			String subject = post.getMessage().getSubject();
+			return truncate(subject, 25);
+		} else
+			return "";
 	}
 
 	/**

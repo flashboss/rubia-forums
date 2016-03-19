@@ -13,12 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.action.PreferenceController;
+import static it.vige.rubia.ui.ForumUtil.truncate;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +26,16 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Attachment;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.action.PreferenceController;
 
 @Named
 @SessionScoped
@@ -98,6 +103,17 @@ public class ViewSearch extends BaseController {
 			topicLastPosts = new HashMap<Object, Object>();
 		}
 		return topicLastPosts;
+	}
+
+	@SecureActionForum
+	@Interceptors(AuthorizationListener.class)
+	public String getLastPostSubject(int id) {
+		Post post = (Post) getTopicLastPosts().get(id);
+		if (post != null) {
+			String subject = post.getMessage().getSubject();
+			return truncate(subject, 25);
+		} else
+			return "";
 	}
 
 	// ------------user

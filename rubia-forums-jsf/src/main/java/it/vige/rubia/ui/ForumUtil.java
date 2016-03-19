@@ -41,6 +41,9 @@ import it.vige.rubia.format.render.bbcodehtml.ToHTMLRenderer;
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
  */
 public class ForumUtil {
+
+	public final static String TRUNCATE = "...";
+
 	/**
 	 * 
 	 * @param param
@@ -182,6 +185,14 @@ public class ForumUtil {
 		getToHTMLRenderer(req).getConfig().setMaxTextWidth(MAX_VALUE);
 		return stringWriter.toString();
 
+	}
+
+	public static String truncate(String message, int length) {
+		if (message != null) {
+			if (message.length() >= length)
+				return message.substring(0, length) + TRUNCATE;
+		}
+		return message;
 	}
 
 }

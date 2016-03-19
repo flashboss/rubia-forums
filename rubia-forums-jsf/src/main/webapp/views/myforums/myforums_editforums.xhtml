@@ -65,8 +65,7 @@
 										<c:when
 											test="#{myForumsEdit.forumsLastPosts[forumrow.id]!=null}">
 											<h:commandLink action="viewTopic"
-												value="#{fn:substring(myForumsEdit.forumsLastPosts[forumrow.id].message.subject,0,
-												25)}&#8230;">
+												value="#{myForumsEdit.getLastPostSubject(forumrow.id)}">
 												<f:param name="p"
 													value="#{myForumsEdit.forumsLastPosts[forumrow.id].id}" />
 											</h:commandLink>

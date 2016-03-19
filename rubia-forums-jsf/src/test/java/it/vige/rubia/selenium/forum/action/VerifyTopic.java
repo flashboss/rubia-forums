@@ -29,10 +29,6 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,11 +41,15 @@ import java.util.ResourceBundle;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Poster;
+import it.vige.rubia.model.Topic;
+
 public class VerifyTopic {
 
 	public static final String TOPIC_TABLE = "forumtablestyle";
-	public static final String TOPIC_STICKY = getBundle("ResourceJSF")
-			.getString("Topic_Sticky");
+	public static final String TOPIC_STICKY = getBundle("ResourceJSF").getString("Topic_Sticky");
 	public static final String SUBJECT_LINK = "tbody/tr/td[2]/h3/a";
 	public static final String SUBJECT_IN_TOPIC_LINK = "tbody/tr/td[2]/p";
 	public static final String TYPE_SUBJECT_OUTPUT_TEXT = "tbody/tr/td[2]/h3/b";
@@ -59,32 +59,24 @@ public class VerifyTopic {
 	public static final String LAST_POST_DATE_IN_TOPIC_OUTPUT_TEXT = "tbody/tr/td[2]";
 	public static final String USER_LINK = "tbody/tr/td[2]/a";
 	public static final String USER_IN_TOPIC_LINK = "tbody/tr/td[1]/a";
-	public static final DateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss.SSS");
+	public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	private static ResourceBundle bundle = getBundle("ResourceJSF");
 	public static final String PROFILE_LINK = "header";
 
 	public static Topic getTopic(WebDriver driver) {
 		Topic topic = new Topic();
-		WebElement topicTable = driver.findElements(className(TOPIC_TABLE))
-				.get(1);
-		WebElement subjectComponent = topicTable
-				.findElement(TOPIC_TEMPLATE_LINK.getValue());
+		WebElement topicTable = driver.findElements(className(TOPIC_TABLE)).get(1);
+		WebElement subjectComponent = topicTable.findElement(TOPIC_TEMPLATE_LINK.getValue());
 		String subjectText = subjectComponent.getText();
 		topic.setSubject(subjectText);
-		String user = topicTable.findElement(xpath(USER_IN_TOPIC_LINK))
-				.getText();
+		String user = topicTable.findElement(xpath(USER_IN_TOPIC_LINK)).getText();
 		Date lastPostDate = null;
 		try {
-			DateFormat dateFormat = new SimpleDateFormat(
-					"EEE MMM dd, yyyy HH:mm a");
+			DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd, yyyy HH:mm a");
 			String posted = bundle.getString("Posted");
-			String permanentLink = topicTable.findElement(
-					xpath(LAST_POST_DATE_IN_TOPIC_OUTPUT_TEXT)).getText();
-			lastPostDate = dateFormat.parse(permanentLink.substring(
-					permanentLink.indexOf(posted) + posted.length() + 1,
-					permanentLink.indexOf(bundle.getString("Post_subject")))
-					.trim());
+			String permanentLink = topicTable.findElement(xpath(LAST_POST_DATE_IN_TOPIC_OUTPUT_TEXT)).getText();
+			lastPostDate = dateFormat.parse(permanentLink.substring(permanentLink.indexOf(posted) + posted.length() + 1,
+					permanentLink.indexOf(bundle.getString("Post_subject"))).trim());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -101,33 +93,26 @@ public class VerifyTopic {
 
 	public static Topic getTopic(WebDriver driver, int i4, WebElement topicTable) {
 		Topic topic = new Topic();
-		List<WebElement> subjectComponents = topicTable
-				.findElements(xpath(SUBJECT_LINK));
+		List<WebElement> subjectComponents = topicTable.findElements(xpath(SUBJECT_LINK));
 		WebElement subjectComponent = subjectComponents.get(i4);
 		String subjectText = subjectComponent.getText();
 		topic.setSubject(subjectText);
-		List<WebElement> subjectTypeComponents = topicTable
-				.findElements(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
+		List<WebElement> subjectTypeComponents = topicTable.findElements(xpath(TYPE_SUBJECT_OUTPUT_TEXT));
 		if (subjectTypeComponents.size() == 0)
 			topic.setType(NORMAL);
-		else if (subjectTypeComponents.get(i4).getText().trim()
-				.equals(TOPIC_STICKY))
+		else if (subjectTypeComponents.get(i4).getText().trim().equals(TOPIC_STICKY))
 			topic.setType(IMPORTANT);
 		else
 			topic.setType(ADVICE);
-		String[] allRows = topicTable.findElements(xpath(USER_LINK)).get(i4)
-				.findElement(xpath("..")).getText()
+		String[] allRows = topicTable.findElements(xpath(USER_LINK)).get(i4).findElement(xpath("..")).getText()
 				.split(bundle.getString("By"));
 		String user = allRows[allRows.length - 1].trim();
-		int replies = new Integer(topicTable
-				.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4).getText());
-		int viewCount = new Integer(topicTable
-				.findElements(xpath(VIEW_OUTPUT_TEXT)).get(i4).getText());
+		int replies = new Integer(topicTable.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4).getText());
+		int viewCount = new Integer(topicTable.findElements(xpath(VIEW_OUTPUT_TEXT)).get(i4).getText());
 		Date lastPostDate = null;
 		try {
-			lastPostDate = dateFormat.parse(topicTable
-					.findElements(xpath(LAST_POST_DATE_OUTPUT_TEXT)).get(i4)
-					.getText().split("\n")[2]);
+			lastPostDate = dateFormat
+					.parse(topicTable.findElements(xpath(LAST_POST_DATE_OUTPUT_TEXT)).get(i4).getText().split("\n")[2]);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -144,22 +129,18 @@ public class VerifyTopic {
 		return topic;
 	}
 
-	public static List<Topic> getTopicsOfForums(WebDriver driver,
-			Forum... forums) {
+	public static List<Topic> getTopicsOfForums(WebDriver driver, Forum... forums) {
 		List<Topic> topics = new ArrayList<Topic>();
 		for (Forum forum : forums) {
 			VerifyForum.goTo(driver, forum);
-			List<WebElement> tableComponents = driver
-					.findElements(className(TOPIC_TABLE));
+			List<WebElement> tableComponents = driver.findElements(className(TOPIC_TABLE));
 			int tableComponentsSize = tableComponents.size();
 			for (int i = 0; i < tableComponentsSize; i++) {
-				List<WebElement> subjectComponents = driver
-						.findElements(className(TOPIC_TABLE)).get(i)
+				List<WebElement> subjectComponents = driver.findElements(className(TOPIC_TABLE)).get(i)
 						.findElements(xpath(SUBJECT_LINK));
 				int subjectComponentsSize = subjectComponents.size();
 				for (int i4 = 0; i4 < subjectComponentsSize; i4++) {
-					WebElement topicTable = driver.findElements(
-							className(TOPIC_TABLE)).get(i);
+					WebElement topicTable = driver.findElements(className(TOPIC_TABLE)).get(i);
 					Topic topic = getTopic(driver, i4, topicTable);
 					topics.add(topic);
 					driver.findElement(linkText(forum.getName())).click();
@@ -185,12 +166,8 @@ public class VerifyTopic {
 	}
 
 	public static Poster getPoster(WebDriver driver, Topic topic) {
-		WebElement profileLink = driver
-				.findElements(className(PROFILE_LINK))
-				.get(0)
-				.findElement(
-						xpath("../tr/td/h3/a[contains(text(),'"
-								+ topic.getSubject() + "')]"))
+		WebElement profileLink = driver.findElements(className(PROFILE_LINK)).get(0)
+				.findElement(xpath("../tr/td/h3/a[contains(text(),'" + topic.getSubject() + "')]"))
 				.findElement(xpath("../../a"));
 		String userId = profileLink.getText();
 		profileLink.click();
@@ -199,12 +176,8 @@ public class VerifyTopic {
 	}
 
 	public static Poster getPosterLastPost(WebDriver driver, Topic topic) {
-		WebElement profileLink = driver
-				.findElements(className(PROFILE_LINK))
-				.get(0)
-				.findElement(
-						xpath("../tr/td/a[contains(text(),'"
-								+ topic.getSubject() + "')]"))
+		WebElement profileLink = driver.findElements(className(PROFILE_LINK)).get(0)
+				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]"))
 				.findElement(xpath("../a[2]"));
 		String userId = profileLink.getText();
 		profileLink.click();
@@ -214,13 +187,11 @@ public class VerifyTopic {
 
 	private static void addParents(WebDriver driver, Topic topic) {
 		Forum forum = new Forum();
-		forum.setName(driver.findElement(
-				linkText(driver.findElement(FORUM_TEMPLATE_LINK.getValue())
-						.getText())).getText());
+		forum.setName(
+				driver.findElement(linkText(driver.findElement(FORUM_TEMPLATE_LINK.getValue()).getText())).getText());
 		topic.setForum(forum);
 		Category category = new Category();
-		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue())
-				.getText());
+		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText());
 		forum.setCategory(category);
 
 	}

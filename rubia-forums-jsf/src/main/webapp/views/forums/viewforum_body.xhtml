@@ -17,7 +17,6 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://java.sun.com/jsf/composite/components/property"
@@ -229,8 +228,7 @@
 										<td class="forumlistcentered">${topicrow.viewCount}</td>
 										<td class="forumlistlast"><h:commandLink
 												action="viewTopic"
-												value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
-													25)}&#8230;">
+												value="#{forum.getLastPostSubject(topicrow.id)}">
 												<f:param name="p"
 													value="#{forum.topicLastPosts[topicrow.id].id}" />
 											</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
@@ -287,8 +285,7 @@
 										<td class="forumlistcentered">${topicrow.viewCount}</td>
 										<td class="forumlistlast"><h:commandLink
 												action="viewTopic"
-												value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
-													25)}&#8230;">
+												value="#{forum.getLastPostSubject(topicrow.id)}">
 												<f:param name="p"
 													value="#{forum.topicLastPosts[topicrow.id].id}" />
 											</h:commandLink><br /> ${resourcebundle.By} <h:outputText
@@ -352,8 +349,7 @@
 								<rich:column styleClass="forumlistcentered">${topicrow.viewCount}</rich:column>
 								<rich:column styleClass="forumlistlast">
 									<h:commandLink action="viewTopic"
-										value="#{fn:substring(forum.topicLastPosts[topicrow.id].message.subject,0,
-													25)}&#8230;">
+										value="#{forum.getLastPostSubject(topicrow.id)}">
 										<f:param name="p"
 											value="#{forum.topicLastPosts[topicrow.id].id}" />
 									</h:commandLink>

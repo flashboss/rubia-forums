@@ -52,60 +52,35 @@ import org.openqa.selenium.WebDriver;
 @RunWith(Arquillian.class)
 public class AdminPanelForumTest {
 
-	public final static String CREATED_FORUM_0_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_created_0")
-			+ " \"First Test Forum\" "
+	public final static String CREATED_FORUM_0_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
+			+ " \"First Test Forum\" " + getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_1_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
+			+ " \"Second Test Forum\" " + getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_2_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
+			+ " \"Third Test Forum\" " + getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_3_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
+			+ " \"Fourth Test Forum\" " + getBundle("ResourceJSF").getString("Forum_created_1");
+	public final static String CREATED_FORUM_4_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
+			+ " \"Fifth Test with Truncation over 25 characters Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_created_1");
-	public final static String CREATED_FORUM_1_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_created_0")
-			+ " \"Second Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_created_1");
-	public final static String CREATED_FORUM_2_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_created_0")
-			+ " \"Third Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_created_1");
-	public final static String CREATED_FORUM_3_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_created_0")
-			+ " \"Fourth Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_created_1");
-	public final static String CREATED_FORUM_4_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_created_0")
-			+ " \"Fifth Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_created_1");
-	public final static String REMOVED_FORUM_0_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_deleted_0")
-			+ " \"First Test Forum\" "
+	public final static String REMOVED_FORUM_0_MESSAGE = getBundle("ResourceJSF").getString("Forum_deleted_0")
+			+ " \"First Test Forum\" " + getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_1_MESSAGE = getBundle("ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Second Test Forum\" " + getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_2_MESSAGE = getBundle("ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Third Test Forum\" " + getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_3_MESSAGE = getBundle("ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Fourth Test Forum\" " + getBundle("ResourceJSF").getString("Forum_deleted_1");
+	public final static String REMOVED_FORUM_4_MESSAGE = getBundle("ResourceJSF").getString("Forum_deleted_0")
+			+ " \"Fifth Test with Truncation over 25 characters Forum\" "
 			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
-	public final static String REMOVED_FORUM_1_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_deleted_0")
-			+ " \"Second Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
-	public final static String REMOVED_FORUM_2_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_deleted_0")
-			+ " \"Third Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
-	public final static String REMOVED_FORUM_3_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_deleted_0")
-			+ " \"Fourth Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
-	public final static String REMOVED_FORUM_4_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_deleted_0")
-			+ " \"Fifth Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_deleted_1");
-	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
-			.getString("Forum_locked");
-	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
-			.getString("Forum_unlocked");
-	public final static String UPDATED_FORUM_0_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_updated_0")
-			+ " \"Second Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_updated_1");
-	public final static String UPDATED_FORUM_1_MESSAGE = getBundle(
-			"ResourceJSF").getString("Forum_updated_0")
-			+ " \"Third Test Forum\" "
-			+ getBundle("ResourceJSF").getString("Forum_updated_1");
-	public final static String SELECT_FORUM_TYPE = getBundle("ResourceJSF")
-			.getString("Delete_all_topics_posts");
+	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_locked");
+	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_unlocked");
+	public final static String UPDATED_FORUM_0_MESSAGE = getBundle("ResourceJSF").getString("Forum_updated_0")
+			+ " \"Second Test Forum\" " + getBundle("ResourceJSF").getString("Forum_updated_1");
+	public final static String UPDATED_FORUM_1_MESSAGE = getBundle("ResourceJSF").getString("Forum_updated_0")
+			+ " \"Third Test Forum\" " + getBundle("ResourceJSF").getString("Forum_updated_1");
+	public final static String SELECT_FORUM_TYPE = getBundle("ResourceJSF").getString("Delete_all_topics_posts");
 
 	@Drone
 	private WebDriver driver;
@@ -113,26 +88,23 @@ public class AdminPanelForumTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, new Forum("First Test Forum",
-				"First Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createForum(driver, new Forum("Second Test Forum",
-				"Second Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@After
 	public void stop() {
-		String message = removeForum(driver, new Forum("First Test Forum"),
-				"Second Test Forum");
+		String message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"),
-				SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
 		message = removeCategory(driver, new Category("First Test Category"),
 				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
@@ -144,13 +116,10 @@ public class AdminPanelForumTest {
 
 	@Test
 	public void verifyMoveForum() {
-		Map<String, Integer> positions = moveForum(driver, new Forum(
-				"First Test Forum"), DOWN);
-		assertTrue(positions.get("newPosition") > positions
-				.get("firstPosition"));
+		Map<String, Integer> positions = moveForum(driver, new Forum("First Test Forum"), DOWN);
+		assertTrue(positions.get("newPosition") > positions.get("firstPosition"));
 		positions = moveForum(driver, new Forum("First Test Forum"), UP);
-		assertTrue(positions.get("newPosition") < positions
-				.get("firstPosition"));
+		assertTrue(positions.get("newPosition") < positions.get("firstPosition"));
 	}
 
 	@Test
@@ -164,12 +133,10 @@ public class AdminPanelForumTest {
 	@Test
 	public void verifyUpdateForum() {
 		String message = updateForum(driver, new Forum("Second Test Forum"),
-				new Forum("Third Test Forum", "Third Test Description",
-						new Category("Second Test Category")));
+				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")));
 		assertTrue(message.equals(UPDATED_FORUM_1_MESSAGE));
-		message = updateForum(driver, new Forum("Third Test Forum"), new Forum(
-				"Second Test Forum", "First Test Description", new Category(
-						"First Test Category")));
+		message = updateForum(driver, new Forum("Third Test Forum"),
+				new Forum("Second Test Forum", "First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
 	}
 }

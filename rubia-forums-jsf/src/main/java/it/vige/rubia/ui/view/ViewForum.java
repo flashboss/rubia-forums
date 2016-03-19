@@ -20,6 +20,7 @@ import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.model.TopicType.IMPORTANT;
 import static it.vige.rubia.model.TopicType.NORMAL;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
+import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.MAX_VALUE;
@@ -46,6 +47,7 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.PageNavigator;
@@ -233,6 +235,17 @@ public class ViewForum extends BaseController {
 			topicLastPosts = new HashMap<Object, Object>();
 		}
 		return topicLastPosts;
+	}
+
+	@SecureActionForum
+	@Interceptors(AuthorizationListener.class)
+	public String getLastPostSubject(int id) {
+		Post post = (Post) getTopicLastPosts().get(id);
+		if (post != null) {
+			String subject = post.getMessage().getSubject();
+			return truncate(subject, 25);
+		} else
+			return "";
 	}
 
 	// ------------user

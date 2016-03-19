@@ -89,115 +89,73 @@ public class MyForumsForumTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		Forum forum = new Forum("First Test Forum", "First Test Description",
-				new Category("First Test Category"));
+		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("First Test Forum"),
-						"First Test Topic",
-						asList(new Post[] { new Post("First Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						NORMAL,
-						new Poll(
-								"First Test Question",
-								asList(new PollOption[] {
-										new PollOption("First Test Answer"),
-										new PollOption("Second Test Answer") }),
-								4)));
+				NORMAL,
+				new Poll("First Test Question", asList(
+						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
+						4)));
 		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(
-						forum,
-						"Second Test Topic",
-						asList(new Post[] { new Post("Second Test Body",
-								asList(new Attachment("first",
-										"First Test File"), new Attachment(
-										"second", "Second Test File"),
-										new Attachment("third",
-												"Third Test File"))) }),
-						IMPORTANT,
-						new Poll(
-								"Second Test Question",
-								asList(new PollOption[] {
-										new PollOption("Third Test Answer"),
-										new PollOption("Fourth Test Answer") }),
-								8)));
+		message = createTopic(driver,
+				new Topic(forum, "Second Test Topic", asList(new Post[] { new Post("Second Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
+								new Attachment("third", "Third Test File"))) }),
+				IMPORTANT,
+				new Poll("Second Test Question", asList(
+						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
+						8)));
 		assertTrue(message.equals("Second Test Topic"));
-		message = registerForum(driver, forum, EMAIL_LINKED_NOTIFICATION,
-				CONFIRM);
+		message = registerForum(driver, forum, EMAIL_LINKED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("First Test Forum"));
-		forum = new Forum("Second Test Forum", "Second Test Description",
-				new Category("First Test Category"));
+		forum = new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						forum,
-						"Third Test Topic",
-						asList(new Post[] { new Post("Third Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver,
+				new Topic(forum, "Third Test Topic", asList(new Post[] { new Post("Third Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						ADVICE, new Poll("Third Test Question",
-								asList(new PollOption[] {
-										new PollOption("Fifth Test Answer"),
-										new PollOption("Sixth Test Answer") }),
-								9)));
+				ADVICE,
+				new Poll("Third Test Question", asList(
+						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(forum, "Fourth Test Topic",
-						asList(new Post[] { new Post("Fourth Test Body",
-								asList(new Attachment("fourth",
-										"Fourth Test File"), new Attachment(
-										"fifth", "Fifth Test File"),
-										new Attachment("sixth",
-												"Sixth Test File"))) }),
-						IMPORTANT, new Poll("Fourth Test Question",
-								asList(new PollOption[] {
-										new PollOption("Seventh Test Answer"),
-										new PollOption("Eight Test Answer") }),
-								0)));
+		message = createTopic(driver,
+				new Topic(forum, "Fourth Test Topic", asList(new Post[] { new Post("Fourth Test Body",
+						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
-		message = registerForum(driver, forum, EMAIL_EMBEDED_NOTIFICATION,
-				CONFIRM);
+		message = registerForum(driver, forum, EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Second Test Forum"));
-		forum = new Forum("Third Test Forum", "Third Test Description",
-				new Category("Second Test Category"));
+		forum = new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
 		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Third Test Forum"));
-		forum = new Forum("Fourth Test Forum", "Fourth Test Description",
-				new Category("Second Test Category"));
+		forum = new Forum("Fourth Test Forum", "Fourth Test Description", new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_3_MESSAGE));
-		forum = new Forum("Fifth Test Forum", "Fifth Test Description",
-				new Category("Second Test Category"));
+		forum = new Forum("Fifth Test with Truncation over 25 characters Forum", "Fifth Test Description", new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
 		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fifth Test Forum"));
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Forum"));
 	}
 
 	@Test
 	public void verifyRegisteredCanceledForums() {
-		Forum forum = new Forum("Fourth Test Forum", "Fourth Test Description",
-				new Category("Second Test Category"));
-		String message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION,
-				CANCEL);
+		Forum forum = new Forum("Fourth Test Forum", "Fourth Test Description", new Category("Second Test Category"));
+		String message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CANCEL);
 		assertTrue(message.equals("Fourth Test Forum"));
 		assertTrue(!isRegistered(driver, forum));
 	}
@@ -210,7 +168,7 @@ public class MyForumsForumTest {
 		post.setMessage(message);
 		Poster poster = ViewAllForumsSelectForum.selectProfile(driver, post);
 		assertTrue(poster != null);
-		assertEquals(poster.getUserId(), "root");
+		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 12);
 	}
 
@@ -222,26 +180,22 @@ public class MyForumsForumTest {
 		post.setMessage(message);
 		Topic result = ViewAllForumsSelectPost.selectPost(driver, post);
 		assertTrue(result != null);
-		assertEquals(result.getSubject(), message.getSubject());
-		assertEquals(result.getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().size(), 1);
-		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
-				message.getSubject());
-		assertEquals(result.getPosts().get(0).getMessage().getText(),
-				"Second Test Body");
-		assertEquals(result.getPoll().getTitle(), "Second Test Question");
+		assertEquals(message.getSubject(), result.getSubject());
+		assertEquals("root", result.getPoster().getUserId());
+		assertEquals(1, result.getPosts().size());
+		assertEquals(message.getSubject(), result.getPosts().get(0).getMessage().getSubject());
+		assertEquals("Second Test Body", result.getPosts().get(0).getMessage().getText());
+		assertEquals("Second Test Question", result.getPoll().getTitle());
 	}
 
 	@Test
 	public void verifyAllForumsForum() {
-		Forum forum = new Forum("Third Test Forum", "Third Test Description",
-				new Category("Second Test Category"));
+		Forum forum = new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category"));
 		Forum result = ViewAllForumsSelectForum.selectForum(driver, forum);
 		assertTrue(result != null);
-		assertEquals(result.getName(), forum.getName());
-		assertEquals(result.getTopics().size(), 0);
-		assertEquals(result.getCategory().getTitle(), forum.getCategory()
-				.getTitle());
+		assertEquals(forum.getName(), result.getName());
+		assertEquals(0, result.getTopics().size());
+		assertEquals(forum.getCategory().getTitle(), result.getCategory().getTitle());
 	}
 
 	@Test
@@ -250,10 +204,9 @@ public class MyForumsForumTest {
 		Message message = new Message();
 		message.setSubject("Fourth Test Topic");
 		post.setMessage(message);
-		Poster poster = ViewAllForumsSelectForum.selectAllForumsProfile(driver,
-				post);
+		Poster poster = ViewAllForumsSelectForum.selectAllForumsProfile(driver, post);
 		assertTrue(poster != null);
-		assertEquals(poster.getUserId(), "root");
+		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 16);
 	}
 
@@ -263,17 +216,14 @@ public class MyForumsForumTest {
 		Message message = new Message();
 		message.setSubject("Second Test Topic");
 		post.setMessage(message);
-		Topic result = ViewAllForumsSelectPost
-				.selectAllForumsPost(driver, post);
+		Topic result = ViewAllForumsSelectPost.selectAllForumsPost(driver, post);
 		assertTrue(result != null);
-		assertEquals(result.getSubject(), message.getSubject());
-		assertEquals(result.getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().size(), 1);
-		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
-				message.getSubject());
-		assertEquals(result.getPosts().get(0).getMessage().getText(),
-				"Second Test Body");
-		assertEquals(result.getPoll().getTitle(), "Second Test Question");
+		assertEquals(message.getSubject(), result.getSubject());
+		assertEquals("root", result.getPoster().getUserId());
+		assertEquals(1, result.getPosts().size());
+		assertEquals(message.getSubject(), result.getPosts().get(0).getMessage().getSubject());
+		assertEquals("Second Test Body", result.getPosts().get(0).getMessage().getText());
+		assertEquals("Second Test Question", result.getPoll().getTitle());
 	}
 
 	@Test
@@ -285,41 +235,35 @@ public class MyForumsForumTest {
 		Forum fourthForum = new Forum("Fourth Test Forum");
 		goTo(driver, fourthForum);
 		assertTrue(!isRegistered(driver, fourthForum));
-		assertEquals(forums.get(0).getName(), "First Test Forum");
-		assertEquals(forums.get(1).getName(), "Second Test Forum");
-		assertEquals(forums.get(2).getName(), "Third Test Forum");
-		assertEquals(forums.get(3).getName(), "Fifth Test Forum");
-		assertEquals(forums.size(), 4);
+		assertEquals("First Test Forum", forums.get(0).getName());
+		assertEquals("Second Test Forum", forums.get(1).getName());
+		assertEquals("Third Test Forum", forums.get(2).getName());
+		assertEquals("Fifth Test with Truncation over 25 characters Forum", forums.get(3).getName());
+		assertEquals(4, forums.size());
 	}
 
 	@Test
 	public void verifyUpdatedForum() {
 		Forum forum = new Forum("Second Test Forum");
-		String notificationType = viewAllForumsUpdateForum(driver, forum,
-				EMAIL_NO_NOTIFICATION);
-		assertEquals(notificationType, EMAIL_NO_NOTIFICATION.toString());
-		notificationType = viewAllForumsUpdateForum(driver, forum,
-				EMAIL_EMBEDED_NOTIFICATION);
-		assertEquals(notificationType, EMAIL_EMBEDED_NOTIFICATION.toString());
+		String notificationType = viewAllForumsUpdateForum(driver, forum, EMAIL_NO_NOTIFICATION);
+		assertEquals(EMAIL_NO_NOTIFICATION.toString(), notificationType);
+		notificationType = viewAllForumsUpdateForum(driver, forum, EMAIL_EMBEDED_NOTIFICATION);
+		assertEquals(EMAIL_EMBEDED_NOTIFICATION.toString(), notificationType);
 	}
 
 	@After
 	public void stop() {
-		String message = removeTopic(driver, new Topic(new Forum(
-				"First Test Forum"), "First Test Topic",
+		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body") })));
 		assertTrue(message.equals(OK));
 		Forum forum = new Forum("First Test Forum");
 		message = unregisterForum(driver, forum);
@@ -339,16 +283,14 @@ public class MyForumsForumTest {
 		forum = new Forum("Fourth Test Forum");
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_3_MESSAGE));
-		forum = new Forum("Fifth Test Forum");
+		forum = new Forum("Fifth Test with Truncation over 25 characters Forum");
 		message = viewAllEditForumsRemoveForum(driver, forum);
 		assertTrue(message.equals(OK));
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_4_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }
