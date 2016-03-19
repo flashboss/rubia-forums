@@ -17,7 +17,6 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
@@ -110,7 +109,7 @@
 										<td class="forumlistlast"><c:choose>
 												<c:when test="#{category.forumLastPosts[forumrow.id]!=null}">
 													<h:commandLink action="viewTopic"
-														value="#{fn:substring(category.forumLastPosts[forumrow.id].message.subject,0,25)}&#8230;">
+														value="#{category.getLastPostSubject(forumrow.id)}">
 														<f:param name="p"
 															value="#{category.forumLastPosts[forumrow.id].id}" />
 													</h:commandLink>

@@ -54,46 +54,40 @@ public class OperationForumTest {
 	@Drone
 	private WebDriver driver;
 
-	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
-			.getString("Forum_locked");
-	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF")
-			.getString("Forum_unlocked");
+	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_locked");
+	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_unlocked");
 
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, new Forum("First Test Forum",
-				"First Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createForum(driver, new Forum("Second Test Forum",
-				"Second Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@Test
 	public void verifyCreatedForums() {
-		List<Forum> forums = getForumsOfCategories(driver, new Category(
-				"First Test Category"), new Category("Second Test Category"));
-		assertEquals(forums.size(), 2);
-		assertEquals(forums.get(0).getName(), "First Test Forum");
-		assertEquals(forums.get(0).getDescription(), "First Test Description");
-		assertEquals(forums.get(0).getCategory().getTitle(),
-				"First Test Category");
-		assertEquals(forums.get(1).getName(), "Second Test Forum");
-		assertEquals(forums.get(1).getDescription(), "Second Test Description");
-		assertEquals(forums.get(1).getCategory().getTitle(),
-				"First Test Category");
+		List<Forum> forums = getForumsOfCategories(driver, new Category("First Test Category"),
+				new Category("Second Test Category"));
+		assertEquals(2, forums.size());
+		assertEquals("First Test Forum", forums.get(0).getName());
+		assertEquals("First Test Description", forums.get(0).getDescription());
+		assertEquals("First Test Category", forums.get(0).getCategory().getTitle());
+		assertEquals("Second Test Forum", forums.get(1).getName());
+		assertEquals("Second Test Description", forums.get(1).getDescription());
+		assertEquals("First Test Category", forums.get(1).getCategory().getTitle());
 	}
 
 	@Test
 	public void verifyLockForum() {
-		Forum forum = new Forum("First Test Forum", "First Test Description",
-				new Category("First Test Category"));
+		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
 		String message = lockForum(driver, forum);
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
 		message = lockForum(driver, forum);
@@ -102,17 +96,13 @@ public class OperationForumTest {
 
 	@After
 	public void stop() {
-		String message = removeForum(driver, new Forum("First Test Forum"),
-				"Second Test Forum");
+		String message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"),
-				SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

@@ -14,6 +14,7 @@
 package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
@@ -152,6 +153,17 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
+	}
+
+	@SecureActionForum
+	@Interceptors(AuthorizationListener.class)
+	public String getLastPostSubject(int id) {
+		Post post = getForumsLastPosts().get(id);
+		if (post != null) {
+			String subject = post.getMessage().getSubject();
+			return truncate(subject, 25);
+		} else
+			return "";
 	}
 
 	/**

@@ -76,19 +76,19 @@ public class ExternalLinksTest {
 		Forum forum = new Forum("First Test Forum");
 		Forum result = ViewRSSLink.getPage(driver, forum);
 		assertNotNull(result);
-		assertEquals(result.getCategory().getTitle(), "First Test Category");
-		assertEquals(result.getName(), forum.getName());
-		assertEquals(result.getTopics().size(), 1);
-		assertEquals(result.getTopics().get(0).getSubject(), "First Test Topic");
+		assertEquals("First Test Category", result.getCategory().getTitle());
+		assertEquals(forum.getName(), result.getName());
+		assertEquals(1, result.getTopics().size());
+		assertEquals("First Test Topic", result.getTopics().get(0).getSubject());
 		assertEquals(result.getTopics().get(0).getPosts().size(), 2);
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getPoster().getUserId(), "root");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getPoster().getUserId(), "root");
+		assertEquals("root", result.getTopics().get(0).getPosts().get(0).getPoster().getUserId());
+		assertEquals("root", result.getTopics().get(0).getPosts().get(1).getPoster().getUserId());
 		assertNotNull(result.getTopics().get(0).getPosts().get(0).getCreateDate());
 		assertNotNull(result.getTopics().get(0).getPosts().get(1).getCreateDate());
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getMessage().getSubject(), RE + "First Test Topic");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getMessage().getSubject(), "First Test Topic");
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getMessage().getText(), "Second Test Body");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getMessage().getText(), "First Test Body");
+		assertEquals(RE + "First Test Topic", result.getTopics().get(0).getPosts().get(0).getMessage().getSubject());
+		assertEquals("First Test Topic", result.getTopics().get(0).getPosts().get(1).getMessage().getSubject());
+		assertEquals("Second Test Body", result.getTopics().get(0).getPosts().get(0).getMessage().getText());
+		assertEquals("First Test Body", result.getTopics().get(0).getPosts().get(1).getMessage().getText());
 	}
 
 	@Test
@@ -96,39 +96,35 @@ public class ExternalLinksTest {
 		Forum forum = new Forum("First Test Forum");
 		Forum result = ViewAtomLink.getPage(driver, forum);
 		assertNotNull(result);
-		assertEquals(result.getCategory().getTitle(), "First Test Category");
-		assertEquals(result.getName(), forum.getName());
-		assertEquals(result.getTopics().size(), 1);
-		assertEquals(result.getTopics().get(0).getSubject(), "First Test Topic");
-		assertEquals(result.getTopics().get(0).getPoll().getTitle(), "First Test Question");
-		assertEquals(result.getTopics().get(0).getPoll().getOptions().size(), 2);
-		assertEquals(result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion(), "First Test Answer");
-		assertEquals(result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion(), "Second Test Answer");
-		assertEquals(result.getTopics().get(0).getPosts().size(), 2);
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getPoster().getUserId(), "root");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getPoster().getUserId(), "root");
+		assertEquals("First Test Category", result.getCategory().getTitle());
+		assertEquals(forum.getName(), result.getName());
+		assertEquals(1, result.getTopics().size());
+		assertEquals("First Test Topic", result.getTopics().get(0).getSubject());
+		assertEquals("First Test Question", result.getTopics().get(0).getPoll().getTitle());
+		assertEquals(2, result.getTopics().get(0).getPoll().getOptions().size());
+		assertEquals("First Test Answer", result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion());
+		assertEquals("Second Test Answer", result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion());
+		assertEquals(2, result.getTopics().get(0).getPosts().size());
+		assertEquals("root", result.getTopics().get(0).getPosts().get(0).getPoster().getUserId());
+		assertEquals("root", result.getTopics().get(0).getPosts().get(1).getPoster().getUserId());
 		assertNotNull(result.getTopics().get(0).getPosts().get(0).getCreateDate());
 		assertNotNull(result.getTopics().get(0).getPosts().get(1).getCreateDate());
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getMessage().getSubject(), RE + "First Test Topic");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getMessage().getSubject(), "First Test Topic");
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getMessage().getText(), "Second Test Body");
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getMessage().getText(), "First Test Body");
+		assertEquals(RE + "First Test Topic", result.getTopics().get(0).getPosts().get(0).getMessage().getSubject());
+		assertEquals("First Test Topic", result.getTopics().get(0).getPosts().get(1).getMessage().getSubject());
+		assertEquals("Second Test Body", result.getTopics().get(0).getPosts().get(0).getMessage().getText());
+		assertEquals("First Test Body", result.getTopics().get(0).getPosts().get(1).getMessage().getText());
 		assertNotNull(result.getTopics().get(0).getPosts().get(0).getAttachments());
-		assertEquals(result.getTopics().get(0).getPosts().get(0).getAttachments().size(), 1);
-		assertEquals(
-				((Attachment) result.getTopics().get(0).getPosts().get(0).getAttachments().toArray()[0]).getComment(),
-				"Fourth Test File");
+		assertEquals(1, result.getTopics().get(0).getPosts().get(0).getAttachments().size());
+		assertEquals("Fourth Test File",
+				((Attachment) result.getTopics().get(0).getPosts().get(0).getAttachments().toArray()[0]).getComment());
 		assertNotNull(result.getTopics().get(0).getPosts().get(1).getAttachments());
-		assertEquals(result.getTopics().get(0).getPosts().get(1).getAttachments().size(), 3);
-		assertEquals(
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[0]).getComment(),
-				"First Test File");
-		assertEquals(
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1]).getComment(),
-				"Second Test File");
-		assertEquals(
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2]).getComment(),
-				"Third Test File");
+		assertEquals(3, result.getTopics().get(0).getPosts().get(1).getAttachments().size());
+		assertEquals("First Test File",
+				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[0]).getComment());
+		assertEquals("Second Test File",
+				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1]).getComment());
+		assertEquals("Third Test File",
+				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2]).getComment());
 	}
 
 	@Test
@@ -136,18 +132,18 @@ public class ExternalLinksTest {
 		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic");
 		Topic result = ViewRSSLink.getPage(driver, topic);
 		assertNotNull(result);
-		assertEquals(result.getForum().getCategory().getTitle(), "First Test Category");
-		assertEquals(result.getForum().getName(), topic.getForum().getName());
-		assertEquals(result.getPosts().size(), 2);
-		assertEquals(result.getPosts().get(0).getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().get(1).getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().get(0).getMessage().getSubject(), "First Test Topic");
-		assertEquals(result.getPosts().get(1).getMessage().getSubject(), RE + "First Test Topic");
-		assertEquals(result.getPosts().get(0).getMessage().getText(), "First Test Body");
-		assertEquals(result.getPosts().get(1).getMessage().getText(), "Second Test Body");
+		assertEquals("First Test Category", result.getForum().getCategory().getTitle());
+		assertEquals(topic.getForum().getName(), result.getForum().getName());
+		assertEquals(2, result.getPosts().size());
+		assertEquals("root", result.getPosts().get(0).getPoster().getUserId());
+		assertEquals("root", result.getPosts().get(1).getPoster().getUserId());
+		assertEquals("First Test Topic", result.getPosts().get(0).getMessage().getSubject());
+		assertEquals(RE + "First Test Topic", result.getPosts().get(1).getMessage().getSubject());
+		assertEquals("First Test Body", result.getPosts().get(0).getMessage().getText());
+		assertEquals("Second Test Body", result.getPosts().get(1).getMessage().getText());
 		assertNotNull(result.getPosts().get(0).getCreateDate());
 		assertNotNull(result.getPosts().get(1).getCreateDate());
-		assertEquals(result.getSubject(), "First Test Topic");
+		assertEquals("First Test Topic", result.getSubject());
 	}
 
 	@Test
@@ -155,34 +151,34 @@ public class ExternalLinksTest {
 		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic");
 		Topic result = ViewAtomLink.getPage(driver, topic);
 		assertNotNull(result);
-		assertEquals(result.getForum().getCategory().getTitle(), "First Test Category");
-		assertEquals(result.getForum().getName(), topic.getForum().getName());
-		assertEquals(result.getPosts().size(), 2);
-		assertEquals(result.getPosts().get(0).getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().get(1).getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().get(0).getMessage().getSubject(), "First Test Topic");
-		assertEquals(result.getPosts().get(1).getMessage().getSubject(), RE + "First Test Topic");
-		assertEquals(result.getPosts().get(0).getMessage().getText(), "First Test Body");
-		assertEquals(result.getPosts().get(1).getMessage().getText(), "Second Test Body");
+		assertEquals("First Test Category", result.getForum().getCategory().getTitle());
+		assertEquals(topic.getForum().getName(), result.getForum().getName());
+		assertEquals(2, result.getPosts().size());
+		assertEquals("root", result.getPosts().get(0).getPoster().getUserId());
+		assertEquals("root", result.getPosts().get(1).getPoster().getUserId());
+		assertEquals("First Test Topic", result.getPosts().get(0).getMessage().getSubject());
+		assertEquals(RE + "First Test Topic", result.getPosts().get(1).getMessage().getSubject());
+		assertEquals("First Test Body", result.getPosts().get(0).getMessage().getText());
+		assertEquals("Second Test Body", result.getPosts().get(1).getMessage().getText());
 		assertNotNull(result.getPosts().get(0).getCreateDate());
 		assertNotNull(result.getPosts().get(1).getCreateDate());
-		assertEquals(result.getSubject(), "First Test Topic");
-		assertEquals(result.getPoll().getTitle(), "First Test Question");
-		assertEquals(result.getPoll().getOptions().size(), 2);
-		assertEquals(result.getPoll().getOptions().get(0).getQuestion(), "First Test Answer");
-		assertEquals(result.getPoll().getOptions().get(1).getQuestion(), "Second Test Answer");
+		assertEquals("First Test Topic", result.getSubject());
+		assertEquals("First Test Question", result.getPoll().getTitle());
+		assertEquals(2, result.getPoll().getOptions().size());
+		assertEquals("First Test Answer", result.getPoll().getOptions().get(0).getQuestion());
+		assertEquals("Second Test Answer", result.getPoll().getOptions().get(1).getQuestion());
 		assertNotNull(result.getPosts().get(0).getAttachments());
-		assertEquals(result.getPosts().get(0).getAttachments().size(), 3);
-		assertEquals(((Attachment) result.getPosts().get(0).getAttachments().toArray()[0]).getComment(),
-				"First Test File");
-		assertEquals(((Attachment) result.getPosts().get(0).getAttachments().toArray()[1]).getComment(),
-				"Second Test File");
-		assertEquals(((Attachment) result.getPosts().get(0).getAttachments().toArray()[2]).getComment(),
-				"Third Test File");
+		assertEquals(3, result.getPosts().get(0).getAttachments().size());
+		assertEquals("First Test File",
+				((Attachment) result.getPosts().get(0).getAttachments().toArray()[0]).getComment());
+		assertEquals("Second Test File",
+				((Attachment) result.getPosts().get(0).getAttachments().toArray()[1]).getComment());
+		assertEquals("Third Test File",
+				((Attachment) result.getPosts().get(0).getAttachments().toArray()[2]).getComment());
 		assertNotNull(result.getPosts().get(1).getAttachments());
-		assertEquals(result.getPosts().get(1).getAttachments().size(), 1);
-		assertEquals(((Attachment) result.getPosts().get(1).getAttachments().toArray()[0]).getComment(),
-				"Fourth Test File");
+		assertEquals(1, result.getPosts().get(1).getAttachments().size());
+		assertEquals("Fourth Test File",
+				((Attachment) result.getPosts().get(1).getAttachments().toArray()[0]).getComment());
 	}
 
 	@After

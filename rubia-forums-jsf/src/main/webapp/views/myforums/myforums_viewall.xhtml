@@ -71,7 +71,7 @@
 
 								</td>
 								<td class="forumlistlast"><h:commandLink action="viewTopic"
-										value="#{fn:substring(myForumsAll.topicsLastPosts[topicrow.id].message.subject,0,25)}&#8230;">
+										value="#{myForumsAll.getLastPostSubject(topicrow.id)}">
 										<f:param name="p"
 											value="#{myForumsAll.topicsLastPosts[topicrow.id].id}" />
 									</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup

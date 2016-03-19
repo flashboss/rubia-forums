@@ -13,14 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
+import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.PageNavigator;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +24,15 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.PageNavigator;
+import it.vige.rubia.ui.action.PreferenceController;
 
 /**
  * 
@@ -82,6 +85,17 @@ public abstract class ViewMyForumsBase extends BaseController {
 	 */
 	public void setTopicsLastPosts(Map<Object, Object> topicsLastPosts) {
 		this.topicsLastPosts = topicsLastPosts;
+	}
+
+	@SecureActionForum
+	@Interceptors(AuthorizationListener.class)
+	public String getLastPostSubject(int id) {
+		Post post = (Post) getTopicsLastPosts().get(id);
+		if (post != null) {
+			String subject = post.getMessage().getSubject();
+			return truncate(subject, 25);
+		} else
+			return "";
 	}
 
 	// ------------user

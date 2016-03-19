@@ -68,170 +68,143 @@ public class OperationTopicTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, new Forum("First Test Forum",
-				"First Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("First Test Forum"),
-						"First Test Topic",
-						asList(new Post[] { new Post("First Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						NORMAL,
-						new Poll(
-								"First Test Question",
-								asList(new PollOption[] {
-										new PollOption("First Test Answer"),
-										new PollOption("Second Test Answer") }),
-								4)));
+				NORMAL,
+				new Poll("First Test Question", asList(
+						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
+						4)));
 		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("First Test Forum"),
-						"Second Test Topic",
-						asList(new Post[] { new Post("Second Test Body",
-								asList(new Attachment("first",
-										"First Test File"), new Attachment(
-										"second", "Second Test File"),
-										new Attachment("third",
-												"Third Test File"))) }),
-						IMPORTANT,
-						new Poll(
-								"Second Test Question",
-								asList(new PollOption[] {
-										new PollOption("Third Test Answer"),
-										new PollOption("Fourth Test Answer") }),
-								8)));
-		assertTrue(message.equals("Second Test Topic"));
-		message = createForum(driver, new Forum("Second Test Forum",
-				"Second Test Description", new Category("First Test Category")));
-		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Second Test Forum"),
-						"Third Test Topic",
-						asList(new Post[] { new Post("Third Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						ADVICE, new Poll("Third Test Question",
-								asList(new PollOption[] {
-										new PollOption("Fifth Test Answer"),
-										new PollOption("Sixth Test Answer") }),
-								9)));
+				IMPORTANT,
+				new Poll("Second Test Question", asList(
+						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
+						8)));
+		assertTrue(message.equals("Second Test Topic"));
+		message = createForum(driver,
+				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
+		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
+		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
+								new Attachment("third", "Third Test File"))) }),
+				ADVICE,
+				new Poll("Third Test Question", asList(
+						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-						asList(new Post[] { new Post("Fourth Test Body",
-								asList(new Attachment("fourth",
-										"Fourth Test File"), new Attachment(
-										"fifth", "Fifth Test File"),
-										new Attachment("sixth",
-												"Sixth Test File"))) }),
-						IMPORTANT, new Poll("Fourth Test Question",
-								asList(new PollOption[] {
-										new PollOption("Seventh Test Answer"),
-										new PollOption("Eight Test Answer") }),
-								0)));
+		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body",
+						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new Attachment("sixth", "Sixth Test File"))) }),
+				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
+		message = createTopic(driver,
+				new Topic(new Forum("Second Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+						asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body", null) }),
+						IMPORTANT, null));
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
 	}
 
 	@Test
 	public void verifyCreatedTopics() {
-		List<Topic> topics = getTopicsOfForums(driver, new Forum(
-				"First Test Forum"), new Forum("Second Test Forum"));
-		assertEquals(topics.size(), 4);
+		List<Topic> topics = getTopicsOfForums(driver, new Forum("First Test Forum"), new Forum("Second Test Forum"));
+		assertEquals(5, topics.size());
 		Date today = new Date();
 
 		Topic secondTestTopic = topics.get(0);
-		assertEquals(secondTestTopic.getForum().getCategory().getTitle(),
-				"First Test Category");
-		assertEquals(secondTestTopic.getForum().getName(), "First Test Forum");
+		assertEquals("First Test Category", secondTestTopic.getForum().getCategory().getTitle());
+		assertEquals("First Test Forum", secondTestTopic.getForum().getName());
 		assertTrue(secondTestTopic.getLastPostDate().compareTo(today) < 0);
-		assertEquals(secondTestTopic.getSubject(), "Second Test Topic");
-		assertEquals(secondTestTopic.getType(), IMPORTANT);
-		assertEquals(secondTestTopic.getViewCount(), 0);
-		assertEquals(secondTestTopic.getReplies(), 0);
-		assertEquals(secondTestTopic.getPoster().getUserId(), "root");
-		assertEquals(secondTestTopic.getPosts().size(), 1);
+		assertEquals("Second Test Topic", secondTestTopic.getSubject());
+		assertEquals(IMPORTANT, secondTestTopic.getType());
+		assertEquals(0, secondTestTopic.getViewCount());
+		assertEquals(0, secondTestTopic.getReplies());
+		assertEquals("root", secondTestTopic.getPoster().getUserId());
+		assertEquals(1, secondTestTopic.getPosts().size());
 
 		Topic firstTestTopic = topics.get(1);
-		assertEquals(firstTestTopic.getForum().getCategory().getTitle(),
-				"First Test Category");
-		assertEquals(firstTestTopic.getForum().getName(), "First Test Forum");
+		assertEquals("First Test Category", firstTestTopic.getForum().getCategory().getTitle());
+		assertEquals("First Test Forum", firstTestTopic.getForum().getName());
 		assertTrue(firstTestTopic.getLastPostDate().compareTo(today) < 0);
-		assertEquals(firstTestTopic.getSubject(), "First Test Topic");
-		assertEquals(firstTestTopic.getType(), NORMAL);
-		assertEquals(firstTestTopic.getViewCount(), 0);
-		assertEquals(firstTestTopic.getReplies(), 0);
-		assertEquals(firstTestTopic.getPoster().getUserId(), "root");
-		assertEquals(firstTestTopic.getPosts().size(), 1);
+		assertEquals("First Test Topic", firstTestTopic.getSubject());
+		assertEquals(NORMAL, firstTestTopic.getType());
+		assertEquals(0, firstTestTopic.getViewCount());
+		assertEquals(0, firstTestTopic.getReplies());
+		assertEquals("root", firstTestTopic.getPoster().getUserId());
+		assertEquals(1, firstTestTopic.getPosts().size());
 
 		Topic thirdTestTopic = topics.get(2);
-		assertEquals(thirdTestTopic.getForum().getCategory().getTitle(),
-				"First Test Category");
-		assertEquals(thirdTestTopic.getForum().getName(), "Second Test Forum");
+		assertEquals("First Test Category", thirdTestTopic.getForum().getCategory().getTitle());
+		assertEquals("Second Test Forum", thirdTestTopic.getForum().getName());
 		assertTrue(thirdTestTopic.getLastPostDate().compareTo(today) < 0);
-		assertEquals(thirdTestTopic.getSubject(), "Third Test Topic");
-		assertEquals(thirdTestTopic.getType(), ADVICE);
-		assertEquals(thirdTestTopic.getViewCount(), 0);
-		assertEquals(thirdTestTopic.getReplies(), 0);
-		assertEquals(thirdTestTopic.getPoster().getUserId(), "root");
-		assertEquals(thirdTestTopic.getPosts().size(), 1);
+		assertEquals("Third Test Topic", thirdTestTopic.getSubject());
+		assertEquals(ADVICE, thirdTestTopic.getType());
+		assertEquals(0, thirdTestTopic.getViewCount());
+		assertEquals(0, thirdTestTopic.getReplies());
+		assertEquals("root", thirdTestTopic.getPoster().getUserId());
+		assertEquals(1, thirdTestTopic.getPosts().size());
 
-		Topic fourthTestTopic = topics.get(3);
-		assertEquals(fourthTestTopic.getForum().getCategory().getTitle(),
-				"First Test Category");
-		assertEquals(fourthTestTopic.getForum().getName(), "Second Test Forum");
+		Topic fifthTestTopic = topics.get(3);
+		assertEquals("First Test Category", fifthTestTopic.getForum().getCategory().getTitle());
+		assertEquals("Second Test Forum", fifthTestTopic.getForum().getName());
+		assertTrue(fifthTestTopic.getLastPostDate().compareTo(today) < 0);
+		assertEquals("Fifth Test with Truncation over 25 characters Topic", fifthTestTopic.getSubject());
+		assertEquals(IMPORTANT, fifthTestTopic.getType());
+		assertEquals(0, fifthTestTopic.getViewCount());
+		assertEquals(0, fifthTestTopic.getReplies());
+		assertEquals("root", fifthTestTopic.getPoster().getUserId());
+		assertEquals(1, fifthTestTopic.getPosts().size());
+
+		Topic fourthTestTopic = topics.get(4);
+		assertEquals("First Test Category", fourthTestTopic.getForum().getCategory().getTitle());
+		assertEquals("Second Test Forum", fourthTestTopic.getForum().getName());
 		assertTrue(fourthTestTopic.getLastPostDate().compareTo(today) < 0);
-		assertEquals(fourthTestTopic.getSubject(), "Fourth Test Topic");
-		assertEquals(fourthTestTopic.getType(), IMPORTANT);
-		assertEquals(fourthTestTopic.getViewCount(), 0);
-		assertEquals(fourthTestTopic.getReplies(), 0);
-		assertEquals(fourthTestTopic.getPoster().getUserId(), "root");
-		assertEquals(fourthTestTopic.getPosts().size(), 1);
+		assertEquals("Fourth Test Topic", fourthTestTopic.getSubject());
+		assertEquals(IMPORTANT, fourthTestTopic.getType());
+		assertEquals(0, fourthTestTopic.getViewCount());
+		assertEquals(0, fourthTestTopic.getReplies());
+		assertEquals("root", fourthTestTopic.getPoster().getUserId());
+		assertEquals(1, fourthTestTopic.getPosts().size());
 	}
 
 	@After
 	public void stop() {
-		String message = removeTopic(driver, new Topic(new Forum(
-				"First Test Forum"), "First Test Topic",
+		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Third Test Topic", asList(new Post[] { new Post(
-						"Third Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Fourth Test Topic", asList(new Post[] { new Post(
-						"Fourth Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("First Test Forum"),
-				"Second Test Forum");
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+				asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body") })));
+		assertTrue(message.equals(OK));
+		message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"),
-				"Second Test Topic", asList(new Post[] { new Post(
-						"Second Test Body") })));
+		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("Second Test Forum"),
-				SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

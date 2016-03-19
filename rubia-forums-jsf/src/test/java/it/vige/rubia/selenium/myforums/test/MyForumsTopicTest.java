@@ -84,146 +84,91 @@ public class MyForumsTopicTest {
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		message = createForum(driver, new Forum("First Test Forum",
-				"First Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("First Test Forum"),
-						"First Test Topic",
-						asList(new Post[] { new Post("First Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						NORMAL,
-						new Poll(
-								"First Test Question",
-								asList(new PollOption[] {
-										new PollOption("First Test Answer"),
-										new PollOption("Second Test Answer") }),
-								4)));
+				NORMAL,
+				new Poll("First Test Question", asList(
+						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
+						4)));
 		assertTrue(message.equals("First Test Topic"));
-		message = registerTopic(driver, new Topic("First Test Topic"),
-				EMAIL_LINKED_NOTIFICATION, CONFIRM);
+		message = registerTopic(driver, new Topic("First Test Topic"), EMAIL_LINKED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("First Test Forum"),
-						"Second Test Topic",
-						asList(new Post[] { new Post("Second Test Body",
-								asList(new Attachment("first",
-										"First Test File"), new Attachment(
-										"second", "Second Test File"),
-										new Attachment("third",
-												"Third Test File"))) }),
-						IMPORTANT,
-						new Poll(
-								"Second Test Question",
-								asList(new PollOption[] {
-										new PollOption("Third Test Answer"),
-										new PollOption("Fourth Test Answer") }),
-								8)));
+		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
+								new Attachment("third", "Third Test File"))) }),
+				IMPORTANT,
+				new Poll("Second Test Question", asList(
+						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
+						8)));
 		assertTrue(message.equals("Second Test Topic"));
-		message = registerTopic(driver, new Topic("Second Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
+		message = registerTopic(driver, new Topic("Second Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Second Test Topic"));
-		message = createForum(driver, new Forum("Second Test Forum",
-				"Second Test Description", new Category("First Test Category")));
+		message = createForum(driver,
+				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Second Test Forum"),
-						"Third Test Topic",
-						asList(new Post[] { new Post("Third Test Body", asList(
-								new Attachment("first", "First Test File"),
-								new Attachment("second", "Second Test File"),
+		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+				asList(new Post[] { new Post("Third Test Body",
+						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-						ADVICE, new Poll("Third Test Question",
-								asList(new PollOption[] {
-										new PollOption("Fifth Test Answer"),
-										new PollOption("Sixth Test Answer") }),
-								9)));
+				ADVICE,
+				new Poll("Third Test Question", asList(
+						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = registerTopic(driver, new Topic("Third Test Topic"),
-				EMAIL_NO_NOTIFICATION, CONFIRM);
+		message = registerTopic(driver, new Topic("Third Test Topic"), EMAIL_NO_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-						asList(new Post[] { new Post("Fourth Test Body",
-								asList(new Attachment("fourth",
-										"Fourth Test File"), new Attachment(
-										"fifth", "Fifth Test File"),
-										new Attachment("sixth",
-												"Sixth Test File"))) }),
-						IMPORTANT, new Poll("Fourth Test Question",
-								asList(new PollOption[] {
-										new PollOption("Seventh Test Answer"),
-										new PollOption("Eight Test Answer") }),
-								0)));
+		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+				asList(new Post[] { new Post("Fourth Test Body",
+						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new Attachment("sixth", "Sixth Test File"))) }),
+				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
-		message = registerTopic(driver, new Topic("Fourth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
+		message = registerTopic(driver, new Topic("Fourth Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fourth Test Topic"));
-		message = createForum(driver, new Forum("Third Test Forum",
-				"Third Test Description", new Category("Second Test Category")));
+		message = createForum(driver,
+				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Third Test Forum"),
-						"Fifth Test Topic",
-						asList(new Post[] { new Post("Fifth Test Body", asList(
-								new Attachment("seventh", "Seventh Test File"),
-								new Attachment("eight", "Eight Test File"),
-								new Attachment("ninth", "Ninth Test File"))) }),
-						IMPORTANT, new Poll("Third Test Question",
-								asList(new PollOption[] {
-										new PollOption("Seventh Test Answer"),
-										new PollOption("Eight Test Answer") }),
-								8)));
-		assertTrue(message.equals("Fifth Test Topic"));
-		message = registerTopic(driver, new Topic("Fifth Test Topic"),
-				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fifth Test Topic"));
-		message = createTopic(
-				driver,
-				new Topic(
-						new Forum("Third Test Forum"),
-						"Sixth Test Topic",
-						asList(new Post[] { new Post("Sixth Test Body", asList(
-								new Attachment("ten", "Ten Test File"),
-								new Attachment("eleven", "Eleven Test File"),
+		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+				asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body", asList(new Attachment("seventh", "Seventh Test File"),
+						new Attachment("eight", "Eight Test File"), new Attachment("ninth", "Ninth Test File"))) }),
+				IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
+						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
+		message = registerTopic(driver, new Topic("Fifth Test with Truncation over 25 characters Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
+		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
+				asList(new Post[] { new Post("Sixth Test Body",
+						asList(new Attachment("ten", "Ten Test File"), new Attachment("eleven", "Eleven Test File"),
 								new Attachment("twelve", "Twelve Test File"))) }),
-						IMPORTANT,
-						new Poll("Fourth Test Question",
-								asList(new PollOption[] {
-										new PollOption("Ninth Test Answer"),
-										new PollOption("Ten Test Answer") }), 8)));
+				IMPORTANT,
+				new Poll("Fourth Test Question", asList(
+						new PollOption[] { new PollOption("Ninth Test Answer"), new PollOption("Ten Test Answer") }),
+						8)));
 		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
 	@Test
 	public void verifyRegisteredCanceledTopics() {
-		Topic topic = new Topic(new Forum("Third Test Forum"),
-				"Sixth Test Topic", asList(new Post[] { new Post(
-						"Sixth Test Body", asList(new Attachment("ten",
-								"Ten Test File"), new Attachment("eleven",
-								"Eleven Test File"), new Attachment("twelve",
-								"Twelve Test File"))) }), IMPORTANT, new Poll(
-						"Fourth Test Question", asList(new PollOption[] {
-								new PollOption("Ninth Test Answer"),
-								new PollOption("Ten Test Answer") }), 8));
-		String message = registerTopic(driver, topic, EMAIL_NO_NOTIFICATION,
-				CANCEL);
+		Topic topic = new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
+				asList(new Post[] { new Post("Sixth Test Body",
+						asList(new Attachment("ten", "Ten Test File"), new Attachment("eleven", "Eleven Test File"),
+								new Attachment("twelve", "Twelve Test File"))) }),
+				IMPORTANT,
+				new Poll("Fourth Test Question", asList(
+						new PollOption[] { new PollOption("Ninth Test Answer"), new PollOption("Ten Test Answer") }),
+						8));
+		String message = registerTopic(driver, topic, EMAIL_NO_NOTIFICATION, CANCEL);
 		assertTrue(message.equals("Sixth Test Topic"));
 		assertTrue(!isRegistered(driver, topic));
 	}
@@ -235,34 +180,31 @@ public class MyForumsTopicTest {
 			assertTrue(isRegistered(driver, topic));
 			goTo(driver);
 		}
-		assertEquals(topics.get(0).getSubject(), "Fifth Test Topic");
-		assertEquals(topics.get(1).getSubject(), "Fourth Test Topic");
-		assertEquals(topics.get(2).getSubject(), "Third Test Topic");
-		assertEquals(topics.get(3).getSubject(), "Second Test Topic");
-		assertEquals(topics.get(4).getSubject(), "First Test Topic");
-		assertEquals(topics.size(), 5);
+		assertEquals("Fifth Test with Truncation over 25 characters Topic", topics.get(0).getSubject());
+		assertEquals("Fourth Test Topic", topics.get(1).getSubject());
+		assertEquals("Third Test Topic", topics.get(2).getSubject());
+		assertEquals("Second Test Topic", topics.get(3).getSubject());
+		assertEquals("First Test Topic", topics.get(4).getSubject());
+		assertEquals(5, topics.size());
 	}
 
 	@Test
 	public void verifyUpdatedTopic() {
 		Topic topic = new Topic();
 		topic.setSubject("Third Test Topic");
-		String notificationType = viewAllTopicsUpdateTopic(driver, topic,
-				EMAIL_EMBEDED_NOTIFICATION);
-		assertEquals(notificationType, EMAIL_EMBEDED_NOTIFICATION.toString());
-		notificationType = viewAllTopicsUpdateTopic(driver, topic,
-				EMAIL_NO_NOTIFICATION);
-		assertEquals(notificationType, EMAIL_NO_NOTIFICATION.toString());
+		String notificationType = viewAllTopicsUpdateTopic(driver, topic, EMAIL_EMBEDED_NOTIFICATION);
+		assertEquals(EMAIL_EMBEDED_NOTIFICATION.toString(), notificationType);
+		notificationType = viewAllTopicsUpdateTopic(driver, topic, EMAIL_NO_NOTIFICATION);
+		assertEquals(EMAIL_NO_NOTIFICATION.toString(), notificationType);
 	}
 
 	@Test
 	public void verifyProfile() {
-		Topic topic = new Topic(new Forum("First Test Forum"),
-				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body") }));
+		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body") }));
 		Poster poster = ViewAllTopicsSelectTopic.selectProfile(driver, topic);
 		assertTrue(poster != null);
-		assertEquals(poster.getUserId(), "root");
+		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 18);
 	}
 
@@ -274,13 +216,11 @@ public class MyForumsTopicTest {
 		post.setMessage(message);
 		Topic result = ViewAllTopicsSelectPost.selectPost(driver, post);
 		assertTrue(result != null);
-		assertEquals(result.getPosts().size(), 1);
-		assertEquals(result.getPosts().get(0).getPoster().getUserId(), "root");
-		assertEquals(result.getPosts().get(0).getMessage().getSubject(),
-				message.getSubject());
-		assertEquals(result.getPosts().get(0).getMessage().getText(),
-				"First Test Body");
-		assertEquals(result.getSubject(), message.getSubject());
+		assertEquals(1, result.getPosts().size());
+		assertEquals("root", result.getPosts().get(0).getPoster().getUserId());
+		assertEquals(message.getSubject(), result.getPosts().get(0).getMessage().getSubject());
+		assertEquals("First Test Body", result.getPosts().get(0).getMessage().getText());
+		assertEquals(message.getSubject(), result.getSubject());
 	}
 
 	@Test
@@ -291,15 +231,14 @@ public class MyForumsTopicTest {
 		post.setMessage(message);
 		Poster poster = ViewAllTopicsSelectPost.selectProfile(driver, post);
 		assertTrue(poster != null);
-		assertEquals(poster.getUserId(), "root");
+		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 12);
 	}
 
 	@After
 	public void stop() {
-		Topic topic = new Topic(new Forum("First Test Forum"),
-				"First Test Topic", asList(new Post[] { new Post(
-						"First Test Body") }));
+		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
+				asList(new Post[] { new Post("First Test Body") }));
 		String message = unregisterTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
@@ -322,8 +261,8 @@ public class MyForumsTopicTest {
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Third Test Forum"), "Fifth Test Topic",
-				asList(new Post[] { new Post("Fifth Test Body") }));
+		topic = new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+				asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body") }));
 		message = viewAllTopicsRemoveTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
@@ -332,20 +271,15 @@ public class MyForumsTopicTest {
 				asList(new Post[] { new Post("Sixth Test Body") }));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("First Test Forum"),
-				"Second Test Forum");
+		message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"),
-				SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeForum(driver, new Forum("Third Test Forum"),
-				SELECT_FORUM_TYPE);
+		message = removeForum(driver, new Forum("Third Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_2_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }
