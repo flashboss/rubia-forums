@@ -30,6 +30,7 @@ Supported application servers and distributions
 ------------
 
 - Wildfly AS 10.0.0.Final
+- Liferay Portal 7.0 ce ga1 (on Wildfly 10.0.0.Final)
 
 
 Build
@@ -44,6 +45,7 @@ In development mode:
 list of distribution profiles:
 
     -Pwildfly-remote-1000              wildfly as 10.0.0
+    -Pliferay-remote-70                liferay portal 7.0 ce ga1
 
 You can also choose the package mode using the profiles:
 
@@ -114,4 +116,4 @@ It will start on the 5005 port.
 
 The tests are done using:
 
-- Firefox 44.0.2 on wildfly 10.0.0
+- Firefox 44.0.2 on Wildfly 10.0.0.Final

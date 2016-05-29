@@ -7,7 +7,7 @@
 		<portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
 		<init-param>
 			<name>javax.portlet.faces.defaultViewId.view</name>
-			<value>/views/view.xhtml</value>
+			<value>/views/index.xhtml</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -19,13 +19,19 @@
 			<keywords>rubia-forums</keywords>
 		</portlet-info>
 		<security-role-ref>
-			<role-name>administrator</role-name>
+			<role-name>admins</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guests</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>users</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>admin</role-name>
 		</security-role-ref>
 		<security-role-ref>
 			<role-name>guest</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>power-user</role-name>
 		</security-role-ref>
 		<security-role-ref>
 			<role-name>user</role-name>
