@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 7.0.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_7_0_0.dtd">
+
+<liferay-portlet-app>
+	<portlet>
+		<portlet-name>1</portlet-name>
+		<icon>/default_graphics/common/forums_ico_logo.gif</icon>
+		<!-- JAVASERVERFACES-3031 -->
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<render-weight>1</render-weight>
+		<ajaxable>false</ajaxable>
+		<add-default-resource>true</add-default-resource>
+	</portlet>
+	<role-mapper>
+		<role-name>admins</role-name>
+		<role-link>Admins</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>guests</role-name>
+		<role-link>Guests</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>users</role-name>
+		<role-link>Users</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>admin</role-name>
+		<role-link>Admin</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>guest</role-name>
+		<role-link>Guest</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>user</role-name>
+		<role-link>User</role-link>
+	</role-mapper>
+</liferay-portlet-app>
