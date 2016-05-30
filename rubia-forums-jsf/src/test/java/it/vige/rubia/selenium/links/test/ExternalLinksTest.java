@@ -16,6 +16,7 @@ import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static it.vige.rubia.selenium.links.action.ViewFooterLink.getPage;
 import static java.util.Arrays.asList;
+import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -45,6 +46,8 @@ public class ExternalLinksTest {
 	@Drone
 	private WebDriver driver;
 
+	public static final String INVALID_URL = getBundle("ResourceJSF").getString("Invalid_URL");
+
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
@@ -68,7 +71,7 @@ public class ExternalLinksTest {
 	@Test
 	public void verifyFooterLink() {
 		String message = getPage(driver);
-		assertNotEquals(message, "Invalid URL");
+		assertNotEquals(message, INVALID_URL);
 	}
 
 	@Test

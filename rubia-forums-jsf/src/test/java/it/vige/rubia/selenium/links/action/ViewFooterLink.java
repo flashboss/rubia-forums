@@ -11,8 +11,7 @@ public class ViewFooterLink {
 	public static String FOOTER_LINK = "PoweredBy";
 
 	public static void goTo(WebDriver driver) {
-		WebElement footerLink = driver.findElement(className(FOOTER_LINK))
-				.findElement(xpath("a"));
+		WebElement footerLink = driver.findElement(className(FOOTER_LINK)).findElement(xpath("a"));
 		footerLink.click();
 	}
 
