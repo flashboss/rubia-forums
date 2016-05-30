@@ -16,6 +16,7 @@ import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static it.vige.rubia.selenium.links.action.ViewFooterLink.getPage;
 import static java.util.Arrays.asList;
+import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -45,6 +46,8 @@ public class ExternalLinksTest {
 	@Drone
 	private WebDriver driver;
 
+	public static final String INVALID_URL = getBundle("ResourceJSF").getString("Invalid_URL");
+
 	@Before
 	public void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
@@ -68,7 +71,7 @@ public class ExternalLinksTest {
 	@Test
 	public void verifyFooterLink() {
 		String message = getPage(driver);
-		assertNotEquals(message, "Invalid URL");
+		assertNotEquals(message, INVALID_URL);
 	}
 
 	@Test
@@ -102,8 +105,8 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getTopics().get(0).getSubject());
 		assertEquals("First Test Question", result.getTopics().get(0).getPoll().getTitle());
 		assertEquals(2, result.getTopics().get(0).getPoll().getOptions().size());
-		assertEquals("Second Test Answer", result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion());
-		assertEquals("First Test Answer", result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion());
+		assertEquals("First Test Answer", result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion());
+		assertEquals("Second Test Answer", result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion());
 		assertEquals(2, result.getTopics().get(0).getPosts().size());
 		assertEquals("root", result.getTopics().get(0).getPosts().get(0).getPoster().getUserId());
 		assertEquals("root", result.getTopics().get(0).getPosts().get(1).getPoster().getUserId());
@@ -165,8 +168,8 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getSubject());
 		assertEquals("First Test Question", result.getPoll().getTitle());
 		assertEquals(2, result.getPoll().getOptions().size());
-		assertEquals("Second Test Answer", result.getPoll().getOptions().get(0).getQuestion());
-		assertEquals("First Test Answer", result.getPoll().getOptions().get(1).getQuestion());
+		assertEquals("First Test Answer", result.getPoll().getOptions().get(0).getQuestion());
+		assertEquals("Second Test Answer", result.getPoll().getOptions().get(1).getQuestion());
 		assertNotNull(result.getPosts().get(0).getAttachments());
 		assertEquals(3, result.getPosts().get(0).getAttachments().size());
 		assertEquals("First Test File",
