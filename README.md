@@ -118,6 +118,6 @@ It will start on the 5005 port.
 
 The tests are done using:
 
-- Firefox 43.0.3 on wildfly 9.0.0
-- Firefox 43.0.3 on wildfly 9.0.1
-- Firefox 43.0.3 on wildfly 9.0.2
+- Firefox 46.0.1 on wildfly 9.0.0
+- Firefox 46.0.1 on wildfly 9.0.1
+- Firefox 46.0.1 on wildfly 9.0.2
