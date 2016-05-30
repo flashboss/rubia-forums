@@ -102,8 +102,8 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getTopics().get(0).getSubject());
 		assertEquals("First Test Question", result.getTopics().get(0).getPoll().getTitle());
 		assertEquals(2, result.getTopics().get(0).getPoll().getOptions().size());
-		assertEquals("First Test Answer", result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion());
-		assertEquals("Second Test Answer", result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion());
+		assertEquals("Second Test Answer", result.getTopics().get(0).getPoll().getOptions().get(0).getQuestion());
+		assertEquals("First Test Answer", result.getTopics().get(0).getPoll().getOptions().get(1).getQuestion());
 		assertEquals(2, result.getTopics().get(0).getPosts().size());
 		assertEquals("root", result.getTopics().get(0).getPosts().get(0).getPoster().getUserId());
 		assertEquals("root", result.getTopics().get(0).getPosts().get(1).getPoster().getUserId());
@@ -165,8 +165,8 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getSubject());
 		assertEquals("First Test Question", result.getPoll().getTitle());
 		assertEquals(2, result.getPoll().getOptions().size());
-		assertEquals("First Test Answer", result.getPoll().getOptions().get(0).getQuestion());
-		assertEquals("Second Test Answer", result.getPoll().getOptions().get(1).getQuestion());
+		assertEquals("Second Test Answer", result.getPoll().getOptions().get(0).getQuestion());
+		assertEquals("First Test Answer", result.getPoll().getOptions().get(1).getQuestion());
 		assertNotNull(result.getPosts().get(0).getAttachments());
 		assertEquals(3, result.getPosts().get(0).getAttachments().size());
 		assertEquals("First Test File",
