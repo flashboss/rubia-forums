@@ -3,6 +3,6 @@
 
 <display>
 	<category name="category.Collaborate">
-		 <portlet id="1" /> 
+		 <portlet id="rubia-forums" /> 
 	</category>
 </display>

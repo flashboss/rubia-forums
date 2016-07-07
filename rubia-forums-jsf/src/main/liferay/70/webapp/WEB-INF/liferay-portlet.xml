@@ -3,29 +3,29 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>1</portlet-name>
+		<portlet-name>rubia-forums</portlet-name>
 		<icon>/default_graphics/common/forums_ico_logo.gif</icon>
 		<!-- JAVASERVERFACES-3031 -->
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<render-weight>1</render-weight>
-		<ajaxable>false</ajaxable>
+		<ajaxable>true</ajaxable>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 	<role-mapper>
 		<role-name>admins</role-name>
-		<role-link>Admins</role-link>
+		<role-link>Administrator</role-link>
 	</role-mapper>
 	<role-mapper>
 		<role-name>guests</role-name>
-		<role-link>Guests</role-link>
+		<role-link>Guest</role-link>
 	</role-mapper>
 	<role-mapper>
 		<role-name>users</role-name>
-		<role-link>Users</role-link>
+		<role-link>User</role-link>
 	</role-mapper>
 	<role-mapper>
 		<role-name>admin</role-name>
-		<role-link>Admin</role-link>
+		<role-link>Administrator</role-link>
 	</role-mapper>
 	<role-mapper>
 		<role-name>guest</role-name>

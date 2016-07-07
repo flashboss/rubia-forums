@@ -131,36 +131,21 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces</artifactId>
+				<version>${richfaces.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.richfaces</groupId>
-			<artifactId>richfaces</artifactId>
-			<version>${richfaces.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-7.0</artifactId>
 			<version>${version.jboss.spec.javaee.7.0}</version>
 			<type>pom</type>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.rometools</groupId>
-			<artifactId>rome-fetcher</artifactId>
-			<version>1.5.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-codec</groupId>
-					<artifactId>commons-codec</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
