@@ -16,8 +16,10 @@ package it.vige.rubia.wildfly.diecizerozero.auth;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBContext;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Named;
 
 import org.picketlink.idm.IdentityManager;
@@ -35,6 +37,7 @@ import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 
 @Named("userModule")
+@Startup
 @Singleton
 public class JBossUserModule implements UserModule, Serializable {
 
@@ -47,9 +50,27 @@ public class JBossUserModule implements UserModule, Serializable {
 	@javax.annotation.Resource
 	private EJBContext ejbContext;
 
+	@PostConstruct
+	public void init() {
+		if (identityManager == null) {
+			IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
+			builder.named("file-store-preserve-state").stores().file().preserveState(true).supportAllFeatures();
+			PartitionManager partitionManager = new DefaultPartitionManager(builder.buildAll());
+			Realm realm = partitionManager.getPartition(Realm.class, "forums-realm");
+			if (realm == null) {
+				realm = new Realm("forums-realm");
+				partitionManager.add(realm);
+			}
+			identityManager = partitionManager.createIdentityManager(realm);
+			insertUser("root");
+			insertUser("mary");
+			insertUser("john");
+			insertUser("demo");
+		}
+	}
+
 	@Override
 	public User findUserByUserName(String arg0) throws IllegalArgumentException {
-		loadIdentityManager();
 		User user = null;
 		try {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
@@ -62,7 +83,6 @@ public class JBossUserModule implements UserModule, Serializable {
 
 	@Override
 	public User findUserById(String arg0) throws IllegalArgumentException {
-		loadIdentityManager();
 		User user = null;
 		try {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
@@ -85,24 +105,6 @@ public class JBossUserModule implements UserModule, Serializable {
 			return newUsers.get(0);
 		else
 			return null;
-	}
-
-	private void loadIdentityManager() {
-		if (identityManager == null) {
-			IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
-			builder.named("file-store-preserve-state").stores().file().preserveState(true).supportAllFeatures();
-			PartitionManager partitionManager = new DefaultPartitionManager(builder.buildAll());
-			Realm realm = partitionManager.getPartition(Realm.class, "forums-realm");
-			if (realm == null) {
-				realm = new Realm("forums-realm");
-				partitionManager.add(realm);
-			}
-			identityManager = partitionManager.createIdentityManager(realm);
-			insertUser("root");
-			insertUser("mary");
-			insertUser("john");
-			insertUser("demo");
-		}
 	}
 
 	private void insertUser(String loginName) {

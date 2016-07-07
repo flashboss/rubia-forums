@@ -13,16 +13,18 @@
  ******************************************************************************/
 package it.vige.rubia.liferay.settezero.auth;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
 import it.vige.rubia.auth.User;
 
 public class LiferayUser implements User {
 
 	private String id;
 	private String userName;
-	
-	public LiferayUser(org.picketlink.idm.model.basic.User user) {
-		this.userName = user.getLoginName();
-		this.id = user.getLoginName();
+
+	public LiferayUser(com.liferay.portal.model.User user) throws PortalException {
+		this.userName = user.getLogin();
+		this.id = user.getLogin();
 	}
 
 	public String getUserName() {
@@ -41,6 +43,6 @@ public class LiferayUser implements User {
 	@Override
 	public void setId(String id) {
 		this.id = id;
-		
+
 	}
 }

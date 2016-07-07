@@ -291,7 +291,7 @@
 		</profile>
 
 		<profile>
-			<id>deploy-rest</id>
+			<id>deploy-wildfly-rest</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -395,6 +395,72 @@
 												=> true }
 											</command>
 											<command>:reload
+											</command>
+										</commands>
+									</afterDeployment>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+
+		<profile>
+			<id>deploy-liferay-rest</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.wildfly.plugins</groupId>
+						<artifactId>wildfly-maven-plugin</artifactId>
+						<version>1.0.2.Final</version>
+						<executions>
+							<execution>
+								<id>add-forums-datasource</id>
+								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
+									<resources>
+										<resource>
+											<properties>
+												<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
+												<enabled>true</enabled>
+												<enable>true</enable>
+												<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+												<driver-name>h2</driver-name>
+												<user-name>sa</user-name>
+												<min-pool-size>5</min-pool-size>
+												<max-pool-size>20</max-pool-size>
+											</properties>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>deploy-application</id>
+								<phase>install</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>del-resources</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+								<configuration>
+									<afterDeployment>
+										<commands>
+											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
+												{ "outcome" => "failed", "failure-description" =>
+												"JBAS014749: Operation
+												handler failed: null", "rolled-back"
+												=> true }
 											</command>
 										</commands>
 									</afterDeployment>

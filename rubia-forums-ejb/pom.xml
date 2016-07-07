@@ -258,16 +258,6 @@
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.5.5.SP1</version>
-				</dependency>
-				<dependency>
-					<groupId>org.picketlink</groupId>
-					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.5.5.SP1</version>
-				</dependency>
-				<dependency>
 					<groupId>org.apache.lucene</groupId>
 					<artifactId>lucene-core</artifactId>
 					<version>5.3.1</version>
@@ -293,6 +283,11 @@
 					<artifactId>hibernate-entitymanager</artifactId>
 					<version>5.0.7.Final</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.liferay.portal</groupId>
+					<artifactId>portal-service</artifactId>
+					<version>7.0.0-nightly</version>
 				</dependency>
 				<dependency>
 					<groupId>xml-apis</groupId>
