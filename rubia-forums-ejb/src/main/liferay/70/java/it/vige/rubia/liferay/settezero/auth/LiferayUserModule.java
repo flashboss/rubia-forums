@@ -13,15 +13,13 @@
  ******************************************************************************/
 package it.vige.rubia.liferay.settezero.auth;
 
-import static com.liferay.portal.service.UserLocalServiceUtil.addUser;
-import static com.liferay.portal.service.UserLocalServiceUtil.getUserByUuidAndCompanyId;
+import static com.liferay.portal.service.UserServiceUtil.addUser;
+import static com.liferay.portal.service.UserServiceUtil.getUserByScreenName;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJBContext;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.inject.Named;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,7 +28,6 @@ import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 
 @Named("userModule")
-@Startup
 @Singleton
 public class LiferayUserModule implements UserModule, Serializable {
 
@@ -41,19 +38,10 @@ public class LiferayUserModule implements UserModule, Serializable {
 
 	@javax.annotation.Resource
 	private EJBContext ejbContext;
-	
-	@PostConstruct
-	public void init() {
-		if (getUser("root") == null) {
-			insertUser("root");
-			insertUser("mary");
-			insertUser("john");
-			insertUser("demo");
-		}
-	}
 
 	@Override
 	public User findUserByUserName(String arg0) throws IllegalArgumentException {
+		loadIdentityManager();
 		User user = null;
 		try {
 			com.liferay.portal.model.User newUser = getUser(arg0);
@@ -66,6 +54,7 @@ public class LiferayUserModule implements UserModule, Serializable {
 
 	@Override
 	public User findUserById(String arg0) throws IllegalArgumentException {
+		loadIdentityManager();
 		User user = null;
 		try {
 			com.liferay.portal.model.User newUser = getUser(arg0);
@@ -78,9 +67,18 @@ public class LiferayUserModule implements UserModule, Serializable {
 
 	private com.liferay.portal.model.User getUser(String userId) {
 		try {
-			return getUserByUuidAndCompanyId(userId, 0);
+			return getUserByScreenName(0, userId);
 		} catch (PortalException e) {
 			return null;
+		}
+	}
+
+	private void loadIdentityManager() {
+		if (getUser("root") == null) {
+			insertUser("root");
+			insertUser("mary");
+			insertUser("john");
+			insertUser("demo");
 		}
 	}
 
@@ -88,7 +86,7 @@ public class LiferayUserModule implements UserModule, Serializable {
 		com.liferay.portal.model.User user = getUser(loginName);
 		if (user == null) {
 			try {
-				addUser(0, 0, true, loginName, loginName, true, loginName, loginName, 0, loginName, null, loginName,
+				addUser(0, true, loginName, loginName, true, loginName, loginName, 0, loginName, null, loginName,
 						loginName, loginName, 0, 0, true, 0, 0, 0, loginName, new long[0], new long[0], new long[0],
 						new long[0], true, null);
 			} catch (PortalException e) {

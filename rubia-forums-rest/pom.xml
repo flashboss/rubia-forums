@@ -462,6 +462,8 @@
 												handler failed: null", "rolled-back"
 												=> true }
 											</command>
+											<command>:reload
+											</command>
 										</commands>
 									</afterDeployment>
 								</configuration>
