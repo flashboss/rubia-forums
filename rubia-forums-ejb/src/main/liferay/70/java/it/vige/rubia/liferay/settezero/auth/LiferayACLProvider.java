@@ -65,7 +65,7 @@ public class LiferayACLProvider implements ForumsACLProvider {
 		String roleId = "";
 		if (ejbContext.getCallerPrincipal().getName().equals("anonymous"))
 			roleId = "guests";
-		else if (ejbContext.isCallerInRole("admins") || ejbContext.isCallerInRole("admin"))
+		else if (ejbContext.isCallerInRole("administrator"))
 			return true;
 		else if (ejbContext.isCallerInRole("users") || ejbContext.isCallerInRole("user"))
 			roleId = "users";
@@ -96,9 +96,9 @@ public class LiferayACLProvider implements ForumsACLProvider {
 		String roleId = "";
 		if (ejbContext.getCallerPrincipal().getName().equals("anonymous"))
 			roleId = "guests";
-		else if (ejbContext.isCallerInRole("admins") || ejbContext.isCallerInRole("admin"))
+		else if (ejbContext.isCallerInRole("administrator"))
 			return true;
-		else if (ejbContext.isCallerInRole("users") || ejbContext.isCallerInRole("user"))
+		else if (ejbContext.isCallerInRole("user"))
 			roleId = "users";
 		Identity identity = new SimpleIdentity(roleId);
 		boolean authorized = false;
