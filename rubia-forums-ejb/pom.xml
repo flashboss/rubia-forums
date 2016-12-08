@@ -219,14 +219,14 @@
 		</profile>
 
 		<profile>
-			<id>liferay-remote-70</id>
+			<id>wildfly-remote-1010</id>
 			<build>
 				<resources>
 					<resource>
 						<directory>src/main/resources</directory>
 					</resource>
 					<resource>
-						<directory>src/main/liferay/70/resources</directory>
+						<directory>src/main/wildfly/1010/resources</directory>
 					</resource>
 				</resources>
 				<plugins>
@@ -242,7 +242,7 @@
 								</goals>
 								<configuration>
 									<sources>
-										<source>src/main/liferay/70/java</source>
+										<source>src/main/wildfly/1010/java</source>
 									</sources>
 								</configuration>
 							</execution>
@@ -254,8 +254,18 @@
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
-					<version>10.0.0.Final</version>
+					<version>10.1.0.Final</version>
 					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-api</artifactId>
+					<version>2.5.5.SP2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.picketlink</groupId>
+					<artifactId>picketlink-idm-impl</artifactId>
+					<version>2.5.5.SP2</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
@@ -270,24 +280,19 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-orm</artifactId>
-					<version>5.5.1.Final</version>
+					<version>5.5.4.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>5.0.7.Final</version>
+					<version>5.0.10.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>5.0.7.Final</version>
+					<version>5.0.10.Final</version>
 					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>com.liferay.portal</groupId>
-					<artifactId>portal-service</artifactId>
-					<version>7.0.0-nightly</version>
 				</dependency>
 				<dependency>
 					<groupId>xml-apis</groupId>

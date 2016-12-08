@@ -192,7 +192,7 @@
 		</profile>
 
 		<profile>
-			<id>liferay-remote-70</id>
+			<id>wildfly-remote-1010</id>
 			<build>
 				<resources>
 					<resource>
@@ -208,7 +208,7 @@
 							<webResources>
 								<resource>
 									<!-- this is relative to the pom.xml directory -->
-									<directory>src/main/liferay/70/webapp</directory>
+									<directory>src/main/wildfly/1010/webapp</directory>
 								</resource>
 							</webResources>
 							<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
@@ -225,18 +225,18 @@
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-security</artifactId>
-					<version>10.0.0.Final</version>
+					<version>10.1.0.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-api</artifactId>
-					<version>2.5.5.SP1</version>
+					<version>2.5.5.SP2</version>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-impl</artifactId>
-					<version>2.5.5.SP1</version>
+					<version>2.5.5.SP2</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
@@ -256,17 +256,17 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-engine</artifactId>
-					<version>5.5.1.Final</version>
+					<version>5.5.4.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-search-orm</artifactId>
-					<version>5.5.1.Final</version>
+					<version>5.5.4.Final</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>5.0.7.Final</version>
+					<version>5.0.10.Final</version>
 					<scope>provided</scope>
 					<exclusions>
 						<exclusion>
@@ -278,7 +278,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>5.0.7.Final</version>
+					<version>5.0.10.Final</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -291,7 +291,7 @@
 		</profile>
 
 		<profile>
-			<id>deploy-wildfly-rest</id>
+			<id>deploy-rest</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -388,74 +388,6 @@
 										<commands>
 											<command>/subsystem=security/security-domain="rubia-domain":remove
 											</command>
-											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
-												{ "outcome" => "failed", "failure-description" =>
-												"JBAS014749: Operation
-												handler failed: null", "rolled-back"
-												=> true }
-											</command>
-											<command>:reload
-											</command>
-										</commands>
-									</afterDeployment>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		
-
-		<profile>
-			<id>deploy-liferay-rest</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.wildfly.plugins</groupId>
-						<artifactId>wildfly-maven-plugin</artifactId>
-						<version>1.0.2.Final</version>
-						<executions>
-							<execution>
-								<id>add-forums-datasource</id>
-								<phase>install</phase>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-								<configuration>
-									<address>subsystem=datasources,data-source=java:jdbc/forums_mdefault</address>
-									<resources>
-										<resource>
-											<properties>
-												<jndi-name>java:/jdbc/forums_mdefault</jndi-name>
-												<enabled>true</enabled>
-												<enable>true</enable>
-												<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-												<driver-name>h2</driver-name>
-												<user-name>sa</user-name>
-												<min-pool-size>5</min-pool-size>
-												<max-pool-size>20</max-pool-size>
-											</properties>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-							<execution>
-								<id>deploy-application</id>
-								<phase>install</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>del-resources</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>undeploy</goal>
-								</goals>
-								<configuration>
-									<afterDeployment>
-										<commands>
 											<command>/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove
 												{ "outcome" => "failed", "failure-description" =>
 												"JBAS014749: Operation

@@ -45,7 +45,7 @@ In development mode:
 list of distribution profiles:
 
     -Pwildfly-remote-1000              wildfly as 10.0.0
-    -Pliferay-remote-70                liferay portal 7.0 ce ga1
+    -Pwildfly-remote-1010              wildfly as 10.1.0
 
 You can also choose the package mode using the profiles:
 
@@ -68,9 +68,9 @@ If you want automatically reinstall and redeploy the application in a local acti
 
     mvn clean install -P${distribution},production,deploy-jsf
     
-As the same manner you can deploy the rest application instead of the jsf application using the goal deploy-wildfly-rest. Here a sample:
+As the same manner you can deploy the rest application instead of the jsf application using the goal deploy-rest. Here a sample:
 
-    mvn clean install -P${distribution},production,deploy-wildfly-rest
+    mvn clean install -P${distribution},production,deploy-rest
 
 to deploy it with the shell command in Wildfly:
 
@@ -91,7 +91,7 @@ Enter the details of the new user to add.
 Realm (ApplicationRealm) : 
 Username : user2
 Password : password2
-Re-enter Password : password
+Re-enter Password : password2
 What roles do you want this user to belong to? (Please enter a comma separated list, or leave blank for none) : users
 The username 'admin' is easy to guess
 Are you sure you want to add user 'admin' yes/no? yes
@@ -108,6 +108,16 @@ If your web application uses a default locale different by the english you must 
 		
 In this sample you must set the testing in the italian language.
 
+Since Firexox 47.x you must download the Geck Driver to use Selenium. To test the application with Firefox 50.0.2 download the Gecko driver here according your operative system:
+
+https://github.com/mozilla/geckodriver/releases/tag/v0.11.1
+
+Unzip it and add it in your folder for example: /Application
+
+The mvn command become:
+
+    mvn -P${distribution},selenium test -Duser.language=it -Duser.region=IT -Dwebdriver.gecko.driver=/Applications/geckodriver
+
 To debug the application using Eclipse you can put this parameter:
 
     mvn -Dmaven.surefire.debug test
@@ -117,3 +127,4 @@ It will start on the 5005 port.
 The tests are done using:
 
 - Firefox 46.0.1 on Wildfly 10.0.0.Final
+- Firefox 50.0.2 on Wildfly 10.1.0.Final
