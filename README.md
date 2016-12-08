@@ -18,7 +18,7 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on Wildfly 10.0.0.Final.
+This draft version has been tested on Wildfly 10.1.0.Final.
 
 Requirements
 ------------
@@ -30,7 +30,7 @@ Supported application servers and distributions
 ------------
 
 - Wildfly AS 10.0.0.Final
-- Liferay Portal 7.0 ce ga1 (on Wildfly 10.0.0.Final)
+- Wildfly AS 10.1.0.Final
 
 
 Build
