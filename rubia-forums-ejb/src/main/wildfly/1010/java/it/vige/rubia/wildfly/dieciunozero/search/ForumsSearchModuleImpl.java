@@ -23,7 +23,7 @@ import static java.util.Calendar.YEAR;
 import static java.util.Calendar.getInstance;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.NumericRangeQuery.newLongRange;
-import static org.apache.lucene.search.SortField.Type.INT;
+import static org.apache.lucene.search.SortField.Type.LONG;
 import static org.apache.lucene.search.SortField.Type.STRING;
 import static org.hibernate.search.Search.getFullTextSession;
 
@@ -275,7 +275,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 
 		Sort sort = null;
 		if (fieldName.equals(POST_TIME.getFieldName()))
-			sort = new Sort(new SortField(fieldName, INT, reverse));
+			sort = new Sort(new SortField(fieldName, LONG, reverse));
 		else
 			sort = new Sort(new SortField(fieldName, STRING, reverse));
 
