@@ -14,6 +14,7 @@
 package it.vige.rubia.model;
 
 import static javax.persistence.CascadeType.REMOVE;
+import static org.hibernate.search.annotations.Store.YES;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
 
 /**
  * Category of forums.
@@ -108,7 +108,7 @@ public class Forum implements Serializable {
 	private Integer id;
 
 	@Column(name = "JBP_NAME")
-	@Field(store = Store.YES)
+	@Field(store = YES)
 	private String name;
 
 	@Column(name = "JBP_ORDER")
