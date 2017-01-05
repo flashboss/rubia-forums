@@ -259,11 +259,13 @@
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-api</artifactId>
 					<version>2.5.5.SP2</version>
+					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.picketlink</groupId>
 					<artifactId>picketlink-idm-impl</artifactId>
 					<version>2.5.5.SP2</version>
+					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.lucene</groupId>
