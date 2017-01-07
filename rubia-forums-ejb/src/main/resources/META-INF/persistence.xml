@@ -8,11 +8,12 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 		<jta-data-source>jdbc/forums_mdefault</jta-data-source>
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->
-			<property name="hibernate.hbm2ddl.auto" value="MAVEN_REPLACER_HBM2DDL_AUTO" />
+			<property name="javax.persistence.schema-generation.database.action"
+                value="MAVEN_REPLACER_HBM2DDL_AUTO" />
 			<!-- Only format when you need to debug, because it slows things down -->
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.hbm2ddl.import_files" value="forums.import.sql" />
+			<property name="javax.persistence.sql-load-script-source" value="forums.import.sql" />
 			<property name="hibernate.search.lucene_version" value="LUCENE_CURRENT" />
 			<property name="hibernate.search.default.indexBase" value="rubia-forums" />
 		</properties>

@@ -92,7 +92,7 @@
 							<replacements>
 								<replacement>
 									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
-									<value>create</value>
+									<value>drop-and-create</value>
 								</replacement>
 							</replacements>
 						</configuration>
