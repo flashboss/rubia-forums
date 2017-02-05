@@ -108,7 +108,7 @@ If your web application uses a default locale different by the english you must 
 		
 In this sample you must set the testing in the italian language.
 
-Since Firexox 47.x you must download the Geck Driver to use Selenium. To test the application with Firefox 50.0.2 download the Gecko driver here according your operative system:
+Since Firefox 47.x you must download the Geck Driver to use Selenium. To test the application with Firefox 50.0.2 download the Gecko driver here according your operative system:
 
 https://github.com/mozilla/geckodriver/releases/tag/v0.11.1
 
