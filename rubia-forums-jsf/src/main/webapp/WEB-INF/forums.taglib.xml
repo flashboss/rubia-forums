@@ -20,7 +20,7 @@
 	version="2.2">
 	<namespace>http://www.jboss.com/products/jbossportal/forums</namespace>
 
-	<!-- function to check if the application is running in a portal envioronment -->
+	<!-- function to check if the application is running in a portal environment -->
 	<function>
 		<function-name>isRunningInPortal</function-name>
 		<function-class>it.vige.rubia.PortalUtil</function-class>
