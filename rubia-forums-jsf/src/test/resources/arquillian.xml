@@ -7,8 +7,7 @@
 		<property name="instantiationTimeoutInSeconds">0</property>
 	</extension>
 	<extension qualifier="webdriver">
-		<property name="browser">firefox</property>
-		<property name="firefoxUserPreferences">@OUTPUT_DIR@/test-classes/prefs.js</property>
+		<property name="browser">chrome</property>
 		<!-- property name="remoteReusable">true</property>
 		<property name="remoteAddress">http://68.169.56.98:4444/wd/hub</property -->
 	</extension>

@@ -40,6 +40,7 @@ import it.vige.rubia.model.Forum;
 
 import java.util.List;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.After;
@@ -49,6 +50,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 @RunWith(Arquillian.class)
+@RunAsClient
 public class OperationForumTest {
 
 	@Drone

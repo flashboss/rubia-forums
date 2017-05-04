@@ -127,4 +127,4 @@ It will start on the 5005 port.
 The tests are done using:
 
 - Firefox 46.0.1 on Wildfly 10.0.0.Final
-- Firefox 50.0.2 on Wildfly 10.1.0.Final
+- Chrome 58.0.3029.96 (64-bit) on Wildfly 10.1.0.Final

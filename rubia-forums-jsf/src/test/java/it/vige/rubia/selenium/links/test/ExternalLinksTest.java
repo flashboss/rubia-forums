@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.After;
@@ -41,6 +42,7 @@ import it.vige.rubia.selenium.links.action.ViewAtomLink;
 import it.vige.rubia.selenium.links.action.ViewRSSLink;
 
 @RunWith(Arquillian.class)
+@RunAsClient
 public class ExternalLinksTest {
 
 	@Drone

@@ -25,10 +25,10 @@ import static it.vige.rubia.selenium.adminpanel.action.UpdateCategory.updateCate
 import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import it.vige.rubia.model.Category;
 
 import java.util.Map;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.After;
@@ -37,12 +37,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
+import it.vige.rubia.model.Category;
+
 /**
  * This class tests receipts functionality of the example.
  * 
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class AdminPanelCategoryTest {
 
 	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle(

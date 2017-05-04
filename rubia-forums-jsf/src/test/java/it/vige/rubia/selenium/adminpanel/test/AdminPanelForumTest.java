@@ -36,6 +36,7 @@ import it.vige.rubia.model.Forum;
 
 import java.util.Map;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.After;
@@ -50,6 +51,7 @@ import org.openqa.selenium.WebDriver;
  * @author <a href="http://www.vige.it">Luca Stancapiano</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class AdminPanelForumTest {
 
 	public final static String CREATED_FORUM_0_MESSAGE = getBundle("ResourceJSF").getString("Forum_created_0")
