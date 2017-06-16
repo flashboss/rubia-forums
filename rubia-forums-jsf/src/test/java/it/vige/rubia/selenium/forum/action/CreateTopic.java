@@ -50,7 +50,7 @@ public class CreateTopic {
 		createTopic.click();
 		WebElement subjectInput = driver.findElement(id(SUBJECT_INPUT_TEXT));
 		subjectInput.sendKeys(topic.getSubject());
-		driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
+		switchFrame(driver);
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		bodytInput.sendKeys(topic.getPosts().get(0).getMessage().getText());
 		driver.switchTo().defaultContent();
@@ -76,5 +76,13 @@ public class CreateTopic {
 				.getSubject()));
 		String updatedTopic = resultCreateTopic.getText();
 		return updatedTopic;
+	}
+	
+	private static void switchFrame(WebDriver driver) {
+		try {
+			driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
+		} catch (Exception ex) {
+			switchFrame(driver);
+		}
 	}
 }
