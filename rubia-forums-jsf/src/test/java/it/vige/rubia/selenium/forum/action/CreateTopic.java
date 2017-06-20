@@ -24,46 +24,50 @@ import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CreateTopic {
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+public class CreateTopic extends Create {
+
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String CREATE_TOPIC_LINK = "//div[@class='actionbuttons']/ul/li/a";
 	public static final String SUBJECT_INPUT_TEXT = "post:SubjectInputText";
-	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 
 	public static String createTopic(WebDriver driver, Topic topic) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
-		WebElement forumEl = driver.findElement(linkText(topic.getForum()
-				.getName()));
+		WebElement forumEl = driver.findElement(linkText(topic.getForum().getName()));
 		forumEl.click();
 		WebElement createTopic = driver.findElement(xpath(CREATE_TOPIC_LINK));
 		createTopic.click();
 		WebElement subjectInput = driver.findElement(id(SUBJECT_INPUT_TEXT));
+		sleepThread();
 		subjectInput.sendKeys(topic.getSubject());
 		switchFrame(driver);
+		sleepThread();
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		bodytInput.sendKeys(topic.getPosts().get(0).getMessage().getText());
 		driver.switchTo().defaultContent();
+		sleepThread();
 		WebElement topicTypeInput = null;
-		topicTypeInput = driver.findElements(xpath("//input[@type='radio']"))
-				.get(topic.getType().getValue());
+		topicTypeInput = driver.findElements(xpath("//input[@type='radio']")).get(topic.getType().getValue());
 		topicTypeInput.click();
+		sleepThread();
 		Poll poll = topic.getPoll();
 		if (poll != null)
 			createOptions(driver, poll);
+		sleepThread();
 		addAttachments(driver, topic.getPosts().get(0));
+		sleepThread();
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
+		sleepThread();
 		if (topic.getPosts().size() > 1) {
 			for (int i = 1; i < topic.getPosts().size(); i++) {
 				Post post = topic.getPosts().get(i);
@@ -72,12 +76,12 @@ public class CreateTopic {
 				createPost(driver, post);
 			}
 		}
-		WebElement resultCreateTopic = driver.findElement(linkText(topic
-				.getSubject()));
+		sleepThread();
+		WebElement resultCreateTopic = driver.findElement(linkText(topic.getSubject()));
 		String updatedTopic = resultCreateTopic.getText();
 		return updatedTopic;
 	}
-	
+
 	private static void switchFrame(WebDriver driver) {
 		try {
 			driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));

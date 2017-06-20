@@ -19,15 +19,16 @@ package it.vige.rubia.selenium.forum.action;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
 
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CreatePoll {
+import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
+
+public class CreatePoll extends Create {
 	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
@@ -35,6 +36,7 @@ public class CreatePoll {
 	public static String[] createOptions(WebDriver driver, Poll poll) {
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(poll.getTitle());
+		sleepThread();
 		List<PollOption> options = poll.getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
@@ -45,6 +47,7 @@ public class CreatePoll {
 				optionButton = driver
 						.findElements(className(ADD_OPTION_BUTTON)).get(i * 2);
 				optionButton.click();
+				sleepThread();
 			}
 		WebElement[] updatedElements = new WebElement[options.size()];
 		for (int i = 0; i < options.size(); i++)

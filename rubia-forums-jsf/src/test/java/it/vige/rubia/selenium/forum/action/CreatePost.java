@@ -23,47 +23,47 @@ import static org.openqa.selenium.By.cssSelector;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Post;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CreatePost {
+import it.vige.rubia.model.Post;
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+public class CreatePost extends Create {
+
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String REPLY_POST_BUTTON = "actionbuttons";
-	public static final String BODY_INPUT_TEXT = "//iframe[contains(@title,'post:message:inp')]";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 	public static final String LOCKED = "locked";
 
 	public static String createPost(WebDriver driver, Post post) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
-		WebElement forumEl = driver.findElement(linkText(post.getTopic()
-				.getForum().getName()));
+		WebElement forumEl = driver.findElement(linkText(post.getTopic().getForum().getName()));
 		forumEl.click();
-		WebElement topicSubject = driver.findElement(linkText(post.getTopic()
-				.getSubject()));
+		sleepThread();
+		WebElement topicSubject = driver.findElement(linkText(post.getTopic().getSubject()));
 		topicSubject.click();
+		sleepThread();
 		try {
-			WebElement bodyText = driver.findElement(
-					className(REPLY_POST_BUTTON)).findElement(xpath("a[2]"));
+			WebElement bodyText = driver.findElement(className(REPLY_POST_BUTTON)).findElement(xpath("a[2]"));
 			bodyText.click();
 		} catch (NoSuchElementException e) {
 			return LOCKED;
 		}
 		switchFrame(driver);
+		sleepThread();
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		bodytInput.sendKeys(post.getMessage().getText());
 		driver.switchTo().defaultContent();
+		sleepThread();
 		addAttachments(driver, post);
+		sleepThread();
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
-		WebElement resultCreatePost = driver
-				.findElement(xpath("//td[contains(@class,forumpostcontent)]/p[contains(text(),'"
-						+ post.getMessage().getText() + "')]"));
+		WebElement resultCreatePost = driver.findElement(xpath(
+				"//td[contains(@class,forumpostcontent)]/p[contains(text(),'" + post.getMessage().getText() + "')]"));
 		String updatedPost = resultCreatePost.getText();
 		return updatedPost;
 	}
