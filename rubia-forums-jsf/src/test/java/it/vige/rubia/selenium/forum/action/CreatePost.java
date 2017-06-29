@@ -30,7 +30,7 @@ import org.openqa.selenium.WebElement;
 
 import it.vige.rubia.model.Post;
 
-public class CreatePost extends Create {
+public class CreatePost extends Write {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String REPLY_POST_BUTTON = "actionbuttons";

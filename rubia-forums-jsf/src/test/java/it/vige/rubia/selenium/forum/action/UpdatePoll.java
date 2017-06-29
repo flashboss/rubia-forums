@@ -29,7 +29,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class UpdatePoll {
+public class UpdatePoll extends Write {
 	public static final String UPDATE_TOPIC_BUTTON = "miviewtopicbody6";
 	public static final String OPTIONS_TO_VOTE_LIST = "radioCell";
 	public static final String VOTE_BUTTON = "buttonMed";
@@ -55,11 +55,14 @@ public class UpdatePoll {
 				WebElement optionInput = null;
 				WebElement optionButton = null;
 				optionInput = driver.findElement(id(OPTION_ADD_INPUT_TEXT));
+				sleepThread();
 				optionInput.sendKeys(options.get(i).getQuestion());
+				sleepThread();
 				optionButton = driver
 						.findElement(xpath("//input[starts-with(@value,'"
-								+ ADD_OPTION_BUTTON.substring(0, 11) + "')]"));
+								+ ADD_OPTION_BUTTON + "')]"));
 				optionButton.click();
+				sleepThread();
 			}
 		WebElement submitTopicButton = driver
 				.findElement(id(SUBMIT_TOPIC_BUTTON));
@@ -114,8 +117,11 @@ public class UpdatePoll {
 				WebElement optionButton = null;
 				optionInput = driver
 						.findElement(id(OPTION_INPUT_TEXT + (i + 1)));
+				sleepThread();
 				optionInput.clear();
+				sleepThread();
 				optionInput.sendKeys(options.get(i).getQuestion());
+				sleepThread();
 				optionButton = driver.findElement(id(UPDATE_OPTION_BUTTON
 						+ (i + 1)));
 				optionButton.click();
@@ -123,6 +129,7 @@ public class UpdatePoll {
 		WebElement submitTopicButton = driver
 				.findElement(id(SUBMIT_TOPIC_BUTTON));
 		submitTopicButton.click();
+		sleepThread();
 		Poll updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
@@ -135,8 +142,11 @@ public class UpdatePoll {
 		updateTopicButton.click();
 		WebElement questionInput = null;
 		questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
+		sleepThread();
 		questionInput.clear();
+		sleepThread();
 		questionInput.sendKeys(poll.getTitle());
+		sleepThread();
 		WebElement daysInput = driver.findElement(id(DAYS_INPUT_TEXT));
 		daysInput.clear();
 		daysInput.sendKeys(poll.getLength() + "");

@@ -28,7 +28,7 @@ import org.openqa.selenium.WebElement;
 import it.vige.rubia.model.Poll;
 import it.vige.rubia.model.PollOption;
 
-public class CreatePoll extends Create {
+public class CreatePoll extends Write {
 	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";

@@ -32,7 +32,7 @@ import it.vige.rubia.model.Poll;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 
-public class CreateTopic extends Create {
+public class CreateTopic extends Write {
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String CREATE_TOPIC_LINK = "//div[@class='actionbuttons']/ul/li/a";

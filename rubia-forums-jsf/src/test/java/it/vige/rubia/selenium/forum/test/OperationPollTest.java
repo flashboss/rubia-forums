@@ -48,6 +48,18 @@ import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
 import it.vige.rubia.model.Forum;
@@ -56,26 +68,15 @@ import it.vige.rubia.model.PollOption;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 
-import java.util.List;
-
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public class OperationPollTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -202,8 +203,6 @@ public class OperationPollTest {
 		assertEquals(0, options.get(0).getVotes());
 		assertEquals(0, options.get(1).getVotes());
 		assertEquals(2, options.size());
-		pollToUpdate.setTitle("Second Test Question");
-		updatePoll(driver, pollToUpdate);
 	}
 
 	@Test
@@ -266,8 +265,8 @@ public class OperationPollTest {
 		assertEquals(2, options.size());
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
