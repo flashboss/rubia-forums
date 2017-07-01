@@ -35,32 +35,33 @@ import static it.vige.rubia.selenium.forum.action.VerifyForum.getForumsOfCategor
 import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
 
 import java.util.List;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
+
+import it.vige.rubia.model.Category;
+import it.vige.rubia.model.Forum;
 
 @RunWith(Arquillian.class)
 @RunAsClient
 public class OperationForumTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
 	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_locked");
 	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_unlocked");
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -96,8 +97,8 @@ public class OperationForumTest {
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		String message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);

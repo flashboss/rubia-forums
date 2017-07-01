@@ -31,8 +31,8 @@ import java.util.Map;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -72,10 +72,10 @@ public class AdminPanelCategoryTest {
 			.getString("Delete_all_forums_topics_posts");
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category(
 				"First Test Category"));
@@ -84,8 +84,8 @@ public class AdminPanelCategoryTest {
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		String message = removeCategory(driver, new Category(
 				"First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));

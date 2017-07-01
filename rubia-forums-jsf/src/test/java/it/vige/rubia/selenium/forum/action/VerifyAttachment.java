@@ -47,7 +47,7 @@ import it.vige.rubia.model.Topic;
 
 public class VerifyAttachment {
 
-	public final static String download_url = getProperty("java.io.tmpdir");
+	public final static String download_url = getProperty("java.io.tmpdir") + "rubia_downloaded_files";
 
 	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String FORUM_TABLE = "forumtablestyle";
