@@ -70,6 +70,7 @@ public class CreateAttachment {
 				String comment = attachment.getComment();
 				WebElement attachmentInput = driver
 						.findElement(className(FILE_CHOOSE_BUTTON));
+				attachmentInput.clear();
 				attachmentInput.sendKeys(attachment.getName());
 				WebElement commentInput = addComment(driver, oldCommentsCount
 						+ i);
