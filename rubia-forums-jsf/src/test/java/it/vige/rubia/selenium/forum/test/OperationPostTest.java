@@ -378,7 +378,7 @@ public class OperationPostTest {
 		Poster poster = getPoster(driver, forum);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 56);
+		assertTrue(poster.getPostCount() >= 14);
 	}
 
 	@Test
@@ -389,7 +389,7 @@ public class OperationPostTest {
 		Poster poster = getPoster(driver, topic);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 28);
+		assertTrue(poster.getPostCount() >= 14);
 	}
 
 	@Test
@@ -404,7 +404,7 @@ public class OperationPostTest {
 		assertEquals(RE + "Third Test Topic", post.getMessage().getSubject());
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 56);
+		assertTrue(poster.getPostCount() >= 14);
 	}
 
 	@Test
@@ -414,7 +414,7 @@ public class OperationPostTest {
 		Poster poster = getPosterFromLink(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 70);
+		assertTrue(poster.getPostCount() >= 14);
 	}
 
 	@Test
