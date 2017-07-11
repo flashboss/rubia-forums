@@ -29,6 +29,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -72,6 +73,7 @@ public class Poll implements Serializable {
 	private String title;
 
 	@OneToMany(mappedBy = "poll", fetch = EAGER, cascade = REMOVE)
+	@OrderBy("pollOptionPosition")
 	private List<PollOption> options;
 
 	@Column(name = "JBP_LENGTH")

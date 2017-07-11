@@ -34,6 +34,8 @@ import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
+import static it.vige.rubia.selenium.forum.action.CreatePoll.createOptions;
+import static it.vige.rubia.selenium.forum.action.CreateTopic.SUBMIT_BUTTON;
 import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemovePoll.removePoll;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
@@ -42,12 +44,15 @@ import static it.vige.rubia.selenium.forum.action.UpdatePoll.deleteOptions;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.updatePoll;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.vote;
+import static it.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.xpath;
 
 import java.util.List;
 
@@ -59,6 +64,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
@@ -111,16 +117,20 @@ public class OperationPollTest {
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+				new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+								new PollOption("Sixth Test Answer") }),
 						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 	}
 
@@ -184,16 +194,16 @@ public class OperationPollTest {
 		assertEquals("Second Test Question", updatedPoll.getTitle());
 		assertEquals(0, updatedPoll.getVotesSum());
 		List<PollOption> options = updatedPoll.getOptions();
-		assertEquals("Fourth Test Answer", options.get(0).getQuestion());
-		assertEquals("Third Test Answer", options.get(1).getQuestion());
+		assertEquals("Third Test Answer", options.get(0).getQuestion());
+		assertEquals("Fourth Test Answer", options.get(1).getQuestion());
 		assertEquals(0, options.get(0).getVotes());
 		assertEquals(0, options.get(1).getVotes());
 		assertEquals(2, options.size());
 
 		pollToUpdate.setTitle("Fourth Test Question");
 		updatePoll(driver, pollToUpdate);
-		pollToUpdate.getOptions().get(0).setQuestion("Eight Test Answer");
-		pollToUpdate.getOptions().get(1).setQuestion("Seventh Test Answer");
+		pollToUpdate.getOptions().get(0).setQuestion("Seventh Test Answer");
+		pollToUpdate.getOptions().get(1).setQuestion("Eight Test Answer");
 		updatedPoll = updateOptions(driver, pollToUpdate);
 		assertEquals("Fourth Test Question", updatedPoll.getTitle());
 		assertEquals(0, updatedPoll.getVotesSum());
@@ -228,6 +238,19 @@ public class OperationPollTest {
 		assertEquals(50, options.get(0).getVotes());
 		assertEquals(50, options.get(1).getVotes());
 		assertEquals(2, options.size());
+		topic.setPoll(updatedPoll);
+		String message = removePoll(driver, topic);
+		assertTrue(message.equals(OK));
+		WebElement updatePostButton = driver
+				.findElement(
+						xpath("//tbody[contains(.,'Fourth Test Body')]"))
+				.findElement(id(UPDATE_POST_BUTTON))
+				.findElement(xpath("ul/a[1]"));
+		updatePostButton.click();
+		String[] createdOptions = createOptions(driver, updatedPoll);
+		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
+		operationButton.click();
+		assertEquals(2, createdOptions.length);
 	}
 
 	@Test
@@ -258,8 +281,8 @@ public class OperationPollTest {
 		assertEquals("Fourth Test Question", updatedPoll.getTitle());
 		assertEquals(0, updatedPoll.getVotesSum());
 		options = updatedPoll.getOptions();
-		assertEquals("Eight Test Answer", options.get(0).getQuestion());
-		assertEquals("Seventh Test Answer", options.get(1).getQuestion());
+		assertEquals("Seventh Test Answer", options.get(0).getQuestion());
+		assertEquals("Eight Test Answer", options.get(1).getQuestion());
 		assertEquals(0, options.get(0).getVotes());
 		assertEquals(0, options.get(1).getVotes());
 		assertEquals(2, options.size());
@@ -296,8 +319,10 @@ public class OperationPollTest {
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+				new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+								new PollOption("Sixth Test Answer") }),
 						9));
 		message = removePoll(driver, topic);
 		assertTrue(message.equals(OK));
@@ -305,7 +330,8 @@ public class OperationPollTest {
 		assertTrue(message.equals(OK));
 		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
 				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+						asList(new Attachment("fourth", "Fourth Test File"),
+								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
 								new Attachment("sixth", "Sixth Test File"))) }),
 				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
 						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0));
