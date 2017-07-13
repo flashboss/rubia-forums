@@ -16,6 +16,8 @@
  */
 package it.vige.rubia.selenium.forum.action;
 
+import static it.vige.rubia.selenium.forum.action.CreateTopic.SUBMIT_BUTTON;
+import static it.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
@@ -33,6 +35,16 @@ public class CreatePoll extends Write {
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
 
+	public static String[] addPoll(WebDriver driver, Poll poll) {
+		WebElement updatePostButton = driver.findElement(xpath("//tbody[contains(.,'Fourth Test Body')]"))
+				.findElement(id(UPDATE_POST_BUTTON)).findElement(xpath("ul/a[1]"));
+		updatePostButton.click();
+		String[] createdOptions = createOptions(driver, poll);
+		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
+		operationButton.click();
+		return createdOptions;
+	}
+
 	public static String[] createOptions(WebDriver driver, Poll poll) {
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(poll.getTitle());
@@ -44,15 +56,13 @@ public class CreatePoll extends Write {
 				WebElement optionButton = null;
 				optionInput = driver.findElement(id(NEW_OPTION_INPUT_TEXT));
 				optionInput.sendKeys(options.get(i).getQuestion());
-				optionButton = driver
-						.findElements(className(ADD_OPTION_BUTTON)).get(i * 2);
+				optionButton = driver.findElements(className(ADD_OPTION_BUTTON)).get(i * 2);
 				optionButton.click();
 				sleepThread();
 			}
 		WebElement[] updatedElements = new WebElement[options.size()];
 		for (int i = 0; i < options.size(); i++)
-			updatedElements[i] = driver.findElement(xpath("//input[@value='"
-					+ options.get(i).getQuestion() + "']"));
+			updatedElements[i] = driver.findElement(xpath("//input[@value='" + options.get(i).getQuestion() + "']"));
 		String[] results = new String[updatedElements.length];
 		for (int i = 0; i < updatedElements.length; i++)
 			results[i] = updatedElements[i].getAttribute("value");

@@ -34,8 +34,7 @@ import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_1_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
-import static it.vige.rubia.selenium.forum.action.CreatePoll.createOptions;
-import static it.vige.rubia.selenium.forum.action.CreateTopic.SUBMIT_BUTTON;
+import static it.vige.rubia.selenium.forum.action.CreatePoll.addPoll;
 import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemovePoll.removePoll;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
@@ -44,15 +43,12 @@ import static it.vige.rubia.selenium.forum.action.UpdatePoll.deleteOptions;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.updateOptions;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.updatePoll;
 import static it.vige.rubia.selenium.forum.action.UpdatePoll.vote;
-import static it.vige.rubia.selenium.forum.action.UpdatePost.UPDATE_POST_BUTTON;
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.xpath;
 
 import java.util.List;
 
@@ -64,7 +60,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
@@ -241,15 +236,7 @@ public class OperationPollTest {
 		topic.setPoll(updatedPoll);
 		String message = removePoll(driver, topic);
 		assertTrue(message.equals(OK));
-		WebElement updatePostButton = driver
-				.findElement(
-						xpath("//tbody[contains(.,'Fourth Test Body')]"))
-				.findElement(id(UPDATE_POST_BUTTON))
-				.findElement(xpath("ul/a[1]"));
-		updatePostButton.click();
-		String[] createdOptions = createOptions(driver, updatedPoll);
-		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
-		operationButton.click();
+		String[] createdOptions = addPoll(driver, updatedPoll);
 		assertEquals(2, createdOptions.length);
 	}
 
