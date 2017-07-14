@@ -20,51 +20,43 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import it.vige.rubia.model.Forum;
 
 public class UpdateForum {
 
-	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
-			.getString("Admin_panel");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF").getString("Admin_panel");
 	public static final String UPDATE_FORUM_NAME_INPUT_TEXT = "//form[label/text()='"
 			+ getBundle("ResourceJSF").getString("Forum_name") + ":']/input[5]";
 	public static final String UPDATE_FORUM_DESCRIPTION_INPUT_TEXT = "//form[label/text()='"
 			+ getBundle("ResourceJSF").getString("Forum_desc") + ":']/textarea";
 	public static final String SELECT_CATEGORY = "//form[label/text()='"
-			+ getBundle("ResourceJSF").getString("Forum_category")
-			+ ":']/select";
+			+ getBundle("ResourceJSF").getString("Forum_category") + ":']/select";
 	public static final String UPDATE_FORUM_LINK = "//form[label/text()='"
-			+ getBundle("ResourceJSF").getString("Forum_category")
-			+ ":']/input[6]";
+			+ getBundle("ResourceJSF").getString("Forum_category") + ":']/input[6]";
 	public static final String RESULT_UPDATE_FORUM = "successtext";
 
-	public static String updateForum(WebDriver driver, Forum oldForum,
-			Forum newForum) {
-		WebElement adminPanelLink = driver
-				.findElement(linkText(ADMIN_PANEL_LINK));
+	public static String updateForum(WebDriver driver, Forum oldForum, Forum newForum) {
+		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		WebElement updateForum = driver
-				.findElement(xpath("//td[strong/text()='" + oldForum.getName()
-						+ "']/form/a"));
+		WebElement updateForum = driver.findElement(xpath("//td[strong/text()='" + oldForum.getName() + "']/form/a"));
 		updateForum.click();
-		WebElement updateForumNameInputText = driver
-				.findElement(xpath(UPDATE_FORUM_NAME_INPUT_TEXT));
+		WebElement updateForumNameInputText = driver.findElement(xpath(UPDATE_FORUM_NAME_INPUT_TEXT));
 		updateForumNameInputText.clear();
 		updateForumNameInputText.sendKeys(newForum.getName());
-		WebElement updateForumDescriptionInputText = driver
-				.findElement(xpath(UPDATE_FORUM_DESCRIPTION_INPUT_TEXT));
+		WebElement updateForumDescriptionInputText = driver.findElement(xpath(UPDATE_FORUM_DESCRIPTION_INPUT_TEXT));
 		updateForumDescriptionInputText.clear();
 		updateForumDescriptionInputText.sendKeys(newForum.getDescription());
 		WebElement categoryOption = driver.findElement(xpath(SELECT_CATEGORY));
-		categoryOption.sendKeys(newForum.getCategory().getTitle());
-		WebElement updateForumLink = driver
-				.findElement(xpath(UPDATE_FORUM_LINK));
+		Select select = new Select(categoryOption);
+		select.selectByVisibleText(newForum.getCategory().getTitle());
+		WebElement updateForumLink = driver.findElement(xpath(UPDATE_FORUM_LINK));
 		updateForumLink.click();
-		WebElement resultUpdateForum = driver
-				.findElement(className(RESULT_UPDATE_FORUM));
+		WebElement resultUpdateForum = driver.findElement(className(RESULT_UPDATE_FORUM));
 		String message = resultUpdateForum.getText();
 		return message;
 	}

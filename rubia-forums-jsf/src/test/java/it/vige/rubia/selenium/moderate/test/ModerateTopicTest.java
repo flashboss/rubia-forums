@@ -37,6 +37,16 @@ import static java.util.Arrays.asList;
 import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
 import it.vige.rubia.model.Forum;
@@ -45,21 +55,12 @@ import it.vige.rubia.model.PollOption;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public class ModerateTopicTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
 	public final static String ERR_NO_POST_SELECTED = getBundle("ResourceJSF").getString("ERR_NO_POST_SELECTED");
 	public final static String ERR_DEST_FORUM = getBundle("ResourceJSF").getString("ERR_DEST_FORUM");
@@ -72,8 +73,8 @@ public class ModerateTopicTest {
 	public final static String ERR_NO_DEST_FORUM = getBundle("ResourceJSF").getString("ERR_NO_DEST_FORUM");
 	public final static String SUCC_TOPIC_MOVED = getBundle("ResourceJSF").getString("SUCC_TOPIC_MOVED");
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -114,30 +115,41 @@ public class ModerateTopicTest {
 				new Post("Thirtyone Test Body"), new Post("Thirtytwo Test Body"), new Post("Thirtythree Test Body"),
 				new Post("Thirtyfour Test Body"), new Post("Thirtyfive Test Body"), new Post("Thirtysix Test Body") }),
 				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+				new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+								new PollOption("Sixth Test Answer") }),
 						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic", asList(new Post[] {
-				new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))),
-				new Post("Thirtyseven Test Body"), new Post("Thirtyeight Test Body"), new Post("Thirtynine Test Body"),
-				new Post("Fourty Test Body"), new Post("Fourtyone Test Body"), new Post("Fourtytwo Test Body") }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(
+						new Forum("Second Test Forum"), "Fourth Test Topic", asList(new Post[] {
+								new Post("Fourth Test Body",
+										asList(new Attachment("fourth", "Fourth Test File"),
+												new Attachment("fifth",
+														"Fifth Test with Truncation over 25 characters File"),
+												new Attachment("sixth", "Sixth Test File"))),
+								new Post("Thirtyseven Test Body"), new Post("Thirtyeight Test Body"),
+								new Post("Thirtynine Test Body"), new Post("Fourty Test Body"),
+								new Post("Fourtyone Test Body"), new Post("Fourtytwo Test Body") }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createForum(driver,
 				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic", asList(new Post[] {
-				new Post("Fifth Test with Truncation over 25 characters Body", asList(new Attachment("seventh", "Seventh Test File"),
-						new Attachment("eight", "Eight Test File"), new Attachment("ninth", "Ninth Test File"))),
-				new Post("Fourtythree Test Body"), new Post("Fourtyfour Test Body"), new Post("Fourtyfive Test Body"),
-				new Post("Fourtysix Test Body"), new Post("Fourtyseven Test Body"),
-				new Post("Fourtyeight Test Body") }), IMPORTANT,
-				new Poll("Third Test Question", asList(new PollOption[] { new PollOption("Seventh Test Answer"),
-						new PollOption("Eight Test Answer") }), 8)));
+		message = createTopic(driver,
+				new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+						asList(new Post[] {
+								new Post("Fifth Test with Truncation over 25 characters Body",
+										asList(new Attachment("seventh", "Seventh Test File"),
+												new Attachment("eight", "Eight Test File"),
+												new Attachment("ninth", "Ninth Test File"))),
+								new Post("Fourtythree Test Body"), new Post("Fourtyfour Test Body"),
+								new Post("Fourtyfive Test Body"), new Post("Fourtysix Test Body"),
+								new Post("Fourtyseven Test Body"), new Post("Fourtyeight Test Body") }),
+						IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
 		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Sixth Test Topic", asList(new Post[] {
 				new Post("Sixth Test Body",
@@ -191,7 +203,8 @@ public class ModerateTopicTest {
 		assertEquals(ERR_NO_POST_SELECTED, message);
 		topic.setPosts(asList(new Post[] {
 				new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+						asList(new Attachment("fourth", "Fourth Test File"),
+								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
 								new Attachment("sixth", "Sixth Test File"))),
 				new Post("Thirtyeight Test Body"), new Post("Fourtyone Test Body") }));
 		message = moveTopicSelectedDown(driver, topic, null);
@@ -215,14 +228,19 @@ public class ModerateTopicTest {
 		topic.setSubject("Fourth Test Topic");
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic", asList(new Post[] {
-				new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))),
-				new Post("Thirtyseven Test Body"), new Post("Thirtyeight Test Body"), new Post("Thirtynine Test Body"),
-				new Post("Fourty Test Body"), new Post("Fourtyone Test Body"), new Post("Fourtytwo Test Body") }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(
+						new Forum("Second Test Forum"), "Fourth Test Topic", asList(new Post[] {
+								new Post("Fourth Test Body",
+										asList(new Attachment("fourth", "Fourth Test File"),
+												new Attachment("fifth",
+														"Fifth Test with Truncation over 25 characters File"),
+												new Attachment("sixth", "Sixth Test File"))),
+								new Post("Thirtyseven Test Body"), new Post("Thirtyeight Test Body"),
+								new Post("Thirtynine Test Body"), new Post("Fourty Test Body"),
+								new Post("Fourtyone Test Body"), new Post("Fourtytwo Test Body") }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 	}
 
@@ -254,14 +272,18 @@ public class ModerateTopicTest {
 		topic.setSubject("Fifth Test with Truncation over 25 characters Topic");
 		message = removeTopic(driver, CONFIRM, topic);
 		assertTrue(message.equals(SUCC_TOPIC_REMOVED));
-		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic", asList(new Post[] {
-				new Post("Fifth Test with Truncation over 25 characters Body", asList(new Attachment("seventh", "Seventh Test File"),
-						new Attachment("eight", "Eight Test File"), new Attachment("ninth", "Ninth Test File"))),
-				new Post("Fourtythree Test Body"), new Post("Fourtyfour Test Body"), new Post("Fourtyfive Test Body"),
-				new Post("Fourtysix Test Body"), new Post("Fourtyseven Test Body"),
-				new Post("Fourtyeight Test Body") }), IMPORTANT,
-				new Poll("Third Test Question", asList(new PollOption[] { new PollOption("Seventh Test Answer"),
-						new PollOption("Eight Test Answer") }), 8)));
+		message = createTopic(driver,
+				new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+						asList(new Post[] {
+								new Post("Fifth Test with Truncation over 25 characters Body",
+										asList(new Attachment("seventh", "Seventh Test File"),
+												new Attachment("eight", "Eight Test File"),
+												new Attachment("ninth", "Ninth Test File"))),
+								new Post("Fourtythree Test Body"), new Post("Fourtyfour Test Body"),
+								new Post("Fourtyfive Test Body"), new Post("Fourtysix Test Body"),
+								new Post("Fourtyseven Test Body"), new Post("Fourtyeight Test Body") }),
+						IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
 	}
 
@@ -349,8 +371,8 @@ public class ModerateTopicTest {
 		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") }));
 		String message = removeTopic(driver, CANCEL, topic);

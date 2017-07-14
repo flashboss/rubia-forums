@@ -6,16 +6,18 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.properties.OperationType;
 
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.properties.OperationType;
 
 public class MoveTopic {
 
@@ -30,8 +32,7 @@ public class MoveTopic {
 
 	public static void goToSplitPanel(WebDriver driver, Topic topic) {
 		goTo(driver, topic);
-		WebElement splitPanelLink = driver.findElement(id(SPLIT_PANEL_LINK))
-				.findElement(xpath("form/ul/li[5]/a"));
+		WebElement splitPanelLink = driver.findElement(id(SPLIT_PANEL_LINK)).findElement(xpath("form/ul/li[5]/a"));
 		splitPanelLink.click();
 	}
 
@@ -40,25 +41,18 @@ public class MoveTopic {
 			List<Post> posts = topic.getPosts();
 			if (posts != null)
 				for (Post post : posts) {
-					WebElement option = driver
-							.findElements(className("forumtablestyle"))
-							.get(1)
-							.findElement(
-									xpath("tbody/tr/td/p[contains(text(),'"
-											+ post.getMessage().getText()
-											+ "')]/../../td[3]/input"));
+					WebElement option = driver.findElements(className("forumtablestyle")).get(1).findElement(xpath(
+							"tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]/../../td[3]/input"));
 					option.click();
 				}
 		}
 		if (forumDest != null) {
-			WebElement forumSelect = driver
-					.findElements(className("forumtablestyle")).get(0)
-					.findElement(xpath("tbody/tr[4]/td[2]/select"));
-			forumSelect.sendKeys(forumDest.getName());
+			Select forumSelect = new Select(driver.findElements(className("forumtablestyle")).get(0)
+					.findElement(xpath("tbody/tr[4]/td[2]/select")));
+			forumSelect.selectByVisibleText(forumDest.getName());
 			List<Topic> topics = forumDest.getTopics();
 			if (topics != null && topics.size() == 1) {
-				WebElement topicSelect = driver
-						.findElements(className("forumtablestyle")).get(0)
+				WebElement topicSelect = driver.findElements(className("forumtablestyle")).get(0)
 						.findElement(xpath("tbody/tr[3]/td[2]/input"));
 				topicSelect.clear();
 				topicSelect.sendKeys(topics.get(0).getSubject());
@@ -66,15 +60,13 @@ public class MoveTopic {
 		}
 	}
 
-	public static String moveTopic(WebDriver driver, Forum forumDest,
-			OperationType operationType) {
-		WebElement moveTopic = driver.findElement(id(MOVE_TOPIC)).findElement(
-				xpath("form/ul/li[3]/a"));
+	public static String moveTopic(WebDriver driver, Forum forumDest, OperationType operationType) {
+		WebElement moveTopic = driver.findElement(id(MOVE_TOPIC)).findElement(xpath("form/ul/li[3]/a"));
 		moveTopic.click();
 		if (forumDest != null) {
-			WebElement forumSelect = driver
-					.findElement(name(MOVE_TOPIC_SELECT));
-			forumSelect.sendKeys(forumDest.getName());
+			WebElement forumSelect = driver.findElement(name(MOVE_TOPIC_SELECT));
+			Select select = new Select(forumSelect);
+			select.selectByVisibleText(forumDest.getName());
 		}
 		WebElement button = null;
 		if (operationType.equals(CANCEL))
@@ -92,41 +84,33 @@ public class MoveTopic {
 		return result;
 	}
 
-	public static String moveTopicSelectedUp(WebDriver driver, Topic topic,
-			Forum forumDest) {
+	public static String moveTopicSelectedUp(WebDriver driver, Topic topic, Forum forumDest) {
 		select(driver, topic, forumDest);
-		WebElement button = driver.findElements(className(BUTTON_ROW)).get(0)
-				.findElement(xpath("input[1]"));
+		WebElement button = driver.findElements(className(BUTTON_ROW)).get(0).findElement(xpath("input[1]"));
 		button.click();
 		WebElement message = driver.findElement(className(MESSAGE_RESULT));
 		return message.getText();
 	}
 
-	public static String moveTopicFromSelectedUp(WebDriver driver, Topic topic,
-			Forum forumDest) {
+	public static String moveTopicFromSelectedUp(WebDriver driver, Topic topic, Forum forumDest) {
 		select(driver, topic, forumDest);
-		WebElement button = driver.findElements(className(BUTTON_ROW)).get(0)
-				.findElement(xpath("input[2]"));
+		WebElement button = driver.findElements(className(BUTTON_ROW)).get(0).findElement(xpath("input[2]"));
 		button.click();
 		WebElement message = driver.findElement(className(MESSAGE_RESULT));
 		return message.getText();
 	}
 
-	public static String moveTopicSelectedDown(WebDriver driver, Topic topic,
-			Forum forumDest) {
+	public static String moveTopicSelectedDown(WebDriver driver, Topic topic, Forum forumDest) {
 		select(driver, topic, forumDest);
-		WebElement button = driver.findElements(className(BUTTON_ROW)).get(1)
-				.findElement(xpath("input[1]"));
+		WebElement button = driver.findElements(className(BUTTON_ROW)).get(1).findElement(xpath("input[1]"));
 		button.click();
 		WebElement message = driver.findElement(className(MESSAGE_RESULT));
 		return message.getText();
 	}
 
-	public static String moveTopicFromSelectedDown(WebDriver driver,
-			Topic topic, Forum forumDest) {
+	public static String moveTopicFromSelectedDown(WebDriver driver, Topic topic, Forum forumDest) {
 		select(driver, topic, forumDest);
-		WebElement button = driver.findElements(className(BUTTON_ROW)).get(1)
-				.findElement(xpath("input[2]"));
+		WebElement button = driver.findElements(className(BUTTON_ROW)).get(1).findElement(xpath("input[2]"));
 		button.click();
 		WebElement message = driver.findElement(className(MESSAGE_RESULT));
 		return message.getText();

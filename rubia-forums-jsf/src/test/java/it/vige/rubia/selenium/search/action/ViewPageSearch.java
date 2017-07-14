@@ -24,16 +24,17 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.search.SearchCriteria;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import it.vige.rubia.search.SearchCriteria;
 
 public class ViewPageSearch {
 
-	public static final String SEARCH_LINK = getBundle("ResourceJSF")
-			.getString("Search");
+	public static final String SEARCH_LINK = getBundle("ResourceJSF").getString("Search");
 
 	public static final String SEARCH_FIELD = "forumtablestyle";
 
@@ -56,9 +57,8 @@ public class ViewPageSearch {
 		}
 		if (messageResult == null) {
 			try {
-				messageResult = driver
-						.findElement(className(NOT_FOUND_RESULTS)).findElement(
-								xpath("tbody/tr/td/table/tbody/tr[2]/td"));
+				messageResult = driver.findElement(className(NOT_FOUND_RESULTS))
+						.findElement(xpath("tbody/tr/td/table/tbody/tr[2]/td"));
 			} catch (NoSuchElementException ex) {
 			}
 		}
@@ -80,20 +80,20 @@ public class ViewPageSearch {
 		}
 		if (arguments.getCategory() != null) {
 			element = table.findElement(xpath("tbody/tr[5]/td[2]/select"));
-			element.sendKeys(arguments.getCategory());
+			Select select = new Select(element);
+			select.selectByVisibleText(arguments.getCategory());
 		}
 		if (arguments.getDisplayAs() != null) {
 			if (arguments.getDisplayAs().equals(POSTS.name()))
-				element = table
-						.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[1]/td/input"));
+				element = table.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[1]/td/input"));
 			else
-				element = table
-						.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[2]/td/input"));
+				element = table.findElement(xpath("tbody/tr[10]/td[2]/table/tbody/tr[2]/td/input"));
 			element.click();
 		}
 		if (arguments.getForum() != null) {
 			element = table.findElement(xpath("tbody/tr[6]/td[2]/select"));
-			element.sendKeys(arguments.getForum());
+			Select select = new Select(element);
+			select.selectByVisibleText(arguments.getForum());
 		}
 		if (arguments.getKeywords() != null) {
 			element = table.findElement(xpath("tbody/tr[2]/td[2]/input"));
@@ -101,29 +101,27 @@ public class ViewPageSearch {
 		}
 		if (arguments.getSearching() != null) {
 			if (arguments.getSearching().equals(TITLE_MSG.name()))
-				element = table
-						.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[1]/td/input"));
+				element = table.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[1]/td/input"));
 			else
-				element = table
-						.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[2]/td/input"));
+				element = table.findElement(xpath("tbody/tr[8]/td[2]/table/tbody/tr[2]/td/input"));
 			element.click();
 		}
 		if (arguments.getSortBy() != null) {
 			element = table.findElement(xpath("tbody/tr[9]/td[2]/select"));
-			element.sendKeys(arguments.getSortBy());
+			Select select = new Select(element);
+			select.selectByVisibleText(arguments.getSortBy());
 		}
 		if (arguments.getSortOrder() != null) {
 			if (arguments.getSortOrder().equals(ASC.name()))
-				element = table
-						.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[1]/td/input"));
+				element = table.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[1]/td/input"));
 			else
-				element = table
-						.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[2]/td/input"));
+				element = table.findElement(xpath("tbody/tr[9]/td[2]/table/tbody/tr[2]/td/input"));
 			element.click();
 		}
 		if (arguments.getTimePeriod() != null) {
 			element = table.findElement(xpath("tbody/tr[7]/td[2]/select"));
-			element.sendKeys(arguments.getTimePeriod());
+			Select select = new Select(element);
+			select.selectByVisibleText(arguments.getTimePeriod());
 		}
 	}
 
