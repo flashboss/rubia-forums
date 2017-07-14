@@ -28,6 +28,16 @@ import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
 import it.vige.rubia.model.Forum;
@@ -36,21 +46,12 @@ import it.vige.rubia.model.PollOption;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
 
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public class ModerateForumTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
 	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("SUCC_TOPIC_LOCKED");
 	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("SUCC_TOPIC_UNLOCKED");
@@ -59,8 +60,8 @@ public class ModerateForumTest {
 	public final static String REMOVED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("SUCC_TOPIC_REMOVED");
 	public final static String MOVED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("SUCC_TOPIC_MOVED");
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -95,25 +96,32 @@ public class ModerateForumTest {
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+				new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+								new PollOption("Sixth Test Answer") }),
 						9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createForum(driver,
 				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
-				asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body", asList(new Attachment("seventh", "Seventh Test File"),
-						new Attachment("eight", "Eight Test File"), new Attachment("ninth", "Ninth Test File"))) }),
-				IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
+		message = createTopic(driver,
+				new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+						asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body",
+								asList(new Attachment("seventh", "Seventh Test File"),
+										new Attachment("eight", "Eight Test File"),
+										new Attachment("ninth", "Ninth Test File"))) }),
+						IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
 		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
 				asList(new Post[] { new Post("Sixth Test Body",
@@ -183,14 +191,15 @@ public class ModerateForumTest {
 		assertTrue(message.equals(UNLOCKED_FORUM_MESSAGE));
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		Forum firstForum = new Forum("First Test Forum");
 		firstForum.setTopics(asList(new Topic[] { new Topic("First Test Topic"), new Topic("Second Test Topic") }));
 		Forum secondForum = new Forum("Second Test Forum");
 		secondForum.setTopics(asList(new Topic[] { new Topic("Third Test Topic"), new Topic("Fourth Test Topic") }));
 		Forum thirdForum = new Forum("Third Test Forum");
-		thirdForum.setTopics(asList(new Topic[] { new Topic("Fifth Test with Truncation over 25 characters Topic"), new Topic("Sixth Test Topic") }));
+		thirdForum.setTopics(asList(new Topic[] { new Topic("Fifth Test with Truncation over 25 characters Topic"),
+				new Topic("Sixth Test Topic") }));
 		goToModerate(driver, firstForum);
 		String message = removeForum(driver, CANCEL, firstForum);
 		assertTrue(message.equals(""));

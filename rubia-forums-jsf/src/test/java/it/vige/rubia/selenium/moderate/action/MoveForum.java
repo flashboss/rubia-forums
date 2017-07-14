@@ -1,5 +1,6 @@
 package it.vige.rubia.selenium.moderate.action;
 
+import org.openqa.selenium.support.ui.Select;
 import static it.vige.rubia.properties.OperationType.CONFIRM;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
@@ -42,8 +43,8 @@ public class MoveForum {
 		} catch (NoSuchElementException ex) {
 			if (moveType == CONFIRM) {
 				if (destForum != null) {
-					WebElement select = driver.findElement(name(SELECT_INPUT));
-					select.sendKeys(destForum.getName());
+					Select select = new Select(driver.findElement(name(SELECT_INPUT)));
+					select.selectByVisibleText(destForum.getName());
 				}
 				WebElement option = driver.findElement(className(SELECT_TYPE))
 						.findElement(xpath("input[1]"));
