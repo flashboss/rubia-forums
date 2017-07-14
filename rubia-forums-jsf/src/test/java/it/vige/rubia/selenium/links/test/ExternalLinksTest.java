@@ -12,6 +12,7 @@ import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMO
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.SELECT_CATEGORY_TYPE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.CREATED_FORUM_0_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.REMOVED_FORUM_0_MESSAGE;
+import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_FORUM_TYPE;
 import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static it.vige.rubia.selenium.links.action.ViewFooterLink.getPage;
@@ -25,8 +26,8 @@ import static org.junit.Assert.assertTrue;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -46,12 +47,12 @@ import it.vige.rubia.selenium.links.action.ViewRSSLink;
 public class ExternalLinksTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
 	public static final String INVALID_URL = getBundle("ResourceJSF").getString("Invalid_URL");
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -74,6 +75,7 @@ public class ExternalLinksTest {
 	public void verifyFooterLink() {
 		String message = getPage(driver);
 		assertNotEquals(message, INVALID_URL);
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -94,6 +96,7 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getTopics().get(0).getPosts().get(1).getMessage().getSubject());
 		assertEquals("Second Test Body", result.getTopics().get(0).getPosts().get(0).getMessage().getText());
 		assertEquals("First Test Body", result.getTopics().get(0).getPosts().get(1).getMessage().getText());
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -130,6 +133,7 @@ public class ExternalLinksTest {
 				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1]).getComment());
 		assertEquals("Third Test File",
 				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2]).getComment());
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -149,6 +153,7 @@ public class ExternalLinksTest {
 		assertNotNull(result.getPosts().get(0).getCreateDate());
 		assertNotNull(result.getPosts().get(1).getCreateDate());
 		assertEquals("First Test Topic", result.getSubject());
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -184,16 +189,17 @@ public class ExternalLinksTest {
 		assertEquals(1, result.getPosts().get(1).getAttachments().size());
 		assertEquals("Fourth Test File",
 				((Attachment) result.getPosts().get(1).getAttachments().toArray()[0]).getComment());
+		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body"), new Post("Second Test Body") })));
 		assertTrue(message.equals(OK));
 		Forum forum = new Forum("First Test Forum");
-		message = removeForum(driver, forum, forum.getName());
+		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));

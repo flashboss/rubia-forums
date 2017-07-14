@@ -40,8 +40,8 @@ public class RemoveForum {
 		WebElement removeForum = driver
 				.findElement(xpath("//tr[td/strong/text()='" + forum.getName() + "']/td[2]/form/ul/li[3]/a/img"));
 		removeForum.click();
-		WebElement categoryOption = driver.findElement(xpath(SELECT_TYPE));
-		Select select = new Select(categoryOption);
+		WebElement option = driver.findElement(xpath(SELECT_TYPE));
+		Select select = new Select(option);
 		select.selectByVisibleText(removeType);
 		WebElement removeForumLink = driver.findElement(className(REMOVE_FORUM_LINK));
 		removeForumLink.click();
