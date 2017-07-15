@@ -74,8 +74,8 @@ import java.util.ResourceBundle;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -95,10 +95,10 @@ import it.vige.rubia.search.SearchCriteria;
 public class SearchTopicTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -118,8 +118,8 @@ public class SearchTopicTest {
 						4)));
 		assertTrue(
 				message.equals("First Test with a large subject name triing to truncate over the 25 character Topic"));
-		message = createTopic(driver,
-				new Topic(forum, "Second Test Topic", asList(new Post[] { new Post("Second Test Body",
+		message = createTopic(driver, new Topic(forum, "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				IMPORTANT,
@@ -136,20 +136,21 @@ public class SearchTopicTest {
 				new Topic(forum, "Third Test Topic", asList(new Post[] { new Post("Third Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-				ADVICE,
-				new Poll("Third Test Question",
-						asList(new PollOption[] {
-								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
-								new PollOption("Sixth Test Answer") }),
-						9)));
+						ADVICE,
+						new Poll("Third Test Question",
+								asList(new PollOption[] {
+										new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+										new PollOption("Sixth Test Answer") }),
+								9)));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"),
-								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(forum, "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = registerForum(driver, forum, EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Second Test Forum"));
@@ -192,7 +193,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -236,7 +237,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -286,7 +287,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -337,7 +338,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -374,7 +375,7 @@ public class SearchTopicTest {
 
 		goTo(driver);
 		searchForumCriteria.setTimePeriod(null);
-		searchForumCriteria.setSortBy(bundle.getString("Post_subject"));
+		searchForumCriteria.setSortBy(bundle.getString("Search_post_subject"));
 		searchForumCriteria.setSortOrder(ASC.name());
 		topics = searchTopic(driver, searchForumCriteria);
 		assertTrue(topics != null);
@@ -383,7 +384,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -427,7 +428,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(0, topics.get(0).getViewCount());
+		assertEquals(1, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -595,8 +596,8 @@ public class SearchTopicTest {
 		assertTrue(poster.getPostCount() >= 4);
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		String message = removeTopic(driver,
 				new Topic(new Forum("First Test Forum"),
 						"First Test with a large subject name triing to truncate over the 25 character Topic",
@@ -614,7 +615,7 @@ public class SearchTopicTest {
 		Forum forum = new Forum("First Test Forum");
 		message = unregisterForum(driver, forum);
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, forum, "First Test Forum");
+		message = removeForum(driver, forum, "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		forum = new Forum("Second Test Forum");
 		message = unregisterForum(driver, forum);

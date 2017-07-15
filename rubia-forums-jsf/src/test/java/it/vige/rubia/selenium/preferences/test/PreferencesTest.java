@@ -58,8 +58,8 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -75,10 +75,10 @@ import it.vige.rubia.ui.action.PreferenceController;
 public class PreferencesTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -1833,8 +1833,8 @@ public class PreferencesTest {
 		assertTrue(message.equals(OK));
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setAlwaysAddSignature(false);

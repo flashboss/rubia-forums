@@ -59,6 +59,20 @@ import static java.util.Arrays.asList;
 import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
 import it.vige.rubia.model.Forum;
@@ -69,28 +83,15 @@ import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.search.SearchCriteria;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public class SearchPostTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -137,13 +138,14 @@ public class SearchPostTest {
 		assertTrue(message.equals("Third Test Topic"));
 		message = registerTopic(driver, new Topic("Third Test Topic"), EMAIL_NO_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"),
-								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = registerTopic(driver, new Topic("Fourth Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fourth Test Topic"));
@@ -542,8 +544,8 @@ public class SearchPostTest {
 		assertTrue(poster.getPostCount() >= 6);
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") }));
 		String message = unregisterTopic(driver, topic);
