@@ -58,6 +58,18 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllForumsUpdateForum.vi
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+
 import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Category;
 import it.vige.rubia.model.Forum;
@@ -70,26 +82,15 @@ import it.vige.rubia.model.Topic;
 import it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum;
 import it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost;
 
-import java.util.List;
-
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public class MyForumsForumTest {
 
 	@Drone
-	private WebDriver driver;
+	private static WebDriver driver;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
@@ -107,8 +108,8 @@ public class MyForumsForumTest {
 						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
 						4)));
 		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(driver,
-				new Topic(forum, "Second Test Topic", asList(new Post[] { new Post("Second Test Body",
+		message = createTopic(driver, new Topic(forum, "Second Test Topic",
+				asList(new Post[] { new Post("Second Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				IMPORTANT,
@@ -125,15 +126,19 @@ public class MyForumsForumTest {
 				new Topic(forum, "Third Test Topic", asList(new Post[] { new Post("Third Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
-				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
-						9)));
+						ADVICE,
+						new Poll("Third Test Question",
+								asList(new PollOption[] {
+										new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+										new PollOption("Sixth Test Answer") }),
+								9)));
 		assertTrue(message.equals("Third Test Topic"));
 		message = createTopic(driver,
-				new Topic(forum, "Fourth Test Topic", asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
+				new Topic(forum, "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
 						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
 								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
@@ -147,7 +152,8 @@ public class MyForumsForumTest {
 		forum = new Forum("Fourth Test Forum", "Fourth Test Description", new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_3_MESSAGE));
-		forum = new Forum("Fifth Test with Truncation over 25 characters Forum", "Fifth Test Description", new Category("Second Test Category"));
+		forum = new Forum("Fifth Test with Truncation over 25 characters Forum", "Fifth Test Description",
+				new Category("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
 		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
@@ -253,8 +259,8 @@ public class MyForumsForumTest {
 		assertEquals(EMAIL_EMBEDED_NOTIFICATION.toString(), notificationType);
 	}
 
-	@After
-	public void stop() {
+	@AfterClass
+	public static void stop() {
 		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
@@ -270,7 +276,7 @@ public class MyForumsForumTest {
 		Forum forum = new Forum("First Test Forum");
 		message = unregisterForum(driver, forum);
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, forum, "First Test Forum");
+		message = removeForum(driver, forum, "Third Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		forum = new Forum("Second Test Forum");
 		message = unregisterForum(driver, forum);

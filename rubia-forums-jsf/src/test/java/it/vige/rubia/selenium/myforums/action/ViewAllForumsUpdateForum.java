@@ -20,20 +20,19 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.properties.NotificationType;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.properties.NotificationType;
 
 public class ViewAllForumsUpdateForum {
 
-	public static final String EDIT_FORUMS_LINK = getBundle("ResourceJSF")
-			.getString("EditAllSubscribed");
-	public static final String EDIT_LINK = getBundle("ResourceJSF").getString(
-			"Edit");
-	public static final String EDIT_SELECT = getBundle("ResourceJSF")
-			.getString("Edit");
+	public static final String EDIT_FORUMS_LINK = getBundle("ResourceJSF").getString("EditAllSubscribed");
+	public static final String EDIT_LINK = getBundle("ResourceJSF").getString("Edit");
+	public static final String EDIT_SELECT = getBundle("ResourceJSF").getString("Edit");
 	public static final String EDIT_BUTTON = "forumfloatright";
 	public static final String FORUM_LINK = "forumlistopen";
 
@@ -43,26 +42,18 @@ public class ViewAllForumsUpdateForum {
 		element.click();
 	}
 
-	public static String viewAllForumsUpdateForum(WebDriver driver,
-			Forum forum, NotificationType notificationType) {
+	public static String viewAllForumsUpdateForum(WebDriver driver, Forum forum, NotificationType notificationType) {
 		goTo(driver);
-		WebElement editLink = driver.findElement(linkText(forum.getName()))
-				.findElement(xpath("../../.."))
+		WebElement editLink = driver.findElement(linkText(forum.getName())).findElement(xpath("../../.."))
 				.findElement(linkText(EDIT_LINK));
 		editLink.click();
-		WebElement select = driver.findElement(linkText(forum.getName()))
-				.findElement(xpath("../../.."))
-				.findElement(className(EDIT_BUTTON))
-				.findElement(xpath("select"));
-		select.sendKeys(notificationType.toString());
-		WebElement editButton = driver.findElement(linkText(forum.getName()))
-				.findElement(xpath("../../.."))
-				.findElement(className(EDIT_BUTTON))
-				.findElement(xpath("input[2]"));
+		Select select = new Select(driver.findElement(linkText(forum.getName())).findElement(xpath("../../.."))
+				.findElement(className(EDIT_BUTTON)).findElement(xpath("select")));
+		select.selectByVisibleText(notificationType.toString());
+		WebElement editButton = driver.findElement(linkText(forum.getName())).findElement(xpath("../../.."))
+				.findElement(className(EDIT_BUTTON)).findElement(xpath("input[2]"));
 		editButton.click();
-		WebElement resultEditPost = driver
-				.findElement(linkText(forum.getName()))
-				.findElement(xpath("../../.."))
+		WebElement resultEditPost = driver.findElement(linkText(forum.getName())).findElement(xpath("../../.."))
 				.findElement(className(FORUM_LINK));
 		String message = resultEditPost.getText();
 		return message.substring(0, message.indexOf("(")).trim();

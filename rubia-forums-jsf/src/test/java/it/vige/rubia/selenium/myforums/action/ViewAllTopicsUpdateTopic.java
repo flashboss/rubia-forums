@@ -22,43 +22,31 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllTopics.goTo;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.properties.NotificationType;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.properties.NotificationType;
 
 public class ViewAllTopicsUpdateTopic {
 
-	public static String viewAllTopicsUpdateTopic(WebDriver driver,
-			Topic topic, NotificationType notificationType) {
+	public static String viewAllTopicsUpdateTopic(WebDriver driver, Topic topic, NotificationType notificationType) {
 		goTo(driver);
-		WebElement editLink = driver
-				.findElements(className(MY_FORUMS_LIST))
-				.get(0)
-				.findElement(
-						xpath("../tr/td/a[contains(text(),'"
-								+ topic.getSubject() + "')]/../../td[4]/a"));
+		WebElement editLink = driver.findElements(className(MY_FORUMS_LIST)).get(0)
+				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]/../../td[4]/a"));
 		editLink.click();
-		WebElement select = driver.findElement(linkText(topic.getSubject()))
-				.findElement(xpath("../../../.."))
-				.findElement(className(EDIT_BUTTON))
-				.findElement(xpath("select"));
-		select.sendKeys(notificationType.toString());
-		WebElement editButton = driver
-				.findElement(linkText(topic.getSubject()))
-				.findElement(xpath("../../../.."))
-				.findElement(className(EDIT_BUTTON))
-				.findElement(xpath("input[2]"));
+		Select select = new Select(driver.findElement(linkText(topic.getSubject())).findElement(xpath("../../../.."))
+				.findElement(className(EDIT_BUTTON)).findElement(xpath("select")));
+		select.selectByVisibleText(notificationType.toString());
+		WebElement editButton = driver.findElement(linkText(topic.getSubject())).findElement(xpath("../../../.."))
+				.findElement(className(EDIT_BUTTON)).findElement(xpath("input[2]"));
 		editButton.click();
 		WebElement resultEditPost = null;
 		String message = "";
-		resultEditPost = driver
-				.findElements(className(MY_FORUMS_LIST))
-				.get(0)
-				.findElement(
-						xpath("../tr/td/a[contains(text(),'"
-								+ topic.getSubject() + "')]/../../td[4]"));
+		resultEditPost = driver.findElements(className(MY_FORUMS_LIST)).get(0)
+				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]/../../td[4]"));
 		message = resultEditPost.getText();
 		return message.substring(0, message.indexOf("(")).trim();
 	}
