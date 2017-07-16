@@ -57,9 +57,7 @@ public class CreatePost extends Write {
 		WebElement bodytInput = driver.findElement(cssSelector("body"));
 		bodytInput.sendKeys(post.getMessage().getText());
 		driver.switchTo().defaultContent();
-		sleepThread();
 		addAttachments(driver, post);
-		sleepThread();
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
 		WebElement resultCreatePost = driver.findElement(xpath(

@@ -340,7 +340,7 @@ public class SearchPostTest {
 
 		goTo(driver);
 		searchTopicCriteria.setTimePeriod(null);
-		searchTopicCriteria.setSortBy(bundle.getString("Post_subject"));
+		searchTopicCriteria.setSortBy(bundle.getString("Search_post_subject"));
 		searchTopicCriteria.setSortOrder(ASC.name());
 		posts = searchPost(driver, searchTopicCriteria);
 		assertTrue(posts != null);
@@ -518,7 +518,7 @@ public class SearchPostTest {
 		Poster poster = getPosterFromLink(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 36);
+		assertTrue(poster.getPostCount() >= 6);
 	}
 
 	@Test

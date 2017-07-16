@@ -18,8 +18,6 @@ package it.vige.rubia.selenium.forum.action;
 
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Post;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +29,10 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CreateAttachment {
+import it.vige.rubia.model.Attachment;
+import it.vige.rubia.model.Post;
+
+public class CreateAttachment extends Write {
 
 	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
 	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
@@ -44,13 +45,13 @@ public class CreateAttachment {
 		updateButton.click();
 		return results;
 	}
-	
+
 	public static String[] addAttachments(WebDriver driver, Post post) {
+		sleepThread();
 		Collection<Attachment> attachments = post.getAttachments();
 		if (attachments != null) {
 			int i = 0;
-			int oldCommentsCount = driver.findElements(
-					className(FILE_COMMENT_INPUT_TEXT)).size();
+			int oldCommentsCount = driver.findElements(className(FILE_COMMENT_INPUT_TEXT)).size();
 			for (Attachment attachment : attachments) {
 
 				File file;
@@ -68,29 +69,26 @@ public class CreateAttachment {
 				}
 
 				String comment = attachment.getComment();
-				WebElement attachmentInput = driver
-						.findElement(className(FILE_CHOOSE_BUTTON));
+				WebElement attachmentInput = driver.findElement(className(FILE_CHOOSE_BUTTON));
 				attachmentInput.clear();
 				attachmentInput.sendKeys(attachment.getName());
-				WebElement commentInput = addComment(driver, oldCommentsCount
-						+ i);
+				WebElement commentInput = addComment(driver, oldCommentsCount + i);
 				i++;
 				commentInput.sendKeys(comment);
 			}
 		}
-		List<WebElement> attachmentResultList = driver
-				.findElements(className(RESULT_ATTACHMENT_LIST));
+		List<WebElement> attachmentResultList = driver.findElements(className(RESULT_ATTACHMENT_LIST));
 		String[] result = new String[attachmentResultList.size()];
 		for (int i = 0; i < result.length; i++)
 			result[i] = attachmentResultList.get(i).getText();
+		sleepThread();
 		return result;
 	}
 
 	public static WebElement addComment(WebDriver driver, int index) {
 		WebElement commentInput = null;
 		try {
-			commentInput = driver.findElements(
-					className(FILE_COMMENT_INPUT_TEXT)).get(index);
+			commentInput = driver.findElements(className(FILE_COMMENT_INPUT_TEXT)).get(index);
 		} catch (IndexOutOfBoundsException ex) {
 		}
 		if (commentInput == null)

@@ -565,7 +565,7 @@ public class SearchTopicTest {
 		Poster poster = getPoster(driver, topic);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 20);
+		assertTrue(poster.getPostCount() >= 4);
 	}
 
 	@Test
