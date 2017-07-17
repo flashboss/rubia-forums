@@ -6,7 +6,9 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ViewFooterLink {
+import it.vige.rubia.selenium.forum.action.Write;
+
+public class ViewFooterLink extends Write {
 
 	public static String FOOTER_LINK = "PoweredBy";
 
@@ -18,6 +20,7 @@ public class ViewFooterLink {
 
 	public static String getPage(WebDriver driver) {
 		goTo(driver);
+		returnToHome(driver);
 		return driver.getTitle();
 	}
 }

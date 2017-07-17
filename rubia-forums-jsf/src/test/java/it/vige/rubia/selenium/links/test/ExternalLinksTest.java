@@ -2,6 +2,7 @@ package it.vige.rubia.selenium.links.test;
 
 import static it.vige.rubia.Constants.RE;
 import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static it.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -53,7 +54,7 @@ public class ExternalLinksTest {
 
 	@BeforeClass
 	public static void setUp() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		driver.get(HOME_URL);
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
@@ -75,7 +76,6 @@ public class ExternalLinksTest {
 	public void verifyFooterLink() {
 		String message = getPage(driver);
 		assertNotEquals(message, INVALID_URL);
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -96,7 +96,6 @@ public class ExternalLinksTest {
 		assertEquals("First Test Topic", result.getTopics().get(0).getPosts().get(1).getMessage().getSubject());
 		assertEquals("Second Test Body", result.getTopics().get(0).getPosts().get(0).getMessage().getText());
 		assertEquals("First Test Body", result.getTopics().get(0).getPosts().get(1).getMessage().getText());
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -133,7 +132,6 @@ public class ExternalLinksTest {
 				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1]).getComment());
 		assertEquals("Third Test File",
 				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2]).getComment());
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -153,7 +151,6 @@ public class ExternalLinksTest {
 		assertNotNull(result.getPosts().get(0).getCreateDate());
 		assertNotNull(result.getPosts().get(1).getCreateDate());
 		assertEquals("First Test Topic", result.getSubject());
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@Test
@@ -189,12 +186,10 @@ public class ExternalLinksTest {
 		assertEquals(1, result.getPosts().get(1).getAttachments().size());
 		assertEquals("Fourth Test File",
 				((Attachment) result.getPosts().get(1).getAttachments().toArray()[0]).getComment());
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 	}
 
 	@AfterClass
 	public static void stop() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
 		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body"), new Post("Second Test Body") })));
 		assertTrue(message.equals(OK));

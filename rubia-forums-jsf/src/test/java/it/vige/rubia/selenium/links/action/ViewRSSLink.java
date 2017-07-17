@@ -25,8 +25,9 @@ import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.selenium.forum.action.VerifyForum;
 import it.vige.rubia.selenium.forum.action.VerifyTopic;
+import it.vige.rubia.selenium.forum.action.Write;
 
-public class ViewRSSLink {
+public class ViewRSSLink extends Write {
 
 	public static String RSS_LINK = "RSS";
 	public static String FEED_TITLE_TEXT = "feedTitleText";
@@ -69,6 +70,7 @@ public class ViewRSSLink {
 			topic.getPosts().add(post);
 		}
 		result.setTopics(new ArrayList<Topic>(topics.values()));
+		returnToHome(driver);
 		return result;
 	}
 
@@ -98,6 +100,7 @@ public class ViewRSSLink {
 			posts.add(post);
 		}
 		result.setPosts(posts);
+		returnToHome(driver);
 		return result;
 	}
 }

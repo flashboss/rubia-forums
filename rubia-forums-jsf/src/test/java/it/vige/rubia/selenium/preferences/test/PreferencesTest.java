@@ -20,6 +20,7 @@ import static it.vige.rubia.Constants.RE;
 import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.model.TopicType.IMPORTANT;
 import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static it.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -79,7 +80,7 @@ public class PreferencesTest {
 
 	@BeforeClass
 	public static void setUp() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		driver.get(HOME_URL);
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));

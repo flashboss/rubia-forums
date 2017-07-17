@@ -16,6 +16,7 @@
  */
 package it.vige.rubia.selenium.forum.test;
 
+import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static it.vige.rubia.selenium.adminpanel.action.RemoveCategory.removeCategory;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREATED_CATEGORY_1_MESSAGE;
@@ -53,7 +54,7 @@ public class OperationCategoryTest {
 
 	@BeforeClass
 	public static void setUp() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		driver.get(HOME_URL);
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));

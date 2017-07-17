@@ -29,8 +29,9 @@ import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 import it.vige.rubia.selenium.forum.action.VerifyForum;
 import it.vige.rubia.selenium.forum.action.VerifyTopic;
+import it.vige.rubia.selenium.forum.action.Write;
 
-public class ViewAtomLink {
+public class ViewAtomLink extends Write {
 
 	public static String ATOM_LINK = "ATOM";
 	public static String FEED_TITLE_TEXT = "feedTitleText";
@@ -84,6 +85,7 @@ public class ViewAtomLink {
 			goTo(driver);
 		}
 		result.setTopics(new ArrayList<Topic>(topics.values()));
+		returnToHome(driver);
 		return result;
 	}
 
@@ -124,6 +126,7 @@ public class ViewAtomLink {
 			goTo(driver);
 		}
 		result.setPosts(posts);
+		returnToHome(driver);
 		return result;
 	}
 }

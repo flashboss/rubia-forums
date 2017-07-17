@@ -20,6 +20,7 @@ import static it.vige.rubia.Constants.RE;
 import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.model.TopicType.IMPORTANT;
 import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static it.vige.rubia.selenium.adminpanel.action.CreateForum.createForum;
@@ -84,7 +85,7 @@ public class OperationPostTest {
 
 	@BeforeClass
 	public static void setUp() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
+		driver.get(HOME_URL);
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
@@ -130,10 +131,9 @@ public class OperationPostTest {
 						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
 						8)));
 		assertTrue(message.equals("Second Test Topic"));
-		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Fifth Test with Truncation over 25 characters Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+		message = createPost(driver, new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"),
+				"Fifth Test with Truncation over 25 characters Post", asList(new Attachment("first", "First Test File"),
+						new Attachment("second", "Second Test File"), new Attachment("third", "Third Test File"))));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Post"));
 		message = createPost(driver,
 				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Sixth Test Post",
@@ -153,8 +153,10 @@ public class OperationPostTest {
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
 				ADVICE,
-				new Poll("Third Test Question", asList(
-						new PollOption[] { new PollOption("Fifth Test with Truncation over 25 characters Answer"), new PollOption("Sixth Test Answer") }),
+				new Poll("Third Test Question",
+						asList(new PollOption[] {
+								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
+								new PollOption("Sixth Test Answer") }),
 						9)));
 		assertTrue(message.equals("Third Test Topic"));
 		message = createPost(driver,
@@ -167,16 +169,19 @@ public class OperationPostTest {
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))));
 		assertTrue(message.equals("Ninth Test Post"));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))) }),
-				IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-						new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver,
+				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
+						asList(new Post[] { new Post("Fourth Test Body",
+								asList(new Attachment("fourth", "Fourth Test File"),
+										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+										new Attachment("sixth", "Sixth Test File"))) }),
+						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
+								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createPost(driver,
 				new Post(new Topic(new Forum("Second Test Forum"), "Fourth Test Topic"), "Ten Test Post",
-						asList(new Attachment("fourth", "Fourth Test File"), new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
+						asList(new Attachment("fourth", "Fourth Test File"),
+								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
 								new Attachment("sixth", "Sixth Test File"))));
 		assertTrue(message.equals("Ten Test Post"));
 	}
@@ -441,8 +446,8 @@ public class OperationPostTest {
 		message = removePost(driver,
 				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Fourth Test Post"));
 		assertTrue(message.equals(OK));
-		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Fifth Test with Truncation over 25 characters Post"));
+		message = removePost(driver, new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"),
+				"Fifth Test with Truncation over 25 characters Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
 				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Sixth Test Post"));

@@ -16,6 +16,7 @@
  */
 package it.vige.rubia.selenium.adminpanel.test;
 
+import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
 import static it.vige.rubia.selenium.adminpanel.action.Move.DOWN;
 import static it.vige.rubia.selenium.adminpanel.action.Move.UP;
@@ -48,26 +49,16 @@ import it.vige.rubia.model.Category;
 @RunAsClient
 public class AdminPanelCategoryTest {
 
-	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle(
-			"ResourceJSF").getString("Category_created_0")
-			+ " \"First Test Category\" "
-			+ getBundle("ResourceJSF").getString("Category_created_1");
-	public final static String CREATED_CATEGORY_2_MESSAGE = getBundle(
-			"ResourceJSF").getString("Category_created_0")
-			+ " \"Second Test Category\" "
-			+ getBundle("ResourceJSF").getString("Category_created_1");
-	public final static String REMOVED_CATEGORY_0_MESSAGE = getBundle(
-			"ResourceJSF").getString("Category_deleted_0")
-			+ " \"First Test Category\" "
-			+ getBundle("ResourceJSF").getString("Category_deleted_1");
-	public final static String REMOVED_CATEGORY_1_MESSAGE = getBundle(
-			"ResourceJSF").getString("Category_deleted_0")
-			+ " \"Second Test Category\" "
-			+ getBundle("ResourceJSF").getString("Category_deleted_1");
-	public final static String UPDATED_CATEGORY_MESSAGE = getBundle(
-			"ResourceJSF").getString("Category_updated_0")
-			+ " \"Third Test Category\" "
-			+ getBundle("ResourceJSF").getString("Category_updated_1");
+	public final static String CREATED_CATEGORY_1_MESSAGE = getBundle("ResourceJSF").getString("Category_created_0")
+			+ " \"First Test Category\" " + getBundle("ResourceJSF").getString("Category_created_1");
+	public final static String CREATED_CATEGORY_2_MESSAGE = getBundle("ResourceJSF").getString("Category_created_0")
+			+ " \"Second Test Category\" " + getBundle("ResourceJSF").getString("Category_created_1");
+	public final static String REMOVED_CATEGORY_0_MESSAGE = getBundle("ResourceJSF").getString("Category_deleted_0")
+			+ " \"First Test Category\" " + getBundle("ResourceJSF").getString("Category_deleted_1");
+	public final static String REMOVED_CATEGORY_1_MESSAGE = getBundle("ResourceJSF").getString("Category_deleted_0")
+			+ " \"Second Test Category\" " + getBundle("ResourceJSF").getString("Category_deleted_1");
+	public final static String UPDATED_CATEGORY_MESSAGE = getBundle("ResourceJSF").getString("Category_updated_0")
+			+ " \"Third Test Category\" " + getBundle("ResourceJSF").getString("Category_updated_1");
 	public final static String SELECT_CATEGORY_TYPE = getBundle("ResourceJSF")
 			.getString("Delete_all_forums_topics_posts");
 
@@ -76,9 +67,8 @@ public class AdminPanelCategoryTest {
 
 	@BeforeClass
 	public static void setUp() {
-		driver.get("http://root:gtn@localhost:8080/rubia-forums/");
-		String message = createCategory(driver, new Category(
-				"First Test Category"));
+		driver.get(HOME_URL);
+		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
@@ -86,33 +76,26 @@ public class AdminPanelCategoryTest {
 
 	@AfterClass
 	public static void stop() {
-		String message = removeCategory(driver, new Category(
-				"First Test Category"), SELECT_CATEGORY_TYPE);
+		String message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"),
-				SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 	@Test
 	public void verifyMoveCategory() {
-		Map<String, Integer> positions = moveCategory(driver, new Category(
-				"First Test Category"), UP);
-		assertTrue(positions.get("newPosition") < positions
-				.get("firstPosition"));
-		positions = moveCategory(driver, new Category("First Test Category"),
-				DOWN);
-		assertTrue(positions.get("newPosition") > positions
-				.get("firstPosition"));
+		Map<String, Integer> positions = moveCategory(driver, new Category("First Test Category"), UP);
+		assertTrue(positions.get("newPosition") < positions.get("firstPosition"));
+		positions = moveCategory(driver, new Category("First Test Category"), DOWN);
+		assertTrue(positions.get("newPosition") > positions.get("firstPosition"));
 	}
 
 	@Test
 	public void verifyUpdateCategory() {
-		String message = updateCategory(driver, new Category(
-				"First Test Category"), new Category("Third Test Category"));
+		String message = updateCategory(driver, new Category("First Test Category"),
+				new Category("Third Test Category"));
 		assertTrue(message.equals(UPDATED_CATEGORY_MESSAGE));
-		message = updateCategory(driver, new Category("Third Test Category"),
-				new Category("First Test Category"));
+		message = updateCategory(driver, new Category("Third Test Category"), new Category("First Test Category"));
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
 	}
 }
