@@ -117,6 +117,12 @@ public class SplitTopic extends BaseController {
 	@Interceptors(AuthorizationListener.class)
 	public String splitAfter() {
 
+		// Checking whether topic has only one post, so it can't be splitted
+		if (posts.size() == 1) {
+			setWarnBundleMessage("ERR_SPLIT_ONE_POST_TOPIC");
+			return "";
+		}
+
 		// Removing all not slected posts
 		Iterator<Integer> selectIt = checkboxes.keySet().iterator();
 		while (selectIt.hasNext()) {
@@ -124,12 +130,6 @@ public class SplitTopic extends BaseController {
 			if (!postFlag.booleanValue()) {
 				selectIt.remove();
 			}
-		}
-
-		// Checking whether topic has only one post, so it can't be splitted
-		if (posts.size() == 1) {
-			setWarnBundleMessage("ERR_SPLIT_ONE_POST_TOPIC");
-			return "";
 		}
 
 		// Checking if user selected anything.
@@ -145,7 +145,6 @@ public class SplitTopic extends BaseController {
 		}
 
 		// check if user selected first post
-		List<Post> posts;
 		try {
 			posts = forumsModule.findPostsByTopicId(topic);
 			if (posts.get(0).getId().equals(checkboxes.keySet().iterator().next())) {
@@ -217,6 +216,7 @@ public class SplitTopic extends BaseController {
 			Forum fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - newTopic.getReplies() - 1);
 			fromForum.setPostCount(fromForum.getPostCount() - newTopic.getReplies() - 1);
+			posts.removeAll(postsToRemove);
 			topic.setLastPostDate(posts.get(posts.size() - 1).getCreateDate());
 
 			destForum.addTopicSize();
@@ -225,7 +225,6 @@ public class SplitTopic extends BaseController {
 			forumsModule.update(topic);
 			forumsModule.update(fromForum);
 			forumsModule.update(destForum);
-			this.posts.removeAll(postsToRemove);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -248,6 +247,12 @@ public class SplitTopic extends BaseController {
 	@Interceptors(AuthorizationListener.class)
 	public String splitPosts() {
 
+		// Checking whether topic has only one post, so it can't be splitted
+		if (posts.size() == 1) {
+			setWarnBundleMessage("ERR_SPLIT_ONE_POST_TOPIC");
+			return "";
+		}
+		
 		// Removing all not slected posts
 		Iterator<Integer> selectIt = checkboxes.keySet().iterator();
 		while (selectIt.hasNext()) {
@@ -255,12 +260,6 @@ public class SplitTopic extends BaseController {
 			if (!postFlag.booleanValue()) {
 				selectIt.remove();
 			}
-		}
-
-		// Checking whether topic has only one post, so it can't be splitted
-		if (posts.size() == 1) {
-			setWarnBundleMessage("ERR_SPLIT_ONE_POST_TOPIC");
-			return "";
 		}
 
 		// Checking if user selected anything.
@@ -310,6 +309,7 @@ public class SplitTopic extends BaseController {
 			Forum fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - checkboxes.size());
 			fromForum.setPostCount(fromForum.getPostCount() - checkboxes.size());
+			posts.removeAll(postsToRemove);
 			topic.setLastPostDate(posts.get(posts.size() - 1).getCreateDate());
 
 			newTopic.setReplies(checkboxes.size() - 1);
@@ -322,7 +322,6 @@ public class SplitTopic extends BaseController {
 			forumsModule.update(newTopic);
 			forumsModule.update(fromForum);
 			forumsModule.update(destForum);
-			posts.removeAll(postsToRemove);
 		} catch (Exception e) {
 			e.printStackTrace();
 			setWarnBundleMessage("ERR_INTERNAL");

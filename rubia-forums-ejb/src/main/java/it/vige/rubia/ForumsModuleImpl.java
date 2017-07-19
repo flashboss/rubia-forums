@@ -1030,7 +1030,6 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Map<Object, Object> findLastPostsOfTopics(Collection<Topic> topics) throws ModuleException {
 		try {
 
-			em.createNamedQuery("findLastPostsOfTopics");
 			List<Object[]> lastPostDates = new ArrayList<Object[]>(topics.size());
 			List<Date> dates = new LinkedList<Date>();
 			for (Topic tmpTopic : topics) {

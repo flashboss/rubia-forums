@@ -46,6 +46,7 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.model.Forum;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Topic;
@@ -71,6 +72,8 @@ public class ViewForum extends BaseController {
 
 	@EJB
 	private ForumsModule forumsModule;
+	@EJB
+	private UserModule userModule;
 
 	// preference related data
 	@Inject
@@ -363,5 +366,4 @@ public class ViewForum extends BaseController {
 	public Map<Integer, PageNavigator> getTopicNavigator() {
 		return topicNavigator;
 	}
-
 }
