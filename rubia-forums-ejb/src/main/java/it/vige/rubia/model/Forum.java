@@ -39,6 +39,7 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.SortableField;
 
 /**
  * Category of forums.
@@ -109,6 +110,7 @@ public class Forum implements Serializable {
 
 	@Column(name = "JBP_NAME")
 	@Field(store = YES)
+	@SortableField
 	private String name;
 
 	@Column(name = "JBP_ORDER")

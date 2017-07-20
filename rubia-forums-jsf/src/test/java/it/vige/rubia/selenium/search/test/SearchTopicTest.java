@@ -392,31 +392,31 @@ public class SearchTopicTest {
 				topics.get(0).getPosts().get(0).getMessage().getSubject().startsWith("First Test with a large s..."));
 		assertTrue(topics.get(0).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(0).getPosts().get(0).getPoster().getUserId());
-		assertEquals("Second Test Topic", topics.get(1).getSubject());
+		assertEquals("Fourth Test Topic", topics.get(1).getSubject());
 		assertEquals("root", topics.get(1).getPoster().getUserId());
 		assertEquals(0, topics.get(1).getReplies());
 		assertEquals(0, topics.get(1).getViewCount());
 		assertTrue(topics.get(1).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(1).getPosts().size());
-		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject().startsWith("Second Test Topic"));
+		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject().startsWith("Fourth Test Topic"));
 		assertTrue(topics.get(1).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(1).getPosts().get(0).getPoster().getUserId());
-		assertEquals("Third Test Topic", topics.get(2).getSubject());
+		assertEquals("Second Test Topic", topics.get(2).getSubject());
 		assertEquals("root", topics.get(2).getPoster().getUserId());
 		assertEquals(0, topics.get(2).getReplies());
 		assertEquals(0, topics.get(2).getViewCount());
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(2).getPosts().size());
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject().startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject().startsWith("Second Test Topic"));
 		assertTrue(topics.get(2).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(2).getPosts().get(0).getPoster().getUserId());
-		assertEquals("Fourth Test Topic", topics.get(3).getSubject());
+		assertEquals("Third Test Topic", topics.get(3).getSubject());
 		assertEquals("root", topics.get(3).getPoster().getUserId());
 		assertEquals(0, topics.get(3).getReplies());
 		assertEquals(0, topics.get(3).getViewCount());
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(3).getPosts().size());
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject().startsWith("Fourth Test Topic"));
+		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject().startsWith("Third Test Topic"));
 		assertTrue(topics.get(3).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(3).getPosts().get(0).getPoster().getUserId());
 
@@ -425,15 +425,13 @@ public class SearchTopicTest {
 		topics = searchTopic(driver, searchForumCriteria);
 		assertTrue(topics != null);
 		assertEquals(4, topics.size());
-		assertEquals("First Test with a large subject name triing to truncate over the 25 character Topic",
-				topics.get(0).getSubject());
+		assertEquals("Third Test Topic", topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
-		assertTrue(
-				topics.get(0).getPosts().get(0).getMessage().getSubject().startsWith("First Test with a large s..."));
+		assertTrue(topics.get(0).getPosts().get(0).getMessage().getSubject().startsWith("Third Test Topic"));
 		assertTrue(topics.get(0).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(0).getPosts().get(0).getPoster().getUserId());
 		assertEquals("Second Test Topic", topics.get(1).getSubject());
@@ -445,22 +443,24 @@ public class SearchTopicTest {
 		assertTrue(topics.get(1).getPosts().get(0).getMessage().getSubject().startsWith("Second Test Topic"));
 		assertTrue(topics.get(1).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(1).getPosts().get(0).getPoster().getUserId());
-		assertEquals("Third Test Topic", topics.get(2).getSubject());
+		assertEquals("Fourth Test Topic", topics.get(2).getSubject());
 		assertEquals("root", topics.get(2).getPoster().getUserId());
 		assertEquals(0, topics.get(2).getReplies());
 		assertEquals(0, topics.get(2).getViewCount());
 		assertTrue(topics.get(2).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(2).getPosts().size());
-		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject().startsWith("Third Test Topic"));
+		assertTrue(topics.get(2).getPosts().get(0).getMessage().getSubject().startsWith("Fourth Test Topic"));
 		assertTrue(topics.get(2).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(2).getPosts().get(0).getPoster().getUserId());
-		assertEquals("Fourth Test Topic", topics.get(3).getSubject());
+		assertEquals("First Test with a large subject name triing to truncate over the 25 character Topic",
+				topics.get(3).getSubject());
 		assertEquals("root", topics.get(3).getPoster().getUserId());
 		assertEquals(0, topics.get(3).getReplies());
-		assertEquals(0, topics.get(3).getViewCount());
+		assertEquals(1, topics.get(3).getViewCount());
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(3).getPosts().size());
-		assertTrue(topics.get(3).getPosts().get(0).getMessage().getSubject().startsWith("Fourth Test Topic"));
+		assertTrue(
+				topics.get(3).getPosts().get(0).getMessage().getSubject().startsWith("First Test with a large s..."));
 		assertTrue(topics.get(3).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(3).getPosts().get(0).getPoster().getUserId());
 

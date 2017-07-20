@@ -24,6 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.SortableField;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -43,6 +44,7 @@ public class Poster {
 
 	@Field(index = YES)
 	@Column(name = "JBP_USER_ID")
+	@SortableField
 	private String userId;
 
 	@Column(name = "JBP_POST_COUNT")

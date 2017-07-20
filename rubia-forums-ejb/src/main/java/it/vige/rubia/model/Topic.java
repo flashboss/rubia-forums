@@ -38,6 +38,7 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.SortableField;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -124,10 +125,11 @@ public class Topic implements Serializable, Comparable<Topic> {
 
 	@Field(index = YES)
 	@Column(name = "JBP_SUBJECT")
+	@SortableField
 	private String subject;
 
 	@ManyToMany
-	@JoinTable(name = "JBP_FORUMS_TOPICSWATCH", joinColumns = @JoinColumn(name = "JBP_TOPIC_ID") , inverseJoinColumns = @JoinColumn(name = "JBP_ID") )
+	@JoinTable(name = "JBP_FORUMS_TOPICSWATCH", joinColumns = @JoinColumn(name = "JBP_TOPIC_ID"), inverseJoinColumns = @JoinColumn(name = "JBP_ID"))
 	private List<Watch> watches;
 
 	@ManyToOne(cascade = REMOVE)

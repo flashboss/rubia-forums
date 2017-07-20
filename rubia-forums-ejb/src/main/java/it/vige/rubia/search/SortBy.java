@@ -25,9 +25,9 @@ package it.vige.rubia.search;
 public enum SortBy {
 
 	POST_TIME("createDate"),
-	POST_SUBJECT("topic.subject_forSort"), 
-	AUTHOR("userName"), 
-	FORUM("topic.forum.id");
+	POST_SUBJECT("topic.subject"), 
+	AUTHOR("poster.userId"), 
+	FORUM("topic.forum.name");
 	
 	private String fieldName;
 	
