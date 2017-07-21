@@ -17,6 +17,7 @@ import static it.vige.rubia.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.Collection;
 import java.util.Date;
@@ -28,6 +29,8 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.Constants;
 import it.vige.rubia.ForumsModule;
@@ -43,10 +46,10 @@ import it.vige.rubia.ui.action.PreferenceController;
 
 @Named("myForums")
 public class ViewMyForumsMain extends ViewMyForumsBase {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6587070080682393388L;
+	private static Logger log = getLogger(ViewMyForumsMain.class);
+
 	@EJB
 	private ForumsModule forumsModule;
 	@EJB
@@ -238,8 +241,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 				getForumImageDescriptions().put(currentForum.getId(), folderAlt);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 

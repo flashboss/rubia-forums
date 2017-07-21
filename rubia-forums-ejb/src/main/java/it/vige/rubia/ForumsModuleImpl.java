@@ -17,6 +17,7 @@ import static it.vige.rubia.Constants.TOPIC_UNLOCKED;
 import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
 import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +36,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.auth.User;
 import it.vige.rubia.model.Attachment;
@@ -65,6 +68,8 @@ import it.vige.rubia.util.NotificationEngine;
 
 @Stateless
 public class ForumsModuleImpl implements ForumsModule {
+
+	private static Logger log = getLogger(ForumsModuleImpl.class);
 
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
@@ -136,7 +141,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Forum findForumByIdFetchTopics(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
-				Query query = em.createNamedQuery("findForumByIdFetchTopics");
+				TypedQuery<Forum> query = em.createNamedQuery("findForumByIdFetchTopics", Forum.class);
 				query.setParameter("forumId", id);
 				List<Forum> forumList = query.getResultList();
 				if (forumList == null) {
@@ -180,7 +185,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Category findCategoryByIdFetchForums(Integer id) throws ModuleException {
 		if (id != null) {
 			try {
-				Query query = em.createNamedQuery("findCategoryByIdFetchForums");
+				TypedQuery<Category> query = em.createNamedQuery("findCategoryByIdFetchForums", Category.class);
 				query.setParameter("categoryId", id);
 				Category category = (Category) uniqueElement(query.getResultList());
 				if (category == null) {
@@ -201,9 +206,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Poster findPosterByUserId(String userId) throws ModuleException {
 		if (userId != null) {
 			try {
-				Query query = em.createNamedQuery("findPosterByUserId");
+				TypedQuery<Poster> query = em.createNamedQuery("findPosterByUserId", Poster.class);
 				query.setParameter("userId", userId);
-				Poster user = (Poster) uniqueElement(query.getResultList());
+				Poster user = uniqueElement(query.getResultList());
 				return user;
 			} catch (Exception e) {
 				String message = "Cannot find poster by name " + userId;
@@ -238,7 +243,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public List<Category> findCategories(Integer indexInstance) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findCategories");
+			TypedQuery<Category> query = em.createNamedQuery("findCategories", Category.class);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -251,7 +256,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Category> findCategoriesFetchForums(Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findCategoriesFetchForums");
+			TypedQuery<Category> query = em.createNamedQuery("findCategoriesFetchForums", Category.class);
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Category> categoriesWithDuplicates = query.getResultList();
 			List<Category> categories = new LinkedList<Category>();
@@ -271,7 +276,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Forum> findForums(Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForums");
+			TypedQuery<Forum> query = em.createNamedQuery("findForums", Forum.class);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -284,7 +289,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Forum> findForumsByCategory(Category category) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumsByCategoryId");
+			TypedQuery<Forum> query = em.createNamedQuery("findForumsByCategoryId", Forum.class);
 			query.setParameter("categoryId", category);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -297,7 +302,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Post> findAnnouncements(Forum forum) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findAnnouncements");
+			TypedQuery<Post> query = em.createNamedQuery("findAnnouncements", Post.class);
 			query.setParameter("forumid", "" + forum.getId());
 			query.setParameter("type", "" + ADVICE);
 			return query.getResultList();
@@ -314,7 +319,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Topic> findTopics(Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopics");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopics", Topic.class);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -338,7 +343,7 @@ public class ForumsModuleImpl implements ForumsModule {
 			throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicsType" + order);
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsType" + order, Topic.class);
 			query.setFirstResult(start);
 			query.setMaxResults(perPage);
 			query.setParameter("forumid", forum);
@@ -363,7 +368,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	private List<Topic> findTopics(Forum forum, int start, int perPage, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicsForum" + order);
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsForum" + order, Topic.class);
 			query.setFirstResult(start);
 			query.setMaxResults(perPage);
 			query.setParameter("forumid", forum);
@@ -407,7 +412,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public List<Topic> findTopicsHot(int replies, int limit, Integer indexInstance) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findTopicsHot");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsHot", Topic.class);
 			query.setMaxResults(limit);
 			query.setParameter("replies", replies);
 			query.setParameter("forumInstanceId", indexInstance);
@@ -421,7 +426,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public List<Topic> findTopicsByLatestPosts(int limit, Integer indexInstance) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findTopicsByLatestPosts");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsByLatestPosts", Topic.class);
 			query.setMaxResults(limit);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
@@ -434,7 +439,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public List<Topic> findTopicsHottest(Date after, int limit, Integer indexInstance) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findTopicsHottest");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsHottest", Topic.class);
 			query.setMaxResults(limit);
 			query.setParameter("after", after, TemporalType.DATE);
 			query.setParameter("forumInstanceId", indexInstance);
@@ -448,7 +453,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public List<Topic> findTopicsMostViewed(Date after, int limit, Integer indexInstance) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findTopicsMostViewed");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicsMostViewed", Topic.class);
 			query.setMaxResults(limit);
 			query.setParameter("after", after, TemporalType.DATE);
 			query.setParameter("forumInstanceId", indexInstance);
@@ -581,11 +586,11 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public Poll addPollToTopic(Topic topic, Poll poll) throws ModuleException {
 		try {
-			Query query = em.createNamedQuery("findPoll");
+			TypedQuery<Poll> query = em.createNamedQuery("findPoll", Poll.class);
 			query.setParameter("topicid", topic.getId());
 			Poll oldpoll = null;
 			try {
-				oldpoll = (Poll) query.getSingleResult();
+				oldpoll = query.getSingleResult();
 			} catch (NoResultException ex) {
 				oldpoll = null;
 			}
@@ -616,9 +621,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	private int getLastCategoryOrder(Integer indexInstance) {
 		try {
 
-			Query query = em.createNamedQuery("getLastCategoryOrder");
+			TypedQuery<Integer> query = em.createNamedQuery("getLastCategoryOrder", Integer.class);
 			query.setParameter("forumInstanceId", indexInstance);
-			Integer lastCategoryOrder = (Integer) uniqueElement(query.getResultList());
+			Integer lastCategoryOrder = uniqueElement(query.getResultList());
 			return (lastCategoryOrder != null) ? lastCategoryOrder.intValue() : 0;
 		} catch (Exception e) {
 			return 0;
@@ -732,9 +737,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	private int getLastForumOrder(Category category) {
 		try {
 
-			Query query = em.createNamedQuery("getLastForumOrder");
+			TypedQuery<Integer> query = em.createNamedQuery("getLastForumOrder", Integer.class);
 			query.setParameter("categoryId", category.getId());
-			Integer lastForumOrder = (Integer) uniqueElement(query.getResultList());
+			Integer lastForumOrder = uniqueElement(query.getResultList());
 			return (lastForumOrder != null) ? lastForumOrder.intValue() : 0;
 		} catch (Exception e) {
 			return 0;
@@ -784,7 +789,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		if (forum != null) {
 			try {
 
-				Query query = em.createNamedQuery("findTopicsForumNoOrder");
+				TypedQuery<Topic> query = em.createNamedQuery("findTopicsForumNoOrder", Topic.class);
 				query.setParameter("forumid", forum);
 				return query.getResultList();
 			} catch (Exception e) {
@@ -803,7 +808,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Post> findPosts(Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPosts");
+			TypedQuery<Post> query = em.createNamedQuery("findPosts", Post.class);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -855,7 +860,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	private List<Post> findPostsByTopicId(Topic topic, int start, int limit, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostsByTopicId" + order);
+			TypedQuery<Post> query = em.createNamedQuery("findPostsByTopicId" + order, Post.class);
 			query.setParameter("topicId", topic);
 			query.setFirstResult(start);
 			if (limit != 0) {
@@ -868,7 +873,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		}
 	}
 
-	private List<Post> findPostsByIdsFetchAttachmentsAndPosters(Collection<Post> posts, String order)
+	private List<Post> findPostsByIdsFetchAttachmentsAndPosters(Collection<Integer> posts, String order)
 			throws ModuleException {
 
 		if (posts == null || posts.size() == 0) {
@@ -877,7 +882,8 @@ public class ForumsModuleImpl implements ForumsModule {
 
 		try {
 
-			Query query = em.createNamedQuery("findPostsByIdsFetchAttachmentsAndPosters" + order);
+			TypedQuery<Post> query = em.createNamedQuery("findPostsByIdsFetchAttachmentsAndPosters" + order,
+					Post.class);
 			query.setParameter("postIds", posts);
 			List<Post> it = query.getResultList();
 			List<Post> list = new LinkedList<Post>();
@@ -894,19 +900,19 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
 		return findPostsByIdsFetchAttachmentsAndPosters(posts, "asc");
 	}
 
 	@Override
-	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
 		return findPostsByIdsFetchAttachmentsAndPosters(posts, "desc");
 	}
 
-	private List<Post> findPostIds(Topic topic, int start, int limit, String order) throws ModuleException {
+	private List<Integer> findPostIds(Topic topic, int start, int limit, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostIds" + order);
+			TypedQuery<Integer> query = em.createNamedQuery("findPostIds" + order, Integer.class);
 			query.setParameter("topicId", topic);
 			query.setFirstResult(start);
 			if (limit != 0) {
@@ -920,12 +926,12 @@ public class ForumsModuleImpl implements ForumsModule {
 	}
 
 	@Override
-	public List<Post> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
 		return findPostIds(topic, start, limit, "asc");
 	}
 
 	@Override
-	public List<Post> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
 		return findPostIds(topic, start, limit, "desc");
 	}
 
@@ -933,7 +939,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Post> findPostsByTopicId(Topic topic) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostsByTopicIdNoOrder");
+			TypedQuery<Post> query = em.createNamedQuery("findPostsByTopicIdNoOrder", Post.class);
 			query.setParameter("topicId", topic);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -967,12 +973,12 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Date findLastPostDateForUser(User user) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findLastPostDateForUser");
+			TypedQuery<Date> query = em.createNamedQuery("findLastPostDateForUser", Date.class);
 			query.setParameter("userId", "" + user.getId().toString());
-			Date lastPostDate = (Date) uniqueElement(query.getResultList());
+			Date lastPostDate = uniqueElement(query.getResultList());
 			return lastPostDate;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -981,14 +987,14 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Post findLastPost(Forum forum) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findLastPost");
+			TypedQuery<Post> query = em.createNamedQuery("findLastPost", Post.class);
 			query.setParameter("forumId", "" + forum.getId());
 			query.setFirstResult(0);
 			query.setMaxResults(1);
-			Post lastPost = (Post) uniqueElement(query.getResultList());
+			Post lastPost = uniqueElement(query.getResultList());
 			return lastPost;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -997,15 +1003,15 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Post findFirstPost(Topic topic) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findFirstPost");
+			TypedQuery<Post> query = em.createNamedQuery("findFirstPost", Post.class);
 			query.setParameter("lastPostDate", topic.getLastPostDate(), TemporalType.DATE);
 			query.setParameter("topicId", "" + topic.getId());
 			query.setFirstResult(0);
 			query.setMaxResults(1);
-			Post firstPost = (Post) uniqueElement(query.getResultList());
+			Post firstPost = uniqueElement(query.getResultList());
 			return firstPost;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -1014,14 +1020,14 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Post findLastPost(Topic topic) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findLastPostOrder");
+			TypedQuery<Post> query = em.createNamedQuery("findLastPostOrder", Post.class);
 			query.setParameter("topicId", "" + topic.getId());
 			query.setFirstResult(0);
 			query.setMaxResults(1);
 			Post lastPost = (Post) uniqueElement(query.getResultList());
 			return lastPost;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -1042,7 +1048,7 @@ public class ForumsModuleImpl implements ForumsModule {
 				return new HashMap<Object, Object>(0);
 			}
 
-			Query query = em.createNamedQuery("findLastPostsOfTopicsCreateDate");
+			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfTopicsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
 			Map<Object, Object> forumPostMap = new HashMap<Object, Object>(dates.size());
@@ -1064,7 +1070,7 @@ public class ForumsModuleImpl implements ForumsModule {
 			}
 			return forumPostMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -1076,7 +1082,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Map<Object, Post> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findLastPostsOfForums");
+			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfForums", Object[].class);
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> createDates = query.getResultList();
 			List<Object> dates = new LinkedList<Object>();
@@ -1089,9 +1095,9 @@ public class ForumsModuleImpl implements ForumsModule {
 				return new HashMap<Object, Post>(0);
 			}
 
-			query = em.createNamedQuery("findLastPostsOfForumsCreateDate");
+			query = em.createNamedQuery("findLastPostsOfForumsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
-			List<Post[]> posts = query.getResultList();
+			List<Object[]> posts = query.getResultList();
 			Map<Object, Post> forumPostMap = new HashMap<Object, Post>(createDates.size());
 			for (Object[] dateForum : createDates) {
 				int index = Collections.binarySearch(posts, dateForum, new Comparator<Object>() {
@@ -1111,7 +1117,7 @@ public class ForumsModuleImpl implements ForumsModule {
 			}
 			return forumPostMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			return null;
 		}
 	}
@@ -1120,7 +1126,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<ForumWatch> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumWatchByUser");
+			TypedQuery<ForumWatch> query = em.createNamedQuery("findForumWatchByUser", ForumWatch.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
@@ -1134,7 +1140,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Forum> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumWatchedByUser");
+			TypedQuery<Forum> query = em.createNamedQuery("findForumWatchedByUser", Forum.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
@@ -1148,7 +1154,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Topic> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatchedByUser");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicWatchedByUser", Topic.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
@@ -1162,7 +1168,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public List<Topic> findTopicWatchedByUser(User user, Date datePoint, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatchedByUserCreateDate");
+			TypedQuery<Topic> query = em.createNamedQuery("findTopicWatchedByUserCreateDate", Topic.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("datePoint", datePoint, TemporalType.TIMESTAMP);
 			query.setParameter("forumInstanceId", indexInstance);
@@ -1181,7 +1187,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatches");
+			TypedQuery<Object[]> query = em.createNamedQuery("findTopicWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
@@ -1199,7 +1205,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	private List<Post> findPostsFromForum(Forum forum, int limit, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostsFromForum" + order);
+			TypedQuery<Post> query = em.createNamedQuery("findPostsFromForum" + order, Post.class);
 
 			query.setParameter("forumId", forum.getId());
 
@@ -1228,7 +1234,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	private List<Post> findPostsFromCategory(Category category, int limit, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostsFromCategory" + order);
+			TypedQuery<Post> query = em.createNamedQuery("findPostsFromCategory" + order, Post.class);
 
 			query.setParameter("categoryId", category.getId());
 
@@ -1257,7 +1263,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	private List<Post> findPosts(int limit, String order) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findPostsOrder" + order);
+			TypedQuery<Post> query = em.createNamedQuery("findPostsOrder" + order, Post.class);
 			query.setFirstResult(0);
 
 			if (limit != 0) {
@@ -1329,9 +1335,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	public ForumWatch findForumWatchById(Integer forumWatchId) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumWatchById");
+			TypedQuery<ForumWatch> query = em.createNamedQuery("findForumWatchById", ForumWatch.class);
 			query.setParameter("forumWatchId", forumWatchId);
-			return (ForumWatch) uniqueElement(query.getResultList());
+			return uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find forum watch";
 			throw new ModuleException(message, e);
@@ -1346,7 +1352,7 @@ public class ForumsModuleImpl implements ForumsModule {
 	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumWatches");
+			TypedQuery<Object[]> query = em.createNamedQuery("findForumWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
@@ -1365,15 +1371,10 @@ public class ForumsModuleImpl implements ForumsModule {
 	public ForumWatch findForumWatchByUserAndForum(User user, int forumId) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findForumWatchByUserAndForum");
+			TypedQuery<ForumWatch> query = em.createNamedQuery("findForumWatchByUserAndForum", ForumWatch.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumId", forumId);
-			Object obj = uniqueElement(query.getResultList());
-			if (obj == null) {
-				return null;
-			} else {
-				return (ForumWatch) obj;
-			}
+			return uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find forum watch";
 			throw new ModuleException(message, e);
@@ -1384,15 +1385,10 @@ public class ForumsModuleImpl implements ForumsModule {
 	public TopicWatch findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatchByUserAndTopic");
+			TypedQuery<TopicWatch> query = em.createNamedQuery("findTopicWatchByUserAndTopic", TopicWatch.class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("topicId", topicId);
-			Object obj = uniqueElement(query.getResultList());
-			if (obj == null) {
-				return null;
-			} else {
-				return (TopicWatch) obj;
-			}
+			return uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find topic watch";
 			throw new ModuleException(message, e);
@@ -1437,9 +1433,9 @@ public class ForumsModuleImpl implements ForumsModule {
 	public TopicWatch findTopicWatchById(Integer topicWatchId) throws ModuleException {
 		try {
 
-			Query query = em.createNamedQuery("findTopicWatchById");
+			TypedQuery<TopicWatch> query = em.createNamedQuery("findTopicWatchById", TopicWatch.class);
 			query.setParameter("topicWatchId", topicWatchId.toString());
-			return (TopicWatch) uniqueElement(query.getResultList());
+			return uniqueElement(query.getResultList());
 		} catch (Exception e) {
 			String message = "Cannot find topic watch";
 			throw new ModuleException(message, e);
@@ -1545,18 +1541,18 @@ public class ForumsModuleImpl implements ForumsModule {
 	@Override
 	public Collection<Attachment> findAttachments(Post post) {
 		if (post != null) {
-			Query query = em.createNamedQuery("findAttachments");
+			TypedQuery<Attachment> query = em.createNamedQuery("findAttachments", Attachment.class);
 			query.setParameter("postId", post.getId());
 			return query.getResultList();
 		} else
 			return null;
 	}
 
-	static Object uniqueElement(List<Object> list) throws NonUniqueResultException {
+	static <T> T uniqueElement(List<T> list) throws NonUniqueResultException {
 		int size = list.size();
 		if (size == 0)
 			return null;
-		Object first = list.get(0);
+		T first = list.get(0);
 		for (int i = 1; i < size; i++) {
 			if (list.get(i) != first) {
 				throw new NonUniqueResultException(list.size() + "");

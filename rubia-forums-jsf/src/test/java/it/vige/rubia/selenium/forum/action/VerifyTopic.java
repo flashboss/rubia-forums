@@ -26,6 +26,7 @@ import static it.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 import static java.util.ResourceBundle.getBundle;
+import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
@@ -38,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.jboss.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -47,6 +49,8 @@ import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
 
 public class VerifyTopic {
+
+	private static Logger log = getLogger(VerifyTopic.class);
 
 	public static final String TOPIC_TABLE = "forumtablestyle";
 	public static final String TOPIC_STICKY = getBundle("ResourceJSF").getString("Topic_Sticky");
@@ -78,7 +82,7 @@ public class VerifyTopic {
 			lastPostDate = dateFormat.parse(permanentLink.substring(permanentLink.indexOf(posted) + posted.length() + 1,
 					permanentLink.indexOf(bundle.getString("Post_subject"))).trim());
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		topic.setLastPostDate(lastPostDate);
 		Poster poster = new Poster();
@@ -114,7 +118,7 @@ public class VerifyTopic {
 			lastPostDate = dateFormat
 					.parse(topicTable.findElements(xpath(LAST_POST_DATE_OUTPUT_TEXT)).get(i4).getText().split("\n")[2]);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		topic.setReplies(replies);
 		topic.setViewCount(viewCount);

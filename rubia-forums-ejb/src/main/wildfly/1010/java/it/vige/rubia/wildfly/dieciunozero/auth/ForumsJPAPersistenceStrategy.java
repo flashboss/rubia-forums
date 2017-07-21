@@ -13,6 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.dieciunozero.auth;
 
+import static org.jboss.logging.Logger.getLogger;
+import static org.jboss.security.PicketBoxMessages.MESSAGES;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,7 +24,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import static org.jboss.security.PicketBoxMessages.*;
+import org.jboss.logging.Logger;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPersistenceStrategy;
@@ -38,6 +41,8 @@ import org.jboss.security.authorization.Resource;
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
  */
 public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
+
+	private static Logger log = getLogger(ForumsJPAPersistenceStrategy.class);
 
 	// in memory cache of the created ACLs.
 	private final Map<Resource, ACL> aclMap;
@@ -81,8 +86,8 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 				manager.persist(acl);
 				// add the newly-created ACL to the cache.
 				this.aclMap.put(resource, acl);
-			} catch (RuntimeException re) {
-				re.printStackTrace();
+			} catch (RuntimeException e) {
+				log.error(e);
 			}
 		}
 		return acl;
@@ -115,8 +120,8 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 				// remove the ACL from the cache.
 				result = this.aclMap.remove(resource) != null;
 			}
-		} catch (RuntimeException re) {
-			re.printStackTrace();
+		} catch (RuntimeException e) {
+			log.error(e);
 		}
 		return result;
 	}
@@ -140,10 +145,9 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 	/**
 	 * @return the current persisted ACLs
 	 */
-	@SuppressWarnings("unchecked")
 	public Collection<ACL> getACLs() {
 		Collection<ACL> acls = null;
-		acls = manager.createQuery("SELECT a FROM ACLImpl a").getResultList();
+		acls = manager.createQuery("SELECT a FROM ACLImpl a", ACL.class).getResultList();
 		if (acls != null && this.resourceFactory != null) {
 			for (ACL acl : acls) {
 				ACLImpl impl = (ACLImpl) acl;
@@ -176,8 +180,8 @@ public class ForumsJPAPersistenceStrategy implements ACLPersistenceStrategy {
 			// update the cache.
 			this.aclMap.put(acl.getResource(), acl);
 			return true;
-		} catch (RuntimeException re) {
-			re.printStackTrace();
+		} catch (RuntimeException e) {
+			log.error(e);
 		}
 		return false;
 	}

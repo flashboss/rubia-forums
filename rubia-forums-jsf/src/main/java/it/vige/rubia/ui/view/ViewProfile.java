@@ -14,24 +14,27 @@
 package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.ui.ForumUtil.getParameter;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.ui.BaseController;
+import static org.jboss.logging.Logger.getLogger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
+
+import org.jboss.logging.Logger;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.model.Poster;
+import it.vige.rubia.ui.BaseController;
 
 /**
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
  */
 @Named("profile")
 public class ViewProfile extends BaseController {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 2028734088051699739L;
+	private static Logger log = getLogger(ViewProfile.class);
 
 	@EJB(name = "jboss-forums/ForumsModuleImpl/local")
 	private ForumsModule forumsModule;
@@ -55,8 +58,7 @@ public class ViewProfile extends BaseController {
 			try {
 				poster = forumsModule.findPosterByUserId(userId);
 			} catch (ModuleException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 	}

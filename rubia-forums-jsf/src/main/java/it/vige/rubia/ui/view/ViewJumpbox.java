@@ -15,12 +15,7 @@ package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.action.PreferenceController;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,6 +31,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
+import org.jboss.logging.Logger;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Category;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.action.PreferenceController;
+
 /**
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
  */
@@ -43,10 +47,8 @@ import javax.interceptor.Interceptors;
 @RequestScoped
 public class ViewJumpbox extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2141380006506609949L;
+	private static Logger log = getLogger(ViewJumpbox.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -91,8 +93,7 @@ public class ViewJumpbox extends BaseController {
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			categories = forumsModule
-					.findCategoriesFetchForums(forumInstanceId);
+			categories = forumsModule.findCategoriesFetchForums(forumInstanceId);
 			// Luca Stancapiano end
 
 			return categories;
@@ -109,23 +110,18 @@ public class ViewJumpbox extends BaseController {
 			FacesContext facesContext = getCurrentInstance();
 			Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 			if (eventParameter.startsWith("forum-")) {
-				parameters.put(p_forumId, Arrays
-						.asList(new String[] { eventParameter.replace("forum-",
-								"") }));
+				parameters.put(p_forumId, Arrays.asList(new String[] { eventParameter.replace("forum-", "") }));
 				action = "/views/forums/viewforum_body.xhtml";
 			} else {
 				action = "/views/category/viewcategory_body.xhtml";
-				parameters.put(p_categoryId, Arrays
-						.asList(new String[] { eventParameter.replace(
-								"category-", "") }));
+				parameters.put(p_categoryId, Arrays.asList(new String[] { eventParameter.replace("category-", "") }));
 			}
-			redirectUrl = facesContext.getApplication().getViewHandler()
-					.getRedirectURL(facesContext, action, parameters, true);
+			redirectUrl = facesContext.getApplication().getViewHandler().getRedirectURL(facesContext, action,
+					parameters, true);
 			try {
 				facesContext.getExternalContext().redirect(redirectUrl);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 	}

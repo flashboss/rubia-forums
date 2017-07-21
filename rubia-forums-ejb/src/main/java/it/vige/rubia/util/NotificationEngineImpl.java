@@ -17,6 +17,7 @@ import static it.vige.rubia.Constants.WATCH_MODE_EMBEDED;
 import static it.vige.rubia.Constants.WATCH_MODE_LINKED;
 import static it.vige.rubia.Constants.WATCH_MODE_NONE;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.io.StringWriter;
 import java.util.Date;
@@ -45,6 +46,8 @@ import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
+import org.jboss.logging.Logger;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.PortalUtil;
@@ -68,6 +71,8 @@ import it.vige.rubia.model.Watch;
 @Named
 public class NotificationEngineImpl implements NotificationEngine {
 
+	private static Logger log = getLogger(NotificationEngineImpl.class);
+	
 	@EJB
 	private ForumsACLProvider forumsACLProvider;
 
@@ -128,7 +133,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 			Transaction tx = tm.getTransaction();
 			tx.registerSynchronization(task);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 
@@ -334,7 +339,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 				}
 			} catch (IllegalArgumentException e) {
 			} catch (ModuleException e1) {
-				e1.printStackTrace();
+				log.error(e1);
 			}
 		}
 

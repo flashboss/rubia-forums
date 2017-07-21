@@ -21,15 +21,7 @@ import static java.lang.Integer.parseInt;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.view.ViewTopic;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +42,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
+import org.jboss.logging.Logger;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Forum;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.view.ViewTopic;
+
 /**
  * ModeratorAction class is a managed bean used for getting, keeping,
  * transforming all data and invoking moderator actions for Moderator's Control
@@ -61,10 +65,8 @@ import javax.interceptor.Interceptors;
 @ConversationScoped
 public class ModeratorAction extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 557502988546166382L;
+	private static Logger log = getLogger(ModeratorAction.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -426,8 +428,7 @@ public class ModeratorAction extends BaseController {
 				topicsDataModel = new ListDataModel<Topic>(topics);
 			}
 		} catch (ModuleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 

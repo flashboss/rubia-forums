@@ -15,12 +15,7 @@ package it.vige.rubia.ui.view;
 
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.getInstance;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.action.PreferenceController;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +29,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
+import org.jboss.logging.Logger;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.model.Topic;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.action.PreferenceController;
+
 //jsf imports
 
 /**
@@ -43,10 +47,9 @@ import javax.interceptor.Interceptors;
 @Named("summary")
 @RequestScoped
 public class ViewSummary extends BaseController {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 6950361977869824L;
+	private static Logger log = getLogger(ViewSummary.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -115,8 +118,7 @@ public class ViewSummary extends BaseController {
 		try {
 			loadDefaultTopics();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 

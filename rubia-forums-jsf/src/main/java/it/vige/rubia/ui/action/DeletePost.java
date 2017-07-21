@@ -16,6 +16,7 @@ package it.vige.rubia.ui.action;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
@@ -42,10 +45,8 @@ import it.vige.rubia.ui.BaseController;
 @RequestScoped
 public class DeletePost extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8446392847381813917L;
+	private static Logger log = getLogger(DeletePost.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -85,8 +86,7 @@ public class DeletePost extends BaseController {
 			try {
 				post = (Post) forumsModule.findPostById(postId);
 			} catch (ModuleException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 	}

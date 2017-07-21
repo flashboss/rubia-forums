@@ -615,7 +615,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException;
+	List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -626,7 +626,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException;
+	List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -641,7 +641,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	List<Post> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException;
+	List<Integer> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -656,7 +656,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	List<Post> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException;
+	List<Integer> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME

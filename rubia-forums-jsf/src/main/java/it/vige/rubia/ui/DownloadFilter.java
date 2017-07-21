@@ -22,6 +22,8 @@
  ******************************************************************************/
 package it.vige.rubia.ui;
 
+import static org.jboss.logging.Logger.getLogger;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +38,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.logging.Logger;
+
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.model.Attachment;
 
@@ -43,43 +47,37 @@ import it.vige.rubia.model.Attachment;
  * @author sohil shah
  */
 public class DownloadFilter implements Filter {
-	/**
-     * 
-     */
+
+	private static Logger log = getLogger(DownloadFilter.class);
 	private final static String WRONG_REQ_RESP = "Error accessing the requested resource.";
 
 	@EJB
 	private ForumsModule forumsModule;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void init(FilterConfig conf) {
 	}
 
 	/**
-     * 
-     */
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException {
+	 * 
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
 		try {
-			if ((request instanceof HttpServletRequest)
-					&& (response instanceof HttpServletResponse)) {
+			if ((request instanceof HttpServletRequest) && (response instanceof HttpServletResponse)) {
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
 				// get this attachment data
 				int attachmentId = Integer.parseInt(request.getParameter("id"));
-				Attachment attachment = forumsModule
-						.findAttachmentById(attachmentId);
+				Attachment attachment = forumsModule.findAttachmentById(attachmentId);
 
 				// set the attachment headers
 				httpResponse.setContentLength((int) attachment.getSize());
 				httpResponse.setContentType(attachment.getContentType());
-				httpResponse.setHeader("Content-Disposition",
-						"attachment; filename=" + attachment.getName());
+				httpResponse.setHeader("Content-Disposition", "attachment; filename=" + attachment.getName());
 
 				// now send the actual content down
-				InputStream is = new ByteArrayInputStream(
-						attachment.getContent());
+				InputStream is = new ByteArrayInputStream(attachment.getContent());
 				OutputStream os = httpResponse.getOutputStream();
 				transferBytes(is, os);
 				os.flush();
@@ -93,12 +91,11 @@ public class DownloadFilter implements Filter {
 				response.getWriter().write(WRONG_REQ_RESP);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 
-	public static void transferBytes(InputStream srcStream,
-			OutputStream destStream) throws IOException {
+	public static void transferBytes(InputStream srcStream, OutputStream destStream) throws IOException {
 		try {
 			byte[] buffer = new byte[1024];
 			int read = -1;
@@ -116,8 +113,8 @@ public class DownloadFilter implements Filter {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public void destroy() {
 	}
 }

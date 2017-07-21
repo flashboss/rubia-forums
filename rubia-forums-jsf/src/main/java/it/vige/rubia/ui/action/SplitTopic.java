@@ -20,6 +20,7 @@ import static java.lang.Integer.parseInt;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
@@ -54,10 +57,8 @@ import it.vige.rubia.ui.BaseController;
 @RequestScoped
 public class SplitTopic extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1573920430742051428L;
+	private static Logger log = getLogger(SplitTopic.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -227,7 +228,7 @@ public class SplitTopic extends BaseController {
 			forumsModule.update(destForum);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			setWarnBundleMessage("ERR_INTERNAL");
 			return "";
 		}
@@ -252,7 +253,7 @@ public class SplitTopic extends BaseController {
 			setWarnBundleMessage("ERR_SPLIT_ONE_POST_TOPIC");
 			return "";
 		}
-		
+
 		// Removing all not slected posts
 		Iterator<Integer> selectIt = checkboxes.keySet().iterator();
 		while (selectIt.hasNext()) {
@@ -323,7 +324,7 @@ public class SplitTopic extends BaseController {
 			forumsModule.update(fromForum);
 			forumsModule.update(destForum);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			setWarnBundleMessage("ERR_INTERNAL");
 			return "";
 		}
@@ -356,8 +357,7 @@ public class SplitTopic extends BaseController {
 				checkboxes = new HashMap<Integer, Boolean>();
 			}
 		} catch (ModuleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 

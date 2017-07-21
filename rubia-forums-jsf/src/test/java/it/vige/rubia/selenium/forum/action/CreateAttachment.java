@@ -16,6 +16,7 @@
  */
 package it.vige.rubia.selenium.forum.action;
 
+import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 
@@ -26,6 +27,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
 
+import org.jboss.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -33,6 +35,8 @@ import it.vige.rubia.model.Attachment;
 import it.vige.rubia.model.Post;
 
 public class CreateAttachment extends Write {
+
+	private static Logger log = getLogger(CreateAttachment.class);
 
 	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
 	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
@@ -64,8 +68,7 @@ public class CreateAttachment extends Write {
 					out.close();
 					attachment.setName(file.getAbsolutePath());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.error(e);
 				}
 
 				String comment = attachment.getComment();

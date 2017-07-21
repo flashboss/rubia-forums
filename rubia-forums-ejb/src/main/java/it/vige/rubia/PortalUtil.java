@@ -15,6 +15,7 @@ package it.vige.rubia;
 
 import static java.lang.Long.parseLong;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
@@ -22,6 +23,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
@@ -36,6 +39,9 @@ import it.vige.rubia.model.Poster;
  * 
  */
 public class PortalUtil {
+
+	private static Logger log = getLogger(PortalUtil.class);
+
 	/**
 	 * This Map contains sorted pairs of view name and view id.
 	 */
@@ -217,7 +223,7 @@ public class PortalUtil {
 			try {
 				user = userModule.findUserByUserName(userName);
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 		if (userName == null)

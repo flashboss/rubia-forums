@@ -403,7 +403,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
 		return forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(posts);
 	}
 
@@ -412,7 +412,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Post> posts) throws ModuleException {
+	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
 		return forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(posts);
 	}
 
@@ -421,7 +421,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostIdsAsc(topic, start, limit);
 	}
 
@@ -430,7 +430,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostIdsDesc(topic, start, limit);
 	}
 

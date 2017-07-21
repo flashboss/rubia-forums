@@ -19,6 +19,7 @@ import static it.vige.rubia.feeds.FeedConstants.TOPIC;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static java.lang.Integer.parseInt;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +33,8 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
@@ -49,10 +52,9 @@ import it.vige.rubia.util.CurrentTopicPage;
 @Named("topic")
 @RequestScoped
 public class ViewTopic extends BaseController {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 5205743830388129653L;
+	private static Logger log = getLogger(ViewTopic.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -201,8 +203,8 @@ public class ViewTopic extends BaseController {
 				topic = post.getTopic();
 			}
 			refreshTopic(topicId);
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			log.error(e);
 		}
 	}
 
@@ -234,12 +236,12 @@ public class ViewTopic extends BaseController {
 				// default
 				if (postOrder.compareToIgnoreCase("ascending") == 0) {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsAsc(topic, 0, 0);
+					Collection<Integer> pagePosts = forumsModule.findPostIdsAsc(topic, 0, 0);
 					topics = forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(pagePosts);
 
 				} else {
 
-					Collection<Post> pagePosts = forumsModule.findPostIdsDesc(topic, 0, 0);
+					Collection<Integer> pagePosts = forumsModule.findPostIdsDesc(topic, 0, 0);
 					topics = forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
 
 				}

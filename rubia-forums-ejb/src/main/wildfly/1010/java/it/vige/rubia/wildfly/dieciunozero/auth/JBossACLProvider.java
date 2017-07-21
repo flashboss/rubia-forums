@@ -13,6 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.dieciunozero.auth;
 
+import static org.jboss.logging.Logger.getLogger;
 import static org.jboss.security.acl.BasicACLPermission.READ;
 
 import javax.ejb.EJBContext;
@@ -21,6 +22,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.security.acl.ACLProvider;
 import org.jboss.security.acl.ACLProviderImpl;
 import org.jboss.security.authorization.AuthorizationException;
@@ -38,6 +40,7 @@ import it.vige.rubia.auth.UIContext;
 public class JBossACLProvider implements ForumsACLProvider {
 
 	private static final long serialVersionUID = -5490482161183021121L;
+	private static Logger log = getLogger(JBossACLProvider.class);
 
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
@@ -79,7 +82,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 				authorized = resource.evaluate();
 			}
 		} catch (AuthorizationException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return authorized;
 	}
@@ -110,7 +113,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 				authorized = resource.evaluate();
 			}
 		} catch (AuthorizationException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return authorized;
 	}

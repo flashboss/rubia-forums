@@ -13,6 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.wildfly.diecizerozero.auth;
 
+import static org.jboss.logging.Logger.getLogger;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Named;
 
+import org.jboss.logging.Logger;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
 import org.picketlink.idm.config.IdentityConfigurationBuilder;
@@ -41,10 +44,8 @@ import it.vige.rubia.auth.UserModule;
 @Singleton
 public class JBossUserModule implements UserModule, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8560321558665446098L;
+	private static Logger log = getLogger(JBossUserModule.class);
 	private IdentityManager identityManager;
 
 	@javax.annotation.Resource
@@ -76,7 +77,7 @@ public class JBossUserModule implements UserModule, Serializable {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
 			user = new JBossUser(newUser);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return user;
 	}
@@ -88,7 +89,7 @@ public class JBossUserModule implements UserModule, Serializable {
 			org.picketlink.idm.model.basic.User newUser = getUser(arg0);
 			user = new JBossUser(newUser);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return user;
 	}

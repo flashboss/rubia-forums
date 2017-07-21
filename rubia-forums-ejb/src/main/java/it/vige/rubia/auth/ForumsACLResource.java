@@ -13,6 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.auth;
 
+import static org.jboss.logging.Logger.getLogger;
 import static org.jboss.security.authorization.ResourceType.ACL;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
+import org.jboss.logging.Logger;
 import org.jboss.security.authorization.Resource;
 import org.jboss.security.authorization.ResourceType;
 
@@ -35,6 +37,8 @@ import org.jboss.security.authorization.ResourceType;
 @Table(name = "ACL_RESOURCE")
 public class ForumsACLResource implements Resource {
 
+	private static Logger log = getLogger(ForumsACLResource.class);
+	
 	@Transient
 	private Map<String, Object> map = new HashMap<String, Object>();
 	@Id
@@ -90,7 +94,7 @@ public class ForumsACLResource implements Resource {
 					isCriteriaMet = ((Boolean) value).booleanValue();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e);
 				isCriteriaMet = false;
 			}
 		}

@@ -25,6 +25,7 @@ import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.parseInt;
+import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +42,8 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
@@ -65,10 +68,8 @@ import it.vige.rubia.ui.action.PreferenceController;
 @RequestScoped
 public class ViewForum extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1193917741044670669L;
+	private static Logger log = getLogger(ViewForum.class);
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -341,8 +342,7 @@ public class ViewForum extends BaseController {
 					}
 				}
 			} catch (ModuleException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 	}
