@@ -17,6 +17,8 @@ import static it.vige.rubia.Constants.TOPIC_UNLOCKED;
 import static it.vige.rubia.model.TopicType.ADVICE;
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
 import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
+import static javax.persistence.TemporalType.DATE;
+import static javax.persistence.TemporalType.TIMESTAMP;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
@@ -36,7 +38,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
@@ -441,7 +442,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		try {
 			TypedQuery<Topic> query = em.createNamedQuery("findTopicsHottest", Topic.class);
 			query.setMaxResults(limit);
-			query.setParameter("after", after, TemporalType.DATE);
+			query.setParameter("after", after, DATE);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -455,7 +456,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		try {
 			TypedQuery<Topic> query = em.createNamedQuery("findTopicsMostViewed", Topic.class);
 			query.setMaxResults(limit);
-			query.setParameter("after", after, TemporalType.DATE);
+			query.setParameter("after", after, DATE);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -1004,7 +1005,7 @@ public class ForumsModuleImpl implements ForumsModule {
 		try {
 
 			TypedQuery<Post> query = em.createNamedQuery("findFirstPost", Post.class);
-			query.setParameter("lastPostDate", topic.getLastPostDate(), TemporalType.DATE);
+			query.setParameter("lastPostDate", topic.getLastPostDate(), DATE);
 			query.setParameter("topicId", "" + topic.getId());
 			query.setFirstResult(0);
 			query.setMaxResults(1);
@@ -1170,7 +1171,7 @@ public class ForumsModuleImpl implements ForumsModule {
 
 			TypedQuery<Topic> query = em.createNamedQuery("findTopicWatchedByUserCreateDate", Topic.class);
 			query.setParameter("userId", user.getId().toString());
-			query.setParameter("datePoint", datePoint, TemporalType.TIMESTAMP);
+			query.setParameter("datePoint", datePoint, TIMESTAMP);
 			query.setParameter("forumInstanceId", indexInstance);
 			return query.getResultList();
 		} catch (Exception e) {
