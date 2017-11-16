@@ -472,26 +472,6 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @author sshah
-	 * 
-	 * @return the navigation state of the application
-	 */
-	@SecureActionForum
-	@Interceptors(AuthorizationListener.class)
-	public String deleteAttachment() {
-		String navState = null;
-		try {
-			int attachmentIndex = parseInt(getParameter(p_attachment));
-
-			attachments.remove(attachmentIndex);
-		} catch (Exception e) {
-			handleException(e);
-		}
-		return navState;
-	}
-
-	/**
-	 * 
 	 * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
 	 * 
 	 * @return the name of the operation
