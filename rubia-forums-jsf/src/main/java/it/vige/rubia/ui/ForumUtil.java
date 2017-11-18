@@ -20,6 +20,8 @@ import static it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig.OUTPUT_MODE_RE
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Thread.currentThread;
+import static java.util.Locale.getDefault;
+import static java.util.Locale.Category.DISPLAY;
 import static java.util.ResourceBundle.getBundle;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
@@ -102,22 +104,20 @@ public class ForumUtil {
 	}
 
 	/**
-	 * Get a <code>SimpleDateFormat</code> object from the session. The object
-	 * is stored in the session because it is expensive to create and we want to
-	 * reuse it as much as we can. Also it is configured with the date format
-	 * taken from the preference of the user if it exists.
+	 * Get a <code>SimpleDateFormat</code> object from the session. The object is
+	 * stored in the session because it is expensive to create and we want to reuse
+	 * it as much as we can. Also it is configured with the date format taken from
+	 * the preference of the user if it exists.
 	 * 
 	 * @return the format object
 	 */
 	public static SimpleDateFormat getSDF() {
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		sdf.applyPattern(DEFAULT_DATE_PATTERN);
+		SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_PATTERN, getDefault(DISPLAY));
 		return sdf;
 	}
 
 	/**
-	 * Method used for parsing bbcode and return properly formated text of
-	 * message.
+	 * Method used for parsing bbcode and return properly formated text of message.
 	 * 
 	 * @param text
 	 *            the text of the message

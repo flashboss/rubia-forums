@@ -18,7 +18,7 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on Wildfly 10.1.0.Final.
+This draft version has been tested on Wildfly 11.0.0.Final.
 
 Requirements
 ------------
