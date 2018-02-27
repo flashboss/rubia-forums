@@ -165,8 +165,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-	 * we are implementing comparable to be able to sort topics by last post
-	 * date without to have a column in db.
+	 * we are implementing comparable to be able to sort topics by last post date
+	 * without to have a column in db.
 	 * 
 	 * @param comp
 	 *            the topic to compare

@@ -132,7 +132,7 @@ public class Forum implements Serializable {
 	private Collection<Watch> watch;
 
 	@ManyToMany
-	@JoinTable(name = "JBP_FORUMS_FORUMSWATCH", joinColumns = @JoinColumn(name = "JBP_FORUM_ID") , inverseJoinColumns = @JoinColumn(name = "JBP_ID") )
+	@JoinTable(name = "JBP_FORUMS_FORUMSWATCH", joinColumns = @JoinColumn(name = "JBP_FORUM_ID"), inverseJoinColumns = @JoinColumn(name = "JBP_ID"))
 	private List<Watch> watches;
 
 	/**
@@ -288,8 +288,7 @@ public class Forum implements Serializable {
 	}
 
 	/**
-	 * _@___ hibernate.property column="jbp_prune_next" unique="false"
-	 * update="true"
+	 * _@___ hibernate.property column="jbp_prune_next" unique="false" update="true"
 	 * 
 	 * @return the next prune of the forum
 	 */
