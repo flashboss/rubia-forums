@@ -43,9 +43,9 @@
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.jboss.spec.javaee.7.0>1.1.1.Final</version.jboss.spec.javaee.7.0>
 		<richfaces.version>4.5.17.Final</richfaces.version>
-		<org.jboss.arquillian.version>1.1.13.Final</org.jboss.arquillian.version>
-		<org.jboss.arquillian.drone.version>2.2.0</org.jboss.arquillian.drone.version>
-		<version.selenium>3.4.0</version.selenium>
+		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
+		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
+		<version.selenium>3.11.0</version.selenium>
 	</properties>
 
 	<repositories>
