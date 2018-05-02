@@ -6,6 +6,5 @@ test-output
 transaction.log
 m2e-wtp
 .DS_Store
-/target
 .metadata
-/target
+rubia-forums
