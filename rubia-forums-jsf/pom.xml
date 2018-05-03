@@ -376,23 +376,6 @@
 				</resources>
 				<plugins>
 					<plugin>
-						<groupId>org.wildfly.plugins</groupId>
-						<artifactId>wildfly-maven-plugin</artifactId>
-						<version>1.2.1.Final</version>
-						<executions>
-							<execution>
-								<id>run-wildfly</id>
-								<phase>install</phase>
-								<goals>
-									<goal>start</goal>
-								</goals>
-								<configuration>
-									<version>11.0.0.Final</version>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
