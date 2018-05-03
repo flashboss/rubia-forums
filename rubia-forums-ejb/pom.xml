@@ -132,7 +132,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-1000</id>
+			<id>wildfly-1000</id>
 			<build>
 				<resources>
 					<resource>
@@ -217,7 +217,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-1010</id>
+			<id>wildfly-1010</id>
 			<build>
 				<resources>
 					<resource>
@@ -307,7 +307,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-1100</id>
+			<id>wildfly-1100</id>
 			<build>
 				<resources>
 					<resource>
@@ -433,7 +433,7 @@
 		</profile>
 
 		<profile>
-			<id>wildfly-remote-1200</id>
+			<id>wildfly-1200</id>
 			<build>
 				<resources>
 					<resource>
