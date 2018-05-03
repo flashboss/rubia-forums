@@ -44,20 +44,13 @@ In development mode:
 
 ... and see a ready to run distribution under `rubia-forums/target/rubia-forums.war`
 
-list of distribution remote profiles. With this you build an application ready to be deployed to an external WildFly AS:
+list of distribution profiles. With this you build an application ready to be deployed to an external WildFly AS:
 
-    -Pwildfly-remote-1000              wildfly as 10.0.0
-    -Pwildfly-remote-1010              wildfly as 10.1.0
-    -Pwildfly-remote-1100              wildfly as 11.0.0
-    -Pwildfly-remote-1200              wildfly as 12.0.0
+    -Pwildfly-1000              wildfly as 10.0.0
+    -Pwildfly-1010              wildfly as 10.1.0
+    -Pwildfly-1100              wildfly as 11.0.0
+    -Pwildfly-1200              wildfly as 12.0.0
 
-list of distribution embedded profiles. With this you build an application ready to be deployed to an embedded WildFly AS. It will be start automatically:
-
-    -Pwildfly-embedded-1000              wildfly as 10.0.0
-    -Pwildfly-embedded-1010              wildfly as 10.1.0
-    -Pwildfly-embedded-1100              wildfly as 11.0.0
-    -Pwildfly-embedded-1200              wildfly as 12.0.0
-    
 You can also choose the package mode using the profiles:
 
     -Pdevelopment
