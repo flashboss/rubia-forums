@@ -133,4 +133,4 @@ The tests are done using:
 - Firefox 46.0.1 on Wildfly 10.0.0.Final
 - Firefox 54.0.1 (64-bit) on Wildfly 10.1.0.Final
 - Firefox 56.0.2 (64-bit) on Wildfly 11.0.0.Final
-- Firefox 59.0.2 (64-bit) on Wildfly 12.0.0.Final
+- Firefox 60.0 (64-bit) on Wildfly 12.0.0.Final
