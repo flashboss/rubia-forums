@@ -18,7 +18,7 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on Wildfly 12.0.0.Final.
+This draft version has been tested on WildFly 12.0.0.Final.
 
 Requirements
 ------------
@@ -29,10 +29,10 @@ Requirements
 Supported application servers and distributions
 ------------
 
-- Wildfly AS 10.0.0.Final
-- Wildfly AS 10.1.0.Final
-- Wildfly AS 11.0.0.Final
-- Wildfly AS 12.0.0.Final
+- WildFly AS 10.0.0.Final
+- WildFly AS 10.1.0.Final
+- WildFly AS 11.0.0.Final
+- WildFly AS 12.0.0.Final
 
 
 Build
@@ -46,10 +46,10 @@ In development mode:
 
 list of distribution profiles. With this you build an application ready to be deployed to an external WildFly AS:
 
-    -Pwildfly-1000              wildfly as 10.0.0
-    -Pwildfly-1010              wildfly as 10.1.0
-    -Pwildfly-1100              wildfly as 11.0.0
-    -Pwildfly-1200              wildfly as 12.0.0
+    -Pwildfly-1000              WildFly as 10.0.0
+    -Pwildfly-1010              WildFly as 10.1.0
+    -Pwildfly-1100              WildFly as 11.0.0
+    -Pwildfly-1200              WildFly as 12.0.0
 
 You can also choose the package mode using the profiles:
 
@@ -60,15 +60,15 @@ If you want install in production mode you must use:
 
     mvn clean install -P${distribution},production
     
-If you want automatically install and deploy the jsf application in a local active wildfly server:
+If you want automatically install and deploy the jsf application in a local active WildFly server:
 
     mvn install -P${distribution},production,deploy-jsf
     
-If you want automatically uninstall and undeploy the application in a local active wildfly server:
+If you want automatically uninstall and undeploy the application in a local active WildFly server:
 
     mvn clean -P${distribution},production,deploy-jsf
     
-If you want automatically reinstall and redeploy the application in a local active wildfly server:
+If you want automatically reinstall and redeploy the application in a local active WildFly server:
 
     mvn clean install -P${distribution},production,deploy-jsf
     
@@ -78,17 +78,17 @@ As the same manner you can deploy the rest application instead of the jsf applic
     
 If you want start automatically a WildFly instance you can use the JSF start profiles:
 
-    -Pstart-1000-jsf              wildfly as 10.0.0
-    -Pstart-1010-jsf              wildfly as 10.1.0
-    -Pstart-1100-jsf              wildfly as 11.0.0
-    -Pstart-1200-jsf              wildfly as 12.0.0
+    -Pstart-1000-jsf              WildFly as 10.0.0
+    -Pstart-1010-jsf              WildFly as 10.1.0
+    -Pstart-1100-jsf              WildFly as 11.0.0
+    -Pstart-1200-jsf              WildFly as 12.0.0
     
 or the REST start profiles:
 
-    -Pstart-1000-rest             wildfly as 10.0.0
-    -Pstart-1010-rest             wildfly as 10.1.0
-    -Pstart-1100-rest             wildfly as 11.0.0
-    -Pstart-1200-rest             wildfly as 12.0.0
+    -Pstart-1000-rest             WildFly as 10.0.0
+    -Pstart-1010-rest             WildFly as 10.1.0
+    -Pstart-1100-rest             WildFly as 11.0.0
+    -Pstart-1200-rest             WildFly as 12.0.0
     
 If you want to start a WildFly instance and execute the deploy of the JSF application:
 
@@ -98,13 +98,13 @@ Or for the REST application:
 
     mvn clean install -P${distribution},production,start-${distribution}-rest,deploy-rest
 
-to deploy it with the shell command in Wildfly:
+to deploy it with the shell command in WildFly:
 
     $JBOSS_HOME/bin/jboss-cli.sh
     connect localhost
     deploy /xxxx/rubia-forums.war
    
- to create new users in Wildfly:
+ to create new users in WildFly:
 
 $JBOSS_HOME/bin/add_user.sh
 
@@ -152,7 +152,7 @@ It will start on the 5005 port.
 
 The tests are done using:
 
-- Firefox 46.0.1 on Wildfly 10.0.0.Final
-- Firefox 54.0.1 (64-bit) on Wildfly 10.1.0.Final
-- Firefox 56.0.2 (64-bit) on Wildfly 11.0.0.Final
-- Firefox 60.0 (64-bit) on Wildfly 12.0.0.Final
+- Firefox 46.0.1 on WildFly 10.0.0.Final
+- Firefox 54.0.1 (64-bit) on WildFly 10.1.0.Final
+- Firefox 56.0.2 (64-bit) on WildFly 11.0.0.Final
+- Firefox 60.0 (64-bit) on WildFly 12.0.0.Final
