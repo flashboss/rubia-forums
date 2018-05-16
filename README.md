@@ -78,25 +78,33 @@ As the same manner you can deploy the rest application instead of the jsf applic
     
 If you want start automatically a WildFly instance you can use the JSF start profiles:
 
-    -Pstart-1000-jsf              WildFly as 10.0.0
-    -Pstart-1010-jsf              WildFly as 10.1.0
-    -Pstart-1100-jsf              WildFly as 11.0.0
-    -Pstart-1200-jsf              WildFly as 12.0.0
+    -Pruntime-1000-jsf              WildFly as 10.0.0
+    -Pruntime-1010-jsf              WildFly as 10.1.0
+    -Pruntime-1100-jsf              WildFly as 11.0.0
+    -Pruntime-1200-jsf              WildFly as 12.0.0
     
 or the REST start profiles:
 
-    -Pstart-1000-rest             WildFly as 10.0.0
-    -Pstart-1010-rest             WildFly as 10.1.0
-    -Pstart-1100-rest             WildFly as 11.0.0
-    -Pstart-1200-rest             WildFly as 12.0.0
+    -Pruntime-1000-rest             WildFly as 10.0.0
+    -Pruntime-1010-rest             WildFly as 10.1.0
+    -Pruntime-1100-rest             WildFly as 11.0.0
+    -Pruntime-1200-rest             WildFly as 12.0.0
     
 If you want to start a WildFly instance and execute the deploy of the JSF application:
 
-    mvn clean install -P${distribution},production,start-${distribution}-jsf,deploy-jsf
+    mvn install -P${distribution},production,runtime-${distribution}-jsf,deploy-jsf
+    
+To stop the WildFly instance:
+  
+    mvn clean -Pruntime-${distribution}-jsf
     
 Or for the REST application:
 
-    mvn clean install -P${distribution},production,start-${distribution}-rest,deploy-rest
+    mvn install -P${distribution},production,runtime-${distribution}-rest,deploy-rest
+    
+To stop the WildFly instance:
+  
+    mvn clean -Pruntime-${distribution}-rest
 
 to deploy it with the shell command in WildFly:
 

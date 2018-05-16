@@ -591,7 +591,7 @@
 		</profile>
 
 		<profile>
-			<id>start-1000-jsf</id>
+			<id>runtime-1000-jsf</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -607,6 +607,18 @@
 								</goals>
 								<configuration>
 									<version>10.0.0.Final</version>
+									<addUser>admin:admin</addUser>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-wildfly</id>
+								<phase>pre-clean</phase>
+								<goals>
+									<goal>shutdown</goal>
+								</goals>
+								<configuration>
+									<username>admin</username>
+									<password>admin</password>
 								</configuration>
 							</execution>
 						</executions>
@@ -616,7 +628,7 @@
 		</profile>
 
 		<profile>
-			<id>start-1010-jsf</id>
+			<id>runtime-1010-jsf</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -632,6 +644,18 @@
 								</goals>
 								<configuration>
 									<version>10.1.0.Final</version>
+									<addUser>admin:admin</addUser>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-wildfly</id>
+								<phase>pre-clean</phase>
+								<goals>
+									<goal>shutdown</goal>
+								</goals>
+								<configuration>
+									<username>admin</username>
+									<password>admin</password>
 								</configuration>
 							</execution>
 						</executions>
@@ -641,7 +665,7 @@
 		</profile>
 
 		<profile>
-			<id>start-1100-jsf</id>
+			<id>runtime-1100-jsf</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -657,6 +681,18 @@
 								</goals>
 								<configuration>
 									<version>11.0.0.Final</version>
+									<addUser>admin:admin</addUser>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-wildfly</id>
+								<phase>pre-clean</phase>
+								<goals>
+									<goal>shutdown</goal>
+								</goals>
+								<configuration>
+									<username>admin</username>
+									<password>admin</password>
 								</configuration>
 							</execution>
 						</executions>
@@ -664,9 +700,9 @@
 				</plugins>
 			</build>
 		</profile>
-
+			
 		<profile>
-			<id>start-1200-jsf</id>
+			<id>runtime-1200-jsf</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -682,6 +718,18 @@
 								</goals>
 								<configuration>
 									<version>12.0.0.Final</version>
+									<addUser>admin:admin</addUser>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-wildfly</id>
+								<phase>pre-clean</phase>
+								<goals>
+									<goal>shutdown</goal>
+								</goals>
+								<configuration>
+									<username>admin</username>
+									<password>admin</password>
 								</configuration>
 							</execution>
 						</executions>
