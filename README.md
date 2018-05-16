@@ -75,6 +75,28 @@ If you want automatically reinstall and redeploy the application in a local acti
 As the same manner you can deploy the rest application instead of the jsf application using the goal deploy-rest. Here a sample:
 
     mvn clean install -P${distribution},production,deploy-rest
+    
+If you want start automatically a WildFly instance you can use the JSF start profiles:
+
+    -Pstart-1000-jsf              wildfly as 10.0.0
+    -Pstart-1010-jsf              wildfly as 10.1.0
+    -Pstart-1100-jsf              wildfly as 11.0.0
+    -Pstart-1200-jsf              wildfly as 12.0.0
+    
+or the REST start profiles:
+
+    -Pstart-1000-rest             wildfly as 10.0.0
+    -Pstart-1010-rest             wildfly as 10.1.0
+    -Pstart-1100-rest             wildfly as 11.0.0
+    -Pstart-1200-rest             wildfly as 12.0.0
+    
+If you want to start a WildFly instance and execute the deploy of the JSF application:
+
+    mvn clean install -P${distribution},production,start-${distribution}-jsf,deploy-jsf
+    
+Or for the REST application:
+
+    mvn clean install -P${distribution},production,start-${distribution}-rest,deploy-rest
 
 to deploy it with the shell command in Wildfly:
 
