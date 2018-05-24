@@ -23,16 +23,8 @@ This draft version has been tested on WildFly 12.0.0.Final.
 Requirements
 ------------
 
-- JDK 1.8
+- JDK 1.9
 - Maven 3.5.x
-
-Supported application servers and distributions
-------------
-
-- WildFly AS 10.0.0.Final
-- WildFly AS 10.1.0.Final
-- WildFly AS 11.0.0.Final
-- WildFly AS 12.0.0.Final
 
 
 Build
@@ -40,16 +32,9 @@ Build
 
 In development mode:
 
-    mvn clean install -P${distribution},development
+    mvn clean install -Pdevelopment
 
 ... and see a ready to run distribution under `rubia-forums/target/rubia-forums.war`
-
-list of distribution profiles. With this you build an application ready to be deployed to an external WildFly AS:
-
-    -Pwildfly-1000              WildFly as 10.0.0
-    -Pwildfly-1010              WildFly as 10.1.0
-    -Pwildfly-1100              WildFly as 11.0.0
-    -Pwildfly-1200              WildFly as 12.0.0
 
 You can also choose the package mode using the profiles:
 
@@ -58,53 +43,39 @@ You can also choose the package mode using the profiles:
     
 If you want install in production mode you must use:
 
-    mvn clean install -P${distribution},production
+    mvn clean install -Pproduction
     
 If you want automatically install and deploy the jsf application in a local active WildFly server:
 
-    mvn install -P${distribution},production,deploy-jsf
+    mvn install -Pproduction,deploy-jsf
     
 If you want automatically uninstall and undeploy the application in a local active WildFly server:
 
-    mvn clean -P${distribution},production,deploy-jsf
+    mvn clean -Pproduction,deploy-jsf
     
 If you want automatically reinstall and redeploy the application in a local active WildFly server:
 
-    mvn clean install -P${distribution},production,deploy-jsf
+    mvn clean install -Pproduction,deploy-jsf
     
 As the same manner you can deploy the rest application instead of the jsf application using the goal deploy-rest. Here a sample:
 
-    mvn clean install -P${distribution},production,deploy-rest
-    
-If you want start automatically a WildFly instance you can use the JSF start profiles:
-
-    -Pruntime-1000-jsf              WildFly as 10.0.0
-    -Pruntime-1010-jsf              WildFly as 10.1.0
-    -Pruntime-1100-jsf              WildFly as 11.0.0
-    -Pruntime-1200-jsf              WildFly as 12.0.0
-    
-or the REST start profiles:
-
-    -Pruntime-1000-rest             WildFly as 10.0.0
-    -Pruntime-1010-rest             WildFly as 10.1.0
-    -Pruntime-1100-rest             WildFly as 11.0.0
-    -Pruntime-1200-rest             WildFly as 12.0.0
+    mvn clean install -Pproduction,deploy-rest
     
 If you want to start a WildFly instance and execute the deploy of the JSF application:
 
-    mvn install -P${distribution},production,runtime-${distribution}-jsf,deploy-jsf
+    mvn install -Pproduction,runtime-jsf,deploy-jsf
     
 To stop the WildFly instance:
   
-    mvn clean -Pruntime-${distribution}-jsf
+    mvn clean -Pruntime-jsf
     
 Or for the REST application:
 
-    mvn install -P${distribution},production,runtime-${distribution}-rest,deploy-rest
+    mvn install -Pproduction,runtime-${distribution}-rest,deploy-rest
     
 To stop the WildFly instance:
   
-    mvn clean -Pruntime-${distribution}-rest
+    mvn clean -Pruntime-rest
 
 to deploy it with the shell command in WildFly:
 
@@ -134,11 +105,11 @@ Are you sure you want to add user 'admin' yes/no? yes
 to test it with selenium:
 
     deploy the application in a server
-    mvn -P${distribution},selenium test
+    mvn -Pselenium test
 
 If your web application uses a default locale different by the english you must set in the 'selenium' profile in the pom.xml:
 
-	mvn -P${distribution},selenium test -Duser.language=it -Duser.region=IT
+	mvn -Pselenium test -Duser.language=it -Duser.region=IT
 		
 In this sample you must set the testing in the italian language.
 
@@ -150,7 +121,7 @@ Unzip it and add it in your folder for example: /Application
 
 The mvn command become:
 
-    mvn -P${distribution},selenium test -Duser.language=it -Duser.region=IT -Dwebdriver.gecko.driver=/Applications/geckodriver
+    mvn -Pselenium test -Duser.language=it -Duser.region=IT -Dwebdriver.gecko.driver=/Applications/geckodriver
 
 To debug the application using Eclipse you can put this parameter:
 
@@ -158,9 +129,4 @@ To debug the application using Eclipse you can put this parameter:
 
 It will start on the 5005 port.
 
-The tests are done using:
-
-- Firefox 46.0.1 on WildFly 10.0.0.Final
-- Firefox 54.0.1 (64-bit) on WildFly 10.1.0.Final
-- Firefox 56.0.2 (64-bit) on WildFly 11.0.0.Final
-- Firefox 60.0 (64-bit) on WildFly 12.0.0.Final
+The tests are done using Firefox 60.0 (64-bit) on WildFly 12.0.0.Final
