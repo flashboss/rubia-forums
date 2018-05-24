@@ -46,6 +46,25 @@
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
 		<version.selenium>3.11.0</version.selenium>
+		<commons.lang.version>2.6</commons.lang.version>
+		<commons.jexl.version>2.1.1</commons.jexl.version>
+		<guava.version>21.0</guava.version>
+		<junit.version>4.12</junit.version>
+		<maven.gpg.plugin.version>2.10.3</maven.gpg.plugin.version>
+		<maven.javadoc.plugin.version>1.6</maven.javadoc.plugin.version>
+		<maven.source.plugin.version>2.4</maven.source.plugin.version>
+		<ejb.version>3.2</ejb.version>
+		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
+		<wildfly.version>12.0.0.Final</wildfly.version>
+		<wildfly.maven.plugin.version>1.2.2.Final-SNAPSHOT</wildfly.maven.plugin.version>
+		<picketlink.version>2.5.5.SP9</picketlink.version>
+		<picketbox.version>5.0.2.Final</picketbox.version>
+		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
+		<lucene.version>5.3.1</lucene.version>
+		<hibernate.version>5.1.10.Final</hibernate.version>
+		<hibernate.search.version>5.5.8.Final</hibernate.search.version>
+		<xml.api.version>1.4.01</xml.api.version>
+		<rome.version>1.5.0</rome.version>
 	</properties>
 
 	<repositories>
@@ -150,12 +169,12 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<version>${commons.lang.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
-			<version>2.1.1</version>
+			<version>${commons.jexl.version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -163,7 +182,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -180,7 +199,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>21.0</version>
+			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian.extension</groupId>
@@ -210,7 +229,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.4</version>
+						<version>${maven.source.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -223,7 +242,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.3</version>
+						<version>${maven.javadoc.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -236,7 +255,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>${maven.gpg.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>

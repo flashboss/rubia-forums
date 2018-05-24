@@ -23,7 +23,7 @@
 				<artifactId>maven-ejb-plugin</artifactId>
 				<configuration>
 					<generateClient>false</generateClient>
-					<ejbVersion>3.2</ejbVersion>
+					<ejbVersion>${ejb.version}</ejbVersion>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -37,7 +37,7 @@
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>replacer</artifactId>
-						<version>1.5.3</version>
+						<version>${maven.replacer.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -67,7 +67,7 @@
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>replacer</artifactId>
-						<version>1.5.3</version>
+						<version>${maven.replacer.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -95,85 +95,85 @@
 		<dependency>
 			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-security</artifactId>
-			<version>12.0.0.Final</version>
+			<version>${wildfly.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-common</artifactId>
-			<version>2.5.5.SP9</version>
+			<version>${picketlink.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-api</artifactId>
-			<version>2.5.5.SP9</version>
+			<version>${picketlink.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-impl</artifactId>
-			<version>2.5.5.SP9</version>
+			<version>${picketlink.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketbox</groupId>
 			<artifactId>picketbox-commons</artifactId>
-			<version>1.0.0.final</version>
+			<version>${picketbox.commons.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketbox</groupId>
 			<artifactId>picketbox</artifactId>
-			<version>5.0.2.Final</version>
+			<version>${picketbox.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketbox</groupId>
 			<artifactId>picketbox</artifactId>
-			<version>5.0.2.Final</version>
+			<version>${picketbox.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>5.3.1</version>
+			<version>${lucene.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>5.3.1</version>
+			<version>${lucene.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
-			<version>5.3.1</version>
+			<version>${lucene.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-engine</artifactId>
-			<version>5.5.8.Final</version>
+			<version>${hibernate.search.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
-			<version>5.5.8.Final</version>
+			<version>${hibernate.search.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.1.10.Final</version>
+			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.1.10.Final</version>
+			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

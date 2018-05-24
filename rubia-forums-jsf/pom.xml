@@ -68,7 +68,7 @@
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>replacer</artifactId>
-						<version>1.5.3</version>
+						<version>${maven.replacer.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>test-compile</phase>
@@ -102,7 +102,7 @@
 					<plugin>
 						<groupId>org.wildfly.plugins</groupId>
 						<artifactId>wildfly-maven-plugin</artifactId>
-						<version>1.2.2.Final-SNAPSHOT</version>
+						<version>${wildfly.maven.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>run-wildfly</id>
@@ -139,7 +139,7 @@
 					<plugin>
 						<groupId>org.wildfly.plugins</groupId>
 						<artifactId>wildfly-maven-plugin</artifactId>
-						<version>1.2.2.Final-SNAPSHOT</version>
+						<version>${wildfly.maven.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>add-securitydomain</id>
@@ -258,43 +258,43 @@
 		<dependency>
 			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-security</artifactId>
-			<version>12.0.0.Final</version>
+			<version>${wildfly.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-api</artifactId>
-			<version>2.5.5.SP9</version>
+			<version>${picketlink.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-impl</artifactId>
-			<version>2.5.5.SP9</version>
+			<version>${picketlink.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>5.3.1</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>5.3.1</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-engine</artifactId>
-			<version>5.5.8.Final</version>
+			<version>${hibernate.search.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
-			<version>5.5.8.Final</version>
+			<version>${hibernate.search.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.1.10.Final</version>
+			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -306,7 +306,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.1.10.Final</version>
+			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -316,7 +316,7 @@
 		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome-fetcher</artifactId>
-			<version>1.5.0</version>
+			<version>${rome.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xerces</groupId>
@@ -331,7 +331,7 @@
 		<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
+			<version>${xml.api.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
