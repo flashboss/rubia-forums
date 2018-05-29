@@ -1,6 +1,6 @@
 Rubia Forums
 =============
-Is a javaee 7 based application designed as standalone application, portlet, service layer and api.
+Is a javaee 8 based application designed as standalone application, portlet, service layer and api.
 It is an open source project. This means you can download the Rubia Forums package, throw it into your deploy directory and gain fully featured Forums Application or Portlet.
 
 It covers the following features:
@@ -112,16 +112,6 @@ If your web application uses a default locale different by the english you must 
 	mvn -Pselenium test -Duser.language=it -Duser.region=IT
 		
 In this sample you must set the testing in the italian language.
-
-Since Firefox 47.x you must download the Geck Driver to use Selenium. To test the application with Firefox 50.0.2 download the Gecko driver here according your operative system:
-
-https://github.com/mozilla/geckodriver/releases/tag/v0.11.1
-
-Unzip it and add it in your folder for example: /Application
-
-The mvn command become:
-
-    mvn -Pselenium test -Duser.language=it -Duser.region=IT -Dwebdriver.gecko.driver=/Applications/geckodriver
 
 To debug the application using Eclipse you can put this parameter:
 
