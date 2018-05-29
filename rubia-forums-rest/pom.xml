@@ -17,6 +17,16 @@
 	<build>
 		<defaultGoal>package</defaultGoal>
 		<finalName>rubia-forums-rest</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin.version}</version>
+				<configuration>
+					<outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<profiles>
@@ -62,6 +72,9 @@
 						<groupId>org.wildfly.plugins</groupId>
 						<artifactId>wildfly-maven-plugin</artifactId>
 						<version>${wildfly.maven.plugin.version}</version>
+						<configuration>
+							<server-config>standalone-ee8.xml</server-config>
+						</configuration>
 						<executions>
 							<execution>
 								<id>run-wildfly</id>

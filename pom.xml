@@ -23,7 +23,7 @@
 	<scm>
 		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
 		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
-		<tag>2.2.X-SNAPSHOT</tag>
+		<tag>2.3.X-SNAPSHOT</tag>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
 	</scm>
 	<developers>
@@ -37,11 +37,11 @@
 	</developers>
 
 	<properties>
-		<maven.compiler.source>9</maven.compiler.source>
-		<maven.compiler.target>9</maven.compiler.target>
+		<maven.compiler.source>10</maven.compiler.source>
+		<maven.compiler.target>10</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
-		<version.jboss.spec.javaee.7.0>1.1.1.Final</version.jboss.spec.javaee.7.0>
+		<version.spec.javaee>8.0</version.spec.javaee>
 		<richfaces.version>4.5.17.Final</richfaces.version>
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
@@ -53,6 +53,7 @@
 		<maven.gpg.plugin.version>2.10.3</maven.gpg.plugin.version>
 		<maven.javadoc.plugin.version>1.6</maven.javadoc.plugin.version>
 		<maven.source.plugin.version>2.4</maven.source.plugin.version>
+		<maven.war.plugin.version>2.6</maven.war.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
 		<wildfly.version>12.0.0.Final</wildfly.version>
@@ -160,10 +161,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-7.0</artifactId>
-			<version>${version.jboss.spec.javaee.7.0}</version>
-			<type>pom</type>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${version.spec.javaee}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
