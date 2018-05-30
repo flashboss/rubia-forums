@@ -24,13 +24,7 @@
 
 		<c:if test="#{forums:isRunningInPortal()}">
 			<div class="forumscontainer">
-
-				<!-- style sheet for this application -->
-				<link rel='stylesheet' type='text/css'
-					href='#{forums:contextPath()}/default_graphics/forums_styles.css'
-					media='screen' />
 				<ui:insert name="content" />
-
 			</div>
 		</c:if>
 
