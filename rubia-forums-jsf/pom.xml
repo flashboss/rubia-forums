@@ -277,6 +277,12 @@
 		<dependency>
 			<groupId>org.richfaces</groupId>
 			<artifactId>richfaces</artifactId>
+			<version>${richfaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>${commons.text.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>
