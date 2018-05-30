@@ -16,7 +16,7 @@ package it.vige.rubia.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.bean.ApplicationScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
 /**
@@ -68,12 +68,10 @@ public class EmptyController extends BaseController {
 	}
 
 	public String getMainPageName() {
-		// TODO Auto-generated method stub
 		return mainPageName;
 	}
 
 	public Map<String, String> getLinks() {
-		// TODO Auto-generated method stub
 		return links;
 	}
 

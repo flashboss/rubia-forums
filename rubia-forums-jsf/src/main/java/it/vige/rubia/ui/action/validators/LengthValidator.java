@@ -33,9 +33,9 @@ import javax.faces.validator.ValidatorException;
  * @author <a href="ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
  * 
  */
-abstract class LengthValidator implements Validator {
+abstract class LengthValidator implements Validator<String> {
 
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+	public void validate(FacesContext context, UIComponent component, String value) throws ValidatorException {
 
 		// A check whether it is post submition or preview action. If not
 		// validators are not executed.

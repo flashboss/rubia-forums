@@ -17,6 +17,7 @@ import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.POLL_DURATION_MSG;
 import static java.lang.Integer.valueOf;
+import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -33,9 +34,9 @@ import javax.faces.convert.FacesConverter;
  * 
  */
 @FacesConverter("pollDurationConverter")
-public class PollDurationConverter implements Converter {
+public class PollDurationConverter implements Converter<Integer> {
 
-	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
+	public Integer getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 
 		if (value == null || value.trim().length() == 0) {
 			return 0;
@@ -46,13 +47,13 @@ public class PollDurationConverter implements Converter {
 				FacesMessage message = new FacesMessage();
 				message.setDetail(getBundleMessage(BUNDLE_NAME, POLL_DURATION_MSG));
 				message.setSummary(getBundleMessage(BUNDLE_NAME, POLL_DURATION_MSG));
-				message.setSeverity(FacesMessage.SEVERITY_ERROR);
+				message.setSeverity(SEVERITY_ERROR);
 				throw new ConverterException(message);
 			}
 		}
 	}
 
-	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
+	public String getAsString(FacesContext context, UIComponent component, Integer value) throws ConverterException {
 		if (value == null) {
 			return "0";
 		}

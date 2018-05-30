@@ -41,9 +41,9 @@ import javax.faces.validator.ValidatorException;
  * 
  */
 @FacesValidator("pollValidator")
-public class PollValidator implements Validator {
+public class PollValidator implements Validator<String> {
 
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+	public void validate(FacesContext context, UIComponent component, String value) throws ValidatorException {
 
 		// A check whether it is post submition action. If not validators are
 		// not executed.

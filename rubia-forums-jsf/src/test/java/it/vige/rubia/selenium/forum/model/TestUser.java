@@ -25,7 +25,6 @@ public class TestUser implements User {
 
 	@Override
 	public String getUserName() {
-		// TODO Auto-generated method stub
 		return userName;
 	}
 

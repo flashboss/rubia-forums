@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action.converters;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,12 +21,11 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 @FacesConverter("pollOptionConverter")
-public class PollOptionConverter implements Converter {
+public class PollOptionConverter implements Converter<Object> {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
-		// TODO Auto-generated method stub
 		return value;
 	}
 
@@ -37,7 +36,7 @@ public class PollOptionConverter implements Converter {
 			return "";
 		}
 		@SuppressWarnings("unchecked")
-		Map.Entry<String, Object> entryValue = (Map.Entry<String, Object>) value;
+		Entry<String, Object> entryValue = (Entry<String, Object>) value;
 		return entryValue.getValue() + "";
 	}
 
