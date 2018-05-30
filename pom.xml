@@ -53,7 +53,7 @@
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
 		<wildfly.version>12.0.0.Final</wildfly.version>
-		<wildfly.maven.plugin.version>1.2.2.Final-SNAPSHOT</wildfly.maven.plugin.version>
+		<wildfly.maven.plugin.version>1.2.1.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP9</picketlink.version>
 		<picketbox.version>5.0.2.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
