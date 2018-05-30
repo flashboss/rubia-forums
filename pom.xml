@@ -37,8 +37,8 @@
 	</developers>
 
 	<properties>
-		<maven.compiler.source>10</maven.compiler.source>
-		<maven.compiler.target>10</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.spec.javaee>8.0</version.spec.javaee>
@@ -165,6 +165,16 @@
 			<artifactId>javaee-api</artifactId>
 			<version>${version.spec.javaee}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-idm-api</artifactId>
+			<version>${picketlink.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-idm-impl</artifactId>
+			<version>${picketlink.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>

@@ -36,7 +36,6 @@
 		</renderer>
 	</render-kit>
 	<navigation-rule>
-		<from-view-id>/</from-view-id>
 		<navigation-case>
 			<from-outcome>viewForum</from-outcome>
 			<to-view-id>/views/forums/viewforum_body.xhtml</to-view-id>

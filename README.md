@@ -23,7 +23,7 @@ This draft version has been tested on WildFly 12.0.0.Final.
 Requirements
 ------------
 
-- JDK 1.9
+- JDK 1.8
 - Maven 3.5.x
 
 
