@@ -264,12 +264,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-security</artifactId>
-			<version>${wildfly.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>it.vige</groupId>
 			<artifactId>rubia-forums-ejb</artifactId>
 			<version>${project.version}</version>

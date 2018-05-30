@@ -157,6 +157,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-security</artifactId>
+			<version>${wildfly.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-api</artifactId>
 			<version>${picketlink.version}</version>

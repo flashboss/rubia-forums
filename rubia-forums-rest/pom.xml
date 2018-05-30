@@ -227,11 +227,5 @@
 			<artifactId>rubia-forums-ejb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-security</artifactId>
-			<version>${wildfly.version}</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 </project>

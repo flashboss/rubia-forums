@@ -93,12 +93,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-security</artifactId>
-			<version>${wildfly.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-common</artifactId>
 			<version>${picketlink.version}</version>
