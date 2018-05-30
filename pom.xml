@@ -48,11 +48,7 @@
 		<version.selenium>3.11.0</version.selenium>
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
-		<guava.version>21.0</guava.version>
 		<junit.version>4.12</junit.version>
-		<maven.gpg.plugin.version>2.10.3</maven.gpg.plugin.version>
-		<maven.javadoc.plugin.version>1.6</maven.javadoc.plugin.version>
-		<maven.source.plugin.version>2.4</maven.source.plugin.version>
 		<maven.war.plugin.version>2.6</maven.war.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
@@ -207,11 +203,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jboss.arquillian.extension</groupId>
 			<artifactId>arquillian-drone-webdriver-depchain</artifactId>
 			<type>pom</type>
@@ -239,7 +230,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>${maven.source.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -252,7 +242,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>${maven.javadoc.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -265,7 +254,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven.gpg.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
