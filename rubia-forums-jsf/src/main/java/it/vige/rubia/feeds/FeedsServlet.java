@@ -37,7 +37,7 @@ import static java.lang.Integer.valueOf;
 import static java.net.URLEncoder.encode;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -267,7 +267,7 @@ public class FeedsServlet extends HttpServlet {
 		description.setType("text/html");
 
 		String text = post.getMessage().getText();
-		description.setValue(post.getMessage().getHTMLEnabled() ? escapeHtml(text) : text);
+		description.setValue(post.getMessage().getHTMLEnabled() ? escapeHtml4(text) : text);
 		entry.setDescription(description);
 
 		return entry;

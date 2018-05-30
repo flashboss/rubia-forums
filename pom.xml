@@ -46,10 +46,10 @@
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
 		<version.selenium>3.11.0</version.selenium>
-		<commons.lang.version>2.6</commons.lang.version>
+		<commons.text.version>1.3</commons.text.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
 		<junit.version>4.12</junit.version>
-		<maven.war.plugin.version>2.6</maven.war.plugin.version>
+		<maven.war.plugin.version>3.0.0</maven.war.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
 		<wildfly.version>12.0.0.Final</wildfly.version>
@@ -173,9 +173,9 @@
 			<version>${picketlink.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commons.lang.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>${commons.text.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
