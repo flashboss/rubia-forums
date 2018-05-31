@@ -68,7 +68,6 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
-	@SuppressWarnings("unchecked")
 	public ResultPage<Post> findPosts(SearchCriteria criteria) throws ModuleException {
 		if (criteria != null) {
 			try {
@@ -130,7 +129,9 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 				fullTextQuery.setMaxResults(criteria.getPageSize());
 
 				ResultPage<Post> resultPage = new ResultPage<Post>();
-				resultPage.setPage(fullTextQuery.list());
+				@SuppressWarnings("unchecked")
+				List<Post> posts = fullTextQuery.list();
+				resultPage.setPage(posts);
 				resultPage.setResultSize(fullTextQuery.getResultSize());
 
 				return resultPage;
@@ -145,7 +146,6 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public ResultPage<Topic> findTopics(SearchCriteria criteria) throws ModuleException {
 		if (criteria != null) {
 			try {
@@ -226,6 +226,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					Query q = session.createQuery("from Topic as t join fetch t.poster where t.id IN ( :topicIds )");
 					q.setParameter("topicIds", topicToDispIds);
 
+					@SuppressWarnings("unchecked")
 					List<Topic> results = q.getResultList();
 
 					topics = new LinkedList<Topic>();
