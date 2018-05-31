@@ -147,7 +147,7 @@ public class ReplyTopic extends PostAction {
 		String message = getMessage();
 		navState = start();
 		setMessage(message);
-		preview();
+		goToPreview();
 		return navState;
 	}
 

@@ -88,7 +88,7 @@ public abstract class PostAction extends BaseController {
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
 
 	// navigation control related data
-	protected boolean isPreview;
+	protected boolean preview;
 	protected int forumId = -1;
 	protected int topicId = -1;
 	protected int postId = -1;
@@ -282,7 +282,7 @@ public abstract class PostAction extends BaseController {
 	 * @return true if the current post is a preview
 	 */
 	public boolean isPreview() {
-		return isPreview;
+		return preview;
 	}
 
 	/**
@@ -334,7 +334,7 @@ public abstract class PostAction extends BaseController {
 		subject = null;
 		message = null;
 		topicType = NORMAL;
-		isPreview = false;
+		preview = false;
 		forumId = -1;
 		topicId = -1;
 		postId = -1;
@@ -487,10 +487,10 @@ public abstract class PostAction extends BaseController {
 	 * 
 	 * @return the navigation state of the application
 	 */
-	public String preview() {
+	public String goToPreview() {
 		String navState = null;
 		try {
-			isPreview = true;
+			preview = true;
 		} catch (Exception e) {
 			handleException(e);
 		}
