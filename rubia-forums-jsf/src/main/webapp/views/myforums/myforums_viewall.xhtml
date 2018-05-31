@@ -45,7 +45,7 @@
 					<c:forEach items="#{myForumsAll.watchedTopics}" var="topicrow"
 						varStatus="status">
 						<h:form
-							rendered="${topicWatch.topicId ne topicrow.id || topicWatch.editMode eq false}">
+							rendered="${topicWatch.topicId ne topicrow.id or topicWatch.editMode eq false}">
 							<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
 								<td class="forumlisticon"><img
 									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"

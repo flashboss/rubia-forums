@@ -31,9 +31,9 @@
 					<c:choose>
 
 						<c:when
-							test="#{moderator.anyCheckboxSelected &amp;&amp; moderator.forum!=null &amp;&amp; moderator.forum.id!=-1}">
+							test="#{moderator.anyCheckboxSelected and moderator.forum!=null and moderator.forum.id!=-1}">
 							<div class="dialog">
-								<table cellpadding="0" cellspacing="0" border="0" width="100%">
+								<table>
 									<tr>
 										<td class="icon"><img
 											src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
@@ -71,7 +71,7 @@
 							<table class="forumtablestyle">
 								<tr>
 									<td>
-										<table width="100%" cellspacing="0" cellpadding="1" border="0">
+										<table>
 											<tr>
 												<td>&#160;</td>
 											</tr>
@@ -93,7 +93,7 @@
 					<table class="forumtablestyle">
 						<tr>
 							<td>
-								<table width="100%" cellspacing="0" cellpadding="1" border="0">
+								<table>
 									<tr>
 										<td>&#160;</td>
 									</tr>

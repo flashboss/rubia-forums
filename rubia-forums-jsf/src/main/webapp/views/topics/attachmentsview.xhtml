@@ -21,8 +21,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums">
 	<ui:repeat value="#{attachments}" var="attachment">
-		<table class="forumAttachmentTable" border="0" cellpadding="0"
-			cellspacing="0">
+		<table class="forumAttachmentTable">
 			<tr class="header">
 				<td class="forumHeaderFirst">${resourcebundle.Attachment}:</td>
 				<td class="forumHeaderLast" colspan="2">${attachment.name}</td>

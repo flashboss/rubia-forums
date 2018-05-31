@@ -44,7 +44,7 @@
 					<c:forEach items="#{myForumsEdit.watchedForums}" var="forumrow"
 						varStatus="status">
 						<h:form
-							rendered="${forumWatch.selectedForum ne forumrow.id || forumWatch.editMode eq false}">
+							rendered="${forumWatch.selectedForum ne forumrow.id or forumWatch.editMode eq false}">
 							<tr>
 								<td class="forumlisticon"><img
 									src="#{myForumsEdit.forumImages[forumrow.id]}" width="11"

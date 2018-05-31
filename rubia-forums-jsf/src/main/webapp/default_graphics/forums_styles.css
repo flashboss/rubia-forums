@@ -476,9 +476,11 @@
 .forumAttachmentTable {
 	clear:both;
 	width: 100%;
-	border: 1px solid #e6e7e8;
+	border: 0;
 	border-bottom: 0px;
 	margin: 4px;
+	padding: 0;
+	spacing-border: 0;
 }
 
 .forumAttachmentTable .header {
