@@ -70,7 +70,7 @@
 
 			<div class="PostviewStyle">
 				<h:form id="post">
-					<table cellpadding="5" class="preview" id="table">
+					<table class="posting_large" id="table">
 
 						<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
 						<input type="hidden" name="f" value="#{replyTopic.forumId}" />
@@ -95,7 +95,7 @@
 						<!-- Add Message -->
 						<tr>
 							<td valign="top">
-								<table cellpadding="1" class="preview">
+								<table class="posting_normal">
 									<tbody>
 										<tr>
 											<td><label class="forumformlabelbold">
@@ -103,7 +103,7 @@
 										</tr>
 										<tr>
 											<td align="center" valign="middle"><br />
-												<table cellpadding="5" cellspacing="0" width="100">
+												<table class="posting_normal">
 													<tbody>
 														<tr align="center">
 															<td><b></b></td>
@@ -115,7 +115,7 @@
 								</table>
 							</td>
 							<td valign="top">
-								<table cellpadding="0" class="preview">
+								<table class="posting_short">
 									<tbody>
 										<tr>
 											<td colspan="9"><rich:editor id="message" toolbar="full"

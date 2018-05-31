@@ -918,7 +918,29 @@ h4 {
    margin: 0px;
 }
 
-.preview {
+.posting_short {
 	width: 100%;
 	border-spacing: 0;
+}
+
+.posting_short td {
+	padding: 0;
+}
+
+.posting_normal {
+	width: 100%;
+	border-spacing: 0;
+}
+
+.posting_normal td {
+	padding: 1;
+}
+
+.posting_large {
+	width: 100%;
+	border-spacing: 0;
+}
+
+.posting_large td {
+	padding: 5;
 }

@@ -22,7 +22,7 @@
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
 	class="PostviewStyle">
 
-	<table cellpadding="5" class="preview" id="table">
+	<table class="posting_large" id="table">
 		<tr>
 			<td colspan="2" class="PostViewMainHeader">${resourcebundle.Preview}</td>
 		</tr>
@@ -33,7 +33,7 @@
 		</tr>
 		<tr>
 			<td class="row1">
-				<table class="preview" cellpadding="0">
+				<table class="posting_short">
 					<tr>
 						<td><span class="postbody"> <h:outputText
 									value="#{forums:formatMessage(replyTopic.message,false)}"
