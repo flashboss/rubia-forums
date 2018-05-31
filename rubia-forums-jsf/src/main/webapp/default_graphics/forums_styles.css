@@ -528,9 +528,8 @@
 
 .forumPollTable {
 	clear:both;
-/*	border: 1px solid #e6e7e8; */
-/*	border-bottom: 0px; */
 	margin: 4px;
+	border-spacing: 0;
 }
 
 .forumPollTable .questionCell {
@@ -582,6 +581,7 @@
 .forumPollTableGraph {
 	padding: 0px;
 	width: 0%;
+	border-spacing: 0;
 }
 
 .forumPollTableGraph td {
