@@ -39,8 +39,6 @@
 					contextData="#{topic.topic.forum}"
 					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 
-					<a name="top" />
-
 					<div id="miviewtopicbody1" class="forumbread">
 						<h:form>
 							<ul>
@@ -305,7 +303,7 @@
 										</h:panelGroup>
 									</rich:column>
 									<rich:column styleClass="forumpostspacer">
-										<a name="${postrow.id}" />
+										<a id="${postrow.id}" />
 
 										<div id="miviewtopicbody6" class="forumpostactions">
 											<ul>
