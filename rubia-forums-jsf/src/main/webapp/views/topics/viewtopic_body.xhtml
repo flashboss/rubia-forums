@@ -259,8 +259,7 @@
 							</c:choose>
 						</div>
 
-						<table width="100%" border="0" cellpadding="0" cellspacing="0"
-							class="forumtablestyle">
+						<table class="forumtablestyle">
 
 							<tr>
 								<!-- POLL DISPLAY -->
@@ -288,8 +287,6 @@
 							<rich:dataTable id="postsList" value="#{topic.topicsDataModel}"
 								var="postrow" iterationStatusVar="status"
 								styleClass="forumtablestyle"
-								style="width:100%; border:0; cellpadding:0;
-										cellspacing:0;"
 								rows="#{prefController.postsPerTopic}" rowClasses="oddRow">
 								<tr>
 									<rich:column styleClass="forumpostleftcolumn">

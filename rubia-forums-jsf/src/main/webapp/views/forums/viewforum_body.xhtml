@@ -179,8 +179,7 @@
 						</forums:isAllowed>
 
 						<!-- display the list of topics associated with this forum -->
-						<table width="100%" border="0" cellpadding="0" cellspacing="0"
-							class="forumtablestyle">
+						<table class="forumtablestyle">
 
 							<tr class="header">
 								<td class="forumheaderfirst" colspan="2">${resourcebundle.Topics}</td>
@@ -310,8 +309,6 @@
 								value="#{forum.normalThreadsDataModel}" var="topicrow"
 								iterationStatusVar="status" styleClass="forumtablestyle"
 								rows="#{prefController.topicsPerForum}"
-								style="width:100%; border:0; cellpadding:0;
-										cellspacing:0;"
 								rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
 								headerClass="forumspecialized">
 								<f:facet name="header">

@@ -212,6 +212,11 @@
 /* --------------------  Forum Table styles ------------------------ */
 .forumtablestyle {
 	clear:both;
+	width:100%;
+	padding:0;
+	border-spacing:0;
+	border: none;
+	border-style: hidden !important;
 }
 
 .forumtablestyle td {
@@ -683,6 +688,18 @@ textarea{
 .forumlegendjumpboxfloat {
 	float:right;
 	margin-bottom: 10px;
+}
+.forumlegendjumpboxright {
+	padding:0;
+	border-spacing: 0;
+	float: right;
+	border: none;
+}
+.forumlegendjumpboxcenter {
+	padding:2;
+	border-spacing: 2;
+	width: 100%;
+	border: none;
 }
 .forumlegendjumpboxclear {
 	clear:both;
