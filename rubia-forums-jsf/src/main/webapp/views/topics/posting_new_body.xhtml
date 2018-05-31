@@ -99,35 +99,13 @@ function selectOption(optionVal)
 						</tr>
 
 						<!-- Add Message -->
-						<tr>
-							<td valign="top">
-								<table class="posting_normal">
-									<tbody>
-										<tr>
-											<td><label class="forumformlabelbold">
-													${resourcebundle.Message_body} </label></td>
-										</tr>
-										<tr>
-											<td align="center" valign="middle"><br />
-												<table class="posting_large">
-													<tbody>
-														<tr align="center">
-															<td><b></b></td>
-														</tr>
-													</tbody>
-												</table></td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td valign="top">
-								<table class="posting_short">
-									<tbody>
-										<tr>
-											<td colspan="9"><rich:editor id="message" toolbar="full"
-													skin="wildforums" value="#{newTopic.message}"
-													styleClass="Posttextarea" style="height:inherit;width:59%">
-													<f:facet name="config">
+						<tr class="PostViewUnderline">
+							<td><label class="forumformlabelbold">
+									${resourcebundle.Message_body} </label></td>
+							<td><rich:editor id="message" toolbar="full"
+									skin="wildforums" value="#{newTopic.message}"
+									styleClass="Posttextarea" style="height:inherit;width:59%">
+									<f:facet name="config">
                     toolbar: 'custom',
                     startupFocus: true,
                     height: 150,
@@ -143,11 +121,7 @@ function selectOption(optionVal)
                         ]
                     </f:facet>
 
-												</rich:editor></td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
+								</rich:editor></td>
 						</tr>
 
 						<!-- subject and message invisible input for validator execution workaround -->
