@@ -98,7 +98,7 @@
 									<goal>start</goal>
 								</goals>
 								<configuration>
-									<version>12.0.0.Final</version>
+									<version>${wildfly.version}</version>
 									<addUser>admin:admin</addUser>
 								</configuration>
 							</execution>

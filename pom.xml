@@ -52,8 +52,8 @@
 	</developers>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>10</maven.compiler.source>
+		<maven.compiler.target>10</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.spec.javaee>8.0</version.spec.javaee>
@@ -68,12 +68,12 @@
 		<maven.war.plugin.version>3.0.0</maven.war.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>12.0.0.Final</wildfly.version>
-		<wildfly.maven.plugin.version>1.2.1.Final</wildfly.maven.plugin.version>
-		<picketlink.version>2.5.5.SP9</picketlink.version>
+		<wildfly.version>13.0.0.Final</wildfly.version>
+		<wildfly.maven.plugin.version>1.2.2.Final-SNAPSHOT</wildfly.maven.plugin.version>
+		<picketlink.version>2.5.5.SP11</picketlink.version>
 		<picketbox.version>5.0.2.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
-		<lucene.version>5.3.1</lucene.version>
+		<lucene.version>5.5.5</lucene.version>
 		<hibernate.version>5.1.10.Final</hibernate.version>
 		<hibernate.search.version>5.5.8.Final</hibernate.search.version>
 		<rome.version>1.10.0</rome.version>
