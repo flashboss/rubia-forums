@@ -25,6 +25,7 @@ import static it.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
+import static java.lang.Integer.parseInt;
 import static java.util.ResourceBundle.getBundle;
 import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
@@ -111,8 +112,8 @@ public class VerifyTopic {
 		String[] allRows = topicTable.findElements(xpath(USER_LINK)).get(i4).findElement(xpath("..")).getText()
 				.split(bundle.getString("By"));
 		String user = allRows[allRows.length - 1].trim();
-		int replies = new Integer(topicTable.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4).getText());
-		int viewCount = new Integer(topicTable.findElements(xpath(VIEW_OUTPUT_TEXT)).get(i4).getText());
+		int replies = parseInt(topicTable.findElements(xpath(REPLIED_OUTPUT_TEXT)).get(i4).getText());
+		int viewCount = parseInt(topicTable.findElements(xpath(VIEW_OUTPUT_TEXT)).get(i4).getText());
 		Date lastPostDate = null;
 		try {
 			lastPostDate = dateFormat

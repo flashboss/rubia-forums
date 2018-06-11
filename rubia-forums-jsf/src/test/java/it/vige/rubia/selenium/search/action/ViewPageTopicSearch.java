@@ -19,6 +19,7 @@ package it.vige.rubia.selenium.search.action;
 import static it.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
 import static it.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 import static it.vige.rubia.ui.ForumUtil.truncate;
+import static java.lang.Integer.parseInt;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
@@ -107,8 +108,8 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 		} catch (ParseException e) {
 		}
 		topic.getPosts().add(lastPost);
-		topic.setReplies(new Integer(element.findElement(xpath(TOPIC_REPLIES)).getText()));
-		topic.setViewCount(new Integer(element.findElement(xpath(TOPIC_VIEWS)).getText()));
+		topic.setReplies(parseInt(element.findElement(xpath(TOPIC_REPLIES)).getText()));
+		topic.setViewCount(parseInt(element.findElement(xpath(TOPIC_VIEWS)).getText()));
 		return topic;
 	}
 

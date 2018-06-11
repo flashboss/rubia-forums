@@ -16,12 +16,14 @@
  */
 package it.vige.rubia.selenium.profile.action;
 
+import static java.lang.Integer.parseInt;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Poster;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.model.Poster;
 
 public class VerifyProfile {
 
@@ -29,9 +31,8 @@ public class VerifyProfile {
 
 	public static Poster verifyProfile(WebDriver driver, String userId) {
 		Poster poster = new Poster(userId);
-		WebElement postCount = driver.findElement(className(POST_COUNT))
-				.findElement(xpath("tbody/tr[3]/td[2]"));
-		int count = new Integer(postCount.getText().trim());
+		WebElement postCount = driver.findElement(className(POST_COUNT)).findElement(xpath("tbody/tr[3]/td[2]"));
+		int count = parseInt(postCount.getText().trim());
 		for (int i = 0; i < count; i++)
 			poster.incrementPostCount();
 		return poster;

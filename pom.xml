@@ -57,10 +57,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.spec.javaee>8.0</version.spec.javaee>
+		<primefaces.version>6.2</primefaces.version>
 		<richfaces.version>4.5.17.Final</richfaces.version>
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
-		<version.selenium>3.11.0</version.selenium>
+		<selenium.version>3.11.0</selenium.version>
 		<guava.version>25.1-jre</guava.version>
 		<commons.text.version>1.3</commons.text.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
@@ -150,7 +151,7 @@
 			<dependency>
 				<groupId>org.jboss.arquillian.selenium</groupId>
 				<artifactId>selenium-bom</artifactId>
-				<version>${version.selenium}</version>
+				<version>${selenium.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>

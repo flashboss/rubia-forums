@@ -17,16 +17,18 @@
 package it.vige.rubia.selenium.summary.action;
 
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.getTopic;
+import static java.lang.Integer.parseInt;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.model.Topic;
 
 public class ViewSummary {
 
@@ -35,8 +37,7 @@ public class ViewSummary {
 
 	public static List<Topic> viewSummary(WebDriver driver) {
 		List<Topic> topics = new ArrayList<Topic>();
-		List<WebElement> elements = driver.findElement(className(TOPIC_TABLE))
-				.findElements(xpath("tbody/tr/td"));
+		List<WebElement> elements = driver.findElement(className(TOPIC_TABLE)).findElements(xpath("tbody/tr/td"));
 		for (int i = 1; i < elements.size(); i++) {
 			WebElement element = elements.get(i);
 			Topic topic = new Topic();
@@ -48,7 +49,7 @@ public class ViewSummary {
 
 	public static int viewSize(WebDriver driver) {
 		WebElement element = driver.findElement(className(TOPIC_SIZE));
-		return new Integer(element.getText().split(" ")[0]);
+		return parseInt(element.getText().split(" ")[0]);
 	}
 
 	public static Topic getDetail(WebDriver driver, String subject) {

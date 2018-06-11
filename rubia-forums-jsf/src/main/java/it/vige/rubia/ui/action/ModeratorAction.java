@@ -188,7 +188,7 @@ public class ModeratorAction extends BaseController {
 		}
 		Forum forumDest = null;
 		try {
-			forumDest = forumsModule.findForumById(new Integer(forum_to_id));
+			forumDest = forumsModule.findForumById(parseInt(forum_to_id));
 		} catch (Exception e) {
 			setWarnBundleMessage("ERR_INTERNAL");
 			return "success";
@@ -320,8 +320,8 @@ public class ModeratorAction extends BaseController {
 	}
 
 	/**
-	 * Action checking if user selected at least one topic and forwards him to
-	 * move topic view.
+	 * Action checking if user selected at least one topic and forwards him to move
+	 * topic view.
 	 * 
 	 * @return the name of the operation
 	 */
@@ -339,8 +339,8 @@ public class ModeratorAction extends BaseController {
 	}
 
 	/**
-	 * Method checks if user selected at least one topic from checkboxes or
-	 * there is topic id sent in request.
+	 * Method checks if user selected at least one topic from checkboxes or there is
+	 * topic id sent in request.
 	 * 
 	 * @return true if almost one checkbox is selected
 	 */
@@ -360,7 +360,7 @@ public class ModeratorAction extends BaseController {
 
 		if (topicId != null && topicId.trim().length() > 0) {
 			checkboxes = new HashMap<Integer, Boolean>(1);
-			checkboxes.put(new Integer(topicId), TRUE);
+			checkboxes.put(parseInt(topicId), TRUE);
 			return true;
 		}
 		return false;
@@ -409,7 +409,7 @@ public class ModeratorAction extends BaseController {
 
 				if (t != null && t.trim().length() > 0) {
 
-					Topic topic = forumsModule.findTopicById(new Integer(t));
+					Topic topic = forumsModule.findTopicById(parseInt(t));
 					forum = topic.getForum();
 
 				} else {
@@ -417,7 +417,7 @@ public class ModeratorAction extends BaseController {
 
 					if (p != null && p.trim().length() > 0) {
 
-						Post post = forumsModule.findPostById(new Integer(p));
+						Post post = forumsModule.findPostById(parseInt(p));
 						Topic topic = post.getTopic();
 						forum = topic.getForum();
 					}

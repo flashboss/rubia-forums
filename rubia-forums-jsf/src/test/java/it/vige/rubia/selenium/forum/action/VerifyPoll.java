@@ -17,6 +17,7 @@
 package it.vige.rubia.selenium.forum.action;
 
 import static it.vige.rubia.Constants.MAIN_PAGE;
+import static java.lang.Integer.parseInt;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
@@ -116,9 +117,9 @@ public class VerifyPoll {
 						.findElement(xpath("tbody/tr[td/text()='" + pollComponent.getText() + "']/td[3]")).getText();
 				String pollOptionPosition = driver.findElement(className(FORUM_POLL_TABLE))
 						.findElement(xpath("tbody/tr[td/text()='" + pollComponent.getText() + "']/td[4]")).getText();
-				pollOption.setVotes(new Integer(numberOfVotes.substring(0, numberOfVotes.length() - 1)));
+				pollOption.setVotes(parseInt(numberOfVotes.substring(0, numberOfVotes.length() - 1)));
 				pollOption.setPollOptionPosition(
-						new Integer(pollOptionPosition.substring(1, pollOptionPosition.length() - 1).trim()));
+						parseInt(pollOptionPosition.substring(1, pollOptionPosition.length() - 1).trim()));
 			}
 			WebElement votesComponent = driver.findElement(linkText(VOTES_LINK));
 			votesComponent.click();

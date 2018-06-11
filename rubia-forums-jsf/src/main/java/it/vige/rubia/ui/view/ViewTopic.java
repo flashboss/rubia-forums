@@ -181,8 +181,8 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * This method gets topicId from parameters and tries to find topic with
-	 * that id.
+	 * This method gets topicId from parameters and tries to find topic with that
+	 * id.
 	 */
 	@PostConstruct
 	public void execute() {
@@ -197,7 +197,7 @@ public class ViewTopic extends BaseController {
 		}
 		try {
 			if (p != null && p.trim().length() > 0) {
-				postId = new Integer(p);
+				postId = parseInt(p);
 				Post post = forumsModule.findPostById(postId);
 				topicId = post.getTopic().getId().intValue();
 				topic = post.getTopic();

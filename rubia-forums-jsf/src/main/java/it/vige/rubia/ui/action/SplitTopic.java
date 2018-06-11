@@ -176,7 +176,7 @@ public class SplitTopic extends BaseController {
 
 		try {
 
-			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
+			Forum destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in destination forum.
 			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
@@ -290,7 +290,7 @@ public class SplitTopic extends BaseController {
 		}
 		try {
 
-			Forum destForum = forumsModule.findForumById(new Integer(toForumId));
+			Forum destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in selected destination forum.
 			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,

@@ -41,10 +41,9 @@ import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.interceptor.Interceptors;
+import javax.servlet.http.Part;
 
 import org.richfaces.component.UIFileUpload;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
@@ -86,6 +85,7 @@ public abstract class PostAction extends BaseController {
 	// attachment related view data
 	protected String attachmentComment;
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
+	private Part file;
 
 	// navigation control related data
 	protected boolean preview;
@@ -324,8 +324,8 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @author sshah since this controller is at session scope, must cleanup its
-	 *         state when not needed this will help optimize memory usage...
-	 *         puts the bean in an uninitialized state in that user's session
+	 *         state when not needed this will help optimize memory usage... puts
+	 *         the bean in an uninitialized state in that user's session
 	 * 
 	 */
 	protected void cleanup() {
@@ -528,22 +528,29 @@ public abstract class PostAction extends BaseController {
 	public Post getPost() throws Exception {
 		Post post = null;
 
-		post = forumsModule.findPostById(new Integer(getRequestParameter(p_postId)));
+		post = forumsModule.findPostById(parseInt(getRequestParameter(p_postId)));
 
 		return post;
 	}
 
-	public void upload(FileUploadEvent event) throws Exception {
-		UploadedFile item = event.getUploadedFile();
-		Attachment file = new Attachment();
-		file.setComment(attachmentComment);
-		file.setContent(item.getData());
-		file.setContentType(item.getContentType());
-		file.setName(item.getName());
-		file.setSize(item.getSize());
-		for (Attachment attachment : attachments)
-			attachment.setPost(null);
-		attachments.add(file);
+	public Part getFile() {
+		return file;
+	}
+
+	public void setFile(Part file) {
+		this.file = file;
+	}
+
+	public void upload() throws Exception {
+		Attachment attachment = new Attachment();
+		attachment.setComment(attachmentComment);
+		attachment.setContent(file.getInputStream().readAllBytes());
+		attachment.setContentType(file.getContentType());
+		attachment.setName(file.getName());
+		attachment.setSize(file.getSize());
+		for (Attachment attachmentFromList : attachments)
+			attachmentFromList.setPost(null);
+		attachments.add(attachment);
 	}
 
 	public void clearUpload(AjaxBehaviorEvent event) throws Exception {

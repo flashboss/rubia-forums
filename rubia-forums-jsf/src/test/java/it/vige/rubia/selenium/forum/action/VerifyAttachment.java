@@ -21,6 +21,7 @@ import static it.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.POST_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
+import static java.lang.Integer.parseInt;
 import static java.lang.System.getProperty;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
@@ -140,7 +141,7 @@ public class VerifyAttachment {
 		String attachmentSize = attachmentComponent.findElement(xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
 		attachmentComponent.findElement(xpath(ATTACHMENT_DOWNLOAD_LINK)).click();
 		File file = new File(download_url + "/" + attachmentName);
-		int attachmentSizeValue = new Integer(attachmentSize.split(" B")[0]);
+		int attachmentSizeValue = parseInt(attachmentSize.split(" B")[0]);
 		byte[] content = new byte[attachmentSizeValue];
 		Attachment attachment = new Attachment();
 		try {

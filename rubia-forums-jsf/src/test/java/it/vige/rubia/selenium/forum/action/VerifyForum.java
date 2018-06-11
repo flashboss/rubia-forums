@@ -17,6 +17,7 @@
 package it.vige.rubia.selenium.forum.action;
 
 import static it.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
+import static java.lang.Integer.parseInt;
 import static java.util.ResourceBundle.getBundle;
 import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
@@ -96,8 +97,8 @@ public class VerifyForum {
 			lastPost.setMessage(message);
 			forum.setLastPost(lastPost);
 		}
-		forum.setTopicCount(new Integer(trComponent.findElement(xpath(TOPICS_COUNT_OUTPUT_TEXT)).getText()));
-		forum.setPostCount(new Integer(trComponent.findElement(xpath(POSTS_COUNT_OUTPUT_TEXT)).getText()));
+		forum.setTopicCount(parseInt(trComponent.findElement(xpath(TOPICS_COUNT_OUTPUT_TEXT)).getText()));
+		forum.setPostCount(parseInt(trComponent.findElement(xpath(POSTS_COUNT_OUTPUT_TEXT)).getText()));
 		return forum;
 	}
 
