@@ -11,10 +11,10 @@
  * See the License for the specific language governing permissions and        *
  * limitations under the License.                                             *
  ******************************************************************************/
-.bodyStyle{
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #656565;
+.bodyStyle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #656565;
 }
 
 .scroll {
@@ -23,34 +23,34 @@
 }
 
 .code {
-    border-left: 1px solid #e6e7e8;
-    border-right: 1px solid #e6e7e8;
-    font-family: Courier;
-    font-size: 10px;
-    background-color: #fffdf2;
-    white-space: nowrap;
+	border-left: 1px solid #e6e7e8;
+	border-right: 1px solid #e6e7e8;
+	font-family: Courier;
+	font-size: 10px;
+	background-color: #fffdf2;
+	white-space: nowrap;
 }
 
 .quote {
-    border-left: 1px solid #e6e7e8;
-    border-right: 1px solid #e6e7e8;
-    font-size: 10px;
-    background-color: #f5f7fa;
+	border-left: 1px solid #e6e7e8;
+	border-right: 1px solid #e6e7e8;
+	font-size: 10px;
+	background-color: #f5f7fa;
 }
 
 .forumscontainer {
-	margin:0px 25px 0px 15px;
+	margin: 0px 25px 0px 15px;
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-size:11px;
+	font-size: 11px;
 }
 
 .forumscontainer a {
 	text-decoration: underline;
-	}
+}
 
 .forumsectionhdr {
 	border-bottom: 1px solid #a1a1a1;
-	text-align:right;
+	text-align: right;
 }
 
 .forumsectionhdr ul {
@@ -58,82 +58,83 @@
 }
 
 .forumsectionhdr li {
-	display:inline;
+	display: inline;
 	color: #656565;
-	font-size:11px;
-	font-weight:bold;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 .forumsectionhdr a {
-	color:#4a5d75;
+	color: #4a5d75;
 }
 
 .forumdashedHR {
-	clear:both;
-	border-top:1px dashed #a1a1a1; 
+	clear: both;
+	border-top: 1px dashed #a1a1a1;
 	background-color: #FFFFFF;
-	border-bottom:0px;
-	border-left:0px;
-	border-right:0px;
-	margin:10px auto;
+	border-bottom: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	margin: 10px auto;
 }
-
 
 /* Link workaround for images used as links where spaces may be added */
-.imglink { 
+.imglink {
 	text-decoration: none;
 }
-	
 
 /* -------------------------- floats ------------------------------------------- */
 .forumfloatright {
-	float:right;
+	float: right;
 }
 
 .forumfloatleft {
-	float:left;
+	float: left;
 }
 
 /* -------------------------- titles, headers & text ------------------------------- */
 .forumtitletext {
+	
 }
 
-.forumtitletext h4{
+.forumtitletext h4 {
 	margin: 5px auto;
-	color:#233345;
-	font-size:14px;
-	font-weight:bold;	
+	color: #233345;
+	font-size: 14px;
+	font-weight: bold;
 }
+
 .forumtitletext .successtext {
 	margin: 5px auto;
-	color:#226809;
-	font-size:12px;
-	font-weight:bold;	
+	color: #226809;
+	font-size: 12px;
+	font-weight: bold;
 }
+
 .forumtitletext .failuretext {
 	margin: 5px auto;
-	color:#CC0000;
-	font-size:12px;
-	font-weight:bold;	
+	color: #CC0000;
+	font-size: 12px;
+	font-weight: bold;
 }
+
 .forumtitletext p {
 	margin: 2px auto 12px auto;
 }
 
 .inlinefailure {
 	margin: 5px auto;
-	color:#CC0000;
-	font-size:12px;
-	font-weight: bold;	
-}	
+	color: #CC0000;
+	font-size: 12px;
+	font-weight: bold;
+}
 
 .note {
-	color:#233345;
-	font-size:9px;
+	color: #233345;
+	font-size: 9px;
 	line-height: 9px;
 }
 /* --------------------------- Buttons ---------------------------------- */
-
 .buttonMed {
 	font-size: 10px;
 	font-weight: bold;
@@ -154,254 +155,261 @@
 	padding: 0px;
 	margin: 0px;
 	display: inline;
-	} 
+}
 
 .actionbuttons ul li {
 	list-style: none;
 	display: inline;
 	padding: 0px;
 	margin: 0px;
-	}
+}
 
 .actionbuttons ul li img {
 	border: 0px;
 	padding-right: 4px;
 	vertical-align: text-bottom;
-	}
+}
 
 .actionbuttons ul li a {
-	text-decoration:none;
-	}
-
+	text-decoration: none;
+}
 
 /* -------------------------- Forum Breadcrumb navigation --------------------------------- */
 .forumbread {
 	color: #4a5d75;
 	padding-right: 3px;
 	margin: 10px auto;
-	}
+}
 
 .forumbread ul {
 	margin-left: 0px;
 	padding-left: 0px;
 	display: inline;
 	border: none;
-	} 
+}
 
 .forumbread ul li {
 	margin-left: 3px;
-	font-size:10px;
+	font-size: 10px;
 	border: none;
 	list-style: none;
 	display: inline;
-	}
+}
 
 .forumbread ul li .first {
-	margin-left:0px;
-	font-size:10px;
+	margin-left: 0px;
+	font-size: 10px;
 	border: none;
 	list-style: none;
 	display: inline;
-	}
+}
 
 .forumbread a {
-	color:#4a5d75;
+	color: #4a5d75;
 	text-decoration: underline;
 }
 
 /* --------------------  Forum Table styles ------------------------ */
 .forumtablestyle {
-	clear:both;
-	width:100%;
-	padding:0;
-	border-spacing:0;
+	clear: both;
+	width: 100%;
+	padding: 0;
+	border-spacing: 0;
 	border: none;
 	border-style: hidden !important;
 }
 
 .forumtablestyle td {
-	border-bottom:1px solid #e6e7e8;
+	border-bottom: 1px solid #e6e7e8;
 	padding: 3px 5px;
-	font-size:11px;
+	font-size: 11px;
 }
 
 .forumtablestyle a {
-	color:#4a5d75;
+	color: #4a5d75;
 }
 
 .forumtablestyle h3 {
-	margin:0px;
-	padding:0px;
+	margin: 0px;
+	padding: 0px;
 	font-weight: bold;
-	font-size:11px;
-	display:inline;
+	font-size: 11px;
+	display: inline;
 }
 
 .forumtablestyle .header {
-	background-color:#233345;
-	font-size:10px;
-	font-weight:bold;
-	color:#94aebd;
+	background-color: #233345;
+	font-size: 10px;
+	font-weight: bold;
+	color: #94aebd;
 	height: 20px;
-	text-align:left;
+	text-align: left;
 }
 
 .forumtablestyle .secondaryHeader {
-	background-color:#9bb3c1;
-	font-size:10px;
-	font-weight:bold;
-	color:#000000;
+	background-color: #9bb3c1;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
 	height: 20px;
-	text-align:left;
+	text-align: left;
 }
 
 .forumtablestyle .forumheaderfirst {
-	border-bottom:1px solid #233345;
-	height:2em;
-
+	border-bottom: 1px solid #233345;
+	height: 2em;
 }
 
 .forumtablestyle .tableheader {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-	height:2em;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+	height: 2em;
 }
 
 .forumtablestyle .forumheadercentered {
-	text-align:center;
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-	width:50px;
+	text-align: center;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+	width: 50px;
 }
-.forumtablestyle .forumheaderopen {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-}
-.forumtablestyle .forumheader250px {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-	width:250px;
 
+.forumtablestyle .forumheaderopen {
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+}
+
+.forumtablestyle .forumheader250px {
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+	width: 250px;
 }
 
 .forumtablestyle .forumheaderlast {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-	width:250px;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+	width: 250px;
 }
+
 .forumtablestyle .forumheadernarrow {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #233345;
-	width:30px;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #233345;
+	width: 30px;
 }
 
 .forumtablestyle .forumlisticon {
-	width:10px;
-	height:40px;
+	width: 10px;
+	height: 40px;
 }
 
 .forumtablestyle .forumlistcentered {
-	width:50px;
+	width: 50px;
 	text-align: center;
-	border-left:1px solid #e6e7e8;
-	height:40px;
+	border-left: 1px solid #e6e7e8;
+	height: 40px;
 }
 
 .forumtablestyle .forumlistlast {
-	width:250px;
-	border-left:1px solid #e6e7e8;
-	height:40px;
+	width: 250px;
+	border-left: 1px solid #e6e7e8;
+	height: 40px;
 }
 
 .forumtablestyle .forumlistopen {
-	border-left:1px solid #e6e7e8;
-	height:40px;
+	border-left: 1px solid #e6e7e8;
+	height: 40px;
 }
 
 .forumtablestyle .forumcategory {
-	background-color:#f4f3f3;
-	border-bottom:1px solid #e6e7e8;
-	height:25px;
+	background-color: #f4f3f3;
+	border-bottom: 1px solid #e6e7e8;
+	height: 25px;
 }
+
 .forumtablestyle .forumspecialized {
-	background-color:#dedede;
-	border-bottom:1px solid #e6e7e8;
-	height:25px;
+	background-color: #dedede;
+	border-bottom: 1px solid #e6e7e8;
+	height: 25px;
 	text-align: left;
 }
+
 .forumtablestyle .forumcategory h3 {
 	font-weight: bold;
-	font-size:11px;
+	font-size: 11px;
 }
 
 .forumtablestyle .footerrow {
-	background-color:#e6e7e8;
+	background-color: #e6e7e8;
 }
+
 .forumtablestyle .spacerRow {
-	background-color:#ffffff;
-	height:15px;
+	background-color: #ffffff;
+	height: 15px;
 }
 
-.forumtablestyle .oddRow{
-    background-color: #f4f3f3;
+.forumtablestyle .oddRow {
+	background-color: #f4f3f3;
 }
 
-.forumtablestyle .evenRow{
-    background-color: #ffffff;
+.forumtablestyle .evenRow {
+	background-color: #ffffff;
 }
 
-.forumtablestyle .Indent{
-    padding-left:20px;
+.forumtablestyle .Indent {
+	padding-left: 20px;
 }
 
 .forumtablestyle .rowlinefirst {
-	border-bottom:1px solid #e6e7e8;
+	border-bottom: 1px solid #e6e7e8;
 }
 
 .forumtablestyle .rowline {
-	border-left:1px solid #e6e7e8;
-	border-bottom:1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8;
+	border-bottom: 1px solid #e6e7e8;
 }
-.forumtablestyle .editRow{
-	background-color:#fff6e4;
+
+.forumtablestyle .editRow {
+	background-color: #fff6e4;
 }
 
 .forumtablestyle .nonewpostRow {
 	background-color: #f4f3f3;
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .forumtablestyle .labelCell {
-    background-color: #f4f3f3;
-    width: 0%;
-    white-space: nowrap;
-	font-size:10px;
-	font-weight:bold;
+	background-color: #f4f3f3;
+	width: 0%;
+	white-space: nowrap;
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .forumtablestyle .valueCell {
+	
 }
 
 .forumtablestyle .bottomline {
-	border-bottom:1px solid #656565;
+	border-bottom: 1px solid #656565;
 }
+
 .forumsubtablestyle {
-	clear:both;
+	clear: both;
 }
 
 .forumsubtablestyle td {
-	border-bottom:0px;
+	border-bottom: 0px;
 	padding: 0px 0px;
 }
+
 .forumthreaduserinfo {
-	border-left:1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8;
 }
 
 .forumthreaduserinfo ul {
 	padding-left: 4px;
 	margin-left: 0px;
 	display: inline;
-} 
+}
 
 .forumthreaduserinfo ul li {
 	list-style: none;
@@ -413,8 +421,9 @@
 	padding-right: 1px;
 	vertical-align: text-bottom;
 }
+
 .forumthreaduserinfo ul li a {
-	text-decoration:none;
+	text-decoration: none;
 }
 
 .forumthreadfooter {
@@ -423,16 +432,17 @@
 }
 
 .forumpostspacer {
-	border-left:1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8;
 	height: 30px;
 }
 
 .forumpostcontent {
-	border-left:1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8;
 }
+
 .forumpostleftcolumn {
-	white-space:nowrap;
-	width:80px;
+	white-space: nowrap;
+	width: 80px;
 }
 
 .forumpostinfo {
@@ -443,22 +453,23 @@
 	padding-left: 0px;
 	margin-left: 0px;
 	display: inline;
-} 
+}
 
 .forumpostinfo ul li {
 	list-style: none;
 	display: inline;
 	padding-right: 20px
 }
+
 .forumpostactions {
-	float:right;
+	float: right;
 }
 
 .forumpostactions ul {
 	padding-left: 4px;
 	margin-left: 0px;
 	display: inline;
-} 
+}
 
 .forumpostactions ul li {
 	list-style: none;
@@ -472,9 +483,8 @@
 }
 
 /* --------------------  Forum Topic Attachment styles ------------------------ */
-
 .forumAttachmentTable {
-	clear:both;
+	clear: both;
 	width: 100%;
 	border: 0;
 	border-bottom: 0px;
@@ -484,75 +494,74 @@
 }
 
 .forumAttachmentTable .header {
-	background-color:#9bb3c1;
-	font-size:10px;
-	font-weight:bold;
-	color:#000000;
-	text-align:left;
+	background-color: #9bb3c1;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-align: left;
 }
 
 .forumAttachmentTable .forumHeaderFirst {
-	border-bottom:1px solid #9bb3c1;
+	border-bottom: 1px solid #9bb3c1;
 }
 
 .forumAttachmentTable .tableHeader {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #9bb3c1;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #9bb3c1;
 }
 
 .forumAttachmentTable .forumHeaderLast {
-	border-left:1px solid #94aebd;
-	border-bottom:1px solid #9bb3c1;
+	border-left: 1px solid #94aebd;
+	border-bottom: 1px solid #9bb3c1;
 }
 
 .forumAttachmentTable .labelCell {
-    background-color: #f4f3f3;
-    width: 0%;
-    white-space: nowrap;
-	font-size:10px;
-	font-weight:bold;
+	background-color: #f4f3f3;
+	width: 0%;
+	white-space: nowrap;
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .forumAttachmentTable .valueCell {
-    width: 100%;
+	width: 100%;
 }
 
 .forumAttachmentTable .downloadCell {
-    border-left:1px solid #e6e7e8;
-    padding: 4px;
-    text-align: center;
-    vertical-align: middle;
+	border-left: 1px solid #e6e7e8;
+	padding: 4px;
+	text-align: center;
+	vertical-align: middle;
 }
 
 /* --------------------  Forum Topic Poll styles ------------------------ */
-
 .forumPollTable {
-	clear:both;
+	clear: both;
 	margin: 4px;
 	border-spacing: 0;
 }
 
 .forumPollTable .questionCell {
-	background-color:#9bb3c1;
+	background-color: #9bb3c1;
 	width: 100%;
-	font-size:10px;
-	font-weight:bold;
-	color:#000000;
-	text-align:left;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-align: left;
 }
 
 .forumPollTable .radioCell {
-    background-color: #f4f3f3;
-    width: 0%;
-    white-space: nowrap;
-	font-size:10px;
-	font-weight:bold;
+	background-color: #f4f3f3;
+	width: 0%;
+	white-space: nowrap;
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .forumPollTable .answerCell {
-/*    background-color: #f4f3f3; */
-    width: 100%;
-    white-space: nowrap;
+	/*    background-color: #f4f3f3; */
+	width: 100%;
+	white-space: nowrap;
 }
 
 .forumPollTable .buttonCell {
@@ -569,10 +578,11 @@
 }
 
 .forumPollTable td {
-    white-space: nowrap;
+	white-space: nowrap;
 }
+
 .forumPollTable .totalCell {
-    background-color: #f4f3f3;
+	background-color: #f4f3f3;
 	padding: 1px;
 	padding-right: 12px;
 	text-align: right;
@@ -590,24 +600,24 @@
 }
 
 /* -------------------  Forms ------------------------------- */
-
 .forumtablestyle .categorylabel {
 	width: 100px;
-	padding:0px;
-	margin:0px;
+	padding: 0px;
+	margin: 0px;
 }
-.forumtablestyle label{
- 	float: left;
- 	vertical-align: middle;
+
+.forumtablestyle label {
+	float: left;
+	vertical-align: middle;
 }
 
 .forumtablestyle textarea {
 	width: 180px;
 	margin-bottom: 5px;
-	vertical-align:middle;
+	vertical-align: middle;
 }
 
-textarea{
+textarea {
 	width: 250px;
 	height: 150px;
 }
@@ -615,18 +625,18 @@ textarea{
 .forumtablestyle br {
 	clear: left;
 }
+
 #adminbutton {
-	width:90px;
-	margin-left:100px;
-}
-#updateinline {
-	width:90px;
-	margin-left:6px;
+	width: 90px;
+	margin-left: 100px;
 }
 
+#updateinline {
+	width: 90px;
+	margin-left: 6px;
+}
 
 /* -------------------  Legends ------------------------------- */
-
 .forumlegend {
 	margin-bottom: 10px;
 }
@@ -635,88 +645,92 @@ textarea{
 	padding-left: 0px;
 	margin-left: 0px;
 	display: inline;
-	text-indent:0px;
-	} 
+	text-indent: 0px;
+}
 
 .forumlegend ul li {
-	font-size:10px;
+	font-size: 10px;
 	list-style: none;
 	display: inline;
-	}
+}
 
 .forumlegend ul li img {
 	border: 0px;
 	padding-left: 4px;
 	padding-right: 4px;
 	vertical-align: text-bottom;
-	}
-.forumlegendCentered {
-	clear:both;
-	font-size:11px;
-	font-weight:normal;
-	padding-bottom: 15px;
-	text-align:center;
 }
+
+.forumlegendCentered {
+	clear: both;
+	font-size: 11px;
+	font-weight: normal;
+	padding-bottom: 15px;
+	text-align: center;
+}
+
 .forumthreadlegend {
-	float:left;
- 	margin-right: 30px;
+	float: left;
+	margin-right: 30px;
 }
 
 .forumthreadlegend ul {
-	margin-top:0px;
+	margin-top: 0px;
 	padding-left: 0px;
 	margin-left: 0px;
 	display: block;
-	text-indent:none;
-	} 
+	text-indent: none;
+}
 
 .forumthreadlegend ul li {
 	list-style: none;
 	display: block;
-	}
+}
 
 .forumthreadlegend ul li img {
 	border: 0px;
 	padding-top: 4px;
 	padding-right: 4px;
 	vertical-align: text-bottom;
-	}
+}
 
 .forumthreadlegendtext {
-	text-align:right;
-	float:right;
+	text-align: right;
+	float: right;
 }
 
 .forumlegendjumpboxfloat {
-	float:right;
+	float: right;
 	margin-bottom: 10px;
 }
+
 .forumlegendjumpboxright {
-	padding:0;
+	padding: 0;
 	border-spacing: 0;
 	float: right;
 	border: none;
 }
+
 .forumlegendjumpboxcenter {
-	padding:2;
+	padding: 2;
 	border-spacing: 2;
 	width: 100%;
 	border: none;
 }
+
 .forumlegendjumpboxclear {
-	clear:both;
-	float:right;
+	clear: both;
+	float: right;
 	margin-bottom: 10px;
 }
+
 .forumlegendjumpboxclear select {
-	margin: 0px; 
+	margin: 0px;
 }
 
-
 /* ----------------------- forum pagination ------------------------ */
-
 .forumpagination {
-	float:right;
+	float: right;
 	font-size: 11px;
 	padding-top: 8px;
 	padding-bottom: 8px;
@@ -733,25 +747,23 @@ textarea{
 	padding-bottom: 1px;
 }
 
-.forumpagination a, .forumpagination a:visited{
+.forumpagination a, .forumpagination a:visited {
 	padding: 0px 3px;
 	color: #4a5d75;
 }
 
-.forumpagination li.currentpage{
+.forumpagination li.currentpage {
 	padding: 0px 3px;
-	font-weight:bold;
+	font-weight: bold;
 	color: #4a5d75;
 }
 
-.forumpagination li.disablepage{
+.forumpagination li.disablepage {
 	padding: 0px 3px;
 	color: #8c8f91;
 }
 
-
 /* ----------------------- Admin/Moderation styles ------------------------ */
-
 .admintools {
 	padding-top: 4px;
 }
@@ -760,35 +772,35 @@ textarea{
 	padding-left: 0px;
 	margin-left: 0px;
 	display: inline;
-	} 
+}
 
 .admintools ul li {
-	font-size:10px;
+	font-size: 10px;
 	list-style: none;
 	display: inline;
-	}
+}
 
 .admintools ul li img {
 	border: 0px;
 	padding-left: 2px;
 	vertical-align: text-bottom;
-	}
-	
+}
+
 .modtools {
 	padding-top: 4px;
-	float:right;
-	text-align:right;
+	float: right;
+	text-align: right;
 }
 
 .modtools ul {
 	padding-left: 0px;
 	margin-left: 0px;
 	display: inline;
-	text-indent:0px;
-} 
+	text-indent: 0px;
+}
 
 .modtools ul li {
-	font-size:10px;
+	font-size: 10px;
 	list-style: none;
 	display: inline;
 }
@@ -802,18 +814,19 @@ textarea{
 
 /*  -------------------------------------- Forms -------------------------------------- */
 .foruminstantreply {
-	margin-top:10px;
+	margin-top: 10px;
 	width: 550px;
 }
 
 .forumformlabelbold {
-	font-size:11px;
-	font-weight:bold;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 .forumformtextfield550px {
-	width:550px;
+	width: 550px;
 }
+
 .forumformbuttonrow {
 	padding-top: 6px;
 	text-align: right;
@@ -824,7 +837,7 @@ textarea{
 	padding-left: 0px;
 	margin-left: 0px;
 	display: inline;
-} 
+}
 
 .forumformbuttonrow ul li {
 	list-style: none;
@@ -832,90 +845,92 @@ textarea{
 }
 
 /* --------------------  confirmations -------------------- */
-
-.forumsubscriptionconfirm  {
-	border:1px solid #a1a1a1;
+.forumsubscriptionconfirm {
+	border: 1px solid #a1a1a1;
 	padding: 20px 20px 10px 20px;
 	margin: 30px auto 200px auto;
-	width:400px;
+	width: 400px;
 }
+
 .forumsubscriptionconfirm h3 {
 	font-size: 12px;
-	font-weight:bold;
-	color:#343434;
+	font-weight: bold;
+	color: #343434;
 	margin: 0px auto 8px auto;
 }
+
 .forumsubscriptionconfirm p {
 	margin: 3px auto;
-} 
+}
+
 .forumsubscriptionconfirm h4 {
-	font-weight:normal;
+	font-weight: normal;
 	font-size: 12px;
-	color:#343434;
+	color: #343434;
 	margin: 0px auto 8px auto;
 }
 
 /* --------------------SPACER -------------*/
 #adminbottommargin {
 	margin-bottom: 10px;
-}	
+}
 
 /* ----------------------- "Post View" styles _____________________________ */
-
 .PostviewStyle {
-	margin-top:10px;
+	margin-top: 10px;
 }
 
 .PostviewStyle .PostViewMainHeader {
-	font-weight:bold;
-	font-size:12px;
-	line-height:1em;
-	background-color:#e6e7e8;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 1em;
+	background-color: #e6e7e8;
 }
+
 .PostviewStyle .PostViewMainDescription {
-	line-height:1.5em;
-	background-color:#f4f3f3;
-	border-bottom:1px solid #e6e7e8;
-	font-size:11px;
+	line-height: 1.5em;
+	background-color: #f4f3f3;
+	border-bottom: 1px solid #e6e7e8;
+	font-size: 11px;
 }
 
 .PostviewStyle .PostViewUnderline td {
-	border-bottom:1px solid #e6e7e8;
-	font-size:11px;
+	border-bottom: 1px solid #e6e7e8;
+	font-size: 11px;
 }
+
 .PostviewStyle .PostViewUnderlineBoth td {
-	border-top:1px solid #e6e7e8;
-	border-bottom:1px solid #e6e7e8;
-	font-size:11px;
+	border-top: 1px solid #e6e7e8;
+	border-bottom: 1px solid #e6e7e8;
+	font-size: 11px;
 }
 
 .PostviewStyle .Posttextarea {
-   width: 450px;
-   height: 150px;
-   font-family:Verdana,Arial,Helvetica,Sans-Serif,sans-serif;
-   font-size:10px;
+	width: 450px;
+	height: 150px;
+	font-family: Verdana, Arial, Helvetica, Sans-Serif, sans-serif;
+	font-size: 10px;
 }
 
 /*  ------------ powered by ---------------- */
-
 .PoweredBy {
-	clear:both;
-	text-align:center;
+	clear: both;
+	text-align: center;
 }
 
 .PoweredBy img {
 	padding-left: 6px;
-	vertical-align:middle;
+	vertical-align: middle;
 }
 
 h4 {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   font-weight: bold;
-   color: #656565;
-   padding-top: 20px;
-   padding-bottom: 5px;
-   margin: 0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #656565;
+	padding-top: 20px;
+	padding-bottom: 5px;
+	margin: 0px;
 }
 
 .posting_short {

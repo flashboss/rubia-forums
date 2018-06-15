@@ -25,6 +25,7 @@ import static it.vige.rubia.ui.action.PollValidationException.INVALID_POLL_TITLE
 import static it.vige.rubia.ui.action.PollValidationException.TOO_FEW_POLL_OPTION;
 import static it.vige.rubia.ui.action.PollValidationException.TOO_MANY_POLL_OPTION;
 import static java.lang.Integer.parseInt;
+import static java.lang.System.currentTimeMillis;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,8 +42,9 @@ import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.interceptor.Interceptors;
-import javax.servlet.http.Part;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.richfaces.component.UIFileUpload;
 
 import it.vige.rubia.ForumsModule;
@@ -85,7 +87,6 @@ public abstract class PostAction extends BaseController {
 	// attachment related view data
 	protected String attachmentComment;
 	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
-	private Part file;
 
 	// navigation control related data
 	protected boolean preview;
@@ -533,21 +534,14 @@ public abstract class PostAction extends BaseController {
 		return post;
 	}
 
-	public Part getFile() {
-		return file;
-	}
-
-	public void setFile(Part file) {
-		this.file = file;
-	}
-
-	public void upload() throws Exception {
+	public void upload(FileUploadEvent event) throws Exception {
+		UploadedFile item = event.getFile();
 		Attachment attachment = new Attachment();
 		attachment.setComment(attachmentComment);
-		attachment.setContent(file.getInputStream().readAllBytes());
-		attachment.setContentType(file.getContentType());
-		attachment.setName(file.getName());
-		attachment.setSize(file.getSize());
+		attachment.setContent(item.getContents());
+		attachment.setContentType(item.getContentType());
+		attachment.setName(item.getFileName());
+		attachment.setSize(item.getSize());
 		for (Attachment attachmentFromList : attachments)
 			attachmentFromList.setPost(null);
 		attachments.add(attachment);
@@ -569,6 +563,6 @@ public abstract class PostAction extends BaseController {
 	}
 
 	public long getTimeStamp() {
-		return System.currentTimeMillis();
+		return currentTimeMillis();
 	}
 }

@@ -21,34 +21,47 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/composite/components/property"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
+	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.rf-dt-c {
-	border-right-width: 0;
-	border-right-style: none;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	color: #656565;
+.ui-state-default {
+	background: #dedede;
+	border: none;
+	height: 25px;
+	text-align: left !important;
+	border-bottom: 1px solid #e6e7e8;
+	font-weight: bold;
+	color: inherit;
+	text-shadow: inherit;
+	font-size: 11px;
 }
 
-.rf-dt-hdr-c {
-	border-bottom-width: 1px;
-	border-bottom-style: none;
-	border-bottom-color: #C4C0C9;
-	border-right-width: 1px;
+.ui-datatable  {
+	border-collapse: unset !important;
+	table-layout: unset !important;
+}
+
+.ui-datatable tbody td {
+	padding: 4px 5px !important;
+	border-style: unset;
+	border-bottom-style: solid;
+	border-bottom-color: #e6e7e8;
+}
+
+.ui-datatable thead th {
+	border-style: none;
 	border-right-style: solid;
 	border-right-color: #C4C0C9;
-	background-color: #DEDEDE;
-	background-image: none;
-	background-position: top left;
-	color: -webkit-text;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-size: 11px;
-	font-weight: bold;
-	padding: 6px;
-	text-align: left;
+}
+
+.ui-widget {
+	font-family: inherit;
+}
+
+.ui-datatable-odd {
+	background: none repeat scroll 0 0 #f4f3f3;
 }
 </style>
 			<!-- make sure the user is allowed to access both the specified forum and the category that this forum belongs to -->
@@ -130,7 +143,7 @@
 											<f:param value="${forum.lastPageNumber}" />
 										</h:outputFormat>&#160;
 									</li>
-									<rich:dataScroller for="topicsList" maxPages="5"
+									<prime:dataScroller for="topicsList" maxPages="5"
 										page="#{currentForumPage.page}" id="scTopicsList_head"
 										renderIfSinglePage="false" styleClass="forumpagination"
 										style="padding-top: 0px;" stepControls="hide"
@@ -149,7 +162,7 @@
 										<f:facet name="fastForward">
 											<li>${resourcebundle.Next} &#62;</li>
 										</f:facet>
-									</rich:dataScroller>
+									</prime:dataScroller>
 								</ul>
 							</div>
 						</c:if>
@@ -300,105 +313,108 @@
 
 								</c:forEach>
 							</h:panelGroup>
+						</table>
 
-							<!-- Normal threads -->
+						<!-- Normal threads -->
 
-							<rich:dataTable id="topicsList"
-								rendered="#{forum.forum.topicCount>0 and forum.normalThreadsPresent}"
-								value="#{forum.normalThreadsDataModel}" var="topicrow"
-								iterationStatusVar="status" styleClass="forumtablestyle"
-								rows="#{prefController.topicsPerForum}"
-								rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
-								headerClass="forumspecialized">
-								<f:facet name="header">
-									<rich:column>
-										<h3>${resourcebundle.Normal_Threads}</h3>
-									</rich:column>
-								</f:facet>
-								<rich:column styleClass="forumlisticon">
-									<img
-										src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
-										width="11" height="14" alt="${resourcebundle.Topic_Moved}"
-										title="${resourcebundle.Topic_Moved}" />
-								</rich:column>
-								<rich:column>
-									<h3>
-										<h:commandLink action="viewTopic" value="${topicrow.subject}">
-											<f:param name="t" value="${topicrow.id}" />
-											<f:param name="page" value="0" />
-										</h:commandLink>
-									</h3>
-									<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
-									<br /> ${resourcebundle.By}&#160;
+						<prime:dataTable id="topicsList"
+							rendered="#{forum.forum.topicCount>0 and forum.normalThreadsPresent}"
+							value="#{forum.normalThreadsDataModel}" var="topicrow"
+							iterationStatusVar="status" tableStyleClass="forumtablestyle"
+							tableStyle="border-collapse: inherit;table-layout: inherit;"
+							rows="#{prefController.topicsPerForum}"
+							rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
+							headerClass="forumspecialized">
+							<prime:columnGroup type="header">
+								<prime:row>
+									<prime:column colspan="5"
+										headerText="${resourcebundle.Normal_Threads}" />
+								</prime:row>
+							</prime:columnGroup>
+							<prime:column styleClass="forumlisticon">
+								<img
+									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+									width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+									title="${resourcebundle.Topic_Moved}" />
+							</prime:column>
+							<prime:column>
+								<h3>
+									<h:commandLink action="viewTopic" value="${topicrow.subject}">
+										<f:param name="t" value="${topicrow.id}" />
+										<f:param name="page" value="0" />
+									</h:commandLink>
+								</h3>
+								<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
+								<br /> ${resourcebundle.By}&#160;
 												<h:outputText rendered="#{userModule.guest}"
-										value="${userModule.findUserById(topicrow.poster.userId).userName}" />
+									value="${userModule.findUserById(topicrow.poster.userId).userName}" />
 
 
-									<h:commandLink action="viewProfile"
-										rendered="#{!userModule.guest}"
-										value="${userModule.findUserById(topicrow.poster.userId).userName}">
-										<f:param name="uid" value="${topicrow.poster.userId}" />
-									</h:commandLink>
+								<h:commandLink action="viewProfile"
+									rendered="#{!userModule.guest}"
+									value="${userModule.findUserById(topicrow.poster.userId).userName}">
+									<f:param name="uid" value="${topicrow.poster.userId}" />
+								</h:commandLink>
 
-								</rich:column>
-								<rich:column styleClass="forumlistcentered">${topicrow.replies}</rich:column>
-								<rich:column styleClass="forumlistcentered">${topicrow.viewCount}</rich:column>
-								<rich:column styleClass="forumlistlast">
-									<h:commandLink action="viewTopic"
-										value="#{forum.getLastPostSubject(topicrow.id)}">
-										<f:param name="p"
-											value="#{forum.topicLastPosts[topicrow.id].id}" />
-									</h:commandLink>
-									<br /> ${resourcebundle.By} <h:outputText
-										rendered="#{userModule.guest}"
-										value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}" />
+							</prime:column>
+							<prime:column styleClass="forumlistcentered">${topicrow.replies}</prime:column>
+							<prime:column styleClass="forumlistcentered">${topicrow.viewCount}</prime:column>
+							<prime:column styleClass="forumlistlast">
+								<h:commandLink action="viewTopic"
+									value="#{forum.getLastPostSubject(topicrow.id)}">
+									<f:param name="p"
+										value="#{forum.topicLastPosts[topicrow.id].id}" />
+								</h:commandLink>
+								<br /> ${resourcebundle.By} <h:outputText
+									rendered="#{userModule.guest}"
+									value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}" />
 
 
-									<h:commandLink action="viewProfile"
-										rendered="#{!userModule.guest}"
-										value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
-										<f:param name="uid"
-											value="#{forum.topicLastPosts[topicrow.id].poster.userId}" />
-									</h:commandLink>
-									<br /> #{forum.topicLastPosts[topicrow.id].createDate}</rich:column>
-							</rich:dataTable>
+								<h:commandLink action="viewProfile"
+									rendered="#{!userModule.guest}"
+									value="${userModule.findUserById(forum.topicLastPosts[topicrow.id].poster.userId).userName}">
+									<f:param name="uid"
+										value="#{forum.topicLastPosts[topicrow.id].poster.userId}" />
+								</h:commandLink>
+								<br /> #{forum.topicLastPosts[topicrow.id].createDate}</prime:column>
+						</prime:dataTable>
 
-							<c:if test="#{forum.lastPageNumber > 1}">
-								<div class="forumpagination">
-									<ul>
-										<li class="disablepage"
-											style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-											<h:outputFormat id="scrollerIntro_footer"
-												value="#{resourcebundle.PageNumber}">
-												<f:param value="${currentForumPage.page}" />
-												<f:param value="${forum.lastPageNumber}" />
-											</h:outputFormat>&#160;
-										</li>
-										<rich:dataScroller for="topicsList" maxPages="5"
-											page="#{currentForumPage.page}" id="scTopicsList_footer"
-											renderIfSinglePage="false" styleClass="forumpagination"
-											style="padding-top: 0px;" stepControls="hide"
-											selectedStyleClass="currentpage"
-											inactiveStyleClass="disablepage"
-											render="scrollerIntro_head scrollerIntro_footer">
-											<f:facet name="first">
+						<c:if test="#{forum.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_footer"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="${currentForumPage.page}" />
+											<f:param value="${forum.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<prime:dataScroller for="topicsList" maxPages="5"
+										page="#{currentForumPage.page}" id="scTopicsList_footer"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
 								${resourcebundle.First}
 								</f:facet>
-											<f:facet name="last">
+										<f:facet name="last">
 								${resourcebundle.Last}
 								</f:facet>
-											<f:facet name="fastRewind">
+										<f:facet name="fastRewind">
 								&#60; ${resourcebundle.Previous}
 								</f:facet>
-											<f:facet name="fastForward">
+										<f:facet name="fastForward">
 								${resourcebundle.Next} &#62;
 								</f:facet>
-										</rich:dataScroller>
-									</ul>
-								</div>
-							</c:if>
-
-							<h:panelGroup rendered="#{forum.forum.topicCount eq 0}">
+									</prime:dataScroller>
+								</ul>
+							</div>
+						</c:if>
+						<h:panelGroup rendered="#{forum.forum.topicCount eq 0}">
+							<table class="forumtablestyle">
 								<tr>
 									<td class="nonewpostRow" colspan="6">
 										<h3>
@@ -407,8 +423,8 @@
 										</h3>
 									</td>
 								</tr>
-							</h:panelGroup>
-						</table>
+							</table>
+						</h:panelGroup>
 					</h:form>
 					<h:form>
 						<!-- NEWTOPIC -->
