@@ -52,7 +52,7 @@
 }
 
 .ui-datatable thead th {
-    padding: 3px 5px;
+	padding: 3px 5px;
 	border-style: none;
 	border-right-style: solid;
 	border-right-color: #C4C0C9;
@@ -64,6 +64,25 @@
 
 .ui-datatable-odd {
 	background: none repeat scroll 0 0 #f4f3f3;
+}
+
+.ui-paginator {
+	position: absolute;
+	right: 32px;
+}
+
+.ui-paginator-top {
+	top: 115px;
+}
+
+.ui-paginator-bottom {
+	top: 442px;
+}
+
+.ui-widget-header {
+	border: none;
+	background: none;
+	font-weight: unset;
 }
 </style>
 			<!-- make sure the user is allowed to access both the specified forum and the category that this forum belongs to -->
@@ -134,40 +153,6 @@
 							<input type="hidden" name="f" value="#{forum.forum.id}" />
 							<h4>${forum.forum.name}</h4>
 						</div>
-						<c:if test="#{forum.lastPageNumber > 1}">
-							<div class="forumpagination">
-								<ul>
-									<li class="disablepage"
-										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-										<h:outputFormat id="scrollerIntro_head"
-											value="#{resourcebundle.PageNumber}">
-											<f:param value="${currentForumPage.page}" />
-											<f:param value="${forum.lastPageNumber}" />
-										</h:outputFormat>&#160;
-									</li>
-									<prime:dataScroller for="topicsList" maxPages="5"
-										page="#{currentForumPage.page}" id="scTopicsList_head"
-										renderIfSinglePage="false" styleClass="forumpagination"
-										style="padding-top: 0px;" stepControls="hide"
-										selectedStyleClass="currentpage"
-										inactiveStyleClass="disablepage"
-										render="scrollerIntro_head scrollerIntro_footer">
-										<f:facet name="first">
-											<li>${resourcebundle.First}</li>
-										</f:facet>
-										<f:facet name="last">
-											<li>${resourcebundle.Last}</li>
-										</f:facet>
-										<f:facet name="fastRewind">
-											<li>&#60; ${resourcebundle.Previous}</li>
-										</f:facet>
-										<f:facet name="fastForward">
-											<li>${resourcebundle.Next} &#62;</li>
-										</f:facet>
-									</prime:dataScroller>
-								</ul>
-							</div>
-						</c:if>
 
 						<forums:isAllowed fragment="acl://newTopic"
 							contextData="#{forum.forum}"
@@ -322,11 +307,15 @@
 						<prime:dataTable id="topicsList"
 							rendered="#{forum.forum.topicCount>0 and forum.normalThreadsPresent}"
 							value="#{forum.normalThreadsDataModel}" var="topicrow"
-							iterationStatusVar="status" tableStyleClass="forumtablestyle"
+							widgetVar="component" iterationStatusVar="status"
+							tableStyleClass="forumtablestyle"
 							tableStyle="border-collapse: inherit;table-layout: inherit;"
 							rows="#{prefController.topicsPerForum}"
 							rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
-							headerClass="forumspecialized">
+							headerClass="forumspecialized"
+							paginator="#{forum.lastPageNumber > 1}"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 							<prime:columnGroup type="header">
 								<prime:row>
 									<prime:column colspan="5"
@@ -380,41 +369,6 @@
 								</h:commandLink>
 								<br /> #{forum.topicLastPosts[topicrow.id].createDate}</prime:column>
 						</prime:dataTable>
-
-						<c:if test="#{forum.lastPageNumber > 1}">
-							<div class="forumpagination">
-								<ul>
-									<li class="disablepage"
-										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-										<h:outputFormat id="scrollerIntro_footer"
-											value="#{resourcebundle.PageNumber}">
-											<f:param value="${currentForumPage.page}" />
-											<f:param value="${forum.lastPageNumber}" />
-										</h:outputFormat>&#160;
-									</li>
-									<prime:dataScroller for="topicsList" maxPages="5"
-										page="#{currentForumPage.page}" id="scTopicsList_footer"
-										renderIfSinglePage="false" styleClass="forumpagination"
-										style="padding-top: 0px;" stepControls="hide"
-										selectedStyleClass="currentpage"
-										inactiveStyleClass="disablepage"
-										render="scrollerIntro_head scrollerIntro_footer">
-										<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-										<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-										<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-										<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-									</prime:dataScroller>
-								</ul>
-							</div>
-						</c:if>
 						<h:panelGroup rendered="#{forum.forum.topicCount eq 0}">
 							<table class="forumtablestyle">
 								<tr>
