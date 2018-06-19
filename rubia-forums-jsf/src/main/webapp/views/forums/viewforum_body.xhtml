@@ -26,72 +26,8 @@
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.ui-state-default {
-	background: #dedede;
-	border: none;
-	height: 25px;
-	text-align: left !important;
-	border-bottom: 1px solid #e6e7e8;
-	font-weight: bold;
-	color: black;
-	text-shadow: inherit;
-	font-size: 11px;
-	box-shadow: none;
-}
-
-a.ui-state-default {
-	background: none !important;
-	border: none !important;
-}
-
-.ui-datatable  {
-	border-collapse: unset !important;
-	table-layout: unset !important;
-}
-
-.ui-datatable tbody td {
-	padding: 4px 5px !important;
-	border-style: unset;
-	border-bottom-style: solid;
-	border-bottom-color: #e6e7e8;
-}
-
-.ui-datatable thead th {
-	padding: 3px 5px;
-	border-style: none;
-	border-right-style: solid;
-	border-right-color: #C4C0C9;
-}
-
-.ui-widget {
-	font-family: inherit;
-}
-
 .ui-datatable-odd {
 	background: none repeat scroll 0 0 #f4f3f3;
-}
-
-.ui-paginator {
-	position: absolute;
-	right: 32px;
-}
-
-.ui-paginator-top {
-	top: 115px;
-}
-
-.ui-widget-header {
-	border: none;
-	background: none;
-	font-weight: unset;
-}
-
-.ui-state-hover, .ui-state-focus {
-	box-shadow: none !important;
-}
-
-.ui-state-active {
-	text-decoration: underline !important;
 }
 </style>
 			<!-- make sure the user is allowed to access both the specified forum and the category that this forum belongs to -->
@@ -316,11 +252,9 @@ a.ui-state-default {
 						<prime:dataTable id="topicsList"
 							rendered="#{forum.forum.topicCount>0 and forum.normalThreadsPresent}"
 							value="#{forum.normalThreadsDataModel}" var="topicrow"
-							widgetVar="component" iterationStatusVar="status"
-							tableStyleClass="forumtablestyle"
+							widgetVar="component" tableStyleClass="forumtablestyle"
 							tableStyle="border-collapse: inherit;table-layout: inherit;"
 							rows="#{prefController.topicsPerForum}"
-							rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
 							headerClass="forumspecialized"
 							paginator="#{forum.lastPageNumber > 1}"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
