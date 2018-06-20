@@ -29,6 +29,19 @@
 	color: #656565;
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 }
+
+.ui-datagrid-column {
+	padding: 0px;
+}
+
+.ui-datagrid-data {
+	border-spacing: unset;
+}
+
+.ui-widget-content {
+    border: 0px;
+    border-right: 1px solid #a8a8a8;
+}
 </style>
 
 			<!-- make sure the user is allowed to access both the forum and the category that the specified topic belongs to -->
@@ -250,8 +263,6 @@
 						<!-- iterate and display each post on this topic in the forum -->
 						<prime:dataGrid id="postsList" value="#{topic.topicsDataModel}"
 							var="postrow" rows="#{prefController.postsPerTopic}"
-							styleClass="forumtablestyle"
-							style="width:100%; border:0; cellpadding:0;cellspacing:0;"
 							paginator="#{topic.lastPageNumber > 1}"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}"
