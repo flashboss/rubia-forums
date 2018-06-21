@@ -16,7 +16,6 @@ package it.vige.rubia.util;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
 @Named
@@ -32,9 +31,5 @@ public class CurrentTopicPage implements Serializable {
 
 	public void setPage(int page) {
 		this.page = page;
-	}
-	
-	public void onPage(AjaxBehaviorEvent event) {
-		event.getSource();
 	}
 }
