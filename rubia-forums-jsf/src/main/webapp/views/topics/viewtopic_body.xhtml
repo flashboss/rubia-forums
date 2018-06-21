@@ -20,27 +20,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
+	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.forum-row {
+.rf-dt-c {
 	color: #656565;
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-}
-
-.ui-datagrid-column {
-	padding: 0px;
-}
-
-.ui-datagrid-data {
-	border-spacing: unset;
-}
-
-.ui-widget-content {
-	border: 0px;
-	border-right: 1px solid #C4C0C9;
 }
 </style>
 
@@ -145,8 +132,43 @@
 						<h4>${topic.topic.forum.name}</h4>
 					</div>
 
+					<!-- PAGINATION -->
 					<h:form>
 						<input type="hidden" name="t" value="#{topic.topic.id}" />
+						<c:if test="#{topic.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_head"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="${currentTopicPage.page}" />
+											<f:param value="${topic.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<rich:dataScroller for="postsList" maxPages="5"
+										page="#{currentTopicPage.page}" id="scPostsList_header"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+										<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+										<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+										<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+									</rich:dataScroller>
+								</ul>
+							</div>
+						</c:if>
 						<!-- insert the newTopic and replyTopic buttons here -->
 						<div id="miviewtopicbody5" class="actionbuttons">
 							<c:choose>
@@ -259,32 +281,29 @@
 								<td class="forumheaderfirst" style="width: 81px;">${resourcebundle.Author}</td>
 								<td class="forumheaderopen">${resourcebundle.Message}</td>
 							</tr>
-						</table>
-						<!-- iterate and display each post on this topic in the forum -->
-						<prime:dataGrid id="postsList" value="#{topic.topicsDataModel}"
-							var="postrow" rows="#{prefController.postsPerTopic}"
-							paginator="#{topic.lastPageNumber > 1}"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}"
-							columns="1">
-							<f:ajax event="page" listener="#{currentTopicPage.onPage}"
-								process="@this" />
-							<table class="forumtablestyle"
-								style="width: 100%; border: 0; cellpadding: 0; cellspacing: 0; border-collapse: collapse;">
-								<tr class="oddRow">
-									<td class="forum-row forumpostleftcolumn"><h:panelGroup
-											rendered="#{userModule.guest}">
+							<!-- iterate and display each post on this topic in the forum -->
+							<rich:dataTable id="postsList" value="#{topic.topicsDataModel}"
+								var="postrow" iterationStatusVar="status"
+								styleClass="forumtablestyle"
+								rows="#{prefController.postsPerTopic}" rowClasses="oddRow">
+								<tr>
+									<rich:column styleClass="forumpostleftcolumn">
+
+										<h:panelGroup rendered="#{userModule.guest}">
                         ${postrow.poster.userId}
-                    </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
+                    </h:panelGroup>
+
+										<h:panelGroup rendered="#{!userModule.guest}">
 											<h:commandLink action="viewProfile"
 												id="_#{postrow.id}outputLink12"
 												value="${postrow.poster.userId}">
 												<f:param name="uid" value="${postrow.poster.userId}" />
 												<f:param name="t" value="#{topic.topic.id}" />
 											</h:commandLink>
-										</h:panelGroup></td>
-									<td class="forum-row forumpostspacer"><a
-										id="${postrow.id}" />
+										</h:panelGroup>
+									</rich:column>
+									<rich:column styleClass="forumpostspacer">
+										<a id="${postrow.id}" />
 
 										<div id="miviewtopicbody6" class="forumpostactions">
 											<ul>
@@ -341,11 +360,12 @@
 												</li>
 												<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
 											</ul>
-										</div></td>
+										</div>
+									</rich:column>
 								</tr>
-								<tr class="oddRow">
-									<td class="forum-row forumpostleftcolumn">&#160;</td>
-									<td class="forum-row forumpostcontent">
+								<rich:columnGroup>
+									<rich:column styleClass="forumpostleftcolumn">&#160;</rich:column>
+									<rich:column styleClass="forumpostcontent">
 
 										<p>
 											<h:outputText
@@ -353,12 +373,14 @@
 												escape="false" />
 											<br /> <br />
 											${userProfileModule.getPropertyFromId(postrow.poster.userId,'INFO_USER_SIGNATURE')}
-										</p> <!-- show the attachments of this post here -->
+										</p>
+										<!-- show the attachments of this post here -->
 										<p>
 											<ui:include src="/views/topics/attachmentsview.xhtml">
 												<ui:param name="attachments" value="#{postrow.attachments}" />
 											</ui:include>
-										</p> <c:if test="${postrow.editCount gt 0}">
+										</p>
+										<c:if test="${postrow.editCount gt 0}">
 											<p>
 												<em> <c:choose>
 														<c:when test="${postrow.editCount eq 1}">
@@ -382,12 +404,13 @@
 											</p>
 										</c:if>
 
-									</td>
-								</tr>
-								<tr class="oddRow">
-									<td class="forum-row forumpostleftcolumn"><a href="#top">${resourcebundle.Back_to_top}</a>
-									</td>
-									<td class="forum-row forumthreaduserinfo">
+									</rich:column>
+								</rich:columnGroup>
+								<rich:columnGroup>
+									<rich:column styleClass="forumpostleftcolumn">
+										<a href="#top">${resourcebundle.Back_to_top}</a>
+									</rich:column>
+									<rich:column styleClass="forumthreaduserinfo">
 										<ul>
 											<li><h:commandLink action="viewProfile"
 													id="_${postrow.id}outputLink16">
@@ -469,13 +492,49 @@
 												</a></li>
 											</c:if>
 										</ul>
-									</td>
-								</tr>
-								<tr class="oddRow">
-									<td colspan="2" class="forum-row forumthreadfooter" />
-								</tr>
-							</table>
-						</prime:dataGrid>
+									</rich:column>
+								</rich:columnGroup>
+								<rich:columnGroup>
+									<rich:column colspan="2" styleClass="forumthreadfooter" />
+								</rich:columnGroup>
+							</rich:dataTable>
+
+						</table>
+						<!-- PAGINATION -->
+						<c:if test="#{topic.lastPageNumber > 1}">
+							<div class="forumpagination">
+								<ul>
+									<li class="disablepage"
+										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
+										<h:outputFormat id="scrollerIntro_footer"
+											value="#{resourcebundle.PageNumber}">
+											<f:param value="${currentTopicPage.page}" />
+											<f:param value="${topic.lastPageNumber}" />
+										</h:outputFormat>&#160;
+									</li>
+									<rich:dataScroller for="postsList" maxPages="5"
+										page="#{currentTopicPage.page}" id="scPostsList_footer"
+										renderIfSinglePage="false" styleClass="forumpagination"
+										style="padding-top: 0px;" stepControls="hide"
+										selectedStyleClass="currentpage"
+										inactiveStyleClass="disablepage"
+										render="scrollerIntro_head scrollerIntro_footer">
+										<f:facet name="first">
+								${resourcebundle.First}
+								</f:facet>
+										<f:facet name="last">
+								${resourcebundle.Last}
+								</f:facet>
+										<f:facet name="fastRewind">
+								&#60; ${resourcebundle.Previous}
+								</f:facet>
+										<f:facet name="fastForward">
+								${resourcebundle.Next} &#62;
+								</f:facet>
+									</rich:dataScroller>
+								</ul>
+							</div>
+						</c:if>
 
 						<!-- insert the newTopic and replyTopic buttons here -->
 						<div id="miviewtopicbody12" class="actionbuttons">

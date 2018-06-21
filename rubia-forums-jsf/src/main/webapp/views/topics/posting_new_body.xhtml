@@ -20,7 +20,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<script type="text/javascript">
@@ -32,8 +33,36 @@ function selectOption(optionVal)
 
 </script>
 			<style type="text/css">
-.ui-fileupload-cancel {
-	float: right;
+.rf-dg {
+	border: none;
+}
+
+.rf-dg-c {
+	border: none;
+}
+
+.rf-dg-r {
+	border: none;
+}
+
+.rf-fu-hdr {
+	background-image: none;
+	background-color: #e6e7e8;
+	border-color: #e6e7e8;
+}
+
+.rf-fu-btn-cnt-add {
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.rf-fu-btn-cnt-clr {
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.rf-fu-itm-rgh {
+	visibility: hidden;
 }
 </style>
 			<c:if test="#{newTopic.preview}">
@@ -48,10 +77,10 @@ function selectOption(optionVal)
 
 			<div class="PostviewStyle">
 				<h:form id="post">
-
-					<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
-					<input type="hidden" name="f" value="#{newTopic.forumId}" />
 					<table class="posting_large" id="table">
+
+						<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
+						<input type="hidden" name="f" value="#{newTopic.forumId}" />
 
 						<tr>
 							<td colspan="2" class="PostViewMainHeader">${resourcebundle.Compose_Message}</td>
@@ -73,31 +102,26 @@ function selectOption(optionVal)
 						<tr class="PostViewUnderline">
 							<td><label class="forumformlabelbold">
 									${resourcebundle.Message_body} </label></td>
-							<td><prime:textEditor id="message"
-									value="#{newTopic.message}"
-									style="margin-bottom:10px;width:59%" height="150">
-									<f:facet name="toolbar">
-										<span class="ql-formats"> <select class="ql-font"></select>
-											<select class="ql-size"></select>
-										</span>
-										<span class="ql-formats">
-											<button class="ql-bold"></button>
-											<button class="ql-italic"></button>
-											<button class="ql-strike"></button>
-										</span>
-										<span class="ql-formats">
-											<button class="ql-clean"></button>
-											<button class="ql-list" value="ordered" />
-											<button class="ql-list" value="bullet" />
-											<button class="ql-indent" value="-1" />
-											<button class="ql-indent" value="+1" />
-										</span>
-										<span class="ql-formats">
-											<button class="ql-blockquote"></button>
-											<button class="ql-link"></button>
-										</span>
-									</f:facet>
-								</prime:textEditor></td>
+							<td><rich:editor id="message" toolbar="full"
+									skin="wildforums" value="#{newTopic.message}"
+									styleClass="Posttextarea" style="height:inherit;width:59%">
+									<f:facet name="config">
+                    toolbar: 'custom',
+                    startupFocus: true,
+                    height: 150,
+                    language: '#{request.locale}',
+                    enterMode : 2,
+                    shiftEnterMode: 1,
+                    toolbar_custom:
+                        [
+                            { name: 'styles', items : [ 'Styles','Format' ] },
+                            { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
+                            { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+                            { name: 'links', items : [ 'Link','Unlink'] }
+                        ]
+                    </f:facet>
+
+								</rich:editor></td>
 						</tr>
 
 						<!-- subject and message invisible input for validator execution workaround -->
@@ -219,14 +243,18 @@ function selectOption(optionVal)
 							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
 										${resourcebundle.Posted_attachments} </label></td>
-								<td><prime:fileUpload id="fileUploadOp"
-										fileUploadListener="#{newTopic.upload}"
-										dragDropSupport="false" update="info,messages"
-										styleClass="post" style="height:inherit;width:59%;"
-										label="${resourcebundle.Add_attachment}"
-										cancelLabel="${resourcebundle.Delete_attachments}"
-										uploadLabel="${resourcebundle.Confirm}" /> <prime:growl
-										id="messages" showDetail="true" /></td>
+								<td><rich:fileUpload id="fileUploadOp"
+										clearLabel="${resourcebundle.Delete}"
+										clearAllLabel="${resourcebundle.Delete_attachments}"
+										immediateUpload="true" fileUploadListener="#{newTopic.upload}"
+										data="#{newTopic.attachments}" styleClass="post"
+										style="height:inherit;width:59%;"
+										doneLabel="${resourcebundle.Upload_done}"
+										addLabel="${resourcebundle.Add_attachment}">
+										<a4j:ajax event="uploadcomplete" execute="@none" render="info" />
+										<a4j:ajax event="clear" listener="#{newTopic.clearUpload}"
+											render="info" />
+									</rich:fileUpload></td>
 							</tr>
 							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
