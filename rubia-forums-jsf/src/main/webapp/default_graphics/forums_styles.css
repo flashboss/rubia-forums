@@ -1023,3 +1023,15 @@ a.ui-state-default {
 .ui-state-active {
 	text-decoration: underline !important;
 }
+
+.ui-fileupload-cancel {
+	float: right;
+}
+
+.ui-fileupload-row {
+	border: black;
+}
+
+.ui-button-icon-only {
+    top: 4px;
+}
