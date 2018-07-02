@@ -1004,6 +1004,9 @@ a.ui-state-default {
 .ui-paginator {
 	position: absolute;
 	right: 32px;
+    padding: 0px 3px;
+    color: #8c8f91;
+    font-size: 11px;
 }
 
 .ui-paginator-top {
