@@ -19,6 +19,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
+import org.primefaces.event.data.PageEvent;
+
 @Named
 @SessionScoped
 public class CurrentTopicPage implements Serializable {
@@ -33,8 +35,9 @@ public class CurrentTopicPage implements Serializable {
 	public void setPage(int page) {
 		this.page = page;
 	}
-	
+
 	public void onPage(AjaxBehaviorEvent event) {
-		event.getSource();
+		PageEvent pageEvent = (PageEvent) event;
+		page = pageEvent.getPage() + 1;
 	}
 }
