@@ -15,15 +15,25 @@ package it.vige.rubia.util;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.data.PageEvent;
 
+import it.vige.rubia.ui.action.PreferenceController;
+import it.vige.rubia.ui.view.ViewTopic;
+
 @Named
-@SessionScoped
+@RequestScoped
 public class CurrentTopicPage implements Serializable {
+
+	@Inject
+	private PreferenceController preferenceController;
+
+	@Inject
+	private ViewTopic topic;
 
 	private static final long serialVersionUID = -8034301938112065435L;
 	private int page = 1;
@@ -39,5 +49,12 @@ public class CurrentTopicPage implements Serializable {
 	public void onPage(AjaxBehaviorEvent event) {
 		PageEvent pageEvent = (PageEvent) event;
 		page = pageEvent.getPage() + 1;
+	}
+
+	public int getRow() {
+		if (topic.getLastPageNumber() <= 1)
+			return 0;
+		else
+			return (page * preferenceController.getPostsPerTopic()) - 1;
 	}
 }

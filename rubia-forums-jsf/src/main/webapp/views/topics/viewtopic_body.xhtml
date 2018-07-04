@@ -43,7 +43,6 @@
 	border-right: 1px solid #C4C0C9;
 }
 </style>
-
 			<!-- make sure the user is allowed to access both the forum and the category that the specified topic belongs to -->
 			<forums:isAllowed fragment="acl://readCategory"
 				contextData="#{topic.topic.forum.category}"
@@ -266,7 +265,7 @@
 							paginator="#{topic.lastPageNumber > 1}"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}"
-							columns="1">
+							columns="1" first="#{currentTopicPage.row}">
 							<prime:ajax event="page" listener="#{currentTopicPage.onPage}"
 								process="@this" />
 							<table class="forumtablestyle"
