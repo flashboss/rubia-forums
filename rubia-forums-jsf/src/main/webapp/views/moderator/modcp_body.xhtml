@@ -20,32 +20,19 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
+	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.rf-dt-c {
-	color: #656565;
-	border-right-width: 0;
-	border-right-style: none;
-}
-
-.rf-dt-hdr-c {
+.ui-state-default {
 	background-color: black;
 	border-left: 1px solid #94AEBD;
-	border-bottom: 1px solid #233345;
+	border-bottom: 1px solid #233345 !important;
 	height: 2em;
 	background-image: none;
 	color: #94AEBD;
 	font-weight: bold;
-	text-align: left;
-}
-
-.rf-dt-ftr-c {
-	background-color: white;
-	text-align: right;
-	border-right-width: 0px;
 }
 </style>
 			<forums:isAllowedChoose>
@@ -96,84 +83,48 @@
                 <h:messages layout="table" infoStyle="color:green" warnStyle="color:red"/>
             </p>-->
 						</div>
-						<c:if test="#{moderator.lastPageNumber > 1}">
-							<div class="forumpagination">
-								<ul>
-									<li class="disablepage"
-										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-										<h:outputFormat id="scrollerIntro_head"
-											value="#{resourcebundle.PageNumber}">
-											<f:param value="#{currentModeratorPage.page}" />
-											<f:param value="${moderator.lastPageNumber}" />
-										</h:outputFormat>&#160;
-									</li>
-									<!-- PAGINATION -->
-									<rich:dataScroller for="modtopicsList" maxPages="5"
-										page="#{currentModeratorPage.page}" id="scTopicsList_head"
-										renderIfSinglePage="false" styleClass="forumpagination"
-										style="padding-top: 0px;" stepControls="hide"
-										selectedStyleClass="currentpage"
-										inactiveStyleClass="disablepage"
-										render="scrollerIntro_head scrollerIntro_footer">
-										<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-										<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-										<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-										<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-									</rich:dataScroller>
-								</ul>
-							</div>
-						</c:if>
 
-
-						<rich:dataTable id="modtopicsList" styleClass="forumtablestyle"
+						<prime:dataTable id="modtopicsList"
+							tableStyleClass="forumtablestyle"
+							tableStyle="border-collapse: collapse !important;border-width: 1px;border-style: solid !important;border-color: #C4C0C9;"
 							value="#{moderator.topicsDataModel}" var="topicrow"
-							iterationStatusVar="status" rowClasses="evenRow,oddRow"
-							rows="#{prefController.topicsPerForum}" headerClass="header">
-							<f:facet name="header">
-								<rich:columnGroup>
-									<rich:column styleClass="forumheaderfirst">&#160;</rich:column>
-									<rich:column styleClass="tableheader">&#160;${resourcebundle.Topics}&#160;</rich:column>
-									<rich:column styleClass="tableheader">&#160;${resourcebundle.Replies}&#160;</rich:column>
-									<rich:column styleClass="tableheader">&#160;${resourcebundle.Last_Post}&#160;</rich:column>
-									<rich:column styleClass="forumheadernarrow">&#160;${resourcebundle.Select}&#160;</rich:column>
-								</rich:columnGroup>
-							</f:facet>
-							<rich:column style="width:20px;align:center;"
+							iterationStatusVar="status" rowStyleClass="evenRow,oddRow"
+							rows="#{prefController.topicsPerForum}" headerClass="header"
+							paginator="#{moderator.lastPageNumber > 1}"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
+							<prime:column style="width:20px"
 								styleClass="rowlinefirst ${(status.last)?'
 										bottomline':''}">
 								<img
 									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 									alt="${resourcebundle.Topic_Moved}"
 									title="${resourcebundle.Topic_Moved}" />
-							</rich:column>
+							</prime:column>
 
-							<rich:column style="width:1100px;"
+							<prime:column headerText="${resourcebundle.Topics}"
+								style="font-family: Arial, Verdana, sans-serif;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 											${themeHelper.getFolderType(topicrow)}&#160; <h:commandLink
 									action="viewTopic" value="${topicrow.subject}">
 									<f:param name="t" value="${topicrow.id}" />
 								</h:commandLink>
-							</rich:column>
-							<rich:column style="width:10px;"
-								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</rich:column>
-							<rich:column style="width:150px;"
-								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</rich:column>
-							<rich:column style="width:10px;"
+							</prime:column>
+							<prime:column headerText="${resourcebundle.Replies}"
+								style="width:50px;font-family: Arial, Verdana, sans-serif;"
+								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
+							<prime:column headerText="${resourcebundle.Last_Post}"
+								style="width:135px;font-family: Arial, Verdana, sans-serif;"
+								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</prime:column>
+							<prime:column headerText="${resourcebundle.Select}"
+								style="width:55px;font-family: Arial, Verdana, sans-serif;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 								<h:selectBooleanCheckbox
 									value="#{moderator.checkboxes[topicrow.id]}" />
-							</rich:column>
+							</prime:column>
 							<f:facet name="footer">
-								<rich:columnGroup>
-									<rich:column styleClass="buttonrow" colspan="5"
+								<prime:columnGroup>
+									<prime:column styleClass="buttonrow" colspan="5"
 										style="border-bottom: 0px none; height:29; align:right">
 										<forums:isAllowed fragment="acl://deleteTopics"
 											contextData="#{moderator.forum}"
@@ -206,45 +157,10 @@
 												<f:param name="f" value="#{moderator.forum.id}" />
 											</h:commandButton>
 										</forums:isAllowed>
-									</rich:column>
-								</rich:columnGroup>
+									</prime:column>
+								</prime:columnGroup>
 							</f:facet>
-						</rich:dataTable>
-						<!-- PAGINATION -->
-						<c:if test="#{moderator.lastPageNumber > 1}">
-							<div class="forumpagination">
-								<ul>
-									<li class="disablepage"
-										style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-										<h:outputFormat id="scrollerIntro_footer"
-											value="#{resourcebundle.PageNumber}">
-											<f:param value="#{currentModeratorPage.page}" />
-											<f:param value="${moderator.lastPageNumber}" />
-										</h:outputFormat>&#160;
-									</li>
-									<rich:dataScroller for="modtopicsList" maxPages="5"
-										page="#{currentModeratorPage.page}" id="scTopicsList_footer"
-										renderIfSinglePage="false" styleClass="forumpagination"
-										style="padding-top: 0px;" stepControls="hide"
-										selectedStyleClass="currentpage"
-										inactiveStyleClass="disablepage"
-										render="scrollerIntro_head scrollerIntro_footer">
-										<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-										<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-										<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-										<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-									</rich:dataScroller>
-								</ul>
-							</div>
-						</c:if>
+						</prime:dataTable>
 
 					</h:form>
 
