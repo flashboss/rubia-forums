@@ -58,7 +58,6 @@
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		<version.spec.javaee>8.0</version.spec.javaee>
 		<primefaces.version>6.2</primefaces.version>
-		<richfaces.version>4.5.17.Final</richfaces.version>
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
 		<selenium.version>3.11.0</selenium.version>

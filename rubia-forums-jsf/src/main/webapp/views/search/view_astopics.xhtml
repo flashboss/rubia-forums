@@ -22,62 +22,19 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/composite/components/property"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:rich="http://richfaces.org/rich" class="forumscontainer">
+	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.rf-dt-c {
-	border-right-width: 0;
-	border-right-style: none;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	color: #656565;
-}
-
-.rf-dt-hdr-c {
-	border-bottom-width: 1px;
-	border-bottom-style: none;
-	border-bottom-color: #C4C0C9;
-	border-right-width: 1px;
-	border-right-style: solid;
-	border-right-color: #C4C0C9;
-	background-color: #DEDEDE;
-	background-image: none;
-	background-position: top left;
-	color: -webkit-text;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-size: 11px;
-	font-weight: bold;
-	padding: 6px;
-	text-align: left;
-}
-
 .forumpostspacer {
 	border-left: 1px solid #e6e7e8;
 	height: 30px;
 	background-color: #f4f3f3;
 }
-
-.rf-dt-hdr-c {
-	border-bottom-width: 1px;
-	border-bottom-style: none;
-	border-bottom-color: #C4C0C9;
-	border-right-width: 1px;
-	border-right-style: solid;
-	border-right-color: #C4C0C9;
-	background-color: black;
-	background-image: none;
-	background-position: top left;
-	color: #94aebd;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-size: 11px;
-	font-weight: bold;
-	padding: 6px;
-	text-align: left;
-}
 </style>
 
 			<h:form rendered="#{viewSearch.topics != null}">
-				<a name="top" />
+				<a id="top" />
 				<div class="forumtitletext">
 					<h4>
 						<h:outputFormat value="#{resourcebundle.Search_found}">
@@ -86,62 +43,30 @@
 					</h4>
 				</div>
 
-				<c:if test="#{viewSearch.lastPageNumber > 1}">
-					<div class="forumpagination">
-						<ul>
-							<li class="disablepage"
-								style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-								<h:outputFormat id="scrollerIntro_head"
-									value="#{resourcebundle.PageNumber}">
-									<f:param value="#{currentSearchTopicPage.page}" />
-									<f:param value="${viewSearch.lastPageNumber}" />
-								</h:outputFormat>&#160;
-							</li>
-							<rich:dataScroller for="postsList" maxPages="5"
-								page="#{currentSearchTopicPage.page}" id="scPostsList_head"
-								renderIfSinglePage="false" styleClass="forumpagination"
-								style="padding-top: 0px;" stepControls="hide"
-								selectedStyleClass="currentpage"
-								inactiveStyleClass="disablepage"
-								render="scrollerIntro_head scrollerIntro_footer">
-								<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-								<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-								<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-								<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-							</rich:dataScroller>
-						</ul>
-					</div>
-				</c:if>
-				<rich:dataTable id="postsList" value="#{viewSearch.topicsDataModel}"
+				<prime:dataTable id="postsList" value="#{viewSearch.topicsDataModel}"
 					var="topicrow" varStatus="status" styleClass="forumtablestyle"
 					rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
-					headerClass="header">
+					headerClass="header" paginator="#{viewSearch.lastPageNumber > 1}"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<f:facet name="header">
-						<rich:columnGroup>
-							<rich:column styleClass="forumheaderfirst" colspan="2">${resourcebundle.Topics}</rich:column>
-							<rich:column styleClass="forumheadercentered">${resourcebundle.Replies}</rich:column>
-							<rich:column styleClass="forumheadercentered">${resourcebundle.Views}</rich:column>
-							<rich:column styleClass="forumheaderlast">${resourcebundle.Last_Post}</rich:column>
-						</rich:columnGroup>
+						<prime:columnGroup>
+							<prime:column styleClass="forumheaderfirst" colspan="2">${resourcebundle.Topics}</prime:column>
+							<prime:column styleClass="forumheadercentered">${resourcebundle.Replies}</prime:column>
+							<prime:column styleClass="forumheadercentered">${resourcebundle.Views}</prime:column>
+							<prime:column styleClass="forumheaderlast">${resourcebundle.Last_Post}</prime:column>
+						</prime:columnGroup>
 					</f:facet>
-					<rich:columnGroup>
+					<prime:columnGroup>
 
-						<rich:column styleClass="forumlisticon">
+						<prime:column styleClass="forumlisticon">
 							<img
 								src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 								width="11" height="14" alt="${resourcebundle.Topic_Moved}"
 								title="${resourcebundle.Topic_Moved}" />
-						</rich:column>
+						</prime:column>
 
-						<rich:column>
+						<prime:column>
 							<h3>
 								<h:commandLink action="viewTopic" value="${topicrow.subject}">
 									<f:param name="t" value="${topicrow.id}" />
@@ -162,11 +87,11 @@
 								</h:commandLink>
 							</h:panelGroup>
 
-						</rich:column>
+						</prime:column>
 
-						<rich:column styleClass="forumlistcentered">${topicrow.replies}</rich:column>
-						<rich:column styleClass="forumlistcentered">${topicrow.viewCount}</rich:column>
-						<rich:column styleClass="forumlistlast">
+						<prime:column styleClass="forumlistcentered">${topicrow.replies}</prime:column>
+						<prime:column styleClass="forumlistcentered">${topicrow.viewCount}</prime:column>
+						<prime:column styleClass="forumlistlast">
 							<h:commandLink action="viewTopic"
 								value="#{viewSearch.getLastPostSubject(topicrow.id)}">
 								<f:param name="p"
@@ -185,44 +110,11 @@
 										value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
 								</h:commandLink>
 							</h:panelGroup>
-							<br /> #{viewSearch.topicLastPosts[topicrow.id].createDate}</rich:column>
-					</rich:columnGroup>
+							<br /> #{viewSearch.topicLastPosts[topicrow.id].createDate}</prime:column>
+					</prime:columnGroup>
 
-				</rich:dataTable>
-				<c:if test="#{viewSearch.lastPageNumber > 1}">
-					<div class="forumpagination">
-						<ul>
-							<li class="disablepage"
-								style="pointer-events: none; cursor: default; text-decoration: none; float: left;">
-								<h:outputFormat id="scrollerIntro_footer"
-									value="#{resourcebundle.PageNumber}">
-									<f:param value="#{currentSearchTopicPage.page}" />
-									<f:param value="${viewSearch.lastPageNumber}" />
-								</h:outputFormat>&#160;
-							</li>
-							<rich:dataScroller for="postsList" maxPages="5"
-								page="#{currentSearchTopicPage.page}" id="scPostsList_footer"
-								renderIfSinglePage="false" styleClass="forumpagination"
-								style="padding-top: 0px;" stepControls="hide"
-								selectedStyleClass="currentpage"
-								inactiveStyleClass="disablepage"
-								render="scrollerIntro_head scrollerIntro_footer">
-								<f:facet name="first">
-								${resourcebundle.First}
-								</f:facet>
-								<f:facet name="last">
-								${resourcebundle.Last}
-								</f:facet>
-								<f:facet name="fastRewind">
-								&#60; ${resourcebundle.Previous}
-								</f:facet>
-								<f:facet name="fastForward">
-								${resourcebundle.Next} &#62;
-								</f:facet>
-							</rich:dataScroller>
-						</ul>
-					</div>
-				</c:if>
+				</prime:dataTable>
+
 			</h:form>
 
 			<h:form rendered="#{viewSearch.topics == null}">

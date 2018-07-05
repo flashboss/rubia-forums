@@ -40,12 +40,10 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.ejb.EJB;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.interceptor.Interceptors;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.richfaces.component.UIFileUpload;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
@@ -545,12 +543,6 @@ public abstract class PostAction extends BaseController {
 		for (Attachment attachmentFromList : attachments)
 			attachmentFromList.setPost(null);
 		attachments.add(attachment);
-	}
-
-	public void clearUpload(AjaxBehaviorEvent event) throws Exception {
-		@SuppressWarnings("unchecked")
-		List<Attachment> attachments = (List<Attachment>) ((UIFileUpload) event.getSource()).getData();
-		this.attachments.removeAll(attachments);
 	}
 
 	public void clearUpload(Attachment attachment) throws Exception {
