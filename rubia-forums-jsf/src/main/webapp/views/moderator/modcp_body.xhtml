@@ -34,6 +34,10 @@
 	color: #94AEBD;
 	font-weight: bold;
 }
+
+.ui-paginator-top {
+	top: 100px;
+}
 </style>
 			<forums:isAllowedChoose>
 
@@ -86,9 +90,10 @@
 
 						<prime:dataTable id="modtopicsList"
 							tableStyleClass="forumtablestyle"
-							tableStyle="border-collapse: collapse !important;border-width: 1px;border-style: solid !important;border-color: #C4C0C9;"
+							tableStyle="border-collapse: collapse !important;border-bottom-style: inherit !important;"
 							value="#{moderator.topicsDataModel}" var="topicrow"
-							iterationStatusVar="status" rowStyleClass="evenRow,oddRow"
+							rowIndexVar="rowIndex"
+							rowStyleClass="${(rowIndex%2==0)?'evenRow':'oddRow'}"
 							rows="#{prefController.topicsPerForum}" headerClass="header"
 							paginator="#{moderator.lastPageNumber > 1}"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
