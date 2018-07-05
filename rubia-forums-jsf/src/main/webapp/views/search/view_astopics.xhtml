@@ -31,6 +31,21 @@
 	height: 30px;
 	background-color: #f4f3f3;
 }
+
+.ui-state-default {
+	border-right-width: 1px !important;
+	border-right-style: solid !important;
+	border-right-color: #C4C0C9 !important;
+	background-color: black;
+	background-image: none;
+	background-position: top left;
+	color: #94aebd;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 6px !important;
+	text-align: left !important;
+}
 </style>
 
 			<h:form rendered="#{viewSearch.topics != null}">
@@ -52,7 +67,7 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<prime:column headerText="${resourcebundle.Topics}"
-						styleClass="forumheaderfirst forumlisticon">
+						styleClass="forumheaderfirst forumlisticon" style="width:70%">
 						<img
 							src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 							width="11" height="14" alt="${resourcebundle.Topic_Moved}"
