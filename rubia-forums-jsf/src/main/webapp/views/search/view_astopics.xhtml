@@ -45,20 +45,18 @@
 
 				<prime:dataTable id="postsList"
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
-					varStatus="status" styleClass="forumtablestyle"
-					rowClass="${(status.index%2==0)?'evenRow':'oddRow'}"
-					headerClass="header" paginator="#{viewSearch.lastPageNumber > 1}"
+					tableStyleClass="forumtablestyle"
+					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;"
+					rowStyleClass="evenRow"
+					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
-					<prime:column colspan="2"
+					<prime:column headerText="${resourcebundle.Topics}"
 						styleClass="forumheaderfirst forumlisticon">
 						<img
 							src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 							width="11" height="14" alt="${resourcebundle.Topic_Moved}"
 							title="${resourcebundle.Topic_Moved}" />
-					</prime:column>
-
-					<prime:column headerText="${resourcebundle.Topics}">
 						<h3>
 							<h:commandLink action="viewTopic" value="${topicrow.subject}">
 								<f:param name="t" value="${topicrow.id}" />
