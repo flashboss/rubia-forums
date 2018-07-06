@@ -32,6 +32,10 @@
 	background-color: #f4f3f3;
 }
 
+.ui-datatable thead th {
+	height: 2px !important;
+}
+
 .ui-state-default {
 	border-right-width: 1px !important;
 	border-right-style: solid !important;
@@ -45,6 +49,14 @@
 	font-weight: bold;
 	padding: 6px !important;
 	text-align: left !important;
+}
+
+.forumlistcentered {
+	text-align: center !important;
+}
+
+.ui-widget-content {
+	border: none;
 }
 </style>
 
@@ -61,44 +73,46 @@
 				<prime:dataTable id="postsList"
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
 					tableStyleClass="forumtablestyle"
-					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;"
+					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;border-style: inherit !important;"
 					rowStyleClass="evenRow"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<prime:column headerText="${resourcebundle.Topics}"
-						styleClass="forumheaderfirst forumlisticon" style="width:70%">
+						styleClass="forumlisticon" style="width:70%">
 						<img
 							src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 							width="11" height="14" alt="${resourcebundle.Topic_Moved}"
-							title="${resourcebundle.Topic_Moved}" />
-						<h3>
-							<h:commandLink action="viewTopic" value="${topicrow.subject}">
-								<f:param name="t" value="${topicrow.id}" />
-							</h:commandLink>
-						</h3>
-						<!-- mini post navigator for this topic -->
-						<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
-						<br /> ${resourcebundle.By}&#160;
+							title="${resourcebundle.Topic_Moved}"
+							style="position: relative; top: 10;" />
+						<div class="subpanel-search">
+							<h3>
+								<h:commandLink action="viewTopic" value="${topicrow.subject}">
+									<f:param name="t" value="${topicrow.id}" />
+								</h:commandLink>
+							</h3>
+							<!-- mini post navigator for this topic -->
+							<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
+							<br /> ${resourcebundle.By}&#160;
 
-						<h:panelGroup rendered="#{userModule.guest}">
+							<h:panelGroup rendered="#{userModule.guest}">
 				                            ${userModule.findUserById(topicrow.poster.userId).userName}
 				                        </h:panelGroup>
 
-						<h:panelGroup rendered="#{!userModule.guest}">
-							<h:commandLink action="viewProfile"
-								value="${userModule.findUserById(topicrow.poster.userId).userName}">
-								<f:param name="uid" value="${topicrow.poster.userId}" />
-							</h:commandLink>
-						</h:panelGroup>
-
+							<h:panelGroup rendered="#{!userModule.guest}">
+								<h:commandLink action="viewProfile"
+									value="${userModule.findUserById(topicrow.poster.userId).userName}">
+									<f:param name="uid" value="${topicrow.poster.userId}" />
+								</h:commandLink>
+							</h:panelGroup>
+						</div>
 					</prime:column>
 
-					<prime:column styleClass="forumheadercentered forumlistcentered"
+					<prime:column styleClass="forumlistcentered"
 						headerText="${resourcebundle.Replies}">${topicrow.replies}</prime:column>
-					<prime:column styleClass="forumheadercentered forumlistcentered"
+					<prime:column styleClass="forumlistcentered"
 						headerText="${resourcebundle.Views}">${topicrow.viewCount}</prime:column>
-					<prime:column styleClass="forumheaderlast forumlistlast"
+					<prime:column styleClass="forumlistlast"
 						headerText="${resourcebundle.Last_Post}">
 						<h:commandLink action="viewTopic"
 							value="#{viewSearch.getLastPostSubject(topicrow.id)}">
