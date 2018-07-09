@@ -185,8 +185,6 @@ public class SearchPostTest {
 		searchTopicCriteria.setDisplayAs(POSTS.name());
 		searchTopicCriteria.setForum(null);
 		searchTopicCriteria.setKeywords("Body");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
 		searchTopicCriteria.setSearching(null);
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
@@ -469,8 +467,6 @@ public class SearchPostTest {
 		searchTopicCriteria.setDisplayAs(POSTS.name());
 		searchTopicCriteria.setForum(null);
 		searchTopicCriteria.setKeywords("First");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
 		searchTopicCriteria.setSearching(null);
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
@@ -489,8 +485,6 @@ public class SearchPostTest {
 		searchTopicCriteria.setDisplayAs(POSTS.name());
 		searchTopicCriteria.setForum(null);
 		searchTopicCriteria.setKeywords("Firstaaaaaa");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
 		searchTopicCriteria.setSearching(null);
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
@@ -508,8 +502,6 @@ public class SearchPostTest {
 		searchTopicCriteria.setDisplayAs(POSTS.name());
 		searchTopicCriteria.setForum(null);
 		searchTopicCriteria.setKeywords("Body");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
 		searchTopicCriteria.setSearching(null);
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
@@ -531,8 +523,6 @@ public class SearchPostTest {
 		searchTopicCriteria.setDisplayAs(POSTS.name());
 		searchTopicCriteria.setForum(null);
 		searchTopicCriteria.setKeywords("Body");
-		searchTopicCriteria.setPageNumber(0);
-		searchTopicCriteria.setPageSize(0);
 		searchTopicCriteria.setSearching(null);
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);

@@ -44,9 +44,6 @@ import it.vige.rubia.ui.view.ViewSearch;
 @RequestScoped
 public class Search extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7028498560394081079L;
 	@EJB
 	private ForumsModule forumsModule;
@@ -139,12 +136,8 @@ public class Search extends BaseController {
 	}
 
 	public String search() throws Exception {
-		int currentPage = 0;
 
 		SearchCriteria criteria = getSearchCriteria();
-
-		criteria.setPageSize(userPreferences.getPostsPerTopic());
-		criteria.setPageNumber(currentPage);
 
 		if (criteria.getDisplayAs().equals(POSTS.name())) {
 

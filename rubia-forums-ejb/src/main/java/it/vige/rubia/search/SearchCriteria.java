@@ -17,9 +17,6 @@ import java.io.Serializable;
 
 public class SearchCriteria implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6813892676770463283L;
 
 	private String keywords;
@@ -37,10 +34,6 @@ public class SearchCriteria implements Serializable {
 	private String sortBy;
 
 	private String sortOrder;
-
-	private int pageSize;
-
-	private int pageNumber;
 
 	private String displayAs;
 
@@ -112,22 +105,6 @@ public class SearchCriteria implements Serializable {
 
 	public void setSortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getPageNumber() {
-		return pageNumber;
-	}
-
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
 	}
 
 	public String getDisplayAs() {

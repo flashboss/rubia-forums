@@ -30,6 +30,22 @@
 	height: 30px;
 	background-color: #f4f3f3;
 }
+
+.ui-paginator-top {
+	top: 58px;
+}
+
+.ui-datagrid-content {
+	border: none;
+}
+
+.ui-datagrid-data {
+	border-collapse: collapse;
+}
+
+.forumtablestyle td {
+    padding: 0px;
+}
 </style>
 
 			<h:form rendered="#{viewSearch.posts != null}">
@@ -50,10 +66,10 @@
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
-					<prime:panel>
+					<f:facet name="header">
 						<prime:column styleClass="forumheaderfirst">${resourcebundle.Author}</prime:column>
 						<prime:column styleClass="forumheaderopen">${resourcebundle.Message}</prime:column>
-					</prime:panel>
+					</f:facet>
 					<prime:panel>
 						<prime:column styleClass="forumpostleftcolumn oddRow">
 							<h:outputText rendered="#{userModule.guest}"

@@ -125,9 +125,6 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					sortBy = valueOf(sortByStr);
 				fullTextQuery.setSort(getSort(sortBy, sortOrder));
 
-				fullTextQuery.setFirstResult(criteria.getPageSize() * criteria.getPageNumber());
-				fullTextQuery.setMaxResults(criteria.getPageSize());
-
 				ResultPage<Post> resultPage = new ResultPage<Post>();
 				@SuppressWarnings("unchecked")
 				List<Post> posts = fullTextQuery.list();

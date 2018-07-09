@@ -180,8 +180,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("Topic");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
@@ -489,8 +487,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("First");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
@@ -509,8 +505,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("Firstaaaaa");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
@@ -528,8 +522,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("Topic");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
@@ -555,8 +547,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("Topic");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
@@ -578,8 +568,6 @@ public class SearchTopicTest {
 		searchForumCriteria.setDisplayAs(TOPICS.name());
 		searchForumCriteria.setForum(null);
 		searchForumCriteria.setKeywords("Topic");
-		searchForumCriteria.setPageNumber(0);
-		searchForumCriteria.setPageSize(0);
 		searchForumCriteria.setSearching(null);
 		searchForumCriteria.setSortBy(null);
 		searchForumCriteria.setSortOrder(null);
