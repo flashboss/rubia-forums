@@ -70,7 +70,6 @@
 
 .ui-widget-content {
 	border: none;
-	border-bottom: 1px solid #a8a8a8;
 }
 
 th {
@@ -116,7 +115,7 @@ th {
 					</f:facet>
 					<table class="forumtablestyle">
 						<tr>
-							<td class="forumpostleftcolumn oddRow">
+							<td class="forumpostleftcolumn oddRow" style="width: 90px;">
 								<h:outputText rendered="#{userModule.guest}"
 									value="${userModule.findUserById(postrow.poster.userId).userName}" />
 
@@ -126,16 +125,14 @@ th {
 									<f:param name="uid" value="${postrow.poster.userId}" />
 								</h:commandLink>
 							</td>
-							<td class="forumpostspacer">
-								<a id="${postrow.id}" />
+							<td class="forumpostspacer"><a id="${postrow.id}" />
 
 								<div class="forumpostinfo">
 									<ul>
 										<li>${resourcebundle.Posted}:&#160;#{forums:dateStr(postrow.createDate)}</li>
 										<li>${resourcebundle.Post_subject}:&#160;${postrow.message.subject}</li>
 									</ul>
-								</div>
-							</td>
+								</div></td>
 						</tr>
 						<tr>
 							<td class="forumpostleftcolumn">&#160;</td>
@@ -147,8 +144,7 @@ th {
 										escape="false" />
 									<br /> <br />
 									${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
-								</p>
-								<!-- show the attachments of this post here -->
+								</p> <!-- show the attachments of this post here -->
 								<p>
 									<ui:include src="/views/topics/attachmentsview.xhtml">
 										<ui:param name="attachments"
@@ -176,8 +172,7 @@ th {
 							</td>
 						</tr>
 						<tr>
-							<td class="forumpostleftcolumn">
-								<a href="#top">${resourcebundle.Back_to_top}</a>
+							<td class="forumpostleftcolumn"><a href="#top">${resourcebundle.Back_to_top}</a>
 							</td>
 							<td class="forumthreaduserinfo">
 								<ul>
