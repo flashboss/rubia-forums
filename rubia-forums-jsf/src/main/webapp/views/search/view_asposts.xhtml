@@ -46,6 +46,7 @@
 				<prime:dataGrid id="postsList" styleClass="forumtablestyle"
 					value="#{viewSearch.postsDataModel}" var="postrow" columns="1"
 					varStatus="status" headerClass="header"
+					rows="#{prefController.postsPerTopic}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">

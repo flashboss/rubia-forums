@@ -205,19 +205,11 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 				LinkedHashSet<Integer> topicIds = new LinkedHashSet<Integer>();
 				LinkedHashSet<Integer> topicToDispIds = new LinkedHashSet<Integer>();
 
-				int start = criteria.getPageSize() * criteria.getPageNumber();
-				int end = start + criteria.getPageSize();
-				int index = 0;
 				for (Object o : fullTextQuery.list()) {
 					Integer id = (Integer) ((Object[]) o)[0];
 
 					if (topicIds.add(id)) {
-
-						if (index >= start && index < end) {
-							topicToDispIds.add(id);
-						}
-
-						index++;
+						topicToDispIds.add(id);
 					}
 				}
 
