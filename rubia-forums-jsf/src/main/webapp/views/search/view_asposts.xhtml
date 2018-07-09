@@ -31,8 +31,12 @@
 	background-color: #f4f3f3;
 }
 
+.forumtablestyle .forumheaderopen {
+    border-left: 1px solid #f4f3f3;
+}
+
 .ui-paginator-top {
-	top: 58px;
+	top: 60px;
 }
 
 .ui-datagrid-content {
@@ -47,6 +51,10 @@
 	padding: 0px;
 }
 
+.forumtablestyle th {
+	text-align: left;
+}
+
 .ui-datagrid .ui-datagrid-header, .ui-datagrid .ui-datagrid-footer {
 	text-align: left;
 	padding: 0px;
@@ -54,6 +62,31 @@
 
 .ui-panel {
 	padding: 0em;
+}
+
+.ui-widget-header {
+	text-shadow: none;
+}
+
+.ui-widget-content {
+	border: none;
+	border-bottom: 1px solid #a8a8a8;
+}
+
+.bodyStyle {
+	color: #94aebd;
+}
+
+th {
+	border-right-width: 1px;
+	border-right-style: solid;
+	background-color: black;
+	background-image: none;
+	background-position: top left;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size:11px;
+	padding: 6px;
+	border: none;
 }
 </style>
 
@@ -75,10 +108,14 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<f:facet name="header">
-						<prime:panel styleClass="forumtablestyle">
-							<prime:column styleClass="forumheaderfirst">${resourcebundle.Author}</prime:column>
-							<prime:column styleClass="forumheaderopen">${resourcebundle.Message}</prime:column>
-						</prime:panel>
+						<table class="forumtablestyle">
+							<thead>
+								<tr>
+									<th class="forumheaderfirst" style="width:78px;">Autore</th>
+									<th class="forumheaderopen">Messaggio</th>
+								</tr>
+							</thead>
+						</table>
 					</f:facet>
 					<prime:panel>
 						<prime:column styleClass="forumpostleftcolumn oddRow">
