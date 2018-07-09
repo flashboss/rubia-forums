@@ -44,7 +44,16 @@
 }
 
 .forumtablestyle td {
-    padding: 0px;
+	padding: 0px;
+}
+
+.ui-datagrid .ui-datagrid-header, .ui-datagrid .ui-datagrid-footer {
+	text-align: left;
+	padding: 0px;
+}
+
+.ui-panel {
+	padding: 0em;
 }
 </style>
 
@@ -59,16 +68,17 @@
 					</h4>
 				</div>
 
-				<prime:dataGrid id="postsList" styleClass="forumtablestyle"
-					value="#{viewSearch.postsDataModel}" var="postrow" columns="1"
-					varStatus="status" headerClass="header"
+				<prime:dataGrid id="postsList" value="#{viewSearch.postsDataModel}"
+					var="postrow" columns="1" styleClass="forumtablestyle"
 					rows="#{prefController.postsPerTopic}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<f:facet name="header">
-						<prime:column styleClass="forumheaderfirst">${resourcebundle.Author}</prime:column>
-						<prime:column styleClass="forumheaderopen">${resourcebundle.Message}</prime:column>
+						<prime:panel styleClass="forumtablestyle">
+							<prime:column styleClass="forumheaderfirst">${resourcebundle.Author}</prime:column>
+							<prime:column styleClass="forumheaderopen">${resourcebundle.Message}</prime:column>
+						</prime:panel>
 					</f:facet>
 					<prime:panel>
 						<prime:column styleClass="forumpostleftcolumn oddRow">
