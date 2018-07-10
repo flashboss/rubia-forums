@@ -60,7 +60,7 @@
 		<primefaces.version>6.2</primefaces.version>
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
-		<selenium.version>3.11.0</selenium.version>
+		<selenium.version>3.13.0</selenium.version>
 		<guava.version>25.1-jre</guava.version>
 		<commons.text.version>1.3</commons.text.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
