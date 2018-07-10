@@ -165,9 +165,8 @@ th {
 									<h:outputText
 										value="#{forums:formatMessage(postrow.message.text,false)}"
 										escape="false" />
-									<br /> <br />
 									${userProfileModule.getProperty(userModule.findUserById(postrow.poster.userId),'INFO_USER_SIGNATURE')}
-								</p> <!-- show the attachments of this post here -->
+								</p> <br /> <!-- show the attachments of this post here -->
 								<p>
 									<ui:include src="/views/topics/attachmentsview.xhtml">
 										<ui:param name="attachments"
