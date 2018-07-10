@@ -56,8 +56,6 @@ public class CreateAttachment extends Write {
 		sleepThread();
 		Collection<Attachment> attachments = post.getAttachments();
 		if (attachments != null) {
-			int i = 0;
-			int oldCommentsCount = driver.findElements(className(FILE_COMMENT_INPUT_TEXT)).size();
 			for (Attachment attachment : attachments) {
 
 				File file;
@@ -73,14 +71,18 @@ public class CreateAttachment extends Write {
 					log.error(e);
 				}
 
-				String comment = attachment.getComment();
 				WebElement attachmentInput = driver.findElement(id(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getName());
-				WebElement attachmentConfirm = driver.findElement(xpath(FILE_CONFIRM_BUTTON));
-				attachmentConfirm.click();
-				WebElement commentInput = addComment(driver, oldCommentsCount + i);
+			}
+
+			WebElement attachmentConfirm = driver.findElement(xpath(FILE_CONFIRM_BUTTON));
+			attachmentConfirm.click();
+			List<WebElement> commentInputs = driver.findElements(className(FILE_COMMENT_INPUT_TEXT));
+			int i = 0;
+			for (Attachment attachment : attachments) {
+				WebElement commentInput = commentInputs.get(i);
+				commentInput.sendKeys(attachment.getComment());
 				i++;
-				commentInput.sendKeys(comment);
 			}
 		}
 		List<WebElement> attachmentResultList = driver.findElements(className(RESULT_ATTACHMENT_LIST));
@@ -88,17 +90,5 @@ public class CreateAttachment extends Write {
 		for (int i = 0; i < result.length; i++)
 			result[i] = attachmentResultList.get(i).getText();
 		return result;
-	}
-
-	public static WebElement addComment(WebDriver driver, int index) {
-		WebElement commentInput = null;
-		try {
-			commentInput = driver.findElements(className(FILE_COMMENT_INPUT_TEXT)).get(index);
-		} catch (IndexOutOfBoundsException ex) {
-		}
-		if (commentInput == null)
-			return addComment(driver, index);
-		else
-			return commentInput;
 	}
 }
