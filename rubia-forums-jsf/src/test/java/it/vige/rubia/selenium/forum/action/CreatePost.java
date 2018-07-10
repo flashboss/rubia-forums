@@ -52,11 +52,9 @@ public class CreatePost extends Write {
 		} catch (NoSuchElementException e) {
 			return LOCKED;
 		}
-		switchFrame(driver);
 		sleepThread();
-		WebElement bodytInput = driver.findElement(cssSelector("body"));
-		bodytInput.sendKeys(post.getMessage().getText());
-		driver.switchTo().defaultContent();
+		WebElement bodyInput = driver.findElement(cssSelector("div.ql-editor"));
+		bodyInput.sendKeys(post.getMessage().getText());
 		addAttachments(driver, post);
 		WebElement operationButton = driver.findElement(id(SUBMIT_BUTTON));
 		operationButton.click();
@@ -64,13 +62,5 @@ public class CreatePost extends Write {
 				"//td[contains(@class,forumpostcontent)]/p[contains(text(),'" + post.getMessage().getText() + "')]"));
 		String updatedPost = resultCreatePost.getText();
 		return updatedPost;
-	}
-
-	private static void switchFrame(WebDriver driver) {
-		try {
-			driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
-		} catch (Exception ex) {
-			switchFrame(driver);
-		}
 	}
 }

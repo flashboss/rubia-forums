@@ -49,11 +49,9 @@ public class CreateTopic extends Write {
 		WebElement subjectInput = driver.findElement(id(SUBJECT_INPUT_TEXT));
 		sleepThread();
 		subjectInput.sendKeys(topic.getSubject());
-		switchFrame(driver);
 		sleepThread();
-		WebElement bodytInput = driver.findElement(cssSelector("body"));
-		bodytInput.sendKeys(topic.getPosts().get(0).getMessage().getText());
-		driver.switchTo().defaultContent();
+		WebElement bodyInput = driver.findElement(cssSelector("div.ql-editor"));
+		bodyInput.sendKeys(topic.getPosts().get(0).getMessage().getText());
 		sleepThread();
 		WebElement topicTypeInput = null;
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']")).get(topic.getType().getValue());
@@ -80,13 +78,5 @@ public class CreateTopic extends Write {
 		WebElement resultCreateTopic = driver.findElement(linkText(topic.getSubject()));
 		String updatedTopic = resultCreateTopic.getText();
 		return updatedTopic;
-	}
-
-	private static void switchFrame(WebDriver driver) {
-		try {
-			driver.switchTo().frame(driver.findElement(xpath(BODY_INPUT_TEXT)));
-		} catch (Exception ex) {
-			switchFrame(driver);
-		}
 	}
 }

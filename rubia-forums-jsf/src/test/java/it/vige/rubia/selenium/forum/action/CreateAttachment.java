@@ -19,6 +19,7 @@ package it.vige.rubia.selenium.forum.action;
 import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.xpath;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,9 +39,10 @@ public class CreateAttachment extends Write {
 
 	private static Logger log = getLogger(CreateAttachment.class);
 
-	public static final String FILE_CHOOSE_BUTTON = "rf-fu-inp";
+	public static final String FILE_CHOOSE_BUTTON = "post:fileUploadOp_input";
+	public static final String FILE_CONFIRM_BUTTON = "(//button[@type='button'])[11]";
 	public static final String FILE_COMMENT_INPUT_TEXT = "Posttextarea";
-	public static final String RESULT_ATTACHMENT_LIST = "rf-fu-itm";
+	public static final String RESULT_ATTACHMENT_LIST = "forumHeaderLast";
 	public static final String UPDATE_BUTTON = "post:Submit";
 
 	public static String[] addAttachmentsAndSave(WebDriver driver, Post post) {
@@ -72,9 +74,10 @@ public class CreateAttachment extends Write {
 				}
 
 				String comment = attachment.getComment();
-				WebElement attachmentInput = driver.findElement(className(FILE_CHOOSE_BUTTON));
-				attachmentInput.clear();
+				WebElement attachmentInput = driver.findElement(id(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getName());
+				WebElement attachmentConfirm = driver.findElement(xpath(FILE_CONFIRM_BUTTON));
+				attachmentConfirm.click();
 				WebElement commentInput = addComment(driver, oldCommentsCount + i);
 				i++;
 				commentInput.sendKeys(comment);
@@ -84,7 +87,6 @@ public class CreateAttachment extends Write {
 		String[] result = new String[attachmentResultList.size()];
 		for (int i = 0; i < result.length; i++)
 			result[i] = attachmentResultList.get(i).getText();
-		sleepThread();
 		return result;
 	}
 
