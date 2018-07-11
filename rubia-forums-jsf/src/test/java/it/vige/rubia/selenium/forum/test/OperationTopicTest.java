@@ -190,7 +190,7 @@ public class OperationTopicTest {
 	}
 
 	@AfterClass
-	public static void stop() {driver= null;
+	public static void stop() {
 		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") })));
 		assertTrue(message.equals(OK));
