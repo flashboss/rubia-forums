@@ -86,7 +86,7 @@ public class OperationPostTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		/*String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
@@ -183,7 +183,7 @@ public class OperationPostTest {
 						asList(new Attachment("fourth", "Fourth Test File"),
 								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
 								new Attachment("sixth", "Sixth Test File"))));
-		assertTrue(message.equals("Ten Test Post"));
+		assertTrue(message.equals("Ten Test Post"));*/
 	}
 
 	@Test

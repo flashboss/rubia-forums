@@ -104,7 +104,7 @@ public class VerifyPost {
 		for (int i = 0; i < postComponentsSize; i++) {
 			Post post = new Post();
 			WebElement postComponent = driver.findElements(className(BODY_OUTPUT_TEXT)).get(i);
-			String body = postComponent.findElement(xpath("p")).getText();
+			String body = postComponent.findElement(xpath("p[2]")).getText();
 			String post_subject = postComponent.findElement(xpath(POST_SUBJECT_OUTPUT_TEXT)).getText()
 					.split(POST_SUBJECT_TEXT)[1];
 			String createDateStr = postComponent.findElement(xpath(CREATE_DATE_OUTPUT_TEXT)).getText()
