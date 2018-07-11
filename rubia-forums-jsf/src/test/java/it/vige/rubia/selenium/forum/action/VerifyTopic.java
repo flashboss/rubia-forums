@@ -58,9 +58,9 @@ public class VerifyTopic {
 	public static final String SUBJECT_LINK = "tbody/tr/td[2]/h3/a";
 	public static final String SUBJECT_IN_TOPIC_LINK = "tbody/tr/td[2]/p";
 	public static final String TYPE_SUBJECT_OUTPUT_TEXT = "tbody/tr/td[2]/h3/b";
-	public static final String REPLIED_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[3]";
-	public static final String VIEW_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[4]";
-	public static final String LAST_POST_DATE_OUTPUT_TEXT = "tbody/tr[contains(@class,'Row')]/td[5]";
+	public static final String REPLIED_OUTPUT_TEXT = "tbody/tr[contains(@role,'row')]/td[3] | tbody/tr[contains(@class,'Row')]/td[3]";
+	public static final String VIEW_OUTPUT_TEXT = "tbody/tr[contains(@role,'row')]/td[4] | tbody/tr[contains(@class,'Row')]/td[4]";
+	public static final String LAST_POST_DATE_OUTPUT_TEXT = "tbody/tr[contains(@role,'row')]/td[5] | tbody/tr[contains(@class,'Row')]/td[5]";
 	public static final String LAST_POST_DATE_IN_TOPIC_OUTPUT_TEXT = "tbody/tr/td[2]";
 	public static final String USER_LINK = "tbody/tr/td[2]/a";
 	public static final String USER_IN_TOPIC_LINK = "tbody/tr/td[1]/a";
