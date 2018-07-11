@@ -78,7 +78,7 @@ public class OperationAttachmentTest {
 		driver.get(HOME_URL);
 		String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		/*message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 		message = createForum(driver,
 				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
@@ -110,11 +110,11 @@ public class OperationAttachmentTest {
 				new Poll("Second Test Question", asList(
 						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
 						8)));
-		assertTrue(message.equals("Second Test Topic"));
+		assertTrue(message.equals("Second Test Topic"));*/
 		message = createForum(driver,
 				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
+		/*message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
 				asList(new Post[] { new Post("Third Test Body",
 						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
 								new Attachment("third", "Third Test File"))) }),
@@ -124,7 +124,7 @@ public class OperationAttachmentTest {
 								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
 								new PollOption("Sixth Test Answer") }),
 						9)));
-		assertTrue(message.equals("Third Test Topic"));
+		assertTrue(message.equals("Third Test Topic"));*/
 		message = createTopic(driver,
 				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
 						asList(new Post[] { new Post("Fourth Test Body",

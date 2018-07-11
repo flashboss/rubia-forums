@@ -73,10 +73,10 @@ public class CreateAttachment extends Write {
 
 				WebElement attachmentInput = driver.findElement(id(FILE_CHOOSE_BUTTON));
 				attachmentInput.sendKeys(attachment.getName());
+				WebElement attachmentConfirm = driver.findElement(xpath(FILE_CONFIRM_BUTTON));
+				attachmentConfirm.click();
 			}
 
-			WebElement attachmentConfirm = driver.findElement(xpath(FILE_CONFIRM_BUTTON));
-			attachmentConfirm.click();
 			List<WebElement> commentInputs = driver.findElements(className(FILE_COMMENT_INPUT_TEXT));
 			int i = 0;
 			for (Attachment attachment : attachments) {
