@@ -161,7 +161,7 @@ public class ReplyTopic extends PostAction {
 		boolean success = false;
 		try {
 			Message message = createMessage();
-			message.setText(this.message);
+			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
 			// setup the forum and the corresponding poster

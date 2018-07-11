@@ -110,7 +110,7 @@ public class NewTopic extends PostAction {
 		try {
 			// setup the message
 			Message message = createMessage();
-			message.setText(this.message);
+			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
 			// setup the forum and the corresponding poster

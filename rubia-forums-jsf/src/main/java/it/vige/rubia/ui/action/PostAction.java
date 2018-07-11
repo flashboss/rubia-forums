@@ -63,10 +63,10 @@ import it.vige.rubia.ui.BaseController;
  */
 public abstract class PostAction extends BaseController {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 295137515236191246L;
+
+	private final static String startBorder = "<p>";
+	private final static String lastBorder = "</p>";
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -556,5 +556,12 @@ public abstract class PostAction extends BaseController {
 
 	public long getTimeStamp() {
 		return currentTimeMillis();
+	}
+
+	protected String removeBorder(String text) {
+		int lastIndex = text.length();
+		if (lastIndex > 3 && text.substring(lastIndex - 4, lastIndex).equals(lastBorder))
+			text = text.replaceFirst(startBorder, "").substring(0, text.lastIndexOf(lastBorder) - 3);
+		return text;
 	}
 }

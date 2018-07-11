@@ -171,7 +171,7 @@ public class EditPost extends PostAction {
 
 			// setup the message/subject related data
 			Message message = createMessage();
-			message.setText(this.message);
+			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
 			// update the message/subject/topicType data on the business objects

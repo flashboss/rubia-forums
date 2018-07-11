@@ -55,7 +55,7 @@ public class ExternalLinksTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		/*String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
 		message = createForum(driver, forum);
@@ -69,7 +69,7 @@ public class ExternalLinksTest {
 				new Poll("First Test Question", asList(
 						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
 						4)));
-		assertTrue(message.equals("First Test Topic"));
+		assertTrue(message.equals("First Test Topic"));*/
 	}
 
 	@Test
@@ -190,13 +190,13 @@ public class ExternalLinksTest {
 
 	@AfterClass
 	public static void stop() {
-		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
+		/*String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body"), new Post("Second Test Body") })));
 		assertTrue(message.equals(OK));
 		Forum forum = new Forum("First Test Forum");
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
 		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
+		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));*/
 	}
 }
