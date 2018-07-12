@@ -50,7 +50,7 @@ public class ViewRSSLink extends Write {
 				new Category(driver.findElement(id(FEED_SUBTITLE_TEXT)).getText().split(" in category ")[1]));
 		Map<String, Topic> topics = new HashMap<String, Topic>();
 		List<WebElement> entries = driver.findElements(className(ENTRY_LINK));
-		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy HH:mm");
 		for (WebElement entry : entries) {
 			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED)).getText();
@@ -85,7 +85,7 @@ public class ViewRSSLink extends Write {
 		result.getForum().setCategory(new Category(splittedText[3]));
 		List<Post> posts = new ArrayList<Post>();
 		List<WebElement> entries = driver.findElements(className(ENTRY_LINK));
-		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy HH:mm");
 		for (WebElement entry : entries) {
 			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED)).getText();

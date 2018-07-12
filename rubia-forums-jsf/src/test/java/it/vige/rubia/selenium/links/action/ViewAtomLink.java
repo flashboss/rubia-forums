@@ -54,7 +54,7 @@ public class ViewAtomLink extends Write {
 				new Category(driver.findElement(id(FEED_SUBTITLE_TEXT)).getText().split(" in category ")[1]));
 		Map<String, Topic> topics = new HashMap<String, Topic>();
 		int entriesSize = driver.findElements(className(ENTRY_LINK)).size();
-		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (int i = 0; i < entriesSize; i++) {
 			WebElement entry = driver.findElements(className(ENTRY_LINK)).get(i);
 			String[] entryText = entry.getText().split(BY);
@@ -100,7 +100,7 @@ public class ViewAtomLink extends Write {
 		result.getForum().setCategory(new Category(splittedText[3]));
 		List<Post> posts = new ArrayList<Post>();
 		int entriesSize = driver.findElements(className(ENTRY_LINK)).size();
-		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm");
+		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (int i = 0; i < entriesSize; i++) {
 			WebElement entry = driver.findElements(className(ENTRY_LINK)).get(i);
 			String[] entryText = entry.getText().split(BY);
