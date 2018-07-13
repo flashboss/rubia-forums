@@ -178,7 +178,7 @@ public class MyForumsForumTest {
 		Poster poster = ViewAllForumsSelectForum.selectProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 12);
+		assertTrue(poster.getPostCount() >= 4);
 	}
 
 	@Test
@@ -216,7 +216,7 @@ public class MyForumsForumTest {
 		Poster poster = ViewAllForumsSelectForum.selectAllForumsProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 16);
+		assertTrue(poster.getPostCount() >= 4);
 	}
 
 	@Test
