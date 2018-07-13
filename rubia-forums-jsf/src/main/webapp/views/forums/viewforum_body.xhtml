@@ -97,6 +97,7 @@
 						<div class="forumtitletext">
 							<input type="hidden" name="f" value="#{forum.forum.id}" />
 							<h4>${forum.forum.name}</h4>
+							<h:messages errorClass="failuretext" layout="table" />
 						</div>
 
 						<forums:isAllowed fragment="acl://newTopic"

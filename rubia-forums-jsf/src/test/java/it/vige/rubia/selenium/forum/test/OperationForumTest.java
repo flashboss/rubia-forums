@@ -59,7 +59,7 @@ public class OperationForumTest {
 	private static WebDriver driver;
 
 	public final static String LOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_locked");
-	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Post_new_topic");
+	public final static String UNLOCKED_FORUM_MESSAGE = getBundle("ResourceJSF").getString("Forum_unlocked");
 
 	@BeforeClass
 	public static void setUp() {

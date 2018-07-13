@@ -28,7 +28,7 @@ public class MoveTopic {
 	public static final String FORUM_SELECT = "forumtablestyle";
 	public static final String MESSAGE_RESULT = "successtext";
 	public static final String MOVE_TOPIC_SELECT = "forum_to_id";
-	public static final String RESULT_MOVE_TOPIC = "javax_faces_developmentstage_messages";
+	public static final String RESULT_MOVE_TOPIC = "forumtitletext";
 
 	public static void goToSplitPanel(WebDriver driver, Topic topic) {
 		goTo(driver, topic);
@@ -76,7 +76,8 @@ public class MoveTopic {
 		button.click();
 		String result = "";
 		try {
-			WebElement message = driver.findElement(id(RESULT_MOVE_TOPIC));
+			WebElement message = driver.findElement(className(RESULT_MOVE_TOPIC))
+					.findElement(xpath("//table/tbody/tr/td"));
 			result = message.getText();
 		} catch (NoSuchElementException e) {
 
