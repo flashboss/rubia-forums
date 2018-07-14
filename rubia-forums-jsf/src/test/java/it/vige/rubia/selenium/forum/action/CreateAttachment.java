@@ -16,6 +16,7 @@
  */
 package it.vige.rubia.selenium.forum.action;
 
+import static java.io.File.createTempFile;
 import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
@@ -61,7 +62,7 @@ public class CreateAttachment extends Write {
 				File file;
 				try {
 					String oldName = attachment.getName();
-					file = File.createTempFile(oldName, ".txt");
+					file = createTempFile(oldName, ".txt");
 					OutputStream out = new FileOutputStream(file);
 					attachment.setContent(oldName.getBytes());
 					out.write(attachment.getContent());
