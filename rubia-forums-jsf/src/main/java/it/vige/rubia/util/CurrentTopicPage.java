@@ -55,6 +55,6 @@ public class CurrentTopicPage implements Serializable {
 		if (topic.getLastPageNumber() <= 1)
 			return 0;
 		else
-			return (page * preferenceController.getPostsPerTopic()) - 1;
+			return (page * preferenceController.getPostsPerTopic());
 	}
 }

@@ -1025,6 +1025,8 @@ a.ui-state-default {
 
 .ui-state-active {
 	text-decoration: underline !important;
+	pointer-events: none;
+    cursor: default !important;
 }
 
 .ui-fileupload-cancel {
