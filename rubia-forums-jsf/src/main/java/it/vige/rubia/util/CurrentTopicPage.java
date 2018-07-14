@@ -36,7 +36,7 @@ public class CurrentTopicPage implements Serializable {
 	private ViewTopic topic;
 
 	private static final long serialVersionUID = -8034301938112065435L;
-	private int page = 1;
+	private int page = 0;
 
 	public int getPage() {
 		return page;

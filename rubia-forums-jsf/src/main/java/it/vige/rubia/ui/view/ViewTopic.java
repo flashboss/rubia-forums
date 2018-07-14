@@ -249,8 +249,6 @@ public class ViewTopic extends BaseController {
 				String pageNumber = getParameter(p_page);
 				if (pageNumber != null)
 					currentTopicPage.setPage(parseInt(pageNumber) + 1);
-				else
-					currentTopicPage.setPage(1);
 			}
 		}
 	}
