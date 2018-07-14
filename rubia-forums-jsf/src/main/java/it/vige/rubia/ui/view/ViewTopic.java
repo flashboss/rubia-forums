@@ -248,7 +248,7 @@ public class ViewTopic extends BaseController {
 				topicsDataModel = new ListDataModel<Post>(topics);
 				String pageNumber = getParameter(p_page);
 				if (pageNumber != null)
-					currentTopicPage.setPage(parseInt(pageNumber) + 1);
+					currentTopicPage.setPage(parseInt(pageNumber));
 			}
 		}
 	}
