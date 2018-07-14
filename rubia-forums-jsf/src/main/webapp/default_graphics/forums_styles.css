@@ -1023,7 +1023,7 @@ a.ui-state-default {
 	box-shadow: none !important;
 }
 
-.ui-state-active {
+a .ui-state-active {
 	text-decoration: underline !important;
 	pointer-events: none;
     cursor: default !important;
