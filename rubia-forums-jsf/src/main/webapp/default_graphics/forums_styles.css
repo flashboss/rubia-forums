@@ -983,6 +983,10 @@ a.ui-state-default {
 	table-layout: unset !important;
 }
 
+.ui-datatable-odd {
+	background: none repeat scroll 0 0 #f4f3f3;
+}
+
 .ui-datatable tbody td {
 	padding: 4px 5px !important;
 	border-style: unset;
@@ -998,7 +1002,7 @@ a.ui-state-default {
 }
 
 .ui-widget {
-	font-family: Arial,sans-serif;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 	font-size: inherit;
 }
 

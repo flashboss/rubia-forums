@@ -25,11 +25,6 @@
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
-			<style type="text/css">
-.ui-datatable-odd {
-	background: none repeat scroll 0 0 #f4f3f3;
-}
-</style>
 			<!-- make sure the user is allowed to access both the specified forum and the category that this forum belongs to -->
 			<forums:isAllowed fragment="acl://readCategory"
 				contextData="#{forum.forum.category}"
