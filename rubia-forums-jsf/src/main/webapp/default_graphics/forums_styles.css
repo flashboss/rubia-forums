@@ -1039,6 +1039,11 @@ a.ui-state-default {
     border-bottom: none;
 }
 
+.ui-fileupload-content {
+    border-left: none;
+    border-right: none;
+}
+
 .ui-fileupload-cancel {
 	float: right;
 }
