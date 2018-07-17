@@ -35,8 +35,6 @@ public class ViewPagePreferences {
 
 	public static final String BUTTON = "buttonMed";
 
-	public static final String MESSAGE_RESULT = "javax_faces_developmentstage_messages";
-
 	public static final String NOT_FOUND_RESULTS = "forumtablestyle";
 
 	public static void goTo(WebDriver driver) {

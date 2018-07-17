@@ -537,7 +537,7 @@ public class SearchPostTest {
 
 	@AfterClass
 	public static void stop() {
-		/*Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
+		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
 				asList(new Post[] { new Post("First Test Body") }));
 		String message = unregisterTopic(driver, topic);
 		assertTrue(message.equals(OK));
@@ -580,7 +580,7 @@ public class SearchPostTest {
 		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));*/
+		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 
 }

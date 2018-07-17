@@ -40,7 +40,7 @@ public class ViewPageSearch {
 
 	public static final String BUTTON = "buttonMed";
 
-	public static final String MESSAGE_RESULT = "javax_faces_developmentstage_messages";
+	public static final String MESSAGE_RESULT = "failuretext";
 
 	public static final String NOT_FOUND_RESULTS = "forumtablestyle";
 
@@ -52,13 +52,13 @@ public class ViewPageSearch {
 	protected static WebElement getMessageResult(WebDriver driver) {
 		WebElement messageResult = null;
 		try {
-			messageResult = driver.findElement(id(MESSAGE_RESULT));
+			messageResult = driver.findElement(className(MESSAGE_RESULT));
 		} catch (NoSuchElementException ex) {
 		}
 		if (messageResult == null) {
 			try {
 				messageResult = driver.findElement(className(NOT_FOUND_RESULTS))
-						.findElement(xpath("tbody/tr/td/table/tbody/tr[2]/td"));
+						.findElement(xpath("tbody/tr[2]/td"));
 			} catch (NoSuchElementException ex) {
 			}
 		}
