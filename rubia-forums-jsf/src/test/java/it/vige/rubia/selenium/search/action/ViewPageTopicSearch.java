@@ -133,7 +133,7 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 
 	public static Post getLastPostOfCurrentForum(WebDriver driver, Topic topic) {
 		WebElement postComponent = driver.findElement(className(PROFILE_LINK))
-				.findElement(xpath("td[5]/a[contains(text(),'" + truncate(topic.getSubject(), 25) + "')]"))
+				.findElement(xpath("//td[4]/a[contains(text(),'" + truncate(topic.getSubject(), 25) + "')]"))
 				.findElement(xpath("../a"));
 		postComponent.click();
 		List<Post> posts = getPostsOfCurrentTopic(driver);
