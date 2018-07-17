@@ -101,7 +101,7 @@ public class SearchTopicTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		/*String message = createCategory(driver, new Category("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new Category("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
@@ -168,7 +168,7 @@ public class SearchTopicTest {
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
 		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Forum"));
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Forum"));*/
 	}
 
 	@Test
@@ -587,7 +587,7 @@ public class SearchTopicTest {
 
 	@AfterClass
 	public static void stop() {
-		String message = removeTopic(driver,
+		/*String message = removeTopic(driver,
 				new Topic(new Forum("First Test Forum"),
 						"First Test with a large subject name triing to truncate over the 25 character Topic",
 						asList(new Post[] { new Post("First Test Body") })));
@@ -627,6 +627,6 @@ public class SearchTopicTest {
 		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
+		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));*/
 	}
 }

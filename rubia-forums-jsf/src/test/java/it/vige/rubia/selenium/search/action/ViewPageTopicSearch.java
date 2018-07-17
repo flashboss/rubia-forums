@@ -44,23 +44,23 @@ import it.vige.rubia.selenium.forum.action.VerifyTopic;
 
 public class ViewPageTopicSearch extends ViewPageSearch {
 
-	public static final String TOPIC_VIEW = "rf-dt-b";
+	public static final String TOPIC_VIEW = "ui-widget-content";
 
-	public static final String TOPIC_SUBJECT = "tr/td[2]/h3/a";
+	public static final String TOPIC_SUBJECT = "td/div/h3/a";
 
-	public static final String TOPIC_POSTER = "tr/td[2]/a";
+	public static final String TOPIC_POSTER = "td/div/a";
 
-	public static final String LAST_POST_SUBJECT = "tr/td[5]/a";
+	public static final String LAST_POST_SUBJECT = "td[4]/a";
 
-	public static final String LAST_POST_POSTER = "tr/td[5]/a[2]";
+	public static final String LAST_POST_POSTER = "td[4]/a[2]";
 
-	public static final String LAST_POST_CREATED_DATE = "tr/td[5]";
+	public static final String LAST_POST_CREATED_DATE = "td[4]";
 
-	public static final String TOPIC_REPLIES = "tr/td[3]";
+	public static final String TOPIC_REPLIES = "td[2]";
 
-	public static final String TOPIC_VIEWS = "tr/td[4]";
+	public static final String TOPIC_VIEWS = "td[3]";
 
-	public static String PROFILE_LINK = "rf-dt-fst-r";
+	public static String PROFILE_LINK = "ui-datatable-data";
 
 	public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -79,7 +79,7 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 		else {
 			List<Topic> topics = new ArrayList<Topic>();
 			List<WebElement> elements = driver.findElements(className(TOPIC_VIEW));
-			for (WebElement element : elements)
+			for (WebElement element : elements.subList(1, elements.size()))
 				topics.add(getTopic(driver, element));
 			return topics;
 		}
@@ -115,7 +115,7 @@ public class ViewPageTopicSearch extends ViewPageSearch {
 
 	public static Poster getPosterLastPost(WebDriver driver, Topic topic) {
 		WebElement profileLink = driver.findElement(className(PROFILE_LINK))
-				.findElement(xpath("td[5]/a[contains(text(),'" + truncate(topic.getSubject(), 25) + "')]"))
+				.findElement(xpath("//td[4]/a[contains(text(),'" + truncate(topic.getSubject(), 25) + "')]"))
 				.findElement(xpath("../a[2]"));
 		String userId = profileLink.getText();
 		profileLink.click();

@@ -21,7 +21,6 @@ import static it.vige.rubia.search.Searching.TITLE_MSG;
 import static it.vige.rubia.search.SortOrder.ASC;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
-import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
 
@@ -57,8 +56,7 @@ public class ViewPageSearch {
 		}
 		if (messageResult == null) {
 			try {
-				messageResult = driver.findElement(className(NOT_FOUND_RESULTS))
-						.findElement(xpath("tbody/tr[2]/td"));
+				messageResult = driver.findElement(className(NOT_FOUND_RESULTS)).findElement(xpath("tbody/tr[2]/td"));
 			} catch (NoSuchElementException ex) {
 			}
 		}
