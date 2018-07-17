@@ -963,7 +963,7 @@ h4 {
 .ui-state-default {
 	background: #dedede;
 	border: none;
-	height: 25px;
+	height: inherit;
 	text-align: left !important;
 	border-bottom: 1px solid #e6e7e8;
 	font-weight: bold;
@@ -998,7 +998,8 @@ a.ui-state-default {
 }
 
 .ui-widget {
-	font-family: inherit;
+	font-family: Arial,sans-serif;
+	font-size: inherit;
 }
 
 .ui-paginator {
@@ -1030,6 +1031,12 @@ a.ui-state-default {
 .ui-paginator-pages .ui-state-active {
 	pointer-events: none;
     cursor: default !important;
+}
+
+.ui-fileupload {
+    border: 1px solid #a8a8a8;
+    background: #e6e7e8;
+    border-bottom: none;
 }
 
 .ui-fileupload-cancel {
