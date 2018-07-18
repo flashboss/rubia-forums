@@ -1002,12 +1002,11 @@ a.ui-state-default {
 .ui-fileupload {
 	border: 1px solid #a8a8a8;
 	background: #e6e7e8;
-	border-bottom: none;
 }
 
 .ui-fileupload-content {
-	border-left: none;
-	border-right: none;
+	border-left: none !important;
+	border-right: none !important;
 }
 
 .ui-fileupload-cancel {
