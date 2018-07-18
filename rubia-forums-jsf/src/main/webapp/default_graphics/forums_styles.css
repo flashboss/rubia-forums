@@ -1040,6 +1040,11 @@ a.ui-state-default {
 	padding: 0px;
 }
 
+.ui-datagrid .ui-datagrid-header {
+	text-align: left;
+	padding: 0px;
+}
+
 .ui-datagrid-data {
 	border-spacing: unset;
 }
