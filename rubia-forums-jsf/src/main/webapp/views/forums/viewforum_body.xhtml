@@ -320,8 +320,6 @@
 								</tr>
 							</table>
 						</h:panelGroup>
-					</h:form>
-					<h:form>
 						<!-- NEWTOPIC -->
 						<forums:isAllowed fragment="acl://newTopic"
 							contextData="#{forum.forum}"
@@ -333,7 +331,7 @@
 											<img border="0"
 												src="#{themeHelper.getURL('resourcePostLockedURL')}"
 												alt="${resourcebundle.Forum_locked}" />
-										</f:verbatim> <h:commandLink id="newTopic" action="#{newTopic.start}"
+										</f:verbatim> <h:commandLink id="newTopicBottom" action="#{newTopic.start}"
 											rendered="#{!forum.locked}">
 											<f:param name="f" value="#{forum.forum.id}" />
 											<f:verbatim>
@@ -345,7 +343,8 @@
 								</ul>
 							</div>
 						</forums:isAllowed>
-
+					</h:form>
+					<h:form>
 						<!-- MODERATION -->
 						<h:panelGroup rendered="#{!userModule.guest}">
 							<forums:isAllowed fragment="acl://moderateForum"

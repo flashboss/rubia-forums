@@ -44,10 +44,6 @@
 	font-size: 11px;
 }
 
-.forumscontainer a {
-	text-decoration: underline;
-}
-
 .forumsectionhdr {
 	border-bottom: 1px solid #a1a1a1;
 	text-align: right;
@@ -174,6 +170,10 @@
 	text-decoration: none;
 }
 
+.actionbuttons a {
+	text-decoration: none;
+}
+
 /* -------------------------- Forum Breadcrumb navigation --------------------------------- */
 .forumbread {
 	color: #4a5d75;
@@ -242,15 +242,6 @@
 	font-size: 10px;
 	font-weight: bold;
 	color: #94aebd;
-	height: 20px;
-	text-align: left;
-}
-
-.forumtablestyle .secondaryHeader {
-	background-color: #9bb3c1;
-	font-size: 10px;
-	font-weight: bold;
-	color: #000000;
 	height: 20px;
 	text-align: left;
 }
@@ -728,41 +719,6 @@ textarea {
 	margin: 0px;
 }
 
-/* ----------------------- forum pagination ------------------------ */
-.forumpagination {
-	float: right;
-	font-size: 11px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-}
-
-.forumpagination ul {
-	margin: 0px;
-	padding: 0px;
-}
-
-.forumpagination li {
-	list-style-type: none;
-	display: inline;
-	padding-bottom: 1px;
-}
-
-.forumpagination a, .forumpagination a:visited {
-	padding: 0px 3px;
-	color: #4a5d75;
-}
-
-.forumpagination li.currentpage {
-	padding: 0px 3px;
-	font-weight: bold;
-	color: #4a5d75;
-}
-
-.forumpagination li.disablepage {
-	padding: 0px 3px;
-	color: #8c8f91;
-}
-
 /* ----------------------- Admin/Moderation styles ------------------------ */
 .admintools {
 	padding-top: 4px;
@@ -999,12 +955,12 @@ a.ui-state-default {
 	border-style: none;
 	border-right-style: solid;
 	border-right-color: #C4C0C9;
-    height: 2em;
+	height: 2em;
 }
 
 .modcpbody thead th {
 	background-color: black;
-    color: #94AEBD;
+	color: #94AEBD;
 }
 
 .ui-widget {
@@ -1040,18 +996,18 @@ a.ui-state-default {
 
 .ui-paginator-pages .ui-state-active {
 	pointer-events: none;
-    cursor: default !important;
+	cursor: default !important;
 }
 
 .ui-fileupload {
-    border: 1px solid #a8a8a8;
-    background: #e6e7e8;
-    border-bottom: none;
+	border: 1px solid #a8a8a8;
+	background: #e6e7e8;
+	border-bottom: none;
 }
 
 .ui-fileupload-content {
-    border-left: none;
-    border-right: none;
+	border-left: none;
+	border-right: none;
 }
 
 .ui-fileupload-cancel {
@@ -1070,4 +1026,22 @@ a.ui-state-default {
 	position: relative;
 	left: 20px;
 	bottom: 10px;
+}
+
+.forum-row {
+	color: #656565;
+	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+}
+
+.ui-datagrid-column {
+	padding: 0px;
+}
+
+.ui-datagrid-data {
+	border-spacing: unset;
+}
+
+.ui-widget-content {
+	border: 0px;
+	border-right: 1px solid #C4C0C9;
 }

@@ -24,11 +24,6 @@
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
-			<style type="text/css">
-.ui-paginator-top {
-	top: 100px;
-}
-</style>
 			<forums:isAllowedChoose>
 
 				<forums:isAllowedWhen fragment="acl://moderateForum"
@@ -72,6 +67,7 @@
 						<!-- Forum moderator tool title and usability explanation and feedback messages -->
 						<div class="forumtitletext">
 							<h4>${resourcebundle.Mod_CP}</h4>
+							<br />
 							<p>${resourcebundle.Mod_CP_explain}</p>
 							<h:messages errorClass="failuretext" layout="table" />
 						</div>

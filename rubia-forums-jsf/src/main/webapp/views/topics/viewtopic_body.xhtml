@@ -24,25 +24,6 @@
 
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
-			<style type="text/css">
-.forum-row {
-	color: #656565;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-}
-
-.ui-datagrid-column {
-	padding: 0px;
-}
-
-.ui-datagrid-data {
-	border-spacing: unset;
-}
-
-.ui-widget-content {
-	border: 0px;
-	border-right: 1px solid #C4C0C9;
-}
-</style>
 			<!-- make sure the user is allowed to access both the forum and the category that the specified topic belongs to -->
 			<forums:isAllowed fragment="acl://readCategory"
 				contextData="#{topic.topic.forum.category}"
