@@ -597,6 +597,10 @@
 	margin: 0px;
 }
 
+.forumtablestyle th {
+	text-align: left;
+}
+
 .forumtablestyle label {
 	float: left;
 	vertical-align: middle;
@@ -1041,6 +1045,5 @@ a.ui-state-default {
 }
 
 .ui-widget-content {
-	border: 0px;
-	border-right: 1px solid #C4C0C9;
+	border: none;
 }

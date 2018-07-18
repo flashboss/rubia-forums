@@ -25,57 +25,8 @@
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.forumpostspacer {
-	border-left: 1px solid #e6e7e8;
-	height: 30px;
-	background-color: #f4f3f3;
-}
-
-.forumthreadfooter {
-	height: 8px;
-}
-
-.forumtablestyle .forumheaderopen {
-	border-left: 1px solid #f4f3f3;
-}
-
-.ui-paginator-top {
-	top: 60px;
-}
-
-.ui-datagrid-content {
-	border: none;
-}
-
-.ui-datagrid-data {
-	border-collapse: collapse;
-}
-
 .forumtablestyle td {
 	padding: 0px;
-}
-
-.forumtablestyle th {
-	text-align: left;
-}
-
-.forumtablestyle a {
-	position: relative;
-	left: 5px;
-}
-
-.forumpostinfo {
-	position: relative;
-	left: 5px;
-}
-
-.forumpostcontent p {
-	position: relative;
-	left: 5px;
-}
-
-.forumpostleftcolumn {
-	height: 28px;
 }
 
 .ui-datagrid .ui-datagrid-header, .ui-datagrid .ui-datagrid-footer {
@@ -83,28 +34,14 @@
 	padding: 0px;
 }
 
-.ui-panel {
-	padding: 0em;
-}
-
 .ui-widget-header {
 	text-shadow: none;
 }
 
-.ui-widget-content {
-	border: none;
-}
-
 th {
-	border-right-width: 1px;
-	border-right-style: solid;
 	background-color: black;
-	background-image: none;
-	background-position: top left;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 	font-size: 11px;
 	padding: 6px;
-	border: none;
 	color: #94aebd;
 }
 </style>
@@ -113,6 +50,10 @@ th {
 				<a id="top" />
 
 				<div class="forumtitletext">
+					<br />
+					<br />
+					<br />
+					<br />
 					<h4>
 						<h:outputFormat value="#{resourcebundle.Search_found}">
 							<f:param value="#{fn:length(viewSearch.posts)}" />
@@ -148,7 +89,8 @@ th {
 									<f:param name="uid" value="${postrow.poster.userId}" />
 								</h:commandLink>
 							</td>
-							<td class="forumpostspacer"><a id="${postrow.id}" />
+							<td class="forumpostspacer" style="background-color: #f4f3f3;"><a
+								id="${postrow.id}" />
 
 								<div class="forumpostinfo">
 									<ul>
@@ -280,7 +222,7 @@ th {
 							</td>
 						</tr>
 						<tr>
-							<td class="forumthreadfooter" colspan="2" />
+							<td class="forumthreadfooter" colspan="2" style="height: 8px;"/>
 						</tr>
 					</table>
 				</prime:dataGrid>
