@@ -39,16 +39,16 @@ th {
 	padding: 6px;
 	color: #94aebd;
 }
+
+.ui-paginator-top {
+	top: 60px;
+}
 </style>
 
 			<h:form rendered="#{viewSearch.posts != null}">
 				<a id="top" />
 
 				<div class="forumtitletext">
-					<br />
-					<br />
-					<br />
-					<br />
 					<h4>
 						<h:outputFormat value="#{resourcebundle.Search_found}">
 							<f:param value="#{fn:length(viewSearch.posts)}" />
@@ -217,7 +217,7 @@ th {
 							</td>
 						</tr>
 						<tr>
-							<td class="forumthreadfooter" colspan="2" style="height: 8px;"/>
+							<td class="forumthreadfooter" colspan="2" style="height: 8px;" />
 						</tr>
 					</table>
 				</prime:dataGrid>

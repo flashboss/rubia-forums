@@ -294,7 +294,7 @@
 
 .forumtablestyle .forumlistcentered {
 	width: 50px;
-	text-align: center;
+	text-align: center !important;
 	border-left: 1px solid #e6e7e8;
 	height: 40px;
 }

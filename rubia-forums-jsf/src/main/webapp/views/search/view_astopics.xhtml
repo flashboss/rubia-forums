@@ -26,42 +26,16 @@
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.forumpostspacer {
-	border-left: 1px solid #e6e7e8;
-	height: 30px;
-	background-color: #f4f3f3;
-}
-
-.ui-datatable thead {
+.ui-datatable thead th {
 	border-bottom-style: solid;
 	border-width: 1px;
-}
-
-.ui-datatable thead th {
 	height: 2px !important;
 }
 
 .ui-state-default {
-	border-right-width: 1px !important;
-	border-right-style: solid !important;
-	border-right-color: #C4C0C9 !important;
 	background-color: black;
-	background-image: none;
-	background-position: top left;
 	color: #94aebd;
-	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-	font-size: 11px;
-	font-weight: bold;
 	padding: 6px !important;
-	text-align: left !important;
-}
-
-.forumlistcentered {
-	text-align: center !important;
-}
-
-.ui-widget-content {
-	border: none;
 }
 
 .ui-paginator-top {
@@ -83,8 +57,7 @@
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
 					tableStyleClass="forumtablestyle"
 					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;border-style: inherit !important;"
-					rowStyleClass="evenRow"
-					rows="#{prefController.topicsPerForum}"
+					rowStyleClass="evenRow" rows="#{prefController.topicsPerForum}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
