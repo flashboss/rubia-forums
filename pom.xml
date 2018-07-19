@@ -74,8 +74,8 @@
 		<picketbox.version>5.0.2.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
 		<lucene.version>5.5.5</lucene.version>
-		<hibernate.version>5.1.10.Final</hibernate.version>
-		<hibernate.search.version>5.5.8.Final</hibernate.search.version>
+		<hibernate.version>5.3.1.Final</hibernate.version>
+		<hibernate.search.version>5.10.1.Final</hibernate.search.version>
 		<rome.version>1.10.0</rome.version>
 	</properties>
 

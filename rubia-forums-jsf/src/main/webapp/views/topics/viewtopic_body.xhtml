@@ -78,12 +78,12 @@
 
 							<c:if test="${forums:feedsConfigured()}">
 								<!--  feeds -->
-								<a href="#{topic.rssFeed}"> <img
+								<a href="#{topic.rssFeed}" class="imglink"> <img
 									src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
 									RSS
 								</a>
             &#160;
-            <a href="#{topic.atomFeed}"> <img
+            <a href="#{topic.atomFeed}" class="imglink"> <img
 									src="#{themeHelper.getURL('resourceIconFeedURL')}" border="0" />
 									ATOM
 								</a>
