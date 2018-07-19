@@ -76,7 +76,7 @@
 
 /* Link workaround for images used as links where spaces may be added */
 .imglink {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 /* -------------------------- floats ------------------------------------------- */
