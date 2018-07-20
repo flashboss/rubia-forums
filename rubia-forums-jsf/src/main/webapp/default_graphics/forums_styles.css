@@ -393,6 +393,22 @@
 	padding: 0px 0px;
 }
 
+.searchtablestyle td {
+	padding: 0px;
+}
+
+.searchtablestyle th {
+	background-color: black;
+	font-size: 11px;
+	padding: 6px;
+	color: #94aebd;
+	text-shadow: none;
+}
+
+.searchtablestyle .ui-paginator-top {
+	top: 55px;
+}
+
 .forumthreaduserinfo {
 	border-left: 1px solid #e6e7e8;
 }

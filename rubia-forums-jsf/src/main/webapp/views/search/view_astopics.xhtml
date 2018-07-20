@@ -26,7 +26,7 @@
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
 			<style type="text/css">
-.ui-datatable thead th {
+.searchtablestyle thead th {
 	border-bottom-style: solid;
 	border-width: 1px;
 	height: 2px !important;
@@ -36,7 +36,7 @@
 }
 
 .ui-paginator-top {
-	top: 50px;
+	top: 55px;
 }
 </style>
 
@@ -52,7 +52,7 @@
 
 				<prime:dataTable id="postsList"
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
-					tableStyleClass="forumtablestyle"
+					tableStyleClass="forumtablestyle searchtablestyle"
 					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;border-style: inherit !important;"
 					rowStyleClass="evenRow" rows="#{prefController.topicsPerForum}"
 					paginator="#{viewSearch.lastPageNumber > 1}"

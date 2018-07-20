@@ -24,24 +24,6 @@
 	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
-			<style type="text/css">
-.forumtablestyle td {
-	padding: 0px;
-}
-
-th {
-	background-color: black;
-	font-size: 11px;
-	padding: 6px;
-	color: #94aebd;
-	text-shadow: none;
-}
-
-.ui-paginator-top {
-	top: 60px;
-}
-</style>
-
 			<h:form rendered="#{viewSearch.posts != null}">
 				<a id="top" />
 
@@ -54,7 +36,8 @@ th {
 				</div>
 
 				<prime:dataGrid id="postsList" value="#{viewSearch.postsDataModel}"
-					var="postrow" columns="1" styleClass="forumtablestyle"
+					var="postrow" columns="1"
+					styleClass="forumtablestyle searchtablestyle"
 					rows="#{prefController.postsPerTopic}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
