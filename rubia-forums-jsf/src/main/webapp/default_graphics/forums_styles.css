@@ -293,6 +293,19 @@
 	height: 40px;
 }
 
+.searchtablestyle {
+	border-bottom: 1px solid #e6e7e8;	
+}
+
+.searchtablestyle .forumlisticon {
+	width: 70%;
+}
+
+.searchtablestyle .forumlisticon img {
+	position: relative;
+	top: 10;
+}
+
 .forumtablestyle .forumlistcentered {
 	width: 50px;
 	text-align: center !important;

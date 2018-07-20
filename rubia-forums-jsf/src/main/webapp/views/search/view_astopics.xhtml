@@ -39,18 +39,16 @@
 				<prime:dataTable id="postsList"
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
 					styleClass="searchtablestyle" tableStyleClass="forumtablestyle"
-					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;border-style: inherit !important;"
 					rowStyleClass="evenRow" rows="#{prefController.topicsPerForum}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
 					<prime:column headerText="${resourcebundle.Topics}"
-						styleClass="forumlisticon" style="width:70%">
+						styleClass="forumlisticon">
 						<img
 							src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
 							width="11" height="14" alt="${resourcebundle.Topic_Moved}"
-							title="${resourcebundle.Topic_Moved}"
-							style="position: relative; top: 10;" />
+							title="${resourcebundle.Topic_Moved}" />
 						<div class="subpanel-search">
 							<h3>
 								<h:commandLink action="viewTopic" value="${topicrow.subject}">
