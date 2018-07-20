@@ -46,7 +46,7 @@
 						<table class="forumtablestyle">
 							<thead>
 								<tr>
-									<th class="forumheaderfirst" style="width: 78px;">Autore</th>
+									<th class="forumheaderfirst">Autore</th>
 									<th class="forumheaderopen">Messaggio</th>
 								</tr>
 							</thead>
@@ -54,18 +54,16 @@
 					</f:facet>
 					<table class="forumtablestyle">
 						<tr>
-							<td class="forumpostleftcolumn oddRow" style="width: 90px;">
-								<h:outputText rendered="#{userModule.guest}"
+							<td class="forumpostleftcolumn oddRow"><h:outputText
+									rendered="#{userModule.guest}"
 									value="${userModule.findUserById(postrow.poster.userId).userName}" />
 
 								<h:commandLink action="viewProfile"
 									rendered="#{!userModule.guest}"
 									value="${userModule.findUserById(postrow.poster.userId).userName}">
 									<f:param name="uid" value="${postrow.poster.userId}" />
-								</h:commandLink>
-							</td>
-							<td class="forumpostspacer" style="background-color: #f4f3f3;"><a
-								id="${postrow.id}" />
+								</h:commandLink></td>
+							<td class="forumpostspacer"><a id="${postrow.id}" />
 
 								<div class="forumpostinfo">
 									<ul>
@@ -197,7 +195,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="forumthreadfooter" colspan="2" style="height: 8px;" />
+							<td class="forumthreadfooter" colspan="2" />
 						</tr>
 					</table>
 				</prime:dataGrid>

@@ -294,7 +294,19 @@
 }
 
 .searchtablestyle {
-	border-bottom: 1px solid #e6e7e8;	
+	border-bottom: 1px solid #e6e7e8;
+}
+
+.searchtablestyle .forumpostspacer {
+	background-color: #f4f3f3;
+}
+
+.searchtablestyle .forumpostleftcolumn {
+	width: 90px;
+}
+
+.searchtablestyle .forumheaderfirst {
+	width: 78px;
 }
 
 .searchtablestyle .forumlisticon {
@@ -389,10 +401,6 @@
 	font-weight: bold;
 }
 
-.forumtablestyle .valueCell {
-	
-}
-
 .forumtablestyle .bottomline {
 	border-bottom: 1px solid #656565;
 }
@@ -429,6 +437,10 @@
 	background-color: black;
 	color: #94aebd;
 	padding: 6px !important;
+}
+
+.searchtablestyle .forumthreadfooter {
+	height: 8px;
 }
 
 .forumthreaduserinfo {
