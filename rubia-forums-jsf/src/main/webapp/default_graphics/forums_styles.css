@@ -409,6 +409,15 @@
 	top: 55px;
 }
 
+.searchtablestyle thead th {
+	border-bottom-style: solid;
+	border-width: 1px;
+	height: 2px !important;
+	background-color: black;
+	color: #94aebd;
+	padding: 6px !important;
+}
+
 .forumthreaduserinfo {
 	border-left: 1px solid #e6e7e8;
 }

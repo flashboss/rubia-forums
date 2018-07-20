@@ -25,20 +25,6 @@
 	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
 	<ui:composition template="/views/common/common.xhtml">
 		<ui:define name="mainContent">
-			<style type="text/css">
-.searchtablestyle thead th {
-	border-bottom-style: solid;
-	border-width: 1px;
-	height: 2px !important;
-	background-color: black;
-	color: #94aebd;
-	padding: 6px !important;
-}
-
-.ui-paginator-top {
-	top: 55px;
-}
-</style>
 
 			<h:form rendered="#{viewSearch.topics != null}">
 				<a id="top" />
@@ -52,7 +38,7 @@
 
 				<prime:dataTable id="postsList"
 					value="#{viewSearch.topicsDataModel}" var="topicrow"
-					tableStyleClass="forumtablestyle searchtablestyle"
+					styleClass="searchtablestyle" tableStyleClass="forumtablestyle"
 					tableStyle="background-color: #FFFFFF;border-collapse: collapse;empty-cells: show;border-style: inherit !important;"
 					rowStyleClass="evenRow" rows="#{prefController.topicsPerForum}"
 					paginator="#{viewSearch.lastPageNumber > 1}"
