@@ -60,8 +60,7 @@ function selectOption(optionVal)
 							<td><label class="forumformlabelbold">
 									${resourcebundle.Subject} </label></td>
 							<td><h:inputText value="#{newTopic.subject}" maxlength="200"
-									id="SubjectInputText" size="45" style="width: 59%;"
-									tabindex="2" /></td>
+									id="SubjectInputText" size="45" tabindex="2" /></td>
 						</tr>
 
 						<!-- Add Message -->
@@ -69,8 +68,7 @@ function selectOption(optionVal)
 							<td><label class="forumformlabelbold">
 									${resourcebundle.Message_body} </label></td>
 							<td><prime:textEditor id="message"
-									value="#{newTopic.message}"
-									style="margin-bottom:10px;width:59%" height="150">
+									value="#{newTopic.message}" styleClass="forumseditor">
 									<f:facet name="toolbar">
 										<span class="ql-formats"> <select class="ql-font"></select>
 											<select class="ql-size"></select>
@@ -217,7 +215,6 @@ function selectOption(optionVal)
 								<td><prime:fileUpload id="fileUploadOp"
 										fileUploadListener="#{newTopic.upload}"
 										dragDropSupport="false" update="info,messages"
-										styleClass="post" style="height:inherit;width:59%;"
 										label="${resourcebundle.Add_attachment}"
 										cancelLabel="${resourcebundle.Delete_attachments}"
 										uploadLabel="${resourcebundle.Confirm}" /> <prime:growl
@@ -234,7 +231,8 @@ function selectOption(optionVal)
 												<tr>
 													<td><h:panelGrid columns="2">
 															<h:outputText value="${resourcebundle.File_name}" />
-															<h:outputText styleClass="forumHeaderLast" value="#{file.name}" />
+															<h:outputText styleClass="forumHeaderLast"
+																value="#{file.name}" />
 															<h:outputText value="${resourcebundle.Filesize}" />
 															<h:outputText value="#{file.size} B" />
 														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"

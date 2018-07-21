@@ -283,3 +283,7 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 .ql-font-monospace {
   font-family: Monaco, Courier New, monospace;
 }
+
+.ql-container {
+	height: 150px;
+}

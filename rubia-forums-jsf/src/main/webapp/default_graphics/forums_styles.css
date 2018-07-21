@@ -971,6 +971,10 @@ h4 {
 	padding: 5;
 }
 
+.PostViewUnderlineBoth input[type=text] {
+	width: 59%;
+}
+
 .ui-state-default {
 	background: #dedede;
 	border: none;
@@ -1057,6 +1061,7 @@ a.ui-state-default {
 .ui-fileupload {
 	border: 1px solid #a8a8a8;
 	background: #e6e7e8;
+	width: 59%;
 }
 
 .ui-fileupload-content {
@@ -1102,4 +1107,9 @@ a.ui-state-default {
 
 .ui-widget-content {
 	border: none;
+}
+
+.forumseditor {
+	margin-bottom:10px;
+	width:59%;
 }
