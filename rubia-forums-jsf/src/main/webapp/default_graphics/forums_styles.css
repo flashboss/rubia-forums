@@ -756,17 +756,17 @@ textarea {
 .forumlegendjumpboxright .jumpboxtext {
 	position: relative;
 	top: 4px;
-	left: 92px;
+	right: 5px;
 }
 
 .forumlegendjumpboxtop {
-    position: relative;
-    bottom: 33px;
+	position: relative;
+	bottom: 33px;
 }
 
 .forumlegendjumpboxtopics {
-    position: relative;
-    top: 5px;
+	position: relative;
+	top: 5px;
 }
 
 /* ----------------------- Admin/Moderation styles ------------------------ */
@@ -783,6 +783,10 @@ textarea {
 .admintools ul li {
 	list-style: none;
 	display: inline;
+}
+
+.admintools ul li a {
+	text-decoration: none;
 }
 
 .admintools ul li img {
@@ -1140,7 +1144,19 @@ a.ui-state-default {
 	border: 0px;
 }
 
-.create-forum input, textarea, select {
+.create-forum input {
+	margin-left: 100px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.create-forum textarea {
+	margin-left: 100px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.create-forum select {
 	margin-left: 100px;
 	display: block;
 	margin-bottom: 10px;
