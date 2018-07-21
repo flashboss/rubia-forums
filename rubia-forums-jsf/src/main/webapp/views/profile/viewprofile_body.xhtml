@@ -59,8 +59,8 @@
 					<td class="valueCell" width="40%"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')!=null}">
 							<a
-								href="mailto:${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')}"
-								style="text-decoration: none;"> <img border="0"
+								href="mailto:${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')}">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconEmailURL')}"
 								alt="${resourcebundle.Send_email}" />
 							</a>
@@ -73,8 +73,8 @@
 					<td class="valueCell"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')!=null}">
 							<a
-								href="skype:#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')}?add"
-								style="text-decoration: none;"> <img border="0"
+								href="skype:#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')}?add">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconSkypeURL')}"
 								alt="${resourcebundle.L_SKYPE}" />
 							</a>
@@ -91,8 +91,8 @@
 					<td class="valueCell"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')!=null}">
 							<a
-								href="${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')}"
-								style="text-decoration: none;"> <img border="0"
+								href="${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')}">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconWWWURL')}"
 								alt="${resourcebundle.Visit_website}" />
 							</a>
@@ -101,8 +101,8 @@
 					<td class="valueCell"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')!=null}">
 							<a
-								href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg"
-								style="text-decoration: none;"> <img border="0"
+								href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconYIMURL')}"
 								alt="${resourcebundle.YIM}" />
 							</a>
@@ -115,8 +115,8 @@
 					<td class="valueCell"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')!=null}">
 							<a
-								href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?"
-								style="text-decoration: none;"> <img border="0"
+								href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconAIMURL')}"
 								alt="${resourcebundle.AIM}" />
 							</a>
@@ -129,8 +129,8 @@
 					<td class="valueCell bottomline"><c:if
 							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')!=null}">
 							<a
-								href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')}"
-								style="text-decoration: none;"> <img border="0"
+								href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')}">
+								<img border="0"
 								src="#{themeHelper.getURL('resourceIconICQURL')}"
 								alt="${resourcebundle.ICQ}" />
 							</a>
