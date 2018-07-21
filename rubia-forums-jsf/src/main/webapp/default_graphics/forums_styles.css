@@ -745,33 +745,12 @@ textarea {
 	float: right;
 }
 
-.forumlegendjumpboxfloat {
-	float: right;
-	margin-bottom: 10px;
-}
-
 .forumlegendjumpboxright {
 	padding: 0;
 	border-spacing: 0;
 	float: right;
 	border: none;
-}
-
-.forumlegendjumpboxcenter {
-	padding: 2;
-	border-spacing: 2;
-	width: 100%;
-	border: none;
-}
-
-.forumlegendjumpboxclear {
-	clear: both;
-	float: right;
-	margin-bottom: 10px;
-}
-
-.forumlegendjumpboxclear select {
-	margin: 0px;
+	display: flex;
 }
 
 /* ----------------------- Admin/Moderation styles ------------------------ */
