@@ -21,9 +21,11 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums">
 
-	<h:form method="post" name="jumpbox" styleClass="forumlegendjumpboxright">
+	<h:form method="post" name="jumpbox"
+		styleClass="forumlegendjumpboxright">
 
-		${resourcebundle.Jump_to}:&#160; <h:selectOneMenu name="identifier"
+		<div class="jumpboxtext">${resourcebundle.Jump_to}:</div>
+		<h:selectOneMenu name="identifier"
 			valueChangeListener="#{jumpbox.modeChanged}">
 
 			<f:selectItem itemValue="0"

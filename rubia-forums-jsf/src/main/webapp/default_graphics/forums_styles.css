@@ -141,7 +141,7 @@
 	border-left: 1px solid #94aebd;
 	border-right: 1px solid #233345;
 	border-bottom: 1px solid #233345;
-	height: 20px;
+	height: 18px;
 }
 
 .actionbuttons {
@@ -753,6 +753,22 @@ textarea {
 	display: flex;
 }
 
+.forumlegendjumpboxright .jumpboxtext {
+	position: relative;
+	top: 4px;
+	left: 92px;
+}
+
+.forumlegendjumpboxtop {
+    position: relative;
+    bottom: 33px;
+}
+
+.forumlegendjumpboxtopics {
+    position: relative;
+    top: 5px;
+}
+
 /* ----------------------- Admin/Moderation styles ------------------------ */
 .admintools {
 	padding-top: 4px;
@@ -765,7 +781,6 @@ textarea {
 }
 
 .admintools ul li {
-	font-size: 10px;
 	list-style: none;
 	display: inline;
 }

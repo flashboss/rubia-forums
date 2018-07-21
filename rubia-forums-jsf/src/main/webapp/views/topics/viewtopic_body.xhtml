@@ -601,7 +601,9 @@
 
 					<hr class="forumdashedHR" />
 
-					<ui:include src="/views/jumpbox.xhtml" />
+					<div class="forumlegendjumpboxtopics">
+						<ui:include src="/views/jumpbox.xhtml" />
+					</div>
 
 					<forums:isAllowed fragment="acl://moderateForum"
 						contextData="#{topic.topic.forum}"
