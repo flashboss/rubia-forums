@@ -103,7 +103,7 @@
 							<prime:column headerText="${resourcebundle.Last_Post}"
 								styleClass="rowline ${(status.last)?'bottomline':''} shorter-width">${topicrow.lastPostDate}</prime:column>
 							<prime:column headerText="${resourcebundle.Select}"
-								styleClass="rowline ${(status.last)?'bottomline':''}">
+								styleClass="rowline ${(status.last)?'bottomline':''} little-width">
 								<h:selectBooleanCheckbox
 									value="#{moderator.checkboxes[topicrow.id]}" />
 							</prime:column>
