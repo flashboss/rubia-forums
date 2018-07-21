@@ -1142,6 +1142,7 @@ a.ui-state-default {
 
 .no-border {
 	border: 0px;
+	border-bottom: none !important;
 }
 
 .create-forum input {
