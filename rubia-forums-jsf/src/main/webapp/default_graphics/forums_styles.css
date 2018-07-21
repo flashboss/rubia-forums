@@ -1129,3 +1129,13 @@ a.ui-state-default {
 .short-width {
 	width: 45%;
 }
+
+.no-border {
+	border: 0px;
+}
+
+.create-forum input, textarea, select {
+	margin-left: 100px;
+	display: block;
+	margin-bottom: 10px;
+}

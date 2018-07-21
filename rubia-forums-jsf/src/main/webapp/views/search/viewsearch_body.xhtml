@@ -43,20 +43,20 @@
 					</tr>
 
 					<tr class="oddRow">
-						<td class="rowlinefirst" style="width: 40%;"><strong>${resourcebundle.Search_keywords}</strong><br />
+						<td class="rowlinefirst short-width"><strong>${resourcebundle.Search_keywords}</strong><br />
 							<span class="note">${resourcebundle.Search_keywords_note}</span>
 						</td>
-						<td class="rowline" style="width: 60%;"><h:inputText
+						<td class="rowline"><h:inputText
 								value="#{search.searchCriteria.keywords}" required="true"
-								style="width:275px;"></h:inputText></td>
+								styleClass="medium-width"></h:inputText></td>
 					</tr>
 
 					<tr class="evenRow">
 						<td class="rowlinefirst"><strong>${resourcebundle.Search_author}</strong><br />
 							<span class="note">${resourcebundle.Search_author_note}</span></td>
 						<td class="rowline"><span id=""></span> <h:inputText
-								value="#{search.searchCriteria.author}" style="width:275px;"></h:inputText>
-						</td>
+								value="#{search.searchCriteria.author}"
+								styleClass="medium-width"></h:inputText></td>
 					</tr>
 
 					<tr class="header">
@@ -153,8 +153,8 @@
 					</tr>
 
 					<tr>
-						<td class="forumformbuttonrow" colspan="2" style="border: 0px;">
-							<h:commandButton type="submit" action="#{search.search}"
+						<td class="forumformbuttonrow no-border" colspan="2"><h:commandButton
+								type="submit" action="#{search.search}"
 								value="#{resourcebundle.Search_search}" styleClass="buttonMed"></h:commandButton>
 							<h:commandButton type="reset"
 								value="#{resourcebundle.Search_reset}" styleClass="buttonMed"></h:commandButton>

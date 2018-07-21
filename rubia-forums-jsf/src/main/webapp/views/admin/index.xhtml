@@ -219,23 +219,21 @@
                                and adminController.selectedForum eq forum.id                              )
                             or ( forum.name eq null                         )}">
 											<tr class="editRow">
-												<td class="Indent"><h:form id="forumForm_${forum.id}">
+												<td class="Indent"><h:form id="forumForm_${forum.id}"
+														styleClass="create-forum">
 														<input type="hidden" name="c" value="#{category.id}" />
 														<input type="hidden" name="editForum" value="true" />
 														<input type="hidden" name="f" value="#{forum.id}" />
 														<label for="forumname">${resourcebundle.Forum_name}:</label>
 														<h:inputText id="Forum" required="true"
-															style="margin-left: 100px; display:block; margin-bottom: 10px;"
 															value="#{adminController.forumName}" />
 														<h:message for="Forum" styleClass="inlinefailure" />
 														<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
 														<h:inputTextarea rows="5"
-															style="margin-left: 100px; display:block; margin-bottom: 10px;"
 															value="#{adminController.forumDescription}" />
 														<label for="forumcategory">${resourcebundle.Forum_category}:</label>
 														<h:selectOneMenu
-															value="#{adminController.selectedCategory}"
-															style="margin-left: 100px; display:block; margin-bottom: 10px;">
+															value="#{adminController.selectedCategory}">
 															<c:forEach items="#{adminPanel.categories}" var="cat">
 																<f:selectItem itemValue="#{cat.id}"
 																	itemLabel="#{cat.title}" />
@@ -243,7 +241,6 @@
 														</h:selectOneMenu>
 														<h:commandButton id="adminbutton"
 															value="${resourcebundle.Update}" styleClass="buttonMed"
-															style="margin-left: 100px; display:block; margin-bottom: 10px;"
 															action="#{adminController.editForum}" />
 													</h:form></td>
 												<td class="forumlistlast">&#160;</td>
@@ -385,28 +382,24 @@
                        and forums:message('feedback') eq null }">
 
 							<tr class="editRow">
-								<td class="Indent"><h:form>
+								<td class="Indent"><h:form styleClass="create-forum">
 										<input type="hidden" name="c" value="#{category.id}" />
 										<input type="hidden" name="addForum" value="true" />
 										<label for="forumname">${resourcebundle.Forum_name}:</label>
 										<h:inputText id="Forum" required="true"
-											style="margin-left: 100px; display:block; margin-bottom: 10px;"
 											value="#{adminController.forumName}" />
 										<h:message for="Forum" styleClass="inlinefailure" />
 										<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
 										<h:inputTextarea rows="5"
-											style="margin-left: 100px; display:block; margin-bottom: 10px;"
 											value="#{adminController.forumDescription}" />
 										<label for="forumcategory">${resourcebundle.Forum_category}:</label>
-										<h:selectOneMenu value="#{adminController.selectedCategory}"
-											style="margin-left: 100px; display:block; margin-bottom: 10px;">
+										<h:selectOneMenu value="#{adminController.selectedCategory}">
 											<c:forEach items="#{adminPanel.categories}" var="cat">
 												<f:selectItem itemValue="#{cat.id}" itemLabel="#{cat.title}" />
 											</c:forEach>
 										</h:selectOneMenu>
 										<h:commandButton id="adminbutton"
 											value="${resourcebundle.Create}" styleClass="buttonMed"
-											style="margin-left: 100px; display:block; margin-bottom: 10px;"
 											action="#{adminController.addForum}" />
 									</h:form></td>
 								<td class="forumlistlast">&#160;</td>
