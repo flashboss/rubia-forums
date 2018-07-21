@@ -99,13 +99,12 @@
 								</h:commandLink>
 							</prime:column>
 							<prime:column headerText="${resourcebundle.Replies}"
-								style="width:50px;"
 								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
 							<prime:column headerText="${resourcebundle.Last_Post}"
 								style="width:148px;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</prime:column>
 							<prime:column headerText="${resourcebundle.Select}"
-								style="width:55px;"
+								style="width:59px;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 								<h:selectBooleanCheckbox
 									value="#{moderator.checkboxes[topicrow.id]}" />
