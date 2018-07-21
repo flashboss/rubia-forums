@@ -141,7 +141,7 @@ function selectOption(optionVal)
 									class="forumformlabelbold">
 										${resourcebundle.Poll_question} </label></td>
 								<td><h:inputText value="#{newTopic.question}" id="question"
-										maxlength="255" style="width: 59%;" /></td>
+										maxlength="255" styleClass="medium-width" /></td>
 							</tr>
 
 							<!-- update poll options already added -->
@@ -153,7 +153,7 @@ function selectOption(optionVal)
 											${resourcebundle.Poll_option} </label></td>
 									<td><h:inputText id="option_${idx.index+1}"
 											name="option_${idx.index+1}" value="${optionRow}"
-											style="width: 300px;" maxlength="255">
+											styleClass="short-width" maxlength="255">
 											<f:converter converterId="pollOptionConverter" />
 										</h:inputText> &#160; <h:commandButton id="UpdateOption_${idx.index+1}"
 											action="#{newTopic.updateOption}"
@@ -171,7 +171,7 @@ function selectOption(optionVal)
 								<td><label class="forumformlabelbold">
 										${resourcebundle.Poll_option} </label></td>
 								<td><h:inputText value="#{newTopic.option}" id="newOption"
-										maxlength="255" style="width: 47%;" /> &#160; <h:commandButton
+										maxlength="255" styleClass="short-width" /> &#160; <h:commandButton
 										action="#{newTopic.addOption}"
 										value="${resourcebundle.Add_option}" styleClass="buttonMed" />
 								</td>
@@ -223,11 +223,10 @@ function selectOption(optionVal)
 							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_comment} </label></td>
-								<td><h:panelGrid id="info"
-										style="width: 59%; border: none;">
+								<td><h:panelGrid id="info" styleClass="comment">
 										<ui:repeat value="#{newTopic.attachments}" var="file"
 											statusVar="status">
-											<table style="height: inherit; width: 101%;">
+											<table class="table-comment">
 												<tr>
 													<td><h:panelGrid columns="2">
 															<h:outputText value="${resourcebundle.File_name}" />
@@ -236,7 +235,7 @@ function selectOption(optionVal)
 															<h:outputText value="${resourcebundle.Filesize}" />
 															<h:outputText value="#{file.size} B" />
 														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
-															value="#{file.comment}" style="width: 100%">
+															value="#{file.comment}">
 															<f:ajax event="keyup" />
 														</h:inputTextarea></td>
 												</tr>

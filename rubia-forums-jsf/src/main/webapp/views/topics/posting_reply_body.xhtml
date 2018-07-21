@@ -120,11 +120,10 @@
 							<tr class="PostViewUnderline">
 								<td><label class="forumformlabelbold">
 										${resourcebundle.File_comment} </label></td>
-								<td><h:panelGrid id="info"
-										style="width: 59%; border: none;">
+								<td><h:panelGrid id="info" styleClass="comment">
 										<ui:repeat value="#{replyTopic.attachments}" var="file"
 											statusVar="status">
-											<table style="height: inherit; width: 101%;">
+											<table class="table-comment">
 												<tr>
 													<td><h:panelGrid columns="2">
 															<h:outputText value="${resourcebundle.File_name}" />
@@ -133,7 +132,7 @@
 															<h:outputText value="${resourcebundle.Filesize}" />
 															<h:outputText value="#{file.size} B" />
 														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
-															value="#{file.comment}" style="width: 100%">
+															value="#{file.comment}">
 															<f:ajax event="keyup" />
 														</h:inputTextarea></td>
 												</tr>
