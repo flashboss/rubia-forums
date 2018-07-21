@@ -1022,6 +1022,10 @@ a.ui-state-default {
 	color: #94AEBD;
 }
 
+.modcpbody .rowlinefirst {
+	width: 20px;
+}
+
 .ui-widget {
 	font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
 	font-size: inherit;

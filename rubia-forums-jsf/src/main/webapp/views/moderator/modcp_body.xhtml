@@ -82,7 +82,7 @@
 							paginator="#{moderator.lastPageNumber > 1}"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
-							<prime:column style="width:20px"
+							<prime:column
 								styleClass="rowlinefirst ${(status.last)?'
 										bottomline':''}">
 								<img
@@ -92,7 +92,6 @@
 							</prime:column>
 
 							<prime:column headerText="${resourcebundle.Topics}"
-								style="font-family: Arial, Verdana, sans-serif;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 											${themeHelper.getFolderType(topicrow)}&#160; <h:commandLink
 									action="viewTopic" value="${topicrow.subject}">
@@ -100,21 +99,20 @@
 								</h:commandLink>
 							</prime:column>
 							<prime:column headerText="${resourcebundle.Replies}"
-								style="width:50px;font-family: Arial, Verdana, sans-serif;"
+								style="width:50px;"
 								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
 							<prime:column headerText="${resourcebundle.Last_Post}"
-								style="width:135px;font-family: Arial, Verdana, sans-serif;"
+								style="width:148px;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</prime:column>
 							<prime:column headerText="${resourcebundle.Select}"
-								style="width:55px;font-family: Arial, Verdana, sans-serif;"
+								style="width:55px;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 								<h:selectBooleanCheckbox
 									value="#{moderator.checkboxes[topicrow.id]}" />
 							</prime:column>
 							<f:facet name="footer">
 								<prime:columnGroup>
-									<prime:column styleClass="buttonrow" colspan="5"
-										style="border-bottom: 0px none; height:29; align:right">
+									<prime:column styleClass="buttonrow" colspan="5">
 										<forums:isAllowed fragment="acl://deleteTopics"
 											contextData="#{moderator.forum}"
 											forumsACLProvider="#{forumsACLProvider}"
