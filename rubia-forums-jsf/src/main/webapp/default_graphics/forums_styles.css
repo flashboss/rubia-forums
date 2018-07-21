@@ -1134,6 +1134,14 @@ a.ui-state-default {
 	width: 45%;
 }
 
+.shorter-width {
+	width: 13%;
+}
+
+.little-width {
+	width: 54px;
+}
+
 .no-border {
 	border: 0px;
 }

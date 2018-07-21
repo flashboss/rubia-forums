@@ -101,10 +101,8 @@
 							<prime:column headerText="${resourcebundle.Replies}"
 								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
 							<prime:column headerText="${resourcebundle.Last_Post}"
-								style="width:148px;"
-								styleClass="rowline ${(status.last)?'bottomline':''}">${topicrow.lastPostDate}</prime:column>
+								styleClass="rowline ${(status.last)?'bottomline':''} shorter-width">${topicrow.lastPostDate}</prime:column>
 							<prime:column headerText="${resourcebundle.Select}"
-								style="width:59px;"
 								styleClass="rowline ${(status.last)?'bottomline':''}">
 								<h:selectBooleanCheckbox
 									value="#{moderator.checkboxes[topicrow.id]}" />
