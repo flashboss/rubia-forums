@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 
 import it.vige.rubia.auth.ActionContext;
 import it.vige.rubia.auth.ForumsACLProvider;
+import it.vige.rubia.auth.SecurityContext;
 import it.vige.rubia.auth.UIContext;
 
 @Path("/acl/")
@@ -23,16 +24,13 @@ public class RestACLProvider {
 	@Path("hasActionAccess")
 	@Consumes(APPLICATION_JSON)
 	@Produces(TEXT_PLAIN)
-	public boolean hasAccess(ActionContext context) {
-		return aclProvider.hasAccess(context);
-	}
-
-	@POST
-	@Path("hasUIAccess")
-	@Consumes(APPLICATION_JSON)
-	@Produces(TEXT_PLAIN)
-	public boolean hasAccess(UIContext context) {
-		return aclProvider.hasAccess(context);
+	public boolean hasAccess(RestContext context) {
+		SecurityContext securityContext = null;
+		if (context.getContextType().equals("action")) {
+			securityContext = new ActionContext();
+		} else
+			securityContext = new UIContext();
+		return aclProvider.hasAccess(securityContext);
 	}
 
 }
