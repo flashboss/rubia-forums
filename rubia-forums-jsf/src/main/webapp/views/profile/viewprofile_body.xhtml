@@ -13,134 +13,126 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
+		<h:form>
+			<div class="forumbread">
+				<ul>
+					<li class="first"><h:commandLink action="viewCategory"
+							value="#{shared.mainPageName}">
+							<f:param name="uid" value="${profile.poster.userId}" />
+						</h:commandLink>
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
-			<h:form>
-				<div class="forumbread">
-					<ul>
-						<li class="first"><h:commandLink action="viewCategory"
-								value="#{shared.mainPageName}">
-								<f:param name="uid" value="${profile.poster.userId}" />
-							</h:commandLink>
+						<ul>
+							<li>&#62;&#160; <h:commandLink action="viewProfile"
+									value="${resourcebundle.L_VIEWING_PROFILE}">
+									<f:param name="uid" value="${profile.poster.userId}" />
+								</h:commandLink>
+							</li>
+						</ul></li>
+				</ul>
+			</div>
+		</h:form>
+		<table class="forumtablestyle">
+			<tr class="header">
+				<td class="forumheaderfirst" colspan="4">
+					${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_NAME_GIVEN')}
+				</td>
+			</tr>
+			<tr>
+				<td class="labelCell" width="10%">
+					${resourcebundle.L_JOINED}:&#160;</td>
+				<td class="valueCell" width="40%">
+					${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_REGISTRATION_DATE')}&#160;
+				</td>
+				<td class="labelCell" width="10%">
+					${resourcebundle.L_EMAIL_ADDRESS}:</td>
+				<td class="valueCell" width="40%"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')!=null}">
+						<a
+							href="mailto:${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')}">
+							<img border="0"
+							src="#{themeHelper.getURL('resourceIconEmailURL')}"
+							alt="${resourcebundle.Send_email}" />
+						</a>
+					</c:if>&#160;</td>
+			</tr>
+			<tr>
+				<td class="labelCell">${resourcebundle.L_TOTAL_POSTS}:&#160;</td>
+				<td class="valueCell">${profile.poster.postCount}&#160;</td>
+				<td class="labelCell">${resourcebundle.L_SKYPE}:</td>
+				<td class="valueCell"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')!=null}">
+						<a
+							href="skype:#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')}?add">
+							<img border="0"
+							src="#{themeHelper.getURL('resourceIconSkypeURL')}"
+							alt="${resourcebundle.L_SKYPE}" />
+						</a>
+					</c:if>&#160;</td>
+			</tr>
+			<tr>
+				<td class="labelCell">${resourcebundle.L_LOCATION}:&#160;</td>
+				<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_LOCATION')}&#160;</td>
+				<td class="labelCell">${resourcebundle.L_MESSENGER}:</td>
+				<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_MSNM')}&#160;</td>
+			</tr>
+			<tr>
+				<td class="labelCell">${resourcebundle.L_WEBSITE}:&#160;</td>
+				<td class="valueCell"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')!=null}">
+						<a
+							href="${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')}">
+							<img border="0" src="#{themeHelper.getURL('resourceIconWWWURL')}"
+							alt="${resourcebundle.Visit_website}" />
+						</a>
+					</c:if>&#160;</td>
+				<td class="labelCell">${resourcebundle.L_YAHOO}:</td>
+				<td class="valueCell"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')!=null}">
+						<a
+							href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg">
+							<img border="0" src="#{themeHelper.getURL('resourceIconYIMURL')}"
+							alt="${resourcebundle.YIM}" />
+						</a>
+					</c:if>&#160;</td>
+			</tr>
+			<tr>
+				<td class="labelCell">${resourcebundle.L_OCCUPATION}:&#160;</td>
+				<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_OCCUPATION')}&#160;</td>
+				<td class="labelCell">${resourcebundle.L_AIM}:</td>
+				<td class="valueCell"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')!=null}">
+						<a
+							href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
+							<img border="0" src="#{themeHelper.getURL('resourceIconAIMURL')}"
+							alt="${resourcebundle.AIM}" />
+						</a>
+					</c:if>&#160;</td>
+			</tr>
+			<tr>
+				<td class="labelCell bottomline">${resourcebundle.L_INTERESTS}:</td>
+				<td class="valueCell bottomline">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_INTERESTS')}&#160;</td>
+				<td class="labelCell bottomline">${resourcebundle.L_ICQ_NUMBER}:</td>
+				<td class="valueCell bottomline"><c:if
+						test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')!=null}">
+						<a
+							href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')}">
+							<img border="0" src="#{themeHelper.getURL('resourceIconICQURL')}"
+							alt="${resourcebundle.ICQ}" />
+						</a>
+					</c:if>&#160;</td>
+			</tr>
+		</table>
 
-							<ul>
-								<li>&#62;&#160; <h:commandLink action="viewProfile"
-										value="${resourcebundle.L_VIEWING_PROFILE}">
-										<f:param name="uid" value="${profile.poster.userId}" />
-									</h:commandLink>
-								</li>
-							</ul></li>
-					</ul>
-				</div>
-			</h:form>
-			<table class="forumtablestyle">
-				<tr class="header">
-					<td class="forumheaderfirst" colspan="4">
-						${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_NAME_GIVEN')}
-					</td>
-				</tr>
-				<tr>
-					<td class="labelCell" width="10%">
-						${resourcebundle.L_JOINED}:&#160;</td>
-					<td class="valueCell" width="40%">
-						${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_REGISTRATION_DATE')}&#160;
-					</td>
-					<td class="labelCell" width="10%">
-						${resourcebundle.L_EMAIL_ADDRESS}:</td>
-					<td class="valueCell" width="40%"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')!=null}">
-							<a
-								href="mailto:${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_EMAIL_FAKE')}">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconEmailURL')}"
-								alt="${resourcebundle.Send_email}" />
-							</a>
-						</c:if>&#160;</td>
-				</tr>
-				<tr>
-					<td class="labelCell">${resourcebundle.L_TOTAL_POSTS}:&#160;</td>
-					<td class="valueCell">${profile.poster.postCount}&#160;</td>
-					<td class="labelCell">${resourcebundle.L_SKYPE}:</td>
-					<td class="valueCell"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')!=null}">
-							<a
-								href="skype:#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_SKYPE')}?add">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconSkypeURL')}"
-								alt="${resourcebundle.L_SKYPE}" />
-							</a>
-						</c:if>&#160;</td>
-				</tr>
-				<tr>
-					<td class="labelCell">${resourcebundle.L_LOCATION}:&#160;</td>
-					<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_LOCATION')}&#160;</td>
-					<td class="labelCell">${resourcebundle.L_MESSENGER}:</td>
-					<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_MSNM')}&#160;</td>
-				</tr>
-				<tr>
-					<td class="labelCell">${resourcebundle.L_WEBSITE}:&#160;</td>
-					<td class="valueCell"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')!=null}">
-							<a
-								href="${userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_HOMEPAGE')}">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconWWWURL')}"
-								alt="${resourcebundle.Visit_website}" />
-							</a>
-						</c:if>&#160;</td>
-					<td class="labelCell">${resourcebundle.L_YAHOO}:</td>
-					<td class="valueCell"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')!=null}">
-							<a
-								href="http://edit.yahoo.com/config/send_webmesg?.target=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_YIM')}&amp;.src=pg">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconYIMURL')}"
-								alt="${resourcebundle.YIM}" />
-							</a>
-						</c:if>&#160;</td>
-				</tr>
-				<tr>
-					<td class="labelCell">${resourcebundle.L_OCCUPATION}:&#160;</td>
-					<td class="valueCell">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_OCCUPATION')}&#160;</td>
-					<td class="labelCell">${resourcebundle.L_AIM}:</td>
-					<td class="valueCell"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')!=null}">
-							<a
-								href="aim:goim?screenname=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_AIM')}&amp;message=Hello+Are+you+there?">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconAIMURL')}"
-								alt="${resourcebundle.AIM}" />
-							</a>
-						</c:if>&#160;</td>
-				</tr>
-				<tr>
-					<td class="labelCell bottomline">${resourcebundle.L_INTERESTS}:</td>
-					<td class="valueCell bottomline">#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_INTERESTS')}&#160;</td>
-					<td class="labelCell bottomline">${resourcebundle.L_ICQ_NUMBER}:</td>
-					<td class="valueCell bottomline"><c:if
-							test="#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')!=null}">
-							<a
-								href="http://www.icq.com/scripts/search.dll?to=#{userProfileModule.getPropertyFromId(profile.poster.userId,'INFO_USER_IM_ICQ')}">
-								<img border="0"
-								src="#{themeHelper.getURL('resourceIconICQURL')}"
-								alt="${resourcebundle.ICQ}" />
-							</a>
-						</c:if>&#160;</td>
-				</tr>
-			</table>
+		<br />
 
-			<br />
-
-			<ui:include src="/views/jumpbox.xhtml" />
-		</ui:define>
-	</ui:composition>
-</div>
+		<ui:include src="/views/jumpbox.xhtml" />
+	</ui:define>
+</ui:composition>

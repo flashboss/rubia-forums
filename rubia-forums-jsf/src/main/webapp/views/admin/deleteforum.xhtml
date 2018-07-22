@@ -13,54 +13,50 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+		<h1>${resourcebundle.Forum_delete}</h1>
+		<p>${resourcebundle.Forum_delete_explain}</p>
 
-			<h1>${resourcebundle.Forum_delete}</h1>
-			<p>${resourcebundle.Forum_delete_explain}</p>
+		<div class="forumsubscriptionconfirm">
+			<h:form>
+				<input type="hidden" name="f" value="#{param['f']}" />
+				<h3>${resourcebundle.Forum_delete}</h3>
+				<p>${resourcebundle.Forum}</p>
+				<h4>#{adminController.forumName}</h4>
+				<label>${resourcebundle.Move_contents}</label>
+				<br />
+				<h:selectOneMenu value="#{adminController.selectedForum}">
+					<f:selectItem itemValue="-1"
+						itemLabel="${resourcebundle.Delete_all_topics_posts}" />
+					<c:forEach items="#{adminPanel.forums}" var="forum">
+						<c:if test="#{forum.id != param['f']}">
+							<f:selectItem itemValue="#{forum.id}" itemLabel="#{forum.name}" />
+						</c:if>
+					</c:forEach>
+				</h:selectOneMenu>
+				<div class="forumformbuttonrow">
+					<ul>
+						<li><h:commandButton value="${resourcebundle.Confirm}"
+								styleClass="buttonMed" action="#{adminController.deleteForum}" />
+						</li>
+						<li><h:commandButton type="submit"
+								action="${adminController.cancel}"
+								value="${resourcebundle.Cancel}" styleClass="buttonMed" /></li>
+					</ul>
+				</div>
+			</h:form>
+		</div>
 
-			<div class="forumsubscriptionconfirm">
-				<h:form>
-					<input type="hidden" name="f" value="#{param['f']}" />
-					<h3>${resourcebundle.Forum_delete}</h3>
-					<p>${resourcebundle.Forum}</p>
-					<h4>#{adminController.forumName}</h4>
-					<label>${resourcebundle.Move_contents}</label>
-					<br />
-					<h:selectOneMenu value="#{adminController.selectedForum}">
-						<f:selectItem itemValue="-1"
-							itemLabel="${resourcebundle.Delete_all_topics_posts}" />
-						<c:forEach items="#{adminPanel.forums}" var="forum">
-							<c:if test="#{forum.id != param['f']}">
-								<f:selectItem itemValue="#{forum.id}" itemLabel="#{forum.name}" />
-							</c:if>
-						</c:forEach>
-					</h:selectOneMenu>
-					<div class="forumformbuttonrow">
-						<ul>
-							<li><h:commandButton value="${resourcebundle.Confirm}"
-									styleClass="buttonMed" action="#{adminController.deleteForum}" />
-							</li>
-							<li><h:commandButton type="submit"
-									action="${adminController.cancel}"
-									value="${resourcebundle.Cancel}" styleClass="buttonMed" /></li>
-						</ul>
-					</div>
-				</h:form>
-			</div>
+		<!-- integrate the jump box -->
+		<ui:include src="/views/jumpbox.xhtml" />
 
-			<!-- integrate the jump box -->
-			<ui:include src="/views/jumpbox.xhtml" />
-
-		</ui:define>
-	</ui:composition>
-</div>
+	</ui:define>
+</ui:composition>

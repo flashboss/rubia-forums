@@ -13,8 +13,7 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
@@ -22,215 +21,208 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/composite/components/property"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+		<div class="forumtitletext">
+			<h4>${resourcebundle.MyForums_title}</h4>
+			<p>${resourcebundle.MyForums_info}</p>
+		</div>
 
-			<div class="forumtitletext">
-				<h4>${resourcebundle.MyForums_title}</h4>
-				<p>${resourcebundle.MyForums_info}</p>
-			</div>
+		<table class="forumtablestyle">
 
-			<table class="forumtablestyle">
+			<tr class="header">
+				<td class="forumheaderfirst" colspan="2">${resourcebundle.Subscribed_topics_info}</td>
+				<td class="forumheadercentered">${resourcebundle.Replies}</td>
+				<td class="forumheadercentered">${resourcebundle.Views}</td>
+				<td class="forumheader250px">${resourcebundle.Last_Post}</td>
+				<td class="forumheadercentered">${resourcebundle.Delete}</td>
+			</tr>
 
-				<tr class="header">
-					<td class="forumheaderfirst" colspan="2">${resourcebundle.Subscribed_topics_info}</td>
-					<td class="forumheadercentered">${resourcebundle.Replies}</td>
-					<td class="forumheadercentered">${resourcebundle.Views}</td>
-					<td class="forumheader250px">${resourcebundle.Last_Post}</td>
-					<td class="forumheadercentered">${resourcebundle.Delete}</td>
-				</tr>
-
-				<c:if test="${fn:length(myForums.watchedTopics) gt 0}">
-					<c:forEach items="#{myForums.watchedTopics}" var="topicrow"
-						varStatus="status">
-						<h:form id="notification_${topicrow.id}">
-							<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
-								<td class="forumlisticon"><img
-									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
-									width="11" height="14" alt="${resourcebundle.Topic_Moved}"
-									title="${resourcebundle.Topic_Moved}" /></td>
-								<td>
-									<h3>
-										<h:commandLink action="viewTopic" value="${topicrow.subject}">
-											<f:param name="t" value="${topicrow.id}" />
-										</h:commandLink>
-									</h3> <p:pagenavigator id="pageNavigator" topicrow="#{topicrow}"
-										component="#{myForums}" /><br /> ${resourcebundle.By}&#160;
-
-									<h:panelGroup rendered="#{userModule.guest}">
+			<c:if test="${fn:length(myForums.watchedTopics) gt 0}">
+				<c:forEach items="#{myForums.watchedTopics}" var="topicrow"
+					varStatus="status">
+					<h:form id="notification_${topicrow.id}">
+						<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
+							<td class="forumlisticon"><img
+								src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+								width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+								title="${resourcebundle.Topic_Moved}" /></td>
+							<td>
+								<h3>
+									<h:commandLink action="viewTopic" value="${topicrow.subject}">
+										<f:param name="t" value="${topicrow.id}" />
+									</h:commandLink>
+								</h3> <p:pagenavigator id="pageNavigator" topicrow="#{topicrow}"
+									component="#{myForums}" /><br /> ${resourcebundle.By}&#160; <h:panelGroup
+									rendered="#{userModule.guest}">
                     ${userModule.findUserById(topicrow.poster.userId).userName}
                 </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
-										<h:commandLink action="viewProfile"
-											value="${userModule.findUserById(topicrow.poster.userId).userName}">
-											<f:param name="uid" value="${topicrow.poster.userId}" />
-										</h:commandLink>
-									</h:panelGroup>
-								</td>
-								<td class="forumlistcentered">${topicrow.replies}</td>
-								<td class="forumlistcentered">${topicrow.viewCount}</td>
-								<td class="forumlistlast"><h:commandLink action="viewTopic"
-										value="#{myForums.getLastPostSubject(topicrow.id)}">
-										<f:param name="p"
-											value="#{myForums.topicsLastPosts[topicrow.id].id}" />
-									</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
-										rendered="#{userModule.guest}">
+									<h:commandLink action="viewProfile"
+										value="${userModule.findUserById(topicrow.poster.userId).userName}">
+										<f:param name="uid" value="${topicrow.poster.userId}" />
+									</h:commandLink>
+								</h:panelGroup>
+							</td>
+							<td class="forumlistcentered">${topicrow.replies}</td>
+							<td class="forumlistcentered">${topicrow.viewCount}</td>
+							<td class="forumlistlast"><h:commandLink action="viewTopic"
+									value="#{myForums.getLastPostSubject(topicrow.id)}">
+									<f:param name="p"
+										value="#{myForums.topicsLastPosts[topicrow.id].id}" />
+								</h:commandLink> <br /> ${resourcebundle.By} <h:panelGroup
+									rendered="#{userModule.guest}">
                     ${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}
                 </h:panelGroup> <h:panelGroup rendered="#{!userModule.guest}">
-										<h:commandLink action="viewProfile"
-											value="${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}">
-											<f:param name="uid"
-												value="#{myForums.topicsLastPosts[topicrow.id].poster.userId}" />
-										</h:commandLink>
-									</h:panelGroup> <br /> #{myForums.topicsLastPosts[topicrow.id].createDate}</td>
-								<td class="forumlistcentered">
-									<div class="actionbuttons">
-										<ul>
-											<li><h:commandLink id="deActivateWatch"
-													action="#{topicWatch.deActivateWatch}">
-													<f:param name="t" value="#{topicrow.id}" />
-													<img
-														src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
-														alt="${resourcebundle.Unsubscribe_from_topic}"
-														name="unSubscribe" border="0" id="unSubscribe" />
-												</h:commandLink></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</h:form>
-					</c:forEach>
-				</c:if>
+									<h:commandLink action="viewProfile"
+										value="${userModule.findUserById(myForums.topicsLastPosts[topicrow.id].poster.userId).userName}">
+										<f:param name="uid"
+											value="#{myForums.topicsLastPosts[topicrow.id].poster.userId}" />
+									</h:commandLink>
+								</h:panelGroup> <br /> #{myForums.topicsLastPosts[topicrow.id].createDate}</td>
+							<td class="forumlistcentered">
+								<div class="actionbuttons">
+									<ul>
+										<li><h:commandLink id="deActivateWatch"
+												action="#{topicWatch.deActivateWatch}">
+												<f:param name="t" value="#{topicrow.id}" />
+												<img
+													src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
+													alt="${resourcebundle.Unsubscribe_from_topic}"
+													name="unSubscribe" border="0" id="unSubscribe" />
+											</h:commandLink></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</h:form>
+				</c:forEach>
+			</c:if>
 
-				<c:if test="${fn:length(myForums.watchedTopics) eq 0}">
-					<tr>
-						<td class="nonewpostRow" colspan="6">${resourcebundle.NoNewPosts}
-						</td>
-					</tr>
-				</c:if>
-				<h:form>
-					<tr>
-						<td class="footerrow" colspan="6"><h:commandLink
-								action="myForumsAll" value="${resourcebundle.ViewAllSubscribed}" /></td>
-					</tr>
-					<tr>
-						<td class="spacerRow" colspan="6" />
-					</tr>
-				</h:form>
-			</table>
-
-			<table class="forumtablestyle">
-				<tr class="header">
-					<td class="forumheaderfirst" colspan="2">${resourcebundle.Subscribed_forums_info}</td>
-					<td class="forumheadercentered">#{resourcebundle.Topics}</td>
-					<td class="forumheadercentered">#{resourcebundle.Posts}</td>
-					<td class="forumheaderopen">#{resourcebundle.Last_Post}</td>
-					<td class="forumheadercentered">${resourcebundle.Delete}</td>
+			<c:if test="${fn:length(myForums.watchedTopics) eq 0}">
+				<tr>
+					<td class="nonewpostRow" colspan="6">${resourcebundle.NoNewPosts}
+					</td>
 				</tr>
+			</c:if>
+			<h:form>
+				<tr>
+					<td class="footerrow" colspan="6"><h:commandLink
+							action="myForumsAll" value="${resourcebundle.ViewAllSubscribed}" /></td>
+				</tr>
+				<tr>
+					<td class="spacerRow" colspan="6" />
+				</tr>
+			</h:form>
+		</table>
 
-				<c:forEach items="#{myForums.watchedForums}" var="forumrow">
-					<h:form id="notification_${forumrow.id}">
-						<forums:isAllowed fragment="acl://readForum"
-							contextData="#{forumrow}"
-							forumsACLProvider="#{forumsACLProvider}"
-							userModule="#{userModule}">
-							<tr>
-								<td class="forumlisticon"><img
-									src="#{myForums.forumImages[forumrow.id]}" width="11"
-									height="14"
-									alt="#{resourcebundle[myForums.forumImageDescriptions[forumrow.id]]}"
-									title="#{resourcebundle[myForums.forumImageDescriptions[forumrow.id]]}" />
-								</td>
-								<td>
-									<h3>
-										<h:commandLink action="viewForum" value="#{forumrow.name}">
-											<f:param name="f" value="#{forumrow.id}" />
+		<table class="forumtablestyle">
+			<tr class="header">
+				<td class="forumheaderfirst" colspan="2">${resourcebundle.Subscribed_forums_info}</td>
+				<td class="forumheadercentered">#{resourcebundle.Topics}</td>
+				<td class="forumheadercentered">#{resourcebundle.Posts}</td>
+				<td class="forumheaderopen">#{resourcebundle.Last_Post}</td>
+				<td class="forumheadercentered">${resourcebundle.Delete}</td>
+			</tr>
+
+			<c:forEach items="#{myForums.watchedForums}" var="forumrow">
+				<h:form id="notification_${forumrow.id}">
+					<forums:isAllowed fragment="acl://readForum"
+						contextData="#{forumrow}" forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
+						<tr>
+							<td class="forumlisticon"><img
+								src="#{myForums.forumImages[forumrow.id]}" width="11"
+								height="14"
+								alt="#{resourcebundle[myForums.forumImageDescriptions[forumrow.id]]}"
+								title="#{resourcebundle[myForums.forumImageDescriptions[forumrow.id]]}" />
+							</td>
+							<td>
+								<h3>
+									<h:commandLink action="viewForum" value="#{forumrow.name}">
+										<f:param name="f" value="#{forumrow.id}" />
+									</h:commandLink>
+								</h3> ${forumrow.description}
+							</td>
+							<td class="forumlistcentered">${forumrow.topicCount}</td>
+							<td class="forumlistcentered">${forumrow.postCount}</td>
+							<td class="forumlistlast"><c:choose>
+									<c:when test="#{myForums.forumsLastPosts[forumrow.id]!=null}">
+										<h:commandLink action="viewTopic"
+											value="#{myForums.getLastPostSubject(forumrow.id)}">
+											<f:param name="p"
+												value="#{myForums.forumsLastPosts[forumrow.id].id}" />
 										</h:commandLink>
-									</h3> ${forumrow.description}
-								</td>
-								<td class="forumlistcentered">${forumrow.topicCount}</td>
-								<td class="forumlistcentered">${forumrow.postCount}</td>
-								<td class="forumlistlast"><c:choose>
-										<c:when test="#{myForums.forumsLastPosts[forumrow.id]!=null}">
-											<h:commandLink action="viewTopic"
-												value="#{myForums.getLastPostSubject(forumrow.id)}">
-												<f:param name="p"
-													value="#{myForums.forumsLastPosts[forumrow.id].id}" />
-											</h:commandLink>
 
-											<br></br>
+										<br></br>
                     ${resourcebundle.By}&#160;
 
 												<h:panelGroup rendered="#{userModule.guest}">
                             ${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}
                         </h:panelGroup>
 
-											<h:panelGroup rendered="#{!userModule.guest}">
-												<h:commandLink action="viewProfile"
-													value="${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}">
-													<f:param name="uid"
-														value="#{myForums.forumsLastPosts[forumrow.id].poster.userId}" />
-												</h:commandLink>
-											</h:panelGroup>
+										<h:panelGroup rendered="#{!userModule.guest}">
+											<h:commandLink action="viewProfile"
+												value="${userModule.findUserById(myForums.forumsLastPosts[forumrow.id].poster.userId).userName}">
+												<f:param name="uid"
+													value="#{myForums.forumsLastPosts[forumrow.id].poster.userId}" />
+											</h:commandLink>
+										</h:panelGroup>
 
-											<br></br>
+										<br></br>
                     #{myForums.forumsLastPosts[forumrow.id].createDate}
                     
                 </c:when>
 
-										<c:otherwise>
+									<c:otherwise>
                     #{resourcebundle.No_Posts}
                 </c:otherwise>
 
-									</c:choose></td>
-								<td class="forumlistcentered">
-									<div class="actionbuttons">
-										<ul>
-											<li><h:commandLink
-													action="#{forumWatch.deActivateWatch}">
-													<f:param name="f" value="#{forumrow.id}" />
-													<img
-														src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
-														alt="${resourcebundle.Unsubscribe_from_forum}"
-														name="unSubscribe" border="0" id="unSubscribe" />
-												</h:commandLink></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</forums:isAllowed>
-					</h:form>
-				</c:forEach>
-
-				<h:form>
-					<tr>
-						<td class="footerrow" colspan="6"><h:commandLink
-								action="myForumsEdit"
-								value="${resourcebundle.EditAllSubscribed}" /></td>
-					</tr>
-					<tr>
-						<td class="spacerRow" colspan="6" />
-					</tr>
+								</c:choose></td>
+							<td class="forumlistcentered">
+								<div class="actionbuttons">
+									<ul>
+										<li><h:commandLink action="#{forumWatch.deActivateWatch}">
+												<f:param name="f" value="#{forumrow.id}" />
+												<img
+													src="#{themeHelper.getURL('resourceTopicModeDeleteURL')}"
+													alt="${resourcebundle.Unsubscribe_from_forum}"
+													name="unSubscribe" border="0" id="unSubscribe" />
+											</h:commandLink></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</forums:isAllowed>
 				</h:form>
+			</c:forEach>
 
-			</table>
+			<h:form>
+				<tr>
+					<td class="footerrow" colspan="6"><h:commandLink
+							action="myForumsEdit" value="${resourcebundle.EditAllSubscribed}" /></td>
+				</tr>
+				<tr>
+					<td class="spacerRow" colspan="6" />
+				</tr>
+			</h:form>
 
-			<div class="forumlegend">
-				<hr class="forumdashedHR" />
-				<ul>
-					<li><img src="${themeHelper.getURL('resourceForumNewURL')}"
-						alt="${resourcebundle.New_posts}" width="11" height="14" />
-						${resourcebundle.New_posts}</li>
-					<li><img src="${themeHelper.getURL('resourceForumURL')}"
-						alt="${resourcebundle.No_new_posts}" width="11" height="14" />
-						${resourcebundle.No_new_posts}</li>
-					<li><img src="${themeHelper.getURL('resourceForumLockedURL')}"
-						alt="${resourcebundle.Forum_is_locked}" width="11" height="14" />
-						${resourcebundle.Forum_is_locked}</li>
-				</ul>
-			</div>
+		</table>
 
-		</ui:define>
-	</ui:composition>
-</div>
+		<div class="forumlegend">
+			<hr class="forumdashedHR" />
+			<ul>
+				<li><img src="${themeHelper.getURL('resourceForumNewURL')}"
+					alt="${resourcebundle.New_posts}" width="11" height="14" />
+					${resourcebundle.New_posts}</li>
+				<li><img src="${themeHelper.getURL('resourceForumURL')}"
+					alt="${resourcebundle.No_new_posts}" width="11" height="14" />
+					${resourcebundle.No_new_posts}</li>
+				<li><img src="${themeHelper.getURL('resourceForumLockedURL')}"
+					alt="${resourcebundle.Forum_is_locked}" width="11" height="14" />
+					${resourcebundle.Forum_is_locked}</li>
+			</ul>
+		</div>
+
+	</ui:define>
+</ui:composition>

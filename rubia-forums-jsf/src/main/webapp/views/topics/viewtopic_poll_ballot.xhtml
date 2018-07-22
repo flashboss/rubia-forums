@@ -13,46 +13,47 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<td xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	colspan="2"><input type="hidden" name="t" value="#{t}" />
-	<table class="forumPollTable">
-		<tr>
-			<td colspan="2" class="questionCell">#{poll.title}</td>
-		</tr>
-
-		<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums">
+	<td colspan="2"><input type="hidden" name="t" value="#{t}" />
+		<table class="forumPollTable">
 			<tr>
-				<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-					<td class="radioCell"><input type="radio" name="vote"
-						value="#{(status.index)}" /></td>
-				</forums:isAllowed>
-				<td class="answerCell">#{optionrow.question}</td>
+				<td colspan="2" class="questionCell">#{poll.title}</td>
 			</tr>
-		</c:forEach>
 
-		<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+			<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
+				<tr>
+					<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+						forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
+						<td class="radioCell"><input type="radio" name="vote"
+							value="#{(status.index)}" /></td>
+					</forums:isAllowed>
+					<td class="answerCell">#{optionrow.question}</td>
+				</tr>
+			</c:forEach>
+
+			<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+				<tr>
+					<td class="buttonCell" colspan="2"><h:commandButton
+							action="#{pollController.vote}"
+							value="${resourcebundle.Submit_vote}" styleClass="buttonMed" /></td>
+				</tr>
+			</forums:isAllowed>
+
 			<tr>
-				<td class="buttonCell" colspan="2"><h:commandButton
-						action="#{pollController.vote}"
-						value="${resourcebundle.Submit_vote}" styleClass="buttonMed" /></td>
+				<td class="linkCell" colspan="2">
+					<!-- view results link --> <h:commandLink action="viewTopic"
+						value="${resourcebundle.View_results}">
+						<f:param name="t" value="${t}" />
+						<f:param name="results" value="1" />
+					</h:commandLink>
+				</td>
 			</tr>
-		</forums:isAllowed>
-
-		<tr>
-			<td class="linkCell" colspan="2">
-				<!-- view results link --> <h:commandLink action="viewTopic"
-					value="${resourcebundle.View_results}">
-					<f:param name="t" value="${t}" />
-					<f:param name="results" value="1" />
-				</h:commandLink>
-			</td>
-		</tr>
-	</table></td>
+		</table></td>
+</ui:composition>

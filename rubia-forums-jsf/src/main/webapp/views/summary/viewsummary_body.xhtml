@@ -14,51 +14,48 @@
  ******************************************************************************/
 -->
 
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
+		<h:form>
+			<div class="forumbread">
+				<ul>
+					<li class="first"><h:commandLink action="viewCategory"
+							value="#{shared.mainPageName}" /></li>
+				</ul>
+			</div>
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
-			<h:form>
-				<div class="forumbread">
-					<ul>
-						<li class="first"><h:commandLink action="viewCategory"
-								value="#{shared.mainPageName}" /></li>
-					</ul>
-				</div>
+			<table class="forumtablestyle">
 
-				<table class="forumtablestyle">
+				<!-- topic type -->
+				<tr class="header">
+					<td class="forumheaderfirst">
+						${resourcebundle[summary.blockTopicsType]}</td>
+				</tr>
 
-					<!-- topic type -->
-					<tr class="header">
-						<td class="forumheaderfirst">
-							${resourcebundle[summary.blockTopicsType]}</td>
+				<!-- a list of topics for the summary-->
+				<c:forEach items="#{summary.topics}" var="topicrow"
+					varStatus="status">
+					<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
+						<td class='${status.last?"bottomline":""}'><h:commandLink
+								action="viewTopic" value="#{topicrow.subject}"
+								id="_${status.index}">
+								<f:param name="t" value="#{topicrow.id}" />
+							</h:commandLink></td>
 					</tr>
+				</c:forEach>
 
-					<!-- a list of topics for the summary-->
-					<c:forEach items="#{summary.topics}" var="topicrow"
-						varStatus="status">
-						<tr class='${(status.index%2==0)?"evenRow":"oddRow"}'>
-							<td class='${status.last?"bottomline":""}'><h:commandLink
-									action="viewTopic" value="#{topicrow.subject}"
-									id="_${status.index}">
-									<f:param name="t" value="#{topicrow.id}" />
-								</h:commandLink></td>
-						</tr>
-					</c:forEach>
+			</table>
+		</h:form>
+		<!-- number of topics found in the summary -->
+		<br />
+		<span class="note">${summary.numberOfTopicsFound}&#160;${resourcebundle.L_TOPICS_FOUND}</span>
+		<hr />
 
-				</table>
-			</h:form>
-			<!-- number of topics found in the summary -->
-			<br />
-			<span class="note">${summary.numberOfTopicsFound}&#160;${resourcebundle.L_TOPICS_FOUND}</span>
-			<hr />
-
-		</ui:define>
-	</ui:composition>
-</div>
+	</ui:define>
+</ui:composition>

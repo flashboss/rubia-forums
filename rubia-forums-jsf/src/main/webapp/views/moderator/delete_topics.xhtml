@@ -13,102 +13,98 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
+		<forums:isAllowedChoose>
+			<forums:isAllowedWhen fragment="acl://moderateForum"
+				contextData="#{moderator.forum}"
+				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+				<c:choose>
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
-			<forums:isAllowedChoose>
-				<forums:isAllowedWhen fragment="acl://moderateForum"
-					contextData="#{moderator.forum}"
-					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-					<c:choose>
-
-						<c:when
-							test="#{moderator.anyCheckboxSelected and moderator.forum!=null and moderator.forum.id!=-1}">
-							<div class="dialog">
-								<table>
-									<tr>
-										<td class="icon"><img
-											src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
-											border="0" /></td>
-										<td class="title" width="100%">
-											${resourcebundle.Topic_delete_confirm}</td>
-									</tr>
-									<tr>
-										<td class="icon"></td>
-										<td>${resourcebundle.Confirm_delete_topic} <br /> <br />
-											${resourcebundle.Topics_to_deletion} <br /> <c:forEach
-												items="#{moderator.allSelectedTopics}" var="topicrow">
-                #{topicrow.subject}<br />
-											</c:forEach> <br />
-										</td>
-									</tr>
-									<tr>
-										<td class="buttons" colspan="2"><h:form>
-												<input type="hidden" name="f" value="#{moderator.forum.id}" />
-												<h:commandButton type="submit" value="${resourcebundle.Yes}"
-													styleClass="buttonMed" action="#{moderator.deleteTopic}">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-												<h:commandButton id="cancel" type="submit"
-													value="${resourcebundle.No}" styleClass="buttonMed">
-													<f:param name="f" value="#{moderator.forum.id}" />
-												</h:commandButton>
-											</h:form></td>
-									</tr>
-								</table>
-							</div>
-						</c:when>
-
-						<c:otherwise>
-							<table class="forumtablestyle">
+					<c:when
+						test="#{moderator.anyCheckboxSelected and moderator.forum!=null and moderator.forum.id!=-1}">
+						<div class="dialog">
+							<table>
 								<tr>
-									<td>
-										<table>
-											<tr>
-												<td>&#160;</td>
-											</tr>
-											<tr>
-												<td align="center">${resourcebundle.Not_Moderator}</td>
-											</tr>
-											<tr>
-												<td>&#160;</td>
-											</tr>
-										</table>
+									<td class="icon"><img
+										src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
+										border="0" /></td>
+									<td class="title" width="100%">
+										${resourcebundle.Topic_delete_confirm}</td>
+								</tr>
+								<tr>
+									<td class="icon"></td>
+									<td>${resourcebundle.Confirm_delete_topic} <br /> <br />
+										${resourcebundle.Topics_to_deletion} <br /> <c:forEach
+											items="#{moderator.allSelectedTopics}" var="topicrow">
+                #{topicrow.subject}<br />
+										</c:forEach> <br />
 									</td>
 								</tr>
+								<tr>
+									<td class="buttons" colspan="2"><h:form>
+											<input type="hidden" name="f" value="#{moderator.forum.id}" />
+											<h:commandButton type="submit" value="${resourcebundle.Yes}"
+												styleClass="buttonMed" action="#{moderator.deleteTopic}">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+											<h:commandButton id="cancel" type="submit"
+												value="${resourcebundle.No}" styleClass="buttonMed">
+												<f:param name="f" value="#{moderator.forum.id}" />
+											</h:commandButton>
+										</h:form></td>
+								</tr>
 							</table>
-						</c:otherwise>
+						</div>
+					</c:when>
 
-					</c:choose>
-				</forums:isAllowedWhen>
-				<forums:isAllowedOtherwise>
-					<table class="forumtablestyle">
-						<tr>
-							<td>
-								<table>
-									<tr>
-										<td>&#160;</td>
-									</tr>
-									<tr>
-										<td align="center">${resourcebundle.Not_Moderator}</td>
-									</tr>
-									<tr>
-										<td>&#160;</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</forums:isAllowedOtherwise>
-			</forums:isAllowedChoose>
-		</ui:define>
-	</ui:composition>
-</div>
+					<c:otherwise>
+						<table class="forumtablestyle">
+							<tr>
+								<td>
+									<table>
+										<tr>
+											<td>&#160;</td>
+										</tr>
+										<tr>
+											<td align="center">${resourcebundle.Not_Moderator}</td>
+										</tr>
+										<tr>
+											<td>&#160;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</c:otherwise>
+
+				</c:choose>
+			</forums:isAllowedWhen>
+			<forums:isAllowedOtherwise>
+				<table class="forumtablestyle">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+								<tr>
+									<td align="center">${resourcebundle.Not_Moderator}</td>
+								</tr>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</forums:isAllowedOtherwise>
+		</forums:isAllowedChoose>
+	</ui:define>
+</ui:composition>

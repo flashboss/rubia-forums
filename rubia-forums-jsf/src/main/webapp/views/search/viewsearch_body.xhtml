@@ -13,158 +13,150 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+		<h:form>
+			<div class="forumbread">
+				<ul>
+					<li class="first"><h:commandLink action="viewCategory"
+							value="#{shared.mainPageName}" /></li>
 
-			<h:form>
-				<div class="forumbread">
-					<ul>
-						<li class="first"><h:commandLink action="viewCategory"
-								value="#{shared.mainPageName}" /></li>
+				</ul>
+			</div>
+		</h:form>
+		<h:form>
+			<h:messages errorClass="failuretext" layout="table" />
+			<table class="forumtablestyle">
 
-					</ul>
-				</div>
-			</h:form>
-			<h:form>
-				<h:messages errorClass="failuretext" layout="table" />
-				<table class="forumtablestyle">
+				<tr class="header">
+					<td class="forumheaderfirst" colspan="2">${resourcebundle.Search}</td>
+				</tr>
 
-					<tr class="header">
-						<td class="forumheaderfirst" colspan="2">${resourcebundle.Search}</td>
-					</tr>
+				<tr class="oddRow">
+					<td class="rowlinefirst short-width"><strong>${resourcebundle.Search_keywords}</strong><br />
+						<span class="note">${resourcebundle.Search_keywords_note}</span></td>
+					<td class="rowline"><h:inputText
+							value="#{search.searchCriteria.keywords}" required="true"
+							styleClass="medium-width"></h:inputText></td>
+				</tr>
 
-					<tr class="oddRow">
-						<td class="rowlinefirst short-width"><strong>${resourcebundle.Search_keywords}</strong><br />
-							<span class="note">${resourcebundle.Search_keywords_note}</span>
-						</td>
-						<td class="rowline"><h:inputText
-								value="#{search.searchCriteria.keywords}" required="true"
-								styleClass="medium-width"></h:inputText></td>
-					</tr>
+				<tr class="evenRow">
+					<td class="rowlinefirst"><strong>${resourcebundle.Search_author}</strong><br />
+						<span class="note">${resourcebundle.Search_author_note}</span></td>
+					<td class="rowline"><span id=""></span> <h:inputText
+							value="#{search.searchCriteria.author}" styleClass="medium-width"></h:inputText></td>
+				</tr>
 
-					<tr class="evenRow">
-						<td class="rowlinefirst"><strong>${resourcebundle.Search_author}</strong><br />
-							<span class="note">${resourcebundle.Search_author_note}</span></td>
-						<td class="rowline"><span id=""></span> <h:inputText
-								value="#{search.searchCriteria.author}"
-								styleClass="medium-width"></h:inputText></td>
-					</tr>
+				<tr class="header">
+					<td class="forumheaderfirst" colspan="2">${resourcebundle.Search_advanced}</td>
+				</tr>
 
-					<tr class="header">
-						<td class="forumheaderfirst" colspan="2">${resourcebundle.Search_advanced}</td>
-					</tr>
+				<tr class="oddRow">
+					<td class="rowlinefirst">${resourcebundle.Search_category}</td>
 
-					<tr class="oddRow">
-						<td class="rowlinefirst">${resourcebundle.Search_category}</td>
+					<td class="rowline"><span id=""></span> <h:selectOneMenu
+							value="#{search.searchCriteria.category}">
+							<f:selectItems value="#{search.categoriesItems}"></f:selectItems>
+						</h:selectOneMenu></td>
+				</tr>
 
-						<td class="rowline"><span id=""></span> <h:selectOneMenu
-								value="#{search.searchCriteria.category}">
-								<f:selectItems value="#{search.categoriesItems}"></f:selectItems>
-							</h:selectOneMenu></td>
-					</tr>
+				<tr class="evenRow">
+					<td class="rowlinefirst">${resourcebundle.Search_forum}</td>
+					<td class="rowline"><h:selectOneMenu
+							value="#{search.searchCriteria.forum}">
+							<f:selectItems value="#{search.forumsItems}"></f:selectItems>
+						</h:selectOneMenu></td>
+				</tr>
 
-					<tr class="evenRow">
-						<td class="rowlinefirst">${resourcebundle.Search_forum}</td>
-						<td class="rowline"><h:selectOneMenu
-								value="#{search.searchCriteria.forum}">
-								<f:selectItems value="#{search.forumsItems}"></f:selectItems>
-							</h:selectOneMenu></td>
-					</tr>
+				<tr class="oddRow">
+					<td class="rowlinefirst">${resourcebundle.Search_time_period}<br />
+					</td>
 
-					<tr class="oddRow">
-						<td class="rowlinefirst">
-							${resourcebundle.Search_time_period}<br />
-						</td>
+					<td class="rowline"><h:selectOneMenu
+							value="#{search.searchCriteria.timePeriod}">
+							<f:selectItem itemValue="ALL"
+								itemLabel="#{resourcebundle.Search_all_posts}" />
+							<f:selectItem itemValue="DAY"
+								itemLabel="#{resourcebundle.Search_1_day}" />
+							<f:selectItem itemValue="SEVEN_DAYS"
+								itemLabel="#{resourcebundle.Search_7_days}" />
+							<f:selectItem itemValue="TWO_WEEKS"
+								itemLabel="#{resourcebundle.Search_2_weeks}" />
+							<f:selectItem itemValue="MONTH"
+								itemLabel="#{resourcebundle.Search_1_month}" />
+							<f:selectItem itemValue="THREE_MONTHS"
+								itemLabel="#{resourcebundle.Search_3_months}" />
+							<f:selectItem itemValue="SIX_MONTHS"
+								itemLabel="#{resourcebundle.Search_6_months}" />
+							<f:selectItem itemValue="YEAR"
+								itemLabel="#{resourcebundle.Search_1_year}" />
+						</h:selectOneMenu></td>
+				</tr>
 
-						<td class="rowline"><h:selectOneMenu
-								value="#{search.searchCriteria.timePeriod}">
-								<f:selectItem itemValue="ALL"
-									itemLabel="#{resourcebundle.Search_all_posts}" />
-								<f:selectItem itemValue="DAY"
-									itemLabel="#{resourcebundle.Search_1_day}" />
-								<f:selectItem itemValue="SEVEN_DAYS"
-									itemLabel="#{resourcebundle.Search_7_days}" />
-								<f:selectItem itemValue="TWO_WEEKS"
-									itemLabel="#{resourcebundle.Search_2_weeks}" />
-								<f:selectItem itemValue="MONTH"
-									itemLabel="#{resourcebundle.Search_1_month}" />
-								<f:selectItem itemValue="THREE_MONTHS"
-									itemLabel="#{resourcebundle.Search_3_months}" />
-								<f:selectItem itemValue="SIX_MONTHS"
-									itemLabel="#{resourcebundle.Search_6_months}" />
-								<f:selectItem itemValue="YEAR"
-									itemLabel="#{resourcebundle.Search_1_year}" />
-							</h:selectOneMenu></td>
-					</tr>
+				<tr class="evenRow">
+					<td class="rowlinefirst">${resourcebundle.Search_searching}</td>
+					<td class="rowline"><h:selectOneRadio
+							value="#{search.searchCriteria.searching}" required="true"
+							layout="pageDirection">
+							<f:selectItem itemValue="TITLE_MSG"
+								itemLabel="#{resourcebundle.Search_title_message}" />
+							<f:selectItem itemValue="MSG"
+								itemLabel="#{resourcebundle.Search_message}" />
+						</h:selectOneRadio></td>
+				</tr>
 
-					<tr class="evenRow">
-						<td class="rowlinefirst">${resourcebundle.Search_searching}</td>
-						<td class="rowline"><h:selectOneRadio
-								value="#{search.searchCriteria.searching}" required="true"
-								layout="pageDirection">
-								<f:selectItem itemValue="TITLE_MSG"
-									itemLabel="#{resourcebundle.Search_title_message}" />
-								<f:selectItem itemValue="MSG"
-									itemLabel="#{resourcebundle.Search_message}" />
-							</h:selectOneRadio></td>
-					</tr>
+				<tr class="evenRow">
+					<td class="rowlinefirst">${resourcebundle.Search_sort}</td>
+					<td class="rowline"><h:selectOneMenu
+							value="#{search.searchCriteria.sortBy}">
+							<f:selectItem itemValue="POST_TIME"
+								itemLabel="#{resourcebundle.Search_post_time}" />
+							<f:selectItem itemValue="POST_SUBJECT"
+								itemLabel="#{resourcebundle.Search_post_subject}" />
+							<f:selectItem itemValue="AUTHOR"
+								itemLabel="#{resourcebundle.Search_author}" />
+							<f:selectItem itemValue="FORUM"
+								itemLabel="#{resourcebundle.Search_forum}" />
+						</h:selectOneMenu><br /> <h:selectOneRadio
+							value="#{search.searchCriteria.sortOrder}" required="true"
+							layout="pageDirection">
+							<f:selectItem itemValue="ASC"
+								itemLabel="#{resourcebundle.Search_ascending}" />
+							<f:selectItem itemValue="DESC"
+								itemLabel="#{resourcebundle.Search_descending}" />
+						</h:selectOneRadio></td>
+				</tr>
 
-					<tr class="evenRow">
-						<td class="rowlinefirst">${resourcebundle.Search_sort}</td>
-						<td class="rowline"><h:selectOneMenu
-								value="#{search.searchCriteria.sortBy}">
-								<f:selectItem itemValue="POST_TIME"
-									itemLabel="#{resourcebundle.Search_post_time}" />
-								<f:selectItem itemValue="POST_SUBJECT"
-									itemLabel="#{resourcebundle.Search_post_subject}" />
-								<f:selectItem itemValue="AUTHOR"
-									itemLabel="#{resourcebundle.Search_author}" />
-								<f:selectItem itemValue="FORUM"
-									itemLabel="#{resourcebundle.Search_forum}" />
-							</h:selectOneMenu><br /> <h:selectOneRadio
-								value="#{search.searchCriteria.sortOrder}" required="true"
-								layout="pageDirection">
-								<f:selectItem itemValue="ASC"
-									itemLabel="#{resourcebundle.Search_ascending}" />
-								<f:selectItem itemValue="DESC"
-									itemLabel="#{resourcebundle.Search_descending}" />
-							</h:selectOneRadio></td>
-					</tr>
+				<tr class="evenRow">
+					<td class="rowlinefirst">${resourcebundle.Search_display_as}</td>
+					<td class="rowline"><h:selectOneRadio
+							value="#{search.searchCriteria.displayAs}" required="true"
+							layout="pageDirection">
+							<f:selectItem itemValue="POSTS"
+								itemLabel="#{resourcebundle.Search_display_as_posts}" />
+							<f:selectItem itemValue="TOPICS"
+								itemLabel="#{resourcebundle.Search_display_as_topics}" />
+						</h:selectOneRadio></td>
+				</tr>
 
-					<tr class="evenRow">
-						<td class="rowlinefirst">${resourcebundle.Search_display_as}</td>
-						<td class="rowline"><h:selectOneRadio
-								value="#{search.searchCriteria.displayAs}" required="true"
-								layout="pageDirection">
-								<f:selectItem itemValue="POSTS"
-									itemLabel="#{resourcebundle.Search_display_as_posts}" />
-								<f:selectItem itemValue="TOPICS"
-									itemLabel="#{resourcebundle.Search_display_as_topics}" />
-							</h:selectOneRadio></td>
-					</tr>
+				<tr>
+					<td class="forumformbuttonrow no-border" colspan="2"><h:commandButton
+							type="submit" action="#{search.search}"
+							value="#{resourcebundle.Search_search}" styleClass="buttonMed"></h:commandButton>
+						<h:commandButton type="reset"
+							value="#{resourcebundle.Search_reset}" styleClass="buttonMed"></h:commandButton>
+					</td>
+				</tr>
 
-					<tr>
-						<td class="forumformbuttonrow no-border" colspan="2"><h:commandButton
-								type="submit" action="#{search.search}"
-								value="#{resourcebundle.Search_search}" styleClass="buttonMed"></h:commandButton>
-							<h:commandButton type="reset"
-								value="#{resourcebundle.Search_reset}" styleClass="buttonMed"></h:commandButton>
-						</td>
-					</tr>
+			</table>
+		</h:form>
 
-				</table>
-			</h:form>
-
-		</ui:define>
-	</ui:composition>
-
-</div>
+	</ui:define>
+</ui:composition>

@@ -13,46 +13,41 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
-
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
-			<div class="dialog">
-				<table>
-					<tr>
-						<td class="icon"><img
-							src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
-							border="0" /></td>
-						<td class="title" width="100%">${resourcebundle.Delete_post}
-						</td>
-					</tr>
-					<tr>
-						<td class="icon"></td>
-						<td><h:outputFormat
-								value="#{resourcebundle.Post_deletion_info}">
-								<f:param value="${deletePost.post.message.subject}" />
-							</h:outputFormat> <br /> ${resourcebundle.Confirm_delete}</td>
-					</tr>
-					<tr>
-						<td class="buttons" colspan="2"><h:form>
-								<input type="hidden" name="t" value="#{param['t']}" />
-								<input type="hidden" name="f" value="#{param['f']}" />
-								<h:inputHidden value="#{deletePost.postId}" />
-								<h:commandButton type="submit" value="${resourcebundle.Yes}"
-									styleClass="buttonMed" action="#{deletePost.confirmDelete}" />
-								<h:commandButton id="cancel" type="submit"
-									value="${resourcebundle.No}" styleClass="buttonMed" />
-							</h:form></td>
-					</tr>
-				</table>
-			</div>
-		</ui:define>
-	</ui:composition>
-</div>
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
+		<div class="dialog">
+			<table>
+				<tr>
+					<td class="icon"><img
+						src="#{themeHelper.getURL('resourceIconDialogWarningURL')}"
+						border="0" /></td>
+					<td class="title" width="100%">${resourcebundle.Delete_post}</td>
+				</tr>
+				<tr>
+					<td class="icon"></td>
+					<td><h:outputFormat
+							value="#{resourcebundle.Post_deletion_info}">
+							<f:param value="${deletePost.post.message.subject}" />
+						</h:outputFormat> <br /> ${resourcebundle.Confirm_delete}</td>
+				</tr>
+				<tr>
+					<td class="buttons" colspan="2"><h:form>
+							<input type="hidden" name="t" value="#{param['t']}" />
+							<input type="hidden" name="f" value="#{param['f']}" />
+							<h:inputHidden value="#{deletePost.postId}" />
+							<h:commandButton type="submit" value="${resourcebundle.Yes}"
+								styleClass="buttonMed" action="#{deletePost.confirmDelete}" />
+							<h:commandButton id="cancel" type="submit"
+								value="${resourcebundle.No}" styleClass="buttonMed" />
+						</h:form></td>
+				</tr>
+			</table>
+		</div>
+	</ui:define>
+</ui:composition>

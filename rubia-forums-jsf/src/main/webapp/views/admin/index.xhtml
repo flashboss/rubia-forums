@@ -13,441 +13,434 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+		<!-- Forum admin tool title and usability explanation and feedback messages -->
+		<div class="forumtitletext">
+			<h4>${resourcebundle.Forum_admin}</h4>
+			<p>${resourcebundle.Forum_admin_explain}</p>
+			<p class="successtext">#{forums:message('feedback')}</p>
+		</div>
 
-			<!-- Forum admin tool title and usability explanation and feedback messages -->
-			<div class="forumtitletext">
-				<h4>${resourcebundle.Forum_admin}</h4>
-				<p>${resourcebundle.Forum_admin_explain}</p>
-				<p class="successtext">#{forums:message('feedback')}</p>
-			</div>
+		<!-- Add new category button -->
+		<forums:isAllowed fragment="acl://addCategory"
+			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+			<h:form>
+				<input type="hidden" name="addCategory" value="true" />
+				<div class="actionbuttons">
+					<ul>
+						<li><h:commandLink>
+								<img src="${themeHelper.getURL('resourceAdminNewCategoryURL')}"
+									alt="${resourcebundle.Create_category}" name="newCategory"
+									border="0" />
+							</h:commandLink></li>
+					</ul>
+				</div>
+			</h:form>
+		</forums:isAllowed>
 
-			<!-- Add new category button -->
-			<forums:isAllowed fragment="acl://addCategory"
-				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-				<h:form>
-					<input type="hidden" name="addCategory" value="true" />
-					<div class="actionbuttons">
-						<ul>
-							<li><h:commandLink>
-									<img src="${themeHelper.getURL('resourceAdminNewCategoryURL')}"
-										alt="${resourcebundle.Create_category}" name="newCategory"
-										border="0" />
-								</h:commandLink></li>
-						</ul>
-					</div>
-				</h:form>
-			</forums:isAllowed>
+		<table class="forumtablestyle">
 
-			<table class="forumtablestyle">
+			<!-- Table header -->
+			<tr class="header">
+				<td class="forumheaderfirst">${resourcebundle.Forum_admin}</td>
+				<td class="forumheaderlast">${Admin_actions}</td>
+			</tr>
 
-				<!-- Table header -->
-				<tr class="header">
-					<td class="forumheaderfirst">${resourcebundle.Forum_admin}</td>
-					<td class="forumheaderlast">${Admin_actions}</td>
-				</tr>
+			<!-- display a list of categories -->
+			<c:forEach items="#{adminPanel.categories}" var="category"
+				varStatus="categoryIdx">
+				<forums:isAllowed fragment="acl://viewCategory"
+					contextData="#{category}" forumsACLProvider="#{forumsACLProvider}"
+					userModule="#{userModule}">
 
-				<!-- display a list of categories -->
-				<c:forEach items="#{adminPanel.categories}" var="category"
-					varStatus="categoryIdx">
-					<forums:isAllowed fragment="acl://viewCategory"
-						contextData="#{category}" forumsACLProvider="#{forumsACLProvider}"
-						userModule="#{userModule}">
+					<f:subview>
 
-						<f:subview>
+						<c:choose>
 
-							<c:choose>
-
-								<c:when
-									test="${ ( (adminController.editCategoryMode and forums:message('feedback') eq null) 
+							<c:when
+								test="${ ( (adminController.editCategoryMode and forums:message('feedback') eq null) 
                                and (adminController.selectedCategory eq category.id)                         )
                              or 
                              ( category.title eq null                           )
                            }">
-									<tr class="editRow">
-										<td><h:form id="form_${category.id}">
-												<input type="hidden" name="c" value="#{category.id}" />
-												<input type="hidden" name="editCategory" value="true" />
-												<label for="categoryname" class="categorylabel">${resourcebundle.Category_name}:</label>
-												<h:inputText id="Category" required="true"
-													value="#{adminController.categoryName}" />
-												<h:message for="Category" styleClass="inlinefailure" />
-												<h:commandButton id="editinline"
-													value="${resourcebundle.Update}" styleClass="buttonMed"
-													action="#{adminController.editCategory }" />
-											</h:form></td>
-										<td class="forumlistlast">&#160;</td>
-									</tr>
-								</c:when>
+								<tr class="editRow">
+									<td><h:form id="form_${category.id}">
+											<input type="hidden" name="c" value="#{category.id}" />
+											<input type="hidden" name="editCategory" value="true" />
+											<label for="categoryname" class="categorylabel">${resourcebundle.Category_name}:</label>
+											<h:inputText id="Category" required="true"
+												value="#{adminController.categoryName}" />
+											<h:message for="Category" styleClass="inlinefailure" />
+											<h:commandButton id="editinline"
+												value="${resourcebundle.Update}" styleClass="buttonMed"
+												action="#{adminController.editCategory }" />
+										</h:form></td>
+									<td class="forumlistlast">&#160;</td>
+								</tr>
+							</c:when>
 
-								<c:otherwise>
-									<tr class="oddRow">
-										<td>
-											<!-- create new forum button --> <forums:isAllowed
-												fragment="acl://addForum"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<h:form>
-													<input type="hidden" name="c" value="#{category.id}" />
-													<input type="hidden" name="addForum" value="true" />
-													<div class="forumfloatright actionbuttons">
-														<h:commandLink>
-															<img
-																src="${themeHelper.getURL('resourceAdminNewForumURL')}"
-																alt="${resourcebundle.Create_forum}" border="0" />
-														</h:commandLink>
-													</div>
-												</h:form>
-											</forums:isAllowed> <strong>${category.title}</strong> <forums:isAllowed
-												fragment="acl://editCategory" contextData="#{category}"
-												forumsACLProvider="#{forumsACLProvider}"
-												userModule="#{userModule}">
-												<h:form>
-													<input type="hidden" name="c" value="#{category.id}" />
+							<c:otherwise>
+								<tr class="oddRow">
+									<td>
+										<!-- create new forum button --> <forums:isAllowed
+											fragment="acl://addForum"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<h:form>
+												<input type="hidden" name="c" value="#{category.id}" />
+												<input type="hidden" name="addForum" value="true" />
+												<div class="forumfloatright actionbuttons">
+													<h:commandLink>
+														<img
+															src="${themeHelper.getURL('resourceAdminNewForumURL')}"
+															alt="${resourcebundle.Create_forum}" border="0" />
+													</h:commandLink>
+												</div>
+											</h:form>
+										</forums:isAllowed> <strong>${category.title}</strong> <forums:isAllowed
+											fragment="acl://editCategory" contextData="#{category}"
+											forumsACLProvider="#{forumsACLProvider}"
+											userModule="#{userModule}">
+											<h:form>
+												<input type="hidden" name="c" value="#{category.id}" />
                             &#160;(&#160;
                             <h:commandLink>
-														<f:param name="editCategory" value="true" />
-														<h:outputText value="${resourcebundle.Edit_Category}" />
-													</h:commandLink>
+													<f:param name="editCategory" value="true" />
+													<h:outputText value="${resourcebundle.Edit_Category}" />
+												</h:commandLink>
                             )
                         </h:form>
-											</forums:isAllowed>
+										</forums:isAllowed>
 
-										</td>
-										<td class="forumlistlast actionbuttons"><h:form>
-												<input type="hidden" name="c" value="#{category.id}" />
-												<ul>
-													<li><c:choose>
+									</td>
+									<td class="forumlistlast actionbuttons"><h:form>
+											<input type="hidden" name="c" value="#{category.id}" />
+											<ul>
+												<li><c:choose>
 
-															<c:when test="${categoryIdx.index eq 0}">
+														<c:when test="${categoryIdx.index eq 0}">
+															<img
+																src="${themeHelper.getURL('resourceAdminArrowUpDisaURL')}"
+																alt="${resourcebundle.Move_up}" name="arrowup"
+																border="0" />
+														</c:when>
+
+														<c:otherwise>
+															<h:commandLink action="#{adminController.moveCategoryUp}">
 																<img
-																	src="${themeHelper.getURL('resourceAdminArrowUpDisaURL')}"
+																	src="${themeHelper.getURL('resourceAdminArrowUpURL')}"
 																	alt="${resourcebundle.Move_up}" name="arrowup"
 																	border="0" />
-															</c:when>
+															</h:commandLink>
+														</c:otherwise>
 
-															<c:otherwise>
-																<h:commandLink
-																	action="#{adminController.moveCategoryUp}">
-																	<img
-																		src="${themeHelper.getURL('resourceAdminArrowUpURL')}"
-																		alt="${resourcebundle.Move_up}" name="arrowup"
-																		border="0" />
-																</h:commandLink>
-															</c:otherwise>
+													</c:choose></li>
 
-														</c:choose></li>
+												<li><c:choose>
 
-													<li><c:choose>
+														<c:when
+															test="${categoryIdx.index eq fn:length(adminPanel.categories)-1}">
+															<img
+																src="${themeHelper.getURL('resourceAdminArrowDownDisaURL')}"
+																alt="${resourcebundle.Move_down}" name="arrowdown"
+																border="0" />
+														</c:when>
 
-															<c:when
-																test="${categoryIdx.index eq fn:length(adminPanel.categories)-1}">
+														<c:otherwise>
+															<h:commandLink
+																action="#{adminController.moveCategoryDown}">
 																<img
-																	src="${themeHelper.getURL('resourceAdminArrowDownDisaURL')}"
+																	src="${themeHelper.getURL('resourceAdminArrowDownURL')}"
 																	alt="${resourcebundle.Move_down}" name="arrowdown"
 																	border="0" />
-															</c:when>
+															</h:commandLink>
+														</c:otherwise>
 
-															<c:otherwise>
-																<h:commandLink
-																	action="#{adminController.moveCategoryDown}">
-																	<img
-																		src="${themeHelper.getURL('resourceAdminArrowDownURL')}"
-																		alt="${resourcebundle.Move_down}" name="arrowdown"
-																		border="0" />
-																</h:commandLink>
-															</c:otherwise>
+													</c:choose></li>
 
-														</c:choose></li>
+												<li><forums:isAllowedChoose>
 
-													<li><forums:isAllowedChoose>
-
-															<forums:isAllowedWhen fragment="acl://deleteCategory"
-																contextData="#{category}"
-																forumsACLProvider="#{forumsACLProvider}"
-																userModule="#{userModule}">
-																<h:commandLink action="deleteCategory">
-																	<f:param name="c" value="#{category.id}" />
-																	<img
-																		src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
-																		alt="${resourcebundle.Delete}" name="delete"
-																		border="0" />
-																</h:commandLink>
-															</forums:isAllowedWhen>
-
-															<forums:isAllowedOtherwise>
+														<forums:isAllowedWhen fragment="acl://deleteCategory"
+															contextData="#{category}"
+															forumsACLProvider="#{forumsACLProvider}"
+															userModule="#{userModule}">
+															<h:commandLink action="deleteCategory">
+																<f:param name="c" value="#{category.id}" />
 																<img
-																	src="${themeHelper.getURL('resourceTopicModeDeleteDisaURL')}"
+																	src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
 																	alt="${resourcebundle.Delete}" name="delete" border="0" />
-															</forums:isAllowedOtherwise>
+															</h:commandLink>
+														</forums:isAllowedWhen>
 
-														</forums:isAllowedChoose></li>
+														<forums:isAllowedOtherwise>
+															<img
+																src="${themeHelper.getURL('resourceTopicModeDeleteDisaURL')}"
+																alt="${resourcebundle.Delete}" name="delete" border="0" />
+														</forums:isAllowedOtherwise>
 
-												</ul>
-											</h:form></td>
-									</tr>
-								</c:otherwise>
+													</forums:isAllowedChoose></li>
 
-							</c:choose>
+											</ul>
+										</h:form></td>
+								</tr>
+							</c:otherwise>
 
-						</f:subview>
+						</c:choose>
 
-						<!-- display the forums in this category -->
-						<c:forEach items="#{category.forums}" var="forum"
-							varStatus="forumIdx">
-							<forums:isAllowed fragment="acl://viewForum"
-								contextData="#{forum}" forumsACLProvider="#{forumsACLProvider}"
-								userModule="#{userModule}">
+					</f:subview>
 
-								<f:subview>
+					<!-- display the forums in this category -->
+					<c:forEach items="#{category.forums}" var="forum"
+						varStatus="forumIdx">
+						<forums:isAllowed fragment="acl://viewForum"
+							contextData="#{forum}" forumsACLProvider="#{forumsACLProvider}"
+							userModule="#{userModule}">
 
-									<c:choose>
+							<f:subview>
 
-										<c:when
-											test="${( (adminController.editForumMode and forums:message('feedback') eq null)
+								<c:choose>
+
+									<c:when
+										test="${( (adminController.editForumMode and forums:message('feedback') eq null)
                                and adminController.selectedForum eq forum.id                              )
                             or ( forum.name eq null                         )}">
-											<tr class="editRow">
-												<td class="Indent"><h:form id="forumForm_${forum.id}"
-														styleClass="create-forum">
-														<input type="hidden" name="c" value="#{category.id}" />
-														<input type="hidden" name="editForum" value="true" />
-														<input type="hidden" name="f" value="#{forum.id}" />
-														<label for="forumname">${resourcebundle.Forum_name}:</label>
-														<h:inputText id="Forum" required="true"
-															value="#{adminController.forumName}" />
-														<h:message for="Forum" styleClass="inlinefailure" />
-														<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
-														<h:inputTextarea rows="5"
-															value="#{adminController.forumDescription}" />
-														<label for="forumcategory">${resourcebundle.Forum_category}:</label>
-														<h:selectOneMenu
-															value="#{adminController.selectedCategory}">
-															<c:forEach items="#{adminPanel.categories}" var="cat">
-																<f:selectItem itemValue="#{cat.id}"
-																	itemLabel="#{cat.title}" />
-															</c:forEach>
-														</h:selectOneMenu>
-														<h:commandButton id="adminbutton"
-															value="${resourcebundle.Update}" styleClass="buttonMed"
-															action="#{adminController.editForum}" />
-													</h:form></td>
-												<td class="forumlistlast">&#160;</td>
-											</tr>
-										</c:when>
+										<tr class="editRow">
+											<td class="Indent"><h:form id="forumForm_${forum.id}"
+													styleClass="create-forum">
+													<input type="hidden" name="c" value="#{category.id}" />
+													<input type="hidden" name="editForum" value="true" />
+													<input type="hidden" name="f" value="#{forum.id}" />
+													<label for="forumname">${resourcebundle.Forum_name}:</label>
+													<h:inputText id="Forum" required="true"
+														value="#{adminController.forumName}" />
+													<h:message for="Forum" styleClass="inlinefailure" />
+													<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
+													<h:inputTextarea rows="5"
+														value="#{adminController.forumDescription}" />
+													<label for="forumcategory">${resourcebundle.Forum_category}:</label>
+													<h:selectOneMenu
+														value="#{adminController.selectedCategory}">
+														<c:forEach items="#{adminPanel.categories}" var="cat">
+															<f:selectItem itemValue="#{cat.id}"
+																itemLabel="#{cat.title}" />
+														</c:forEach>
+													</h:selectOneMenu>
+													<h:commandButton id="adminbutton"
+														value="${resourcebundle.Update}" styleClass="buttonMed"
+														action="#{adminController.editForum}" />
+												</h:form></td>
+											<td class="forumlistlast">&#160;</td>
+										</tr>
+									</c:when>
 
-										<c:otherwise>
-											<tr class="evenRow">
-												<td class="Indent"><strong>${forum.name}</strong> <forums:isAllowed
-														fragment="acl://editForum" contextData="#{forum}"
-														forumsACLProvider="#{forumsACLProvider}"
-														userModule="#{userModule}">
-														<h:form>
-															<input type="hidden" name="f" value="#{forum.id}" />
+									<c:otherwise>
+										<tr class="evenRow">
+											<td class="Indent"><strong>${forum.name}</strong> <forums:isAllowed
+													fragment="acl://editForum" contextData="#{forum}"
+													forumsACLProvider="#{forumsACLProvider}"
+													userModule="#{userModule}">
+													<h:form>
+														<input type="hidden" name="f" value="#{forum.id}" />
                             &#160;(&#160;
                             <h:commandLink>
-																<f:param name="editForum" value="true" />
-																<h:outputText value="${resourcebundle.Edit_forum}" />
-															</h:commandLink>
+															<f:param name="editForum" value="true" />
+															<h:outputText value="${resourcebundle.Edit_forum}" />
+														</h:commandLink>
                             )
                         </h:form>
-													</forums:isAllowed> ${forum.description}</td>
-												<td class="forumlistlast actionbuttons"><h:form>
-														<input type="hidden" name="f" value="#{forum.id}" />
-														<ul>
-															<li><c:choose>
+												</forums:isAllowed> ${forum.description}</td>
+											<td class="forumlistlast actionbuttons"><h:form>
+													<input type="hidden" name="f" value="#{forum.id}" />
+													<ul>
+														<li><c:choose>
 
-																	<c:when test="${forumIdx.index eq 0}">
+																<c:when test="${forumIdx.index eq 0}">
+																	<img
+																		src="${themeHelper.getURL('resourceAdminArrowUpDisaURL')}"
+																		alt="${resourcebundle.Move_up}" name="arrowup"
+																		border="0" />
+																</c:when>
+
+																<c:otherwise>
+																	<h:commandLink action="#{adminController.moveForumUp}">
 																		<img
-																			src="${themeHelper.getURL('resourceAdminArrowUpDisaURL')}"
+																			src="${themeHelper.getURL('resourceAdminArrowUpURL')}"
 																			alt="${resourcebundle.Move_up}" name="arrowup"
 																			border="0" />
-																	</c:when>
+																	</h:commandLink>
+																</c:otherwise>
 
-																	<c:otherwise>
-																		<h:commandLink action="#{adminController.moveForumUp}">
-																			<img
-																				src="${themeHelper.getURL('resourceAdminArrowUpURL')}"
-																				alt="${resourcebundle.Move_up}" name="arrowup"
-																				border="0" />
-																		</h:commandLink>
-																	</c:otherwise>
+															</c:choose></li>
 
-																</c:choose></li>
+														<li><c:choose>
 
+																<c:when
+																	test="${forumIdx.index eq fn:length(category.forums)-1}">
+																	<img
+																		src="${themeHelper.getURL('resourceAdminArrowDownDisaURL')}"
+																		alt="${resourcebundle.Move_down}" name="arrowdown"
+																		border="0" />
+																</c:when>
+
+																<c:otherwise>
+																	<h:commandLink
+																		action="#{adminController.moveForumDown}">
+																		<img
+																			src="${themeHelper.getURL('resourceAdminArrowDownURL')}"
+																			alt="${resourcebundle.Move_down}" name="arrowdown"
+																			border="0" />
+																	</h:commandLink>
+																</c:otherwise>
+
+															</c:choose></li>
+
+														<li><forums:isAllowedChoose>
+
+																<forums:isAllowedWhen fragment="acl://deleteForum"
+																	contextData="#{forum}"
+																	forumsACLProvider="#{forumsACLProvider}"
+																	userModule="#{userModule}">
+																	<h:commandLink action="deleteForum">
+																		<f:param name="f" value="#{forum.id}" />
+																		<img
+																			src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
+																			alt="${resourcebundle.Delete}" name="delete"
+																			border="0" />
+																	</h:commandLink>
+																</forums:isAllowedWhen>
+
+																<forums:isAllowedOtherwise>
+																	<img
+																		src="${themeHelper.getURL('resourceTopicModeDeleteDisaURL')}"
+																		alt="${resourcebundle.Delete}" name="delete"
+																		border="0" />
+																</forums:isAllowedOtherwise>
+
+															</forums:isAllowedChoose></li>
+
+														<forums:isAllowed fragment="acl://lockForums"
+															contextData="#{forum}"
+															forumsACLProvider="#{forumsACLProvider}"
+															userModule="#{userModule}">
 															<li><c:choose>
 
 																	<c:when
-																		test="${forumIdx.index eq fn:length(category.forums)-1}">
-																		<img
-																			src="${themeHelper.getURL('resourceAdminArrowDownDisaURL')}"
-																			alt="${resourcebundle.Move_down}" name="arrowdown"
-																			border="0" />
+																		test="#{adminController.isLocked(forum.status)}">
+																		<h:commandLink action="#{adminController.unlockForum}">
+																			<f:param name="f" value="#{forum.id}" />
+																			<f:param name="c" value="#{category.id}" />
+																			<img
+																				src="${themeHelper.getURL('resourceIconUnlockURL')}"
+																				alt="${resourcebundle.Forum_unlock}" border="0" />
+																		</h:commandLink>
 																	</c:when>
 
 																	<c:otherwise>
-																		<h:commandLink
-																			action="#{adminController.moveForumDown}">
+																		<h:commandLink action="#{adminController.lockForum}">
+																			<f:param name="f" value="#{forum.id}" />
+																			<f:param name="c" value="#{category.id}" />
 																			<img
-																				src="${themeHelper.getURL('resourceAdminArrowDownURL')}"
-																				alt="${resourcebundle.Move_down}" name="arrowdown"
-																				border="0" />
+																				src="${themeHelper.getURL('resourceIconLockURL')}"
+																				alt="${resourcebundle.Forum_lock}" border="0" />
 																		</h:commandLink>
 																	</c:otherwise>
 
 																</c:choose></li>
+														</forums:isAllowed>
 
-															<li><forums:isAllowedChoose>
+													</ul>
+												</h:form></td>
+										</tr>
+									</c:otherwise>
 
-																	<forums:isAllowedWhen fragment="acl://deleteForum"
-																		contextData="#{forum}"
-																		forumsACLProvider="#{forumsACLProvider}"
-																		userModule="#{userModule}">
-																		<h:commandLink action="deleteForum">
-																			<f:param name="f" value="#{forum.id}" />
-																			<img
-																				src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
-																				alt="${resourcebundle.Delete}" name="delete"
-																				border="0" />
-																		</h:commandLink>
-																	</forums:isAllowedWhen>
+								</c:choose>
 
-																	<forums:isAllowedOtherwise>
-																		<img
-																			src="${themeHelper.getURL('resourceTopicModeDeleteDisaURL')}"
-																			alt="${resourcebundle.Delete}" name="delete"
-																			border="0" />
-																	</forums:isAllowedOtherwise>
+							</f:subview>
 
-																</forums:isAllowedChoose></li>
+						</forums:isAllowed>
+					</c:forEach>
 
-															<forums:isAllowed fragment="acl://lockForums"
-																contextData="#{forum}"
-																forumsACLProvider="#{forumsACLProvider}"
-																userModule="#{userModule}">
-																<li><c:choose>
-
-																		<c:when
-																			test="#{adminController.isLocked(forum.status)}">
-																			<h:commandLink
-																				action="#{adminController.unlockForum}">
-																				<f:param name="f" value="#{forum.id}" />
-																				<f:param name="c" value="#{category.id}" />
-																				<img
-																					src="${themeHelper.getURL('resourceIconUnlockURL')}"
-																					alt="${resourcebundle.Forum_unlock}" border="0" />
-																			</h:commandLink>
-																		</c:when>
-
-																		<c:otherwise>
-																			<h:commandLink action="#{adminController.lockForum}">
-																				<f:param name="f" value="#{forum.id}" />
-																				<f:param name="c" value="#{category.id}" />
-																				<img
-																					src="${themeHelper.getURL('resourceIconLockURL')}"
-																					alt="${resourcebundle.Forum_lock}" border="0" />
-																			</h:commandLink>
-																		</c:otherwise>
-
-																	</c:choose></li>
-															</forums:isAllowed>
-
-														</ul>
-													</h:form></td>
-											</tr>
-										</c:otherwise>
-
-									</c:choose>
-
-								</f:subview>
-
-							</forums:isAllowed>
-						</c:forEach>
-
-						<!-- Add forum form -->
-						<c:if
-							test="${ adminController.addForumMode
+					<!-- Add forum form -->
+					<c:if
+						test="${ adminController.addForumMode
                        and (adminController.selectedCategory eq category.id)
                        and forums:message('feedback') eq null }">
 
-							<tr class="editRow">
-								<td class="Indent"><h:form styleClass="create-forum">
-										<input type="hidden" name="c" value="#{category.id}" />
-										<input type="hidden" name="addForum" value="true" />
-										<label for="forumname">${resourcebundle.Forum_name}:</label>
-										<h:inputText id="Forum" required="true"
-											value="#{adminController.forumName}" />
-										<h:message for="Forum" styleClass="inlinefailure" />
-										<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
-										<h:inputTextarea rows="5"
-											value="#{adminController.forumDescription}" />
-										<label for="forumcategory">${resourcebundle.Forum_category}:</label>
-										<h:selectOneMenu value="#{adminController.selectedCategory}">
-											<c:forEach items="#{adminPanel.categories}" var="cat">
-												<f:selectItem itemValue="#{cat.id}" itemLabel="#{cat.title}" />
-											</c:forEach>
-										</h:selectOneMenu>
-										<h:commandButton id="adminbutton"
-											value="${resourcebundle.Create}" styleClass="buttonMed"
-											action="#{adminController.addForum}" />
-									</h:form></td>
-								<td class="forumlistlast">&#160;</td>
-							</tr>
-
-						</c:if>
-
-					</forums:isAllowed>
-				</c:forEach>
-
-				<!-- Add category form -->
-				<c:if
-					test="${adminController.addCategoryMode and forums:message('feedback') eq null}">
-					<h:form id="addCategoryForm">
-
 						<tr class="editRow">
-							<td><input type="hidden" name="addCategory" value="true" />
-								<label for="categoryname" class="categorylabel">${resourcebundle.Category_name}:</label>
-								<h:inputText id="Category" required="true"
-									value="#{adminController.categoryName}" /> <h:message
-									for="Category" styleClass="inlinefailure" /> <h:commandButton
-									id="editinline" value="${resourcebundle.Create}"
-									styleClass="buttonMed" action="#{adminController.addCategory}" />
-							</td>
+							<td class="Indent"><h:form styleClass="create-forum">
+									<input type="hidden" name="c" value="#{category.id}" />
+									<input type="hidden" name="addForum" value="true" />
+									<label for="forumname">${resourcebundle.Forum_name}:</label>
+									<h:inputText id="Forum" required="true"
+										value="#{adminController.forumName}" />
+									<h:message for="Forum" styleClass="inlinefailure" />
+									<label for="forumdescription">${resourcebundle.Forum_desc}:</label>
+									<h:inputTextarea rows="5"
+										value="#{adminController.forumDescription}" />
+									<label for="forumcategory">${resourcebundle.Forum_category}:</label>
+									<h:selectOneMenu value="#{adminController.selectedCategory}">
+										<c:forEach items="#{adminPanel.categories}" var="cat">
+											<f:selectItem itemValue="#{cat.id}" itemLabel="#{cat.title}" />
+										</c:forEach>
+									</h:selectOneMenu>
+									<h:commandButton id="adminbutton"
+										value="${resourcebundle.Create}" styleClass="buttonMed"
+										action="#{adminController.addForum}" />
+								</h:form></td>
 							<td class="forumlistlast">&#160;</td>
 						</tr>
 
-					</h:form>
-				</c:if>
+					</c:if>
 
-			</table>
+				</forums:isAllowed>
+			</c:forEach>
 
-			<!-- Add new category button -->
-			<forums:isAllowed fragment="acl://addCategory"
-				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
-				<h:form>
-					<div class="actionbuttons">
-						<input type="hidden" name="addCategory" value="true" />
-						<ul>
-							<li><h:commandLink>
-									<img src="${themeHelper.getURL('resourceAdminNewCategoryURL')}"
-										alt="${resourcebundle.Create_category}" name="newCategory"
-										border="0" />
-								</h:commandLink></li>
-						</ul>
-					</div>
+			<!-- Add category form -->
+			<c:if
+				test="${adminController.addCategoryMode and forums:message('feedback') eq null}">
+				<h:form id="addCategoryForm">
+
+					<tr class="editRow">
+						<td><input type="hidden" name="addCategory" value="true" />
+							<label for="categoryname" class="categorylabel">${resourcebundle.Category_name}:</label>
+							<h:inputText id="Category" required="true"
+								value="#{adminController.categoryName}" /> <h:message
+								for="Category" styleClass="inlinefailure" /> <h:commandButton
+								id="editinline" value="${resourcebundle.Create}"
+								styleClass="buttonMed" action="#{adminController.addCategory}" />
+						</td>
+						<td class="forumlistlast">&#160;</td>
+					</tr>
+
 				</h:form>
-			</forums:isAllowed>
-		</ui:define>
-	</ui:composition>
-</div>
+			</c:if>
+
+		</table>
+
+		<!-- Add new category button -->
+		<forums:isAllowed fragment="acl://addCategory"
+			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+			<h:form>
+				<div class="actionbuttons">
+					<input type="hidden" name="addCategory" value="true" />
+					<ul>
+						<li><h:commandLink>
+								<img src="${themeHelper.getURL('resourceAdminNewCategoryURL')}"
+									alt="${resourcebundle.Create_category}" name="newCategory"
+									border="0" />
+							</h:commandLink></li>
+					</ul>
+				</div>
+			</h:form>
+		</forums:isAllowed>
+	</ui:define>
+</ui:composition>

@@ -13,220 +13,216 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common_nomenu.xhtml">
 
-	<ui:composition template="/views/common/common_nomenu.xhtml">
+	<ui:define name="mainContent">
 
-		<ui:define name="mainContent">
-
-			<h:panelGroup rendered="#{!userModule.guest}">
-				<h:form>
-					<table class="forumtablestyle">
-
-						<!-- title -->
-						<tr class="header">
-							<td class="forumheaderfirst" colspan="2">${resourcebundle.L_PREFERENCES}</td>
-						</tr>
-
-						<!-- notify on reply -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_NOTIFY_ON_REPLY}: <br /> <span class="note">${resourcebundle.L_NOTIFY_ON_REPLY_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.notifyOnReply}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="true"
-										itemLabel="${resourcebundle.L_YES}" />
-									<f:selectItem itemValue="false"
-										itemLabel="${resourcebundle.L_NO}" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Always allow html -->
-						<tr class="evenRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_ALWAYS_ALLOW_HTML}:</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.alwaysAllowHtml}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="true"
-										itemLabel="${resourcebundle.L_YES}" />
-									<f:selectItem itemValue="false"
-										itemLabel="${resourcebundle.L_NO}" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Post Order -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">${resourcebundle.L_POST_ORDER}:</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.postOrder}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="ascending"
-										itemLabel="${resourcebundle.L_ASCENDING}" />
-									<f:selectItem itemValue="descending"
-										itemLabel="${resourcebundle.L_DESCENDING}" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Topics Per Page -->
-						<tr class="evenRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_TOPICS_PER_FORUM}: <br /> <span class="note">${resourcebundle.L_TOPICS_PER_FORUM_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.topicsPerForum}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="5" itemLabel="5" />
-									<f:selectItem itemValue="10" itemLabel="10" />
-									<f:selectItem itemValue="15" itemLabel="15" />
-									<f:selectItem itemValue="20" itemLabel="20" />
-									<f:selectItem itemValue="25" itemLabel="25" />
-									<f:selectItem itemValue="30" itemLabel="30" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Posts Per Page -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_POSTS_PER_TOPIC}: <br /> <span class="note">${resourcebundle.L_POSTS_PER_TOPIC_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.postsPerTopic}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="5" itemLabel="5" />
-									<f:selectItem itemValue="10" itemLabel="10" />
-									<f:selectItem itemValue="15" itemLabel="15" />
-									<f:selectItem itemValue="20" itemLabel="20" />
-									<f:selectItem itemValue="25" itemLabel="25" />
-									<f:selectItem itemValue="30" itemLabel="30" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Date Format -->
-						<tr class="evenRow">
-							<td class="rowlinefirst">${resourcebundle.L_DATE_FORMAT}:</td>
-							<td class="rowline"><h:inputText maxlength="14"
-									styleClass="post" value="#{prefController.dateFormat}" /></td>
-						</tr>
-
-						<tr class="header">
-							<td class="forumheaderfirst" colspan="2">${resourcebundle.L_USER_INFO}</td>
-						</tr>
-
-						<!-- Always add Signature -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_ALWAYS_ADD_SIGNATURE}:</td>
-							<td class="rowline"><h:selectOneRadio
-									value="#{prefController.alwaysAddSignature}"
-									styleClass="forumsubtablestyle">
-									<f:selectItem itemValue="true"
-										itemLabel="${resourcebundle.L_YES}" />
-									<f:selectItem itemValue="false"
-										itemLabel="${resourcebundle.L_NO}" />
-								</h:selectOneRadio></td>
-						</tr>
-
-						<!-- Signature -->
-						<tr class="evenRow">
-							<td class="rowlinefirst">${resourcebundle.L_SIGNATURE}: <br />
-								<span class="note">${resourcebundle.L_SIGNATURE_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:inputTextarea rows="6" cols="30"
-									styleClass="post medium-width"
-									value="#{prefController.signature}" /></td>
-						</tr>
-
-						<!-- Topic Summary -->
-						<tr class="header">
-							<td class="forumheaderfirst" colspan="2">${resourcebundle.L_TOPIC_SUMMARY}</td>
-						</tr>
-
-						<!-- Summary Mode -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">${resourcebundle.L_MODE_CHOOSE}: <br />
-								<span class="note">${resourcebundle.L_MODE_CHOOSE_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:selectOneMenu
-									value="#{prefController.summaryMode}">
-									<f:selectItems value="#{prefController.summaryModeValues}" />
-								</h:selectOneMenu></td>
-						</tr>
-
-						<!-- Topics Limit -->
-						<tr class="evenRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_TOPIC_SUMMARY_LIMIT}: <br /> <span
-								class="note">${resourcebundle.L_TOPIC_SUMMARY_LIMIT_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:inputText maxlength="7"
-									value="#{prefController.summaryTopicLimit}" /></td>
-						</tr>
-
-						<!-- Days Old Posts -->
-						<tr class="oddRow">
-							<td class="rowlinefirst">
-								${resourcebundle.L_TOPIC_SUMMARY_DAYS}: <br /> <span
-								class="note">${resourcebundle.L_TOPIC_SUMMARY_DAYS_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:inputText maxlength="7"
-									value="#{prefController.summaryTopicDays}" /></td>
-						</tr>
-
-						<!-- Replies in Topic -->
-						<tr>
-							<td class="rowlinefirst">
-								${resourcebundle.L_TOPIC_SUMMARY_REPLIES}: <br /> <span
-								class="note">${resourcebundle.L_TOPIC_SUMMARY_REPLIES_EXPLAIN}</span>
-							</td>
-							<td class="rowline"><h:inputText maxlength="7"
-									styleClass="post" value="#{prefController.summaryTopicReplies}" />
-							</td>
-						</tr>
-
-						<!-- buttons -->
-						<tr>
-							<td class="forumformbuttonrow no-border" colspan="2"><h:commandButton
-									value="${resourcebundle.L_SUBMIT}" styleClass="buttonMed"
-									action="#{prefController.execute}" /> <h:commandButton
-									type="reset" value="${resourcebundle.L_RESET}"
-									styleClass="buttonMed" /></td>
-						</tr>
-					</table>
-				</h:form>
-			</h:panelGroup>
-
-			<!-- in case of anonymous access -->
-			<h:panelGroup rendered="#{userModule.guest}">
+		<h:panelGroup rendered="#{!userModule.guest}">
+			<h:form>
 				<table class="forumtablestyle">
+
+					<!-- title -->
+					<tr class="header">
+						<td class="forumheaderfirst" colspan="2">${resourcebundle.L_PREFERENCES}</td>
+					</tr>
+
+					<!-- notify on reply -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_NOTIFY_ON_REPLY}: <br /> <span class="note">${resourcebundle.L_NOTIFY_ON_REPLY_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.notifyOnReply}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="true"
+									itemLabel="${resourcebundle.L_YES}" />
+								<f:selectItem itemValue="false"
+									itemLabel="${resourcebundle.L_NO}" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Always allow html -->
+					<tr class="evenRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_ALWAYS_ALLOW_HTML}:</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.alwaysAllowHtml}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="true"
+									itemLabel="${resourcebundle.L_YES}" />
+								<f:selectItem itemValue="false"
+									itemLabel="${resourcebundle.L_NO}" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Post Order -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">${resourcebundle.L_POST_ORDER}:</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.postOrder}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="ascending"
+									itemLabel="${resourcebundle.L_ASCENDING}" />
+								<f:selectItem itemValue="descending"
+									itemLabel="${resourcebundle.L_DESCENDING}" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Topics Per Page -->
+					<tr class="evenRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_TOPICS_PER_FORUM}: <br /> <span class="note">${resourcebundle.L_TOPICS_PER_FORUM_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.topicsPerForum}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="5" itemLabel="5" />
+								<f:selectItem itemValue="10" itemLabel="10" />
+								<f:selectItem itemValue="15" itemLabel="15" />
+								<f:selectItem itemValue="20" itemLabel="20" />
+								<f:selectItem itemValue="25" itemLabel="25" />
+								<f:selectItem itemValue="30" itemLabel="30" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Posts Per Page -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_POSTS_PER_TOPIC}: <br /> <span class="note">${resourcebundle.L_POSTS_PER_TOPIC_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.postsPerTopic}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="5" itemLabel="5" />
+								<f:selectItem itemValue="10" itemLabel="10" />
+								<f:selectItem itemValue="15" itemLabel="15" />
+								<f:selectItem itemValue="20" itemLabel="20" />
+								<f:selectItem itemValue="25" itemLabel="25" />
+								<f:selectItem itemValue="30" itemLabel="30" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Date Format -->
+					<tr class="evenRow">
+						<td class="rowlinefirst">${resourcebundle.L_DATE_FORMAT}:</td>
+						<td class="rowline"><h:inputText maxlength="14"
+								styleClass="post" value="#{prefController.dateFormat}" /></td>
+					</tr>
+
+					<tr class="header">
+						<td class="forumheaderfirst" colspan="2">${resourcebundle.L_USER_INFO}</td>
+					</tr>
+
+					<!-- Always add Signature -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_ALWAYS_ADD_SIGNATURE}:</td>
+						<td class="rowline"><h:selectOneRadio
+								value="#{prefController.alwaysAddSignature}"
+								styleClass="forumsubtablestyle">
+								<f:selectItem itemValue="true"
+									itemLabel="${resourcebundle.L_YES}" />
+								<f:selectItem itemValue="false"
+									itemLabel="${resourcebundle.L_NO}" />
+							</h:selectOneRadio></td>
+					</tr>
+
+					<!-- Signature -->
+					<tr class="evenRow">
+						<td class="rowlinefirst">${resourcebundle.L_SIGNATURE}: <br />
+							<span class="note">${resourcebundle.L_SIGNATURE_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:inputTextarea rows="6" cols="30"
+								styleClass="post medium-width"
+								value="#{prefController.signature}" /></td>
+					</tr>
+
+					<!-- Topic Summary -->
+					<tr class="header">
+						<td class="forumheaderfirst" colspan="2">${resourcebundle.L_TOPIC_SUMMARY}</td>
+					</tr>
+
+					<!-- Summary Mode -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">${resourcebundle.L_MODE_CHOOSE}: <br />
+							<span class="note">${resourcebundle.L_MODE_CHOOSE_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:selectOneMenu
+								value="#{prefController.summaryMode}">
+								<f:selectItems value="#{prefController.summaryModeValues}" />
+							</h:selectOneMenu></td>
+					</tr>
+
+					<!-- Topics Limit -->
+					<tr class="evenRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_TOPIC_SUMMARY_LIMIT}: <br /> <span
+							class="note">${resourcebundle.L_TOPIC_SUMMARY_LIMIT_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:inputText maxlength="7"
+								value="#{prefController.summaryTopicLimit}" /></td>
+					</tr>
+
+					<!-- Days Old Posts -->
+					<tr class="oddRow">
+						<td class="rowlinefirst">
+							${resourcebundle.L_TOPIC_SUMMARY_DAYS}: <br /> <span
+							class="note">${resourcebundle.L_TOPIC_SUMMARY_DAYS_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:inputText maxlength="7"
+								value="#{prefController.summaryTopicDays}" /></td>
+					</tr>
+
+					<!-- Replies in Topic -->
 					<tr>
-						<td>
-							<table>
-								<tr>
-									<td>&#160;</td>
-								</tr>
-								<tr>
-									<td align="center"><h:outputText
-											value="${resourcebundle.L_LOGIN_REQUIRED}" /></td>
-								</tr>
-								<tr>
-									<td>&#160;</td>
-								</tr>
-							</table>
+						<td class="rowlinefirst">
+							${resourcebundle.L_TOPIC_SUMMARY_REPLIES}: <br /> <span
+							class="note">${resourcebundle.L_TOPIC_SUMMARY_REPLIES_EXPLAIN}</span>
+						</td>
+						<td class="rowline"><h:inputText maxlength="7"
+								styleClass="post" value="#{prefController.summaryTopicReplies}" />
 						</td>
 					</tr>
-				</table>
-			</h:panelGroup>
 
-		</ui:define>
-	</ui:composition>
-</div>
+					<!-- buttons -->
+					<tr>
+						<td class="forumformbuttonrow no-border" colspan="2"><h:commandButton
+								value="${resourcebundle.L_SUBMIT}" styleClass="buttonMed"
+								action="#{prefController.execute}" /> <h:commandButton
+								type="reset" value="${resourcebundle.L_RESET}"
+								styleClass="buttonMed" /></td>
+					</tr>
+				</table>
+			</h:form>
+		</h:panelGroup>
+
+		<!-- in case of anonymous access -->
+		<h:panelGroup rendered="#{userModule.guest}">
+			<table class="forumtablestyle">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td>&#160;</td>
+							</tr>
+							<tr>
+								<td align="center"><h:outputText
+										value="${resourcebundle.L_LOGIN_REQUIRED}" /></td>
+							</tr>
+							<tr>
+								<td>&#160;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</h:panelGroup>
+
+	</ui:define>
+</ui:composition>

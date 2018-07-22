@@ -13,163 +13,160 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+	xmlns:prime="http://primefaces.org/ui"
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-			<c:if test="#{replyTopic.preview}">
-				<ui:include src="/views/topics/posting_reply_preview.xhtml" />
-				<br clear="all" />
-			</c:if>
+		<c:if test="#{replyTopic.preview}">
+			<ui:include src="/views/topics/posting_reply_preview.xhtml" />
+			<br clear="all" />
+		</c:if>
 
-			<div class="forumtitletext">
-				<h4>${resourcebundle.Post_a_reply}</h4>
-				<h:messages errorClass="failuretext" layout="table" />
-			</div>
+		<div class="forumtitletext">
+			<h4>${resourcebundle.Post_a_reply}</h4>
+			<h:messages errorClass="failuretext" layout="table" />
+		</div>
 
-			<div class="PostviewStyle">
-				<h:form id="post">
+		<div class="PostviewStyle">
+			<h:form id="post">
 
-					<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
-					<input type="hidden" name="f" value="#{replyTopic.forumId}" />
-					<input type="hidden" name="t" value="#{replyTopic.topicId}" />
-					<table class="posting_large" id="table">
+				<!-- keeps the forum where this topic is being created in context, this is a control parameter -->
+				<input type="hidden" name="f" value="#{replyTopic.forumId}" />
+				<input type="hidden" name="t" value="#{replyTopic.topicId}" />
+				<table class="posting_large" id="table">
 
+					<tr>
+						<td colspan="2" class="PostViewMainHeader">${resourcebundle.Compose_Message}</td>
+					</tr>
+					<tr class="PostViewMainDescription">
+						<td colspan="2">${resourcebundle.Posting_Description}</td>
+					</tr>
+
+					<!-- add Subject -->
+					<tr class="PostViewUnderlineBoth">
+						<td><label class="forumformlabelbold">
+								${resourcebundle.Subject} </label></td>
+						<td><h:inputText value="#{replyTopic.subject}"
+								maxlength="200" id="SubjectInputText" size="45" tabindex="2" /></td>
+					</tr>
+
+					<!-- Add Message -->
+					<tr>
+						<td><label class="forumformlabelbold">
+								${resourcebundle.Message_body} </label></td>
+						<td><prime:textEditor id="message"
+								value="#{replyTopic.message}" styleClass="forumseditor">
+								<f:facet name="toolbar">
+									<span class="ql-formats"> <select class="ql-font"></select>
+										<select class="ql-size"></select>
+									</span>
+									<span class="ql-formats">
+										<button class="ql-bold"></button>
+										<button class="ql-italic"></button>
+										<button class="ql-strike"></button>
+									</span>
+									<span class="ql-formats">
+										<button class="ql-clean"></button>
+										<button class="ql-list" value="ordered" />
+										<button class="ql-list" value="bullet" />
+										<button class="ql-indent" value="-1" />
+										<button class="ql-indent" value="+1" />
+									</span>
+									<span class="ql-formats">
+										<button class="ql-blockquote"></button>
+										<button class="ql-link"></button>
+									</span>
+								</f:facet>
+							</prime:textEditor></td>
+					</tr>
+
+					<!-- subject and message invisible input for validator execution workaround -->
+					<h:inputHidden id="validator" value="validator">
+						<f:validator validatorId="subjectLengthValidator" />
+						<f:validator validatorId="messageLengthValidator" />
+					</h:inputHidden>
+
+					<!-- attachment ui -->
+					<forums:isAllowed fragment="acl://managePostAttachments"
+						forumsACLProvider="#{forumsACLProvider}"
+						userModule="#{userModule}">
 						<tr>
-							<td colspan="2" class="PostViewMainHeader">${resourcebundle.Compose_Message}</td>
+							<td colspan="2" class="PostViewMainHeader">
+								${resourcebundle.Add_attachment_title}</td>
 						</tr>
 						<tr class="PostViewMainDescription">
-							<td colspan="2">${resourcebundle.Posting_Description}</td>
+							<td colspan="2">${resourcebundle.Add_attachment_explain}</td>
 						</tr>
 
-						<!-- add Subject -->
-						<tr class="PostViewUnderlineBoth">
+						<!-- upload button -->
+						<tr class="PostViewUnderline">
 							<td><label class="forumformlabelbold">
-									${resourcebundle.Subject} </label></td>
-							<td><h:inputText value="#{replyTopic.subject}"
-									maxlength="200" id="SubjectInputText" size="45" tabindex="2" /></td>
+									${resourcebundle.File_name} </label></td>
+							<td><prime:fileUpload id="fileUploadOp"
+									fileUploadListener="#{replyTopic.upload}"
+									dragDropSupport="false" update="info,messages"
+									label="${resourcebundle.Add_attachment}"
+									cancelLabel="${resourcebundle.Delete_attachments}"
+									uploadLabel="${resourcebundle.Confirm}" /> <prime:growl
+									id="messages" showDetail="true" /></td>
 						</tr>
-
-						<!-- Add Message -->
-						<tr>
+						<tr class="PostViewUnderline">
 							<td><label class="forumformlabelbold">
-									${resourcebundle.Message_body} </label></td>
-							<td><prime:textEditor id="message"
-									value="#{replyTopic.message}" styleClass="forumseditor">
-									<f:facet name="toolbar">
-										<span class="ql-formats"> <select class="ql-font"></select>
-											<select class="ql-size"></select>
-										</span>
-										<span class="ql-formats">
-											<button class="ql-bold"></button>
-											<button class="ql-italic"></button>
-											<button class="ql-strike"></button>
-										</span>
-										<span class="ql-formats">
-											<button class="ql-clean"></button>
-											<button class="ql-list" value="ordered" />
-											<button class="ql-list" value="bullet" />
-											<button class="ql-indent" value="-1" />
-											<button class="ql-indent" value="+1" />
-										</span>
-										<span class="ql-formats">
-											<button class="ql-blockquote"></button>
-											<button class="ql-link"></button>
-										</span>
-									</f:facet>
-								</prime:textEditor></td>
+									${resourcebundle.File_comment} </label></td>
+							<td><h:panelGrid id="info" styleClass="comment">
+									<ui:repeat value="#{replyTopic.attachments}" var="file"
+										statusVar="status">
+										<table class="table-comment">
+											<tr>
+												<td><h:panelGrid columns="2">
+														<h:outputText value="${resourcebundle.File_name}" />
+														<h:outputText styleClass="forumHeaderLast"
+															value="#{file.name}" />
+														<h:outputText value="${resourcebundle.Filesize}" />
+														<h:outputText value="#{file.size} B" />
+													</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
+														value="#{file.comment}">
+														<f:ajax event="keyup" />
+													</h:inputTextarea></td>
+											</tr>
+											<tr class="PostViewUnderline">
+												<td><h:commandButton id="DeleteAttachment_${status}"
+														action="#{replyTopic.clearUpload(file)}"
+														value="${resourcebundle.Delete}" styleClass="buttonMed" /></td>
+											</tr>
+										</table>
+									</ui:repeat>
+								</h:panelGrid></td>
 						</tr>
+					</forums:isAllowed>
+				</table>
 
-						<!-- subject and message invisible input for validator execution workaround -->
-						<h:inputHidden id="validator" value="validator">
-							<f:validator validatorId="subjectLengthValidator" />
-							<f:validator validatorId="messageLengthValidator" />
-						</h:inputHidden>
+				<!-- hookup the buttons -->
+				<div class="forumformbuttonrow">
+					<ul>
+						<li><h:commandButton action="#{replyTopic.goToPreview}"
+								value="${resourcebundle.Preview}" id="Preview"
+								styleClass="buttonMed" tabindex="5" /></li>
+						<li>
+							<!--TODO: Missing execution of javascript checking form - onclick="return checkForm(this.parentNode)" -->
+							<h:commandButton action="#{replyTopic.execute}"
+								value="${resourcebundle.Submit}" id="Submit"
+								styleClass="buttonMed" accesskey="s" tabindex="6">
+							</h:commandButton>
+						</li>
+						<li><h:commandButton action="#{replyTopic.cancel}"
+								value="${resourcebundle.Cancel}" id="Cancel" accesskey="c"
+								tabindex="7" styleClass="buttonMed" /></li>
+					</ul>
+				</div>
+			</h:form>
+		</div>
 
-						<!-- attachment ui -->
-						<forums:isAllowed fragment="acl://managePostAttachments"
-							forumsACLProvider="#{forumsACLProvider}"
-							userModule="#{userModule}">
-							<tr>
-								<td colspan="2" class="PostViewMainHeader">
-									${resourcebundle.Add_attachment_title}</td>
-							</tr>
-							<tr class="PostViewMainDescription">
-								<td colspan="2">${resourcebundle.Add_attachment_explain}</td>
-							</tr>
-
-							<!-- upload button -->
-							<tr class="PostViewUnderline">
-								<td><label class="forumformlabelbold">
-										${resourcebundle.File_name} </label></td>
-								<td><prime:fileUpload id="fileUploadOp"
-										fileUploadListener="#{replyTopic.upload}"
-										dragDropSupport="false" update="info,messages"
-										label="${resourcebundle.Add_attachment}"
-										cancelLabel="${resourcebundle.Delete_attachments}"
-										uploadLabel="${resourcebundle.Confirm}" /> <prime:growl
-										id="messages" showDetail="true" /></td>
-							</tr>
-							<tr class="PostViewUnderline">
-								<td><label class="forumformlabelbold">
-										${resourcebundle.File_comment} </label></td>
-								<td><h:panelGrid id="info" styleClass="comment">
-										<ui:repeat value="#{replyTopic.attachments}" var="file"
-											statusVar="status">
-											<table class="table-comment">
-												<tr>
-													<td><h:panelGrid columns="2">
-															<h:outputText value="${resourcebundle.File_name}" />
-															<h:outputText styleClass="forumHeaderLast"
-																value="#{file.name}" />
-															<h:outputText value="${resourcebundle.Filesize}" />
-															<h:outputText value="#{file.size} B" />
-														</h:panelGrid> <h:inputTextarea rows="2" styleClass="Posttextarea"
-															value="#{file.comment}">
-															<f:ajax event="keyup" />
-														</h:inputTextarea></td>
-												</tr>
-												<tr class="PostViewUnderline">
-													<td><h:commandButton id="DeleteAttachment_${status}"
-															action="#{replyTopic.clearUpload(file)}"
-															value="${resourcebundle.Delete}" styleClass="buttonMed" /></td>
-												</tr>
-											</table>
-										</ui:repeat>
-									</h:panelGrid></td>
-							</tr>
-						</forums:isAllowed>
-					</table>
-
-					<!-- hookup the buttons -->
-					<div class="forumformbuttonrow">
-						<ul>
-							<li><h:commandButton action="#{replyTopic.goToPreview}"
-									value="${resourcebundle.Preview}" id="Preview"
-									styleClass="buttonMed" tabindex="5" /></li>
-							<li>
-								<!--TODO: Missing execution of javascript checking form - onclick="return checkForm(this.parentNode)" -->
-								<h:commandButton action="#{replyTopic.execute}"
-									value="${resourcebundle.Submit}" id="Submit"
-									styleClass="buttonMed" accesskey="s" tabindex="6">
-								</h:commandButton>
-							</li>
-							<li><h:commandButton action="#{replyTopic.cancel}"
-									value="${resourcebundle.Cancel}" id="Cancel" accesskey="c"
-									tabindex="7" styleClass="buttonMed" /></li>
-						</ul>
-					</div>
-				</h:form>
-			</div>
-
-		</ui:define>
-	</ui:composition>
-
-</div>
+	</ui:define>
+</ui:composition>

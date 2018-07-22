@@ -13,169 +13,166 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
+	xmlns:prime="http://primefaces.org/ui"
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
+		<forums:isAllowedChoose>
 
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
-			<forums:isAllowedChoose>
+			<forums:isAllowedWhen fragment="acl://moderateForum"
+				contextData="#{moderator.forum}"
+				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
 
-				<forums:isAllowedWhen fragment="acl://moderateForum"
-					contextData="#{moderator.forum}"
-					forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+				<h:form>
+					<input type="hidden" name="f" value="#{moderator.forum.id}" />
+					<div class="forumbread">
+						<ul>
+							<li class="first"><h:commandLink action="viewCategory"
+									value="#{shared.mainPageName}" />
 
-					<h:form>
-						<input type="hidden" name="f" value="#{moderator.forum.id}" />
-						<div class="forumbread">
-							<ul>
-								<li class="first"><h:commandLink action="viewCategory"
-										value="#{shared.mainPageName}" />
+								<ul>
+									<li>&gt; <h:commandLink action="viewCategory"
+											value="#{moderator.forum.category.title}">
+											<f:param name="c" value="#{moderator.forum.category.id}" />
+										</h:commandLink>
 
-									<ul>
-										<li>&gt; <h:commandLink action="viewCategory"
-												value="#{moderator.forum.category.title}">
-												<f:param name="c" value="#{moderator.forum.category.id}" />
-											</h:commandLink>
+										<ul>
+											<li>&gt; <h:commandLink action="viewForum"
+													value="#{moderator.forum.name}">
+													<f:param name="f" value="#{moderator.forum.id}" />
+												</h:commandLink>
 
-											<ul>
-												<li>&gt; <h:commandLink action="viewForum"
-														value="#{moderator.forum.name}">
-														<f:param name="f" value="#{moderator.forum.id}" />
-													</h:commandLink>
+												<ul>
+													<li>&gt; <h:commandLink action="viewModerator"
+															value="${resourcebundle.Mod_CP}">
+															<f:param name="f" value="#{moderator.forum.id}" />
+														</h:commandLink>
+													</li>
+												</ul>
+											</li>
+										</ul>
 
-													<ul>
-														<li>&gt; <h:commandLink action="viewModerator"
-																value="${resourcebundle.Mod_CP}">
-																<f:param name="f" value="#{moderator.forum.id}" />
-															</h:commandLink>
-														</li>
-													</ul>
-												</li>
-											</ul>
+									</li>
+								</ul></li>
+						</ul>
+					</div>
 
-										</li>
-									</ul></li>
-							</ul>
-						</div>
+					<!-- Forum moderator tool title and usability explanation and feedback messages -->
+					<div class="forumtitletext">
+						<h4>${resourcebundle.Mod_CP}</h4>
+						<br />
+						<p>${resourcebundle.Mod_CP_explain}</p>
+						<h:messages errorClass="failuretext" layout="table" />
+					</div>
 
-						<!-- Forum moderator tool title and usability explanation and feedback messages -->
-						<div class="forumtitletext">
-							<h4>${resourcebundle.Mod_CP}</h4>
-							<br />
-							<p>${resourcebundle.Mod_CP_explain}</p>
-							<h:messages errorClass="failuretext" layout="table" />
-						</div>
-
-						<prime:dataTable id="modtopicsList"
-							tableStyleClass="forumtablestyle modcpbody"
-							tableStyle="border-collapse: collapse !important;border-bottom-style: inherit !important;"
-							value="#{moderator.topicsDataModel}" var="topicrow"
-							rowIndexVar="rowIndex"
-							rowStyleClass="${(rowIndex%2==0)?'evenRow':'oddRow'}"
-							rows="#{prefController.topicsPerForum}"
-							paginator="#{moderator.lastPageNumber > 1}"
-							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
-							<prime:column
-								styleClass="rowlinefirst ${(status.last)?'
+					<prime:dataTable id="modtopicsList"
+						tableStyleClass="forumtablestyle modcpbody"
+						tableStyle="border-collapse: collapse !important;border-bottom-style: inherit !important;"
+						value="#{moderator.topicsDataModel}" var="topicrow"
+						rowIndexVar="rowIndex"
+						rowStyleClass="${(rowIndex%2==0)?'evenRow':'oddRow'}"
+						rows="#{prefController.topicsPerForum}"
+						paginator="#{moderator.lastPageNumber > 1}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
+						<prime:column
+							styleClass="rowlinefirst ${(status.last)?'
 										bottomline':''}">
-								<img
-									src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
-									alt="${resourcebundle.Topic_Moved}"
-									title="${resourcebundle.Topic_Moved}" />
-							</prime:column>
+							<img
+								src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+								alt="${resourcebundle.Topic_Moved}"
+								title="${resourcebundle.Topic_Moved}" />
+						</prime:column>
 
-							<prime:column headerText="${resourcebundle.Topics}"
-								styleClass="rowline ${(status.last)?'bottomline':''}">
+						<prime:column headerText="${resourcebundle.Topics}"
+							styleClass="rowline ${(status.last)?'bottomline':''}">
 											${themeHelper.getFolderType(topicrow)}&#160; <h:commandLink
-									action="viewTopic" value="${topicrow.subject}">
-									<f:param name="t" value="${topicrow.id}" />
-								</h:commandLink>
-							</prime:column>
-							<prime:column headerText="${resourcebundle.Replies}"
-								styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
-							<prime:column headerText="${resourcebundle.Last_Post}"
-								styleClass="rowline ${(status.last)?'bottomline':''} shorter-width">${topicrow.lastPostDate}</prime:column>
-							<prime:column headerText="${resourcebundle.Select}"
-								styleClass="rowline ${(status.last)?'bottomline':''} little-width">
-								<h:selectBooleanCheckbox
-									value="#{moderator.checkboxes[topicrow.id]}" />
-							</prime:column>
-							<f:facet name="footer">
-								<prime:columnGroup>
-									<prime:column styleClass="buttonrow" colspan="5">
-										<forums:isAllowed fragment="acl://deleteTopics"
-											contextData="#{moderator.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandButton action="#{moderator.deleteConfirm}"
-												class="buttonMed" value="${resourcebundle.Delete}">
-												<f:param name="f" value="#{moderator.forum.id}" />
-											</h:commandButton>
-										</forums:isAllowed>
-										<forums:isAllowed fragment="acl://moveTopics"
-											contextData="#{moderator.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandButton action="#{moderator.moveConfirm}"
-												class="buttonMed" value="${resourcebundle.Move}">
-												<f:param name="f" value="#{moderator.forum.id}" />
-											</h:commandButton>
-										</forums:isAllowed>
-										<forums:isAllowed fragment="acl://lockTopics"
-											contextData="#{moderator.forum}"
-											forumsACLProvider="#{forumsACLProvider}"
-											userModule="#{userModule}">
-											<h:commandButton action="#{moderator.lockTopic}"
-												class="buttonMed" value="${resourcebundle.Lock}">
-												<f:param name="f" value="#{moderator.forum.id}" />
-											</h:commandButton>
-											<h:commandButton action="#{moderator.unlockTopic}"
-												class="buttonMed" value="${resourcebundle.Unlock}">
-												<f:param name="f" value="#{moderator.forum.id}" />
-											</h:commandButton>
-										</forums:isAllowed>
-									</prime:column>
-								</prime:columnGroup>
-							</f:facet>
-						</prime:dataTable>
+								action="viewTopic" value="${topicrow.subject}">
+								<f:param name="t" value="${topicrow.id}" />
+							</h:commandLink>
+						</prime:column>
+						<prime:column headerText="${resourcebundle.Replies}"
+							styleClass="rowline ${(status.last)?'bottomline':''} forumheadercentered">${topicrow.replies}</prime:column>
+						<prime:column headerText="${resourcebundle.Last_Post}"
+							styleClass="rowline ${(status.last)?'bottomline':''} shorter-width">${topicrow.lastPostDate}</prime:column>
+						<prime:column headerText="${resourcebundle.Select}"
+							styleClass="rowline ${(status.last)?'bottomline':''} little-width">
+							<h:selectBooleanCheckbox
+								value="#{moderator.checkboxes[topicrow.id]}" />
+						</prime:column>
+						<f:facet name="footer">
+							<prime:columnGroup>
+								<prime:column styleClass="buttonrow" colspan="5">
+									<forums:isAllowed fragment="acl://deleteTopics"
+										contextData="#{moderator.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandButton action="#{moderator.deleteConfirm}"
+											class="buttonMed" value="${resourcebundle.Delete}">
+											<f:param name="f" value="#{moderator.forum.id}" />
+										</h:commandButton>
+									</forums:isAllowed>
+									<forums:isAllowed fragment="acl://moveTopics"
+										contextData="#{moderator.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandButton action="#{moderator.moveConfirm}"
+											class="buttonMed" value="${resourcebundle.Move}">
+											<f:param name="f" value="#{moderator.forum.id}" />
+										</h:commandButton>
+									</forums:isAllowed>
+									<forums:isAllowed fragment="acl://lockTopics"
+										contextData="#{moderator.forum}"
+										forumsACLProvider="#{forumsACLProvider}"
+										userModule="#{userModule}">
+										<h:commandButton action="#{moderator.lockTopic}"
+											class="buttonMed" value="${resourcebundle.Lock}">
+											<f:param name="f" value="#{moderator.forum.id}" />
+										</h:commandButton>
+										<h:commandButton action="#{moderator.unlockTopic}"
+											class="buttonMed" value="${resourcebundle.Unlock}">
+											<f:param name="f" value="#{moderator.forum.id}" />
+										</h:commandButton>
+									</forums:isAllowed>
+								</prime:column>
+							</prime:columnGroup>
+						</f:facet>
+					</prime:dataTable>
 
-					</h:form>
+				</h:form>
 
-					<hr class="forumdashedHR" />
+				<hr class="forumdashedHR" />
 
-					<ui:include src="/views/jumpbox.xhtml" />
+				<ui:include src="/views/jumpbox.xhtml" />
 
-				</forums:isAllowedWhen>
+			</forums:isAllowedWhen>
 
-				<forums:isAllowedOtherwise>
-					<table class="forumtablestyle">
-						<tr>
-							<td>
-								<table>
-									<tr>
-										<td>&#160;</td>
-									</tr>
-									<tr>
-										<td align="center">${resourcebundle.Not_Moderator}</td>
-									</tr>
-									<tr>
-										<td>&#160;</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
+			<forums:isAllowedOtherwise>
+				<table class="forumtablestyle">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+								<tr>
+									<td align="center">${resourcebundle.Not_Moderator}</td>
+								</tr>
+								<tr>
+									<td>&#160;</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 
-				</forums:isAllowedOtherwise>
+			</forums:isAllowedOtherwise>
 
-			</forums:isAllowedChoose>
-		</ui:define>
-	</ui:composition>
-</div>
+		</forums:isAllowedChoose>
+	</ui:define>
+</ui:composition>

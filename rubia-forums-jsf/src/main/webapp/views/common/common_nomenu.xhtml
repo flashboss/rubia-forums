@@ -13,41 +13,37 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	class="forumscontainer">
+	template="/views/common/common_decoration.xhtml">
+	<ui:define name="content">
 
-	<ui:composition template="/views/common/common_decoration.xhtml">
-		<ui:define name="content">
-
-			<!-- resourceBundle to be used by this entire application -->
-			<f:loadBundle basename="ResourceJSF" var="resourcebundle" />
+		<!-- resourceBundle to be used by this entire application -->
+		<f:loadBundle basename="ResourceJSF" var="resourcebundle" />
 
 
-			<!-- body of the page -->
-			<c:choose>
-				<c:when test="#{(forums:errorMsg())!=null}">
-					<!-- generic error handling -->
-					<ui:include src="/views/errors/error_body.xhtml" />
-				</c:when>
-				<c:otherwise>
-					<!-- main content for this page -->
-					<ui:insert name="mainContent" />
-				</c:otherwise>
-			</c:choose>
+		<!-- body of the page -->
+		<c:choose>
+			<c:when test="#{(forums:errorMsg())!=null}">
+				<!-- generic error handling -->
+				<ui:include src="/views/errors/error_body.xhtml" />
+			</c:when>
+			<c:otherwise>
+				<!-- main content for this page -->
+				<ui:insert name="mainContent" />
+			</c:otherwise>
+		</c:choose>
 
-			<!-- footer -->
-			<div class="PoweredBy">
-				${resourcebundle.Powered_by}&#160;<a
-					href="https://github.com/flashboss/rubia-forums"><img
-					border="0" src="${themeHelper.getURL('resourceIconForumsLogoURL')}" /></a>
-			</div>
+		<!-- footer -->
+		<div class="PoweredBy">
+			${resourcebundle.Powered_by}&#160;<a
+				href="https://github.com/flashboss/rubia-forums"><img border="0"
+				src="${themeHelper.getURL('resourceIconForumsLogoURL')}" /></a>
+		</div>
 
-		</ui:define>
-	</ui:composition>
-</div>
+	</ui:define>
+</ui:composition>

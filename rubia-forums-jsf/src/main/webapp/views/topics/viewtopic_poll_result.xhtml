@@ -13,62 +13,62 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<td xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	colspan="2">
-	<table class="forumPollTable">
+	xmlns:forums="http://www.jboss.com/products/jbossportal/forums">
+	<td colspan="2">
+		<table class="forumPollTable">
 
-		<!-- title -->
-		<tr>
-			<td class="questionCell" colspan="6">#{poll.title}</td>
-		</tr>
-
-		<!-- option results -->
-		<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
+			<!-- title -->
 			<tr>
-				<td>#{optionrow.question}</td>
-				<td>
-					<table class="forumPollTableGraph">
-						<tr>
-							<td><img
-								src="#{themeHelper.getURL('resourcePollVotingLBar')}" width="4"
-								height="12" /></td>
-							<td><img
-								src="#{themeHelper.getURL('resourcePollVotingBar')}"
-								width="#{forums:votePercent(poll,optionrow,205)}" height="12" />
-							</td>
-							<td><img
-								src="#{themeHelper.getURL('resourcePollVotingRBar')}" width="4"
-								height="12" /></td>
-						</tr>
-					</table>
-				</td>
-				<td>${forums:votePercent(poll,optionrow,0)}</td>
-				<td>[ #{optionrow.votes} ]</td>
+				<td class="questionCell" colspan="6">#{poll.title}</td>
 			</tr>
-		</c:forEach>
 
-		<!-- total result -->
-		<tr>
-			<td class="totalCell" colspan="6">#{resourcebundle.Total_votes}
-				: #{poll.votesSum}</td>
-		</tr>
+			<!-- option results -->
+			<c:forEach items="#{poll.options}" var="optionrow" varStatus="status">
+				<tr>
+					<td>#{optionrow.question}</td>
+					<td>
+						<table class="forumPollTableGraph">
+							<tr>
+								<td><img
+									src="#{themeHelper.getURL('resourcePollVotingLBar')}" width="4"
+									height="12" /></td>
+								<td><img
+									src="#{themeHelper.getURL('resourcePollVotingBar')}"
+									width="#{forums:votePercent(poll,optionrow,205)}" height="12" />
+								</td>
+								<td><img
+									src="#{themeHelper.getURL('resourcePollVotingRBar')}" width="4"
+									height="12" /></td>
+							</tr>
+						</table>
+					</td>
+					<td>${forums:votePercent(poll,optionrow,0)}</td>
+					<td>[ #{optionrow.votes} ]</td>
+				</tr>
+			</c:forEach>
 
-		<!-- switch back to the voting screen -->
-		<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
-			forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+			<!-- total result -->
 			<tr>
-				<td class="linkCell" colspan="6"><h:commandLink
-						action="viewTopic" value="${resourcebundle.View_ballot}">
-						<f:param name="t" value="${t}" />
-					</h:commandLink></td>
+				<td class="totalCell" colspan="6">#{resourcebundle.Total_votes}
+					: #{poll.votesSum}</td>
 			</tr>
-		</forums:isAllowed>
 
-	</table>
-</td>
+			<!-- switch back to the voting screen -->
+			<forums:isAllowed fragment="acl://votePoll" contextData="#{poll}"
+				forumsACLProvider="#{forumsACLProvider}" userModule="#{userModule}">
+				<tr>
+					<td class="linkCell" colspan="6"><h:commandLink
+							action="viewTopic" value="${resourcebundle.View_ballot}">
+							<f:param name="t" value="${t}" />
+						</h:commandLink></td>
+				</tr>
+			</forums:isAllowed>
+
+		</table>
+	</td>
+</ui:composition>

@@ -13,8 +13,7 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
@@ -22,99 +21,98 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/composite/components/property"
 	xmlns:forums="http://www.jboss.com/products/jbossportal/forums"
-	xmlns:prime="http://primefaces.org/ui" class="forumscontainer">
-	<ui:composition template="/views/common/common.xhtml">
-		<ui:define name="mainContent">
+	xmlns:prime="http://primefaces.org/ui"
+	template="/views/common/common.xhtml">
+	<ui:define name="mainContent">
 
-			<h:form rendered="#{viewSearch.topics != null}">
-				<a id="top" />
-				<div class="forumtitletext">
-					<h4>
-						<h:outputFormat value="#{resourcebundle.Search_found}">
-							<f:param value="#{fn:length(viewSearch.topics)}" />
-						</h:outputFormat>
-					</h4>
-				</div>
+		<h:form rendered="#{viewSearch.topics != null}">
+			<a id="top" />
+			<div class="forumtitletext">
+				<h4>
+					<h:outputFormat value="#{resourcebundle.Search_found}">
+						<f:param value="#{fn:length(viewSearch.topics)}" />
+					</h:outputFormat>
+				</h4>
+			</div>
 
-				<prime:dataTable id="postsList"
-					value="#{viewSearch.topicsDataModel}" var="topicrow"
-					styleClass="searchtablestyle" tableStyleClass="forumtablestyle"
-					rowStyleClass="evenRow" rows="#{prefController.topicsPerForum}"
-					paginator="#{viewSearch.lastPageNumber > 1}"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
-					<prime:column headerText="${resourcebundle.Topics}"
-						styleClass="forumlisticon">
-						<img
-							src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
-							width="11" height="14" alt="${resourcebundle.Topic_Moved}"
-							title="${resourcebundle.Topic_Moved}" />
-						<div class="subpanel-search">
-							<h3>
-								<h:commandLink action="viewTopic" value="${topicrow.subject}">
-									<f:param name="t" value="${topicrow.id}" />
-								</h:commandLink>
-							</h3>
-							<!-- mini post navigator for this topic -->
-							<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
-							<br /> ${resourcebundle.By}&#160;
+			<prime:dataTable id="postsList" value="#{viewSearch.topicsDataModel}"
+				var="topicrow" styleClass="searchtablestyle"
+				tableStyleClass="forumtablestyle" rowStyleClass="evenRow"
+				rows="#{prefController.topicsPerForum}"
+				paginator="#{viewSearch.lastPageNumber > 1}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="#{resourcebundle.Page} {currentPage} #{resourcebundle.Of} {totalPages}">
+				<prime:column headerText="${resourcebundle.Topics}"
+					styleClass="forumlisticon">
+					<img
+						src="#{themeHelper.getFolderTypeURL(topicrow,userModule.guest)}"
+						width="11" height="14" alt="${resourcebundle.Topic_Moved}"
+						title="${resourcebundle.Topic_Moved}" />
+					<div class="subpanel-search">
+						<h3>
+							<h:commandLink action="viewTopic" value="${topicrow.subject}">
+								<f:param name="t" value="${topicrow.id}" />
+							</h:commandLink>
+						</h3>
+						<!-- mini post navigator for this topic -->
+						<p:pagenavigator topicrow="#{topicrow}" component="#{forum}" />
+						<br /> ${resourcebundle.By}&#160;
 
-							<h:panelGroup rendered="#{userModule.guest}">
+						<h:panelGroup rendered="#{userModule.guest}">
 				                            ${userModule.findUserById(topicrow.poster.userId).userName}
 				                        </h:panelGroup>
 
-							<h:panelGroup rendered="#{!userModule.guest}">
-								<h:commandLink action="viewProfile"
-									value="${userModule.findUserById(topicrow.poster.userId).userName}">
-									<f:param name="uid" value="${topicrow.poster.userId}" />
-								</h:commandLink>
-							</h:panelGroup>
-						</div>
-					</prime:column>
+						<h:panelGroup rendered="#{!userModule.guest}">
+							<h:commandLink action="viewProfile"
+								value="${userModule.findUserById(topicrow.poster.userId).userName}">
+								<f:param name="uid" value="${topicrow.poster.userId}" />
+							</h:commandLink>
+						</h:panelGroup>
+					</div>
+				</prime:column>
 
-					<prime:column styleClass="forumlistcentered"
-						headerText="${resourcebundle.Replies}">${topicrow.replies}</prime:column>
-					<prime:column styleClass="forumlistcentered"
-						headerText="${resourcebundle.Views}">${topicrow.viewCount}</prime:column>
-					<prime:column styleClass="forumlistlast"
-						headerText="${resourcebundle.Last_Post}">
-						<h:commandLink action="viewTopic"
-							value="#{viewSearch.getLastPostSubject(topicrow.id)}">
-							<f:param name="p"
-								value="#{viewSearch.topicLastPosts[topicrow.id].id}" />
-						</h:commandLink>
-						<br /> ${resourcebundle.By}
+				<prime:column styleClass="forumlistcentered"
+					headerText="${resourcebundle.Replies}">${topicrow.replies}</prime:column>
+				<prime:column styleClass="forumlistcentered"
+					headerText="${resourcebundle.Views}">${topicrow.viewCount}</prime:column>
+				<prime:column styleClass="forumlistlast"
+					headerText="${resourcebundle.Last_Post}">
+					<h:commandLink action="viewTopic"
+						value="#{viewSearch.getLastPostSubject(topicrow.id)}">
+						<f:param name="p"
+							value="#{viewSearch.topicLastPosts[topicrow.id].id}" />
+					</h:commandLink>
+					<br /> ${resourcebundle.By}
 
 						<h:panelGroup rendered="#{userModule.guest}">
 				                            ${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}
 				                        </h:panelGroup>
 
-						<h:panelGroup rendered="#{!userModule.guest}">
-							<h:commandLink action="viewProfile"
-								value="${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}">
-								<f:param name="uid"
-									value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
-							</h:commandLink>
-						</h:panelGroup>
-						<br /> #{viewSearch.topicLastPosts[topicrow.id].createDate}</prime:column>
+					<h:panelGroup rendered="#{!userModule.guest}">
+						<h:commandLink action="viewProfile"
+							value="${userModule.findUserById(viewSearch.topicLastPosts[topicrow.id].poster.userId).userName}">
+							<f:param name="uid"
+								value="#{viewSearch.topicLastPosts[topicrow.id].poster.userId}" />
+						</h:commandLink>
+					</h:panelGroup>
+					<br /> #{viewSearch.topicLastPosts[topicrow.id].createDate}</prime:column>
 
-				</prime:dataTable>
+			</prime:dataTable>
 
-			</h:form>
+		</h:form>
 
-			<h:form rendered="#{viewSearch.topics == null}">
-				<table class="forumtablestyle">
-					<tr>
-						<td>&#160;</td>
-					</tr>
-					<tr>
-						<td align="center">${resourcebundle.Search_topics_not_found}</td>
-					</tr>
-					<tr>
-						<td>&#160;</td>
-					</tr>
-				</table>
-			</h:form>
-		</ui:define>
-	</ui:composition>
-</div>
+		<h:form rendered="#{viewSearch.topics == null}">
+			<table class="forumtablestyle">
+				<tr>
+					<td>&#160;</td>
+				</tr>
+				<tr>
+					<td align="center">${resourcebundle.Search_topics_not_found}</td>
+				</tr>
+				<tr>
+					<td>&#160;</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>

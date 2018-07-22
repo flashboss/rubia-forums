@@ -14,20 +14,16 @@
  ******************************************************************************/
 -->
 
-<div xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" class="forumscontainer">
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<c:if test="#{summary.numberOfTopicsFound>0}">
+		<ui:include src="/views/summary/viewsummary_body.xhtml" />
+	</c:if>
 
-	<ui:composition>
-		<c:if test="#{summary.numberOfTopicsFound>0}">
-			<ui:include src="/views/summary/viewsummary_body.xhtml" />
-		</c:if>
-
-		<c:if test="#{summary.numberOfTopicsFound==0}">
-			<ui:include src="/views/category/viewcategory_body.xhtml" />
-		</c:if>
-	</ui:composition>
-
-</div>
+	<c:if test="#{summary.numberOfTopicsFound==0}">
+		<ui:include src="/views/category/viewcategory_body.xhtml" />
+	</c:if>
+</ui:composition>
