@@ -19,7 +19,7 @@ public class RestACLProvider {
 	private ForumsACLProvider aclProvider;
 
 	@POST
-	@Path("hasActionAccess")
+	@Path("hasAccess")
 	@Consumes(APPLICATION_JSON)
 	@Produces(TEXT_PLAIN)
 	public boolean hasAccess(UIContext context) throws Exception {
