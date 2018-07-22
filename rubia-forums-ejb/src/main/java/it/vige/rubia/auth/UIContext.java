@@ -19,17 +19,17 @@ package it.vige.rubia.auth;
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  */
 public class UIContext extends IdentitySecurityContext {
-	/**
-	 * 
-	 *
-	 */
+
 	private String fragment;
 	private Object[] contextData;
 
+	public UIContext() {
+		super(null);
+	}
+
 	/**
 	 * 
-	 * @param identity
-	 *            the jboss security identity to assign
+	 * @param identity the jboss security identity to assign
 	 */
 	public UIContext(Object identity) {
 		super(identity);
@@ -43,8 +43,7 @@ public class UIContext extends IdentitySecurityContext {
 	}
 
 	/**
-	 * @param contextData
-	 *            The contextData to set.
+	 * @param contextData The contextData to set.
 	 */
 	public void setContextData(Object[] contextData) {
 		this.contextData = contextData;
@@ -58,8 +57,7 @@ public class UIContext extends IdentitySecurityContext {
 	}
 
 	/**
-	 * @param fragment
-	 *            The fragment to set.
+	 * @param fragment The fragment to set.
 	 */
 	public void setFragment(String fragment) {
 		this.fragment = fragment;

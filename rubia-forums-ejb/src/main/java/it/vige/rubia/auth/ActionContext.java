@@ -32,6 +32,9 @@ public class ActionContext extends IdentitySecurityContext {
 	 */
 	private Object managedBean = null;
 
+	public ActionContext() {
+		super(null);
+	}
 	/**
 	 * 
 	 * @param identity
