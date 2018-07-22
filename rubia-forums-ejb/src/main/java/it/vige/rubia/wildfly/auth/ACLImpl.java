@@ -21,26 +21,24 @@
  */
 package it.vige.rubia.wildfly.auth;
 
-import static java.util.Collections.unmodifiableCollection;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.FetchType.EAGER;
-import static org.jboss.security.PicketBoxMessages.MESSAGES;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.jboss.security.PicketBoxMessages;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
 import org.jboss.security.acl.ACLPermission;
@@ -74,7 +72,8 @@ public class ACLImpl implements ACL, Serializable {
 	@Transient
 	private Map<String, ACLEntry> entriesMap;
 
-	@OneToMany(mappedBy = "acl", fetch = EAGER, cascade = { REMOVE, PERSIST }, orphanRemoval = true)
+	@OneToMany(mappedBy = "acl", fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE,
+			CascadeType.PERSIST }, orphanRemoval = true)
 	private Collection<ACLEntryImpl> entries;
 
 	/**
@@ -91,9 +90,8 @@ public class ACLImpl implements ACL, Serializable {
 	 * Builds an instance of {@code ACLImpl} for the specified resource.
 	 * </p>
 	 * 
-	 * @param resource
-	 *            a reference to the {@code Resource} associated with the ACL being
-	 *            constructed.
+	 * @param resource a reference to the {@code Resource} associated with the ACL
+	 *                 being constructed.
 	 */
 	public ACLImpl(Resource resource) {
 		this(resource, new ArrayList<ACLEntry>());
@@ -105,11 +103,9 @@ public class ACLImpl implements ACL, Serializable {
 	 * initialize it with the specified entries.
 	 * </p>
 	 * 
-	 * @param resource
-	 *            a reference to the {@code Resource} associated with the ACL being
-	 *            constructed.
-	 * @param entries
-	 *            a {@code Collection} containing the ACL's initial entries.
+	 * @param resource a reference to the {@code Resource} associated with the ACL
+	 *                 being constructed.
+	 * @param entries  a {@code Collection} containing the ACL's initial entries.
 	 */
 	public ACLImpl(Resource resource, Collection<ACLEntry> entries) {
 		this(Util.getResourceAsString(resource), entries);
@@ -117,7 +113,7 @@ public class ACLImpl implements ACL, Serializable {
 	}
 
 	public ACLImpl(String resourceString, Collection<ACLEntry> entries) {
-		resourceAsString = resourceString;
+		this.resourceAsString = resourceString;
 		this.entries = new ArrayList<ACLEntryImpl>();
 		if (entries != null) {
 			for (ACLEntry entry : entries) {
@@ -129,23 +125,33 @@ public class ACLImpl implements ACL, Serializable {
 		this.initEntriesMap();
 	}
 
+	/**
+	 * <p>
+	 * Obtains the persistent id of this {@code ACLImpl}.
+	 * </p>
+	 * 
+	 * @return a {@code long} representing the persistent id this ACL.
+	 */
+	public long getACLId() {
+		return this.aclID;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.jboss.security.acl.ACL#addEntry(org.jboss.security.acl.ACLEntry)
 	 */
-	@Override
 	public boolean addEntry(ACLEntry entry) {
-		if (entriesMap == null)
-			initEntriesMap();
+		if (this.entriesMap == null)
+			this.initEntriesMap();
 
 		// don't add a null entry or an entry that already existSELECT * FROM
 		// ACL_ENTRYs.
-		if (entry == null || entriesMap.get(entry.getIdentityOrRole()) != null)
+		if (entry == null || this.entriesMap.get(entry.getIdentityOrRole()) != null)
 			return false;
-		entries.add((ACLEntryImpl) entry);
+		this.entries.add((ACLEntryImpl) entry);
 		((ACLEntryImpl) entry).setAcl(this);
-		entriesMap.put(entry.getIdentityOrRole(), entry);
+		this.entriesMap.put(entry.getIdentityOrRole(), entry);
 		return true;
 	}
 
@@ -154,12 +160,11 @@ public class ACLImpl implements ACL, Serializable {
 	 * 
 	 * @see org.jboss.security.acl.ACL#removeEntry(org.jboss.security.acl.ACLEntry)
 	 */
-	@Override
 	public boolean removeEntry(ACLEntry entry) {
-		if (entriesMap == null)
-			initEntriesMap();
-		entriesMap.remove(entry.getIdentityOrRole());
-		return entries.remove(entry);
+		if (this.entriesMap == null)
+			this.initEntriesMap();
+		this.entriesMap.remove(entry.getIdentityOrRole());
+		return this.entries.remove(entry);
 	}
 
 	/*
@@ -167,11 +172,10 @@ public class ACLImpl implements ACL, Serializable {
 	 * 
 	 * @see org.jboss.security.acl.ACL#getEntries()
 	 */
-	@Override
 	public Collection<? extends ACLEntry> getEntries() {
-		if (entriesMap == null)
-			initEntriesMap();
-		return unmodifiableCollection(this.entries);
+		if (this.entriesMap == null)
+			this.initEntriesMap();
+		return Collections.unmodifiableCollection(this.entries);
 	}
 
 	/*
@@ -180,11 +184,10 @@ public class ACLImpl implements ACL, Serializable {
 	 * @see
 	 * org.jboss.security.acl.ACL#getEntry(org.jboss.security.identity.Identity)
 	 */
-	@Override
 	public ACLEntry getEntry(Identity identity) {
-		if (entriesMap == null)
-			initEntriesMap();
-		return entriesMap.get(identity.getName());
+		if (this.entriesMap == null)
+			this.initEntriesMap();
+		return this.entriesMap.get(identity.getName());
 	}
 
 	/*
@@ -192,11 +195,10 @@ public class ACLImpl implements ACL, Serializable {
 	 * 
 	 * @see org.jboss.security.acl.ACL#getEntry(java.lang.String)
 	 */
-	@Override
 	public ACLEntry getEntry(String identityOrRole) {
-		if (entriesMap == null)
-			initEntriesMap();
-		return entriesMap.get(identityOrRole);
+		if (this.entriesMap == null)
+			this.initEntriesMap();
+		return this.entriesMap.get(identityOrRole);
 	}
 
 	/*
@@ -206,13 +208,12 @@ public class ACLImpl implements ACL, Serializable {
 	 * org.jboss.security.acl.ACL#isGranted(org.jboss.security.acl.ACLPermission,
 	 * org.jboss.security.identity.Identity)
 	 */
-	@Override
 	public boolean isGranted(ACLPermission permission, Identity identity) {
-		if (entriesMap == null)
-			initEntriesMap();
+		if (this.entriesMap == null)
+			this.initEntriesMap();
 
 		// lookup the entry corresponding to the specified identity.
-		ACLEntry entry = entriesMap.get(identity.getName());
+		ACLEntry entry = this.entriesMap.get(identity.getName());
 		if (entry != null) {
 			// check the permission associated with the identity.
 			return entry.checkPermission(permission);
@@ -237,7 +238,6 @@ public class ACLImpl implements ACL, Serializable {
 	 * 
 	 * @see org.jboss.security.acl.ACL#getResource()
 	 */
-	@Override
 	public Resource getResource() {
 		return this.resource;
 	}
@@ -247,13 +247,12 @@ public class ACLImpl implements ACL, Serializable {
 	 * Sets the resource associated with this {@code ACL}.
 	 * </p>
 	 * 
-	 * @param resource
-	 *            a reference to the {@code Resource} associated with this
-	 *            {@code ACL}.
+	 * @param resource a reference to the {@code Resource} associated with this
+	 *                 {@code ACL}.
 	 */
 	public void setResource(Resource resource) {
-		if (resource != null)
-			throw MESSAGES.aclResourceAlreadySet();
+		if (this.resource != null)
+			throw PicketBoxMessages.MESSAGES.aclResourceAlreadySet();
 		this.resource = resource;
 	}
 
@@ -263,9 +262,9 @@ public class ACLImpl implements ACL, Serializable {
 	 * </p>
 	 */
 	private void initEntriesMap() {
-		entriesMap = new HashMap<String, ACLEntry>();
-		for (ACLEntry entry : entries)
-			entriesMap.put(entry.getIdentityOrRole(), entry);
+		this.entriesMap = new HashMap<String, ACLEntry>();
+		for (ACLEntry entry : this.entries)
+			this.entriesMap.put(entry.getIdentityOrRole(), entry);
 	}
 
 }

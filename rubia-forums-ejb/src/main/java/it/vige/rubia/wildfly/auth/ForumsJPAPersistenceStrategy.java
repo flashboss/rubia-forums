@@ -27,8 +27,6 @@ import javax.persistence.NoResultException;
 import org.jboss.logging.Logger;
 import org.jboss.security.acl.ACL;
 import org.jboss.security.acl.ACLEntry;
-import org.jboss.security.acl.ACLEntryImpl;
-import org.jboss.security.acl.ACLImpl;
 import org.jboss.security.acl.ACLPersistenceStrategy;
 import org.jboss.security.acl.ACLResourceFactory;
 import org.jboss.security.acl.Util;

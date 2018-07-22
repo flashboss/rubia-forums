@@ -88,10 +88,10 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * identity.
 	 * </p>
 	 * 
-	 * @param permission
-	 *            the {@code ACLPermission} granted to the associated identity.
-	 * @param identity
-	 *            the {@code Identity} for which the permission is being granted.
+	 * @param permission the {@code ACLPermission} granted to the associated
+	 *                   identity.
+	 * @param identity   the {@code Identity} for which the permission is being
+	 *                   granted.
 	 */
 	public ACLEntryImpl(BitMaskPermission permission, Identity identity) {
 		this.permission = permission;
@@ -105,10 +105,10 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * identity/role name.
 	 * </p>
 	 * 
-	 * @param permission
-	 *            the {@code ACLPermission} granted to the associated identity.
-	 * @param identityOrRole
-	 *            a {@code String} representing the identity or role name.
+	 * @param permission     the {@code ACLPermission} granted to the associated
+	 *                       identity.
+	 * @param identityOrRole a {@code String} representing the identity or role
+	 *                       name.
 	 */
 	public ACLEntryImpl(BitMaskPermission permission, String identityOrRole) {
 		this.permission = permission;
@@ -132,6 +132,7 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * </p>
 	 */
 	@PrePersist
+	@SuppressWarnings("unused")
 	private void setPersistentFields() {
 		if (this.permission != null)
 			this.bitMask = this.permission.getMaskValue();
@@ -143,6 +144,7 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * </p>
 	 */
 	@PostLoad
+	@SuppressWarnings("unused")
 	private void loadState() {
 		if (this.permission != null)
 			throw PicketBoxMessages.MESSAGES.aclEntryPermissionAlreadySet();
