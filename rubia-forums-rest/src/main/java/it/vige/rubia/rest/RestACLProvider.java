@@ -24,8 +24,8 @@ public class RestACLProvider implements ForumsACLProvider {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public boolean hasAccess(SecurityContext arg0) {
-		return aclProvider.hasAccess(arg0);
+	public boolean hasAccess(SecurityContext context) {
+		return aclProvider.hasAccess(context);
 	}
 
 }
