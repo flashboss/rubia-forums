@@ -15,28 +15,19 @@ public class GuestUserTest {
 	private String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 
 	@Test
-	public void setGuestUserName() {
-		Response response = getResponse(url + "setGuestUserName/bubbusettete");
+	public void setAddressName() {
+		Response response = getResponse(url + "setFromAddress/bubbusettete2");
 		response.close();
-		response = getResponse(url + "getGuestUserName");
+		response = getResponse(url + "getFromAddress");
 		String value = response.readEntity(String.class);
 		response.close();
-		assertEquals("bubbusettete", value, "Guest user name sent");
-	}
-
-	@Test
-	public void getChangedGuestUserName() {
-
-	}
-
-	@Test
-	public void setGuestUserNameAgain() {
-
-	}
-
-	@Test
-	public void getChangedGuestUserNameAgain() {
-
+		assertEquals("bubbusettete2", value, "From address name sent");
+		response = getResponse(url + "setFromAddress/portal@example.com");
+		response.close();
+		response = getResponse(url + "getFromAddress");
+		value = response.readEntity(String.class);
+		response.close();
+		assertEquals("portal@example.com", value, "From address name sent");
 	}
 
 	private Response getResponse(String url) {
