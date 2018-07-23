@@ -57,8 +57,8 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.vi
 import static it.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
 import static it.vige.rubia.selenium.myforums.action.ViewAllForumsUpdateForum.viewAllForumsUpdateForum;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 

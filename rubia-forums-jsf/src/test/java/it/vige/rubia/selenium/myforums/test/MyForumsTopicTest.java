@@ -53,8 +53,8 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllTopics.viewAllTopics
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsRemoveTopic.viewAllTopicsRemoveTopic;
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsUpdateTopic.viewAllTopicsUpdateTopic;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 

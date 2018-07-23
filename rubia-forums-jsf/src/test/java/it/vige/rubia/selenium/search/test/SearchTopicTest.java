@@ -65,8 +65,8 @@ import static it.vige.rubia.selenium.search.action.ViewPageTopicSearch.getTopics
 import static it.vige.rubia.selenium.search.action.ViewPageTopicSearch.searchTopic;
 import static java.util.Arrays.asList;
 import static java.util.ResourceBundle.getBundle;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;

@@ -31,7 +31,7 @@ import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.CREA
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_0_MESSAGE;
 import static it.vige.rubia.selenium.adminpanel.test.AdminPanelCategoryTest.REMOVED_CATEGORY_1_MESSAGE;
 import static java.util.ResourceBundle.getBundle;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 

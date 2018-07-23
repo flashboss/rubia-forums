@@ -39,8 +39,8 @@ import static it.vige.rubia.selenium.forum.action.CreateTopic.createTopic;
 import static it.vige.rubia.selenium.forum.action.RemoveTopic.removeTopic;
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.getTopicsOfForums;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;

@@ -48,8 +48,8 @@ import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTop
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollsOfTopics;
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 

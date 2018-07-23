@@ -36,8 +36,8 @@ import static it.vige.rubia.selenium.moderate.action.MoveTopic.moveTopicSelected
 import static it.vige.rubia.selenium.moderate.action.RemoveTopic.removeTopic;
 import static java.util.Arrays.asList;
 import static java.util.ResourceBundle.getBundle;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;

@@ -1,4 +1,4 @@
-package it.vige.rubia.rest.test.forummodule;
+package it.vige.rubia.resttest.forummodule.test;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,26 +9,26 @@ import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-public class GuestUserTest {
+public class AddressNameTest {
 
 	private final static Client client = newClient();
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
 	@Test
-	public void setAddressName() {
-		Response response = getResponse(url + "setFromAddress/bubbusettete2", authorization);
+	public void setGuestUserName() {
+		Response response = getResponse(url + "setGuestUserName/bubbusettete", authorization);
 		response.close();
-		response = getResponse(url + "getFromAddress", authorization);
+		response = getResponse(url + "getGuestUserName", authorization);
 		String value = response.readEntity(String.class);
 		response.close();
-		assertEquals("bubbusettete2", value, "From address name sent");
-		response = getResponse(url + "setFromAddress/portal@example.com", authorization);
+		assertEquals("bubbusettete", value, "Guest user name sent");
+		response = getResponse(url + "setGuestUserName/guest", authorization);
 		response.close();
-		response = getResponse(url + "getFromAddress", authorization);
+		response = getResponse(url + "getGuestUserName", authorization);
 		value = response.readEntity(String.class);
 		response.close();
-		assertEquals("portal@example.com", value, "From address name sent");
+		assertEquals("guest", value, "Guest user name sent");
 	}
 
 	private Response getResponse(String url, String authorization) {

@@ -34,8 +34,8 @@ import static it.vige.rubia.selenium.adminpanel.test.AdminPanelForumTest.SELECT_
 import static it.vige.rubia.selenium.forum.action.LockForum.lockForum;
 import static it.vige.rubia.selenium.forum.action.VerifyForum.getForumsOfCategories;
 import static java.util.ResourceBundle.getBundle;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 

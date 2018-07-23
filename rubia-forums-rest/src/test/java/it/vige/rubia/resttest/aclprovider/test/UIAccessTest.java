@@ -1,4 +1,4 @@
-package it.vige.rubia.rest.test.aclprovider;
+package it.vige.rubia.resttest.aclprovider.test;
 
 import static javax.json.bind.JsonbBuilder.create;
 import static javax.ws.rs.client.ClientBuilder.newClient;

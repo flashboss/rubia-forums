@@ -50,8 +50,8 @@ import static it.vige.rubia.ui.view.SummaryMode.BLOCK_TOPICS_MODE_HOT_TOPICS;
 import static it.vige.rubia.ui.view.SummaryMode.BLOCK_TOPICS_MODE_LATEST_POSTS;
 import static it.vige.rubia.ui.view.SummaryMode.BLOCK_TOPICS_MODE_MOST_VIEWED;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;
