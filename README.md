@@ -102,16 +102,15 @@ The username 'admin' is easy to guess
 Are you sure you want to add user 'admin' yes/no? yes
 
 
-to test it with selenium:
+to test the web application with selenium:
 
     deploy the application in a server
     mvn -Pselenium test
+    
+to test the rest api with junit:
 
-If your web application uses a default locale different by the english you must set in the 'selenium' profile in the pom.xml:
-
-	mvn -Pselenium test -Duser.language=it -Duser.region=IT
-		
-In this sample you must set the testing in the italian language.
+    deploy the rest api in a server
+    mvn -Prest-test test
 
 To debug the application using Eclipse you can put this parameter:
 
