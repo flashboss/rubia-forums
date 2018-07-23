@@ -5,6 +5,8 @@ import static javax.ws.rs.client.Entity.entity;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -49,7 +51,7 @@ public class UIAccessTest {
 		User user = new User("demo");
 		uiContext.setIdentity(new JBossUser(user));
 		Forum forum = new Forum();
-		uiContext.setContextData(new Object[] {forum});
+		uiContext.setContextData(new Object[] { forum });
 		Response response = getResponse(url + "hasAccess", "Basic ZGVtbzpndG4=", uiContext);
 		boolean value = response.readEntity(Boolean.class);
 		response.close();
@@ -57,8 +59,10 @@ public class UIAccessTest {
 	}
 
 	private Response getResponse(String url, String authorization, UIContext uiContext) {
+		Jsonb jsonb = JsonbBuilder.create();
+		String json = jsonb.toJson(uiContext);
 		WebTarget target = client.target(url);
-		Entity<UIContext> uiContextEntity = entity(uiContext, APPLICATION_JSON);
+		Entity<String> uiContextEntity = entity(json, APPLICATION_JSON);
 		return target.request().header("Authorization", authorization).post(uiContextEntity);
 	}
 }
