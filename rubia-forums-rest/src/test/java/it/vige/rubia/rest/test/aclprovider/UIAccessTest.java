@@ -1,12 +1,12 @@
 package it.vige.rubia.rest.test.aclprovider;
 
+import static javax.json.bind.JsonbBuilder.create;
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.client.Entity.entity;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -59,7 +59,7 @@ public class UIAccessTest {
 	}
 
 	private Response getResponse(String url, String authorization, UIContext uiContext) {
-		Jsonb jsonb = JsonbBuilder.create();
+		Jsonb jsonb = create();
 		String json = jsonb.toJson(uiContext);
 		WebTarget target = client.target(url);
 		Entity<String> uiContextEntity = entity(json, APPLICATION_JSON);
