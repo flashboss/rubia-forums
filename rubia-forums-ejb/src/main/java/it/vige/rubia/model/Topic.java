@@ -38,7 +38,6 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.SortableField;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -125,7 +124,6 @@ public class Topic implements Serializable, Comparable<Topic> {
 
 	@Field(index = YES)
 	@Column(name = "JBP_SUBJECT")
-	@SortableField
 	private String subject;
 
 	@ManyToMany
@@ -168,8 +166,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	 * we are implementing comparable to be able to sort topics by last post date
 	 * without to have a column in db.
 	 * 
-	 * @param comp
-	 *            the topic to compare
+	 * @param comp the topic to compare
 	 * @return the result of the comparation. -1 minor, 0 equal, 1 major
 	 */
 	public int compareTo(Topic comp) {
@@ -196,8 +193,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param id
-	 *            DOCUMENT_ME
+	 * @param id DOCUMENT_ME
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -213,8 +209,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param value
-	 *            DOCUMENT_ME
+	 * @param value DOCUMENT_ME
 	 */
 	public void setPosts(List<Post> value) {
 		posts = value;
@@ -230,8 +225,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
-	 *            DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 */
 	public void setForum(Forum forum) {
 		this.forum = forum;
@@ -247,8 +241,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param viewCount
-	 *            DOCUMENT_ME
+	 * @param viewCount DOCUMENT_ME
 	 */
 	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
@@ -264,8 +257,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param replies
-	 *            DOCUMENT_ME
+	 * @param replies DOCUMENT_ME
 	 */
 	public void setReplies(int replies) {
 		this.replies = replies;
@@ -282,8 +274,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param lastPostDate
-	 *            DOCUMENT_ME
+	 * @param lastPostDate DOCUMENT_ME
 	 */
 	public void setLastPostDate(Date lastPostDate) {
 		this.lastPostDate = lastPostDate;
@@ -299,8 +290,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param poster
-	 *            DOCUMENT_ME
+	 * @param poster DOCUMENT_ME
 	 */
 	public void setPoster(Poster poster) {
 		this.poster = poster;
@@ -316,8 +306,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param type
-	 *            DOCUMENT_ME
+	 * @param type DOCUMENT_ME
 	 */
 	public void setType(TopicType type) {
 		this.type = type;
@@ -333,8 +322,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param status
-	 *            DOCUMENT_ME
+	 * @param status DOCUMENT_ME
 	 */
 	public void setStatus(int status) {
 		this.status = status;
@@ -350,8 +338,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param subject
-	 *            DOCUMENT_ME
+	 * @param subject DOCUMENT_ME
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;

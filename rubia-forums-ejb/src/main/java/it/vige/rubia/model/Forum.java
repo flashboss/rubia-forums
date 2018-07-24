@@ -39,7 +39,6 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.SortableField;
 
 /**
  * Category of forums.
@@ -110,7 +109,6 @@ public class Forum implements Serializable {
 
 	@Column(name = "JBP_NAME")
 	@Field(store = YES)
-	@SortableField
 	private String name;
 
 	@Column(name = "JBP_ORDER")
@@ -145,8 +143,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param category
-	 *            DOCUMENT_ME
+	 * @param category DOCUMENT_ME
 	 */
 	public void setCategory(Category category) {
 		this.category = category;
@@ -162,8 +159,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param description
-	 *            DOCUMENT_ME
+	 * @param description DOCUMENT_ME
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -179,8 +175,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param lastPost
-	 *            DOCUMENT_ME
+	 * @param lastPost DOCUMENT_ME
 	 */
 	public void setLastPost(Post lastPost) {
 	}
@@ -195,8 +190,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param name
-	 *            DOCUMENT_ME
+	 * @param name DOCUMENT_ME
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -212,8 +206,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param order
-	 *            DOCUMENT_ME
+	 * @param order DOCUMENT_ME
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -229,8 +222,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param size
-	 *            DOCUMENT_ME
+	 * @param size DOCUMENT_ME
 	 */
 	public void setTopicCount(int size) {
 		this.topicCount = size;
@@ -253,8 +245,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param size
-	 *            DOCUMENT_ME
+	 * @param size DOCUMENT_ME
 	 */
 	public void setPostCount(int size) {
 		this.postCount = size;
@@ -281,8 +272,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param enable
-	 *            DOCUMENT_ME
+	 * @param enable DOCUMENT_ME
 	 */
 	public void setPruneEnable(boolean enable) {
 	}
@@ -299,8 +289,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param next
-	 *            DOCUMENT_ME
+	 * @param next DOCUMENT_ME
 	 */
 	public void setPruneNext(int next) {
 	}
@@ -315,8 +304,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param status
-	 *            DOCUMENT_ME
+	 * @param status DOCUMENT_ME
 	 */
 	public void setStatus(int status) {
 		this.status = status;
@@ -333,8 +321,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param value
-	 *            DOCUMENT_ME
+	 * @param value DOCUMENT_ME
 	 */
 	public void setTopics(List<Topic> value) {
 		topics = value;
@@ -350,8 +337,7 @@ public class Forum implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param watch
-	 *            DOCUMENT_ME
+	 * @param watch DOCUMENT_ME
 	 */
 	public void setForumWatch(Collection<Watch> watch) {
 		this.watch = watch;
