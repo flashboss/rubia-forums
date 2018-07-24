@@ -121,10 +121,10 @@
 							<table class="forumtablestyle">
 								<tr>
 									<td colspan="3" class="buttonrow"><h:commandButton
-											action="${splitTopic.splitPosts}" type="submit"
+											action="#{splitTopic.splitPosts}" type="submit"
 											class="buttonMed" value="${resourcebundle.L_SPLIT_POSTS}">
 											<f:param name="t" value="#{splitTopic.topic.id}" />
-										</h:commandButton> <h:commandButton action="${splitTopic.splitAfter}"
+										</h:commandButton> <h:commandButton action="#{splitTopic.splitAfter}"
 											type="submit" class="buttonMed"
 											value="${resourcebundle.L_SPLIT_AFTER}">
 											<f:param name="t" value="#{splitTopic.topic.id}" />
@@ -177,10 +177,10 @@
 
 								<tr>
 									<td colspan="3" class="buttonrow"><h:commandButton
-											action="${splitTopic.splitPosts}" type="submit"
+											action="#{splitTopic.splitPosts}" type="submit"
 											class="buttonMed" value="${resourcebundle.L_SPLIT_POSTS}">
 											<f:param name="t" value="#{splitTopic.topic.id}" />
-										</h:commandButton> <h:commandButton action="${splitTopic.splitAfter}"
+										</h:commandButton> <h:commandButton action="#{splitTopic.splitAfter}"
 											type="submit" class="buttonMed"
 											value="${resourcebundle.L_SPLIT_AFTER}">
 											<f:param name="t" value="#{splitTopic.topic.id}" />
