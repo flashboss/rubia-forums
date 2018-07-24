@@ -38,7 +38,8 @@
 						itemLabel="${resourcebundle.Delete_all_topics_posts}" />
 					<c:forEach items="#{adminPanel.forums}" var="tableforum">
 						<c:if test="#{tableforum.id != param['f']}">
-							<f:selectItem itemValue="#{tableforum.id}" itemLabel="#{tableforum.name}" />
+							<f:selectItem itemValue="#{tableforum.id}"
+								itemLabel="#{tableforum.name}" />
 						</c:if>
 					</c:forEach>
 				</h:selectOneMenu>
@@ -47,9 +48,8 @@
 						<li><h:commandButton value="${resourcebundle.Confirm}"
 								styleClass="buttonMed" action="#{adminController.deleteForum}" />
 						</li>
-						<li><h:commandButton type="submit"
-								action="${adminController.cancel}"
-								value="${resourcebundle.Cancel}" styleClass="buttonMed" /></li>
+						<li><h:commandButton value="${resourcebundle.Cancel}"
+								styleClass="buttonMed" action="#{adminController.cancel}" /></li>
 					</ul>
 				</div>
 			</h:form>
