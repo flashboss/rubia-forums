@@ -13,6 +13,10 @@
  ******************************************************************************/
 package it.vige.rubia.search;
 
+import static it.vige.rubia.search.DisplayAs.POSTS;
+import static it.vige.rubia.search.Searching.TITLE_MSG;
+import static it.vige.rubia.search.SortOrder.ASC;
+
 import java.io.Serializable;
 
 public class SearchCriteria implements Serializable {
@@ -79,7 +83,7 @@ public class SearchCriteria implements Serializable {
 
 	public String getSearching() {
 		if (searching == null || searching.length() == 0)
-			searching = Searching.TITLE_MSG.name();
+			searching = TITLE_MSG.name();
 
 		return searching;
 	}
@@ -98,7 +102,7 @@ public class SearchCriteria implements Serializable {
 
 	public String getSortOrder() {
 		if (sortOrder == null || sortOrder.length() == 0)
-			sortOrder = SortOrder.ASC.name();
+			sortOrder = ASC.name();
 
 		return sortOrder;
 	}
@@ -109,7 +113,7 @@ public class SearchCriteria implements Serializable {
 
 	public String getDisplayAs() {
 		if (displayAs == null || displayAs.length() == 0)
-			displayAs = DisplayAs.POSTS.name();
+			displayAs = POSTS.name();
 
 		return displayAs;
 	}

@@ -23,7 +23,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Normalizer;
+import org.hibernate.search.annotations.NormalizerDef;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.TokenFilterDef;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -34,6 +40,8 @@ import org.hibernate.search.annotations.Field;
 @NamedQueries({ @NamedQuery(name = "findPosterByUserId", query = "select u from Poster as u where u.userId=:userId") })
 @Entity
 @Table(name = "JBP_FORUMS_POSTERS")
+@NormalizerDef(name = "userId_lowercase", filters = { @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class),
+		@TokenFilterDef(factory = LowerCaseFilterFactory.class) })
 public class Poster {
 
 	@Id
@@ -41,8 +49,10 @@ public class Poster {
 	@GeneratedValue
 	private Integer id;
 
-	@Field(index = YES)
+	@Field(name = "userId", index = YES)
+	@Field(name = "userId_order", index = YES, normalizer = @Normalizer(definition = "userId_lowercase"))
 	@Column(name = "JBP_USER_ID")
+	@SortableField(forField = "userId_order")
 	private String userId;
 
 	@Column(name = "JBP_POST_COUNT")

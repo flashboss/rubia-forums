@@ -35,10 +35,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Normalizer;
+import org.hibernate.search.annotations.NormalizerDef;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.TokenFilterDef;
 
 /**
  * Category of forums.
@@ -67,6 +73,8 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Entity
 @Table(name = "JBP_FORUMS_FORUMS")
 @Indexed(index = "indexes/forums")
+@NormalizerDef(name = "name_lowercase", filters = { @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class),
+		@TokenFilterDef(factory = LowerCaseFilterFactory.class) })
 public class Forum implements Serializable {
 
 	/**
@@ -108,7 +116,9 @@ public class Forum implements Serializable {
 	private Integer id;
 
 	@Column(name = "JBP_NAME")
-	@Field(store = YES)
+	@Field(name = "name", store = YES)
+	@Field(name = "name_order", store = YES, normalizer = @Normalizer(definition = "name_lowercase"))
+	@SortableField(forField = "name_order")
 	private String name;
 
 	@Column(name = "JBP_ORDER")
