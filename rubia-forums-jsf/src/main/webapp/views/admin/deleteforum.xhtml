@@ -36,9 +36,9 @@
 				<h:selectOneMenu value="#{adminController.selectedForum}">
 					<f:selectItem itemValue="-1"
 						itemLabel="${resourcebundle.Delete_all_topics_posts}" />
-					<c:forEach items="#{adminPanel.forums}" var="forum">
-						<c:if test="#{forum.id != param['f']}">
-							<f:selectItem itemValue="#{forum.id}" itemLabel="#{forum.name}" />
+					<c:forEach items="#{adminPanel.forums}" var="tableforum">
+						<c:if test="#{tableforum.id != param['f']}">
+							<f:selectItem itemValue="#{tableforum.id}" itemLabel="#{tableforum.name}" />
 						</c:if>
 					</c:forEach>
 				</h:selectOneMenu>

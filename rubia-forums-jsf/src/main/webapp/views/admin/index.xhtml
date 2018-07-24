@@ -56,7 +56,7 @@
 			</tr>
 
 			<!-- display a list of categories -->
-			<c:forEach items="#{adminPanel.categories}" var="category"
+			<c:forEach items="#{adminPanel.categories}" var="tablecategory"
 				varStatus="categoryIdx">
 				<forums:isAllowed fragment="acl://viewCategory"
 					contextData="#{category}" forumsACLProvider="#{forumsACLProvider}"
@@ -68,13 +68,13 @@
 
 							<c:when
 								test="${ ( (adminController.editCategoryMode and forums:message('feedback') eq null) 
-                               and (adminController.selectedCategory eq category.id)                         )
+                               and (adminController.selectedCategory eq tablecategory.id)                         )
                              or 
-                             ( category.title eq null                           )
+                             ( tablecategory.title eq null                           )
                            }">
 								<tr class="editRow">
-									<td><h:form id="form_${category.id}">
-											<input type="hidden" name="c" value="#{category.id}" />
+									<td><h:form id="form_${tablecategory.id}">
+											<input type="hidden" name="c" value="#{tablecategory.id}" />
 											<input type="hidden" name="editCategory" value="true" />
 											<label for="categoryname" class="categorylabel">${resourcebundle.Category_name}:</label>
 											<h:inputText id="Category" required="true"
@@ -96,7 +96,7 @@
 											forumsACLProvider="#{forumsACLProvider}"
 											userModule="#{userModule}">
 											<h:form>
-												<input type="hidden" name="c" value="#{category.id}" />
+												<input type="hidden" name="c" value="#{tablecategory.id}" />
 												<input type="hidden" name="addForum" value="true" />
 												<div class="forumfloatright actionbuttons">
 													<h:commandLink>
@@ -106,12 +106,12 @@
 													</h:commandLink>
 												</div>
 											</h:form>
-										</forums:isAllowed> <strong>${category.title}</strong> <forums:isAllowed
+										</forums:isAllowed> <strong>${tablecategory.title}</strong> <forums:isAllowed
 											fragment="acl://editCategory" contextData="#{category}"
 											forumsACLProvider="#{forumsACLProvider}"
 											userModule="#{userModule}">
 											<h:form>
-												<input type="hidden" name="c" value="#{category.id}" />
+												<input type="hidden" name="c" value="#{tablecategory.id}" />
                             &#160;(&#160;
                             <h:commandLink>
 													<f:param name="editCategory" value="true" />
@@ -123,7 +123,7 @@
 
 									</td>
 									<td class="forumlistlast actionbuttons"><h:form>
-											<input type="hidden" name="c" value="#{category.id}" />
+											<input type="hidden" name="c" value="#{tablecategory.id}" />
 											<ul>
 												<li><c:choose>
 
@@ -174,7 +174,7 @@
 															forumsACLProvider="#{forumsACLProvider}"
 															userModule="#{userModule}">
 															<h:commandLink action="deleteCategory">
-																<f:param name="c" value="#{category.id}" />
+																<f:param name="c" value="#{tablecategory.id}" />
 																<img
 																	src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
 																	alt="${resourcebundle.Delete}" name="delete" border="0" />
@@ -199,7 +199,7 @@
 					</f:subview>
 
 					<!-- display the forums in this category -->
-					<c:forEach items="#{category.forums}" var="forum"
+					<c:forEach items="#{tablecategory.forums}" var="tableforum"
 						varStatus="forumIdx">
 						<forums:isAllowed fragment="acl://viewForum"
 							contextData="#{forum}" forumsACLProvider="#{forumsACLProvider}"
@@ -211,14 +211,14 @@
 
 									<c:when
 										test="${( (adminController.editForumMode and forums:message('feedback') eq null)
-                               and adminController.selectedForum eq forum.id                              )
-                            or ( forum.name eq null                         )}">
+                               and adminController.selectedForum eq tableforum.id                              )
+                            or ( tableforum.name eq null                         )}">
 										<tr class="editRow">
-											<td class="Indent"><h:form id="forumForm_${forum.id}"
+											<td class="Indent"><h:form id="forumForm_${tableforum.id}"
 													styleClass="create-forum">
-													<input type="hidden" name="c" value="#{category.id}" />
+													<input type="hidden" name="c" value="#{tablecategory.id}" />
 													<input type="hidden" name="editForum" value="true" />
-													<input type="hidden" name="f" value="#{forum.id}" />
+													<input type="hidden" name="f" value="#{tableforum.id}" />
 													<label for="forumname">${resourcebundle.Forum_name}:</label>
 													<h:inputText id="Forum" required="true"
 														value="#{adminController.forumName}" />
@@ -244,12 +244,12 @@
 
 									<c:otherwise>
 										<tr class="evenRow">
-											<td class="Indent"><strong>${forum.name}</strong> <forums:isAllowed
+											<td class="Indent"><strong>${tableforum.name}</strong> <forums:isAllowed
 													fragment="acl://editForum" contextData="#{forum}"
 													forumsACLProvider="#{forumsACLProvider}"
 													userModule="#{userModule}">
 													<h:form>
-														<input type="hidden" name="f" value="#{forum.id}" />
+														<input type="hidden" name="f" value="#{tableforum.id}" />
                             &#160;(&#160;
                             <h:commandLink>
 															<f:param name="editForum" value="true" />
@@ -257,9 +257,9 @@
 														</h:commandLink>
                             )
                         </h:form>
-												</forums:isAllowed> ${forum.description}</td>
+												</forums:isAllowed> ${tableforum.description}</td>
 											<td class="forumlistlast actionbuttons"><h:form>
-													<input type="hidden" name="f" value="#{forum.id}" />
+													<input type="hidden" name="f" value="#{tableforum.id}" />
 													<ul>
 														<li><c:choose>
 
@@ -284,7 +284,7 @@
 														<li><c:choose>
 
 																<c:when
-																	test="${forumIdx.index eq fn:length(category.forums)-1}">
+																	test="${forumIdx.index eq fn:length(tablecategory.forums)-1}">
 																	<img
 																		src="${themeHelper.getURL('resourceAdminArrowDownDisaURL')}"
 																		alt="${resourcebundle.Move_down}" name="arrowdown"
@@ -310,7 +310,7 @@
 																	forumsACLProvider="#{forumsACLProvider}"
 																	userModule="#{userModule}">
 																	<h:commandLink action="deleteForum">
-																		<f:param name="f" value="#{forum.id}" />
+																		<f:param name="f" value="#{tableforum.id}" />
 																		<img
 																			src="${themeHelper.getURL('resourceTopicModeDeleteURL')}"
 																			alt="${resourcebundle.Delete}" name="delete"
@@ -334,10 +334,10 @@
 															<li><c:choose>
 
 																	<c:when
-																		test="#{adminController.isLocked(forum.status)}">
+																		test="#{adminController.isLocked(tableforum.status)}">
 																		<h:commandLink action="#{adminController.unlockForum}">
-																			<f:param name="f" value="#{forum.id}" />
-																			<f:param name="c" value="#{category.id}" />
+																			<f:param name="f" value="#{tableforum.id}" />
+																			<f:param name="c" value="#{tablecategory.id}" />
 																			<img
 																				src="${themeHelper.getURL('resourceIconUnlockURL')}"
 																				alt="${resourcebundle.Forum_unlock}" border="0" />
@@ -346,8 +346,8 @@
 
 																	<c:otherwise>
 																		<h:commandLink action="#{adminController.lockForum}">
-																			<f:param name="f" value="#{forum.id}" />
-																			<f:param name="c" value="#{category.id}" />
+																			<f:param name="f" value="#{tableforum.id}" />
+																			<f:param name="c" value="#{tablecategory.id}" />
 																			<img
 																				src="${themeHelper.getURL('resourceIconLockURL')}"
 																				alt="${resourcebundle.Forum_lock}" border="0" />
@@ -372,12 +372,12 @@
 					<!-- Add forum form -->
 					<c:if
 						test="${ adminController.addForumMode
-                       and (adminController.selectedCategory eq category.id)
+                       and (adminController.selectedCategory eq tablecategory.id)
                        and forums:message('feedback') eq null }">
 
 						<tr class="editRow">
 							<td class="Indent"><h:form styleClass="create-forum">
-									<input type="hidden" name="c" value="#{category.id}" />
+									<input type="hidden" name="c" value="#{tablecategory.id}" />
 									<input type="hidden" name="addForum" value="true" />
 									<label for="forumname">${resourcebundle.Forum_name}:</label>
 									<h:inputText id="Forum" required="true"

@@ -37,10 +37,10 @@
 				<h:selectOneMenu value="#{adminController.selectedCategory}">
 					<f:selectItem itemValue="-1"
 						itemLabel="${resourcebundle.Delete_all_forums_topics_posts}" />
-					<c:forEach items="#{adminPanel.categories}" var="category">
-						<c:if test="#{category.id != param['c']}">
-							<f:selectItem itemValue="#{category.id}"
-								itemLabel="#{category.title}" />
+					<c:forEach items="#{adminPanel.categories}" var="tablecategory">
+						<c:if test="#{tablecategory.id != param['c']}">
+							<f:selectItem itemValue="#{tablecategory.id}"
+								itemLabel="#{tablecategory.title}" />
 						</c:if>
 					</c:forEach>
 				</h:selectOneMenu>
