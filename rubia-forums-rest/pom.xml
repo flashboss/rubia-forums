@@ -34,7 +34,6 @@
 		<finalName>rubia-forums-rest</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${maven.war.plugin.version}</version>
 				<configuration>
@@ -51,6 +50,7 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.surefire.plugin.version}</version>
 						<configuration>
 							<excludes>
 								<exclude>**/resttest/**</exclude>
@@ -67,6 +67,7 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.surefire.plugin.version}</version>
 						<configuration>
 							<excludes>
 								<exclude>**/resttest/**</exclude>
@@ -82,7 +83,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${maven.surefire.plugin.version}</version>
 						<dependencies>

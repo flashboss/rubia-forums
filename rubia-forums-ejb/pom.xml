@@ -34,8 +34,8 @@
 		<finalName>rubia-forums</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
+				<version>${maven.ejb.plugin.version}</version>
 				<configuration>
 					<generateClient>false</generateClient>
 					<ejbVersion>${ejb.version}</ejbVersion>

@@ -35,7 +35,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<finalName>rubia-forums</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${maven.war.plugin.version}</version>
 				<configuration>
@@ -52,6 +51,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<plugins>
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.surefire.plugin.version}</version>
 						<configuration>
 							<excludes>
 								<exclude>**/selenium/**</exclude>
@@ -68,6 +68,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<plugins>
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.surefire.plugin.version}</version>
 						<configuration>
 							<excludes>
 								<exclude>**/selenium/**</exclude>
