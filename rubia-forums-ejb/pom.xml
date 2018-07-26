@@ -99,7 +99,7 @@
 							<replacements>
 								<replacement>
 									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
-									<value>create</value>
+									<value>none</value>
 								</replacement>
 							</replacements>
 						</configuration>
