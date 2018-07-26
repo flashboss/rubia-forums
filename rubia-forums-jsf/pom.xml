@@ -64,6 +64,9 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 		<profile>
 			<id>production</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>

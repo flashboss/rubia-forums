@@ -45,6 +45,10 @@ If you want install in production mode you must use:
 
     mvn clean install -Pproduction
     
+Or simply:
+
+    mvn clean install
+    
 If you want automatically install and deploy the jsf application in a local active WildFly server:
 
     mvn install -Pproduction,deploy-jsf

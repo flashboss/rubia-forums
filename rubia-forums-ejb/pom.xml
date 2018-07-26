@@ -77,6 +77,9 @@
 
 		<profile>
 			<id>production</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -96,7 +99,7 @@
 							<replacements>
 								<replacement>
 									<token>MAVEN_REPLACER_HBM2DDL_AUTO</token>
-									<value>none</value>
+									<value>create</value>
 								</replacement>
 							</replacements>
 						</configuration>
