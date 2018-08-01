@@ -21,6 +21,8 @@ import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
 import static java.lang.Long.valueOf;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
+import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
 import java.text.DateFormat;
@@ -160,7 +162,7 @@ public class JSFUtil {
 	public static String handleException(Exception e) {
 		String genericNavState = ERROR;
 		String msg = e.toString();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+		FacesMessage message = new FacesMessage(SEVERITY_ERROR, // severity
 				msg, // summary
 				msg// detail
 		);
@@ -208,7 +210,7 @@ public class JSFUtil {
 	 *            the text of the message to create
 	 */
 	public static void setMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, // severity
+		FacesMessage message = new FacesMessage(SEVERITY_INFO, // severity
 				msg, // summary
 				msg// detail
 		);
@@ -222,7 +224,7 @@ public class JSFUtil {
 	 *            the text of the error message to create
 	 */
 	public static void setErrorMessage(String id, String msg) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, // severity
+		FacesMessage message = new FacesMessage(SEVERITY_ERROR, // severity
 				msg, // summary
 				msg// detail
 		);
