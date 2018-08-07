@@ -32,10 +32,10 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.search.SearchCriteria;
 
 public class ViewPagePostSearch extends ViewPageSearch {
@@ -52,14 +52,14 @@ public class ViewPagePostSearch extends ViewPageSearch {
 
 	public static DateFormat dateFormat = new SimpleDateFormat("EEE MMM d, yyyy HH:mm aaa");
 
-	public static List<Post> searchPost(WebDriver driver, SearchCriteria arguments) {
+	public static List<PostBean> searchPost(WebDriver driver, SearchCriteria arguments) {
 		addKeys(driver, arguments);
 		return getPosts(driver, arguments);
 	}
 
-	private static Post getPost(WebDriver driver, WebElement element) {
-		Post post = new Post();
-		post.setPoster(new Poster(element.findElement(xpath(POST_POSTER)).getText()));
+	private static PostBean getPost(WebDriver driver, WebElement element) {
+		PostBean post = new PostBean();
+		post.setPoster(new PosterBean(element.findElement(xpath(POST_POSTER)).getText()));
 		String createdDate = element.findElement(xpath(POST_CREATED_DATE)).getText()
 				.replace(getBundle("ResourceJSF").getString("Posted") + ": ", "");
 		try {
@@ -67,17 +67,17 @@ public class ViewPagePostSearch extends ViewPageSearch {
 			post.setCreateDate(date);
 		} catch (ParseException e) {
 		}
-		Message message = new Message();
+		MessageBean message = new MessageBean();
 		message.setSubject(element.findElement(xpath(POST_SUBJECT)).getText()
 				.replace(getBundle("ResourceJSF").getString("Post_subject") + ": ", ""));
 		message.setText(element.findElement(xpath(POST_TEXT)).getText());
 		post.setMessage(message);
-		List<Attachment> attachments = getAttachmentsOfCurrentPostInPageNoParent(driver, post);
+		List<AttachmentBean> attachments = getAttachmentsOfCurrentPostInPageNoParent(driver, post);
 		post.setAttachments(attachments);
 		return post;
 	}
 
-	public static List<Post> getPosts(WebDriver driver, SearchCriteria arguments) {
+	public static List<PostBean> getPosts(WebDriver driver, SearchCriteria arguments) {
 		WebElement button = driver.findElements(className(BUTTON)).get(0);
 		button.click();
 		WebElement messageResult = getMessageResult(driver);
@@ -85,7 +85,7 @@ public class ViewPagePostSearch extends ViewPageSearch {
 				|| messageResult.getText().equals(getBundle("ResourceJSF").getString("Search_posts_not_found"))))
 			return null;
 		else {
-			List<Post> posts = new ArrayList<Post>();
+			List<PostBean> posts = new ArrayList<PostBean>();
 			List<WebElement> elements = driver.findElements(className(POST_VIEW));
 			for (WebElement element : elements)
 				posts.add(getPost(driver, element));
@@ -93,17 +93,17 @@ public class ViewPagePostSearch extends ViewPageSearch {
 		}
 	}
 
-	public static Poster getPosterFromLink(WebDriver driver, Post post) {
+	public static PosterBean getPosterFromLink(WebDriver driver, PostBean post) {
 		WebElement profileLink = driver
 				.findElement(xpath("//tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td/a"));
 		String userId = profileLink.getText();
 		profileLink.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	public static Poster getPosterFromButton(WebDriver driver, Post post) {
+	public static PosterBean getPosterFromButton(WebDriver driver, PostBean post) {
 		WebElement profileLink = driver
 				.findElement(xpath("//tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td"));
@@ -112,7 +112,7 @@ public class ViewPagePostSearch extends ViewPageSearch {
 				.findElement(xpath("//tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr[3]/td[2]/ul/li/a"));
 		button.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 

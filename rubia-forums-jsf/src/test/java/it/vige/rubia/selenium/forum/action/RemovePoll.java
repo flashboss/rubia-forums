@@ -21,14 +21,15 @@ import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Topic;
 
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class RemovePoll {
 	public static final String UPDATE_TOPIC_BUTTON = "miviewtopicbody6";
@@ -38,28 +39,24 @@ public class RemovePoll {
 	public static final String QUESTION_INPUT_TEXT = "post:question";
 	public static final String RESULT_REMOVE_POLL = "failuretext";
 
-	public static String removePoll(WebDriver driver, Topic topic) {
+	public static String removePoll(WebDriver driver, TopicBean topic) {
 		goTo(driver, topic);
-		WebElement updateTopicButton = driver.findElements(xpath("//tbody"))
-				.get(2).findElement(id(UPDATE_TOPIC_BUTTON))
+		WebElement updateTopicButton = driver.findElements(xpath("//tbody")).get(2).findElement(id(UPDATE_TOPIC_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updateTopicButton.click();
-		List<PollOption> options = topic.getPoll().getOptions();
+		List<PollOptionBean> options = topic.getPoll().getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
-				WebElement optionButton = driver
-						.findElement(id(DELETE_OPTION_BUTTON));
+				WebElement optionButton = driver.findElement(id(DELETE_OPTION_BUTTON));
 				optionButton.click();
 			}
 		WebElement questionText = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionText.clear();
-		WebElement confirmUpdateButton = driver
-				.findElement(id(CONFIRM_UPDATE_TOPIC_BUTTON));
+		WebElement confirmUpdateButton = driver.findElement(id(CONFIRM_UPDATE_TOPIC_BUTTON));
 		confirmUpdateButton.click();
 		String result;
 		try {
-			result = driver.findElement(className(RESULT_REMOVE_POLL))
-					.getText();
+			result = driver.findElement(className(RESULT_REMOVE_POLL)).getText();
 		} catch (NoSuchElementException ex) {
 			result = OK;
 		}

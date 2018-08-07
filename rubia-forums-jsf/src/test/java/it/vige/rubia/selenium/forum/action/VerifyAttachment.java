@@ -39,12 +39,12 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class VerifyAttachment {
 
@@ -62,8 +62,8 @@ public class VerifyAttachment {
 	public static final String ATTACHMENT_DOWNLOAD_LINK = "tbody/tr[2]/td[3]/a";
 	public static final String BODY_OUTPUT_TEXT = "forumpostcontent";
 
-	public static List<Attachment> getAttachmentsOfTopics(WebDriver driver, Topic... topics) {
-		List<Attachment> attachments = new LinkedList<Attachment>();
+	public static List<AttachmentBean> getAttachmentsOfTopics(WebDriver driver, TopicBean... topics) {
+		List<AttachmentBean> attachments = new LinkedList<AttachmentBean>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
@@ -97,45 +97,45 @@ public class VerifyAttachment {
 		return attachments;
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPost(WebDriver driver, Post post) {
+	public static List<AttachmentBean> getAttachmentsOfCurrentPost(WebDriver driver, PostBean post) {
 		goTo(driver, post.getTopic());
 		return getAttachmentsOfCurrentPostInPage(driver, post);
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPostInPage(WebDriver driver, Post post) {
+	public static List<AttachmentBean> getAttachmentsOfCurrentPostInPage(WebDriver driver, PostBean post) {
 		WebElement postComponent = driver
 				.findElement(xpath("//td[contains(p/text(),'" + post.getMessage().getText() + "')]"));
 		return getAttachmentsOfCurrentPost(driver, postComponent);
 	}
 
-	private static List<Attachment> getAttachmentsOfCurrentPost(WebDriver driver, WebElement postComponent) {
-		List<Attachment> attachments = new LinkedList<Attachment>();
+	private static List<AttachmentBean> getAttachmentsOfCurrentPost(WebDriver driver, WebElement postComponent) {
+		List<AttachmentBean> attachments = new LinkedList<AttachmentBean>();
 		List<WebElement> attachmentComponents = postComponent.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
-			Attachment attachment = getAttachment(attachmentComponent);
+			AttachmentBean attachment = getAttachment(attachmentComponent);
 			addParents(driver, attachment);
 			attachments.add(attachment);
 		}
 		return attachments;
 	}
 
-	public static List<Attachment> getAttachmentsOfCurrentPostInPageNoParent(WebDriver driver, Post post) {
+	public static List<AttachmentBean> getAttachmentsOfCurrentPostInPageNoParent(WebDriver driver, PostBean post) {
 		WebElement postComponent = driver
 				.findElement(xpath("//td[contains(p/text(),'" + post.getMessage().getText() + "')]"));
 		return getAttachmentsOfCurrentPostNoParent(driver, postComponent);
 	}
 
-	private static List<Attachment> getAttachmentsOfCurrentPostNoParent(WebDriver driver, WebElement postComponent) {
-		List<Attachment> attachments = new LinkedList<Attachment>();
+	private static List<AttachmentBean> getAttachmentsOfCurrentPostNoParent(WebDriver driver, WebElement postComponent) {
+		List<AttachmentBean> attachments = new LinkedList<AttachmentBean>();
 		List<WebElement> attachmentComponents = postComponent.findElements(className(ATTACHMENT_LIST));
 		for (WebElement attachmentComponent : attachmentComponents) {
-			Attachment attachment = getAttachment(attachmentComponent);
+			AttachmentBean attachment = getAttachment(attachmentComponent);
 			attachments.add(attachment);
 		}
 		return attachments;
 	}
 
-	private static Attachment getAttachment(WebElement attachmentComponent) {
+	private static AttachmentBean getAttachment(WebElement attachmentComponent) {
 		String attachmentName = attachmentComponent.findElement(xpath(ATTACHMENT_NAME_OUTPUT_TEXT)).getText();
 		String attachmentComment = attachmentComponent.findElement(xpath(ATTACHMENT_COMMENT_OUTPUT_TEXT)).getText();
 		String attachmentSize = attachmentComponent.findElement(xpath(ATTACHMENT_SIZE_OUTPUT_TEXT)).getText();
@@ -143,7 +143,7 @@ public class VerifyAttachment {
 		File file = new File(download_url + "/" + attachmentName);
 		int attachmentSizeValue = parseInt(attachmentSize.split(" B")[0]);
 		byte[] content = new byte[attachmentSizeValue];
-		Attachment attachment = new Attachment();
+		AttachmentBean attachment = new AttachmentBean();
 		try {
 			writeFile(content, file);
 		} catch (IOException e) {
@@ -171,27 +171,27 @@ public class VerifyAttachment {
 
 	}
 
-	private static void addParents(WebDriver driver, Attachment attachment) {
-		Post post = new Post();
-		Message message = new Message();
+	private static void addParents(WebDriver driver, AttachmentBean attachment) {
+		PostBean post = new PostBean();
+		MessageBean message = new MessageBean();
 		message.setSubject(driver.findElement(POST_TEMPLATE_LINK.getValue()).getText());
 		post.setMessage(message);
-		Topic topic = new Topic();
+		TopicBean topic = new TopicBean();
 		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue()).getText());
 		post.setTopic(topic);
-		Forum forum = new Forum();
+		ForumBean forum = new ForumBean();
 		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue()).getText());
 		topic.setForum(forum);
-		Category category = new Category();
+		CategoryBean category = new CategoryBean();
 		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText());
 		forum.setCategory(category);
 		attachment.setPost(post);
 
 	}
 
-	private static List<String> findTopicNames(Topic[] topics) {
+	private static List<String> findTopicNames(TopicBean[] topics) {
 		List<String> topicNames = new ArrayList<String>();
-		for (Topic topic : topics)
+		for (TopicBean topic : topics)
 			topicNames.add(topic.getSubject());
 		return topicNames;
 	}

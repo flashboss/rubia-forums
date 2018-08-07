@@ -8,14 +8,14 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 
 public class LockTopic {
 
 	public static final String LOCK_TOPIC = "miviewtopicbody16";
 	public static final String RESULT_LOCK_TOPIC = "forumtitletext";
 
-	public static String lockTopic(WebDriver driver, Topic topic) {
+	public static String lockTopic(WebDriver driver, TopicBean topic) {
 		goTo(driver, topic);
 		WebElement lockTopic = driver.findElement(id(LOCK_TOPIC)).findElement(xpath("form/ul/li[4]/a"));
 		lockTopic.click();

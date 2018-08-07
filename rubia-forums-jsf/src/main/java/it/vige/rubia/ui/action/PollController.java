@@ -26,10 +26,10 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -74,10 +74,10 @@ public class PollController extends BaseController {
 					return null;
 				}
 
-				Topic topic = forumsModule.findTopicById(topicId);
-				Poll poll = topic.getPoll();
-				PollOption selectedOption = poll.getOptions().get(voteIndex);
-				Poster poster = getPoster(userModule, forumsModule);
+				TopicBean topic = forumsModule.findTopicById(topicId);
+				PollBean poll = topic.getPoll();
+				PollOptionBean selectedOption = poll.getOptions().get(voteIndex);
+				PosterBean poster = getPoster(userModule, forumsModule);
 
 				// perform the voting on the selected option
 				if (poster != null) {

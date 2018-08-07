@@ -23,14 +23,14 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.ForumBean;
 
 public class LockForum {
 
 	public static final String LOCK_FORUM = "admintools";
 	public static final String RESULT_LOCK_FORUM = "forumtitletext";
 
-	public static String lockForum(WebDriver driver, Forum forum) {
+	public static String lockForum(WebDriver driver, ForumBean forum) {
 		goTo(driver, forum);
 		WebElement lockForum = driver.findElement(className(LOCK_FORUM)).findElement(xpath("ul/li[2]/a"));
 		lockForum.click();

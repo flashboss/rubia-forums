@@ -31,9 +31,9 @@ import javax.interceptor.Interceptors;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.action.PreferenceController;
 
@@ -54,11 +54,11 @@ public class ViewSearch extends BaseController {
 	@Inject
 	private PreferenceController userPreferences;
 
-	private List<Post> posts;
-	private DataModel<Post> postsDataModel = new ListDataModel<Post>(posts);
+	private List<PostBean> posts;
+	private DataModel<PostBean> postsDataModel = new ListDataModel<PostBean>(posts);
 
-	private List<Topic> topics;
-	private DataModel<Topic> topicsDataModel = new ListDataModel<Topic>(topics);
+	private List<TopicBean> topics;
+	private DataModel<TopicBean> topicsDataModel = new ListDataModel<TopicBean>(topics);
 
 	private Map<Object, Object> topicLastPosts;
 
@@ -66,35 +66,35 @@ public class ViewSearch extends BaseController {
 		this.topicLastPosts = topicLastPosts;
 	}
 
-	public DataModel<Post> getPostsDataModel() {
+	public DataModel<PostBean> getPostsDataModel() {
 		return postsDataModel;
 	}
 
-	public void setPostsDataModel(DataModel<Post> postsDataModel) {
+	public void setPostsDataModel(DataModel<PostBean> postsDataModel) {
 		this.postsDataModel = postsDataModel;
 	}
 
-	public DataModel<Topic> getTopicsDataModel() {
+	public DataModel<TopicBean> getTopicsDataModel() {
 		return topicsDataModel;
 	}
 
-	public void setTopicsDataModel(DataModel<Topic> topicsDataModel) {
+	public void setTopicsDataModel(DataModel<TopicBean> topicsDataModel) {
 		this.topicsDataModel = topicsDataModel;
 	}
 
-	public List<Post> getPosts() {
+	public List<PostBean> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<PostBean> posts) {
 		this.posts = posts;
 	}
 
-	public List<Topic> getTopics() {
+	public List<TopicBean> getTopics() {
 		return topics;
 	}
 
-	public void setTopics(List<Topic> topics) {
+	public void setTopics(List<TopicBean> topics) {
 		this.topics = topics;
 	}
 
@@ -108,7 +108,7 @@ public class ViewSearch extends BaseController {
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = (Post) getTopicLastPosts().get(id);
+		PostBean post = (PostBean) getTopicLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -126,8 +126,7 @@ public class ViewSearch extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -142,7 +141,7 @@ public class ViewSearch extends BaseController {
 			return 1;
 	}
 
-	public Collection<Attachment> findAttachments(Post post) {
+	public Collection<AttachmentBean> findAttachments(PostBean post) {
 		return forumsModule.findAttachments(post);
 	}
 

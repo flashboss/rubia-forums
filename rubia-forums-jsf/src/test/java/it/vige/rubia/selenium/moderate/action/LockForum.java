@@ -7,17 +7,17 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class LockForum {
 
 	public static final String LOCK_FORUM = "buttonMed";
 	public static final String RESULT_LOCK_FORUM = "forumtitletext";
 
-	public static String lockForum(WebDriver driver, Forum forum) {
+	public static String lockForum(WebDriver driver, ForumBean forum) {
 		if (forum != null)
-			for (Topic topic : forum.getTopics()) {
+			for (TopicBean topic : forum.getTopics()) {
 				WebElement topicToSelect = driver.findElement(linkText(topic.getSubject()))
 						.findElement(xpath("../../td[5]/input"));
 				topicToSelect.click();
@@ -30,9 +30,9 @@ public class LockForum {
 		return message;
 	}
 
-	public static String unlockForum(WebDriver driver, Forum forum) {
+	public static String unlockForum(WebDriver driver, ForumBean forum) {
 		if (forum != null)
-			for (Topic topic : forum.getTopics()) {
+			for (TopicBean topic : forum.getTopics()) {
 				WebElement topicToSelect = driver.findElement(linkText(topic.getSubject()))
 						.findElement(xpath("../../td[5]/input"));
 				topicToSelect.click();

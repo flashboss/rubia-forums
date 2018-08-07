@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
-import it.vige.rubia.model.Attachment;
+import it.vige.rubia.dto.AttachmentBean;
 
 /**
  * @author sohil shah
@@ -69,7 +69,7 @@ public class DownloadFilter implements Filter {
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
 				// get this attachment data
 				int attachmentId = Integer.parseInt(request.getParameter("id"));
-				Attachment attachment = forumsModule.findAttachmentById(attachmentId);
+				AttachmentBean attachment = forumsModule.findAttachmentById(attachmentId);
 
 				// set the attachment headers
 				httpResponse.setContentLength((int) attachment.getSize());

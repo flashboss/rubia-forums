@@ -41,9 +41,9 @@ import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.ThemeHelper;
 import it.vige.rubia.ui.action.PreferenceController;
@@ -78,11 +78,11 @@ public class ViewCategory extends BaseController {
 	// this is data is created such that it can be consumed by the view
 	// components
 	// like facelets
-	private Collection<Category> categories = null;
-	private Map<Integer, Collection<Forum>> forums = null;
+	private Collection<CategoryBean> categories = null;
+	private Map<Integer, Collection<ForumBean>> forums = null;
 	private Map<Integer, String> forumImages = null;
 	private Map<Integer, String> forumImageDescriptions = null;
-	private Map<Object, Post> forumLastPosts = null;
+	private Map<Object, PostBean> forumLastPosts = null;
 	private boolean categorySelected = false;
 
 	// ------------user
@@ -95,8 +95,7 @@ public class ViewCategory extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -114,9 +113,9 @@ public class ViewCategory extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Category> getCategories() {
+	public Collection<CategoryBean> getCategories() {
 		if (categories == null) {
-			categories = new ArrayList<Category>();
+			categories = new ArrayList<CategoryBean>();
 		}
 		return categories;
 	}
@@ -127,9 +126,9 @@ public class ViewCategory extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Integer, Collection<Forum>> getForums() {
+	public Map<Integer, Collection<ForumBean>> getForums() {
 		if (forums == null) {
-			forums = new HashMap<Integer, Collection<Forum>>();
+			forums = new HashMap<Integer, Collection<ForumBean>>();
 		}
 		return forums;
 	}
@@ -161,9 +160,9 @@ public class ViewCategory extends BaseController {
 	/**
 	 * @return Returns the a Map which contains ForumId:LastPost pairs.
 	 */
-	public Map<Object, Post> getForumLastPosts() {
+	public Map<Object, PostBean> getForumLastPosts() {
 		if (forumLastPosts == null) {
-			forumLastPosts = new HashMap<Object, Post>();
+			forumLastPosts = new HashMap<Object, PostBean>();
 		}
 		return forumLastPosts;
 	}
@@ -171,7 +170,7 @@ public class ViewCategory extends BaseController {
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = getForumLastPosts().get(id);
+		PostBean post = getForumLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -190,7 +189,7 @@ public class ViewCategory extends BaseController {
 	@Interceptors(AuthorizationListener.class)
 	public String getRssFeed() {
 		if (categorySelected && categories != null && !categories.isEmpty()) {
-			Category category = categories.iterator().next();
+			CategoryBean category = categories.iterator().next();
 			return createFeedLink(RSS, CATEGORY, category.getId());
 		} else {
 			return createFeedLink(RSS, GLOBAL, null);
@@ -201,7 +200,7 @@ public class ViewCategory extends BaseController {
 	@Interceptors(AuthorizationListener.class)
 	public String getAtomFeed() {
 		if (categorySelected && categories != null && !categories.isEmpty()) {
-			Category category = categories.iterator().next();
+			CategoryBean category = categories.iterator().next();
 			return createFeedLink(ATOM, CATEGORY, category.getId());
 		} else {
 			return createFeedLink(ATOM, GLOBAL, null);
@@ -238,14 +237,14 @@ public class ViewCategory extends BaseController {
 			if (categoryId == -1) {
 				// process a default level category
 				// Luca Stancapiano
-				Collection<Category> cour = forumsModule.findCategoriesFetchForums(forumInstanceId);
+				Collection<CategoryBean> cour = forumsModule.findCategoriesFetchForums(forumInstanceId);
 				if (cour != null) {
-					for (Category currentCategory : cour)
+					for (CategoryBean currentCategory : cour)
 						processCategory(currentCategory);
 				}
 			} else {
 				// process the specifed category
-				Category currentCategory = forumsModule.findCategoryById(categoryId);
+				CategoryBean currentCategory = forumsModule.findCategoryById(categoryId);
 				if (currentCategory != null) {
 					processCategory(currentCategory);
 				}
@@ -259,22 +258,22 @@ public class ViewCategory extends BaseController {
 	 * 
 	 * @return
 	 */
-	private void processCategory(Category category) throws Exception {
+	private void processCategory(CategoryBean category) throws Exception {
 		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
 		if (category != null) {
 			getCategories().add(category);
 
 			// process the forums associated with this category
-			Collection<Forum> forums = forumsModule.findForumsByCategory(category);
-			Collection<Forum> categoryForums = new ArrayList<Forum>();
-			for (Forum currentForum : forums) {
+			Collection<ForumBean> forums = forumsModule.findForumsByCategory(category);
+			Collection<ForumBean> categoryForums = new ArrayList<ForumBean>();
+			for (ForumBean currentForum : forums) {
 				categoryForums.add(currentForum);
 
 				// setup folderLook based on whats specified in the theme
 				String folderImage = themeHelper.getResourceForumURL();
 				String folderAlt = "No_new_posts"; // bundle key
 				if (this.forumLastPosts != null && forumLastPosts.containsKey(currentForum.getId())) {
-					Post lastPost = forumLastPosts.get(currentForum.getId());
+					PostBean lastPost = forumLastPosts.get(currentForum.getId());
 					Date lastPostDate = lastPost.getCreateDate();
 					if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
 						folderAlt = "New_posts"; // bundle key

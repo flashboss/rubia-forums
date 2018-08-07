@@ -21,7 +21,6 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.tagName;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,21 +29,19 @@ import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.ForumBean;
+
 public class MoveForum {
 
-	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
-			.getString("Admin_panel");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF").getString("Admin_panel");
 
-	public static Map<String, Integer> moveForum(WebDriver driver, Forum forum,
-			Move move) {
-		WebElement adminPanelLink = driver
-				.findElement(linkText(ADMIN_PANEL_LINK));
+	public static Map<String, Integer> moveForum(WebDriver driver, ForumBean forum, Move move) {
+		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		String formId = findForum(driver, forum).findElement(
-				xpath("td[2]/form")).getAttribute("id");
+		String formId = findForum(driver, forum).findElement(xpath("td[2]/form")).getAttribute("id");
 		int firstPosition = findForum(driver, forum).getLocation().getY();
-		WebElement moveForum = driver.findElement(id(formId)).findElement(
-				xpath("ul/li['" + move.getValue() + "']/a/img"));
+		WebElement moveForum = driver.findElement(id(formId))
+				.findElement(xpath("ul/li['" + move.getValue() + "']/a/img"));
 		moveForum.click();
 		int newPosition = findForum(driver, forum).getLocation().getY();
 		Map<String, Integer> result = new HashMap<String, Integer>();
@@ -53,7 +50,7 @@ public class MoveForum {
 		return result;
 	}
 
-	private static WebElement findForum(WebDriver driver, Forum forum) {
+	private static WebElement findForum(WebDriver driver, ForumBean forum) {
 		List<WebElement> moveForums = driver.findElements(tagName("strong"));
 		WebElement foundElement = null;
 		for (WebElement moveForum : moveForums)

@@ -36,9 +36,9 @@ import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Watch;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.ThemeHelper;
 import it.vige.rubia.ui.action.PreferenceController;
@@ -62,13 +62,13 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	private ThemeHelper themeHelper;
 
 	// Map<ForumId,LastPost>
-	private Map<Object, Post> forumsLastPosts;
+	private Map<Object, PostBean> forumsLastPosts;
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
 	private Map<Object, Object> forumWatches;
-	private Collection<Forum> watchedForums;
+	private Collection<ForumBean> watchedForums;
 
-	private Watch watch;
+	private WatchBean watch;
 	private int forumId;
 
 	// ------------user
@@ -81,8 +81,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -101,8 +100,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param forumImageDescriptions
-	 *            the map of the image descriptions
+	 * @param forumImageDescriptions the map of the image descriptions
 	 */
 	public void setForumImageDescriptions(Map<Integer, String> forumImageDescriptions) {
 		this.forumImageDescriptions = forumImageDescriptions;
@@ -121,8 +119,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param forumImages
-	 *            the map of the images
+	 * @param forumImages the map of the images
 	 */
 	public void setForumImages(Map<Integer, String> forumImages) {
 		this.forumImages = forumImages;
@@ -133,7 +130,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Post> getForumsLastPosts() {
+	public Map<Object, PostBean> getForumsLastPosts() {
 		if (forumsLastPosts == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -148,17 +145,16 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param forumsLastPosts
-	 *            the map of the forum last posts
+	 * @param forumsLastPosts the map of the forum last posts
 	 */
-	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
+	public void setForumsLastPosts(Map<Object, PostBean> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = getForumsLastPosts().get(id);
+		PostBean post = getForumsLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -176,8 +172,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param forumWatches
-	 *            the forum watches
+	 * @param forumWatches the forum watches
 	 */
 	public void setForumWatches(Map<Object, Object> forumWatches) {
 		this.forumWatches = forumWatches;
@@ -188,7 +183,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Forum> getWatchedForums() {
+	public Collection<ForumBean> getWatchedForums() {
 		if (watchedForums == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -203,25 +198,23 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param watchedForums
-	 *            the list of watched forums
+	 * @param watchedForums the list of watched forums
 	 */
-	public void setWatchedForums(Collection<Forum> watchedForums) {
+	public void setWatchedForums(Collection<ForumBean> watchedForums) {
 		this.watchedForums = watchedForums;
 	}
 
 	/**
 	 * @return the current watch
 	 */
-	public Watch getWatch() {
+	public WatchBean getWatch() {
 		return watch;
 	}
 
 	/**
-	 * @param watch
-	 *            the current watch
+	 * @param watch the current watch
 	 */
-	public void setWatch(Watch watch) {
+	public void setWatch(WatchBean watch) {
 		this.watch = watch;
 	}
 
@@ -233,8 +226,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	}
 
 	/**
-	 * @param forumId
-	 *            the current forum id to set
+	 * @param forumId the current forum id to set
 	 */
 	public void setForumId(int forumId) {
 		this.forumId = forumId;
@@ -246,7 +238,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	@PostConstruct
 	public void execute() {
 
-		Collection<Forum> forums = getWatchedForums();
+		Collection<ForumBean> forums = getWatchedForums();
 
 		try {
 			// get the forumInstanceId where this forum should be added
@@ -260,13 +252,13 @@ public class ViewMyForumsEditAllForums extends BaseController {
 
 		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
 
-		for (Forum currentForum : forums) {
+		for (ForumBean currentForum : forums) {
 
 			// setup folderLook based on whats specified in the theme
 			String folderImage = themeHelper.getResourceForumURL();
 			String folderAlt = "No_new_posts"; // bundle key
 			if (forumsLastPosts != null && forumsLastPosts.containsKey(currentForum.getId())) {
-				Post lastPost = (Post) forumsLastPosts.get(currentForum.getId());
+				PostBean lastPost = (PostBean) forumsLastPosts.get(currentForum.getId());
 				Date lastPostDate = lastPost.getCreateDate();
 				if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
 					folderAlt = "New_posts"; // bundle key

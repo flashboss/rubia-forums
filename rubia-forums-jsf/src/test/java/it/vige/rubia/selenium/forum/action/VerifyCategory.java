@@ -19,8 +19,6 @@ package it.vige.rubia.selenium.forum.action;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.ForumInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,24 +26,24 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumInstanceBean;
+
 public class VerifyCategory {
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String CATEGORY_ROW = "forumcategory";
 
-	public static List<Category> getCategories(WebDriver driver,
-			ForumInstance... forumInstances) {
-		List<Category> categories = new ArrayList<Category>();
+	public static List<CategoryBean> getCategories(WebDriver driver, ForumInstanceBean... forumInstances) {
+		List<CategoryBean> categories = new ArrayList<CategoryBean>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
-		List<WebElement> categoryComponents = driver
-				.findElements(className(CATEGORY_ROW));
+		List<WebElement> categoryComponents = driver.findElements(className(CATEGORY_ROW));
 		int categoryComponentsSize = categoryComponents.size();
 		for (int i = 0; i < categoryComponentsSize; i++) {
 			home = driver.findElement(linkText(HOME_LINK));
 			home.click();
-			Category category = new Category();
+			CategoryBean category = new CategoryBean();
 			categoryComponents = driver.findElements(className(CATEGORY_ROW));
 			String categoryTitle = categoryComponents.get(i).getText();
 			category.setTitle(categoryTitle);
@@ -54,7 +52,7 @@ public class VerifyCategory {
 		return categories;
 	}
 
-	public static void goTo(WebDriver driver, Category category) {
+	public static void goTo(WebDriver driver, CategoryBean category) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement categoryEl = driver.findElement(linkText(category.getTitle()));

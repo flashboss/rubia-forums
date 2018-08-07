@@ -21,13 +21,14 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.dto.ForumBean;
 
 public class ViewAllForums {
 	public static final String MY_FORUMS_LINK = getBundle("ResourceJSF")
@@ -41,13 +42,13 @@ public class ViewAllForums {
 		home.click();
 	}
 
-	public static List<Forum> viewAllForums(WebDriver driver) {
+	public static List<ForumBean> viewAllForums(WebDriver driver) {
 		goTo(driver);
 		List<WebElement> elements = driver
 				.findElements(className(MY_FORUMS_LIST)).get(1)
 				.findElements(xpath("../tr"));
 		int elementsCount = elements.size() - 1;
-		List<Forum> forums = new ArrayList<Forum>();
+		List<ForumBean> forums = new ArrayList<ForumBean>();
 		for (int i = 2; i < elementsCount; i++) {
 			WebElement element = driver.findElements(className(MY_FORUMS_LIST))
 					.get(1).findElement(xpath("../tr[" + i + "]/td[2]/h3/a"));

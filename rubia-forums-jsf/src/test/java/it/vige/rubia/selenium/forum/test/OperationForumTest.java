@@ -48,8 +48,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -64,22 +64,22 @@ public class OperationForumTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 		message = createForum(driver,
-				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
+				new ForumBean("First Test Forum", "First Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
 		message = createForum(driver,
-				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
+				new ForumBean("Second Test Forum", "Second Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
 	@Test
 	public void verifyCreatedForums() {
-		List<Forum> forums = getForumsOfCategories(driver, new Category("First Test Category"),
-				new Category("Second Test Category"));
+		List<ForumBean> forums = getForumsOfCategories(driver, new CategoryBean("First Test Category"),
+				new CategoryBean("Second Test Category"));
 		assertEquals(2, forums.size());
 		assertEquals("First Test Forum", forums.get(0).getName());
 		assertEquals("First Test Description", forums.get(0).getDescription());
@@ -91,7 +91,8 @@ public class OperationForumTest {
 
 	@Test
 	public void verifyLockForum() {
-		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
+		ForumBean forum = new ForumBean("First Test Forum", "First Test Description",
+				new CategoryBean("First Test Category"));
 		String message = lockForum(driver, forum);
 		assertTrue(message.equals(LOCKED_FORUM_MESSAGE));
 		message = lockForum(driver, forum);
@@ -100,13 +101,13 @@ public class OperationForumTest {
 
 	@AfterClass
 	public static void stop() {
-		String message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
+		String message = removeForum(driver, new ForumBean("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
+		message = removeForum(driver, new ForumBean("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

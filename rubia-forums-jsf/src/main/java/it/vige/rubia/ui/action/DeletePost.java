@@ -32,8 +32,8 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 
 /*
@@ -52,7 +52,7 @@ public class DeletePost extends BaseController {
 	private ForumsModule forumsModule;
 
 	private int postId;
-	private Post post;
+	private PostBean post;
 
 	public int getPostId() {
 		return postId;
@@ -62,11 +62,11 @@ public class DeletePost extends BaseController {
 		this.postId = postId;
 	}
 
-	public Post getPost() {
+	public PostBean getPost() {
 		return post;
 	}
 
-	public void setPost(Post post) {
+	public void setPost(PostBean post) {
 		this.post = post;
 	}
 
@@ -84,7 +84,7 @@ public class DeletePost extends BaseController {
 		this.postId = postId;
 		if (postId != -1) {
 			try {
-				post = (Post) forumsModule.findPostById(postId);
+				post = forumsModule.findPostById(postId);
 			} catch (ModuleException e) {
 				log.error(e);
 			}
@@ -102,8 +102,8 @@ public class DeletePost extends BaseController {
 		try {
 
 			// setup the business objects/data of interest
-			Post post = forumsModule.findPostById(postId);
-			Topic topic = post.getTopic();
+			PostBean post = forumsModule.findPostById(postId);
+			TopicBean topic = post.getTopic();
 
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
@@ -113,7 +113,7 @@ public class DeletePost extends BaseController {
 
 			boolean isFirstPost = false;
 			boolean isLastPost = false;
-			List<Post> posts = forumsModule.findPostsByTopicId(topic);
+			List<PostBean> posts = forumsModule.findPostsByTopicId(topic);
 			if (posts.get(0).getId() == post.getId().intValue()) {
 				isFirstPost = true;
 			}

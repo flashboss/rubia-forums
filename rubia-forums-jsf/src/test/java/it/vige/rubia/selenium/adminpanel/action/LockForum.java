@@ -21,33 +21,30 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.tagName;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
 
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.ForumBean;
+
 public class LockForum {
 
-	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
-			.getString("Admin_panel");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF").getString("Admin_panel");
 	public static final String RESULT_LOCK_FORUM = "successtext";
 
-	public static String lockForum(WebDriver driver, Forum forum) {
-		WebElement adminPanelLink = driver
-				.findElement(linkText(ADMIN_PANEL_LINK));
+	public static String lockForum(WebDriver driver, ForumBean forum) {
+		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		WebElement lockForum = findForum(driver, forum).findElement(
-				xpath("td[2]/form/ul/li[4]/a/img"));
+		WebElement lockForum = findForum(driver, forum).findElement(xpath("td[2]/form/ul/li[4]/a/img"));
 		lockForum.click();
-		WebElement resultLockForum = driver
-				.findElement(className(RESULT_LOCK_FORUM));
+		WebElement resultLockForum = driver.findElement(className(RESULT_LOCK_FORUM));
 		String message = resultLockForum.getText();
 		return message;
 	}
 
-	private static WebElement findForum(WebDriver driver, Forum forum) {
+	private static WebElement findForum(WebDriver driver, ForumBean forum) {
 		List<WebElement> moveForums = driver.findElements(tagName("strong"));
 		WebElement foundElement = null;
 		for (WebElement moveForum : moveForums)

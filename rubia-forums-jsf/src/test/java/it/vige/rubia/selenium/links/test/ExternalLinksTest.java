@@ -1,7 +1,7 @@
 package it.vige.rubia.selenium.links.test;
 
 import static it.vige.rubia.Constants.RE;
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
@@ -33,13 +33,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.selenium.links.action.ViewAtomLink;
 import it.vige.rubia.selenium.links.action.ViewRSSLink;
 
@@ -55,20 +55,23 @@ public class ExternalLinksTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
+		ForumBean forum = new ForumBean("First Test Forum", "First Test Description",
+				new CategoryBean("First Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic", asList(new Post[] {
-				new Post("First Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))),
-				new Post("Second Test Body", asList(new Attachment("Fourth", "Fourth Test File"))) }),
-				NORMAL,
-				new Poll("First Test Question", asList(
-						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
-						4)));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("First Test Forum"), "First Test Topic", asList(new PostBean[] {
+						new PostBean("First Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))),
+						new PostBean("Second Test Body", asList(new AttachmentBean("Fourth", "Fourth Test File"))) }),
+						NORMAL,
+						new PollBean("First Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("First Test Answer"), new PollOptionBean("Second Test Answer") }),
+								4)));
 		assertTrue(message.equals("First Test Topic"));
 	}
 
@@ -80,8 +83,8 @@ public class ExternalLinksTest {
 
 	@Test
 	public void verifyRSSForum() {
-		Forum forum = new Forum("First Test Forum");
-		Forum result = ViewRSSLink.getPage(driver, forum);
+		ForumBean forum = new ForumBean("First Test Forum");
+		ForumBean result = ViewRSSLink.getPage(driver, forum);
 		assertNotNull(result);
 		assertEquals("First Test Category", result.getCategory().getTitle());
 		assertEquals(forum.getName(), result.getName());
@@ -100,8 +103,8 @@ public class ExternalLinksTest {
 
 	@Test
 	public void verifyAtomForum() {
-		Forum forum = new Forum("First Test Forum");
-		Forum result = ViewAtomLink.getPage(driver, forum);
+		ForumBean forum = new ForumBean("First Test Forum");
+		ForumBean result = ViewAtomLink.getPage(driver, forum);
 		assertNotNull(result);
 		assertEquals("First Test Category", result.getCategory().getTitle());
 		assertEquals(forum.getName(), result.getName());
@@ -123,21 +126,25 @@ public class ExternalLinksTest {
 		assertNotNull(result.getTopics().get(0).getPosts().get(0).getAttachments());
 		assertEquals(1, result.getTopics().get(0).getPosts().get(0).getAttachments().size());
 		assertEquals("Fourth Test File",
-				((Attachment) result.getTopics().get(0).getPosts().get(0).getAttachments().toArray()[0]).getComment());
+				((AttachmentBean) result.getTopics().get(0).getPosts().get(0).getAttachments().toArray()[0])
+						.getComment());
 		assertNotNull(result.getTopics().get(0).getPosts().get(1).getAttachments());
 		assertEquals(3, result.getTopics().get(0).getPosts().get(1).getAttachments().size());
 		assertEquals("First Test File",
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[0]).getComment());
+				((AttachmentBean) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[0])
+						.getComment());
 		assertEquals("Second Test File",
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1]).getComment());
+				((AttachmentBean) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[1])
+						.getComment());
 		assertEquals("Third Test File",
-				((Attachment) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2]).getComment());
+				((AttachmentBean) result.getTopics().get(0).getPosts().get(1).getAttachments().toArray()[2])
+						.getComment());
 	}
 
 	@Test
 	public void verifyRSSTopic() {
-		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic");
-		Topic result = ViewRSSLink.getPage(driver, topic);
+		TopicBean topic = new TopicBean(new ForumBean("First Test Forum"), "First Test Topic");
+		TopicBean result = ViewRSSLink.getPage(driver, topic);
 		assertNotNull(result);
 		assertEquals("First Test Category", result.getForum().getCategory().getTitle());
 		assertEquals(topic.getForum().getName(), result.getForum().getName());
@@ -155,8 +162,8 @@ public class ExternalLinksTest {
 
 	@Test
 	public void verifyAtomTopic() {
-		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic");
-		Topic result = ViewAtomLink.getPage(driver, topic);
+		TopicBean topic = new TopicBean(new ForumBean("First Test Forum"), "First Test Topic");
+		TopicBean result = ViewAtomLink.getPage(driver, topic);
 		assertNotNull(result);
 		assertEquals("First Test Category", result.getForum().getCategory().getTitle());
 		assertEquals(topic.getForum().getName(), result.getForum().getName());
@@ -177,26 +184,26 @@ public class ExternalLinksTest {
 		assertNotNull(result.getPosts().get(0).getAttachments());
 		assertEquals(3, result.getPosts().get(0).getAttachments().size());
 		assertEquals("First Test File",
-				((Attachment) result.getPosts().get(0).getAttachments().toArray()[0]).getComment());
+				((AttachmentBean) result.getPosts().get(0).getAttachments().toArray()[0]).getComment());
 		assertEquals("Second Test File",
-				((Attachment) result.getPosts().get(0).getAttachments().toArray()[1]).getComment());
+				((AttachmentBean) result.getPosts().get(0).getAttachments().toArray()[1]).getComment());
 		assertEquals("Third Test File",
-				((Attachment) result.getPosts().get(0).getAttachments().toArray()[2]).getComment());
+				((AttachmentBean) result.getPosts().get(0).getAttachments().toArray()[2]).getComment());
 		assertNotNull(result.getPosts().get(1).getAttachments());
 		assertEquals(1, result.getPosts().get(1).getAttachments().size());
 		assertEquals("Fourth Test File",
-				((Attachment) result.getPosts().get(1).getAttachments().toArray()[0]).getComment());
+				((AttachmentBean) result.getPosts().get(1).getAttachments().toArray()[0]).getComment());
 	}
 
 	@AfterClass
 	public static void stop() {
-		String message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body"), new Post("Second Test Body") })));
+		String message = removeTopic(driver, new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
+				asList(new PostBean[] { new PostBean("First Test Body"), new PostBean("Second Test Body") })));
 		assertTrue(message.equals(OK));
-		Forum forum = new Forum("First Test Forum");
+		ForumBean forum = new ForumBean("First Test Forum");
 		message = removeForum(driver, forum, SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 	}
 }

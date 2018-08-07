@@ -10,8 +10,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.properties.OperationType;
 
 public class RemoveForum {
@@ -21,9 +21,9 @@ public class RemoveForum {
 	public static final String SELECT_TYPE = "form";
 	public static final String RESULT_REMOVE_FORUM = "forumtitletext";
 
-	public static String removeForum(WebDriver driver, OperationType removeType, Forum forum) {
+	public static String removeForum(WebDriver driver, OperationType removeType, ForumBean forum) {
 		if (forum != null)
-			for (Topic topic : forum.getTopics()) {
+			for (TopicBean topic : forum.getTopics()) {
 				WebElement topicToSelect = driver.findElement(linkText(topic.getSubject()))
 						.findElement(xpath("../../td[5]/input"));
 				topicToSelect.click();

@@ -22,7 +22,6 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +29,11 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.TopicBean;
+
 public class ViewAllTopics {
 
-	public static final String MY_TOPICS_LINK = getBundle("ResourceJSF")
-			.getString("ViewAllSubscribed");
+	public static final String MY_TOPICS_LINK = getBundle("ResourceJSF").getString("ViewAllSubscribed");
 
 	public static void goTo(WebDriver driver) {
 		ViewAllForums.goTo(driver);
@@ -41,15 +41,14 @@ public class ViewAllTopics {
 		element.click();
 	}
 
-	public static List<Topic> viewAllTopics(WebDriver driver) {
+	public static List<TopicBean> viewAllTopics(WebDriver driver) {
 		goTo(driver);
-		List<WebElement> elements = driver.findElement(
-				className(MY_FORUMS_LIST)).findElements(xpath("../tr"));
+		List<WebElement> elements = driver.findElement(className(MY_FORUMS_LIST)).findElements(xpath("../tr"));
 		int elementsCount = elements.size() + 1;
-		List<Topic> topics = new ArrayList<Topic>();
+		List<TopicBean> topics = new ArrayList<TopicBean>();
 		for (int i = 2; i < elementsCount; i++) {
-			WebElement element = driver.findElements(className(MY_FORUMS_LIST))
-					.get(0).findElement(xpath("../tr[" + i + "]/td[2]/h3/a"));
+			WebElement element = driver.findElements(className(MY_FORUMS_LIST)).get(0)
+					.findElement(xpath("../tr[" + i + "]/td[2]/h3/a"));
 			element.click();
 			topics.add(getTopic(driver));
 			goTo(driver);

@@ -21,34 +21,30 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.name;
-import it.vige.rubia.model.Category;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.CategoryBean;
+
 public class CreateCategory {
 
-	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
-			.getString("Admin_panel");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF").getString("Admin_panel");
 	public static final String CREATE_CATEGORY_LINK = "newCategory";
 	public static final String CREATE_CATEGORY_TITLE_INPUT_TEXT = "addCategoryForm:Category";
 	public static final String CREATE_CATEGORY_BUTTON = "addCategoryForm:editinline";
 	public static final String RESULT_CREATE_CATEGORY = "successtext";
 
-	public static String createCategory(WebDriver driver, Category category) {
+	public static String createCategory(WebDriver driver, CategoryBean category) {
 		WebElement adminPanelLink = startAdminPanel(driver);
 		adminPanelLink.click();
-		WebElement createCategoryLink = driver
-				.findElement(name(CREATE_CATEGORY_LINK));
+		WebElement createCategoryLink = driver.findElement(name(CREATE_CATEGORY_LINK));
 		createCategoryLink.click();
-		WebElement createCategoryTitleInputType = driver
-				.findElement(id(CREATE_CATEGORY_TITLE_INPUT_TEXT));
+		WebElement createCategoryTitleInputType = driver.findElement(id(CREATE_CATEGORY_TITLE_INPUT_TEXT));
 		createCategoryTitleInputType.sendKeys(category.getTitle());
-		WebElement createCategoryButton = driver
-				.findElement(id(CREATE_CATEGORY_BUTTON));
+		WebElement createCategoryButton = driver.findElement(id(CREATE_CATEGORY_BUTTON));
 		createCategoryButton.click();
-		WebElement resultCreateCategory = driver
-				.findElement(className(RESULT_CREATE_CATEGORY));
+		WebElement resultCreateCategory = driver.findElement(className(RESULT_CREATE_CATEGORY));
 		String message = resultCreateCategory.getText();
 		return message;
 	}

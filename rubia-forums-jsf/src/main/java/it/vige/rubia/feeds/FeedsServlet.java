@@ -61,10 +61,10 @@ import com.rometools.rome.io.SyndFeedOutput;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 
 /**
  * Servlet used for showing RSS entries
@@ -175,7 +175,7 @@ public class FeedsServlet extends HttpServlet {
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsDesc(POST_LIMIT);
+		List<PostBean> posts = forumsModule.findPostsDesc(POST_LIMIT);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -186,7 +186,7 @@ public class FeedsServlet extends HttpServlet {
 
 	private void createForumFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
-		Forum forum = forumsModule.findForumById(id);
+		ForumBean forum = forumsModule.findForumById(id);
 
 		feed.setTitle("Rubia Forums Forum Feed: " + forum.getName());
 		feed.setLink(forumLink(id.toString(), url, urlType));
@@ -195,7 +195,7 @@ public class FeedsServlet extends HttpServlet {
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsFromForumDesc(forum, POST_LIMIT);
+		List<PostBean> posts = forumsModule.findPostsFromForumDesc(forum, POST_LIMIT);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -207,7 +207,7 @@ public class FeedsServlet extends HttpServlet {
 
 	private void createTopicFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
-		Topic topic = forumsModule.findTopicById(id);
+		TopicBean topic = forumsModule.findTopicById(id);
 
 		feed.setTitle("Rubia Forums Topic Feed: " + topic.getSubject());
 		feed.setLink(topicLink(id.toString(), url, urlType));
@@ -216,7 +216,7 @@ public class FeedsServlet extends HttpServlet {
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsByTopicId(topic);
+		List<PostBean> posts = forumsModule.findPostsByTopicId(topic);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -238,7 +238,7 @@ public class FeedsServlet extends HttpServlet {
 
 	private void createCategoryFeed(SyndFeed feed, Integer id, String url, String urlType) throws ModuleException {
 
-		Category category = forumsModule.findCategoryById(id);
+		CategoryBean category = forumsModule.findCategoryById(id);
 
 		feed.setTitle("Rubia Forums Category Feed: " + category.getTitle());
 		feed.setLink(categoryLink(id.toString(), url, urlType));
@@ -246,7 +246,7 @@ public class FeedsServlet extends HttpServlet {
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
-		List<Post> posts = forumsModule.findPostsFromCategoryDesc(category, POST_LIMIT);
+		List<PostBean> posts = forumsModule.findPostsFromCategoryDesc(category, POST_LIMIT);
 
 		for (int i = 0; i < posts.size(); i++) {
 			entries.add(getEntry(posts.get(i), url, urlType));
@@ -255,7 +255,7 @@ public class FeedsServlet extends HttpServlet {
 		feed.setEntries(entries);
 	}
 
-	private SyndEntry getEntry(Post post, String url, String urlType) {
+	private SyndEntry getEntry(PostBean post, String url, String urlType) {
 		SyndEntry entry;
 		SyndContent description;
 

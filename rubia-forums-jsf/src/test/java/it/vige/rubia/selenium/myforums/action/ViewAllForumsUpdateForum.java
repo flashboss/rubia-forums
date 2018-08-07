@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.properties.NotificationType;
 
 public class ViewAllForumsUpdateForum {
@@ -42,7 +42,8 @@ public class ViewAllForumsUpdateForum {
 		element.click();
 	}
 
-	public static String viewAllForumsUpdateForum(WebDriver driver, Forum forum, NotificationType notificationType) {
+	public static String viewAllForumsUpdateForum(WebDriver driver, ForumBean forum,
+			NotificationType notificationType) {
 		goTo(driver);
 		WebElement editLink = driver.findElement(linkText(forum.getName())).findElement(xpath("../../.."))
 				.findElement(linkText(EDIT_LINK));

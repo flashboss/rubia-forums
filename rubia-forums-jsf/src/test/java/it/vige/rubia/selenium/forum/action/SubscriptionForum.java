@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.properties.NotificationType;
 import it.vige.rubia.properties.OperationType;
 
@@ -21,7 +21,7 @@ public class SubscriptionForum {
 	public static final String SELECT_NOTIFICATION = "//form/select";
 	public static final String FORUM_TITLE = "forumtitletext";
 
-	public static String registerForum(WebDriver driver, Forum forum, NotificationType notificationType,
+	public static String registerForum(WebDriver driver, ForumBean forum, NotificationType notificationType,
 			OperationType buttonType) {
 		goTo(driver, forum);
 		WebElement registerButton = driver.findElement(className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
@@ -36,14 +36,14 @@ public class SubscriptionForum {
 		return forumTitle.getText();
 	}
 
-	public static String unregisterForum(WebDriver driver, Forum forum) {
+	public static String unregisterForum(WebDriver driver, ForumBean forum) {
 		goTo(driver, forum);
 		WebElement registerButton = driver.findElement(className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
 		return OK;
 	}
 
-	public static boolean isRegistered(WebDriver driver, Forum forum) {
+	public static boolean isRegistered(WebDriver driver, ForumBean forum) {
 		goTo(driver, forum);
 		WebElement registerButton = driver.findElement(className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]/img"));
 		if (registerButton.getAttribute("name").equalsIgnoreCase(SUBSCRIBE.name()))

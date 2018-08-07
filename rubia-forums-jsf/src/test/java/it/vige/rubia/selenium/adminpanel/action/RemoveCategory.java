@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Category;
+import it.vige.rubia.dto.CategoryBean;
 
 public class RemoveCategory {
 
@@ -34,7 +34,7 @@ public class RemoveCategory {
 	public static final String SELECT_TYPE = "//form/select";
 	public static final String RESULT_REMOVE_CATEGORY = "successtext";
 
-	public static String removeCategory(WebDriver driver, Category category, String removeType) {
+	public static String removeCategory(WebDriver driver, CategoryBean category, String removeType) {
 		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement removeCategory = driver

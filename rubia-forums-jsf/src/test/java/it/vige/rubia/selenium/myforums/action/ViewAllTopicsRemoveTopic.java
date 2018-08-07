@@ -21,34 +21,25 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllForums.MY_FORUMS_LIS
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopics.goTo;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Topic;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.TopicBean;
+
 public class ViewAllTopicsRemoveTopic {
 
-	public static String viewAllTopicsRemoveTopic(WebDriver driver, Topic topic) {
+	public static String viewAllTopicsRemoveTopic(WebDriver driver, TopicBean topic) {
 		goTo(driver);
-		WebElement element = driver
-				.findElements(className(MY_FORUMS_LIST))
-				.get(0)
-				.findElement(
-						xpath("../tr/td/h3/a[contains(text(),'"
-								+ topic.getSubject()
-								+ "')]/../../../td[5]/div/ul/li/a"));
+		WebElement element = driver.findElements(className(MY_FORUMS_LIST)).get(0).findElement(
+				xpath("../tr/td/h3/a[contains(text(),'" + topic.getSubject() + "')]/../../../td[5]/div/ul/li/a"));
 		element.click();
 		WebElement resultRemovePost = null;
 		String message = "";
 		try {
-			resultRemovePost = driver
-					.findElements(className(MY_FORUMS_LIST))
-					.get(0)
-					.findElement(
-							xpath("../tr/td/h3/a[contains(text(),'"
-									+ topic.getSubject()
-									+ "')]/../../../td[5]/div/ul/li/a"));
+			resultRemovePost = driver.findElements(className(MY_FORUMS_LIST)).get(0).findElement(
+					xpath("../tr/td/h3/a[contains(text(),'" + topic.getSubject() + "')]/../../../td[5]/div/ul/li/a"));
 			message = resultRemovePost.getText();
 		} catch (NoSuchElementException ex) {
 			message = OK;

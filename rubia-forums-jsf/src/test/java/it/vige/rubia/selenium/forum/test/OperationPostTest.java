@@ -17,9 +17,9 @@
 package it.vige.rubia.selenium.forum.test;
 
 import static it.vige.rubia.Constants.RE;
-import static it.vige.rubia.model.TopicType.ADVICE;
-import static it.vige.rubia.model.TopicType.IMPORTANT;
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.ADVICE;
+import static it.vige.rubia.dto.TopicType.IMPORTANT;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
@@ -67,14 +67,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -86,114 +86,131 @@ public class OperationPostTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 		message = createForum(driver,
-				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
+				new ForumBean("First Test Forum", "First Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				NORMAL,
-				new Poll("First Test Question", asList(
-						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
-						4)));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
+						asList(new PostBean[] { new PostBean("First Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						NORMAL,
+						new PollBean("First Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("First Test Answer"), new PollOptionBean("Second Test Answer") }),
+								4)));
 		assertTrue(message.equals("First Test Topic"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "First Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "First Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("First Test Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Second Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Second Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Second Test Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Third Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Third Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Third Test Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Fourth Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Fourth Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Fourth Test Post"));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				IMPORTANT,
-				new Poll("Second Test Question", asList(
-						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
-						8)));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic",
+						asList(new PostBean[] { new PostBean("Second Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						IMPORTANT,
+						new PollBean("Second Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("Third Test Answer"), new PollOptionBean("Fourth Test Answer") }),
+								8)));
 		assertTrue(message.equals("Second Test Topic"));
-		message = createPost(driver, new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"),
-				"Fifth Test with Truncation over 25 characters Post", asList(new Attachment("first", "First Test File"),
-						new Attachment("second", "Second Test File"), new Attachment("third", "Third Test File"))));
+		message = createPost(driver,
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
+						"Fifth Test with Truncation over 25 characters Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Sixth Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"), "Sixth Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Sixth Test Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Seventh Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"), "Seventh Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Seventh Test Post"));
 		message = createForum(driver,
-				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
+				new ForumBean("Second Test Forum", "Second Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
-				asList(new Post[] { new Post("Third Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				ADVICE,
-				new Poll("Third Test Question",
-						asList(new PollOption[] {
-								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
-								new PollOption("Sixth Test Answer") }),
-						9)));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic",
+						asList(new PostBean[] { new PostBean("Third Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						ADVICE,
+						new PollBean("Third Test Question",
+								asList(new PollOptionBean[] {
+										new PollOptionBean("Fifth Test with Truncation over 25 characters Answer"),
+										new PollOptionBean("Sixth Test Answer") }),
+								9)));
 		assertTrue(message.equals("Third Test Topic"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Third Test Topic"), "Eight Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic"), "Eight Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Eight Test Post"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Third Test Topic"), "Ninth Test Post",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic"), "Ninth Test Post",
+						asList(new AttachmentBean("first", "First Test File"),
+								new AttachmentBean("second", "Second Test File"),
+								new AttachmentBean("third", "Third Test File"))));
 		assertTrue(message.equals("Ninth Test Post"));
-		message = createTopic(driver,
-				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-						asList(new Post[] { new Post("Fourth Test Body",
-								asList(new Attachment("fourth", "Fourth Test File"),
-										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-										new Attachment("sixth", "Sixth Test File"))) }),
-						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+		message = createTopic(driver, new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic",
+				asList(new PostBean[] { new PostBean("Fourth Test Body",
+						asList(new AttachmentBean("fourth", "Fourth Test File"),
+								new AttachmentBean("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new AttachmentBean("sixth", "Sixth Test File"))) }),
+				IMPORTANT, new PollBean("Fourth Test Question", asList(new PollOptionBean[] {
+						new PollOptionBean("Seventh Test Answer"), new PollOptionBean("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createPost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Fourth Test Topic"), "Ten Test Post",
-						asList(new Attachment("fourth", "Fourth Test File"),
-								new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-								new Attachment("sixth", "Sixth Test File"))));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic"), "Ten Test Post",
+						asList(new AttachmentBean("fourth", "Fourth Test File"),
+								new AttachmentBean("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new AttachmentBean("sixth", "Sixth Test File"))));
 		assertTrue(message.equals("Ten Test Post"));
 	}
 
 	@Test
 	public void verifyCreatedPosts() {
-		List<Post> posts = getPostsOfTopics(driver, new Topic("First Test Topic"), new Topic("Second Test Topic"),
-				new Topic("Third Test Topic"), new Topic("Fourth Test Topic"));
+		List<PostBean> posts = getPostsOfTopics(driver, new TopicBean("First Test Topic"),
+				new TopicBean("Second Test Topic"), new TopicBean("Third Test Topic"),
+				new TopicBean("Fourth Test Topic"));
 		assertEquals(14, posts.size());
 		Date today = new Date();
 
-		Post secondTestPost = posts.get(0);
+		PostBean secondTestPost = posts.get(0);
 		Date createdDate1 = secondTestPost.getCreateDate();
 		assertFalse(createdDate1.after(today));
 		assertEquals(0, secondTestPost.getEditCount());
@@ -205,7 +222,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", secondTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", secondTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextFifthTestPost = posts.get(1);
+		PostBean nextFifthTestPost = posts.get(1);
 		Date createdNextFifthTestPostDate = nextFifthTestPost.getCreateDate();
 		assertFalse(createdNextFifthTestPostDate.after(today));
 		assertFalse(createdDate1.after(createdNextFifthTestPostDate));
@@ -218,7 +235,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextFifthTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextFifthTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextSixthTestPost = posts.get(2);
+		PostBean nextSixthTestPost = posts.get(2);
 		Date createdNextSixthTestPostDate = nextSixthTestPost.getCreateDate();
 		assertFalse(createdNextSixthTestPostDate.after(today));
 		assertFalse(createdNextFifthTestPostDate.after(createdNextSixthTestPostDate));
@@ -231,7 +248,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextSixthTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextSixthTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextSeventhTestPost = posts.get(3);
+		PostBean nextSeventhTestPost = posts.get(3);
 		Date createdNextSeventhTestPostDate = nextSeventhTestPost.getCreateDate();
 		assertFalse(createdNextSeventhTestPostDate.after(today));
 		assertFalse(createdNextSixthTestPostDate.after(createdNextSeventhTestPostDate));
@@ -244,7 +261,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextSeventhTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextSeventhTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post firstTestPost = posts.get(4);
+		PostBean firstTestPost = posts.get(4);
 		Date createdDate2 = firstTestPost.getCreateDate();
 		assertFalse(createdDate2.after(today));
 		assertFalse(createdDate1.before(createdDate2));
@@ -257,7 +274,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", firstTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", firstTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextFirstTestPost = posts.get(5);
+		PostBean nextFirstTestPost = posts.get(5);
 		Date createdNextFirstTestPostDate = nextFirstTestPost.getCreateDate();
 		assertFalse(createdNextFirstTestPostDate.after(today));
 		assertFalse(createdDate2.after(createdNextFirstTestPostDate));
@@ -270,7 +287,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextFirstTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextFirstTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextSecondTestPost = posts.get(6);
+		PostBean nextSecondTestPost = posts.get(6);
 		Date createdNextSecondTestPostDate = nextSecondTestPost.getCreateDate();
 		assertFalse(createdNextSecondTestPostDate.after(today));
 		assertFalse(createdNextFirstTestPostDate.after(createdNextSecondTestPostDate));
@@ -283,7 +300,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextSecondTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextSecondTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextThirdTestPost = posts.get(7);
+		PostBean nextThirdTestPost = posts.get(7);
 		Date createdNextThirdTestPostDate = nextThirdTestPost.getCreateDate();
 		assertFalse(createdNextThirdTestPostDate.after(today));
 		assertFalse(createdNextSecondTestPostDate.after(createdNextThirdTestPostDate));
@@ -296,7 +313,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextThirdTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextThirdTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextFourthTestPost = posts.get(8);
+		PostBean nextFourthTestPost = posts.get(8);
 		Date createdNextFourthTestPostDate = nextFourthTestPost.getCreateDate();
 		assertFalse(createdNextFourthTestPostDate.after(today));
 		assertFalse(createdNextThirdTestPostDate.after(createdNextFourthTestPostDate));
@@ -309,7 +326,7 @@ public class OperationPostTest {
 		assertEquals("First Test Forum", nextFourthTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextFourthTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post thirdTestPost = posts.get(9);
+		PostBean thirdTestPost = posts.get(9);
 		Date createdDate3 = thirdTestPost.getCreateDate();
 		assertFalse(createdDate3.after(today));
 		assertFalse(createdDate2.after(createdDate3));
@@ -322,7 +339,7 @@ public class OperationPostTest {
 		assertEquals("Second Test Forum", thirdTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", thirdTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextEightTestPost = posts.get(10);
+		PostBean nextEightTestPost = posts.get(10);
 		Date createdNextEightTestPostDate = nextEightTestPost.getCreateDate();
 		assertFalse(createdNextEightTestPostDate.after(today));
 		assertFalse(createdDate3.after(createdNextEightTestPostDate));
@@ -335,7 +352,7 @@ public class OperationPostTest {
 		assertEquals("Second Test Forum", nextEightTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextEightTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextNinthTestPost = posts.get(11);
+		PostBean nextNinthTestPost = posts.get(11);
 		Date createdNextNinthTestPostDate = nextNinthTestPost.getCreateDate();
 		assertFalse(createdNextNinthTestPostDate.after(today));
 		assertFalse(createdNextEightTestPostDate.after(createdNextNinthTestPostDate));
@@ -348,7 +365,7 @@ public class OperationPostTest {
 		assertEquals("Second Test Forum", nextNinthTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", nextNinthTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post fourthTestPost = posts.get(12);
+		PostBean fourthTestPost = posts.get(12);
 		Date createdDate4 = fourthTestPost.getCreateDate();
 		assertFalse(createdDate4.after(today));
 		assertFalse(createdDate3.after(createdDate4));
@@ -361,7 +378,7 @@ public class OperationPostTest {
 		assertEquals("Second Test Forum", fourthTestPost.getTopic().getForum().getName());
 		assertEquals("First Test Category", fourthTestPost.getTopic().getForum().getCategory().getTitle());
 
-		Post nextTenTestPost = posts.get(13);
+		PostBean nextTenTestPost = posts.get(13);
 		Date createdNextTenTestPostDate = nextTenTestPost.getCreateDate();
 		assertFalse(createdNextTenTestPostDate.after(today));
 		assertFalse(createdDate4.after(createdNextTenTestPostDate));
@@ -377,10 +394,10 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyPostProfileFromCategoryPage() {
-		Category category = new Category("First Test Category");
+		CategoryBean category = new CategoryBean("First Test Category");
 		goTo(driver, category);
-		Forum forum = new Forum("Second Test Forum", "Second Test Description", category);
-		Poster poster = getPoster(driver, forum);
+		ForumBean forum = new ForumBean("Second Test Forum", "Second Test Description", category);
+		PosterBean poster = getPoster(driver, forum);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 14);
@@ -388,10 +405,11 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyPostProfileFromForumPage() {
-		Forum forum = new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category"));
+		ForumBean forum = new ForumBean("Second Test Forum", "Second Test Description",
+				new CategoryBean("First Test Category"));
 		goTo(driver, forum);
-		Topic topic = new Topic(forum, "Third Test Topic");
-		Poster poster = getPoster(driver, topic);
+		TopicBean topic = new TopicBean(forum, "Third Test Topic");
+		PosterBean poster = getPoster(driver, topic);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 14);
@@ -399,12 +417,13 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyPostFromForumPageLastPost() {
-		Forum forum = new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category"));
+		ForumBean forum = new ForumBean("Second Test Forum", "Second Test Description",
+				new CategoryBean("First Test Category"));
 		goTo(driver, forum);
-		Topic topic = new Topic(forum, "Third Test Topic");
-		Poster poster = getPosterLastPost(driver, topic);
+		TopicBean topic = new TopicBean(forum, "Third Test Topic");
+		PosterBean poster = getPosterLastPost(driver, topic);
 		goTo(driver, forum);
-		Post post = getLastPostOfCurrentForum(driver, topic);
+		PostBean post = getLastPostOfCurrentForum(driver, topic);
 		assertTrue(post != null);
 		assertEquals(RE + "Third Test Topic", post.getMessage().getSubject());
 		assertTrue(poster != null);
@@ -414,9 +433,9 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyPostProfileFromTopicPage() {
-		goTo(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic"));
-		Post post = new Post("Ninth Test Post");
-		Poster poster = getPosterFromLink(driver, post);
+		goTo(driver, new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic"));
+		PostBean post = new PostBean("Ninth Test Post");
+		PosterBean poster = getPosterFromLink(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 14);
@@ -424,9 +443,9 @@ public class OperationPostTest {
 
 	@Test
 	public void verifyPostProfileFromTopicPageButton() {
-		goTo(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic"));
-		Post post = new Post("Fourth Test Body");
-		Poster poster = getPosterFromButton(driver, post);
+		goTo(driver, new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic"));
+		PostBean post = new PostBean("Fourth Test Body");
+		PosterBean poster = getPosterFromButton(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 14);
@@ -435,54 +454,54 @@ public class OperationPostTest {
 	@AfterClass
 	public static void stop() {
 		String message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "First Test Post"));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "First Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Second Test Post"));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Second Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Third Test Post"));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Third Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "First Test Topic"), "Fourth Test Post"));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Fourth Test Post"));
 		assertTrue(message.equals(OK));
-		message = removePost(driver, new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"),
+		message = removePost(driver, new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
 				"Fifth Test with Truncation over 25 characters Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Sixth Test Post"));
+				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"), "Sixth Test Post"));
+		assertTrue(message.equals(OK));
+		message = removePost(driver, new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
+				"Seventh Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("First Test Forum"), "Second Test Topic"), "Seventh Test Post"));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic"), "Eight Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Third Test Topic"), "Eight Test Post"));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic"), "Ninth Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Third Test Topic"), "Ninth Test Post"));
+				new PostBean(new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic"), "Ten Test Post"));
 		assertTrue(message.equals(OK));
-		message = removePost(driver,
-				new Post(new Topic(new Forum("Second Test Forum"), "Fourth Test Topic"), "Ten Test Post"));
+		message = removeTopic(driver, new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
+				asList(new PostBean[] { new PostBean("First Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body") })));
+		message = removeTopic(driver, new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic",
+				asList(new PostBean[] { new PostBean("Second Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body") })));
+		message = removeTopic(driver, new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic",
+				asList(new PostBean[] { new PostBean("Third Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
-				asList(new Post[] { new Post("Third Test Body") })));
+		message = removeTopic(driver, new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic",
+				asList(new PostBean[] { new PostBean("Fourth Test Body") })));
 		assertTrue(message.equals(OK));
-		message = removeTopic(driver, new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body") })));
-		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
+		message = removeForum(driver, new ForumBean("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
+		message = removeForum(driver, new ForumBean("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

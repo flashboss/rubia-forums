@@ -52,8 +52,8 @@ import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.search.ForumsSearchModule;
 import it.vige.rubia.search.ResultPage;
 import it.vige.rubia.search.SearchCriteria;
@@ -68,7 +68,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
-	public ResultPage<Post> findPosts(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<PostBean> findPosts(SearchCriteria criteria) throws ModuleException {
 		if (criteria != null) {
 			try {
 				EntityManager session = getSession();
@@ -116,7 +116,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(builder, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), Post.class);
+				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), PostBean.class);
 
 				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
 				String sortByStr = criteria.getSortBy();
@@ -125,9 +125,9 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					sortBy = valueOf(sortByStr);
 				fullTextQuery.setSort(getSort(sortBy, sortOrder));
 
-				ResultPage<Post> resultPage = new ResultPage<Post>();
+				ResultPage<PostBean> resultPage = new ResultPage<PostBean>();
 				@SuppressWarnings("unchecked")
-				List<Post> posts = fullTextQuery.list();
+				List<PostBean> posts = fullTextQuery.list();
 				resultPage.setPage(posts);
 				resultPage.setResultSize(fullTextQuery.getResultSize());
 
@@ -143,7 +143,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 		}
 	}
 
-	public ResultPage<Topic> findTopics(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException {
 		if (criteria != null) {
 			try {
 				EntityManager session = getSession();
@@ -191,7 +191,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(builder, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), Post.class);
+				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), PostBean.class);
 
 				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
 				SortBy sortBy = valueOf(criteria.getSortBy());
@@ -210,17 +210,17 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					}
 				}
 
-				List<Topic> topics = null;
+				List<TopicBean> topics = null;
 				if (topicToDispIds.size() > 0) {
 					Query q = session.createQuery("from Topic as t join fetch t.poster where t.id IN ( :topicIds )");
 					q.setParameter("topicIds", topicToDispIds);
 
 					@SuppressWarnings("unchecked")
-					List<Topic> results = q.getResultList();
+					List<TopicBean> results = q.getResultList();
 
-					topics = new LinkedList<Topic>();
+					topics = new LinkedList<TopicBean>();
 					for (Integer id : topicToDispIds) {
-						for (Topic topic : results) {
+						for (TopicBean topic : results) {
 							if (id.equals(topic.getId())) {
 								topics.add(topic);
 								break;
@@ -229,7 +229,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					}
 				}
 
-				ResultPage<Topic> resultPage = new ResultPage<Topic>();
+				ResultPage<TopicBean> resultPage = new ResultPage<TopicBean>();
 				resultPage.setPage(topics);
 				resultPage.setResultSize(topicIds.size());
 

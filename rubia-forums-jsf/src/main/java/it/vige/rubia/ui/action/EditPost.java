@@ -35,11 +35,11 @@ import javax.interceptor.Interceptors;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 
 /**
  * Created on May 2, 2006
@@ -87,8 +87,8 @@ public class EditPost extends PostAction {
 				cleanup();
 
 				// get the post from the module
-				Post post = forumsModule.findPostById(postId);
-				Topic topic = post.getTopic();
+				PostBean post = forumsModule.findPostById(postId);
+				TopicBean topic = post.getTopic();
 
 				// set the selected post's topic id
 				topicId = topic.getId().intValue();
@@ -109,7 +109,7 @@ public class EditPost extends PostAction {
 				attachments = forumsModule.findAttachments(post);
 
 				// setup the attachment related information
-				List<Post> posts = forumsModule.findPostsByTopicId(topic);
+				List<PostBean> posts = forumsModule.findPostsByTopicId(topic);
 
 				isFirstPost = false;
 				if (posts.get(0).getId().intValue() == post.getId().intValue()) {
@@ -155,13 +155,13 @@ public class EditPost extends PostAction {
 		boolean success = false;
 		try {
 			// setup the business objects to be updated
-			Post post = forumsModule.findPostById(postId);
+			PostBean post = forumsModule.findPostById(postId);
 			forumsModule.updateAttachments(attachments, post);
 
 			// TODO: cleanup this forums update process............move this as
 			// a private method
 			// setup attachment information
-			Topic topic = post.getTopic();
+			TopicBean topic = post.getTopic();
 
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
@@ -170,7 +170,7 @@ public class EditPost extends PostAction {
 			}
 
 			// setup the message/subject related data
-			Message message = createMessage();
+			MessageBean message = createMessage();
 			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
@@ -188,9 +188,9 @@ public class EditPost extends PostAction {
 			// TODO: cleanup this poll update process............move this as a
 			// private method
 			// setup poll information
-			List<PollOption> localPollOptions = new LinkedList<PollOption>();
+			List<PollOptionBean> localPollOptions = new LinkedList<PollOptionBean>();
 			for (String key : options.keySet()) {
-				PollOption pollOption = createPollOption(topic.getPoll());
+				PollOptionBean pollOption = createPollOption(topic.getPoll());
 				pollOption.setQuestion(options.get(key));
 				pollOption.setVotes(0);
 				localPollOptions.add(pollOption);
@@ -202,7 +202,7 @@ public class EditPost extends PostAction {
 				// no existing poll information found in the database
 				if (localPollOptions.size() > 0 && question != null && question.trim().length() > 0) {
 					// need to add a new poll to this topic
-					Poll poll = createPoll();
+					PollBean poll = createPoll();
 					poll.setTitle(question);
 					poll.setLength(activeDuration);
 					poll.setOptions(localPollOptions);
@@ -215,16 +215,16 @@ public class EditPost extends PostAction {
 					// this is a diff update..............................
 
 					// setup the poll to be updated in the database
-					Poll poll = createPoll();
+					PollBean poll = createPoll();
 					poll.setTitle(question);
 					poll.setLength(activeDuration);
 					poll.setVoted(topic.getPoll().getVoted());
 					poll.setCreationDate(topic.getPoll().getCreationDate());
 
-					for (PollOption newPollOption : localPollOptions) {
-						Iterator<PollOption> stored = topic.getPoll().getOptions().iterator();
+					for (PollOptionBean newPollOption : localPollOptions) {
+						Iterator<PollOptionBean> stored = topic.getPoll().getOptions().iterator();
 						while (stored.hasNext()) {
-							PollOption oldPollOption = (PollOption) stored.next();
+							PollOptionBean oldPollOption = (PollOptionBean) stored.next();
 							if (oldPollOption != null
 									&& oldPollOption.getQuestion().equals(newPollOption.getQuestion())) {
 								newPollOption.setVotes(oldPollOption.getVotes());

@@ -40,7 +40,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Category;
+import it.vige.rubia.dto.CategoryBean;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -55,17 +55,17 @@ public class OperationCategoryTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
 	@Test
 	public void verifyCreatedCategories() {
-		List<Category> categories = getCategories(driver);
-		List<Category> filteredCategories = new ArrayList<Category>();
-		for (Category category : categories) {
+		List<CategoryBean> categories = getCategories(driver);
+		List<CategoryBean> filteredCategories = new ArrayList<CategoryBean>();
+		for (CategoryBean category : categories) {
 			if (category.getTitle().equals("First Test Category") || category.getTitle().equals("Second Test Category"))
 				filteredCategories.add(category);
 		}
@@ -76,9 +76,9 @@ public class OperationCategoryTest {
 
 	@AfterClass
 	public static void stop() {
-		String message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		String message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

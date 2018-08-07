@@ -35,11 +35,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import it.vige.rubia.auth.User;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.selenium.forum.model.TestUser;
 
 public class VerifyForum {
@@ -60,8 +60,8 @@ public class VerifyForum {
 	public static final String LAST_POST_USER_LINK = "a[2]";
 	public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-	public static Forum getForum(WebDriver driver) {
-		Forum forum = new Forum();
+	public static ForumBean getForum(WebDriver driver) {
+		ForumBean forum = new ForumBean();
 		WebElement forumNameComponent = driver.findElement(className(FORUM_NAME));
 		String forumNameText = forumNameComponent.getText();
 		addParents(driver, forum);
@@ -69,8 +69,8 @@ public class VerifyForum {
 		return forum;
 	}
 
-	public static Forum getForum(WebDriver driver, WebElement trComponent) {
-		Forum forum = new Forum();
+	public static ForumBean getForum(WebDriver driver, WebElement trComponent) {
+		ForumBean forum = new ForumBean();
 		WebElement forumNameComponent = trComponent.findElement(xpath(FORUM_NAME_LINK));
 		String forumNameText = forumNameComponent.getText();
 		addParents(driver, forum);
@@ -78,21 +78,21 @@ public class VerifyForum {
 		forum.setDescription(trComponent.findElement(xpath(DESCRIPTION_OUTPUT_TEXT)).getText().split("\n")[1]);
 		WebElement lastPostElement = trComponent.findElement(xpath(LAST_POST));
 		if (!lastPostElement.getText().equals(NO_POSTS)) {
-			Post lastPost = new Post();
+			PostBean lastPost = new PostBean();
 			try {
 				lastPost.setCreateDate(dateFormat.parse(lastPostElement.getText().split("\n")[2]));
 			} catch (ParseException e) {
 				log.error(e);
 			}
 			String userIdLastPost = lastPostElement.findElement(xpath(LAST_POST_USER_LINK)).getText();
-			Poster poster = new Poster();
+			PosterBean poster = new PosterBean();
 			poster.setUserId(userIdLastPost);
 			lastPost.setPoster(poster);
 			User user = new TestUser();
 			user.setId(userIdLastPost);
 			user.setUserName(userIdLastPost);
 			lastPost.setUser(user);
-			Message message = new Message();
+			MessageBean message = new MessageBean();
 			message.setSubject(lastPostElement.findElement(xpath(LAST_POST_MESSAGE_LINK)).getText());
 			lastPost.setMessage(message);
 			forum.setLastPost(lastPost);
@@ -102,9 +102,9 @@ public class VerifyForum {
 		return forum;
 	}
 
-	public static List<Forum> getForumsOfCategories(WebDriver driver, Category... categories) {
-		List<Forum> forums = new ArrayList<Forum>();
-		for (Category category : categories) {
+	public static List<ForumBean> getForumsOfCategories(WebDriver driver, CategoryBean... categories) {
+		List<ForumBean> forums = new ArrayList<ForumBean>();
+		for (CategoryBean category : categories) {
 			WebElement home = driver.findElement(linkText(HOME_LINK));
 			home.click();
 			WebElement categoryEl = driver.findElement(linkText(category.getTitle()));
@@ -116,7 +116,7 @@ public class VerifyForum {
 				tableComponent = driver.findElement(className(FORUM_TABLE));
 				trComponents = tableComponent.findElements(xpath(FORUM_TR));
 				WebElement trComponent = trComponents.get(i);
-				Forum forum = getForum(driver, trComponent);
+				ForumBean forum = getForum(driver, trComponent);
 				forums.add(forum);
 				driver.findElement(linkText(category.getTitle())).click();
 			}
@@ -124,15 +124,15 @@ public class VerifyForum {
 		return forums;
 	}
 
-	public static void goTo(WebDriver driver, Forum forum) {
+	public static void goTo(WebDriver driver, ForumBean forum) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement forumEl = driver.findElement(linkText(forum.getName()));
 		forumEl.click();
 	}
 
-	private static void addParents(WebDriver driver, Forum forum) {
-		Category category = new Category();
+	private static void addParents(WebDriver driver, ForumBean forum) {
+		CategoryBean category = new CategoryBean();
 		category.setTitle(driver.findElement(linkText(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText()))
 				.getText());
 		forum.setCategory(category);

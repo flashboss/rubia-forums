@@ -23,14 +23,14 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.PosterBean;
 
 public class VerifyProfile {
 
 	public static String POST_COUNT = "forumtablestyle";
 
-	public static Poster verifyProfile(WebDriver driver, String userId) {
-		Poster poster = new Poster(userId);
+	public static PosterBean verifyProfile(WebDriver driver, String userId) {
+		PosterBean poster = new PosterBean(userId);
 		WebElement postCount = driver.findElement(className(POST_COUNT)).findElement(xpath("tbody/tr[3]/td[2]"));
 		int count = parseInt(postCount.getText().trim());
 		for (int i = 0; i < count; i++)

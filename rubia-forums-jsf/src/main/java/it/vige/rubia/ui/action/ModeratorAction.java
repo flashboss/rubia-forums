@@ -48,9 +48,9 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.view.ViewTopic;
 
@@ -85,20 +85,20 @@ public class ModeratorAction extends BaseController {
 	// this is data is created such that it can be consumed by the view
 	// components
 	// like facelets
-	private Forum forum;
+	private ForumBean forum;
 	private Map<Integer, Boolean> checkboxes;
-	private List<Topic> topics = new ArrayList<Topic>();
-	private DataModel<Topic> topicsDataModel = new ListDataModel<Topic>(topics);
+	private List<TopicBean> topics = new ArrayList<TopicBean>();
+	private DataModel<TopicBean> topicsDataModel = new ListDataModel<TopicBean>(topics);
 
-	public DataModel<Topic> getTopicsDataModel() {
+	public DataModel<TopicBean> getTopicsDataModel() {
 		return topicsDataModel;
 	}
 
-	public void setTopicsDataModel(DataModel<Topic> topicsDataModel) {
+	public void setTopicsDataModel(DataModel<TopicBean> topicsDataModel) {
 		this.topicsDataModel = topicsDataModel;
 	}
 
-	public Collection<Topic> getTopics() {
+	public Collection<TopicBean> getTopics() {
 		return topics;
 	}
 
@@ -112,8 +112,7 @@ public class ModeratorAction extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -124,7 +123,7 @@ public class ModeratorAction extends BaseController {
 	// ----------------business data being generated for use by the view
 	// components like
 	// facelets---------------------------------------------------------------------------------------
-	public Forum getForum() {
+	public ForumBean getForum() {
 		return forum;
 	}
 
@@ -153,7 +152,7 @@ public class ModeratorAction extends BaseController {
 
 				try {
 					if (value) {
-						Topic topic = forumsModule.findTopicById(topicId);
+						TopicBean topic = forumsModule.findTopicById(topicId);
 						forumsModule.removeTopic(topicId);
 						topics.remove(topic);
 					}
@@ -186,7 +185,7 @@ public class ModeratorAction extends BaseController {
 			setWarnBundleMessage("ERR_NO_DEST_FORUM");
 			return "success";
 		}
-		Forum forumDest = null;
+		ForumBean forumDest = null;
 		try {
 			forumDest = forumsModule.findForumById(parseInt(forum_to_id));
 		} catch (Exception e) {
@@ -199,7 +198,7 @@ public class ModeratorAction extends BaseController {
 			for (int topicId : checkboxes.keySet()) {
 				boolean value = checkboxes.get(topicId);
 				if (value) {
-					Topic topic = null;
+					TopicBean topic = null;
 					try {
 						topic = forumsModule.findTopicById(topicId);
 					} catch (Exception e) {
@@ -244,7 +243,7 @@ public class ModeratorAction extends BaseController {
 
 					try {
 						if (value) {
-							Topic topic = forumsModule.findTopicById(topicId);
+							TopicBean topic = forumsModule.findTopicById(topicId);
 							updateStatus(topic, TOPIC_LOCKED);
 						}
 					} catch (Exception e) {
@@ -280,7 +279,7 @@ public class ModeratorAction extends BaseController {
 
 					try {
 						if (value) {
-							Topic topic = forumsModule.findTopicById(topicId);
+							TopicBean topic = forumsModule.findTopicById(topicId);
 							updateStatus(topic, TOPIC_UNLOCKED);
 						}
 					} catch (Exception e) {
@@ -366,8 +365,8 @@ public class ModeratorAction extends BaseController {
 		return false;
 	}
 
-	public List<Topic> getAllSelectedTopics() {
-		List<Topic> list = new LinkedList<Topic>();
+	public List<TopicBean> getAllSelectedTopics() {
+		List<TopicBean> list = new LinkedList<TopicBean>();
 		for (int topicId : checkboxes.keySet()) {
 			if (checkboxes.get(topicId)) {
 				try {
@@ -409,7 +408,7 @@ public class ModeratorAction extends BaseController {
 
 				if (t != null && t.trim().length() > 0) {
 
-					Topic topic = forumsModule.findTopicById(parseInt(t));
+					TopicBean topic = forumsModule.findTopicById(parseInt(t));
 					forum = topic.getForum();
 
 				} else {
@@ -417,15 +416,15 @@ public class ModeratorAction extends BaseController {
 
 					if (p != null && p.trim().length() > 0) {
 
-						Post post = forumsModule.findPostById(parseInt(p));
-						Topic topic = post.getTopic();
+						PostBean post = forumsModule.findPostById(parseInt(p));
+						TopicBean topic = post.getTopic();
 						forum = topic.getForum();
 					}
 				}
 			}
 			if (forum != null) {
 				topics = forumsModule.findTopics(forum);
-				topicsDataModel = new ListDataModel<Topic>(topics);
+				topicsDataModel = new ListDataModel<TopicBean>(topics);
 			}
 		} catch (ModuleException e) {
 			log.error(e);
@@ -442,9 +441,9 @@ public class ModeratorAction extends BaseController {
 		getCurrentInstance().addMessage("message", new FacesMessage(SEVERITY_INFO, message, "moderate"));
 	}
 
-	private void updateStatus(Topic topic, int status) {
+	private void updateStatus(TopicBean topic, int status) {
 		topic.setStatus(status);
-		for (Topic topicIt : topics)
+		for (TopicBean topicIt : topics)
 			if (topicIt.getId() == topic.getId())
 				topicIt.setStatus(status);
 		forumsModule.update(topic);

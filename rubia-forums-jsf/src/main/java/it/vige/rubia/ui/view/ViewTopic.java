@@ -39,8 +39,8 @@ import org.jboss.logging.Logger;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.action.PreferenceController;
 import it.vige.rubia.util.CurrentTopicPage;
@@ -67,11 +67,11 @@ public class ViewTopic extends BaseController {
 	@Inject
 	private CurrentTopicPage currentTopicPage;
 
-	private Topic topic;
+	private TopicBean topic;
 	private long postDays; // This is value of selectItem describing time
 							// constraint for displayed posts
-	private List<Post> topics = new ArrayList<Post>();
-	private DataModel<Post> topicsDataModel = new ListDataModel<Post>(topics);
+	private List<PostBean> topics = new ArrayList<PostBean>();
+	private DataModel<PostBean> topicsDataModel = new ListDataModel<PostBean>(topics);
 
 	public int getLastPageNumber() {
 		if (topic != null)
@@ -80,28 +80,27 @@ public class ViewTopic extends BaseController {
 			return 1;
 	}
 
-	public DataModel<Post> getTopicsDataModel() {
+	public DataModel<PostBean> getTopicsDataModel() {
 		return topicsDataModel;
 	}
 
-	public void setTopicsDataModel(DataModel<Post> topicsDataModel) {
+	public void setTopicsDataModel(DataModel<PostBean> topicsDataModel) {
 		this.topicsDataModel = topicsDataModel;
 	}
 
 	/**
 	 * @return the current topic
 	 */
-	public Topic getTopic() {
+	public TopicBean getTopic() {
 		return topic;
 	}
 
-	public void setTopic(Topic topic) {
+	public void setTopic(TopicBean topic) {
 		this.topic = topic;
 	}
 
 	/**
-	 * @param postDays
-	 *            the post days
+	 * @param postDays the post days
 	 */
 	public void setPostDays(long postDays) {
 		this.postDays = postDays;
@@ -159,7 +158,7 @@ public class ViewTopic extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Post> getTopics() {
+	public Collection<PostBean> getTopics() {
 		return topics;
 	}
 
@@ -173,8 +172,7 @@ public class ViewTopic extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -198,7 +196,7 @@ public class ViewTopic extends BaseController {
 		try {
 			if (p != null && p.trim().length() > 0) {
 				postId = parseInt(p);
-				Post post = forumsModule.findPostById(postId);
+				PostBean post = forumsModule.findPostById(postId);
 				topicId = post.getTopic().getId().intValue();
 				topic = post.getTopic();
 			}
@@ -245,7 +243,7 @@ public class ViewTopic extends BaseController {
 					topics = forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(pagePosts);
 
 				}
-				topicsDataModel = new ListDataModel<Post>(topics);
+				topicsDataModel = new ListDataModel<PostBean>(topics);
 				String pageNumber = getParameter(p_page);
 				if (pageNumber != null)
 					currentTopicPage.setPage(parseInt(pageNumber));

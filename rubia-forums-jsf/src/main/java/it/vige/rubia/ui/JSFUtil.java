@@ -43,7 +43,7 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.PosterBean;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -56,8 +56,7 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
-	 * @param name
-	 *            the name to find in the request
+	 * @param name the name to find in the request
 	 * 
 	 * @return the found parameter of the request
 	 * 
@@ -111,8 +110,7 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
-	 * @param componentId
-	 *            the id component to check
+	 * @param componentId the id component to check
 	 * 
 	 * @return the value of the choosen component
 	 * 
@@ -135,8 +133,7 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
-	 * @param componentId
-	 *            the id component to check
+	 * @param componentId the id component to check
 	 * 
 	 */
 	public static void removeComponent(String componentId) {
@@ -153,8 +150,7 @@ public class JSFUtil {
 	 * 
 	 * @author sshah
 	 * 
-	 * @param e
-	 *            the exception to handle
+	 * @param e the exception to handle
 	 * 
 	 * @return the navigation state of the application
 	 * 
@@ -204,10 +200,8 @@ public class JSFUtil {
 	}
 
 	/**
-	 * @param id
-	 *            the id of the message to create
-	 * @param msg
-	 *            the text of the message to create
+	 * @param id  the id of the message to create
+	 * @param msg the text of the message to create
 	 */
 	public static void setMessage(String id, String msg) {
 		FacesMessage message = new FacesMessage(SEVERITY_INFO, // severity
@@ -218,10 +212,8 @@ public class JSFUtil {
 	}
 
 	/**
-	 * @param id
-	 *            the id of the error message to create
-	 * @param msg
-	 *            the text of the error message to create
+	 * @param id  the id of the error message to create
+	 * @param msg the text of the error message to create
 	 */
 	public static void setErrorMessage(String id, String msg) {
 		FacesMessage message = new FacesMessage(SEVERITY_ERROR, // severity
@@ -232,8 +224,7 @@ public class JSFUtil {
 	}
 
 	/**
-	 * @param id
-	 *            the id of the message to find
+	 * @param id the id of the message to find
 	 * 
 	 * @return the text of the message
 	 */
@@ -252,10 +243,8 @@ public class JSFUtil {
 	}
 
 	/**
-	 * @param bundleName
-	 *            the name of the bundle
-	 * @param messageKey
-	 *            the key of the bundle to find
+	 * @param bundleName the name of the bundle
+	 * @param messageKey the key of the bundle to find
 	 * 
 	 * @return the value for the requested id
 	 */
@@ -298,12 +287,9 @@ public class JSFUtil {
 	/**
 	 * Creates feed link.
 	 * 
-	 * @param type
-	 *            RSS/Atom. See FeedConstants
-	 * @param what
-	 *            Kind of the link. See available kinds in FeedConstants
-	 * @param id
-	 *            Id - for kind FeedCostants.GLOBAL is ignored
+	 * @param type RSS/Atom. See FeedConstants
+	 * @param what Kind of the link. See available kinds in FeedConstants
+	 * @param id   Id - for kind FeedCostants.GLOBAL is ignored
 	 * @return String with proper address
 	 */
 	public static String createFeedLink(String type, String what, Integer id) {
@@ -349,17 +335,14 @@ public class JSFUtil {
 	}
 
 	/**
-	 * @param userModule
-	 *            the user module of the application
-	 * @param forumsModule
-	 *            the forums module of the application
+	 * @param userModule   the user module of the application
+	 * @param forumsModule the forums module of the application
 	 * 
 	 * @return the current poster
-	 * @throws Exception
-	 *             the error exception
+	 * @throws Exception the error exception
 	 */
-	public static Poster getPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
-		Poster poster = null;
+	public static PosterBean getPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
+		PosterBean poster = null;
 
 		if (!isAnonymous()) {
 			User user = getUser(userModule);
@@ -368,7 +351,7 @@ public class JSFUtil {
 			poster = forumsModule.findPosterByUserId(userId.toString());
 
 			if (poster == null) {
-				poster = new Poster(userId.toString());
+				poster = new PosterBean(userId.toString());
 			}
 		} else {
 			poster = getGuestPoster(userModule, forumsModule);

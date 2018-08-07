@@ -42,9 +42,9 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -73,17 +73,17 @@ public class SplitTopic extends BaseController {
 	private Map<Integer, Boolean> checkboxes;
 
 	/** Topic to split */
-	private Topic topic;
+	private TopicBean topic;
 
-	private List<Post> posts;
+	private List<PostBean> posts;
 
 	// ---------- Getters And Setters for bean's attributes --------------------
 
-	public List<Post> getPosts() {
+	public List<PostBean> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<PostBean> posts) {
 		this.posts = posts;
 	}
 
@@ -103,7 +103,7 @@ public class SplitTopic extends BaseController {
 		return checkboxes;
 	}
 
-	public Topic getTopic() {
+	public TopicBean getTopic() {
 		return topic;
 	}
 
@@ -176,18 +176,18 @@ public class SplitTopic extends BaseController {
 
 		try {
 
-			Forum destForum = forumsModule.findForumById(parseInt(toForumId));
+			ForumBean destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
-					topic.getType());
+			TopicBean newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(),
+					newTopicTitle, topic.getType());
 
 			// Getting post id after which the topic must be splitted.
 			Integer selectedPostId = (Integer) checkboxes.keySet().iterator().next();
 
 			// Searching for the split pointing post in topic.
-			Iterator<Post> it = posts.iterator();
-			Post tempPost = null;
+			Iterator<PostBean> it = posts.iterator();
+			PostBean tempPost = null;
 			while (it.hasNext()) {
 				tempPost = it.next();
 				// searching for post to split after
@@ -195,7 +195,7 @@ public class SplitTopic extends BaseController {
 					break;
 				}
 			}
-			List<Post> postsToRemove = new ArrayList<Post>();
+			List<PostBean> postsToRemove = new ArrayList<PostBean>();
 
 			// Adding splitting post and all which are after him to new topic.
 			if (tempPost != null) {
@@ -204,17 +204,17 @@ public class SplitTopic extends BaseController {
 				postsToRemove.add(tempPost);
 			}
 			while (it.hasNext()) {
-				Post post = it.next();
+				PostBean post = it.next();
 				post.setTopic(newTopic);
 				forumsModule.update(post);
 				postsToRemove.add(post);
 			}
 			newTopic = forumsModule.findTopicById(newTopic.getId());
-			List<Post> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
+			List<PostBean> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
 			newTopic.setReplies(postsNewTopic.size() - 1);
 			newTopic.setLastPostDate(postsNewTopic.get(postsNewTopic.size() - 1).getCreateDate());
 
-			Forum fromForum = topic.getForum();
+			ForumBean fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - newTopic.getReplies() - 1);
 			fromForum.setPostCount(fromForum.getPostCount() - newTopic.getReplies() - 1);
 			posts.removeAll(postsToRemove);
@@ -239,8 +239,8 @@ public class SplitTopic extends BaseController {
 	}
 
 	/**
-	 * This user interface action is spliting topic bh=y moving all selected by
-	 * user posts into newly created topic.
+	 * This user interface action is spliting topic bh=y moving all selected by user
+	 * posts into newly created topic.
 	 * 
 	 * @return the name of the operation
 	 */
@@ -290,16 +290,16 @@ public class SplitTopic extends BaseController {
 		}
 		try {
 
-			Forum destForum = forumsModule.findForumById(parseInt(toForumId));
+			ForumBean destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in selected destination forum.
-			Topic newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(), newTopicTitle,
-					topic.getType());
+			TopicBean newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(),
+					newTopicTitle, topic.getType());
 
 			// Moving all selected posts to new topic.
 			selectIt = checkboxes.keySet().iterator();
-			Post movedPost = null;
-			List<Post> postsToRemove = new ArrayList<Post>();
+			PostBean movedPost = null;
+			List<PostBean> postsToRemove = new ArrayList<PostBean>();
 			while (selectIt.hasNext()) {
 				movedPost = forumsModule.findPostById(selectIt.next());
 				movedPost.setTopic(newTopic);
@@ -307,14 +307,14 @@ public class SplitTopic extends BaseController {
 				postsToRemove.add(movedPost);
 			}
 
-			Forum fromForum = topic.getForum();
+			ForumBean fromForum = topic.getForum();
 			topic.setReplies(topic.getReplies() - checkboxes.size());
 			fromForum.setPostCount(fromForum.getPostCount() - checkboxes.size());
 			posts.removeAll(postsToRemove);
 			topic.setLastPostDate(posts.get(posts.size() - 1).getCreateDate());
 
 			newTopic.setReplies(checkboxes.size() - 1);
-			List<Post> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
+			List<PostBean> postsNewTopic = forumsModule.findPostsByTopicId(newTopic);
 			newTopic.setLastPostDate(postsNewTopic.get(postsNewTopic.size() - 1).getCreateDate());
 
 			destForum.addTopicSize();
@@ -349,10 +349,10 @@ public class SplitTopic extends BaseController {
 		// process the topic information
 		try {
 			if (topicId != -1) {
-				topic = (Topic) forumsModule.findTopicById(topicId);
+				topic = (TopicBean) forumsModule.findTopicById(topicId);
 				posts = forumsModule.findPostsByTopicId(topic);
 			}
-			List<Post> posts = forumsModule.findPostsByTopicId(topic);
+			List<PostBean> posts = forumsModule.findPostsByTopicId(topic);
 			if (checkboxes == null || checkboxes.size() != posts.size()) {
 				checkboxes = new HashMap<Integer, Boolean>();
 			}

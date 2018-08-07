@@ -13,12 +13,12 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
+import static it.vige.rubia.dto.TopicType.ADVICE;
+import static it.vige.rubia.dto.TopicType.IMPORTANT;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.feeds.FeedConstants.ATOM;
 import static it.vige.rubia.feeds.FeedConstants.FORUM;
 import static it.vige.rubia.feeds.FeedConstants.RSS;
-import static it.vige.rubia.model.TopicType.ADVICE;
-import static it.vige.rubia.model.TopicType.IMPORTANT;
-import static it.vige.rubia.model.TopicType.NORMAL;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
@@ -47,9 +47,9 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.PageNavigator;
 import it.vige.rubia.ui.action.PreferenceController;
@@ -81,18 +81,18 @@ public class ViewForum extends BaseController {
 	// this is data is created such that it can be consumed by the view
 	// components
 	// like facelets
-	private Forum forum;
-	private List<Topic> normalThreads = new ArrayList<Topic>();
+	private ForumBean forum;
+	private List<TopicBean> normalThreads = new ArrayList<TopicBean>();
 	private Map<Object, Object> topicLastPosts;
-	private List<Topic> stickyThreads;
-	private List<Topic> announcements;
-	private DataModel<Topic> normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
+	private List<TopicBean> stickyThreads;
+	private List<TopicBean> announcements;
+	private DataModel<TopicBean> normalThreadsDataModel = new ListDataModel<TopicBean>(normalThreads);
 
-	public DataModel<Topic> getNormalThreadsDataModel() {
+	public DataModel<TopicBean> getNormalThreadsDataModel() {
 		return normalThreadsDataModel;
 	}
 
-	public void setNormalThreadsDataModel(DataModel<Topic> normalThreadsDataModel) {
+	public void setNormalThreadsDataModel(DataModel<TopicBean> normalThreadsDataModel) {
 		this.normalThreadsDataModel = normalThreadsDataModel;
 	}
 
@@ -109,11 +109,11 @@ public class ViewForum extends BaseController {
 	/**
 	 * @return the current forum
 	 */
-	public Forum getForum() {
+	public ForumBean getForum() {
 		return forum;
 	}
 
-	public void setForum(Forum forum) {
+	public void setForum(ForumBean forum) {
 		this.forum = forum;
 	}
 
@@ -122,11 +122,11 @@ public class ViewForum extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getAnnouncements() {
+	public Collection<TopicBean> getAnnouncements() {
 		if (announcements != null) {
 			return announcements;
 		}
-		announcements = new ArrayList<Topic>();
+		announcements = new ArrayList<TopicBean>();
 		try {
 			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
 		} catch (Exception e) {
@@ -169,11 +169,11 @@ public class ViewForum extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getStickyThreads() {
+	public Collection<TopicBean> getStickyThreads() {
 		if (stickyThreads != null) {
 			return stickyThreads;
 		}
-		stickyThreads = new ArrayList<Topic>();
+		stickyThreads = new ArrayList<TopicBean>();
 		try {
 			// ForumsModule fm = this.getForumsModule();
 			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
@@ -214,7 +214,7 @@ public class ViewForum extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getNormalThreads() {
+	public Collection<TopicBean> getNormalThreads() {
 		return normalThreads;
 	}
 
@@ -240,7 +240,7 @@ public class ViewForum extends BaseController {
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = (Post) getTopicLastPosts().get(id);
+		PostBean post = (PostBean) getTopicLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -258,8 +258,7 @@ public class ViewForum extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -292,15 +291,15 @@ public class ViewForum extends BaseController {
 				forum = fm.findForumById(forumId);
 
 				// Getting sticky topics for this page
-				Collection<Topic> stickies = getStickyThreads();
+				Collection<TopicBean> stickies = getStickyThreads();
 
 				// Getting announcements
-				Collection<Topic> announcements = getAnnouncements();
+				Collection<TopicBean> announcements = getAnnouncements();
 
 				normalThreads = fm.findTopicsDesc(forum, NORMAL, 0, MAX_VALUE);
-				normalThreadsDataModel = new ListDataModel<Topic>(normalThreads);
+				normalThreadsDataModel = new ListDataModel<TopicBean>(normalThreads);
 
-				Collection<Topic> listOfTopics = new LinkedList<Topic>();
+				Collection<TopicBean> listOfTopics = new LinkedList<TopicBean>();
 
 				listOfTopics.addAll(stickies);
 				listOfTopics.addAll(announcements);
@@ -311,7 +310,7 @@ public class ViewForum extends BaseController {
 
 				// setup dummy pageNavigators for all topics being displayed for
 				// topic minipaging
-				for (Topic cour : listOfTopics) {
+				for (TopicBean cour : listOfTopics) {
 					if (cour.getReplies() > 0) {
 						PageNavigator topicNav = new PageNavigator(cour.getReplies() + 1,
 								userPreferences.getPostsPerTopic(), // this

@@ -14,16 +14,16 @@
 package it.vige.rubia.search;
 
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 
 import javax.ejb.Local;
 
 @Local
 public interface ForumsSearchModule {
 
-	public ResultPage<Post> findPosts(SearchCriteria criteria) throws ModuleException;
+	public ResultPage<PostBean> findPosts(SearchCriteria criteria) throws ModuleException;
 
-	public ResultPage<Topic> findTopics(SearchCriteria criteria) throws ModuleException;
+	public ResultPage<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException;
 
 }

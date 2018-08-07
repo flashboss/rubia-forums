@@ -27,12 +27,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.properties.NotificationType;
 
 public class ViewAllTopicsUpdateTopic {
 
-	public static String viewAllTopicsUpdateTopic(WebDriver driver, Topic topic, NotificationType notificationType) {
+	public static String viewAllTopicsUpdateTopic(WebDriver driver, TopicBean topic,
+			NotificationType notificationType) {
 		goTo(driver);
 		WebElement editLink = driver.findElements(className(MY_FORUMS_LIST)).get(0)
 				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]/../../td[4]/a"));

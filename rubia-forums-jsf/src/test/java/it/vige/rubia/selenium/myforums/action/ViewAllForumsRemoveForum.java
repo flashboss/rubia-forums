@@ -21,15 +21,16 @@ import static it.vige.rubia.selenium.myforums.action.ViewAllForums.MY_FORUMS_LIS
 import static it.vige.rubia.selenium.myforums.action.ViewAllForums.goTo;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Forum;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.ForumBean;
+
 public class ViewAllForumsRemoveForum {
 
-	public static String viewAllForumsRemoveForum(WebDriver driver, Forum forum) {
+	public static String viewAllForumsRemoveForum(WebDriver driver, ForumBean forum) {
 		goTo(driver);
 		WebElement element = driver
 				.findElements(className(MY_FORUMS_LIST))
@@ -57,7 +58,7 @@ public class ViewAllForumsRemoveForum {
 	}
 
 	public static String viewAllEditForumsRemoveForum(WebDriver driver,
-			Forum forum) {
+			ForumBean forum) {
 		ViewAllForumsUpdateForum.goTo(driver);
 		WebElement element = driver
 				.findElements(className(MY_FORUMS_LIST))

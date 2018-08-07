@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.ForumUtil.getSDF;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
@@ -48,12 +48,12 @@ import org.primefaces.model.UploadedFile;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.TopicType;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicType;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -84,7 +84,7 @@ public abstract class PostAction extends BaseController {
 
 	// attachment related view data
 	protected String attachmentComment;
-	protected Collection<Attachment> attachments = new ArrayList<Attachment>();
+	protected Collection<AttachmentBean> attachments = new ArrayList<AttachmentBean>();
 
 	// navigation control related data
 	protected boolean preview;
@@ -104,8 +104,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param message
-	 *            The message to set.
+	 * @param message The message to set.
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -119,8 +118,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param subject
-	 *            The subject to set.
+	 * @param subject The subject to set.
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -134,8 +132,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param topicType
-	 *            The topicType to set.
+	 * @param topicType The topicType to set.
 	 */
 	public void setTopicType(TopicType topicType) {
 		this.topicType = topicType;
@@ -165,8 +162,7 @@ public abstract class PostAction extends BaseController {
 
 	/**
 	 * 
-	 * @param question
-	 *            the question to select
+	 * @param question the question to select
 	 */
 	public void setQuestion(String question) {
 		this.question = question;
@@ -180,8 +176,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param activeDuration
-	 *            The activeDuration to set.
+	 * @param activeDuration The activeDuration to set.
 	 */
 	public void setActiveDuration(int activeDuration) {
 		this.activeDuration = activeDuration;
@@ -195,8 +190,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param option
-	 *            the option of the poll of the post
+	 * @param option the option of the poll of the post
 	 */
 	public void setOption(String option) {
 		this.option = option;
@@ -246,8 +240,7 @@ public abstract class PostAction extends BaseController {
 	}
 
 	/**
-	 * @param attachmentComment
-	 *            The attachmentComment to set.
+	 * @param attachmentComment The attachmentComment to set.
 	 */
 	public void setAttachmentComment(String attachmentComment) {
 		this.attachmentComment = attachmentComment;
@@ -257,7 +250,7 @@ public abstract class PostAction extends BaseController {
 	 * 
 	 * @return the attachments list of the post
 	 */
-	public Collection<Attachment> getAttachments() {
+	public Collection<AttachmentBean> getAttachments() {
 		return attachments;
 	}
 
@@ -345,26 +338,25 @@ public abstract class PostAction extends BaseController {
 
 		// cleanup attachment related data
 		attachmentComment = null;
-		attachments = new ArrayList<Attachment>();
+		attachments = new ArrayList<AttachmentBean>();
 	}
 
 	/**
 	 * sets the poll information of a post for the ui from the business object
 	 * 
-	 * @param poll
-	 *            the poll to configure
+	 * @param poll the poll to configure
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	protected void setupPoll(Poll poll) {
+	protected void setupPoll(PollBean poll) {
 		if (poll != null) {
 			question = poll.getTitle();
 			activeDuration = poll.getLength();
-			List<PollOption> pollOptions = poll.getOptions();
+			List<PollOptionBean> pollOptions = poll.getOptions();
 			if (pollOptions != null && pollOptions.size() > 0) {
 				options = new TreeMap<String, String>();
 				int counter = 1;
-				for (PollOption cour : pollOptions) {
+				for (PollOptionBean cour : pollOptions) {
 					options.put(Integer.toString(counter), cour.getQuestion());
 					counter++;
 				}
@@ -424,7 +416,7 @@ public abstract class PostAction extends BaseController {
 		return navState;
 	}
 
-	public void validatePoll(Poll poll) throws PollValidationException {
+	public void validatePoll(PollBean poll) throws PollValidationException {
 		if (poll.getOptions().size() > 10) {
 			throw new PollValidationException(TOO_MANY_POLL_OPTION);
 		}
@@ -434,7 +426,7 @@ public abstract class PostAction extends BaseController {
 		if (poll.getTitle() == null || poll.getTitle().trim().length() == 0) {
 			throw new PollValidationException(INVALID_POLL_TITLE);
 		}
-		for (PollOption option : poll.getOptions()) {
+		for (PollOptionBean option : poll.getOptions()) {
 			if (option.getQuestion() == null || option.getQuestion().trim().length() == 0) {
 				throw new PollValidationException(INVALID_POLL_OPTION);
 			}
@@ -445,7 +437,7 @@ public abstract class PostAction extends BaseController {
 	// -----------------message
 	// related------------------------------------------------------------------------------------------
 
-	public void validateMessage(Message message) throws MessageValidationException {
+	public void validateMessage(MessageBean message) throws MessageValidationException {
 		String subject = message.getSubject();
 		if (subject == null || subject.trim().length() == 0) {
 			throw new MessageValidationException(INVALID_POST_SUBJECT);
@@ -521,11 +513,10 @@ public abstract class PostAction extends BaseController {
 	/**
 	 * 
 	 * @return the current post
-	 * @throws Exception
-	 *             the error exception
+	 * @throws Exception the error exception
 	 */
-	public Post getPost() throws Exception {
-		Post post = null;
+	public PostBean getPost() throws Exception {
+		PostBean post = null;
 
 		post = forumsModule.findPostById(parseInt(getRequestParameter(p_postId)));
 
@@ -534,23 +525,23 @@ public abstract class PostAction extends BaseController {
 
 	public void upload(FileUploadEvent event) throws Exception {
 		UploadedFile item = event.getFile();
-		Attachment attachment = new Attachment();
+		AttachmentBean attachment = new AttachmentBean();
 		attachment.setComment(attachmentComment);
 		attachment.setContent(item.getContents());
 		attachment.setContentType(item.getContentType());
 		attachment.setName(item.getFileName());
 		attachment.setSize(item.getSize());
-		for (Attachment attachmentFromList : attachments)
+		for (AttachmentBean attachmentFromList : attachments)
 			attachmentFromList.setPost(null);
 		attachments.add(attachment);
 	}
 
-	public void clearUpload(Attachment attachment) throws Exception {
+	public void clearUpload(AttachmentBean attachment) throws Exception {
 		this.attachments.remove(attachment);
 	}
 
 	public void paint(OutputStream stream, Object object) throws IOException {
-		stream.write(attachments.toArray(new Attachment[0])[(Integer) object].getContent());
+		stream.write(attachments.toArray(new AttachmentBean[0])[(Integer) object].getContent());
 		stream.close();
 	}
 

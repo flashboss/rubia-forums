@@ -33,8 +33,8 @@ import org.jboss.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Post;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.PostBean;
 
 public class CreateAttachment extends Write {
 
@@ -46,18 +46,18 @@ public class CreateAttachment extends Write {
 	public static final String RESULT_ATTACHMENT_LIST = "forumHeaderLast";
 	public static final String UPDATE_BUTTON = "post:Submit";
 
-	public static String[] addAttachmentsAndSave(WebDriver driver, Post post) {
+	public static String[] addAttachmentsAndSave(WebDriver driver, PostBean post) {
 		String[] results = addAttachments(driver, post);
 		WebElement updateButton = driver.findElement(id(UPDATE_BUTTON));
 		updateButton.click();
 		return results;
 	}
 
-	public static String[] addAttachments(WebDriver driver, Post post) {
+	public static String[] addAttachments(WebDriver driver, PostBean post) {
 		sleepThread();
-		Collection<Attachment> attachments = post.getAttachments();
+		Collection<AttachmentBean> attachments = post.getAttachments();
 		if (attachments != null) {
-			for (Attachment attachment : attachments) {
+			for (AttachmentBean attachment : attachments) {
 
 				File file;
 				try {
@@ -80,7 +80,7 @@ public class CreateAttachment extends Write {
 
 			List<WebElement> commentInputs = driver.findElements(className(FILE_COMMENT_INPUT_TEXT));
 			int i = 0;
-			for (Attachment attachment : attachments) {
+			for (AttachmentBean attachment : attachments) {
 				WebElement commentInput = commentInputs.get(i);
 				commentInput.sendKeys(attachment.getComment());
 				i++;

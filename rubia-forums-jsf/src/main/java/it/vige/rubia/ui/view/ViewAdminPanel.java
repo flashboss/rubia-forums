@@ -14,13 +14,6 @@
 package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.action.PreferenceController;
 
 import java.util.List;
 
@@ -28,6 +21,14 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.action.PreferenceController;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -48,8 +49,8 @@ public class ViewAdminPanel extends BaseController {
 	@Inject
 	private PreferenceController userPreferences = null;
 
-	private List<Category> categories = null;
-	private List<Forum> forums = null;
+	private List<CategoryBean> categories = null;
+	private List<ForumBean> forums = null;
 
 	// ------------user
 	// preferences-------------------------------------------------------------------------------------------------------------
@@ -61,8 +62,7 @@ public class ViewAdminPanel extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -73,7 +73,7 @@ public class ViewAdminPanel extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public List<Category> getCategories() {
+	public List<CategoryBean> getCategories() {
 		if (categories != null) {
 			return categories;
 		}
@@ -97,7 +97,7 @@ public class ViewAdminPanel extends BaseController {
 
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public List<Forum> getForums() {
+	public List<ForumBean> getForums() {
 		if (forums != null) {
 			return forums;
 		}

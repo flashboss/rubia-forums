@@ -17,9 +17,9 @@
 package it.vige.rubia.selenium.preferences.test;
 
 import static it.vige.rubia.Constants.RE;
-import static it.vige.rubia.model.TopicType.ADVICE;
-import static it.vige.rubia.model.TopicType.IMPORTANT;
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.ADVICE;
+import static it.vige.rubia.dto.TopicType.IMPORTANT;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.selenium.Constants.HOME_URL;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.adminpanel.action.CreateCategory.createCategory;
@@ -65,10 +65,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.action.PreferenceController;
 
 @RunWith(Arquillian.class)
@@ -81,136 +81,137 @@ public class PreferencesTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
-		Forum forum = new Forum("First Test Forum", "First Test Description", new Category("First Test Category"));
+		ForumBean forum = new ForumBean("First Test Forum", "First Test Description",
+				new CategoryBean("First Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(driver,
-				new Topic(forum, "First Test Topic", asList(new Post[] { new Post("First Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "First Test Topic",
+				asList(new PostBean[] { new PostBean("First Test Body") }), NORMAL, null));
 		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Second Test Topic",
+				asList(new PostBean[] { new PostBean("Second Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Second Test Topic"));
-		message = createTopic(driver,
-				new Topic(forum, "Ten Test Topic", asList(new Post[] { new Post("Ten Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Ten Test Topic",
+				asList(new PostBean[] { new PostBean("Ten Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Ten Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Eleven Test Topic",
-				asList(new Post[] { new Post("Eleven Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Eleven Test Topic",
+				asList(new PostBean[] { new PostBean("Eleven Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Eleven Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twelve Test Topic",
-				asList(new Post[] { new Post("Twelve Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Twelve Test Topic",
+				asList(new PostBean[] { new PostBean("Twelve Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Twelve Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Thirteen Test Topic",
-				asList(new Post[] { new Post("Thirteen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Thirteen Test Topic",
+				asList(new PostBean[] { new PostBean("Thirteen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Thirteen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Fourteen Test Topic",
-				asList(new Post[] { new Post("Fourteen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Fourteen Test Topic",
+				asList(new PostBean[] { new PostBean("Fourteen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Fourteen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Fifteen Test Topic",
-				asList(new Post[] { new Post("Fifteen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Fifteen Test Topic",
+				asList(new PostBean[] { new PostBean("Fifteen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Fifteen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Sixteen Test Topic",
-				asList(new Post[] { new Post("Sixteen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Sixteen Test Topic",
+				asList(new PostBean[] { new PostBean("Sixteen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Sixteen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Seventeen Test Topic",
-				asList(new Post[] { new Post("Seventeen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Seventeen Test Topic",
+				asList(new PostBean[] { new PostBean("Seventeen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Seventeen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Eighteen Test Topic",
-				asList(new Post[] { new Post("Eighteen Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Eighteen Test Topic",
+				asList(new PostBean[] { new PostBean("Eighteen Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Eighteen Test Topic"));
 		message = createTopic(driver,
-				new Topic(forum, "Ninteen Test Topic",
-						asList(new Post[] { new Post("Ninteen Test Body"),
-								new Post("<ul><li>Ninteen4</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen5</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen6</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen7</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen8</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen9</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen10</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen11</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen12</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen13</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen14</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen15</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen16</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen17</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen18</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen19</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen20</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen21</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen22</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen23</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen24</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen25</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen26</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen27</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen28</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen29</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen30</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen31</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen32</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen33</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen34</li><li>Test Body</li></ul>"),
-								new Post("<ul><li>Ninteen35</li><li>Test Body</li></ul>") }),
+				new TopicBean(forum, "Ninteen Test Topic",
+						asList(new PostBean[] { new PostBean("Ninteen Test Body"),
+								new PostBean("<ul><li>Ninteen4</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen5</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen6</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen7</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen8</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen9</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen10</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen11</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen12</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen13</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen14</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen15</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen16</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen17</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen18</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen19</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen20</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen21</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen22</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen23</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen24</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen25</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen26</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen27</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen28</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen29</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen30</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen31</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen32</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen33</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen34</li><li>Test Body</li></ul>"),
+								new PostBean("<ul><li>Ninteen35</li><li>Test Body</li></ul>") }),
 						IMPORTANT, null));
 		assertTrue(message.equals("Ninteen Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twelve Test Topic",
-				asList(new Post[] { new Post("Twelve Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twelve Test Topic",
+				asList(new PostBean[] { new PostBean("Twelve Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twelve Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentyone Test Topic",
-				asList(new Post[] { new Post("Twentyone Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentyone Test Topic",
+				asList(new PostBean[] { new PostBean("Twentyone Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentyone Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentytwo Test Topic",
-				asList(new Post[] { new Post("Twentytwo Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentytwo Test Topic",
+				asList(new PostBean[] { new PostBean("Twentytwo Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentytwo Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentythree Test Topic",
-				asList(new Post[] { new Post("Twentythree Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentythree Test Topic",
+				asList(new PostBean[] { new PostBean("Twentythree Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentythree Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentyfour Test Topic",
-				asList(new Post[] { new Post("Twentyfour Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentyfour Test Topic",
+				asList(new PostBean[] { new PostBean("Twentyfour Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentyfour Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentyfive Test Topic",
-				asList(new Post[] { new Post("Twentyfive Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentyfive Test Topic",
+				asList(new PostBean[] { new PostBean("Twentyfive Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentyfive Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentysix Test Topic",
-				asList(new Post[] { new Post("Twentysix Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentysix Test Topic",
+				asList(new PostBean[] { new PostBean("Twentysix Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentysix Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentyseven Test Topic",
-				asList(new Post[] { new Post("Twentyseven Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentyseven Test Topic",
+				asList(new PostBean[] { new PostBean("Twentyseven Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentyseven Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentyeight Test Topic",
-				asList(new Post[] { new Post("Twentyeight Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentyeight Test Topic",
+				asList(new PostBean[] { new PostBean("Twentyeight Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentyeight Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Twentynine Test Topic",
-				asList(new Post[] { new Post("Twentynine Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Twentynine Test Topic",
+				asList(new PostBean[] { new PostBean("Twentynine Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Twentynine Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Thirty Test Topic",
-				asList(new Post[] { new Post("Thirty Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Thirty Test Topic",
+				asList(new PostBean[] { new PostBean("Thirty Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Thirty Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Thirtyone Test Topic",
-				asList(new Post[] { new Post("Thirtyone Test Body") }), NORMAL, null));
+		message = createTopic(driver, new TopicBean(forum, "Thirtyone Test Topic",
+				asList(new PostBean[] { new PostBean("Thirtyone Test Body") }), NORMAL, null));
 		assertTrue(message.equals("Thirtyone Test Topic"));
-		forum = new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category"));
+		forum = new ForumBean("Second Test Forum", "Second Test Description", new CategoryBean("First Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(driver,
-				new Topic(forum, "Third Test Topic", asList(new Post[] { new Post("Third Test Body") }), ADVICE, null));
+		message = createTopic(driver, new TopicBean(forum, "Third Test Topic",
+				asList(new PostBean[] { new PostBean("Third Test Body") }), ADVICE, null));
 		assertTrue(message.equals("Third Test Topic"));
-		message = createTopic(driver, new Topic(forum, "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body") }), IMPORTANT, null));
+		message = createTopic(driver, new TopicBean(forum, "Fourth Test Topic",
+				asList(new PostBean[] { new PostBean("Fourth Test Body") }), IMPORTANT, null));
 		assertTrue(message.equals("Fourth Test Topic"));
-		forum = new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category"));
+		forum = new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
-		forum = new Forum("Fourth Test Forum", "Fourth Test Description", new Category("Second Test Category"));
+		forum = new ForumBean("Fourth Test Forum", "Fourth Test Description", new CategoryBean("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_3_MESSAGE));
-		forum = new Forum("Fifth Test with Truncation over 25 characters Forum",
-				"Fifth Test with Truncation over 25 characters Description", new Category("Second Test Category"));
+		forum = new ForumBean("Fifth Test with Truncation over 25 characters Forum",
+				"Fifth Test with Truncation over 25 characters Description", new CategoryBean("Second Test Category"));
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
 	}
@@ -225,8 +226,8 @@ public class PreferencesTest {
 	}
 
 	public void scenary1() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
+		CategoryBean firstTestCategory = new CategoryBean("First Test Category");
+		CategoryBean secondTestCategory = new CategoryBean("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setAlwaysAddSignature(true);
@@ -241,22 +242,22 @@ public class PreferencesTest {
 		submitCriteria.setSummaryTopicReplies(4);
 		submitCriteria.setTopicsPerForum(5);
 		submit(driver, submitCriteria);
-		List<Topic> summaryTopics = viewSummary(driver);
+		List<TopicBean> summaryTopics = viewSummary(driver);
 		int sizeSummaryTopics = viewSize(driver);
-		Topic summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
+		TopicBean summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
 		assertTrue(summaryTopics != null);
 		assertEquals(1, summaryTopics.size());
 		assertEquals(1, sizeSummaryTopics);
 		assertEquals("Ninteen Test Topic", summaryTopics.get(0).getSubject());
 		assertEquals("Ninteen Test Topic", summaryTopicDetail.getSubject());
-		Topic newTopic = new Topic(
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-				"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null);
+		TopicBean newTopic = new TopicBean(
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL, null);
 		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
+		List<ForumBean> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
 		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver, forums.toArray(new Forum[0]));
+		List<TopicBean> topics = getTopicsOfForums(driver, forums.toArray(new ForumBean[0]));
 		assertTrue(topics != null);
 		assertEquals(19, topics.size());
 		assertEquals("Ninteen Test Topic", topics.get(0).getSubject());
@@ -553,14 +554,17 @@ public class PreferencesTest {
 		assertTrue(topics.get(18).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(18).getPosts().get(0).getPoster().getUserId());
 		message = removeTopic(driver,
-				new Topic(new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-						"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null));
+				new TopicBean(
+						new ForumBean("Third Test Forum", "Third Test Description",
+								new CategoryBean("Second Test Category")),
+						"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL,
+						null));
 		assertTrue(message.equals(OK));
 	}
 
 	public void scenary2() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
+		CategoryBean firstTestCategory = new CategoryBean("First Test Category");
+		CategoryBean secondTestCategory = new CategoryBean("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setAlwaysAddSignature(false);
@@ -573,22 +577,22 @@ public class PreferencesTest {
 		submitCriteria.setSignature("My Old Signature");
 		submitCriteria.setDateFormat("d-MM-yyyy");
 		submit(driver, submitCriteria);
-		List<Topic> summaryTopics = viewSummary(driver);
+		List<TopicBean> summaryTopics = viewSummary(driver);
 		int sizeSummaryTopics = viewSize(driver);
-		Topic summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
+		TopicBean summaryTopicDetail = getDetail(driver, "Ninteen Test Topic");
 		assertTrue(summaryTopics != null);
 		assertEquals(5, summaryTopics.size());
 		assertEquals(5, sizeSummaryTopics);
 		assertEquals("Ninteen Test Topic", summaryTopics.get(0).getSubject());
 		assertEquals("Ninteen Test Topic", summaryTopicDetail.getSubject());
-		Topic newTopic = new Topic(
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-				"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null);
+		TopicBean newTopic = new TopicBean(
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL, null);
 		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
+		List<ForumBean> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
 		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver, forums.toArray(new Forum[0]));
+		List<TopicBean> topics = getTopicsOfForums(driver, forums.toArray(new ForumBean[0]));
 		assertTrue(topics != null);
 		assertEquals(24, topics.size());
 		assertEquals("Ninteen Test Topic", topics.get(0).getSubject());
@@ -879,14 +883,17 @@ public class PreferencesTest {
 		assertTrue(topics.get(23).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(23).getPosts().get(0).getPoster().getUserId());
 		message = removeTopic(driver,
-				new Topic(new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-						"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null));
+				new TopicBean(
+						new ForumBean("Third Test Forum", "Third Test Description",
+								new CategoryBean("Second Test Category")),
+						"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL,
+						null));
 		assertTrue(message.equals(OK));
 	}
 
 	public void scenary3() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
+		CategoryBean firstTestCategory = new CategoryBean("First Test Category");
+		CategoryBean secondTestCategory = new CategoryBean("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setPostOrder("ascending");
@@ -894,22 +901,22 @@ public class PreferencesTest {
 		submitCriteria.setAlwaysAddSignature(false);
 		submitCriteria.setDateFormat("yyyy-MM-d");
 		submit(driver, submitCriteria);
-		List<Topic> summaryTopics = viewSummary(driver);
+		List<TopicBean> summaryTopics = viewSummary(driver);
 		int sizeSummaryTopics = viewSize(driver);
-		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		TopicBean summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
 		assertTrue(summaryTopics != null);
 		assertEquals(6, summaryTopics.size());
 		assertEquals(6, sizeSummaryTopics);
 		assertEquals("Fourth Test Topic", summaryTopics.get(0).getSubject());
 		assertEquals("Fourth Test Topic", summaryTopicDetail.getSubject());
-		Topic newTopic = new Topic(
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-				"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null);
+		TopicBean newTopic = new TopicBean(
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL, null);
 		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
+		List<ForumBean> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
 		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver, forums.toArray(new Forum[0]));
+		List<TopicBean> topics = getTopicsOfForums(driver, forums.toArray(new ForumBean[0]));
 		assertTrue(topics != null);
 		assertEquals(27, topics.size());
 		assertEquals("Ninteen Test Topic", topics.get(0).getSubject());
@@ -1227,14 +1234,17 @@ public class PreferencesTest {
 		assertTrue(topics.get(26).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(26).getPosts().get(0).getPoster().getUserId());
 		message = removeTopic(driver,
-				new Topic(new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-						"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null));
+				new TopicBean(
+						new ForumBean("Third Test Forum", "Third Test Description",
+								new CategoryBean("Second Test Category")),
+						"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL,
+						null));
 		assertTrue(message.equals(OK));
 	}
 
 	public void scenary4() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
+		CategoryBean firstTestCategory = new CategoryBean("First Test Category");
+		CategoryBean secondTestCategory = new CategoryBean("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setPostOrder("descending");
@@ -1242,22 +1252,22 @@ public class PreferencesTest {
 		submitCriteria.setSummaryTopicDays(1);
 		submitCriteria.setDateFormat("d-MM-yyyy HH:mm");
 		submit(driver, submitCriteria);
-		List<Topic> summaryTopics = viewSummary(driver);
+		List<TopicBean> summaryTopics = viewSummary(driver);
 		int sizeSummaryTopics = viewSize(driver);
-		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		TopicBean summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
 		assertTrue(summaryTopics != null);
 		assertEquals(6, summaryTopics.size());
 		assertEquals(6, sizeSummaryTopics);
 		assertEquals("Fourth Test Topic", summaryTopics.get(0).getSubject());
 		assertEquals("Fourth Test Topic", summaryTopicDetail.getSubject());
-		Topic newTopic = new Topic(
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-				"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null);
+		TopicBean newTopic = new TopicBean(
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL, null);
 		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
+		List<ForumBean> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
 		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver, forums.toArray(new Forum[0]));
+		List<TopicBean> topics = getTopicsOfForums(driver, forums.toArray(new ForumBean[0]));
 		assertTrue(topics != null);
 		assertEquals(24, topics.size());
 		assertEquals("Ninteen Test Topic", topics.get(0).getSubject());
@@ -1524,14 +1534,17 @@ public class PreferencesTest {
 		assertTrue(topics.get(23).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(23).getPosts().get(0).getPoster().getUserId());
 		message = removeTopic(driver,
-				new Topic(new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-						"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null));
+				new TopicBean(
+						new ForumBean("Third Test Forum", "Third Test Description",
+								new CategoryBean("Second Test Category")),
+						"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL,
+						null));
 		assertTrue(message.equals(OK));
 	}
 
 	public void submitsWithReset() {
-		Category firstTestCategory = new Category("First Test Category");
-		Category secondTestCategory = new Category("Second Test Category");
+		CategoryBean firstTestCategory = new CategoryBean("First Test Category");
+		CategoryBean secondTestCategory = new CategoryBean("Second Test Category");
 		goTo(driver);
 		PreferenceController submitCriteria = new PreferenceController();
 		submitCriteria.setAlwaysAddSignature(true);
@@ -1548,22 +1561,22 @@ public class PreferencesTest {
 		submitCriteria.setDateFormat("d-MM-yyyy HH:mm");
 		addKeys(driver, submitCriteria);
 		reset(driver, submitCriteria);
-		List<Topic> summaryTopics = viewSummary(driver);
+		List<TopicBean> summaryTopics = viewSummary(driver);
 		int sizeSummaryTopics = viewSize(driver);
-		Topic summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
+		TopicBean summaryTopicDetail = getDetail(driver, "Fourth Test Topic");
 		assertTrue(summaryTopics != null);
 		assertEquals(6, summaryTopics.size());
 		assertEquals(6, sizeSummaryTopics);
 		assertEquals("Fourth Test Topic", summaryTopics.get(0).getSubject());
 		assertEquals("Fourth Test Topic", summaryTopicDetail.getSubject());
-		Topic newTopic = new Topic(
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-				"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null);
+		TopicBean newTopic = new TopicBean(
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")),
+				"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL, null);
 		String message = createTopic(driver, newTopic);
 		assertTrue(message.equals("Thirtytwo Test Topic"));
-		List<Forum> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
+		List<ForumBean> forums = getForumsOfCategories(driver, firstTestCategory, secondTestCategory);
 		Date today = new Date();
-		List<Topic> topics = getTopicsOfForums(driver, forums.toArray(new Forum[0]));
+		List<TopicBean> topics = getTopicsOfForums(driver, forums.toArray(new ForumBean[0]));
 		assertEquals(24, topics.size());
 		assertEquals("Ninteen Test Topic", topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
@@ -1829,8 +1842,11 @@ public class PreferencesTest {
 		assertTrue(topics.get(23).getPosts().get(0).getCreateDate().compareTo(today) < 0);
 		assertEquals("root", topics.get(23).getPosts().get(0).getPoster().getUserId());
 		message = removeTopic(driver,
-				new Topic(new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")),
-						"Thirtytwo Test Topic", asList(new Post[] { new Post("Thirtytwo Test Body") }), NORMAL, null));
+				new TopicBean(
+						new ForumBean("Third Test Forum", "Third Test Description",
+								new CategoryBean("Second Test Category")),
+						"Thirtytwo Test Topic", asList(new PostBean[] { new PostBean("Thirtytwo Test Body") }), NORMAL,
+						null));
 		assertTrue(message.equals(OK));
 	}
 
@@ -1851,9 +1867,9 @@ public class PreferencesTest {
 		submitCriteria.setTopicsPerForum(10);
 		submitCriteria.setDateFormat("EEE MMM d, yyyy HH:mm aaa");
 		submit(driver, submitCriteria);
-		String message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		String message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

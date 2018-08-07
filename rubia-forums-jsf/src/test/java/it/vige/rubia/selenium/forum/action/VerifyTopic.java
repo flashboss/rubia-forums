@@ -16,9 +16,9 @@
  */
 package it.vige.rubia.selenium.forum.action;
 
-import static it.vige.rubia.model.TopicType.ADVICE;
-import static it.vige.rubia.model.TopicType.IMPORTANT;
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.ADVICE;
+import static it.vige.rubia.dto.TopicType.IMPORTANT;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.selenium.forum.action.VerifyPoll.getPollOfCurrentTopic;
 import static it.vige.rubia.selenium.forum.action.VerifyPost.getPostsOfCurrentTopic;
 import static it.vige.rubia.selenium.forum.model.Links.CATEGORY_TEMPLATE_LINK;
@@ -44,10 +44,10 @@ import org.jboss.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class VerifyTopic {
 
@@ -68,8 +68,8 @@ public class VerifyTopic {
 	private static ResourceBundle bundle = getBundle("ResourceJSF");
 	public static final String PROFILE_LINK = "header";
 
-	public static Topic getTopic(WebDriver driver) {
-		Topic topic = new Topic();
+	public static TopicBean getTopic(WebDriver driver) {
+		TopicBean topic = new TopicBean();
 		WebElement topicTable = driver.findElements(className(TOPIC_TABLE)).get(1);
 		WebElement subjectComponent = topicTable.findElement(TOPIC_TEMPLATE_LINK.getValue());
 		String subjectText = subjectComponent.getText();
@@ -86,7 +86,7 @@ public class VerifyTopic {
 			log.error(e);
 		}
 		topic.setLastPostDate(lastPostDate);
-		Poster poster = new Poster();
+		PosterBean poster = new PosterBean();
 		poster.setUserId(user);
 		topic.setPoster(poster);
 		subjectComponent.click();
@@ -96,8 +96,8 @@ public class VerifyTopic {
 		return topic;
 	}
 
-	public static Topic getTopic(WebDriver driver, int i4, WebElement topicTable) {
-		Topic topic = new Topic();
+	public static TopicBean getTopic(WebDriver driver, int i4, WebElement topicTable) {
+		TopicBean topic = new TopicBean();
 		List<WebElement> subjectComponents = topicTable.findElements(xpath(SUBJECT_LINK));
 		WebElement subjectComponent = subjectComponents.get(i4);
 		String subjectText = subjectComponent.getText();
@@ -124,7 +124,7 @@ public class VerifyTopic {
 		topic.setReplies(replies);
 		topic.setViewCount(viewCount);
 		topic.setLastPostDate(lastPostDate);
-		Poster poster = new Poster();
+		PosterBean poster = new PosterBean();
 		poster.setUserId(user);
 		topic.setPoster(poster);
 		subjectComponent.click();
@@ -134,9 +134,9 @@ public class VerifyTopic {
 		return topic;
 	}
 
-	public static List<Topic> getTopicsOfForums(WebDriver driver, Forum... forums) {
-		List<Topic> topics = new ArrayList<Topic>();
-		for (Forum forum : forums) {
+	public static List<TopicBean> getTopicsOfForums(WebDriver driver, ForumBean... forums) {
+		List<TopicBean> topics = new ArrayList<TopicBean>();
+		for (ForumBean forum : forums) {
 			VerifyForum.goTo(driver, forum);
 			List<WebElement> tableComponents = driver.findElements(className(TOPIC_TABLE));
 			int tableComponentsSize = tableComponents.size();
@@ -146,7 +146,7 @@ public class VerifyTopic {
 				int subjectComponentsSize = subjectComponents.size();
 				for (int i4 = 0; i4 < subjectComponentsSize; i4++) {
 					WebElement topicTable = driver.findElements(className(TOPIC_TABLE)).get(i);
-					Topic topic = getTopic(driver, i4, topicTable);
+					TopicBean topic = getTopic(driver, i4, topicTable);
 					topics.add(topic);
 					driver.findElement(linkText(forum.getName())).click();
 				}
@@ -155,47 +155,47 @@ public class VerifyTopic {
 		return topics;
 	}
 
-	public static void goTo(WebDriver driver, Topic topic) {
+	public static void goTo(WebDriver driver, TopicBean topic) {
 		VerifyForum.goTo(driver, topic.getForum());
 		WebElement topicEl = driver.findElement(linkText(topic.getSubject()));
 		topicEl.click();
 	}
 
-	public static Poster getPoster(WebDriver driver, Forum forum) {
+	public static PosterBean getPoster(WebDriver driver, ForumBean forum) {
 		WebElement profileLink = driver.findElement(linkText(forum.getName()))
 				.findElement(xpath("../../../td[5]/a[2]"));
 		String userId = profileLink.getText();
 		profileLink.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	public static Poster getPoster(WebDriver driver, Topic topic) {
+	public static PosterBean getPoster(WebDriver driver, TopicBean topic) {
 		WebElement profileLink = driver.findElements(className(PROFILE_LINK)).get(0)
 				.findElement(xpath("../tr/td/h3/a[contains(text(),'" + topic.getSubject() + "')]"))
 				.findElement(xpath("../../a"));
 		String userId = profileLink.getText();
 		profileLink.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	public static Poster getPosterLastPost(WebDriver driver, Topic topic) {
+	public static PosterBean getPosterLastPost(WebDriver driver, TopicBean topic) {
 		WebElement profileLink = driver.findElements(className(PROFILE_LINK)).get(0)
 				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]"))
 				.findElement(xpath("../a[2]"));
 		String userId = profileLink.getText();
 		profileLink.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	private static void addParents(WebDriver driver, Topic topic) {
-		Forum forum = new Forum();
+	private static void addParents(WebDriver driver, TopicBean topic) {
+		ForumBean forum = new ForumBean();
 		forum.setName(
 				driver.findElement(linkText(driver.findElement(FORUM_TEMPLATE_LINK.getValue()).getText())).getText());
 		topic.setForum(forum);
-		Category category = new Category();
+		CategoryBean category = new CategoryBean();
 		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText());
 		forum.setCategory(category);
 

@@ -28,9 +28,9 @@ import static org.openqa.selenium.By.xpath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class CreateTopic extends Write {
 
@@ -39,7 +39,7 @@ public class CreateTopic extends Write {
 	public static final String SUBJECT_INPUT_TEXT = "post:SubjectInputText";
 	public static final String SUBMIT_BUTTON = "post:Submit";
 
-	public static String createTopic(WebDriver driver, Topic topic) {
+	public static String createTopic(WebDriver driver, TopicBean topic) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement forumEl = driver.findElement(linkText(topic.getForum().getName()));
@@ -57,7 +57,7 @@ public class CreateTopic extends Write {
 		topicTypeInput = driver.findElements(xpath("//input[@type='radio']")).get(topic.getType().getValue());
 		topicTypeInput.click();
 		sleepThread();
-		Poll poll = topic.getPoll();
+		PollBean poll = topic.getPoll();
 		if (poll != null)
 			createOptions(driver, poll);
 		sleepThread();
@@ -68,7 +68,7 @@ public class CreateTopic extends Write {
 		sleepThread();
 		if (topic.getPosts().size() > 1) {
 			for (int i = 1; i < topic.getPosts().size(); i++) {
-				Post post = topic.getPosts().get(i);
+				PostBean post = topic.getPosts().get(i);
 				if (post.getTopic() == null)
 					post.setTopic(topic);
 				createPost(driver, post);

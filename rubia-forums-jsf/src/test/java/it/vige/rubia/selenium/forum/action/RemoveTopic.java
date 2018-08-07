@@ -19,21 +19,21 @@ package it.vige.rubia.selenium.forum.action;
 import static it.vige.rubia.selenium.Constants.OK;
 import static it.vige.rubia.selenium.forum.action.RemovePost.removePost;
 import static java.util.ResourceBundle.getBundle;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
 
 import org.openqa.selenium.WebDriver;
 
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
+
 public class RemoveTopic {
 
-	public static final String HOME_LINK = getBundle("ResourceJSF").getString(
-			"Home");
+	public static final String HOME_LINK = getBundle("ResourceJSF").getString("Home");
 	public static final String REMOVE_TOPIC_BUTTON = "miviewtopicbody6";
 	public static final String CONFIRM_REMOVE_TOPIC_BUTTON = "//input[@type='submit']";
 
-	public static String removeTopic(WebDriver driver, Topic topic) {
+	public static String removeTopic(WebDriver driver, TopicBean topic) {
 		String result = "";
-		for (Post post : topic.getPosts()) {
+		for (PostBean post : topic.getPosts()) {
 			post.setTopic(topic);
 			result = removePost(driver, post);
 			if (!result.equals(OK))

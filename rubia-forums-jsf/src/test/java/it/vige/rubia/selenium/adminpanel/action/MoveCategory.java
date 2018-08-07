@@ -19,7 +19,6 @@ package it.vige.rubia.selenium.adminpanel.action;
 import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Category;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,20 +26,17 @@ import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import it.vige.rubia.dto.CategoryBean;
+
 public class MoveCategory {
 
-	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF")
-			.getString("Admin_panel");
+	public static final String ADMIN_PANEL_LINK = getBundle("ResourceJSF").getString("Admin_panel");
 
-	public static Map<String, Integer> moveCategory(WebDriver driver,
-			Category category, Move move) {
-		WebElement adminPanelLink = driver
-				.findElement(linkText(ADMIN_PANEL_LINK));
+	public static Map<String, Integer> moveCategory(WebDriver driver, CategoryBean category, Move move) {
+		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
-		WebElement moveCategory = driver
-				.findElement(xpath("//tr[td/strong/text()='"
-						+ category.getTitle() + "']/td[2]/form/ul/li["
-						+ move.getValue() + "]/a/img"));
+		WebElement moveCategory = driver.findElement(xpath("//tr[td/strong/text()='" + category.getTitle()
+				+ "']/td[2]/form/ul/li[" + move.getValue() + "]/a/img"));
 		int firstPosition = findPosition(driver, category);
 		moveCategory.click();
 		int newPosition = findPosition(driver, category);
@@ -50,10 +46,8 @@ public class MoveCategory {
 		return result;
 	}
 
-	private static int findPosition(WebDriver driver, Category category) {
-		WebElement moveCategory = driver
-				.findElement(xpath("//tr[td/strong/text()='"
-						+ category.getTitle() + "']"));
+	private static int findPosition(WebDriver driver, CategoryBean category) {
+		WebElement moveCategory = driver.findElement(xpath("//tr[td/strong/text()='" + category.getTitle() + "']"));
 		return moveCategory.getLocation().getY();
 	}
 }

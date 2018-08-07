@@ -34,7 +34,7 @@ import org.jboss.logging.Logger;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.action.PreferenceController;
 
@@ -62,7 +62,7 @@ public class ViewSummary extends BaseController {
 	// this is data is created such that it can be consumed by the view
 	// components
 	// like facelets
-	private Collection<Topic> topics;
+	private Collection<TopicBean> topics;
 
 	// ----------------bean configuration supplied by the
 	// forums-config.xml---------------------------------------------------------------------------------------------
@@ -76,9 +76,9 @@ public class ViewSummary extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getTopics() {
+	public Collection<TopicBean> getTopics() {
 		if (topics == null) {
-			topics = new ArrayList<Topic>();
+			topics = new ArrayList<TopicBean>();
 		}
 		return topics;
 	}
@@ -101,8 +101,7 @@ public class ViewSummary extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -124,8 +123,8 @@ public class ViewSummary extends BaseController {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * This method returns the blockTopicType based on the summaryMode set for
-	 * this application
+	 * This method returns the blockTopicType based on the summaryMode set for this
+	 * application
 	 * 
 	 * @return the block topics type
 	 */
@@ -135,8 +134,7 @@ public class ViewSummary extends BaseController {
 
 	/**
 	 * 
-	 * @throws Exception
-	 *             the error exception
+	 * @throws Exception the error exception
 	 */
 	private void loadDefaultTopics() throws Exception {
 		Calendar after = getInstance();
@@ -154,8 +152,8 @@ public class ViewSummary extends BaseController {
 		switch (userPreferences.getSummaryMode()) {
 		/*
 		 * FindTopicsHot, findTopicsHottest, findTopicsByLatestPosts,
-		 * findTopicsMostViewed methods need to a forumInstanceId argument to
-		 * take only categories of a specific forum instance
+		 * findTopicsMostViewed methods need to a forumInstanceId argument to take only
+		 * categories of a specific forum instance
 		 */
 		case BLOCK_TOPICS_MODE_HOT_TOPICS:
 			topics = forumsModule.findTopicsHot(summaryTopicReplies, summaryTopicLimit, forumInstanceId);

@@ -28,7 +28,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Post;
+import it.vige.rubia.dto.PostBean;
 
 public class CreatePost extends Write {
 
@@ -37,7 +37,7 @@ public class CreatePost extends Write {
 	public static final String SUBMIT_BUTTON = "post:Submit";
 	public static final String LOCKED = "locked";
 
-	public static String createPost(WebDriver driver, Post post) {
+	public static String createPost(WebDriver driver, PostBean post) {
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement forumEl = driver.findElement(linkText(post.getTopic().getForum().getName()));

@@ -30,8 +30,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Post;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.PostBean;
 
 public class RemoveAttachment {
 
@@ -39,15 +39,15 @@ public class RemoveAttachment {
 	public static final String ATTACHMENT_DELETE_BUTTON = "buttonMed";
 	public static final String UPDATE_BUTTON = "post:Submit";
 
-	public static String removeAttachments(WebDriver driver, Post post) {
+	public static String removeAttachments(WebDriver driver, PostBean post) {
 		goTo(driver, post.getTopic());
 		WebElement updatePostButton = driver
 				.findElement(xpath("//tbody[contains(.,'" + post.getMessage().getText() + "')]"))
 				.findElement(id(UPDATE_POST_BUTTON)).findElement(xpath("ul/a[1]"));
 		updatePostButton.click();
-		Collection<Attachment> attachments = post.getAttachments();
+		Collection<AttachmentBean> attachments = post.getAttachments();
 		String message = "";
-		for (Attachment attachment : attachments) {
+		for (AttachmentBean attachment : attachments) {
 			message = "";
 			String comment = attachment.getComment();
 			WebElement fileCommentInputText = driver.findElement(xpath("//textarea[text()='" + comment + "']"));

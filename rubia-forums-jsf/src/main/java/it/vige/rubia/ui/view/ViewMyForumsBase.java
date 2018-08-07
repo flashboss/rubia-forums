@@ -28,8 +28,8 @@ import javax.interceptor.Interceptors;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.PageNavigator;
 import it.vige.rubia.ui.action.PreferenceController;
@@ -47,12 +47,12 @@ public abstract class ViewMyForumsBase extends BaseController {
 	private static final long serialVersionUID = 2284310224100123687L;
 
 	private Map<Object, Object> topicsLastPosts;
-	protected Collection<Topic> watchedTopics;
+	protected Collection<TopicBean> watchedTopics;
 	private Map<Integer, PageNavigator> topicNavigator = new HashMap<Integer, PageNavigator>();
 
-	public abstract Collection<Topic> getWatchedTopics();
+	public abstract Collection<TopicBean> getWatchedTopics();
 
-	public abstract void setWatchedTopics(Collection<Topic> watchedTopics);
+	public abstract void setWatchedTopics(Collection<TopicBean> watchedTopics);
 
 	/**
 	 * @return a map of the last posts and respective topics
@@ -62,12 +62,12 @@ public abstract class ViewMyForumsBase extends BaseController {
 	public Map<Object, Object> getTopicsLastPosts() {
 		if (topicsLastPosts == null) {
 			try {
-				Collection<Topic> watched = getWatchedTopics();
+				Collection<TopicBean> watched = getWatchedTopics();
 				if (watched != null) {
-					Set<Topic> temporaryContainer = new HashSet<Topic>(watched.size());
-					Iterator<Topic> it = watched.iterator();
+					Set<TopicBean> temporaryContainer = new HashSet<TopicBean>(watched.size());
+					Iterator<TopicBean> it = watched.iterator();
 					while (it.hasNext()) {
-						Topic topic = it.next();
+						TopicBean topic = it.next();
 						temporaryContainer.add(topic);
 					}
 					topicsLastPosts = getMyForumsModule().findLastPostsOfTopics(temporaryContainer);
@@ -80,8 +80,7 @@ public abstract class ViewMyForumsBase extends BaseController {
 	}
 
 	/**
-	 * @param topicsLastPosts
-	 *            the last posts of the topics
+	 * @param topicsLastPosts the last posts of the topics
 	 */
 	public void setTopicsLastPosts(Map<Object, Object> topicsLastPosts) {
 		this.topicsLastPosts = topicsLastPosts;
@@ -90,7 +89,7 @@ public abstract class ViewMyForumsBase extends BaseController {
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = (Post) getTopicsLastPosts().get(id);
+		PostBean post = (PostBean) getTopicsLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -106,25 +105,23 @@ public abstract class ViewMyForumsBase extends BaseController {
 	public abstract PreferenceController getUserPreferences();
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public abstract void setUserPreferences(PreferenceController userPreferences);
 
 	/**
-	 * @throws Exception
-	 *             an error exception is launched
+	 * @throws Exception an error exception is launched
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public void execute() throws Exception {
 
-		Collection<Topic> topics = getWatchedTopics();
+		Collection<TopicBean> topics = getWatchedTopics();
 
 		// setup dummy pageNavigators for all topics being displayed for topic
 		// minipaging
 		if (topics != null) {
-			for (Topic courTopic : topics) {
+			for (TopicBean courTopic : topics) {
 				if (courTopic.getReplies() > 0) {
 					PageNavigator topicNav = new PageNavigator(courTopic.getReplies() + 1,
 							getUserPreferences().getPostsPerTopic(), // this

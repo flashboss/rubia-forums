@@ -30,10 +30,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import it.vige.rubia.ForumsModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.search.ForumsSearchModule;
 import it.vige.rubia.search.ResultPage;
 import it.vige.rubia.search.SearchCriteria;
@@ -67,8 +67,7 @@ public class Search extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -93,12 +92,11 @@ public class Search extends BaseController {
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			List<Category> c = forumsModule.findCategories(forumInstanceId);
+			List<CategoryBean> c = forumsModule.findCategories(forumInstanceId);
 
 			if (c != null) {
-				for (Category category : c) {
-					categories.add(new SelectItem(category.getId().toString(),
-							category.getTitle()));
+				for (CategoryBean category : c) {
+					categories.add(new SelectItem(category.getId().toString(), category.getTitle()));
 				}
 			}
 
@@ -119,12 +117,11 @@ public class Search extends BaseController {
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			List<Forum> f = forumsModule.findForums(forumInstanceId);
+			List<ForumBean> f = forumsModule.findForums(forumInstanceId);
 
 			if (f != null) {
-				for (Forum forum : f) {
-					forums.add(new SelectItem(forum.getId().toString(), forum
-							.getName()));
+				for (ForumBean forum : f) {
+					forums.add(new SelectItem(forum.getId().toString(), forum.getName()));
 				}
 			}
 
@@ -141,35 +138,28 @@ public class Search extends BaseController {
 
 		if (criteria.getDisplayAs().equals(POSTS.name())) {
 
-			ResultPage<Post> resultPage = forumsSearchModule
-					.findPosts(criteria);
+			ResultPage<PostBean> resultPage = forumsSearchModule.findPosts(criteria);
 
 			viewSearch.setPosts(resultPage.getPage());
-			viewSearch.setPostsDataModel(new ListDataModel<Post>(viewSearch
-					.getPosts()));
+			viewSearch.setPostsDataModel(new ListDataModel<PostBean>(viewSearch.getPosts()));
 
-			if (viewSearch.getPosts() != null
-					&& viewSearch.getPosts().isEmpty()) {
+			if (viewSearch.getPosts() != null && viewSearch.getPosts().isEmpty()) {
 				viewSearch.setPosts(null);
 				viewSearch.setPostsDataModel(null);
 			}
 			return "posts";
 		} else {
 
-			ResultPage<Topic> resultPage = forumsSearchModule
-					.findTopics(criteria);
+			ResultPage<TopicBean> resultPage = forumsSearchModule.findTopics(criteria);
 
 			viewSearch.setTopics(resultPage.getPage());
-			viewSearch.setTopicsDataModel(new ListDataModel<Topic>(viewSearch
-					.getTopics()));
+			viewSearch.setTopicsDataModel(new ListDataModel<TopicBean>(viewSearch.getTopics()));
 
-			if (viewSearch.getTopics() == null
-					|| viewSearch.getTopics().isEmpty()) {
+			if (viewSearch.getTopics() == null || viewSearch.getTopics().isEmpty()) {
 				viewSearch.setTopics(null);
 				viewSearch.setTopicsDataModel(null);
 			} else {
-				viewSearch.setTopicLastPosts(forumsModule
-						.findLastPostsOfTopics(viewSearch.getTopics()));
+				viewSearch.setTopicLastPosts(forumsModule.findLastPostsOfTopics(viewSearch.getTopics()));
 			}
 			return "topics";
 		}

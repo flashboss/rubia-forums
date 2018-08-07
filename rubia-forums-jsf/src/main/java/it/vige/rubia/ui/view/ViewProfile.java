@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -39,17 +39,17 @@ public class ViewProfile extends BaseController {
 	@EJB(name = "jboss-forums/ForumsModuleImpl/local")
 	private ForumsModule forumsModule;
 
-	private Poster poster;
+	private PosterBean poster;
 
-	public Poster getPoster() {
+	public PosterBean getPoster() {
 		return poster;
 	}
 
 	// ui actions supported by this
 	// bean----------------------------------------------------------------------------------------------------
 	/**
-	 * This method gets userId from parameters and tries to find Poster with
-	 * this uid.
+	 * This method gets userId from parameters and tries to find Poster with this
+	 * uid.
 	 */
 	@PostConstruct
 	public void execute() {

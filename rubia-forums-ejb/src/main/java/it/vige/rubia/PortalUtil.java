@@ -28,10 +28,10 @@ import org.jboss.logging.Logger;
 
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PosterBean;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -210,11 +210,9 @@ public class PortalUtil {
 	}
 
 	/**
-	 * @param userModule
-	 *            the current user module
+	 * @param userModule the current user module
 	 * @return the current user where you are logged
-	 * @throws Exception
-	 *             DOCUMENT_ME
+	 * @throws Exception DOCUMENT_ME
 	 */
 	public static User getUser(UserModule userModule) throws Exception {
 		User user = null;
@@ -232,11 +230,9 @@ public class PortalUtil {
 	}
 
 	/**
-	 * This method translates standard view file path into short view id
-	 * parameter.
+	 * This method translates standard view file path into short view id parameter.
 	 * 
-	 * @param name
-	 *            DOCUMENT_ME
+	 * @param name DOCUMENT_ME
 	 * @return the id for the name
 	 */
 	public static String getIdForName(String name) {
@@ -278,8 +274,8 @@ public class PortalUtil {
 		};
 	}
 
-	public static Poster getGuestPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
-		Poster poster = null;
+	public static PosterBean getGuestPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {
+		PosterBean poster = null;
 		User user = null;
 
 		String guestUserName = forumsModule.getGuestUserName();
@@ -292,7 +288,7 @@ public class PortalUtil {
 		poster = forumsModule.findPosterByUserId(String.valueOf(userId));
 
 		if (poster == null) {
-			poster = new Poster(userId.toString());
+			poster = new PosterBean(userId.toString());
 		}
 
 		return poster;
@@ -304,8 +300,8 @@ public class PortalUtil {
 	 * @return the created message
 	 * 
 	 */
-	public static Message createMessage() {
-		Message message = new Message();
+	public static MessageBean createMessage() {
+		MessageBean message = new MessageBean();
 		return message;
 	}
 
@@ -313,8 +309,8 @@ public class PortalUtil {
 	 * 
 	 * @return the created poll
 	 */
-	public static Poll createPoll() {
-		Poll poll = new Poll();
+	public static PollBean createPoll() {
+		PollBean poll = new PollBean();
 
 		poll.setTitle("");
 		poll.setCreationDate(new Date());
@@ -323,21 +319,18 @@ public class PortalUtil {
 	}
 
 	/**
-	 * @param poll
-	 *            the poll where create the poll option
+	 * @param poll the poll where create the poll option
 	 * @return the created poll option
 	 */
-	public static PollOption createPollOption(Poll poll) {
-		PollOption pollOption = new PollOption(poll);
+	public static PollOptionBean createPollOption(PollBean poll) {
+		PollOptionBean pollOption = new PollOptionBean(poll);
 		return pollOption;
 	}
 
 	/**
-	 * This method translates short id view parameter into standard view file
-	 * path.
+	 * This method translates short id view parameter into standard view file path.
 	 * 
-	 * @param id
-	 *            the view id
+	 * @param id the view id
 	 * @return the view name for the passed id
 	 */
 	public static String getNameForId(String id) {
@@ -348,16 +341,13 @@ public class PortalUtil {
 	}
 
 	/**
-	 * @param forumsModule
-	 *            DOCUMENT_ME
-	 * @param userModule
-	 *            DOCUMENT_ME
+	 * @param forumsModule DOCUMENT_ME
+	 * @param userModule   DOCUMENT_ME
 	 * @return the current user
-	 * @throws Exception
-	 *             DOCUMENT_ME
+	 * @throws Exception DOCUMENT_ME
 	 */
-	public static Poster getPoster(ForumsModule forumsModule, UserModule userModule) throws Exception {
-		Poster poster = null;
+	public static PosterBean getPoster(ForumsModule forumsModule, UserModule userModule) throws Exception {
+		PosterBean poster = null;
 
 		User user = getUser(userModule);
 
@@ -365,23 +355,20 @@ public class PortalUtil {
 		poster = forumsModule.findPosterByUserId(userId);
 
 		if (poster == null) {
-			poster = new Poster(userId);
+			poster = new PosterBean(userId);
 		}
 
 		return poster;
 	}
 
 	/**
-	 * @param poll
-	 *            DOCUMENT_ME
-	 * @param option
-	 *            DOCUMENT_ME
-	 * @param multiplicator
-	 *            DOCUMENT_ME
+	 * @param poll          DOCUMENT_ME
+	 * @param option        DOCUMENT_ME
+	 * @param multiplicator DOCUMENT_ME
 	 * @return the current vote percent of the poll
 	 * 
 	 */
-	public static String getVotePercent(Poll poll, PollOption option, int multiplicator) {
+	public static String getVotePercent(PollBean poll, PollOptionBean option, int multiplicator) {
 		float votePercent = 0;
 
 		float votesSum = poll.getVotesSum();

@@ -27,15 +27,15 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
 
 public class CreatePoll extends Write {
 	public static final String NEW_OPTION_INPUT_TEXT = "post:newOption";
 	public static final String ADD_OPTION_BUTTON = "buttonMed";
 	public static final String QUESTION_INPUT_TEXT = "post:question";
 
-	public static String[] addPoll(WebDriver driver, Poll poll) {
+	public static String[] addPoll(WebDriver driver, PollBean poll) {
 		WebElement updatePostButton = driver.findElement(xpath("//tbody[contains(.,'Fourth Test Body')]"))
 				.findElement(id(UPDATE_POST_BUTTON)).findElement(xpath("ul/a[1]"));
 		updatePostButton.click();
@@ -45,11 +45,11 @@ public class CreatePoll extends Write {
 		return createdOptions;
 	}
 
-	public static String[] createOptions(WebDriver driver, Poll poll) {
+	public static String[] createOptions(WebDriver driver, PollBean poll) {
 		WebElement questionInput = driver.findElement(id(QUESTION_INPUT_TEXT));
 		questionInput.sendKeys(poll.getTitle());
 		sleepThread();
-		List<PollOption> options = poll.getOptions();
+		List<PollOptionBean> options = poll.getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;

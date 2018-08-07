@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.ForumBean;
 
 public class RemoveForum {
 
@@ -34,7 +34,7 @@ public class RemoveForum {
 	public static final String SELECT_TYPE = "//form/select";
 	public static final String RESULT_REMOVE_FORUM = "successtext";
 
-	public static String removeForum(WebDriver driver, Forum forum, String removeType) {
+	public static String removeForum(WebDriver driver, ForumBean forum, String removeType) {
 		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		WebElement removeForum = driver

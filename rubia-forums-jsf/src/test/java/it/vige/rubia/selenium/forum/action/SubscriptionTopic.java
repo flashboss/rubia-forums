@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.properties.NotificationType;
 import it.vige.rubia.properties.OperationType;
 
@@ -23,7 +23,7 @@ public class SubscriptionTopic {
 	public static final String SELECT_NOTIFICATION = "//form/select";
 	public static final String TOPIC_TITLE = "//form/h4";
 
-	public static String registerTopic(WebDriver driver, Topic topic, NotificationType notificationType,
+	public static String registerTopic(WebDriver driver, TopicBean topic, NotificationType notificationType,
 			OperationType buttonType) {
 		WebElement topicSubject = driver.findElement(linkText(topic.getSubject()));
 		topicSubject.click();
@@ -41,14 +41,14 @@ public class SubscriptionTopic {
 		return topicTitle;
 	}
 
-	public static String unregisterTopic(WebDriver driver, Topic topic) {
+	public static String unregisterTopic(WebDriver driver, TopicBean topic) {
 		goTo(driver, topic);
 		WebElement registerButton = driver.findElement(className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]"));
 		registerButton.click();
 		return OK;
 	}
 
-	public static boolean isRegistered(WebDriver driver, Topic topic) {
+	public static boolean isRegistered(WebDriver driver, TopicBean topic) {
 		WebElement topicSubject = driver.findElement(linkText(topic.getSubject()));
 		topicSubject.click();
 		WebElement registerButton = driver.findElement(className(REGISTRATION_BUTTON)).findElement(xpath("//a[3]/img"));

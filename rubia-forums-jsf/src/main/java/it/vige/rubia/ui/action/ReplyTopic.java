@@ -33,11 +33,11 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.view.ViewTopic;
 import it.vige.rubia.util.CurrentTopicPage;
 
@@ -67,7 +67,7 @@ public class ReplyTopic extends PostAction {
 	@Inject
 	private CurrentTopicPage currentTopicPage;
 
-	private Topic topic;
+	private TopicBean topic;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	/**
@@ -100,12 +100,12 @@ public class ReplyTopic extends PostAction {
 				postId = parseInt(p);
 			}
 
-			Topic topic = null;
+			TopicBean topic = null;
 
 			if (topicId == -1 && postId != -1) {
 				// If topicId was not given and postId is available we get
 				// topicId from Post
-				Post post = forumsModule.findPostById((postId));
+				PostBean post = forumsModule.findPostById((postId));
 				if (post != null) {
 					topic = post.getTopic();
 					topicId = topic.getId().intValue();
@@ -160,14 +160,14 @@ public class ReplyTopic extends PostAction {
 		String navState = null;
 		boolean success = false;
 		try {
-			Message message = createMessage();
+			MessageBean message = createMessage();
 			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
 			// setup the forum and the corresponding poster
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 			topic = forumsModule.findTopicById(topicId);
-			Poster poster = getPoster(forumsModule, userModule);
+			PosterBean poster = getPoster(forumsModule, userModule);
 
 			// make sure this topic is not locked
 			if (topic.getStatus() == TOPIC_LOCKED) {
@@ -252,8 +252,8 @@ public class ReplyTopic extends PostAction {
 			}
 
 			// setup the quote information
-			Post post = forumsModule.findPostById(postId);
-			Poster poster = getPoster(forumsModule, userModule);
+			PostBean post = forumsModule.findPostById(postId);
+			PosterBean poster = getPoster(forumsModule, userModule);
 			String userName = userModule.findUserById(poster.getUserId()).getUserName();
 			message = userName + "<" + QUOTE + ">" + post.getMessage().getText() + "</" + QUOTE + "></br>";
 		} catch (Exception e) {

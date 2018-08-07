@@ -40,12 +40,12 @@ import org.jboss.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class VerifyPost {
 
@@ -65,8 +65,8 @@ public class VerifyPost {
 	public static final String PROFILE_LINK = "header";
 	public static final DateFormat dateFormat = new SimpleDateFormat("E MMM d, yyyy H:mm a");
 
-	public static List<Post> getPostsOfTopics(WebDriver driver, Topic... topics) {
-		List<Post> posts = new ArrayList<Post>();
+	public static List<PostBean> getPostsOfTopics(WebDriver driver, TopicBean... topics) {
+		List<PostBean> posts = new ArrayList<PostBean>();
 		WebElement home = driver.findElement(linkText(HOME_LINK));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
@@ -97,12 +97,12 @@ public class VerifyPost {
 		return posts;
 	}
 
-	public static List<Post> getPostsOfCurrentTopic(WebDriver driver) {
+	public static List<PostBean> getPostsOfCurrentTopic(WebDriver driver) {
 		List<WebElement> postComponents = driver.findElements(className(BODY_OUTPUT_TEXT));
 		int postComponentsSize = postComponents.size();
-		List<Post> posts = new ArrayList<Post>();
+		List<PostBean> posts = new ArrayList<PostBean>();
 		for (int i = 0; i < postComponentsSize; i++) {
-			Post post = new Post();
+			PostBean post = new PostBean();
 			WebElement postComponent = driver.findElements(className(BODY_OUTPUT_TEXT)).get(i);
 			String body = postComponent.findElement(xpath("p")).getText();
 			String post_subject = postComponent.findElement(xpath(POST_SUBJECT_OUTPUT_TEXT)).getText()
@@ -115,19 +115,19 @@ public class VerifyPost {
 			} catch (ParseException e) {
 				log.error(e);
 			}
-			Message message = new Message();
+			MessageBean message = new MessageBean();
 			message.setSubject(post_subject);
 			message.setText(body);
 			post.setMessage(message);
 			post.setCreateDate(createDate);
 			WebElement topicEl = driver.findElement(TOPIC_TEMPLATE_LINK.getValue());
-			Topic topic = new Topic(topicEl.getText());
+			TopicBean topic = new TopicBean(topicEl.getText());
 			post.setTopic(topic);
 			WebElement forumEl = driver.findElement(FORUM_TEMPLATE_LINK.getValue());
-			topic.setForum(new Forum(forumEl.getText()));
+			topic.setForum(new ForumBean(forumEl.getText()));
 			post.setAttachments(getAttachmentsOfCurrentPostInPage(driver, post));
 			addParents(driver, post);
-			Poster poster = new Poster();
+			PosterBean poster = new PosterBean();
 			postComponent = driver.findElements(className(BODY_OUTPUT_TEXT)).get(i);
 			poster.setUserId(postComponent.findElement(xpath(USER_LINK)).getText());
 			post.setPoster(poster);
@@ -136,16 +136,16 @@ public class VerifyPost {
 		return posts;
 	}
 
-	public static Post getLastPostOfCurrentForum(WebDriver driver, Topic topic) {
+	public static PostBean getLastPostOfCurrentForum(WebDriver driver, TopicBean topic) {
 		WebElement postComponent = driver.findElements(className(PROFILE_LINK)).get(0)
 				.findElement(xpath("../tr/td/a[contains(text(),'" + topic.getSubject() + "')]"))
 				.findElement(xpath("../a"));
 		postComponent.click();
-		List<Post> posts = getPostsOfCurrentTopic(driver);
+		List<PostBean> posts = getPostsOfCurrentTopic(driver);
 		return posts.get(posts.size() - 1);
 	}
 
-	public static void goTo(WebDriver driver, Post post) {
+	public static void goTo(WebDriver driver, PostBean post) {
 		VerifyTopic.goTo(driver, post.getTopic());
 		WebElement updatePostButton = driver
 				.findElement(xpath("//tbody[contains(.,'" + post.getMessage().getText() + "')]"))
@@ -153,17 +153,17 @@ public class VerifyPost {
 		updatePostButton.click();
 	}
 
-	public static Poster getPosterFromLink(WebDriver driver, Post post) {
+	public static PosterBean getPosterFromLink(WebDriver driver, PostBean post) {
 		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).get(1)
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td/a"));
 		String userId = profileLink.getText();
 		profileLink.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	public static Poster getPosterFromButton(WebDriver driver, Post post) {
+	public static PosterBean getPosterFromButton(WebDriver driver, PostBean post) {
 		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).get(1)
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td"));
@@ -172,25 +172,25 @@ public class VerifyPost {
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr[3]/td[2]/ul/li/a"));
 		button.click();
-		Poster poster = verifyProfile(driver, userId);
+		PosterBean poster = verifyProfile(driver, userId);
 		return poster;
 	}
 
-	private static void addParents(WebDriver driver, Post post) {
-		Topic topic = new Topic();
+	private static void addParents(WebDriver driver, PostBean post) {
+		TopicBean topic = new TopicBean();
 		topic.setSubject(driver.findElement(TOPIC_TEMPLATE_LINK.getValue()).getText());
 		post.setTopic(topic);
-		Forum forum = new Forum();
+		ForumBean forum = new ForumBean();
 		forum.setName(driver.findElement(FORUM_TEMPLATE_LINK.getValue()).getText());
 		topic.setForum(forum);
-		Category category = new Category();
+		CategoryBean category = new CategoryBean();
 		category.setTitle(driver.findElement(CATEGORY_TEMPLATE_LINK.getValue()).getText());
 		forum.setCategory(category);
 	}
 
-	private static List<String> findTopicNames(Topic[] topics) {
+	private static List<String> findTopicNames(TopicBean[] topics) {
 		List<String> topicNames = new ArrayList<String>();
-		for (Topic topic : topics)
+		for (TopicBean topic : topics)
 			topicNames.add(topic.getSubject());
 		return topicNames;
 	}

@@ -56,12 +56,12 @@ import it.vige.rubia.auth.UIContext;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.Watch;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.WatchBean;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -137,7 +137,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 		}
 	}
 
-	private String getFrom(Post post) {
+	private String getFrom(PostBean post) {
 		StringBuffer fromBuf = null;
 		User user = userModule.findUserById(post.getPoster().getUserId());
 		if ((userProfileModule.getProperty(user, User.INFO_USER_NAME_GIVEN) != null)
@@ -172,12 +172,12 @@ public class NotificationEngineImpl implements NotificationEngine {
 
 		public void run() {
 			try {
-				Post post = forumsModule.findPostById(postId);
-				Topic topic = post.getTopic();
-				Forum forum = topic.getForum();
-				Category category = forum.getCategory();
+				PostBean post = forumsModule.findPostById(postId);
+				TopicBean topic = post.getTopic();
+				ForumBean forum = topic.getForum();
+				CategoryBean category = forum.getCategory();
 
-				Message message = post.getMessage();
+				MessageBean message = post.getMessage();
 				String from = getFrom(post);
 				// Hold the notified users to avoid duplicated
 				Set<Object> notifieds = new HashSet<Object>();
@@ -210,9 +210,9 @@ public class NotificationEngineImpl implements NotificationEngine {
 						+ replyURL.toString() + "</a>" + "<br /><br />\n";
 
 				// Notify the forum watchers
-				for (Iterator<Watch> i = forum.getWatches().iterator(); i.hasNext();) {
+				for (Iterator<WatchBean> i = forum.getWatches().iterator(); i.hasNext();) {
 					try {
-						Watch watch = i.next();
+						WatchBean watch = i.next();
 
 						// If user don't want to be notified by e-mail then
 						// continue with next watch.
@@ -284,7 +284,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 				// Notify the topic watchers
 				if (mode == MODE_REPLY) {
 					// Notify the reply watchers
-					for (Watch watch : topic.getWatches()) {
+					for (WatchBean watch : topic.getWatches()) {
 						try {
 
 							// If user don't want to be notified by e-mail then

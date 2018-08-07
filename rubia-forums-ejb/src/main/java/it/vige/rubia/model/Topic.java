@@ -45,6 +45,8 @@ import org.hibernate.search.annotations.NormalizerDef;
 import org.hibernate.search.annotations.SortableField;
 import org.hibernate.search.annotations.TokenFilterDef;
 
+import it.vige.rubia.dto.TopicType;
+
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>

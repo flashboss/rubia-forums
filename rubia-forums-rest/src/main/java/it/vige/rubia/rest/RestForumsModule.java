@@ -31,19 +31,19 @@ import javax.ws.rs.Produces;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.User;
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.ForumInstance;
-import it.vige.rubia.model.ForumWatch;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.TopicType;
-import it.vige.rubia.model.TopicWatch;
-import it.vige.rubia.model.Watch;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.ForumInstanceBean;
+import it.vige.rubia.dto.ForumWatchBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicType;
+import it.vige.rubia.dto.TopicWatchBean;
+import it.vige.rubia.dto.WatchBean;
 
 @Path("/forums/")
 public class RestForumsModule implements ForumsModule {
@@ -84,7 +84,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findAnnouncements(Forum forum) throws ModuleException {
+	public List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException {
 		return forumsModule.findAnnouncements(forum);
 	}
 
@@ -92,7 +92,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopics/{indexInstance}")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopics(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
+	public List<TopicBean> findTopics(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopics(indexInstance);
 	}
 
@@ -101,7 +101,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsAsc(Forum forum, TopicType type, int start, int perPage) throws ModuleException {
+	public List<TopicBean> findTopicsAsc(ForumBean forum, TopicType type, int start, int perPage)
+			throws ModuleException {
 		return forumsModule.findTopicsAsc(forum, start, perPage);
 	}
 
@@ -110,7 +111,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsDesc(Forum forum, TopicType type, int start, int perPage) throws ModuleException {
+	public List<TopicBean> findTopicsDesc(ForumBean forum, TopicType type, int start, int perPage)
+			throws ModuleException {
 		return forumsModule.findTopicsDesc(forum, start, perPage);
 	}
 
@@ -119,7 +121,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsAsc(Forum forum, int start, int perPage) throws ModuleException {
+	public List<TopicBean> findTopicsAsc(ForumBean forum, int start, int perPage) throws ModuleException {
 		return forumsModule.findTopicsAsc(forum, start, perPage);
 	}
 
@@ -128,7 +130,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsDesc(Forum forum, int start, int perPage) throws ModuleException {
+	public List<TopicBean> findTopicsDesc(ForumBean forum, int start, int perPage) throws ModuleException {
 		return forumsModule.findTopicsDesc(forum, start, perPage);
 	}
 
@@ -137,7 +139,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopics(Forum forum) throws ModuleException {
+	public List<TopicBean> findTopics(ForumBean forum) throws ModuleException {
 		return forumsModule.findTopics(forum);
 	}
 
@@ -146,7 +148,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsBefore(Forum forum, TopicType type, int start, int perPage, Date date)
+	public List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date)
 			throws ModuleException {
 		return forumsModule.findTopicsBefore(forum, type, start, perPage, date);
 	}
@@ -155,7 +157,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicsHot/{replies}/{limit}/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsHot(@PathParam("replies") int replies, @PathParam("limit") int limit,
+	public List<TopicBean> findTopicsHot(@PathParam("replies") int replies, @PathParam("limit") int limit,
 			@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicsHot(replies, limit, indexInstance);
 	}
@@ -164,7 +166,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicsByLatestPosts/{limit}/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsByLatestPosts(@PathParam("limit") int limit,
+	public List<TopicBean> findTopicsByLatestPosts(@PathParam("limit") int limit,
 			@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicsByLatestPosts(limit, indexInstance);
 	}
@@ -173,7 +175,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicsHottest/{after}/{limit}/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsHottest(@PathParam("after") Date after, @PathParam("limit") int limit,
+	public List<TopicBean> findTopicsHottest(@PathParam("after") Date after, @PathParam("limit") int limit,
 			@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicsHottest(after, limit, indexInstance);
 	}
@@ -182,7 +184,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicsMostViewed/{after}/{limit}/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicsMostViewed(@PathParam("after") Date after, @PathParam("limit") int limit,
+	public List<TopicBean> findTopicsMostViewed(@PathParam("after") Date after, @PathParam("limit") int limit,
 			@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicsMostViewed(after, limit, indexInstance);
 	}
@@ -191,7 +193,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findForumById/{id}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Forum findForumById(@PathParam("id") Integer id) throws ModuleException {
+	public ForumBean findForumById(@PathParam("id") Integer id) throws ModuleException {
 		return forumsModule.findForumById(id);
 	}
 
@@ -199,7 +201,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findForumByIdFetchTopics/{id}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Forum findForumByIdFetchTopics(@PathParam("id") Integer id) throws ModuleException {
+	public ForumBean findForumByIdFetchTopics(@PathParam("id") Integer id) throws ModuleException {
 		return forumsModule.findForumByIdFetchTopics(id);
 	}
 
@@ -208,7 +210,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Forum createForum(Category category, String name, String description) throws ModuleException {
+	public ForumBean createForum(CategoryBean category, String name, String description) throws ModuleException {
 		return forumsModule.createForum(category, name, description);
 	}
 
@@ -216,7 +218,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findPosts/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPosts(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
+	public List<PostBean> findPosts(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findPosts(indexInstance);
 	}
 
@@ -224,7 +226,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findPostById/{id}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post findPostById(@PathParam("id") Integer id) throws ModuleException {
+	public PostBean findPostById(@PathParam("id") Integer id) throws ModuleException {
 		return forumsModule.findPostById(id);
 	}
 
@@ -232,7 +234,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findPosterByUserId/{userId}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Poster findPosterByUserId(@PathParam("userId") String userID) throws ModuleException {
+	public PosterBean findPosterByUserId(@PathParam("userId") String userID) throws ModuleException {
 		return forumsModule.findPosterByUserId(userID);
 	}
 
@@ -240,7 +242,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findCategories/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Category> findCategories(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
+	public List<CategoryBean> findCategories(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findCategories(indexInstance);
 	}
 
@@ -248,7 +250,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findCategoriesFetchForums/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Category> findCategoriesFetchForums(@PathParam("indexInstance") Integer indexInstance)
+	public List<CategoryBean> findCategoriesFetchForums(@PathParam("indexInstance") Integer indexInstance)
 			throws ModuleException {
 		return forumsModule.findCategoriesFetchForums(indexInstance);
 	}
@@ -257,7 +259,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findForums/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Forum> findForums(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
+	public List<ForumBean> findForums(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
 		return forumsModule.findForums(indexInstance);
 	}
 
@@ -266,7 +268,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Forum> findForumsByCategory(Category category) throws ModuleException {
+	public List<ForumBean> findForumsByCategory(CategoryBean category) throws ModuleException {
 		return forumsModule.findForumsByCategory(category);
 	}
 
@@ -275,8 +277,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post createTopic(Forum forum, Message message, Date creationDate, Poster poster, Poll poll,
-			Collection<Attachment> attachments, TopicType type) throws ModuleException {
+	public PostBean createTopic(ForumBean forum, MessageBean message, Date creationDate, PosterBean poster,
+			PollBean poll, Collection<AttachmentBean> attachments, TopicType type) throws ModuleException {
 		return forumsModule.createTopic(forum, message, creationDate, poster, poll, attachments, type);
 	}
 
@@ -285,7 +287,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Topic createTopic(Forum forum, String userID, String subject, TopicType type) throws ModuleException {
+	public TopicBean createTopic(ForumBean forum, String userID, String subject, TopicType type)
+			throws ModuleException {
 		return forumsModule.createTopic(forum, userID, subject, type);
 	}
 
@@ -294,8 +297,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post createPost(Topic topic, Forum forum, Message message, Date creationTime, Poster poster,
-			Collection<Attachment> attachments) throws ModuleException {
+	public PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationTime,
+			PosterBean poster, Collection<AttachmentBean> attachments) throws ModuleException {
 		return forumsModule.createPost(topic, forum, message, creationTime, poster, attachments);
 	}
 
@@ -304,7 +307,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Poll addPollToTopic(Topic topic, Poll poll) throws ModuleException {
+	public PollBean addPollToTopic(TopicBean topic, PollBean poll) throws ModuleException {
 		return forumsModule.addPollToTopic(topic, poll);
 	}
 
@@ -313,7 +316,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Category createCategory(String name, ForumInstance forumInstance) throws ModuleException {
+	public CategoryBean createCategory(String name, ForumInstanceBean forumInstance) throws ModuleException {
 		return forumsModule.createCategory(name, forumInstance);
 	}
 
@@ -328,7 +331,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("createForumInstance/{indexInstance}/{name}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ForumInstance createForumInstance(@PathParam("indexInstance") Integer indexInstance,
+	public ForumInstanceBean createForumInstance(@PathParam("indexInstance") Integer indexInstance,
 			@PathParam("name") String name) throws ModuleException {
 		return forumsModule.createForumInstance(indexInstance, name);
 	}
@@ -359,7 +362,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("removePollInTopic")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void removePollInTopic(Topic topic) throws ModuleException {
+	public void removePollInTopic(TopicBean topic) throws ModuleException {
 		forumsModule.removePollInTopic(topic);
 	}
 
@@ -374,7 +377,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findCategoryById/{categoryID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Category findCategoryById(@PathParam("categoryID") Integer categoryID) throws ModuleException {
+	public CategoryBean findCategoryById(@PathParam("categoryID") Integer categoryID) throws ModuleException {
 		return forumsModule.findCategoryById(categoryID);
 	}
 
@@ -382,7 +385,8 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findCategoryByIdFetchForums/{categoryID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Category findCategoryByIdFetchForums(@PathParam("categoryID") Integer categoryID) throws ModuleException {
+	public CategoryBean findCategoryByIdFetchForums(@PathParam("categoryID") Integer categoryID)
+			throws ModuleException {
 		return forumsModule.findCategoryByIdFetchForums(categoryID);
 	}
 
@@ -390,7 +394,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("addAllForums")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void addAllForums(Category source, Category target) throws ModuleException {
+	public void addAllForums(CategoryBean source, CategoryBean target) throws ModuleException {
 		forumsModule.addAllForums(source, target);
 	}
 
@@ -398,7 +402,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicById/{topicID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Topic findTopicById(@PathParam("topicID") Integer topicID) throws ModuleException {
+	public TopicBean findTopicById(@PathParam("topicID") Integer topicID) throws ModuleException {
 		return forumsModule.findTopicById(topicID);
 	}
 
@@ -407,7 +411,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByTopicId(Topic topic) throws ModuleException {
+	public List<PostBean> findPostsByTopicId(TopicBean topic) throws ModuleException {
 		return forumsModule.findPostsByTopicId(topic);
 	}
 
@@ -416,7 +420,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
+	public List<PostBean> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts)
+			throws ModuleException {
 		return forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(posts);
 	}
 
@@ -425,7 +430,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException {
+	public List<PostBean> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts)
+			throws ModuleException {
 		return forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(posts);
 	}
 
@@ -434,7 +440,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Integer> findPostIdsAsc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsAsc(TopicBean topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostIdsAsc(topic, start, limit);
 	}
 
@@ -443,7 +449,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Integer> findPostIdsDesc(Topic topic, int start, int limit) throws ModuleException {
+	public List<Integer> findPostIdsDesc(TopicBean topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostIdsDesc(topic, start, limit);
 	}
 
@@ -452,7 +458,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByTopicIdAsc(Topic topic, int start, int limit) throws ModuleException {
+	public List<PostBean> findPostsByTopicIdAsc(TopicBean topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostsByTopicIdAsc(topic, start, limit);
 	}
 
@@ -461,7 +467,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsByTopicIdDesc(Topic topic, int start, int limit) throws ModuleException {
+	public List<PostBean> findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws ModuleException {
 		return forumsModule.findPostsByTopicIdDesc(topic, start, limit);
 	}
 
@@ -478,7 +484,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post findLastPost(Forum forum) throws ModuleException {
+	public PostBean findLastPost(ForumBean forum) throws ModuleException {
 		return forumsModule.findLastPost(forum);
 	}
 
@@ -487,7 +493,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post findFirstPost(Topic topic) throws ModuleException {
+	public PostBean findFirstPost(TopicBean topic) throws ModuleException {
 		return forumsModule.findFirstPost(topic);
 	}
 
@@ -496,7 +502,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post findLastPost(Topic topic) throws ModuleException {
+	public PostBean findLastPost(TopicBean topic) throws ModuleException {
 		return forumsModule.findLastPost(topic);
 	}
 
@@ -505,7 +511,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Map<Object, Object> findLastPostsOfTopics(Collection<Topic> topics) throws ModuleException {
+	public Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
 		return forumsModule.findLastPostsOfTopics(topics);
 	}
 
@@ -513,7 +519,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findLastPostsOfForums/{indexInstance}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Map<Object, Post> findLastPostsOfForums(@PathParam("indexInstance") Integer indexInstance)
+	public Map<Object, PostBean> findLastPostsOfForums(@PathParam("indexInstance") Integer indexInstance)
 			throws ModuleException {
 		return forumsModule.findLastPostsOfForums(indexInstance);
 	}
@@ -523,7 +529,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<ForumWatch> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException {
+	public List<ForumWatchBean> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException {
 		return forumsModule.findForumWatchByUser(user, indexInstance);
 	}
 
@@ -532,7 +538,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Forum> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException {
+	public List<ForumBean> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException {
 		return forumsModule.findForumWatchedByUser(user, indexInstance);
 	}
 
@@ -541,7 +547,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException {
+	public List<TopicBean> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicWatchedByUser(user, indexInstance);
 	}
 
@@ -550,7 +556,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Topic> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException {
+	public List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicWatchedByUser(user, date, indexInstance);
 	}
 
@@ -559,7 +565,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsFromForumAsc(Forum forum, int limit) throws ModuleException {
+	public List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException {
 		return forumsModule.findPostsFromForumAsc(forum, limit);
 	}
 
@@ -568,7 +574,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsFromForumDesc(Forum forum, int limit) throws ModuleException {
+	public List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException {
 		return forumsModule.findPostsFromForumDesc(forum, limit);
 	}
 
@@ -577,7 +583,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsFromCategoryAsc(Category category, int limit) throws ModuleException {
+	public List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException {
 		return forumsModule.findPostsFromCategoryAsc(category, limit);
 	}
 
@@ -586,7 +592,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsFromCategoryDesc(Category category, int limit) throws ModuleException {
+	public List<PostBean> findPostsFromCategoryDesc(CategoryBean category, int limit) throws ModuleException {
 		return forumsModule.findPostsFromCategoryDesc(category, limit);
 	}
 
@@ -603,7 +609,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findAttachmentById/{attachID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Attachment findAttachmentById(@PathParam("attachID") Integer attachID) throws ModuleException {
+	public AttachmentBean findAttachmentById(@PathParam("attachID") Integer attachID) throws ModuleException {
 		return forumsModule.findAttachmentById(attachID);
 	}
 
@@ -611,7 +617,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("createPoster/{userID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Poster createPoster(@PathParam("userID") String userID) throws ModuleException {
+	public PosterBean createPoster(@PathParam("userID") String userID) throws ModuleException {
 		return forumsModule.createPoster(userID);
 	}
 
@@ -619,7 +625,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("createWatch")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void createWatch(Poster poster, Forum forum, int i) throws ModuleException {
+	public void createWatch(PosterBean poster, ForumBean forum, int i) throws ModuleException {
 		forumsModule.createWatch(poster, forum, i);
 	}
 
@@ -627,7 +633,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findForumWatchById/{forumWatchID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ForumWatch findForumWatchById(@PathParam("forumWatchID") Integer forumWatchID) throws ModuleException {
+	public ForumWatchBean findForumWatchById(@PathParam("forumWatchID") Integer forumWatchID) throws ModuleException {
 		return forumsModule.findForumWatchById(forumWatchID);
 	}
 
@@ -645,7 +651,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ForumWatch findForumWatchByUserAndForum(User user, int forumId) throws ModuleException {
+	public ForumWatchBean findForumWatchByUserAndForum(User user, int forumId) throws ModuleException {
 		return forumsModule.findForumWatchByUserAndForum(user, forumId);
 	}
 
@@ -654,7 +660,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public TopicWatch findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException {
+	public TopicWatchBean findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException {
 		return forumsModule.findTopicWatchByUserAndTopic(user, topicId);
 	}
 
@@ -662,7 +668,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findForumInstanceById/{forumInstanceID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ForumInstance findForumInstanceById(@PathParam("forumInstanceID") Integer forumInstanceID)
+	public ForumInstanceBean findForumInstanceById(@PathParam("forumInstanceID") Integer forumInstanceID)
 			throws ModuleException {
 		return forumsModule.findForumInstanceById(forumInstanceID);
 	}
@@ -671,7 +677,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("createWatch")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void createWatch(Poster poster, Topic topic, int mode) throws ModuleException {
+	public void createWatch(PosterBean poster, TopicBean topic, int mode) throws ModuleException {
 		forumsModule.createWatch(poster, topic, mode);
 	}
 
@@ -679,7 +685,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findTopicWatchById/{topicWatchID}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public TopicWatch findTopicWatchById(@PathParam("topicWatchID") Integer topicWatchID) throws ModuleException {
+	public TopicWatchBean findTopicWatchById(@PathParam("topicWatchID") Integer topicWatchID) throws ModuleException {
 		return forumsModule.findTopicWatchById(topicWatchID);
 	}
 
@@ -687,7 +693,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("removeWatch")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void removeWatch(Watch watch) throws ModuleException {
+	public void removeWatch(WatchBean watch) throws ModuleException {
 		forumsModule.removeWatch(watch);
 	}
 
@@ -703,7 +709,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findPostsDesc/{limit}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsDesc(@PathParam("limit") int limit) throws ModuleException {
+	public List<PostBean> findPostsDesc(@PathParam("limit") int limit) throws ModuleException {
 		return forumsModule.findPostsDesc(limit);
 	}
 
@@ -711,7 +717,7 @@ public class RestForumsModule implements ForumsModule {
 	@Path("findPostsAsc/{limit}")
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<Post> findPostsAsc(@PathParam("limit") int limit) throws ModuleException {
+	public List<PostBean> findPostsAsc(@PathParam("limit") int limit) throws ModuleException {
 		return forumsModule.findPostsAsc(limit);
 	}
 
@@ -720,7 +726,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post addAttachments(Collection<Attachment> attachments, Post post) {
+	public PostBean addAttachments(Collection<AttachmentBean> attachments, PostBean post) {
 		return forumsModule.addAttachments(attachments, post);
 	}
 
@@ -729,7 +735,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Collection<Attachment> findAttachments(Post post) {
+	public Collection<AttachmentBean> findAttachments(PostBean post) {
 		return forumsModule.findAttachments(post);
 	}
 
@@ -738,7 +744,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post removeAttachments(Post post) {
+	public PostBean removeAttachments(PostBean post) {
 		return forumsModule.removeAttachments(post);
 	}
 
@@ -747,7 +753,7 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public Post updateAttachments(Collection<Attachment> attachments, Post post) {
+	public PostBean updateAttachments(Collection<AttachmentBean> attachments, PostBean post) {
 		return forumsModule.updateAttachments(attachments, post);
 	}
 

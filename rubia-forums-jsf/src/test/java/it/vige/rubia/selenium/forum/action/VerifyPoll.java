@@ -32,9 +32,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.TopicBean;
 
 public class VerifyPoll {
 
@@ -49,8 +49,8 @@ public class VerifyPoll {
 	public static final String RESULT_VOTES_LINK = getBundle("ResourceJSF").getString("View_results");
 	public static final String TOTAL_VOTES_LINK = "totalCell";
 
-	public static List<Poll> getPollsOfTopics(WebDriver driver, Topic... topics) {
-		List<Poll> polls = new ArrayList<Poll>();
+	public static List<PollBean> getPollsOfTopics(WebDriver driver, TopicBean... topics) {
+		List<PollBean> polls = new ArrayList<PollBean>();
 		WebElement home = driver.findElement(linkText(MAIN_PAGE));
 		home.click();
 		WebElement tableComponent = driver.findElement(className(FORUM_TABLE));
@@ -81,21 +81,21 @@ public class VerifyPoll {
 		return polls;
 	}
 
-	public static Poll getPollOfCurrentTopic(WebDriver driver) {
+	public static PollBean getPollOfCurrentTopic(WebDriver driver) {
 		WebElement question = null;
-		Poll poll = null;
+		PollBean poll = null;
 		try {
 			question = driver.findElement(className(QUESTION_OUTPUT_TEXT));
 		} catch (NoSuchElementException ex) {
 
 		}
 		if (question != null) {
-			poll = new Poll();
+			poll = new PollBean();
 			poll.setTitle(question.getText());
 			List<WebElement> pollComponents = driver.findElements(className(ANSWER_OUTPUT_TEXT));
-			List<PollOption> pollOptions = new LinkedList<PollOption>();
+			List<PollOptionBean> pollOptions = new LinkedList<PollOptionBean>();
 			for (WebElement pollComponent : pollComponents) {
-				PollOption pollOption = new PollOption();
+				PollOptionBean pollOption = new PollOptionBean();
 				pollOption.setQuestion(pollComponent.getText());
 				pollOption.setPoll(poll);
 				pollOptions.add(pollOption);
@@ -112,7 +112,7 @@ public class VerifyPoll {
 			}
 			for (int i3 = 0; i3 < pollOptions.size(); i3++) {
 				WebElement pollComponent = pollComponents.get(i3);
-				PollOption pollOption = pollOptions.get(i3);
+				PollOptionBean pollOption = pollOptions.get(i3);
 				String numberOfVotes = driver.findElement(className(FORUM_POLL_TABLE))
 						.findElement(xpath("tbody/tr[td/text()='" + pollComponent.getText() + "']/td[3]")).getText();
 				String pollOptionPosition = driver.findElement(className(FORUM_POLL_TABLE))
@@ -128,9 +128,9 @@ public class VerifyPoll {
 		return poll;
 	}
 
-	private static List<String> findTopicNames(Topic[] topics) {
+	private static List<String> findTopicNames(TopicBean[] topics) {
 		List<String> topicNames = new ArrayList<String>();
-		for (Topic topic : topics)
+		for (TopicBean topic : topics)
 			topicNames.add(topic.getSubject());
 		return topicNames;
 	}

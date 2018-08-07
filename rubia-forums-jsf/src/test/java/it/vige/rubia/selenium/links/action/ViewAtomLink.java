@@ -19,14 +19,14 @@ import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.selenium.forum.action.VerifyForum;
 import it.vige.rubia.selenium.forum.action.VerifyTopic;
 import it.vige.rubia.selenium.forum.action.Write;
@@ -45,14 +45,14 @@ public class ViewAtomLink extends Write {
 		footerLink.click();
 	}
 
-	public static Forum getPage(WebDriver driver, Forum forum) {
+	public static ForumBean getPage(WebDriver driver, ForumBean forum) {
 		VerifyForum.goTo(driver, forum);
 		goTo(driver);
-		Forum result = new Forum();
+		ForumBean result = new ForumBean();
 		result.setName(driver.findElement(id(FEED_TITLE_TEXT)).getText().split(": ")[1]);
 		result.setCategory(
-				new Category(driver.findElement(id(FEED_SUBTITLE_TEXT)).getText().split(" in category ")[1]));
-		Map<String, Topic> topics = new HashMap<String, Topic>();
+				new CategoryBean(driver.findElement(id(FEED_SUBTITLE_TEXT)).getText().split(" in category ")[1]));
+		Map<String, TopicBean> topics = new HashMap<String, TopicBean>();
 		int entriesSize = driver.findElements(className(ENTRY_LINK)).size();
 		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (int i = 0; i < entriesSize; i++) {
@@ -60,13 +60,13 @@ public class ViewAtomLink extends Write {
 			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED)).getText();
 			String topicTitle = entryText[0].replace(RE, "");
-			Topic topic = topics.get(topicTitle);
+			TopicBean topic = topics.get(topicTitle);
 			if (topic == null) {
-				topic = new Topic(topicTitle);
+				topic = new TopicBean(topicTitle);
 				topics.put(topicTitle, topic);
 			}
-			Post post = new Post(entry.findElement(className(FEED_ENTRY_CONTENT)).getText());
-			post.setPoster(new Poster(entryText[1].split("\n")[0]));
+			PostBean post = new PostBean(entry.findElement(className(FEED_ENTRY_CONTENT)).getText());
+			post.setPoster(new PosterBean(entryText[1].split("\n")[0]));
 			try {
 				post.setCreateDate(dateFormat.parse(lastUpdated));
 			} catch (ParseException e) {
@@ -75,51 +75,51 @@ public class ViewAtomLink extends Write {
 			topic.getPosts().add(post);
 			WebElement entryLink = driver.findElement(linkText(entry.getText().split("\n")[0]));
 			entryLink.click();
-			List<Attachment> attachments = getAttachmentsOfCurrentPostInPage(driver, post);
+			List<AttachmentBean> attachments = getAttachmentsOfCurrentPostInPage(driver, post);
 			post.setAttachments(attachments);
 			if (topic.getPoll() == null) {
-				Poll poll = getPollOfCurrentTopic(driver);
+				PollBean poll = getPollOfCurrentTopic(driver);
 				topic.setPoll(poll);
 			}
 			VerifyForum.goTo(driver, forum);
 			goTo(driver);
 		}
-		result.setTopics(new ArrayList<Topic>(topics.values()));
+		result.setTopics(new ArrayList<TopicBean>(topics.values()));
 		returnToHome(driver);
 		return result;
 	}
 
-	public static Topic getPage(WebDriver driver, Topic topic) {
+	public static TopicBean getPage(WebDriver driver, TopicBean topic) {
 		VerifyTopic.goTo(driver, topic);
 		goTo(driver);
-		Topic result = new Topic();
+		TopicBean result = new TopicBean();
 		result.setSubject(driver.findElement(id(FEED_TITLE_TEXT)).getText().split(": ")[1]);
 		String[] splittedText = driver.findElement(id(FEED_SUBTITLE_TEXT)).getText()
 				.split(" in topic | in forum | in category ");
-		result.setForum(new Forum(splittedText[2]));
-		result.getForum().setCategory(new Category(splittedText[3]));
-		List<Post> posts = new ArrayList<Post>();
+		result.setForum(new ForumBean(splittedText[2]));
+		result.getForum().setCategory(new CategoryBean(splittedText[3]));
+		List<PostBean> posts = new ArrayList<PostBean>();
 		int entriesSize = driver.findElements(className(ENTRY_LINK)).size();
 		DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm");
 		for (int i = 0; i < entriesSize; i++) {
 			WebElement entry = driver.findElements(className(ENTRY_LINK)).get(i);
 			String[] entryText = entry.getText().split(BY);
 			String lastUpdated = entry.findElement(className(LAST_UPDATED)).getText();
-			Post post = new Post(entryText[0]);
-			post.setPoster(new Poster(entryText[1].split("\n")[0]));
+			PostBean post = new PostBean(entryText[0]);
+			post.setPoster(new PosterBean(entryText[1].split("\n")[0]));
 			try {
 				post.setCreateDate(dateFormat.parse(lastUpdated));
 			} catch (ParseException e) {
 			}
-			post.setMessage(new Message(entry.findElement(className(FEED_ENTRY_CONTENT)).getText()));
+			post.setMessage(new MessageBean(entry.findElement(className(FEED_ENTRY_CONTENT)).getText()));
 			post.getMessage().setSubject(entryText[0]);
 			posts.add(post);
 			WebElement entryLink = driver.findElement(linkText(entry.getText().split("\n")[0]));
 			entryLink.click();
-			List<Attachment> attachments = getAttachmentsOfCurrentPostInPage(driver, post);
+			List<AttachmentBean> attachments = getAttachmentsOfCurrentPostInPage(driver, post);
 			post.setAttachments(attachments);
 			if (topic.getPoll() == null) {
-				Poll poll = getPollOfCurrentTopic(driver);
+				PollBean poll = getPollOfCurrentTopic(driver);
 				result.setPoll(poll);
 			}
 			VerifyTopic.goTo(driver, result);

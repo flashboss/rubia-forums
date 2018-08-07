@@ -3,15 +3,16 @@ package it.vige.rubia.selenium.moderate.action;
 import static it.vige.rubia.properties.OperationType.CONFIRM;
 import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static java.util.ResourceBundle.getBundle;
-import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.tagName;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.properties.OperationType;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.properties.OperationType;
 
 public class RemoveTopic {
 
@@ -21,7 +22,7 @@ public class RemoveTopic {
 	public static final String SELECT_TYPE = "form";
 	public static final String RESULT_REMOVE_TOPIC = "forumtitletext";
 
-	public static String removeTopic(WebDriver driver, OperationType removeType, Topic topic) {
+	public static String removeTopic(WebDriver driver, OperationType removeType, TopicBean topic) {
 		String result = "";
 		goTo(driver, topic);
 		WebElement removeButton = driver.findElement(id(REMOVE_TOPIC_BUTTON)).findElement(xpath("form/ul/li[2]/a"));

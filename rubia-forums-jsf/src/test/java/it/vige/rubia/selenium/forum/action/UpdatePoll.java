@@ -21,13 +21,14 @@ import static java.util.ResourceBundle.getBundle;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
 
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
 
 public class UpdatePoll extends Write {
 	public static final String UPDATE_TOPIC_BUTTON = "miviewtopicbody6";
@@ -42,11 +43,11 @@ public class UpdatePoll extends Write {
 	public static final String ADD_OPTION_BUTTON = getBundle("ResourceJSF").getString("Add_option");
 	public static final String DELETE_OPTION_BUTTON = getBundle("ResourceJSF").getString("Delete");
 
-	public static Poll addOptions(WebDriver driver, Poll poll) {
+	public static PollBean addOptions(WebDriver driver, PollBean poll) {
 		WebElement updateTopicButton = driver.findElements(xpath("//tbody")).get(2).findElement(id(UPDATE_TOPIC_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updateTopicButton.click();
-		List<PollOption> options = poll.getOptions();
+		List<PollOptionBean> options = poll.getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;
@@ -64,26 +65,26 @@ public class UpdatePoll extends Write {
 			}
 		WebElement submitTopicButton = driver.findElement(id(SUBMIT_TOPIC_BUTTON));
 		submitTopicButton.click();
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		PollBean updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
 	}
 
-	public static Poll vote(WebDriver driver, Poll poll, int indexVote) {
+	public static PollBean vote(WebDriver driver, PollBean poll, int indexVote) {
 		List<WebElement> optionsToVoteList = driver.findElements(className(OPTIONS_TO_VOTE_LIST));
 		optionsToVoteList.get(indexVote).findElement(xpath("input")).click();
 		WebElement voteButton = driver.findElement(className(VOTE_BUTTON));
 		voteButton.click();
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		PollBean updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
 	}
 
-	public static Poll deleteOptions(WebDriver driver, Poll poll) {
+	public static PollBean deleteOptions(WebDriver driver, PollBean poll) {
 		WebElement updateTopicButton = driver.findElements(xpath("//tbody")).get(2).findElement(id(UPDATE_TOPIC_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updateTopicButton.click();
-		List<PollOption> options = poll.getOptions();
+		List<PollOptionBean> options = poll.getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
 				WebElement optionButton = null;
@@ -93,16 +94,16 @@ public class UpdatePoll extends Write {
 			}
 		WebElement submitTopicButton = driver.findElement(id(SUBMIT_TOPIC_BUTTON));
 		submitTopicButton.click();
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		PollBean updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
 	}
 
-	public static Poll updateOptions(WebDriver driver, Poll poll) {
+	public static PollBean updateOptions(WebDriver driver, PollBean poll) {
 		WebElement updateTopicButton = driver.findElements(xpath("//tbody")).get(2).findElement(id(UPDATE_TOPIC_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updateTopicButton.click();
-		List<PollOption> options = poll.getOptions();
+		List<PollOptionBean> options = poll.getOptions();
 		if (options != null)
 			for (int i = 0; i < options.size(); i++) {
 				WebElement optionInput = null;
@@ -119,12 +120,12 @@ public class UpdatePoll extends Write {
 		WebElement submitTopicButton = driver.findElement(id(SUBMIT_TOPIC_BUTTON));
 		submitTopicButton.click();
 		sleepThread();
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		PollBean updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
 	}
 
-	public static Poll updatePoll(WebDriver driver, Poll poll) {
+	public static PollBean updatePoll(WebDriver driver, PollBean poll) {
 		WebElement updateTopicButton = driver.findElements(xpath("//tbody")).get(2).findElement(id(UPDATE_TOPIC_BUTTON))
 				.findElement(xpath("ul/a[1]"));
 		updateTopicButton.click();
@@ -140,7 +141,7 @@ public class UpdatePoll extends Write {
 		daysInput.sendKeys(poll.getLength() + "");
 		WebElement submitTopicButton = driver.findElement(id(SUBMIT_TOPIC_BUTTON));
 		submitTopicButton.click();
-		Poll updatedPoll = getPollOfCurrentTopic(driver);
+		PollBean updatedPoll = getPollOfCurrentTopic(driver);
 		return updatedPoll;
 
 	}

@@ -26,7 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Forum;
+import it.vige.rubia.dto.ForumBean;
 
 public class CreateForum {
 
@@ -41,7 +41,7 @@ public class CreateForum {
 			+ getBundle("ResourceJSF").getString("Forum_category") + ":']/input[5]";
 	public static final String RESULT_CREATE_FORUM = "successtext";
 
-	public static String createForum(WebDriver driver, Forum forum) {
+	public static String createForum(WebDriver driver, ForumBean forum) {
 		WebElement adminPanelLink = driver.findElement(linkText(ADMIN_PANEL_LINK));
 		adminPanelLink.click();
 		String formId = driver.findElement(xpath("//td[strong/text()='" + forum.getCategory().getTitle() + "']/form"))

@@ -11,8 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.properties.OperationType;
 
 public class MoveForum {
@@ -22,9 +22,10 @@ public class MoveForum {
 	public static final String SELECT_INPUT = "forum_to_id";
 	public static final String RESULT_MOVE_FORUM = "forumtitletext";
 
-	public static String moveForum(WebDriver driver, OperationType moveType, Forum sourceForum, Forum destForum) {
+	public static String moveForum(WebDriver driver, OperationType moveType, ForumBean sourceForum,
+			ForumBean destForum) {
 		if (sourceForum != null)
-			for (Topic topic : sourceForum.getTopics()) {
+			for (TopicBean topic : sourceForum.getTopics()) {
 				WebElement topicToSelect = driver.findElement(linkText(topic.getSubject()))
 						.findElement(xpath("../../td[5]/input"));
 				topicToSelect.click();

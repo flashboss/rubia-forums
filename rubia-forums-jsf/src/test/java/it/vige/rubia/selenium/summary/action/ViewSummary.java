@@ -28,19 +28,19 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 
 public class ViewSummary {
 
 	public static final String TOPIC_TABLE = "forumtablestyle";
 	public static final String TOPIC_SIZE = "note";
 
-	public static List<Topic> viewSummary(WebDriver driver) {
-		List<Topic> topics = new ArrayList<Topic>();
+	public static List<TopicBean> viewSummary(WebDriver driver) {
+		List<TopicBean> topics = new ArrayList<TopicBean>();
 		List<WebElement> elements = driver.findElement(className(TOPIC_TABLE)).findElements(xpath("tbody/tr/td"));
 		for (int i = 1; i < elements.size(); i++) {
 			WebElement element = elements.get(i);
-			Topic topic = new Topic();
+			TopicBean topic = new TopicBean();
 			topic.setSubject(element.findElement(xpath("a")).getText());
 			topics.add(topic);
 		}
@@ -52,7 +52,7 @@ public class ViewSummary {
 		return parseInt(element.getText().split(" ")[0]);
 	}
 
-	public static Topic getDetail(WebDriver driver, String subject) {
+	public static TopicBean getDetail(WebDriver driver, String subject) {
 		WebElement element = driver.findElement(linkText(subject));
 		element.click();
 		return getTopic(driver);

@@ -16,9 +16,9 @@
  */
 package it.vige.rubia.selenium.search.test;
 
-import static it.vige.rubia.model.TopicType.ADVICE;
-import static it.vige.rubia.model.TopicType.IMPORTANT;
-import static it.vige.rubia.model.TopicType.NORMAL;
+import static it.vige.rubia.dto.TopicType.ADVICE;
+import static it.vige.rubia.dto.TopicType.IMPORTANT;
+import static it.vige.rubia.dto.TopicType.NORMAL;
 import static it.vige.rubia.properties.NotificationType.EMAIL_EMBEDED_NOTIFICATION;
 import static it.vige.rubia.properties.NotificationType.EMAIL_LINKED_NOTIFICATION;
 import static it.vige.rubia.properties.NotificationType.EMAIL_NO_NOTIFICATION;
@@ -74,14 +74,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
-import it.vige.rubia.model.Attachment;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Poster;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.AttachmentBean;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.search.SearchCriteria;
 
 @RunWith(Arquillian.class)
@@ -94,85 +94,92 @@ public class SearchPostTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new Category("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
-		message = createCategory(driver, new Category("Second Test Category"));
+		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 		message = createForum(driver,
-				new Forum("First Test Forum", "First Test Description", new Category("First Test Category")));
+				new ForumBean("First Test Forum", "First Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				NORMAL,
-				new Poll("First Test Question", asList(
-						new PollOption[] { new PollOption("First Test Answer"), new PollOption("Second Test Answer") }),
-						4)));
-		assertTrue(message.equals("First Test Topic"));
-		message = registerTopic(driver, new Topic("First Test Topic"), EMAIL_LINKED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("First Test Topic"));
-		message = createTopic(driver, new Topic(new Forum("First Test Forum"), "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				IMPORTANT,
-				new Poll("Second Test Question", asList(
-						new PollOption[] { new PollOption("Third Test Answer"), new PollOption("Fourth Test Answer") }),
-						8)));
-		assertTrue(message.equals("Second Test Topic"));
-		message = registerTopic(driver, new Topic("Second Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Second Test Topic"));
-		message = createForum(driver,
-				new Forum("Second Test Forum", "Second Test Description", new Category("First Test Category")));
-		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
-		message = createTopic(driver, new Topic(new Forum("Second Test Forum"), "Third Test Topic",
-				asList(new Post[] { new Post("Third Test Body",
-						asList(new Attachment("first", "First Test File"), new Attachment("second", "Second Test File"),
-								new Attachment("third", "Third Test File"))) }),
-				ADVICE,
-				new Poll("Third Test Question",
-						asList(new PollOption[] {
-								new PollOption("Fifth Test with Truncation over 25 characters Answer"),
-								new PollOption("Sixth Test Answer") }),
-						9)));
-		assertTrue(message.equals("Third Test Topic"));
-		message = registerTopic(driver, new Topic("Third Test Topic"), EMAIL_NO_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Third Test Topic"));
 		message = createTopic(driver,
-				new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-						asList(new Post[] { new Post("Fourth Test Body",
-								asList(new Attachment("fourth", "Fourth Test File"),
-										new Attachment("fifth", "Fifth Test with Truncation over 25 characters File"),
-										new Attachment("sixth", "Sixth Test File"))) }),
-						IMPORTANT, new Poll("Fourth Test Question", asList(new PollOption[] {
-								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 0)));
+				new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
+						asList(new PostBean[] { new PostBean("First Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						NORMAL,
+						new PollBean("First Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("First Test Answer"), new PollOptionBean("Second Test Answer") }),
+								4)));
+		assertTrue(message.equals("First Test Topic"));
+		message = registerTopic(driver, new TopicBean("First Test Topic"), EMAIL_LINKED_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("First Test Topic"));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic",
+						asList(new PostBean[] { new PostBean("Second Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						IMPORTANT,
+						new PollBean("Second Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("Third Test Answer"), new PollOptionBean("Fourth Test Answer") }),
+								8)));
+		assertTrue(message.equals("Second Test Topic"));
+		message = registerTopic(driver, new TopicBean("Second Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Second Test Topic"));
+		message = createForum(driver,
+				new ForumBean("Second Test Forum", "Second Test Description", new CategoryBean("First Test Category")));
+		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic",
+						asList(new PostBean[] { new PostBean("Third Test Body",
+								asList(new AttachmentBean("first", "First Test File"),
+										new AttachmentBean("second", "Second Test File"),
+										new AttachmentBean("third", "Third Test File"))) }),
+						ADVICE,
+						new PollBean("Third Test Question",
+								asList(new PollOptionBean[] {
+										new PollOptionBean("Fifth Test with Truncation over 25 characters Answer"),
+										new PollOptionBean("Sixth Test Answer") }),
+								9)));
+		assertTrue(message.equals("Third Test Topic"));
+		message = registerTopic(driver, new TopicBean("Third Test Topic"), EMAIL_NO_NOTIFICATION, CONFIRM);
+		assertTrue(message.equals("Third Test Topic"));
+		message = createTopic(driver, new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic",
+				asList(new PostBean[] { new PostBean("Fourth Test Body",
+						asList(new AttachmentBean("fourth", "Fourth Test File"),
+								new AttachmentBean("fifth", "Fifth Test with Truncation over 25 characters File"),
+								new AttachmentBean("sixth", "Sixth Test File"))) }),
+				IMPORTANT, new PollBean("Fourth Test Question", asList(new PollOptionBean[] {
+						new PollOptionBean("Seventh Test Answer"), new PollOptionBean("Eight Test Answer") }), 0)));
 		assertTrue(message.equals("Fourth Test Topic"));
-		message = registerTopic(driver, new Topic("Fourth Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
+		message = registerTopic(driver, new TopicBean("Fourth Test Topic"), EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fourth Test Topic"));
 		message = createForum(driver,
-				new Forum("Third Test Forum", "Third Test Description", new Category("Second Test Category")));
+				new ForumBean("Third Test Forum", "Third Test Description", new CategoryBean("Second Test Category")));
 		assertTrue(message.equals(CREATED_FORUM_2_MESSAGE));
 		message = createTopic(driver,
-				new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
-						asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body",
-								asList(new Attachment("seventh", "Seventh Test File"),
-										new Attachment("eight", "Eight Test File"),
-										new Attachment("ninth", "Ninth Test File"))) }),
-						IMPORTANT, new Poll("Third Test Question", asList(new PollOption[] {
-								new PollOption("Seventh Test Answer"), new PollOption("Eight Test Answer") }), 8)));
+				new TopicBean(new ForumBean("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+						asList(new PostBean[] { new PostBean("Fifth Test with Truncation over 25 characters Body",
+								asList(new AttachmentBean("seventh", "Seventh Test File"),
+										new AttachmentBean("eight", "Eight Test File"),
+										new AttachmentBean("ninth", "Ninth Test File"))) }),
+						IMPORTANT,
+						new PollBean("Third Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("Seventh Test Answer"), new PollOptionBean("Eight Test Answer") }),
+								8)));
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
-		message = registerTopic(driver, new Topic("Fifth Test with Truncation over 25 characters Topic"),
+		message = registerTopic(driver, new TopicBean("Fifth Test with Truncation over 25 characters Topic"),
 				EMAIL_EMBEDED_NOTIFICATION, CONFIRM);
 		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Topic"));
-		message = createTopic(driver, new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
-				asList(new Post[] { new Post("Sixth Test Body",
-						asList(new Attachment("ten", "Ten Test File"), new Attachment("eleven", "Eleven Test File"),
-								new Attachment("twelve", "Twelve Test File"))) }),
-				IMPORTANT,
-				new Poll("Fourth Test Question", asList(
-						new PollOption[] { new PollOption("Ninth Test Answer"), new PollOption("Ten Test Answer") }),
-						8)));
+		message = createTopic(driver,
+				new TopicBean(new ForumBean("Third Test Forum"), "Sixth Test Topic",
+						asList(new PostBean[] { new PostBean("Sixth Test Body",
+								asList(new AttachmentBean("ten", "Ten Test File"),
+										new AttachmentBean("eleven", "Eleven Test File"),
+										new AttachmentBean("twelve", "Twelve Test File"))) }),
+						IMPORTANT, new PollBean("Fourth Test Question", asList(new PollOptionBean[] {
+								new PollOptionBean("Ninth Test Answer"), new PollOptionBean("Ten Test Answer") }), 8)));
 		assertTrue(message.equals("Sixth Test Topic"));
 	}
 
@@ -189,7 +196,7 @@ public class SearchPostTest {
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
 		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		List<PostBean> posts = searchPost(driver, searchTopicCriteria);
 		Date today = new Date();
 		assertTrue(posts != null);
 		assertEquals(6, posts.size());
@@ -454,7 +461,7 @@ public class SearchPostTest {
 	public void searchPostsNoFields() {
 		goTo(driver);
 		SearchCriteria searchTopicCriteria = new SearchCriteria();
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		List<PostBean> posts = searchPost(driver, searchTopicCriteria);
 		assertTrue(posts == null);
 	}
 
@@ -472,7 +479,7 @@ public class SearchPostTest {
 		searchTopicCriteria.setSortOrder(null);
 		searchTopicCriteria.setTimePeriod(null);
 		reset(driver, searchTopicCriteria);
-		List<Post> posts = getPosts(driver, searchTopicCriteria);
+		List<PostBean> posts = getPosts(driver, searchTopicCriteria);
 		assertTrue(posts == null);
 	}
 
@@ -489,7 +496,7 @@ public class SearchPostTest {
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
 		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
+		List<PostBean> posts = searchPost(driver, searchTopicCriteria);
 		assertTrue(posts == null);
 	}
 
@@ -506,9 +513,9 @@ public class SearchPostTest {
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
 		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
-		Post post = posts.get(2);
-		Poster poster = getPosterFromLink(driver, post);
+		List<PostBean> posts = searchPost(driver, searchTopicCriteria);
+		PostBean post = posts.get(2);
+		PosterBean poster = getPosterFromLink(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 6);
@@ -527,9 +534,9 @@ public class SearchPostTest {
 		searchTopicCriteria.setSortBy(null);
 		searchTopicCriteria.setSortOrder(null);
 		searchTopicCriteria.setTimePeriod(null);
-		List<Post> posts = searchPost(driver, searchTopicCriteria);
-		Post post = posts.get(3);
-		Poster poster = getPosterFromButton(driver, post);
+		List<PostBean> posts = searchPost(driver, searchTopicCriteria);
+		PostBean post = posts.get(3);
+		PosterBean poster = getPosterFromButton(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 6);
@@ -537,49 +544,49 @@ public class SearchPostTest {
 
 	@AfterClass
 	public static void stop() {
-		Topic topic = new Topic(new Forum("First Test Forum"), "First Test Topic",
-				asList(new Post[] { new Post("First Test Body") }));
+		TopicBean topic = new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
+				asList(new PostBean[] { new PostBean("First Test Body") }));
 		String message = unregisterTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("First Test Forum"), "Second Test Topic",
-				asList(new Post[] { new Post("Second Test Body") }));
+		topic = new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic",
+				asList(new PostBean[] { new PostBean("Second Test Body") }));
 		message = unregisterTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Second Test Forum"), "Third Test Topic",
-				asList(new Post[] { new Post("Third Test Body") }));
+		topic = new TopicBean(new ForumBean("Second Test Forum"), "Third Test Topic",
+				asList(new PostBean[] { new PostBean("Third Test Body") }));
 		message = unregisterTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Second Test Forum"), "Fourth Test Topic",
-				asList(new Post[] { new Post("Fourth Test Body") }));
+		topic = new TopicBean(new ForumBean("Second Test Forum"), "Fourth Test Topic",
+				asList(new PostBean[] { new PostBean("Fourth Test Body") }));
 		message = viewAllTopicsRemoveTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
-				asList(new Post[] { new Post("Fifth Test with Truncation over 25 characters Body") }));
+		topic = new TopicBean(new ForumBean("Third Test Forum"), "Fifth Test with Truncation over 25 characters Topic",
+				asList(new PostBean[] { new PostBean("Fifth Test with Truncation over 25 characters Body") }));
 		message = viewAllTopicsRemoveTopic(driver, topic);
 		assertTrue(message.equals(OK));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		topic = new Topic(new Forum("Third Test Forum"), "Sixth Test Topic",
-				asList(new Post[] { new Post("Sixth Test Body") }));
+		topic = new TopicBean(new ForumBean("Third Test Forum"), "Sixth Test Topic",
+				asList(new PostBean[] { new PostBean("Sixth Test Body") }));
 		message = removeTopic(driver, topic);
 		assertTrue(message.equals(OK));
-		message = removeForum(driver, new Forum("First Test Forum"), "Second Test Forum");
+		message = removeForum(driver, new ForumBean("First Test Forum"), "Second Test Forum");
 		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new Forum("Second Test Forum"), SELECT_FORUM_TYPE);
+		message = removeForum(driver, new ForumBean("Second Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeForum(driver, new Forum("Third Test Forum"), SELECT_FORUM_TYPE);
+		message = removeForum(driver, new ForumBean("Third Test Forum"), SELECT_FORUM_TYPE);
 		assertTrue(message.equals(REMOVED_FORUM_2_MESSAGE));
-		message = removeCategory(driver, new Category("First Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new Category("Second Test Category"), SELECT_CATEGORY_TYPE);
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 

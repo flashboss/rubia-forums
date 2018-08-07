@@ -38,9 +38,9 @@ import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.ThemeHelper;
 import it.vige.rubia.ui.action.PreferenceController;
 
@@ -63,9 +63,9 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	private PreferenceController userPreferences;
 
 	// Map<ForumId,LastPost>
-	private Map<Object, Post> forumsLastPosts;
+	private Map<Object, PostBean> forumsLastPosts;
 
-	private Collection<Forum> watchedForums;
+	private Collection<ForumBean> watchedForums;
 
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
@@ -80,8 +80,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -92,7 +91,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getWatchedTopics() {
+	public Collection<TopicBean> getWatchedTopics() {
 		if (watchedTopics == null) {
 			try {
 				Date lastLoginDate = getUserLastLoginDate(userModule, userProfileModule);
@@ -112,10 +111,9 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param watchedTopics
-	 *            the watched topics
+	 * @param watchedTopics the watched topics
 	 */
-	public void setWatchedTopics(Collection<Topic> watchedTopics) {
+	public void setWatchedTopics(Collection<TopicBean> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}
 
@@ -124,7 +122,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Forum> getWatchedForums() {
+	public Collection<ForumBean> getWatchedForums() {
 		if (watchedForums == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -139,10 +137,9 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param watchedForums
-	 *            the watched forums
+	 * @param watchedForums the watched forums
 	 */
-	public void setWatchedForums(Collection<Forum> watchedForums) {
+	public void setWatchedForums(Collection<ForumBean> watchedForums) {
 		this.watchedForums = watchedForums;
 	}
 
@@ -175,7 +172,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Post> getForumsLastPosts() {
+	public Map<Object, PostBean> getForumsLastPosts() {
 		if (forumsLastPosts == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -191,17 +188,16 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param forumsLastPosts
-	 *            the forums last posts
+	 * @param forumsLastPosts the forums last posts
 	 */
-	public void setForumsLastPosts(Map<Object, Post> forumsLastPosts) {
+	public void setForumsLastPosts(Map<Object, PostBean> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
 	public String getLastPostSubject(int id) {
-		Post post = (Post) getForumsLastPosts().get(id);
+		PostBean post = (PostBean) getForumsLastPosts().get(id);
 		if (post != null) {
 			String subject = post.getMessage().getSubject();
 			return truncate(subject, 25);
@@ -217,16 +213,16 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 
 		try {
 			super.execute();
-			Collection<Forum> forums = getWatchedForums();
+			Collection<ForumBean> forums = getWatchedForums();
 			Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);
 
-			for (Forum currentForum : forums) {
+			for (ForumBean currentForum : forums) {
 
 				// setup folderLook based on whats specified in the theme
 				String folderImage = themeHelper.getResourceForumURL();
 				String folderAlt = "No_new_posts"; // bundle key
 				if (forumsLastPosts != null && forumsLastPosts.containsKey(currentForum.getId())) {
-					Post lastPost = forumsLastPosts.get(currentForum.getId());
+					PostBean lastPost = forumsLastPosts.get(currentForum.getId());
 					Date lastPostDate = lastPost.getCreateDate();
 					if (lastPostDate != null && userLastLogin != null && lastPostDate.compareTo(userLastLogin) > 0) {
 						folderAlt = "New_posts"; // bundle key

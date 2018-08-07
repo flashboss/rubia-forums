@@ -36,7 +36,7 @@ import org.jboss.logging.Logger;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Category;
+import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.action.PreferenceController;
 
@@ -57,7 +57,7 @@ public class ViewJumpbox extends BaseController {
 	@Inject
 	private PreferenceController userPreferences;
 
-	private List<Category> categories;
+	private List<CategoryBean> categories;
 
 	private String redirectUrl;
 
@@ -75,8 +75,7 @@ public class ViewJumpbox extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -84,7 +83,7 @@ public class ViewJumpbox extends BaseController {
 
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public List<Category> getCategories() {
+	public List<CategoryBean> getCategories() {
 		if (categories != null) {
 			return categories;
 		}

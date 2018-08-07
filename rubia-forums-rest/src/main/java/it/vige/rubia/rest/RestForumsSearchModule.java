@@ -22,8 +22,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.model.Post;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.search.ForumsSearchModule;
 import it.vige.rubia.search.ResultPage;
 import it.vige.rubia.search.SearchCriteria;
@@ -39,7 +39,7 @@ public class RestForumsSearchModule implements ForumsSearchModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ResultPage<Post> findPosts(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<PostBean> findPosts(SearchCriteria criteria) throws ModuleException {
 		// TODO Auto-generated method stub
 		return forumsSearchModule.findPosts(criteria);
 	}
@@ -49,7 +49,7 @@ public class RestForumsSearchModule implements ForumsSearchModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ResultPage<Topic> findTopics(SearchCriteria criteria) throws ModuleException {
+	public ResultPage<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException {
 		// TODO Auto-generated method stub
 		return forumsSearchModule.findTopics(criteria);
 	}

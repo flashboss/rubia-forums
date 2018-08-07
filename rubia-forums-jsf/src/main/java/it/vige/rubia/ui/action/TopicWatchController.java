@@ -29,8 +29,8 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.TopicWatch;
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -58,7 +58,7 @@ public class TopicWatchController extends BaseController {
 	private int topicId;
 	private int watchType;
 	private boolean editMode;
-	private Topic topic;
+	private TopicBean topic;
 
 	/**
 	 * @return the current watch type
@@ -68,8 +68,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * @param watchType
-	 *            the current watch type
+	 * @param watchType the current watch type
 	 */
 	public void setWatchType(int watchType) {
 		this.watchType = watchType;
@@ -90,8 +89,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * @param topicId
-	 *            the current topic id
+	 * @param topicId the current topic id
 	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
@@ -100,21 +98,19 @@ public class TopicWatchController extends BaseController {
 	/**
 	 * @return the current topic
 	 */
-	public Topic getTopic() {
+	public TopicBean getTopic() {
 		return topic;
 	}
 
 	/**
-	 * @param topic
-	 *            the current topic
+	 * @param topic the current topic
 	 */
-	public void setTopic(Topic topic) {
+	public void setTopic(TopicBean topic) {
 		this.topic = topic;
 	}
 
 	/**
-	 * @param editMode
-	 *            the current edit mode
+	 * @param editMode the current edit mode
 	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
@@ -198,7 +194,7 @@ public class TopicWatchController extends BaseController {
 			}
 
 			// get the topic that must be activated for watching
-			Topic topic = forumsModule.findTopicById(topicId);
+			TopicBean topic = forumsModule.findTopicById(topicId);
 
 			// activate the watch for the selected topic
 			forumsModule.createWatch(getPoster(userModule, forumsModule), topic, watchType);
@@ -220,7 +216,7 @@ public class TopicWatchController extends BaseController {
 
 		try {
 
-			TopicWatch watch = forumsModule.findTopicWatchByUserAndTopic(getUser(userModule), topicId);
+			TopicWatchBean watch = forumsModule.findTopicWatchByUserAndTopic(getUser(userModule), topicId);
 			if (watch != null)
 				forumsModule.removeWatch(watch);
 
@@ -241,7 +237,7 @@ public class TopicWatchController extends BaseController {
 		}
 
 		try {
-			TopicWatch topicWatch = forumsModule.findTopicWatchByUserAndTopic(getUser(userModule), topicId);
+			TopicWatchBean topicWatch = forumsModule.findTopicWatchByUserAndTopic(getUser(userModule), topicId);
 			topicWatch.setMode(watchType);
 			forumsModule.update(topicWatch);
 			navState = "success";
@@ -253,8 +249,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	/**
-	 * When user cancels creating topic notification then this action is
-	 * executed.
+	 * When user cancels creating topic notification then this action is executed.
 	 * 
 	 * @return the name of the operation
 	 */
@@ -263,7 +258,7 @@ public class TopicWatchController extends BaseController {
 	}
 
 	public boolean isWatched() {
-		TopicWatch topicWatch = null;
+		TopicWatchBean topicWatch = null;
 
 		try {
 

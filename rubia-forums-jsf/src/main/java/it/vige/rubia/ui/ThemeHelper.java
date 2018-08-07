@@ -40,7 +40,7 @@ import javax.inject.Singleton;
 import it.vige.rubia.Constants;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
-import it.vige.rubia.model.Topic;
+import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.properties.TCCLXProperties;
 import it.vige.rubia.theme.FolderType;
 import it.vige.rubia.theme.ForumsTheme;
@@ -61,8 +61,8 @@ public class ThemeHelper {
 	private UserProfileModule userProfileModule;
 
 	/**
-	 * If number of posts in topic exceeds this value it means that this topic
-	 * is hot.
+	 * If number of posts in topic exceeds this value it means that this topic is
+	 * hot.
 	 */
 	public static final int hotThreshold = 10;
 
@@ -77,8 +77,7 @@ public class ThemeHelper {
 	private ForumsTheme theme;
 
 	/**
-	 * @throws Exception
-	 *             the error exception
+	 * @throws Exception the error exception
 	 */
 	public ThemeHelper() throws Exception {
 		// Start the theme
@@ -95,8 +94,7 @@ public class ThemeHelper {
 	}
 
 	/**
-	 * @param language
-	 *            the language to check
+	 * @param language the language to check
 	 * 
 	 * @return true if the requested language is supported
 	 */
@@ -107,8 +105,7 @@ public class ThemeHelper {
 	// method linked to facelet
 	// functions---------------------------------------------------------------------------------------------------------
 	/**
-	 * @param urlKey
-	 *            the id of the requested url
+	 * @param urlKey the id of the requested url
 	 *
 	 * @return the requested url
 	 */
@@ -157,15 +154,13 @@ public class ThemeHelper {
 	}
 
 	/**
-	 * @param topic
-	 *            the topic to find
-	 * @param isAnonymous
-	 *            true if you want search the guest folder url
+	 * @param topic       the topic to find
+	 * @param isAnonymous true if you want search the guest folder url
 	 * 
 	 * @return the folder type url
 	 *
 	 */
-	public String getFolderTypeURL(Topic topic, boolean isAnonymous) {
+	public String getFolderTypeURL(TopicBean topic, boolean isAnonymous) {
 		String folderTypeURL = getURL("resourceFolderURL");
 
 		FolderType folderType = theme.getFolderType(topic.getType(), topic.getStatus(),
@@ -188,13 +183,12 @@ public class ThemeHelper {
 	}
 
 	/**
-	 * @param topic
-	 *            the topic to find
+	 * @param topic the topic to find
 	 * 
 	 * @return the folder type
 	 * 
 	 */
-	public String getFolderType(Topic topic) {
+	public String getFolderType(TopicBean topic) {
 
 		// Getting ResourceBundle with current Locale
 		FacesContext ctx = getCurrentInstance();

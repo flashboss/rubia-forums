@@ -77,7 +77,7 @@
 		<function-name>votePercent</function-name>
 		<function-class>it.vige.rubia.PortalUtil</function-class>
 		<function-signature>java.lang.String
-			getVotePercent(it.vige.rubia.model.Poll,it.vige.rubia.model.PollOption,
+			getVotePercent(it.vige.rubia.dto.PollBean,it.vige.rubia.dto.PollOptionBean,
 			int)</function-signature>
 	</function>
 

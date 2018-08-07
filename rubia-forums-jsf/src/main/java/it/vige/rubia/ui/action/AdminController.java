@@ -16,17 +16,6 @@ package it.vige.rubia.ui.action;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static it.vige.rubia.ui.JSFUtil.setMessage;
-import it.vige.rubia.ForumsModule;
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.AuthorizationListener;
-import it.vige.rubia.auth.SecureActionForum;
-import it.vige.rubia.model.Category;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.ForumInstance;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.ForumUtil;
-import it.vige.rubia.ui.view.ViewForum;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,6 +26,18 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+
+import it.vige.rubia.ForumsModule;
+import it.vige.rubia.ModuleException;
+import it.vige.rubia.auth.AuthorizationListener;
+import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.ForumInstanceBean;
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.ui.BaseController;
+import it.vige.rubia.ui.ForumUtil;
+import it.vige.rubia.ui.view.ViewForum;
 
 /**
  * 
@@ -245,7 +246,7 @@ public class AdminController extends BaseController {
 				categoryId = Integer.parseInt(cour);
 			}
 			if (categoryId != -1) {
-				Category category = null;
+				CategoryBean category = null;
 				try {
 					category = forumsModule.findCategoryById(categoryId);
 				} catch (ModuleException e) {
@@ -265,7 +266,7 @@ public class AdminController extends BaseController {
 				forumId = Integer.parseInt(forumIdStr);
 			}
 			if (forumId != -1) {
-				Forum forum = null;
+				ForumBean forum = null;
 				try {
 					forum = forumsModule.findForumById(forumId);
 				} catch (ModuleException e) {
@@ -321,7 +322,7 @@ public class AdminController extends BaseController {
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
 			// add this new category to the forum instance
-			ForumInstance forumInstance = forumsModule.findForumInstanceById(forumInstanceId);
+			ForumInstanceBean forumInstance = forumsModule.findForumInstanceById(forumInstanceId);
 
 			forumsModule.createCategory(categoryName, forumInstance);
 
@@ -358,7 +359,7 @@ public class AdminController extends BaseController {
 			}
 
 			// grab the category from the module and set the title
-			Category category = forumsModule.findCategoryById(categoryId);
+			CategoryBean category = forumsModule.findCategoryById(categoryId);
 			category.setTitle(categoryName);
 			forumsModule.update(category);
 
@@ -394,11 +395,11 @@ public class AdminController extends BaseController {
 			}
 
 			// grab the category from the module and set the title
-			Category source = forumsModule.findCategoryById(categoryId);
+			CategoryBean source = forumsModule.findCategoryById(categoryId);
 
 			if (selectedCategory != -1) {
 
-				Category target = forumsModule.findCategoryById(selectedCategory);
+				CategoryBean target = forumsModule.findCategoryById(selectedCategory);
 
 				// move all the forums from source category to the selected
 				// target category
@@ -437,7 +438,7 @@ public class AdminController extends BaseController {
 		boolean success = false;
 		try {
 			// add this new forum to the category
-			Category category = forumsModule.findCategoryById(selectedCategory);
+			CategoryBean category = forumsModule.findCategoryById(selectedCategory);
 			forumsModule.createForum(category, forumName, forumDescription);
 
 			String start = getBundleMessage("ResourceJSF", "Forum_created_0");
@@ -471,8 +472,8 @@ public class AdminController extends BaseController {
 			}
 
 			// grab the forum from the module and set the proper information
-			Forum forum = forumsModule.findForumById(forumId);
-			Category selectedCategory = forumsModule.findCategoryById(this.selectedCategory);
+			ForumBean forum = forumsModule.findForumById(forumId);
+			CategoryBean selectedCategory = forumsModule.findCategoryById(this.selectedCategory);
 			forum.setCategory(selectedCategory);
 			forum.setName(forumName);
 			forum.setDescription(forumDescription);
@@ -508,23 +509,23 @@ public class AdminController extends BaseController {
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
-			Forum source = null;
+			ForumBean source = null;
 			// move all the topics/posts of this forum to the specified target
 			// forum
 			if (selectedForum != -1) {
 				source = forumsModule.findForumByIdFetchTopics(forumId);
-				Forum target = forumsModule.findForumByIdFetchTopics(selectedForum);
+				ForumBean target = forumsModule.findForumByIdFetchTopics(selectedForum);
 				target.getTopics().addAll(source.getTopics());
 				target.setPostCount(target.getPostCount() + source.getPostCount());
 				target.setTopicCount(target.getTopicCount() + source.getTopicCount());
 				forumsModule.update(target);
-				for (Topic tp : target.getTopics()) {
+				for (TopicBean tp : target.getTopics()) {
 					tp.setForum(target);
 					forumsModule.update(tp);
 				}
 
 				// clear the source out before delete
-				source.setTopics(new ArrayList<Topic>());
+				source.setTopics(new ArrayList<TopicBean>());
 				forumsModule.update(source);
 			} else {
 				source = forumsModule.findForumById(forumId);
@@ -564,14 +565,14 @@ public class AdminController extends BaseController {
 				categoryId = Integer.parseInt(cour);
 			}
 
-			Category category = forumsModule.findCategoryById(categoryId);
+			CategoryBean category = forumsModule.findCategoryById(categoryId);
 			category.setOrder(category.getOrder() + up);
 			forumsModule.update(category);
 
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			Iterator<Category> categories = forumsModule.findCategories(forumInstanceId).iterator();
+			Iterator<CategoryBean> categories = forumsModule.findCategories(forumInstanceId).iterator();
 
 			for (int index = 10; categories.hasNext(); index += 10) {
 				category = categories.next();
@@ -598,14 +599,14 @@ public class AdminController extends BaseController {
 				categoryId = Integer.parseInt(cour);
 			}
 
-			Category category = forumsModule.findCategoryById(categoryId);
+			CategoryBean category = forumsModule.findCategoryById(categoryId);
 			category.setOrder(category.getOrder() + down);
 			forumsModule.update(category);
 
 			// get the forumInstanceId where this forum should be added
 			int forumInstanceId = userPreferences.getForumInstanceId();
 
-			Iterator<Category> categories = forumsModule.findCategories(forumInstanceId).iterator();
+			Iterator<CategoryBean> categories = forumsModule.findCategories(forumInstanceId).iterator();
 
 			for (int index = 10; categories.hasNext(); index += 10) {
 				category = categories.next();
@@ -632,10 +633,10 @@ public class AdminController extends BaseController {
 				forumId = Integer.parseInt(cour);
 			}
 
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 			forum.setOrder(forum.getOrder() + up);
 			forumsModule.update(forum);
-			Iterator<Forum> forums = forumsModule.findForumsByCategory(forum.getCategory()).iterator();
+			Iterator<ForumBean> forums = forumsModule.findForumsByCategory(forum.getCategory()).iterator();
 			for (int index = 10; forums.hasNext(); index += 10) {
 				forum = forums.next();
 				forum.setOrder(index);
@@ -661,10 +662,10 @@ public class AdminController extends BaseController {
 				forumId = Integer.parseInt(cour);
 			}
 
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 			forum.setOrder(forum.getOrder() + down);
 			forumsModule.update(forum);
-			Iterator<Forum> forums = forumsModule.findForumsByCategory(forum.getCategory()).iterator();
+			Iterator<ForumBean> forums = forumsModule.findForumsByCategory(forum.getCategory()).iterator();
 			for (int index = 10; forums.hasNext(); index += 10) {
 				forum = forums.next();
 				forum.setOrder(index);
@@ -688,7 +689,7 @@ public class AdminController extends BaseController {
 				forumId = Integer.parseInt(cour);
 			}
 
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 			forum.setStatus(FORUM_LOCKED);
 			forumsModule.update(forum);
 			String message = getBundleMessage("ResourceJSF", "Forum_locked");
@@ -715,7 +716,7 @@ public class AdminController extends BaseController {
 				forumId = Integer.parseInt(cour);
 			}
 
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 			forum.setStatus(FORUM_UNLOCKED);
 			forumsModule.update(forum);
 			String message = getBundleMessage("ResourceJSF", "Forum_unlocked");

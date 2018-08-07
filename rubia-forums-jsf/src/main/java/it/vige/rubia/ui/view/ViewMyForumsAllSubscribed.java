@@ -30,8 +30,8 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Topic;
-import it.vige.rubia.model.Watch;
+import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.action.PreferenceController;
 
 @Named("myForumsAll")
@@ -50,7 +50,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	private PreferenceController userPreferences;
 
 	private int topicId;
-	private Watch watch;
+	private WatchBean watch;
 	private Map<Object, Object> topicWatches;
 
 	@PostConstruct
@@ -93,7 +93,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	/**
 	 * @return the current watch
 	 */
-	public Watch getWatch() {
+	public WatchBean getWatch() {
 		return watch;
 	}
 
@@ -101,7 +101,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 * @param watch
 	 *            the current watch to set
 	 */
-	public void setWatch(Watch watch) {
+	public void setWatch(WatchBean watch) {
 		this.watch = watch;
 	}
 
@@ -125,7 +125,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Collection<Topic> getWatchedTopics() {
+	public Collection<TopicBean> getWatchedTopics() {
 		if (watchedTopics == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -162,7 +162,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 * @param watchedTopics
 	 *            the watched topics to set
 	 */
-	public void setWatchedTopics(Collection<Topic> watchedTopics) {
+	public void setWatchedTopics(Collection<TopicBean> watchedTopics) {
 		this.watchedTopics = watchedTopics;
 	}
 

@@ -15,7 +15,7 @@ package it.vige.rubia.theme;
 
 import static it.vige.rubia.Constants.TOPIC_LOCKED;
 
-import it.vige.rubia.model.TopicType;
+import it.vige.rubia.dto.TopicType;
 import it.vige.rubia.properties.XProperties;
 
 /**

@@ -34,11 +34,11 @@ import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.Message;
-import it.vige.rubia.model.Poll;
-import it.vige.rubia.model.PollOption;
-import it.vige.rubia.model.Poster;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.MessageBean;
+import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PosterBean;
 
 //myfaces
 
@@ -109,22 +109,22 @@ public class NewTopic extends PostAction {
 		boolean success = false;
 		try {
 			// setup the message
-			Message message = createMessage();
+			MessageBean message = createMessage();
 			message.setText(removeBorder(this.message));
 			message.setSubject(subject);
 
 			// setup the forum and the corresponding poster
-			Forum forum = forumsModule.findForumById(forumId);
-			Poster poster = getPoster(userModule, forumsModule);
+			ForumBean forum = forumsModule.findForumById(forumId);
+			PosterBean poster = getPoster(userModule, forumsModule);
 
 			// setup the poll related information
-			Poll poll = createPoll();
+			PollBean poll = createPoll();
 			if (question != null && question.trim().length() > 0) {
 				poll.setTitle(question);
 				poll.setLength(activeDuration);
-				List<PollOption> pollOptions = new LinkedList<PollOption>();
+				List<PollOptionBean> pollOptions = new LinkedList<PollOptionBean>();
 				for (String option : options.keySet()) {
-					PollOption pollOption = createPollOption(poll);
+					PollOptionBean pollOption = createPollOption(poll);
 					pollOption.setQuestion((String) options.get(option));
 					pollOption.setVotes(0);
 					pollOptions.add(pollOption);

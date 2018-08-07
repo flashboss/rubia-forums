@@ -30,9 +30,9 @@ import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
-import it.vige.rubia.model.Forum;
-import it.vige.rubia.model.ForumWatch;
-import it.vige.rubia.model.Watch;
+import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.ForumWatchBean;
+import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.BaseController;
 
 /**
@@ -60,7 +60,7 @@ public class ForumWatchController extends BaseController {
 	// ui data supporting the AddForumWatch widget
 	private int selectedForum = -1;
 	private int watchMode = -1;
-	private Forum forum = null;
+	private ForumBean forum = null;
 
 	// flag informing UI that notification edit mode is turned on
 	private boolean editMode;
@@ -73,8 +73,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * @param selectedForum
-	 *            The selectedForum to set.
+	 * @param selectedForum The selectedForum to set.
 	 */
 	public void setSelectedForum(int selectedForum) {
 		this.selectedForum = selectedForum;
@@ -83,15 +82,14 @@ public class ForumWatchController extends BaseController {
 	/**
 	 * @return the current forum
 	 */
-	public Forum getForum() {
+	public ForumBean getForum() {
 		return forum;
 	}
 
 	/**
-	 * @param forum
-	 *            the forum to watch
+	 * @param forum the forum to watch
 	 */
-	public void setForum(Forum forum) {
+	public void setForum(ForumBean forum) {
 		this.forum = forum;
 	}
 
@@ -103,8 +101,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * @param watchMode
-	 *            The watchMode to set.
+	 * @param watchMode The watchMode to set.
 	 */
 	public void setWatchMode(int watchMode) {
 		this.watchMode = watchMode;
@@ -118,8 +115,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * @param editMode
-	 *            the edit mode of the context
+	 * @param editMode the edit mode of the context
 	 */
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
@@ -207,7 +203,7 @@ public class ForumWatchController extends BaseController {
 			}
 
 			// get the forum that must be activated for watching
-			Forum forum = forumsModule.findForumById(forumId);
+			ForumBean forum = forumsModule.findForumById(forumId);
 
 			// activate the watch for the selected forum
 			forumsModule.createWatch(getPoster(userModule, forumsModule), forum, watchMode);
@@ -237,7 +233,7 @@ public class ForumWatchController extends BaseController {
 				String f = getRequestParameter(p_forumId);
 				if (f != null && f.trim().length() > 0) {
 					int forumId = parseInt(f);
-					ForumWatch forumWatch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), forumId);
+					ForumWatchBean forumWatch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), forumId);
 					watchId = forumWatch != null ? forumWatch.getId().intValue() : -1;
 				}
 			}
@@ -269,7 +265,7 @@ public class ForumWatchController extends BaseController {
 		}
 
 		try {
-			ForumWatch forumWatch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), selectedForum);
+			ForumWatchBean forumWatch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), selectedForum);
 			forumWatch.setMode(watchMode);
 			forumsModule.update(forumWatch);
 		} catch (Exception e) {
@@ -280,8 +276,7 @@ public class ForumWatchController extends BaseController {
 	}
 
 	/**
-	 * When user cancels creating forum notification then this action is
-	 * executed.
+	 * When user cancels creating forum notification then this action is executed.
 	 * 
 	 * @return the name of the operation
 	 */
@@ -298,14 +293,13 @@ public class ForumWatchController extends BaseController {
 
 	// --------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param the
-	 *            forum id to check
+	 * @param the forum id to check
 	 *
 	 * @return true if the forum has duplicate watches
 	 */
 	private boolean isDuplicateWatch(int forumId) {
 		try {
-			ForumWatch watch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), selectedForum);
+			ForumWatchBean watch = forumsModule.findForumWatchByUserAndForum(getUser(userModule), selectedForum);
 			return watch != null;
 		} catch (Exception e) {
 			handleException(e);
@@ -332,7 +326,7 @@ public class ForumWatchController extends BaseController {
 				return null;
 			}
 
-			Watch watch = forumsModule.findForumWatchByUserAndForum(user, forum.getId());
+			WatchBean watch = forumsModule.findForumWatchByUserAndForum(user, forum.getId());
 
 			if (watch != null) {
 				return watch.getId().toString();
