@@ -125,6 +125,15 @@ public class CategoryBean implements Serializable {
 	}
 
 	/**
+	 * DOCUMENT_ME
+	 * 
+	 * @param id DOCUMENT_ME
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
 	 * Accessors to manage ForumInstance field so Category is tied to the Forum
 	 * Instance. Now each category belong to a Forum Instance so that we can to get
 	 * different instances of forums with different categories and different sub

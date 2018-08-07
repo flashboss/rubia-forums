@@ -93,6 +93,15 @@ public class Poll implements Serializable {
 	}
 
 	/**
+	 * DOCUMENT_ME
+	 * 
+	 * @param id DOCUMENT_ME
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
 	 * 
 	 * @param string
 	 *            the title of the poll

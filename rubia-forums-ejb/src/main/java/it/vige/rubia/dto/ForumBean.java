@@ -119,6 +119,15 @@ public class ForumBean implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
+	 * @param id DOCUMENT_ME
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * DOCUMENT_ME
+	 * 
 	 * @param lastPost DOCUMENT_ME
 	 */
 	public void setLastPost(PostBean lastPost) {

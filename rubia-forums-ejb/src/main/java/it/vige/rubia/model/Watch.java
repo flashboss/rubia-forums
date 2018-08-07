@@ -72,6 +72,15 @@ public class Watch implements Serializable {
 	}
 
 	/**
+	 * DOCUMENT_ME
+	 * 
+	 * @param id DOCUMENT_ME
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
 	 * @return the poster of the watch
 	 */
 	public Poster getPoster() {
