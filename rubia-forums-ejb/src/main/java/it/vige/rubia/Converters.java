@@ -69,6 +69,7 @@ public interface Converters {
 			ForumInstanceBean forumInstanceBean = new ForumInstanceBean();
 			forumInstanceBean.setId(t.getForumInstance().getId());
 			CategoryBean category = new CategoryBean(t.getTitle());
+			category.setId(t.getId());
 			category.setForumInstance(forumInstanceBean);
 			List<Forum> forums = t.getForums();
 			if (forums != null) {
@@ -92,6 +93,7 @@ public interface Converters {
 			ForumInstance forumInstance = new ForumInstance();
 			forumInstance.setId(t.getForumInstance().getId());
 			Category category = new Category(t.getTitle());
+			category.setId(t.getId());
 			category.setForumInstance(forumInstance);
 			List<ForumBean> forumBeans = t.getForums();
 			if (forumBeans != null) {
@@ -115,6 +117,7 @@ public interface Converters {
 			CategoryBean categoryBean = new CategoryBean();
 			categoryBean.setId(t.getCategory().getId());
 			ForumBean forum = new ForumBean(t.getName(), t.getDescription(), categoryBean);
+			forum.setId(t.getId());
 			Collection<Watch> forumWatches = t.getForumWatch();
 			if (forumWatches != null) {
 				List<WatchBean> watchBeans = new ArrayList<WatchBean>();
@@ -162,6 +165,7 @@ public interface Converters {
 			Category category = new Category();
 			category.setId(t.getCategory().getId());
 			Forum forum = new Forum(t.getName(), t.getDescription(), category);
+			forum.setId(t.getId());
 			Collection<WatchBean> forumWatchBeans = t.getForumWatch();
 			if (forumWatchBeans != null) {
 				List<Watch> watches = new ArrayList<Watch>();
@@ -249,6 +253,7 @@ public interface Converters {
 
 		public ForumWatchBean apply(ForumWatch t) {
 			ForumWatchBean forumWatch = new ForumWatchBean();
+			forumWatch.setId(t.getId());
 			ForumBean forumBean = new ForumBean();
 			forumBean.setId(t.getForum().getId());
 			forumWatch.setForum(forumBean);
@@ -265,6 +270,7 @@ public interface Converters {
 
 		public ForumWatch apply(ForumWatchBean t) {
 			ForumWatch forumWatch = new ForumWatch();
+			forumWatch.setId(t.getId());
 			Forum forum = new Forum();
 			forum.setId(t.getForum().getId());
 			forumWatch.setForum(forum);
@@ -319,8 +325,9 @@ public interface Converters {
 				}
 			}
 			PollBean poll = new PollBean(t.getTitle(), pollOptionBeans, t.getLength());
+			poll.setId(t.getId());
 			poll.setCreationDate(t.getCreationDate());
-			poll.setTitle(t.getTitle());
+			poll.setVoted(t.getVoted());
 
 			return poll;
 		}
@@ -341,7 +348,8 @@ public interface Converters {
 			}
 			Poll poll = new Poll(t.getTitle(), pollOptions, t.getLength());
 			poll.setCreationDate(t.getCreationDate());
-			poll.setTitle(t.getTitle());
+			poll.setId(t.getId());
+			poll.setVoted(t.getVoted());
 
 			return poll;
 		}
@@ -581,6 +589,7 @@ public interface Converters {
 			topicBean.setId(t.getTopic().getId());
 			topicWatch.setTopic(topicBean);
 			topicWatch.setMode(t.getMode());
+			topicWatch.setId(t.getId());
 			PosterBean posterBean = new PosterBean();
 			posterBean.setId(t.getPoster().getId());
 			topicWatch.setPoster(posterBean);
@@ -597,6 +606,7 @@ public interface Converters {
 			topic.setId(t.getTopic().getId());
 			topicWatch.setTopic(topic);
 			topicWatch.setMode(t.getMode());
+			topicWatch.setId(t.getId());
 			Poster poster = new Poster();
 			poster.setId(t.getPoster().getId());
 			topicWatch.setPoster(poster);
@@ -610,6 +620,7 @@ public interface Converters {
 		public WatchBean apply(Watch t) {
 			WatchBean watch = new WatchBean();
 			watch.setMode(t.getMode());
+			watch.setId(t.getId());
 			PosterBean posterBean = new PosterBean();
 			posterBean.setId(t.getPoster().getId());
 			watch.setPoster(posterBean);
@@ -623,6 +634,7 @@ public interface Converters {
 		public Watch apply(WatchBean t) {
 			Watch watch = new Watch();
 			watch.setMode(t.getMode());
+			watch.setId(t.getId());
 			Poster poster = new Poster();
 			poster.setId(t.getPoster().getId());
 			watch.setPoster(poster);

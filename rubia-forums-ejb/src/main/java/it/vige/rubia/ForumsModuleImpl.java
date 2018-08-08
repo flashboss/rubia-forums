@@ -303,7 +303,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Forum> query = em.createNamedQuery("findForumsByCategoryId", Forum.class);
-			query.setParameter("categoryId", category);
+			query.setParameter("categoryId", CategoryBeanToCategory.apply(category));
 			return query.getResultList().stream().map(t -> ForumToForumBean.apply(t)).collect(toList());
 		} catch (Exception e) {
 			String message = "Cannot find forums";
@@ -359,7 +359,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			TypedQuery<Topic> query = em.createNamedQuery("findTopicsType" + order, Topic.class);
 			query.setFirstResult(start);
 			query.setMaxResults(perPage);
-			query.setParameter("forumid", forum);
+			query.setParameter("forumid", ForumBeanToForum.apply(forum));
 			query.setParameter("type", type);
 			List<Topic> list = query.getResultList();
 			return list.stream().map(t -> TopicToTopicBean.apply(t)).collect(toList());
@@ -384,7 +384,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			TypedQuery<Topic> query = em.createNamedQuery("findTopicsForum" + order, Topic.class);
 			query.setFirstResult(start);
 			query.setMaxResults(perPage);
-			query.setParameter("forumid", forum);
+			query.setParameter("forumid", ForumBeanToForum.apply(forum));
 			List<Topic> list = query.getResultList();
 			return list.stream().map(t -> TopicToTopicBean.apply(t)).collect(toList());
 		} catch (Exception e) {
@@ -808,7 +808,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			try {
 
 				TypedQuery<Topic> query = em.createNamedQuery("findTopicsForumNoOrder", Topic.class);
-				query.setParameter("forumid", forum);
+				query.setParameter("forumid", ForumBeanToForum.apply(forum));
 				return query.getResultList().stream().map(t -> TopicToTopicBean.apply(t)).collect(toList());
 			} catch (Exception e) {
 				String message = "Cannot find topics";
@@ -880,7 +880,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Post> query = em.createNamedQuery("findPostsByTopicId" + order, Post.class);
-			query.setParameter("topicId", topic);
+			query.setParameter("topicId", TopicBeanToTopic.apply(topic));
 			query.setFirstResult(start);
 			if (limit != 0) {
 				query.setMaxResults(limit);
@@ -936,7 +936,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Integer> query = em.createNamedQuery("findPostIds" + order, Integer.class);
-			query.setParameter("topicId", topic);
+			query.setParameter("topicId", TopicBeanToTopic.apply(topic));
 			query.setFirstResult(start);
 			if (limit != 0) {
 				query.setMaxResults(limit);
@@ -963,7 +963,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Post> query = em.createNamedQuery("findPostsByTopicIdNoOrder", Post.class);
-			query.setParameter("topicId", topic);
+			query.setParameter("topicId", TopicBeanToTopic.apply(topic));
 			return query.getResultList().stream().map(t -> PostToPostBean.apply(t)).collect(toList());
 		} catch (Exception e) {
 			String message = "Cannot find posts";
