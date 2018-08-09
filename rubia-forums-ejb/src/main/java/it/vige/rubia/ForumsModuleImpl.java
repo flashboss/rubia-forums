@@ -521,7 +521,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			forum.addTopicSize();
 			forum.addPostSize();
-			em.merge(forum);
+			em.merge(ForumBeanToForum.apply(forum));
 			post.setTopic(topic);
 			em.persist(post);
 
@@ -1092,7 +1092,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = (Object[]) posts.get(index);
-				forumPostMap.put(dateTopic[1], datePostPair[1]);
+				forumPostMap.put(dateTopic[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {
