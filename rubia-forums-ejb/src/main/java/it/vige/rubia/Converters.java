@@ -40,606 +40,690 @@ public interface Converters {
 	Function<Attachment, AttachmentBean> AttachmentToAttachmentBean = new Function<Attachment, AttachmentBean>() {
 
 		public AttachmentBean apply(Attachment t) {
-			PostBean post = new PostBean();
-			post.setId(t.getPost().getId());
-			AttachmentBean attachment = new AttachmentBean(t.getName(), t.getComment(), t.getContent(), post,
-					t.getContentType(), t.getSize());
-			attachment.setId(t.getId());
+			if (t != null) {
+				PostBean post = new PostBean();
+				post.setId(t.getPost().getId());
+				AttachmentBean attachment = new AttachmentBean(t.getName(), t.getComment(), t.getContent(), post,
+						t.getContentType(), t.getSize());
+				attachment.setId(t.getId());
 
-			return attachment;
+				return attachment;
+			} else
+				return null;
 		}
 	};
 
 	Function<AttachmentBean, Attachment> AttachmentBeanToAttachment = new Function<AttachmentBean, Attachment>() {
 
 		public Attachment apply(AttachmentBean t) {
-			Post post = new Post();
-			post.setId(t.getPost().getId());
-			Attachment attachment = new Attachment(t.getName(), t.getComment(), t.getContent(), post,
-					t.getContentType(), t.getSize());
-			attachment.setId(t.getId());
+			if (t != null) {
+				Post post = new Post();
+				post.setId(t.getPost().getId());
+				Attachment attachment = new Attachment(t.getName(), t.getComment(), t.getContent(), post,
+						t.getContentType(), t.getSize());
+				attachment.setId(t.getId());
 
-			return attachment;
+				return attachment;
+			} else
+				return null;
 		}
 	};
 
 	Function<Category, CategoryBean> CategoryToCategoryBean = new Function<Category, CategoryBean>() {
 
 		public CategoryBean apply(Category t) {
-			ForumInstanceBean forumInstanceBean = new ForumInstanceBean();
-			forumInstanceBean.setId(t.getForumInstance().getId());
-			CategoryBean category = new CategoryBean(t.getTitle());
-			category.setId(t.getId());
-			category.setForumInstance(forumInstanceBean);
-			List<Forum> forums = t.getForums();
-			if (forums != null) {
-				List<ForumBean> forumBeans = new ArrayList<ForumBean>();
-				for (Forum forum : forums) {
-					ForumBean forumBean = new ForumBean();
-					forumBean.setId(forum.getId());
-					forumBeans.add(forumBean);
+			if (t != null) {
+				ForumInstanceBean forumInstanceBean = new ForumInstanceBean();
+				forumInstanceBean.setId(t.getForumInstance().getId());
+				CategoryBean category = new CategoryBean(t.getTitle());
+				category.setId(t.getId());
+				category.setForumInstance(forumInstanceBean);
+				List<Forum> forums = t.getForums();
+				if (forums != null) {
+					List<ForumBean> forumBeans = new ArrayList<ForumBean>();
+					for (Forum forum : forums) {
+						ForumBean forumBean = new ForumBean();
+						forumBean.setId(forum.getId());
+						forumBeans.add(forumBean);
+					}
+					category.setForums(forumBeans);
 				}
-				category.setForums(forumBeans);
-			}
-			category.setOrder(t.getOrder());
+				category.setOrder(t.getOrder());
 
-			return category;
+				return category;
+			} else
+				return null;
 		}
 	};
 
 	Function<CategoryBean, Category> CategoryBeanToCategory = new Function<CategoryBean, Category>() {
 
 		public Category apply(CategoryBean t) {
-			ForumInstance forumInstance = new ForumInstance();
-			forumInstance.setId(t.getForumInstance().getId());
-			Category category = new Category(t.getTitle());
-			category.setId(t.getId());
-			category.setForumInstance(forumInstance);
-			List<ForumBean> forumBeans = t.getForums();
-			if (forumBeans != null) {
-				List<Forum> forums = new ArrayList<Forum>();
-				for (ForumBean forumBean : forumBeans) {
-					Forum forum = new Forum();
-					forum.setId(forumBean.getId());
-					forums.add(forum);
+			if (t != null) {
+				ForumInstance forumInstance = new ForumInstance();
+				forumInstance.setId(t.getForumInstance().getId());
+				Category category = new Category(t.getTitle());
+				category.setId(t.getId());
+				category.setForumInstance(forumInstance);
+				List<ForumBean> forumBeans = t.getForums();
+				if (forumBeans != null) {
+					List<Forum> forums = new ArrayList<Forum>();
+					for (ForumBean forumBean : forumBeans) {
+						Forum forum = new Forum();
+						forum.setId(forumBean.getId());
+						forums.add(forum);
+					}
+					category.setForums(forums);
 				}
-				category.setForums(forums);
-			}
-			category.setOrder(t.getOrder());
+				category.setOrder(t.getOrder());
 
-			return category;
+				return category;
+			} else
+				return null;
 		}
 	};
 
 	Function<Forum, ForumBean> ForumToForumBean = new Function<Forum, ForumBean>() {
 
 		public ForumBean apply(Forum t) {
-			CategoryBean categoryBean = new CategoryBean();
-			categoryBean.setId(t.getCategory().getId());
-			ForumBean forum = new ForumBean(t.getName(), t.getDescription(), categoryBean);
-			forum.setId(t.getId());
-			Collection<Watch> forumWatches = t.getForumWatch();
-			if (forumWatches != null) {
-				List<WatchBean> watchBeans = new ArrayList<WatchBean>();
-				for (Watch watch : forumWatches) {
-					WatchBean watchBean = new WatchBean();
-					watchBean.setId(watch.getId());
-					watchBeans.add(watchBean);
+			if (t != null) {
+				CategoryBean categoryBean = new CategoryBean();
+				categoryBean.setId(t.getCategory().getId());
+				ForumBean forum = new ForumBean(t.getName(), t.getDescription(), categoryBean);
+				forum.setId(t.getId());
+				Collection<Watch> forumWatches = t.getForumWatch();
+				if (forumWatches != null) {
+					List<WatchBean> watchBeans = new ArrayList<WatchBean>();
+					for (Watch watch : forumWatches) {
+						WatchBean watchBean = new WatchBean();
+						watchBean.setId(watch.getId());
+						watchBeans.add(watchBean);
+					}
+					forum.setForumWatch(watchBeans);
 				}
-				forum.setForumWatch(watchBeans);
-			}
-			forum.setOrder(t.getOrder());
-			forum.setPostCount(t.getPostCount());
-			forum.setPruneEnable(t.getPruneEnable());
-			forum.setPruneNext(t.getPruneNext());
-			forum.setStatus(t.getStatus());
-			forum.setTopicCount(t.getTopicCount());
-			Collection<Topic> topics = t.getTopics();
-			if (topics != null) {
-				List<TopicBean> topicBeans = new ArrayList<TopicBean>();
-				for (Topic topic : topics) {
-					TopicBean topicBean = new TopicBean();
-					topicBean.setId(topic.getId());
-					topicBeans.add(topicBean);
+				forum.setOrder(t.getOrder());
+				forum.setPostCount(t.getPostCount());
+				forum.setPruneEnable(t.getPruneEnable());
+				forum.setPruneNext(t.getPruneNext());
+				forum.setStatus(t.getStatus());
+				forum.setTopicCount(t.getTopicCount());
+				Collection<Topic> topics = t.getTopics();
+				if (topics != null) {
+					List<TopicBean> topicBeans = new ArrayList<TopicBean>();
+					for (Topic topic : topics) {
+						TopicBean topicBean = new TopicBean();
+						topicBean.setId(topic.getId());
+						topicBeans.add(topicBean);
+					}
+					forum.setTopics(topicBeans);
 				}
-				forum.setTopics(topicBeans);
-			}
-			Collection<Watch> watches = t.getWatches();
-			if (watches != null) {
-				List<WatchBean> watchBeans = new ArrayList<WatchBean>();
-				for (Watch watch : watches) {
-					WatchBean watchBean = new WatchBean();
-					watchBean.setId(watch.getId());
-					watchBeans.add(watchBean);
+				Collection<Watch> watches = t.getWatches();
+				if (watches != null) {
+					List<WatchBean> watchBeans = new ArrayList<WatchBean>();
+					for (Watch watch : watches) {
+						WatchBean watchBean = new WatchBean();
+						watchBean.setId(watch.getId());
+						watchBeans.add(watchBean);
+					}
+					forum.setWatches(watchBeans);
 				}
-				forum.setWatches(watchBeans);
-			}
 
-			return forum;
+				return forum;
+			} else
+				return null;
 		}
 	};
 
 	Function<ForumBean, Forum> ForumBeanToForum = new Function<ForumBean, Forum>() {
 
 		public Forum apply(ForumBean t) {
-			Category category = new Category();
-			category.setId(t.getCategory().getId());
-			Forum forum = new Forum(t.getName(), t.getDescription(), category);
-			forum.setId(t.getId());
-			Collection<WatchBean> forumWatchBeans = t.getForumWatch();
-			if (forumWatchBeans != null) {
-				List<Watch> watches = new ArrayList<Watch>();
-				for (WatchBean watchBean : forumWatchBeans) {
-					Watch watch = new Watch();
-					watch.setId(watchBean.getId());
-					watches.add(watch);
+			if (t != null) {
+				Category category = new Category();
+				category.setId(t.getCategory().getId());
+				Forum forum = new Forum(t.getName(), t.getDescription(), category);
+				forum.setId(t.getId());
+				Collection<WatchBean> forumWatchBeans = t.getForumWatch();
+				if (forumWatchBeans != null) {
+					List<Watch> watches = new ArrayList<Watch>();
+					for (WatchBean watchBean : forumWatchBeans) {
+						Watch watch = new Watch();
+						watch.setId(watchBean.getId());
+						watches.add(watch);
+					}
+					forum.setForumWatch(watches);
 				}
-				forum.setForumWatch(watches);
-			}
-			forum.setOrder(t.getOrder());
-			forum.setPostCount(t.getPostCount());
-			forum.setPruneEnable(t.getPruneEnable());
-			forum.setPruneNext(t.getPruneNext());
-			forum.setStatus(t.getStatus());
-			forum.setTopicCount(t.getTopicCount());
-			Collection<TopicBean> topicBeans = t.getTopics();
-			if (topicBeans != null) {
-				List<Topic> topics = new ArrayList<Topic>();
-				for (TopicBean topicBean : topicBeans) {
-					Topic topic = new Topic();
-					topic.setId(topicBean.getId());
-					topics.add(topic);
+				forum.setOrder(t.getOrder());
+				forum.setPostCount(t.getPostCount());
+				forum.setPruneEnable(t.getPruneEnable());
+				forum.setPruneNext(t.getPruneNext());
+				forum.setStatus(t.getStatus());
+				forum.setTopicCount(t.getTopicCount());
+				Collection<TopicBean> topicBeans = t.getTopics();
+				if (topicBeans != null) {
+					List<Topic> topics = new ArrayList<Topic>();
+					for (TopicBean topicBean : topicBeans) {
+						Topic topic = new Topic();
+						topic.setId(topicBean.getId());
+						topics.add(topic);
+					}
+					forum.setTopics(topics);
 				}
-				forum.setTopics(topics);
-			}
-			Collection<WatchBean> watchBeans = t.getWatches();
-			if (watchBeans != null) {
-				List<Watch> watches = new ArrayList<Watch>();
-				for (WatchBean watchBean : watchBeans) {
-					Watch watch = new Watch();
-					watch.setId(watchBean.getId());
-					watches.add(watch);
+				Collection<WatchBean> watchBeans = t.getWatches();
+				if (watchBeans != null) {
+					List<Watch> watches = new ArrayList<Watch>();
+					for (WatchBean watchBean : watchBeans) {
+						Watch watch = new Watch();
+						watch.setId(watchBean.getId());
+						watches.add(watch);
+					}
+					forum.setWatches(watches);
 				}
-				forum.setWatches(watches);
-			}
 
-			return forum;
+				return forum;
+			} else
+				return null;
 		}
 	};
 
 	Function<ForumInstance, ForumInstanceBean> ForumInstanceToForumInstanceBean = new Function<ForumInstance, ForumInstanceBean>() {
 
 		public ForumInstanceBean apply(ForumInstance t) {
-			ForumInstanceBean forumInstance = new ForumInstanceBean();
-			Collection<Category> categories = t.getCategories();
-			if (categories != null) {
-				List<CategoryBean> categoryBeans = new ArrayList<CategoryBean>();
-				for (Category category : categories) {
-					CategoryBean categoryBean = new CategoryBean();
-					categoryBean.setId(category.getId());
-					categoryBeans.add(categoryBean);
+			if (t != null) {
+				ForumInstanceBean forumInstance = new ForumInstanceBean();
+				Collection<Category> categories = t.getCategories();
+				if (categories != null) {
+					List<CategoryBean> categoryBeans = new ArrayList<CategoryBean>();
+					for (Category category : categories) {
+						CategoryBean categoryBean = new CategoryBean();
+						categoryBean.setId(category.getId());
+						categoryBeans.add(categoryBean);
+					}
+					forumInstance.setCategories(categoryBeans);
 				}
-				forumInstance.setCategories(categoryBeans);
-			}
-			forumInstance.setId(t.getId());
-			forumInstance.setName(t.getName());
+				forumInstance.setId(t.getId());
+				forumInstance.setName(t.getName());
 
-			return forumInstance;
+				return forumInstance;
+			} else
+				return null;
 		}
 	};
 
 	Function<ForumInstanceBean, ForumInstance> ForumInstanceBeanToForumInstance = new Function<ForumInstanceBean, ForumInstance>() {
 
 		public ForumInstance apply(ForumInstanceBean t) {
-			ForumInstance forumInstance = new ForumInstance();
-			Collection<CategoryBean> categoryBeans = t.getCategories();
-			if (categoryBeans != null) {
-				List<Category> categories = new ArrayList<Category>();
-				for (CategoryBean categoryBean : categoryBeans) {
-					Category category = new Category();
-					category.setId(categoryBean.getId());
-					categories.add(category);
+			if (t != null) {
+				ForumInstance forumInstance = new ForumInstance();
+				Collection<CategoryBean> categoryBeans = t.getCategories();
+				if (categoryBeans != null) {
+					List<Category> categories = new ArrayList<Category>();
+					for (CategoryBean categoryBean : categoryBeans) {
+						Category category = new Category();
+						category.setId(categoryBean.getId());
+						categories.add(category);
+					}
+					forumInstance.setCategories(categories);
 				}
-				forumInstance.setCategories(categories);
-			}
-			forumInstance.setId(t.getId());
-			forumInstance.setName(t.getName());
+				forumInstance.setId(t.getId());
+				forumInstance.setName(t.getName());
 
-			return forumInstance;
+				return forumInstance;
+			} else
+				return null;
 		}
 	};
 
 	Function<ForumWatch, ForumWatchBean> ForumWatchToForumWatchBean = new Function<ForumWatch, ForumWatchBean>() {
 
 		public ForumWatchBean apply(ForumWatch t) {
-			ForumWatchBean forumWatch = new ForumWatchBean();
-			forumWatch.setId(t.getId());
-			ForumBean forumBean = new ForumBean();
-			forumBean.setId(t.getForum().getId());
-			forumWatch.setForum(forumBean);
-			forumWatch.setMode(t.getMode());
-			PosterBean posterBean = new PosterBean();
-			posterBean.setId(t.getPoster().getId());
-			forumWatch.setPoster(posterBean);
+			if (t != null) {
+				ForumWatchBean forumWatch = new ForumWatchBean();
+				forumWatch.setId(t.getId());
+				ForumBean forumBean = new ForumBean();
+				forumBean.setId(t.getForum().getId());
+				forumWatch.setForum(forumBean);
+				forumWatch.setMode(t.getMode());
+				PosterBean posterBean = new PosterBean();
+				posterBean.setId(t.getPoster().getId());
+				forumWatch.setPoster(posterBean);
 
-			return forumWatch;
+				return forumWatch;
+			} else
+				return null;
 		}
 	};
 
 	Function<ForumWatchBean, ForumWatch> ForumWatchBeanToForumWatch = new Function<ForumWatchBean, ForumWatch>() {
 
 		public ForumWatch apply(ForumWatchBean t) {
-			ForumWatch forumWatch = new ForumWatch();
-			forumWatch.setId(t.getId());
-			Forum forum = new Forum();
-			forum.setId(t.getForum().getId());
-			forumWatch.setForum(forum);
-			forumWatch.setMode(t.getMode());
-			Poster poster = new Poster();
-			poster.setId(t.getPoster().getId());
-			forumWatch.setPoster(poster);
+			if (t != null) {
+				ForumWatch forumWatch = new ForumWatch();
+				forumWatch.setId(t.getId());
+				Forum forum = new Forum();
+				forum.setId(t.getForum().getId());
+				forumWatch.setForum(forum);
+				forumWatch.setMode(t.getMode());
+				Poster poster = new Poster();
+				poster.setId(t.getPoster().getId());
+				forumWatch.setPoster(poster);
 
-			return forumWatch;
+				return forumWatch;
+			} else
+				return null;
 		}
 	};
 
 	Function<Message, MessageBean> MessageToMessageBean = new Function<Message, MessageBean>() {
 
 		public MessageBean apply(Message t) {
-			MessageBean message = new MessageBean(t.getText());
-			message.setBBCodeEnabled(t.getBBCodeEnabled());
-			message.setHTMLEnabled(t.getHTMLEnabled());
-			message.setSignatureEnabled(t.getSignatureEnabled());
-			message.setSmiliesEnabled(t.getSmiliesEnabled());
-			message.setSubject(t.getSubject());
+			if (t != null) {
+				MessageBean message = new MessageBean(t.getText());
+				message.setBBCodeEnabled(t.getBBCodeEnabled());
+				message.setHTMLEnabled(t.getHTMLEnabled());
+				message.setSignatureEnabled(t.getSignatureEnabled());
+				message.setSmiliesEnabled(t.getSmiliesEnabled());
+				message.setSubject(t.getSubject());
 
-			return message;
+				return message;
+			} else
+				return null;
 		}
 	};
 
 	Function<MessageBean, Message> MessageBeanToMessage = new Function<MessageBean, Message>() {
 
 		public Message apply(MessageBean t) {
-			Message message = new Message(t.getText());
-			message.setBBCodeEnabled(t.getBBCodeEnabled());
-			message.setHTMLEnabled(t.getHTMLEnabled());
-			message.setSignatureEnabled(t.getSignatureEnabled());
-			message.setSmiliesEnabled(t.getSmiliesEnabled());
-			message.setSubject(t.getSubject());
+			if (t != null) {
+				Message message = new Message(t.getText());
+				message.setBBCodeEnabled(t.getBBCodeEnabled());
+				message.setHTMLEnabled(t.getHTMLEnabled());
+				message.setSignatureEnabled(t.getSignatureEnabled());
+				message.setSmiliesEnabled(t.getSmiliesEnabled());
+				message.setSubject(t.getSubject());
 
-			return message;
+				return message;
+			} else
+				return null;
 		}
 	};
 
 	Function<Poll, PollBean> PollToPollBean = new Function<Poll, PollBean>() {
 
 		public PollBean apply(Poll t) {
-			Collection<PollOption> pollOptions = t.getOptions();
-			List<PollOptionBean> pollOptionBeans = null;
-			if (pollOptions != null) {
-				pollOptionBeans = new ArrayList<PollOptionBean>();
-				for (PollOption pollOption : pollOptions) {
-					PollOptionBean pollOptionBean = new PollOptionBean();
-					pollOptionBean.setPollOptionPosition(pollOption.getPollOptionPosition());
-					pollOptionBeans.add(pollOptionBean);
+			if (t != null) {
+				Collection<PollOption> pollOptions = t.getOptions();
+				List<PollOptionBean> pollOptionBeans = null;
+				if (pollOptions != null) {
+					pollOptionBeans = new ArrayList<PollOptionBean>();
+					for (PollOption pollOption : pollOptions) {
+						PollOptionBean pollOptionBean = new PollOptionBean();
+						pollOptionBean.setPollOptionPosition(pollOption.getPollOptionPosition());
+						pollOptionBeans.add(pollOptionBean);
+					}
 				}
-			}
-			PollBean poll = new PollBean(t.getTitle(), pollOptionBeans, t.getLength());
-			poll.setId(t.getId());
-			poll.setCreationDate(t.getCreationDate());
-			poll.setVoted(t.getVoted());
+				PollBean poll = new PollBean(t.getTitle(), pollOptionBeans, t.getLength());
+				poll.setId(t.getId());
+				poll.setCreationDate(t.getCreationDate());
+				poll.setVoted(t.getVoted());
 
-			return poll;
+				return poll;
+			} else
+				return null;
 		}
 	};
 
 	Function<PollBean, Poll> PollBeanToPoll = new Function<PollBean, Poll>() {
 
 		public Poll apply(PollBean t) {
-			Collection<PollOptionBean> pollOptionBeans = t.getOptions();
-			List<PollOption> pollOptions = null;
-			if (pollOptionBeans != null) {
-				pollOptions = new ArrayList<PollOption>();
-				for (PollOptionBean pollOptionBean : pollOptionBeans) {
-					PollOption pollOption = new PollOption();
-					pollOption.setPollOptionPosition(pollOptionBean.getPollOptionPosition());
-					pollOptions.add(pollOption);
+			if (t != null) {
+				Collection<PollOptionBean> pollOptionBeans = t.getOptions();
+				List<PollOption> pollOptions = null;
+				if (pollOptionBeans != null) {
+					pollOptions = new ArrayList<PollOption>();
+					for (PollOptionBean pollOptionBean : pollOptionBeans) {
+						PollOption pollOption = new PollOption();
+						pollOption.setPollOptionPosition(pollOptionBean.getPollOptionPosition());
+						pollOptions.add(pollOption);
+					}
 				}
-			}
-			Poll poll = new Poll(t.getTitle(), pollOptions, t.getLength());
-			poll.setCreationDate(t.getCreationDate());
-			poll.setId(t.getId());
-			poll.setVoted(t.getVoted());
+				Poll poll = new Poll(t.getTitle(), pollOptions, t.getLength());
+				poll.setCreationDate(t.getCreationDate());
+				poll.setId(t.getId());
+				poll.setVoted(t.getVoted());
 
-			return poll;
+				return poll;
+			} else
+				return null;
 		}
 	};
 
 	Function<PollOption, PollOptionBean> PollOptionToPollOptionBean = new Function<PollOption, PollOptionBean>() {
 
 		public PollOptionBean apply(PollOption t) {
-			PollBean pollBean = new PollBean();
-			pollBean.setId(t.getPoll().getId());
-			PollOptionBean pollOption = new PollOptionBean(t.getQuestion());
-			pollOption.setPoll(pollBean);
-			pollOption.setPollOptionPosition(t.getPollOptionPosition());
-			pollOption.setVotes(t.getVotes());
+			if (t != null) {
+				PollBean pollBean = new PollBean();
+				pollBean.setId(t.getPoll().getId());
+				PollOptionBean pollOption = new PollOptionBean(t.getQuestion());
+				pollOption.setPoll(pollBean);
+				pollOption.setPollOptionPosition(t.getPollOptionPosition());
+				pollOption.setVotes(t.getVotes());
 
-			return pollOption;
+				return pollOption;
+			} else
+				return null;
 		}
 	};
 
 	Function<PollOptionBean, PollOption> PollOptionBeanToPollOption = new Function<PollOptionBean, PollOption>() {
 
 		public PollOption apply(PollOptionBean t) {
-			Poll poll = new Poll();
-			poll.setId(t.getPoll().getId());
-			PollOption pollOption = new PollOption(t.getQuestion());
-			pollOption.setPoll(poll);
-			pollOption.setPollOptionPosition(t.getPollOptionPosition());
-			pollOption.setVotes(t.getVotes());
+			if (t != null) {
+				Poll poll = new Poll();
+				poll.setId(t.getPoll().getId());
+				PollOption pollOption = new PollOption(t.getQuestion());
+				pollOption.setPoll(poll);
+				pollOption.setPollOptionPosition(t.getPollOptionPosition());
+				pollOption.setVotes(t.getVotes());
 
-			return pollOption;
+				return pollOption;
+			} else
+				return null;
 		}
 	};
 
 	Function<PollVoted, PollVotedBean> PollVotedToPollVotedBean = new Function<PollVoted, PollVotedBean>() {
 
 		public PollVotedBean apply(PollVoted t) {
-			PollBean pollBean = new PollBean();
-			pollBean.setId(t.getPoll().getId());
-			PollVotedBean pollVoted = new PollVotedBean();
-			pollVoted.setPoll(pollBean);
-			pollVoted.setPoll2(t.getPk().getPoll2());
-			pollVoted.setPollVoted(t.getPk().getPollVoted());
+			if (t != null) {
+				PollBean pollBean = new PollBean();
+				pollBean.setId(t.getPoll().getId());
+				PollVotedBean pollVoted = new PollVotedBean();
+				pollVoted.setPoll(pollBean);
+				pollVoted.setPoll2(t.getPk().getPoll2());
+				pollVoted.setPollVoted(t.getPk().getPollVoted());
 
-			return pollVoted;
+				return pollVoted;
+			} else
+				return null;
 		}
 	};
 
 	Function<PollVotedBean, PollVoted> PollVotedBeanToPollVoted = new Function<PollVotedBean, PollVoted>() {
 
 		public PollVoted apply(PollVotedBean t) {
-			Poll poll = new Poll();
-			poll.setId(t.getPoll().getId());
-			PollVoted pollVoted = new PollVoted();
-			pollVoted.setPoll(poll);
-			PollVotedPK pollVotedPK = new PollVotedPK();
-			pollVotedPK.setPoll2(t.getPoll2());
-			pollVotedPK.setPollVoted(t.getPollVoted());
-			pollVoted.setPk(pollVotedPK);
+			if (t != null) {
+				Poll poll = new Poll();
+				poll.setId(t.getPoll().getId());
+				PollVoted pollVoted = new PollVoted();
+				pollVoted.setPoll(poll);
+				PollVotedPK pollVotedPK = new PollVotedPK();
+				pollVotedPK.setPoll2(t.getPoll2());
+				pollVotedPK.setPollVoted(t.getPollVoted());
+				pollVoted.setPk(pollVotedPK);
 
-			return pollVoted;
+				return pollVoted;
+			} else
+				return null;
 		}
 	};
 
 	Function<Post, PostBean> PostToPostBean = new Function<Post, PostBean>() {
 
 		public PostBean apply(Post t) {
-			Collection<Attachment> attachments = t.getAttachments();
-			List<AttachmentBean> attachmentBeans = null;
-			if (attachments != null) {
-				attachmentBeans = new ArrayList<AttachmentBean>();
-				for (Attachment attachment : attachments) {
-					AttachmentBean attachmentBean = new AttachmentBean();
-					attachmentBean.setId(attachment.getId());
-					attachmentBeans.add(attachmentBean);
+			if (t != null) {
+				Collection<Attachment> attachments = t.getAttachments();
+				List<AttachmentBean> attachmentBeans = null;
+				if (attachments != null) {
+					attachmentBeans = new ArrayList<AttachmentBean>();
+					for (Attachment attachment : attachments) {
+						AttachmentBean attachmentBean = new AttachmentBean();
+						attachmentBean.setId(attachment.getId());
+						attachmentBeans.add(attachmentBean);
+					}
 				}
-			}
-			TopicBean topicBean = new TopicBean();
-			topicBean.setId(t.getTopic().getId());
-			PostBean post = new PostBean(topicBean, t.getMessage().getText(), attachmentBeans);
-			post.setCreateDate(t.getCreateDate());
-			post.setEditCount(t.getEditCount());
-			post.setEditDate(t.getEditDate());
-			post.setId(t.getId());
-			MessageBean messageBean = new MessageBean();
-			messageBean.setText(t.getMessage().getText());
-			post.setMessage(messageBean);
-			PosterBean posterBean = new PosterBean();
-			posterBean.setId(t.getPoster().getId());
-			post.setPoster(posterBean);
-			post.setUser(t.getUser());
+				TopicBean topicBean = new TopicBean();
+				topicBean.setId(t.getTopic().getId());
+				PostBean post = new PostBean(topicBean, t.getMessage().getText(), attachmentBeans);
+				post.setCreateDate(t.getCreateDate());
+				post.setEditCount(t.getEditCount());
+				post.setEditDate(t.getEditDate());
+				post.setId(t.getId());
+				MessageBean messageBean = new MessageBean();
+				messageBean.setText(t.getMessage().getText());
+				post.setMessage(messageBean);
+				PosterBean posterBean = new PosterBean();
+				posterBean.setId(t.getPoster().getId());
+				post.setPoster(posterBean);
+				post.setUser(t.getUser());
 
-			return post;
+				return post;
+			} else
+				return null;
 		}
 	};
 
 	Function<PostBean, Post> PostBeanToPost = new Function<PostBean, Post>() {
 
 		public Post apply(PostBean t) {
-			Collection<AttachmentBean> attachmentBeans = t.getAttachments();
-			List<Attachment> attachments = null;
-			if (attachmentBeans != null) {
-				attachments = new ArrayList<Attachment>();
-				for (AttachmentBean attachmentBean : attachmentBeans) {
-					Attachment attachment = new Attachment();
-					attachment.setId(attachmentBean.getId());
-					attachments.add(attachment);
+			if (t != null) {
+				Collection<AttachmentBean> attachmentBeans = t.getAttachments();
+				List<Attachment> attachments = null;
+				if (attachmentBeans != null) {
+					attachments = new ArrayList<Attachment>();
+					for (AttachmentBean attachmentBean : attachmentBeans) {
+						Attachment attachment = new Attachment();
+						attachment.setId(attachmentBean.getId());
+						attachments.add(attachment);
+					}
 				}
-			}
-			Topic topic = new Topic();
-			topic.setId(t.getTopic().getId());
-			Post post = new Post(topic, t.getMessage().getText(), attachments);
-			post.setCreateDate(t.getCreateDate());
-			post.setEditCount(t.getEditCount());
-			post.setEditDate(t.getEditDate());
-			post.setId(t.getId());
-			Message message = new Message();
-			message.setText(t.getMessage().getText());
-			post.setMessage(message);
-			Poster poster = new Poster();
-			poster.setId(t.getPoster().getId());
-			post.setPoster(poster);
-			post.setUser(t.getUser());
+				Topic topic = new Topic();
+				topic.setId(t.getTopic().getId());
+				Post post = new Post(topic, t.getMessage().getText(), attachments);
+				post.setCreateDate(t.getCreateDate());
+				post.setEditCount(t.getEditCount());
+				post.setEditDate(t.getEditDate());
+				post.setId(t.getId());
+				Message message = new Message();
+				message.setText(t.getMessage().getText());
+				post.setMessage(message);
+				Poster poster = new Poster();
+				poster.setId(t.getPoster().getId());
+				post.setPoster(poster);
+				post.setUser(t.getUser());
 
-			return post;
+				return post;
+			} else
+				return null;
 		}
 	};
 
 	Function<Poster, PosterBean> PosterToPosterBean = new Function<Poster, PosterBean>() {
 
 		public PosterBean apply(Poster t) {
-			PosterBean poster = new PosterBean(t.getUserId());
-			poster.setId(t.getId());
+			if (t != null) {
+				PosterBean poster = new PosterBean(t.getUserId());
+				poster.setId(t.getId());
 
-			return poster;
+				return poster;
+			} else
+				return null;
 		}
 	};
 
 	Function<PosterBean, Poster> PosterBeanToPoster = new Function<PosterBean, Poster>() {
 
 		public Poster apply(PosterBean t) {
-			Poster poster = new Poster(t.getUserId());
-			poster.setId(t.getId());
+			if (t != null) {
+				Poster poster = new Poster(t.getUserId());
+				poster.setId(t.getId());
 
-			return poster;
+				return poster;
+			} else
+				return null;
 		}
 	};
 
 	Function<Topic, TopicBean> TopicToTopicBean = new Function<Topic, TopicBean>() {
 
 		public TopicBean apply(Topic t) {
-			ForumBean forumBean = new ForumBean();
-			forumBean.setId(t.getForum().getId());
-			PollBean pollBean = new PollBean();
-			pollBean.setId(t.getPoll().getId());
-			Collection<Post> posts = t.getPosts();
-			List<PostBean> postBeans = null;
-			if (posts != null) {
-				postBeans = new ArrayList<PostBean>();
-				for (Post post : posts) {
-					PostBean postBean = new PostBean();
-					postBean.setId(post.getId());
-					postBeans.add(postBean);
+			if (t != null) {
+				ForumBean forumBean = new ForumBean();
+				forumBean.setId(t.getForum().getId());
+				PollBean pollBean = new PollBean();
+				pollBean.setId(t.getPoll().getId());
+				Collection<Post> posts = t.getPosts();
+				List<PostBean> postBeans = null;
+				if (posts != null) {
+					postBeans = new ArrayList<PostBean>();
+					for (Post post : posts) {
+						PostBean postBean = new PostBean();
+						postBean.setId(post.getId());
+						postBeans.add(postBean);
+					}
 				}
-			}
-			TopicBean topic = new TopicBean(forumBean, t.getSubject(), postBeans, t.getType(), pollBean);
-			topic.setId(t.getId());
-			topic.setLastPostDate(t.getLastPostDate());
-			PosterBean posterBean = new PosterBean();
-			posterBean.setId(t.getPoster().getId());
-			topic.setPoster(posterBean);
-			topic.setReplies(t.getReplies());
-			topic.setStatus(t.getStatus());
-			topic.setViewCount(t.getViewCount());
-			Collection<Watch> watches = t.getWatches();
-			List<WatchBean> watchBeans = null;
-			if (watches != null) {
-				watchBeans = new ArrayList<WatchBean>();
-				for (Watch watch : watches) {
-					WatchBean watchBean = new WatchBean();
-					watchBean.setId(watch.getId());
-					watchBeans.add(watchBean);
+				TopicBean topic = new TopicBean(forumBean, t.getSubject(), postBeans, t.getType(), pollBean);
+				topic.setId(t.getId());
+				topic.setLastPostDate(t.getLastPostDate());
+				PosterBean posterBean = new PosterBean();
+				posterBean.setId(t.getPoster().getId());
+				topic.setPoster(posterBean);
+				topic.setReplies(t.getReplies());
+				topic.setStatus(t.getStatus());
+				topic.setViewCount(t.getViewCount());
+				Collection<Watch> watches = t.getWatches();
+				List<WatchBean> watchBeans = null;
+				if (watches != null) {
+					watchBeans = new ArrayList<WatchBean>();
+					for (Watch watch : watches) {
+						WatchBean watchBean = new WatchBean();
+						watchBean.setId(watch.getId());
+						watchBeans.add(watchBean);
+					}
 				}
-			}
-			topic.setWatches(watchBeans);
+				topic.setWatches(watchBeans);
 
-			return topic;
+				return topic;
+			} else
+				return null;
 		}
 	};
 
 	Function<TopicBean, Topic> TopicBeanToTopic = new Function<TopicBean, Topic>() {
 
 		public Topic apply(TopicBean t) {
-			Forum forum = new Forum();
-			forum.setId(t.getForum().getId());
-			Poll poll = new Poll();
-			poll.setId(t.getPoll().getId());
-			Collection<PostBean> postBeans = t.getPosts();
-			List<Post> posts = null;
-			if (postBeans != null) {
-				posts = new ArrayList<Post>();
-				for (PostBean postBean : postBeans) {
-					Post post = new Post();
-					post.setId(postBean.getId());
-					posts.add(post);
+			if (t != null) {
+				Forum forum = new Forum();
+				forum.setId(t.getForum().getId());
+				Poll poll = new Poll();
+				poll.setId(t.getPoll().getId());
+				Collection<PostBean> postBeans = t.getPosts();
+				List<Post> posts = null;
+				if (postBeans != null) {
+					posts = new ArrayList<Post>();
+					for (PostBean postBean : postBeans) {
+						Post post = new Post();
+						post.setId(postBean.getId());
+						posts.add(post);
+					}
 				}
-			}
-			Topic topic = new Topic(forum, t.getSubject(), posts, t.getType(), poll);
-			topic.setId(t.getId());
-			topic.setLastPostDate(t.getLastPostDate());
-			Poster poster = new Poster();
-			poster.setId(t.getPoster().getId());
-			topic.setPoster(poster);
-			topic.setReplies(t.getReplies());
-			topic.setStatus(t.getStatus());
-			topic.setViewCount(t.getViewCount());
-			Collection<WatchBean> watchBeans = t.getWatches();
-			List<Watch> watches = null;
-			if (watchBeans != null) {
-				watches = new ArrayList<Watch>();
-				for (WatchBean watchBean : watchBeans) {
-					Watch watch = new Watch();
-					watch.setId(watchBean.getId());
-					watches.add(watch);
+				Topic topic = new Topic(forum, t.getSubject(), posts, t.getType(), poll);
+				topic.setId(t.getId());
+				topic.setLastPostDate(t.getLastPostDate());
+				Poster poster = new Poster();
+				poster.setId(t.getPoster().getId());
+				topic.setPoster(poster);
+				topic.setReplies(t.getReplies());
+				topic.setStatus(t.getStatus());
+				topic.setViewCount(t.getViewCount());
+				Collection<WatchBean> watchBeans = t.getWatches();
+				List<Watch> watches = null;
+				if (watchBeans != null) {
+					watches = new ArrayList<Watch>();
+					for (WatchBean watchBean : watchBeans) {
+						Watch watch = new Watch();
+						watch.setId(watchBean.getId());
+						watches.add(watch);
+					}
 				}
-			}
-			topic.setWatches(watches);
+				topic.setWatches(watches);
 
-			return topic;
+				return topic;
+			} else
+				return null;
 		}
 	};
 
 	Function<TopicWatch, TopicWatchBean> TopicWatchToTopicWatchBean = new Function<TopicWatch, TopicWatchBean>() {
 
 		public TopicWatchBean apply(TopicWatch t) {
-			TopicWatchBean topicWatch = new TopicWatchBean();
-			TopicBean topicBean = new TopicBean();
-			topicBean.setId(t.getTopic().getId());
-			topicWatch.setTopic(topicBean);
-			topicWatch.setMode(t.getMode());
-			topicWatch.setId(t.getId());
-			PosterBean posterBean = new PosterBean();
-			posterBean.setId(t.getPoster().getId());
-			topicWatch.setPoster(posterBean);
+			if (t != null) {
+				TopicWatchBean topicWatch = new TopicWatchBean();
+				TopicBean topicBean = new TopicBean();
+				topicBean.setId(t.getTopic().getId());
+				topicWatch.setTopic(topicBean);
+				topicWatch.setMode(t.getMode());
+				topicWatch.setId(t.getId());
+				PosterBean posterBean = new PosterBean();
+				posterBean.setId(t.getPoster().getId());
+				topicWatch.setPoster(posterBean);
 
-			return topicWatch;
+				return topicWatch;
+			} else
+				return null;
 		}
 	};
 
 	Function<TopicWatchBean, TopicWatch> TopicWatchBeanToTopicWatch = new Function<TopicWatchBean, TopicWatch>() {
 
 		public TopicWatch apply(TopicWatchBean t) {
-			TopicWatch topicWatch = new TopicWatch();
-			Topic topic = new Topic();
-			topic.setId(t.getTopic().getId());
-			topicWatch.setTopic(topic);
-			topicWatch.setMode(t.getMode());
-			topicWatch.setId(t.getId());
-			Poster poster = new Poster();
-			poster.setId(t.getPoster().getId());
-			topicWatch.setPoster(poster);
+			if (t != null) {
+				TopicWatch topicWatch = new TopicWatch();
+				Topic topic = new Topic();
+				topic.setId(t.getTopic().getId());
+				topicWatch.setTopic(topic);
+				topicWatch.setMode(t.getMode());
+				topicWatch.setId(t.getId());
+				Poster poster = new Poster();
+				poster.setId(t.getPoster().getId());
+				topicWatch.setPoster(poster);
 
-			return topicWatch;
+				return topicWatch;
+			} else
+				return null;
 		}
 	};
 
 	Function<Watch, WatchBean> WatchToWatchBean = new Function<Watch, WatchBean>() {
 
 		public WatchBean apply(Watch t) {
-			WatchBean watch = new WatchBean();
-			watch.setMode(t.getMode());
-			watch.setId(t.getId());
-			PosterBean posterBean = new PosterBean();
-			posterBean.setId(t.getPoster().getId());
-			watch.setPoster(posterBean);
+			if (t != null) {
+				WatchBean watch = new WatchBean();
+				watch.setMode(t.getMode());
+				watch.setId(t.getId());
+				PosterBean posterBean = new PosterBean();
+				posterBean.setId(t.getPoster().getId());
+				watch.setPoster(posterBean);
 
-			return watch;
+				return watch;
+			} else
+				return null;
 		}
 	};
 
 	Function<WatchBean, Watch> WatchBeanToWatch = new Function<WatchBean, Watch>() {
 
 		public Watch apply(WatchBean t) {
-			Watch watch = new Watch();
-			watch.setMode(t.getMode());
-			watch.setId(t.getId());
-			Poster poster = new Poster();
-			poster.setId(t.getPoster().getId());
-			watch.setPoster(poster);
+			if (t != null) {
+				Watch watch = new Watch();
+				watch.setMode(t.getMode());
+				watch.setId(t.getId());
+				Poster poster = new Poster();
+				poster.setId(t.getPoster().getId());
+				watch.setPoster(poster);
 
-			return watch;
+				return watch;
+			} else
+				return null;
 		}
 	};
 }

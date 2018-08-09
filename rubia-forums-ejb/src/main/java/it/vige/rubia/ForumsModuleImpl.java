@@ -484,9 +484,10 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			PollBean poll, Collection<AttachmentBean> attachments, TopicType type) throws ModuleException {
 		try {
 
+			Poster posterEntity = PosterBeanToPoster.apply(poster);
 			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null)
-				em.persist(poster);
-			em.merge(poster);
+				em.persist(posterEntity);
+			em.merge(posterEntity);
 			em.persist(poll);
 			for (PollOptionBean pollOption : poll.getOptions())
 				em.persist(PollOptionBeanToPollOption.apply(pollOption));
@@ -586,12 +587,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			em.persist(post);
 			em.flush();
 
-			post.setTopic(TopicBeanToTopic.apply(topic));
+			Topic topicEntity = TopicBeanToTopic.apply(topic);
+			post.setTopic(topicEntity);
 			topic.setLastPostDate(post.getCreateDate());
 			topic.setReplies(topic.getReplies() + 1);
-			em.merge(topic);
+			em.merge(topicEntity);
 			forum.addPostSize();
-			em.merge(forum);
+			em.merge(ForumBeanToForum.apply(forum));
 			notificationEngine.scheduleForNotification(post.getId(), MODE_REPLY);
 			em.flush();
 			return PostToPostBean.apply(post);
@@ -621,7 +623,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 				pollOption.setPoll(poll);
 				em.persist(PollOptionBeanToPollOption.apply(pollOption));
 			}
-			update(topic);
+			update(TopicBeanToTopic.apply(topic));
 			em.flush();
 			return poll;
 		} catch (Exception e) {
@@ -1230,11 +1232,8 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Post> query = em.createNamedQuery("findPostsFromForum" + order, Post.class);
-
 			query.setParameter("forumId", forum.getId());
-
 			query.setFirstResult(0);
-
 			if (limit != 0) {
 				query.setMaxResults(limit);
 			}
@@ -1259,11 +1258,8 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			TypedQuery<Post> query = em.createNamedQuery("findPostsFromCategory" + order, Post.class);
-
 			query.setParameter("categoryId", category.getId());
-
 			query.setFirstResult(0);
-
 			if (limit != 0) {
 				query.setMaxResults(limit);
 			}
@@ -1291,7 +1287,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			TypedQuery<Post> query = em.createNamedQuery("findPostsOrder" + order, Post.class);
 			query.setFirstResult(0);
-
 			if (limit != 0) {
 				query.setMaxResults(limit);
 			}
