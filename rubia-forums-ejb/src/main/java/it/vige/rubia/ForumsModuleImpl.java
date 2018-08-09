@@ -488,7 +488,8 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null)
 				em.persist(posterEntity);
 			em.merge(posterEntity);
-			em.persist(poll);
+			Poll pollEntity = PollBeanToPoll.apply(poll);
+			em.persist(pollEntity);
 			for (PollOptionBean pollOption : poll.getOptions())
 				em.persist(PollOptionBeanToPollOption.apply(pollOption));
 			em.flush();
@@ -496,7 +497,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			Post post = new Post();
 			post.setMessage(MessageBeanToMessage.apply(message));
 			post.setCreateDate(creationDate);
-			post.setPoster(em.find(Poster.class, poster.getId()));
+			post.setPoster(posterEntity);
 			if (attachments != null)
 				for (AttachmentBean attachment : attachments) {
 					Attachment attachmentToPersist = AttachmentBeanToAttachment.apply(attachment);
@@ -507,12 +508,12 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			Topic topic = new Topic();
 			topic.setSubject(message.getSubject());
 			topic.setForum(em.find(Forum.class, forum.getId()));
-			topic.setPoster(em.find(Poster.class, poster.getId()));
+			topic.setPoster(posterEntity);
 			post.setTopic(topic);
 			topic.setLastPostDate(creationDate);
 			topic.setType(type);
 			topic.setStatus(TOPIC_UNLOCKED);
-			topic.setPoll(em.find(Poll.class, poll.getId()));
+			topic.setPoll(pollEntity);
 
 			em.persist(topic);
 			em.persist(post);
