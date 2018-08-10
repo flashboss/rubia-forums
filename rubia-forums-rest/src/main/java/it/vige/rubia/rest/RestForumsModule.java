@@ -38,6 +38,7 @@ import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
@@ -758,11 +759,59 @@ public class RestForumsModule implements ForumsModule {
 	}
 
 	@POST
-	@Path("update")
+	@Path("updateForum")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void update(Object object) {
-		forumsModule.update(object);
+	public void update(ForumBean forum) {
+		forumsModule.update(forum);
+	}
+
+	@POST
+	@Path("updateTopic")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(TopicBean topic) {
+		forumsModule.update(topic);
+	}
+
+	@POST
+	@Path("updateCategory")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(CategoryBean category) {
+		forumsModule.update(category);
+	}
+
+	@POST
+	@Path("updateTopicWatch")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(TopicWatchBean topicWatch) {
+		forumsModule.update(topicWatch);
+	}
+
+	@POST
+	@Path("updateForumWatch")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(ForumWatchBean forumWatch) {
+		forumsModule.update(forumWatch);
+	}
+
+	@POST
+	@Path("updatePost")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(PostBean post) {
+		forumsModule.update(post);
+	}
+
+	@POST
+	@Path("updatePollOption")
+	@Consumes(APPLICATION_JSON)
+	@Override
+	public void update(PollOptionBean pollOption) {
+		forumsModule.update(pollOption);
 	}
 
 }

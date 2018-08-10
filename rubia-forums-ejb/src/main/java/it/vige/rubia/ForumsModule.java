@@ -21,7 +21,6 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import it.vige.rubia.auth.User;
-import it.vige.rubia.dto.TopicType;
 import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
@@ -29,9 +28,11 @@ import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
+import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicType;
 import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
 
@@ -1012,6 +1013,42 @@ public interface ForumsModule {
 	 * @param object
 	 *            DOCUMENT_ME
 	 */
-	void update(Object object);
+	void update(TopicBean topic);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(ForumBean forum);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(CategoryBean category);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(PollOptionBean pollOption);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(PostBean post);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(TopicWatchBean topicWatch);
+
+	/**
+	 * @param object
+	 *            DOCUMENT_ME
+	 */
+	void update(ForumWatchBean forumWatch);
 
 }

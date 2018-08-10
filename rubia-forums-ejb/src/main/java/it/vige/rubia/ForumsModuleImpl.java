@@ -624,7 +624,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 				pollOption.setPoll(poll);
 				em.persist(PollOptionBeanToPollOption.apply(pollOption));
 			}
-			update(TopicBeanToTopic.apply(topic));
+			update(topic);
 			em.flush();
 			return poll;
 		} catch (Exception e) {
@@ -1521,9 +1521,51 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public void update(Object object) {
+	public void update(TopicBean topic) {
 
-		em.merge(object);
+		em.merge(TopicBeanToTopic.apply(topic));
+		em.flush();
+	}
+
+	@Override
+	public void update(ForumBean forum) {
+
+		em.merge(ForumBeanToForum.apply(forum));
+		em.flush();
+	}
+
+	@Override
+	public void update(CategoryBean category) {
+
+		em.merge(CategoryBeanToCategory.apply(category));
+		em.flush();
+	}
+
+	@Override
+	public void update(PollOptionBean pollOption) {
+
+		em.merge(PollOptionBeanToPollOption.apply(pollOption));
+		em.flush();
+	}
+
+	@Override
+	public void update(PostBean post) {
+
+		em.merge(PostBeanToPost.apply(post));
+		em.flush();
+	}
+
+	@Override
+	public void update(TopicWatchBean topicWatch) {
+
+		em.merge(TopicWatchBeanToTopicWatch.apply(topicWatch));
+		em.flush();
+	}
+
+	@Override
+	public void update(ForumWatchBean forumWatch) {
+
+		em.merge(ForumWatchBeanToForumWatch.apply(forumWatch));
 		em.flush();
 	}
 

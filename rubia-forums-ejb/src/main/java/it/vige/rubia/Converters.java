@@ -82,8 +82,7 @@ public interface Converters {
 				if (forums != null) {
 					List<ForumBean> forumBeans = new ArrayList<ForumBean>();
 					for (Forum forum : forums) {
-						ForumBean forumBean = new ForumBean();
-						forumBean.setId(forum.getId());
+						ForumBean forumBean = ForumToForumBean.apply(forum);
 						forumBeans.add(forumBean);
 					}
 					category.setForums(forumBeans);
