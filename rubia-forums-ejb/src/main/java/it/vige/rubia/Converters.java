@@ -282,7 +282,7 @@ public interface Converters {
 				forumBean.setId(t.getForum().getId());
 				forumWatch.setForum(forumBean);
 				forumWatch.setMode(t.getMode());
-				PosterBean posterBean = new PosterBean();
+				PosterBean posterBean = PosterToPosterBean.apply(t.getPoster());
 				posterBean.setId(t.getPoster().getId());
 				forumWatch.setPoster(posterBean);
 
@@ -302,7 +302,7 @@ public interface Converters {
 				forum.setId(t.getForum().getId());
 				forumWatch.setForum(forum);
 				forumWatch.setMode(t.getMode());
-				Poster poster = new Poster();
+				Poster poster = PosterBeanToPoster.apply(t.getPoster());
 				poster.setId(t.getPoster().getId());
 				forumWatch.setPoster(poster);
 
@@ -487,11 +487,9 @@ public interface Converters {
 				post.setEditCount(t.getEditCount());
 				post.setEditDate(t.getEditDate());
 				post.setId(t.getId());
-				MessageBean messageBean = new MessageBean();
-				messageBean.setText(t.getMessage().getText());
+				MessageBean messageBean = MessageToMessageBean.apply(t.getMessage());
 				post.setMessage(messageBean);
-				PosterBean posterBean = new PosterBean();
-				posterBean.setId(t.getPoster().getId());
+				PosterBean posterBean = PosterToPosterBean.apply(t.getPoster());
 				post.setPoster(posterBean);
 				post.setUser(t.getUser());
 
@@ -522,11 +520,9 @@ public interface Converters {
 				post.setEditCount(t.getEditCount());
 				post.setEditDate(t.getEditDate());
 				post.setId(t.getId());
-				Message message = new Message();
-				message.setText(t.getMessage().getText());
+				Message message = MessageBeanToMessage.apply(t.getMessage());
 				post.setMessage(message);
-				Poster poster = new Poster();
-				poster.setId(t.getPoster().getId());
+				Poster poster = PosterBeanToPoster.apply(t.getPoster());
 				post.setPoster(poster);
 				post.setUser(t.getUser());
 
@@ -583,8 +579,7 @@ public interface Converters {
 				TopicBean topic = new TopicBean(forumBean, t.getSubject(), postBeans, t.getType(), pollBean);
 				topic.setId(t.getId());
 				topic.setLastPostDate(t.getLastPostDate());
-				PosterBean posterBean = new PosterBean();
-				posterBean.setId(t.getPoster().getId());
+				PosterBean posterBean = PosterToPosterBean.apply(t.getPoster());
 				topic.setPoster(posterBean);
 				topic.setReplies(t.getReplies());
 				topic.setStatus(t.getStatus());
@@ -628,8 +623,7 @@ public interface Converters {
 				Topic topic = new Topic(forum, t.getSubject(), posts, t.getType(), poll);
 				topic.setId(t.getId());
 				topic.setLastPostDate(t.getLastPostDate());
-				Poster poster = new Poster();
-				poster.setId(t.getPoster().getId());
+				Poster poster = PosterBeanToPoster.apply(t.getPoster());
 				topic.setPoster(poster);
 				topic.setReplies(t.getReplies());
 				topic.setStatus(t.getStatus());
@@ -662,8 +656,7 @@ public interface Converters {
 				topicWatch.setTopic(topicBean);
 				topicWatch.setMode(t.getMode());
 				topicWatch.setId(t.getId());
-				PosterBean posterBean = new PosterBean();
-				posterBean.setId(t.getPoster().getId());
+				PosterBean posterBean = PosterToPosterBean.apply(t.getPoster());
 				topicWatch.setPoster(posterBean);
 
 				return topicWatch;
@@ -682,7 +675,7 @@ public interface Converters {
 				topicWatch.setTopic(topic);
 				topicWatch.setMode(t.getMode());
 				topicWatch.setId(t.getId());
-				Poster poster = new Poster();
+				Poster poster = PosterBeanToPoster.apply(t.getPoster());
 				poster.setId(t.getPoster().getId());
 				topicWatch.setPoster(poster);
 
@@ -699,8 +692,7 @@ public interface Converters {
 				WatchBean watch = new WatchBean();
 				watch.setMode(t.getMode());
 				watch.setId(t.getId());
-				PosterBean posterBean = new PosterBean();
-				posterBean.setId(t.getPoster().getId());
+				PosterBean posterBean = PosterToPosterBean.apply(t.getPoster());
 				watch.setPoster(posterBean);
 
 				return watch;
@@ -716,8 +708,7 @@ public interface Converters {
 				Watch watch = new Watch();
 				watch.setMode(t.getMode());
 				watch.setId(t.getId());
-				Poster poster = new Poster();
-				poster.setId(t.getPoster().getId());
+				Poster poster = PosterBeanToPoster.apply(t.getPoster());
 				watch.setPoster(poster);
 
 				return watch;

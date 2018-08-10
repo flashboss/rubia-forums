@@ -570,10 +570,11 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		try {
 
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
+			Poster posterNew = PosterBeanToPoster.apply(poster);
 			if (posterOld == null) {
-				em.persist(PosterBeanToPoster.apply(poster));
+				em.persist(posterNew);
 			}
-			em.merge(poster);
+			em.merge(posterNew);
 			Post post = new Post();
 			post.setMessage(MessageBeanToMessage.apply(message));
 			post.setCreateDate(creationDate);
