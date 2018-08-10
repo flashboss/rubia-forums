@@ -64,6 +64,7 @@ import it.vige.rubia.model.Forum;
 import it.vige.rubia.model.ForumInstance;
 import it.vige.rubia.model.ForumWatch;
 import it.vige.rubia.model.Poll;
+import it.vige.rubia.model.PollOption;
 import it.vige.rubia.model.Post;
 import it.vige.rubia.model.Poster;
 import it.vige.rubia.model.Topic;
@@ -490,8 +491,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			em.merge(posterEntity);
 			Poll pollEntity = PollBeanToPoll.apply(poll);
 			em.persist(pollEntity);
-			for (PollOptionBean pollOption : poll.getOptions())
-				em.persist(PollOptionBeanToPollOption.apply(pollOption));
+			for (PollOptionBean pollOptionBean : poll.getOptions()) {
+				PollOption pollOption = PollOptionBeanToPollOption.apply(pollOptionBean);
+				pollOption.setPoll(pollEntity);
+				pollEntity.getOptions().add(pollOption);
+				em.persist(pollOption);
+			}
+			em.merge(pollEntity);
 			em.flush();
 
 			Post post = new Post();
@@ -604,7 +610,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			throw new ModuleException(errorMessage, e);
 		}
 	}
-
+	
 	@Override
 	public PollBean addPollToTopic(TopicBean topic, PollBean poll) throws ModuleException {
 		try {

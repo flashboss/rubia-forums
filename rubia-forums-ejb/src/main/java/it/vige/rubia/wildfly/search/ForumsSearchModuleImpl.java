@@ -21,6 +21,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 import static java.util.Calendar.getInstance;
+import static java.util.stream.Collectors.toList;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.NumericRangeQuery.newLongRange;
 import static org.apache.lucene.search.SortField.Type.LONG;
@@ -51,9 +52,12 @@ import org.hibernate.Session;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 
+import it.vige.rubia.Converters;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.model.Post;
+import it.vige.rubia.model.Topic;
 import it.vige.rubia.search.ForumsSearchModule;
 import it.vige.rubia.search.ResultPage;
 import it.vige.rubia.search.SearchCriteria;
@@ -63,7 +67,7 @@ import it.vige.rubia.search.SortOrder;
 import it.vige.rubia.search.TimePeriod;
 
 @Stateless
-public class ForumsSearchModuleImpl implements ForumsSearchModule {
+public class ForumsSearchModuleImpl implements ForumsSearchModule, Converters {
 
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
@@ -116,7 +120,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(builder, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), PostBean.class);
+				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), Post.class);
 
 				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
 				String sortByStr = criteria.getSortBy();
@@ -127,8 +131,8 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 
 				ResultPage<PostBean> resultPage = new ResultPage<PostBean>();
 				@SuppressWarnings("unchecked")
-				List<PostBean> posts = fullTextQuery.list();
-				resultPage.setPage(posts);
+				List<Post> posts = fullTextQuery.list();
+				resultPage.setPage(posts.stream().map(t -> PostToPostBean.apply(t)).collect(toList()));
 				resultPage.setResultSize(fullTextQuery.getResultSize());
 
 				return resultPage;
@@ -191,7 +195,7 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					addPostTimeQuery(builder, TimePeriod.valueOf(timePeriod));
 				}
 
-				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), PostBean.class);
+				FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(builder.build(), Post.class);
 
 				SortOrder sortOrder = SortOrder.valueOf(criteria.getSortOrder());
 				SortBy sortBy = valueOf(criteria.getSortBy());
@@ -216,13 +220,13 @@ public class ForumsSearchModuleImpl implements ForumsSearchModule {
 					q.setParameter("topicIds", topicToDispIds);
 
 					@SuppressWarnings("unchecked")
-					List<TopicBean> results = q.getResultList();
+					List<Topic> results = q.getResultList();
 
 					topics = new LinkedList<TopicBean>();
 					for (Integer id : topicToDispIds) {
-						for (TopicBean topic : results) {
+						for (Topic topic : results) {
 							if (id.equals(topic.getId())) {
-								topics.add(topic);
+								topics.add(TopicToTopicBean.apply(topic));
 								break;
 							}
 						}

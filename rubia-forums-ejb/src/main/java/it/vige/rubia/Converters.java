@@ -1,5 +1,7 @@
 package it.vige.rubia;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -128,6 +130,8 @@ public interface Converters {
 			if (t != null) {
 				CategoryBean categoryBean = new CategoryBean();
 				categoryBean.setId(t.getCategory().getId());
+				categoryBean.setOrder(t.getCategory().getOrder());
+				categoryBean.setTitle(t.getCategory().getTitle());
 				ForumBean forum = new ForumBean(t.getName(), t.getDescription(), categoryBean);
 				forum.setId(t.getId());
 				Collection<Watch> forumWatches = t.getForumWatch();
@@ -179,6 +183,8 @@ public interface Converters {
 			if (t != null) {
 				Category category = new Category();
 				category.setId(t.getCategory().getId());
+				category.setOrder(t.getCategory().getOrder());
+				category.setTitle(t.getCategory().getTitle());
 				Forum forum = new Forum(t.getName(), t.getDescription(), category);
 				forum.setId(t.getId());
 				Collection<WatchBean> forumWatchBeans = t.getForumWatch();
@@ -235,6 +241,8 @@ public interface Converters {
 					for (Category category : categories) {
 						CategoryBean categoryBean = new CategoryBean();
 						categoryBean.setId(category.getId());
+						categoryBean.setOrder(category.getOrder());
+						categoryBean.setTitle(category.getTitle());
 						categoryBeans.add(categoryBean);
 					}
 					forumInstance.setCategories(categoryBeans);
@@ -259,6 +267,8 @@ public interface Converters {
 					for (CategoryBean categoryBean : categoryBeans) {
 						Category category = new Category();
 						category.setId(categoryBean.getId());
+						category.setOrder(categoryBean.getOrder());
+						category.setTitle(categoryBean.getTitle());
 						categories.add(category);
 					}
 					forumInstance.setCategories(categories);
@@ -350,17 +360,9 @@ public interface Converters {
 
 		public PollBean apply(Poll t) {
 			if (t != null) {
-				Collection<PollOption> pollOptions = t.getOptions();
-				List<PollOptionBean> pollOptionBeans = null;
-				if (pollOptions != null) {
-					pollOptionBeans = new ArrayList<PollOptionBean>();
-					for (PollOption pollOption : pollOptions) {
-						PollOptionBean pollOptionBean = new PollOptionBean();
-						pollOptionBean.setPollOptionPosition(pollOption.getPollOptionPosition());
-						pollOptionBeans.add(pollOptionBean);
-					}
-				}
-				PollBean poll = new PollBean(t.getTitle(), pollOptionBeans, t.getLength());
+				PollBean poll = new PollBean(t.getTitle(),
+						t.getOptions().stream().map(x -> PollOptionToPollOptionBean.apply(x)).collect(toList()),
+						t.getLength());
 				poll.setId(t.getId());
 				poll.setCreationDate(t.getCreationDate());
 				poll.setVoted(t.getVoted());
@@ -375,20 +377,12 @@ public interface Converters {
 
 		public Poll apply(PollBean t) {
 			if (t != null) {
-				Collection<PollOptionBean> pollOptionBeans = t.getOptions();
-				List<PollOption> pollOptions = null;
-				if (pollOptionBeans != null) {
-					pollOptions = new ArrayList<PollOption>();
-					for (PollOptionBean pollOptionBean : pollOptionBeans) {
-						PollOption pollOption = new PollOption();
-						pollOption.setPollOptionPosition(pollOptionBean.getPollOptionPosition());
-						pollOptions.add(pollOption);
-					}
-				}
-				Poll poll = new Poll(t.getTitle(), pollOptions, t.getLength());
+				Poll poll = new Poll(t.getTitle(), null, t.getLength());
 				poll.setCreationDate(t.getCreationDate());
 				poll.setId(t.getId());
 				poll.setVoted(t.getVoted());
+				poll.setOptions(
+						t.getOptions().stream().map(x -> PollOptionBeanToPollOption.apply(x)).collect(toList()));
 
 				return poll;
 			} else
@@ -400,10 +394,7 @@ public interface Converters {
 
 		public PollOptionBean apply(PollOption t) {
 			if (t != null) {
-				PollBean pollBean = new PollBean();
-				pollBean.setId(t.getPoll().getId());
 				PollOptionBean pollOption = new PollOptionBean(t.getQuestion());
-				pollOption.setPoll(pollBean);
 				pollOption.setPollOptionPosition(t.getPollOptionPosition());
 				pollOption.setVotes(t.getVotes());
 
@@ -417,10 +408,7 @@ public interface Converters {
 
 		public PollOption apply(PollOptionBean t) {
 			if (t != null) {
-				Poll poll = new Poll();
-				poll.setId(t.getPoll().getId());
 				PollOption pollOption = new PollOption(t.getQuestion());
-				pollOption.setPoll(poll);
 				pollOption.setPollOptionPosition(t.getPollOptionPosition());
 				pollOption.setVotes(t.getVotes());
 
@@ -480,8 +468,7 @@ public interface Converters {
 						attachmentBeans.add(attachmentBean);
 					}
 				}
-				TopicBean topicBean = new TopicBean();
-				topicBean.setId(t.getTopic().getId());
+				TopicBean topicBean = TopicToTopicBean.apply(t.getTopic());
 				PostBean post = new PostBean(topicBean, t.getMessage().getText(), attachmentBeans);
 				post.setCreateDate(t.getCreateDate());
 				post.setEditCount(t.getEditCount());
@@ -562,10 +549,8 @@ public interface Converters {
 
 		public TopicBean apply(Topic t) {
 			if (t != null) {
-				ForumBean forumBean = new ForumBean();
-				forumBean.setId(t.getForum().getId());
-				PollBean pollBean = new PollBean();
-				pollBean.setId(t.getPoll().getId());
+				ForumBean forumBean = ForumToForumBean.apply(t.getForum());
+				PollBean pollBean = PollToPollBean.apply(t.getPoll());
 				Collection<Post> posts = t.getPosts();
 				List<PostBean> postBeans = null;
 				if (posts != null) {
@@ -606,8 +591,7 @@ public interface Converters {
 
 		public Topic apply(TopicBean t) {
 			if (t != null) {
-				Forum forum = new Forum();
-				forum.setId(t.getForum().getId());
+				Forum forum = ForumBeanToForum.apply(t.getForum());
 				Poll poll = new Poll();
 				poll.setId(t.getPoll().getId());
 				Collection<PostBean> postBeans = t.getPosts();

@@ -222,7 +222,7 @@ public class ViewTopic extends BaseController {
 				topic = forumsModule.findTopicById(topicId);
 			}
 			topic.setViewCount(topic.getViewCount() + 1);
-			forumsModule.update(this.topic);
+			forumsModule.update(topic);
 
 			int postCount = topic.getReplies() + 1;
 
