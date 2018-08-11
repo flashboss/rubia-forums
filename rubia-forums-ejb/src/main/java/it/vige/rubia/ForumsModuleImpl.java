@@ -1328,10 +1328,11 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			}
 
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
+			Poster posterNew = PosterBeanToPoster.apply(poster);
 			if (posterOld == null) {
-				em.persist(poster);
+				em.persist(posterNew);
 			}
-			em.merge(poster);
+			em.merge(posterNew);
 
 			ForumWatch forumWatch = new ForumWatch();
 			forumWatch.setPoster(em.find(Poster.class, poster.getId()));
@@ -1437,10 +1438,11 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			}
 
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
+			Poster posterNew = PosterBeanToPoster.apply(poster);
 			if (posterOld == null) {
-				em.persist(poster);
+				em.persist(posterNew);
 			}
-			em.merge(poster);
+			em.merge(posterNew);
 
 			em.flush(); // it is required
 			// for clustered versions
