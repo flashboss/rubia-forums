@@ -59,8 +59,11 @@ public interface Converters {
 
 		public Attachment apply(AttachmentBean t) {
 			if (t != null) {
-				Post post = new Post();
-				post.setId(t.getPost().getId());
+				Post post = null;
+				if (t.getPost() != null) {
+					post = new Post();
+					post.setId(t.getPost().getId());
+				}
 				Attachment attachment = new Attachment(t.getName(), t.getComment(), t.getContent(), post,
 						t.getContentType(), t.getSize());
 				attachment.setId(t.getId());
@@ -459,15 +462,8 @@ public interface Converters {
 		public PostBean apply(Post t) {
 			if (t != null) {
 				Collection<Attachment> attachments = t.getAttachments();
-				List<AttachmentBean> attachmentBeans = null;
-				if (attachments != null) {
-					attachmentBeans = new ArrayList<AttachmentBean>();
-					for (Attachment attachment : attachments) {
-						AttachmentBean attachmentBean = new AttachmentBean();
-						attachmentBean.setId(attachment.getId());
-						attachmentBeans.add(attachmentBean);
-					}
-				}
+				List<AttachmentBean> attachmentBeans = attachments == null ? null
+						: attachments.stream().map(x -> AttachmentToAttachmentBean.apply(x)).collect(toList());
 				TopicBean topicBean = TopicToTopicBean.apply(t.getTopic());
 				PostBean post = new PostBean(topicBean, t.getMessage().getText(), attachmentBeans);
 				post.setCreateDate(t.getCreateDate());
@@ -491,15 +487,8 @@ public interface Converters {
 		public Post apply(PostBean t) {
 			if (t != null) {
 				Collection<AttachmentBean> attachmentBeans = t.getAttachments();
-				List<Attachment> attachments = null;
-				if (attachmentBeans != null) {
-					attachments = new ArrayList<Attachment>();
-					for (AttachmentBean attachmentBean : attachmentBeans) {
-						Attachment attachment = new Attachment();
-						attachment.setId(attachmentBean.getId());
-						attachments.add(attachment);
-					}
-				}
+				List<Attachment> attachments = attachmentBeans == null ? null
+						: attachmentBeans.stream().map(x -> AttachmentBeanToAttachment.apply(x)).collect(toList());
 				Topic topic = new Topic();
 				topic.setId(t.getTopic().getId());
 				Post post = new Post(topic, t.getMessage().getText(), attachments);
