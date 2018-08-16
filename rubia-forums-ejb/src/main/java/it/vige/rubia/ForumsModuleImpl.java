@@ -625,7 +625,9 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			if (oldpoll != null) {
 				em.remove(oldpoll);
 			}
-			em.persist(PollBeanToPoll.apply(poll));
+			Poll pollEntity = PollBeanToPoll.apply(poll);
+			em.persist(pollEntity);
+			poll = PollToPollBean.apply(pollEntity);
 			topic.setPoll(poll);
 			for (PollOptionBean pollOption : poll.getOptions()) {
 				pollOption.setPoll(poll);

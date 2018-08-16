@@ -397,7 +397,13 @@ public interface Converters {
 
 		public PollOptionBean apply(PollOption t) {
 			if (t != null) {
+				PollBean pollBean = null;
+				if (t.getPoll() != null) {
+					pollBean = new PollBean();
+					pollBean.setId(t.getPoll().getId());
+				}
 				PollOptionBean pollOption = new PollOptionBean(t.getQuestion());
+				pollOption.setPoll(pollBean);
 				pollOption.setPollOptionPosition(t.getPollOptionPosition());
 				pollOption.setVotes(t.getVotes());
 
@@ -411,7 +417,13 @@ public interface Converters {
 
 		public PollOption apply(PollOptionBean t) {
 			if (t != null) {
+				Poll poll = null;
+				if (t.getPoll() != null) {
+					poll = new Poll();
+					poll.setId(t.getPoll().getId());
+				}
 				PollOption pollOption = new PollOption(t.getQuestion());
+				pollOption.setPoll(poll);
 				pollOption.setPollOptionPosition(t.getPollOptionPosition());
 				pollOption.setVotes(t.getVotes());
 
