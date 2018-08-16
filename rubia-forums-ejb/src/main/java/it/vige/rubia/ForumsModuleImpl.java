@@ -610,7 +610,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			throw new ModuleException(errorMessage, e);
 		}
 	}
-	
+
 	@Override
 	public PollBean addPollToTopic(TopicBean topic, PollBean poll) throws ModuleException {
 		try {
@@ -714,6 +714,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			if (isLastPost) {
 				topic.setLastPostDate(lastPost.getCreateDate());
 			}
+			topic.getPosts().remove(post);
 			em.merge(topic);
 			em.merge(forum);
 			em.flush();

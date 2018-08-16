@@ -80,6 +80,10 @@ Or for the REST application:
 To stop the WildFly instance:
   
     mvn clean -Pruntime-rest
+    
+To enable the debug in the started WildFly instance:
+
+    export JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
 
 to deploy it with the shell command in WildFly:
 
