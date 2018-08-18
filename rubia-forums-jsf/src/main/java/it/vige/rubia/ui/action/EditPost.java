@@ -155,8 +155,7 @@ public class EditPost extends PostAction {
 		boolean success = false;
 		try {
 			// setup the business objects to be updated
-			PostBean post = forumsModule.findPostById(postId);
-			forumsModule.updateAttachments(attachments, post);
+			PostBean post = forumsModule.updateAttachments(attachments, forumsModule.findPostById(postId));
 
 			// TODO: cleanup this forums update process............move this as
 			// a private method
