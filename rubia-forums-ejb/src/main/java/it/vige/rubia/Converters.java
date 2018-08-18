@@ -104,11 +104,14 @@ public interface Converters {
 
 		public Category apply(CategoryBean t) {
 			if (t != null) {
-				ForumInstance forumInstance = new ForumInstance();
-				forumInstance.setId(t.getForumInstance().getId());
 				Category category = new Category(t.getTitle());
 				category.setId(t.getId());
-				category.setForumInstance(forumInstance);
+				ForumInstanceBean forumInstanceBean = t.getForumInstance();
+				if (forumInstanceBean != null) {
+					ForumInstance forumInstance = new ForumInstance();
+					forumInstance.setId(forumInstanceBean.getId());
+					category.setForumInstance(forumInstance);
+				}
 				List<ForumBean> forumBeans = t.getForums();
 				if (forumBeans != null) {
 					List<Forum> forums = new ArrayList<Forum>();

@@ -13,6 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
+import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static it.vige.rubia.ui.JSFUtil.setMessage;
@@ -36,7 +37,6 @@ import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
-import it.vige.rubia.ui.ForumUtil;
 import it.vige.rubia.ui.view.ViewForum;
 
 /**
@@ -83,8 +83,7 @@ public class AdminController extends BaseController {
 	private String forumDescription;
 
 	/**
-	 * ui data associated with selecting a category to perform a certain
-	 * operation
+	 * ui data associated with selecting a category to perform a certain operation
 	 */
 	private int selectedCategory = -1;
 	private int selectedForum = -1;
@@ -107,8 +106,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -122,8 +120,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param categoryName
-	 *            The categoryName to set.
+	 * @param categoryName The categoryName to set.
 	 */
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
@@ -137,8 +134,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param forumDescription
-	 *            The forumDescription to set.
+	 * @param forumDescription The forumDescription to set.
 	 */
 	public void setForumDescription(String forumDescription) {
 		this.forumDescription = forumDescription;
@@ -152,8 +148,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param forumName
-	 *            The forumName to set.
+	 * @param forumName The forumName to set.
 	 */
 	public void setForumName(String forumName) {
 		this.forumName = forumName;
@@ -167,8 +162,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param selectedCategory
-	 *            the selected category
+	 * @param selectedCategory the selected category
 	 */
 	public void setSelectedCategory(int selectedCategory) {
 		this.selectedCategory = selectedCategory;
@@ -182,8 +176,7 @@ public class AdminController extends BaseController {
 	}
 
 	/**
-	 * @param selectedForum
-	 *            the selected forum
+	 * @param selectedForum the selected forum
 	 */
 	public void setSelectedForum(int selectedForum) {
 		this.selectedForum = selectedForum;
@@ -241,7 +234,7 @@ public class AdminController extends BaseController {
 			// load the selected category if a categoryid is found
 			// fetch the category to be edited/deleted
 			int categoryId = -1;
-			String cour = ForumUtil.getParameter(p_categoryId);
+			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
 				categoryId = Integer.parseInt(cour);
 			}
@@ -261,7 +254,7 @@ public class AdminController extends BaseController {
 			// load the selected forum is a forumid is found
 			// fetch the forum to be edited/deleted
 			int forumId = -1;
-			String forumIdStr = ForumUtil.getParameter(p_forumId);
+			String forumIdStr = getParameter(p_forumId);
 			if (forumIdStr != null && forumIdStr.trim().length() > 0) {
 				forumId = Integer.parseInt(forumIdStr);
 			}
@@ -281,23 +274,23 @@ public class AdminController extends BaseController {
 			}
 
 			// Checking for editModes flags
-			String editCatStr = ForumUtil.getParameter(EDIT_CATEGORY);
+			String editCatStr = getParameter(EDIT_CATEGORY);
 			if (editCatStr != null && editCatStr.trim().length() > 0) {
 				editCategoryMode = Boolean.valueOf(editCatStr).booleanValue();
 			}
 
-			String editForStr = ForumUtil.getParameter(EDIT_FORUM);
+			String editForStr = getParameter(EDIT_FORUM);
 			if (editForStr != null && editForStr.trim().length() > 0) {
 				editForumMode = Boolean.valueOf(editForStr).booleanValue();
 			}
 
 			// Checking for addModes flags
-			String addCatStr = ForumUtil.getParameter(ADD_CATEGORY);
+			String addCatStr = getParameter(ADD_CATEGORY);
 			if (addCatStr != null && addCatStr.trim().length() > 0) {
 				addCategoryMode = Boolean.valueOf(addCatStr).booleanValue();
 			}
 
-			String addForStr = ForumUtil.getParameter(ADD_FORUM);
+			String addForStr = getParameter(ADD_FORUM);
 			if (addForStr != null && addForStr.trim().length() > 0) {
 				addForumMode = Boolean.valueOf(addForStr).booleanValue();
 			}
@@ -353,7 +346,7 @@ public class AdminController extends BaseController {
 		boolean success = false;
 		try {
 			int categoryId = -1;
-			String cour = ForumUtil.getParameter(p_categoryId);
+			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
 				categoryId = Integer.parseInt(cour);
 			}
@@ -389,7 +382,7 @@ public class AdminController extends BaseController {
 		boolean success = false;
 		try {
 			int categoryId = -1;
-			String cour = ForumUtil.getParameter(p_categoryId);
+			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
 				categoryId = Integer.parseInt(cour);
 			}
@@ -466,7 +459,7 @@ public class AdminController extends BaseController {
 		boolean success = false;
 		try {
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
@@ -505,7 +498,7 @@ public class AdminController extends BaseController {
 		boolean success = false;
 		try {
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
@@ -560,7 +553,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the categoryId where this forum should be added
 			int categoryId = -1;
-			String cour = ForumUtil.getParameter(p_categoryId);
+			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
 				categoryId = Integer.parseInt(cour);
 			}
@@ -594,7 +587,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the categoryId where this forum should be added
 			int categoryId = -1;
-			String cour = ForumUtil.getParameter(p_categoryId);
+			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
 				categoryId = Integer.parseInt(cour);
 			}
@@ -628,7 +621,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the categoryId where this forum should be added
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
@@ -657,7 +650,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the categoryId where this forum should be added
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
@@ -684,7 +677,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the forumId where this forum should be added
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
@@ -711,7 +704,7 @@ public class AdminController extends BaseController {
 		try {
 			// get the forumId where this forum should be added
 			int forumId = -1;
-			String cour = ForumUtil.getParameter(p_forumId);
+			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
 				forumId = Integer.parseInt(cour);
 			}
