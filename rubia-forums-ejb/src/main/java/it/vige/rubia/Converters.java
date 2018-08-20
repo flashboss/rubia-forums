@@ -529,7 +529,8 @@ public interface Converters {
 			if (t != null) {
 				PosterBean poster = new PosterBean(t.getUserId());
 				poster.setId(t.getId());
-
+				for (int i = 0; i < t.getPostCount(); i++)
+					poster.incrementPostCount();
 				return poster;
 			} else
 				return null;
@@ -542,7 +543,8 @@ public interface Converters {
 			if (t != null) {
 				Poster poster = new Poster(t.getUserId());
 				poster.setId(t.getId());
-
+				for (int i = 0; i < t.getPostCount(); i++)
+					poster.incrementPostCount();
 				return poster;
 			} else
 				return null;

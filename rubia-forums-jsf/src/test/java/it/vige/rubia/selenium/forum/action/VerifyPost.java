@@ -23,6 +23,7 @@ import static it.vige.rubia.selenium.forum.model.Links.FORUM_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.forum.model.Links.TOPIC_TEMPLATE_LINK;
 import static it.vige.rubia.selenium.profile.action.VerifyProfile.verifyProfile;
 import static java.util.ResourceBundle.getBundle;
+import static java.util.stream.Collectors.toList;
 import static org.jboss.logging.Logger.getLogger;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
@@ -154,7 +155,12 @@ public class VerifyPost {
 	}
 
 	public static PosterBean getPosterFromLink(WebDriver driver, PostBean post) {
-		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).get(1)
+		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).stream().filter(x -> {
+			if (x.getText().contains(post.getMessage().getText()))
+				return true;
+			else
+				return false;
+		}).collect(toList()).get(0)
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td/a"));
 		String userId = profileLink.getText();
@@ -164,11 +170,21 @@ public class VerifyPost {
 	}
 
 	public static PosterBean getPosterFromButton(WebDriver driver, PostBean post) {
-		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).get(1)
+		WebElement profileLink = driver.findElements(className(FORUM_TABLE)).stream().filter(x -> {
+			if (x.getText().contains(post.getMessage().getText()))
+				return true;
+			else
+				return false;
+		}).collect(toList()).get(0)
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr/td"));
 		String userId = profileLink.getText();
-		WebElement button = driver.findElements(className(FORUM_TABLE)).get(1)
+		WebElement button = driver.findElements(className(FORUM_TABLE)).stream().filter(x -> {
+			if (x.getText().contains(post.getMessage().getText()))
+				return true;
+			else
+				return false;
+		}).collect(toList()).get(0)
 				.findElement(xpath("tbody/tr/td/p[contains(text(),'" + post.getMessage().getText() + "')]"))
 				.findElement(xpath("../../../tr[3]/td[2]/ul/li/a"));
 		button.click();
