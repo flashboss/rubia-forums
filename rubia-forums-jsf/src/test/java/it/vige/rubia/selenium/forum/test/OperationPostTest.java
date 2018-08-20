@@ -465,10 +465,10 @@ public class OperationPostTest {
 		message = removePost(driver,
 				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "First Test Topic"), "Fourth Test Post"));
 		assertTrue(message.equals(OK));
-		message = removePost(driver, new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
+		/*message = removePost(driver, new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
 				"Fifth Test with Truncation over 25 characters Post"));
 		assertTrue(message.equals(OK));
-		/*message = removePost(driver,
+		message = removePost(driver,
 				new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"), "Sixth Test Post"));
 		assertTrue(message.equals(OK));
 		message = removePost(driver, new PostBean(new TopicBean(new ForumBean("First Test Forum"), "Second Test Topic"),
