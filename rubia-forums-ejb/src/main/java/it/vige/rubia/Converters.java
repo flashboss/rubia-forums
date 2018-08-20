@@ -596,8 +596,11 @@ public interface Converters {
 		public Topic apply(TopicBean t) {
 			if (t != null) {
 				Forum forum = ForumBeanToForum.apply(t.getForum());
-				Poll poll = new Poll();
-				poll.setId(t.getPoll().getId());
+				Poll poll = null;
+				if (t.getPoll() != null) {
+					poll = new Poll();
+					poll.setId(t.getPoll().getId());
+				}
 				Collection<PostBean> postBeans = t.getPosts();
 				List<Post> posts = null;
 				if (postBeans != null) {
