@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.CategoryBean;
@@ -162,6 +163,18 @@ public interface Converters {
 					for (Topic topic : topics) {
 						TopicBean topicBean = new TopicBean();
 						topicBean.setId(topic.getId());
+						topicBean.setLastPostDate(topic.getLastPostDate());
+						topicBean.setPoll(PollToPollBean.apply(topic.getPoll()));
+						topicBean.setPoster(PosterToPosterBean.apply(topic.getPoster()));
+						topicBean.setType(topic.getType());
+						topicBean.setSubject(topic.getSubject());
+						topicBean.setReplies(topic.getReplies());
+						topicBean.setStatus(topic.getStatus());
+						topicBean.setViewCount(topic.getViewCount());
+						List<Watch> watches = topic.getWatches();
+						if (watches != null && !watches.isEmpty())
+							topicBean.setWatches(
+									topic.getWatches().stream().map(x -> WatchToWatchBean.apply(x)).collect(toList()));
 						topicBeans.add(topicBean);
 					}
 					forum.setTopics(topicBeans);
@@ -215,6 +228,17 @@ public interface Converters {
 					for (TopicBean topicBean : topicBeans) {
 						Topic topic = new Topic();
 						topic.setId(topicBean.getId());
+						topic.setLastPostDate(topicBean.getLastPostDate());
+						topic.setPoll(PollBeanToPoll.apply(topicBean.getPoll()));
+						topic.setPoster(PosterBeanToPoster.apply(topicBean.getPoster()));
+						topic.setType(topicBean.getType());
+						topic.setSubject(topicBean.getSubject());
+						topic.setReplies(topicBean.getReplies());
+						topic.setStatus(topicBean.getStatus());
+						topic.setViewCount(topicBean.getViewCount());
+						List<WatchBean> watches = topicBean.getWatches();
+						if (watches != null && !watches.isEmpty())
+							topic.setWatches(watches.stream().map(x -> WatchBeanToWatch.apply(x)).collect(toList()));
 						topics.add(topic);
 					}
 					forum.setTopics(topics);

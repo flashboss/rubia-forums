@@ -17,6 +17,7 @@ import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static it.vige.rubia.ui.JSFUtil.setMessage;
+import static java.lang.Integer.parseInt;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -236,7 +237,7 @@ public class AdminController extends BaseController {
 			int categoryId = -1;
 			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
-				categoryId = Integer.parseInt(cour);
+				categoryId = parseInt(cour);
 			}
 			if (categoryId != -1) {
 				CategoryBean category = null;
@@ -256,7 +257,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String forumIdStr = getParameter(p_forumId);
 			if (forumIdStr != null && forumIdStr.trim().length() > 0) {
-				forumId = Integer.parseInt(forumIdStr);
+				forumId = parseInt(forumIdStr);
 			}
 			if (forumId != -1) {
 				ForumBean forum = null;
@@ -348,7 +349,7 @@ public class AdminController extends BaseController {
 			int categoryId = -1;
 			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
-				categoryId = Integer.parseInt(cour);
+				categoryId = parseInt(cour);
 			}
 
 			// grab the category from the module and set the title
@@ -384,7 +385,7 @@ public class AdminController extends BaseController {
 			int categoryId = -1;
 			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
-				categoryId = Integer.parseInt(cour);
+				categoryId = parseInt(cour);
 			}
 
 			// grab the category from the module and set the title
@@ -461,7 +462,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 
 			// grab the forum from the module and set the proper information
@@ -500,7 +501,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 			ForumBean source = null;
 			// move all the topics/posts of this forum to the specified target
@@ -555,7 +556,7 @@ public class AdminController extends BaseController {
 			int categoryId = -1;
 			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
-				categoryId = Integer.parseInt(cour);
+				categoryId = parseInt(cour);
 			}
 
 			CategoryBean category = forumsModule.findCategoryById(categoryId);
@@ -589,7 +590,7 @@ public class AdminController extends BaseController {
 			int categoryId = -1;
 			String cour = getParameter(p_categoryId);
 			if (cour != null && cour.trim().length() > 0) {
-				categoryId = Integer.parseInt(cour);
+				categoryId = parseInt(cour);
 			}
 
 			CategoryBean category = forumsModule.findCategoryById(categoryId);
@@ -623,7 +624,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 
 			ForumBean forum = forumsModule.findForumById(forumId);
@@ -652,7 +653,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 
 			ForumBean forum = forumsModule.findForumById(forumId);
@@ -679,7 +680,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 
 			ForumBean forum = forumsModule.findForumById(forumId);
@@ -706,7 +707,7 @@ public class AdminController extends BaseController {
 			int forumId = -1;
 			String cour = getParameter(p_forumId);
 			if (cour != null && cour.trim().length() > 0) {
-				forumId = Integer.parseInt(cour);
+				forumId = parseInt(cour);
 			}
 
 			ForumBean forum = forumsModule.findForumById(forumId);
