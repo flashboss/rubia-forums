@@ -86,14 +86,14 @@ public class OperationPostTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-		String message = createCategory(driver, new CategoryBean("First Test Category"));
+/*		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 		message = createForum(driver,
 				new ForumBean("First Test Forum", "First Test Description", new CategoryBean("First Test Category")));
-		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));
-		message = createTopic(driver,
+		assertTrue(message.equals(CREATED_FORUM_0_MESSAGE));*/
+		String message = createTopic(driver,
 				new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
 						asList(new PostBean[] { new PostBean("First Test Body",
 								asList(new AttachmentBean("first", "First Test File"),
