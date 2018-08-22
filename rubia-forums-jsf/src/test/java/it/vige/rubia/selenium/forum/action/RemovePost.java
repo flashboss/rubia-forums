@@ -37,7 +37,7 @@ public class RemovePost {
 	public static String removePost(WebDriver driver, PostBean post) {
 		goTo(driver, post.getTopic());
 		WebElement removePostButton = driver
-				.findElement(xpath("//tbody[contains(.,'" + post.getMessage().getText() + "')]"))
+				.findElements(xpath("//tbody[contains(.,'" + post.getMessage().getText() + "')]")).get(1)
 				.findElement(id(REMOVE_POST_BUTTON)).findElement(xpath("ul/a[2]"));
 		removePostButton.click();
 		WebElement confirmRemoveTopicButton = driver.findElement(xpath(CONFIRM_REMOVE_TOPIC_BUTTON));
