@@ -55,6 +55,11 @@ import static it.vige.rubia.selenium.forum.action.VerifyForum.goTo;
 import static it.vige.rubia.selenium.myforums.action.ViewAllForums.viewAllForums;
 import static it.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllEditForumsRemoveForum;
 import static it.vige.rubia.selenium.myforums.action.ViewAllForumsRemoveForum.viewAllForumsRemoveForum;
+import static it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum.selectAllForumsProfile;
+import static it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum.selectForum;
+import static it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum.selectProfile;
+import static it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost.selectAllForumsPost;
+import static it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost.selectPost;
 import static it.vige.rubia.selenium.myforums.action.ViewAllForumsUpdateForum.viewAllForumsUpdateForum;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -80,8 +85,6 @@ import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
-import it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectForum;
-import it.vige.rubia.selenium.myforums.action.ViewAllForumsSelectPost;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -178,7 +181,7 @@ public class MyForumsForumTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("Second Test Topic");
 		post.setMessage(message);
-		PosterBean poster = ViewAllForumsSelectForum.selectProfile(driver, post);
+		PosterBean poster = selectProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 4);
@@ -190,7 +193,7 @@ public class MyForumsForumTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("Second Test Topic");
 		post.setMessage(message);
-		TopicBean result = ViewAllForumsSelectPost.selectPost(driver, post);
+		TopicBean result = selectPost(driver, post);
 		assertTrue(result != null);
 		assertEquals(message.getSubject(), result.getSubject());
 		assertEquals("root", result.getPoster().getUserId());
@@ -204,7 +207,7 @@ public class MyForumsForumTest {
 	public void verifyAllForumsForum() {
 		ForumBean forum = new ForumBean("Third Test Forum", "Third Test Description",
 				new CategoryBean("Second Test Category"));
-		ForumBean result = ViewAllForumsSelectForum.selectForum(driver, forum);
+		ForumBean result = selectForum(driver, forum);
 		assertTrue(result != null);
 		assertEquals(forum.getName(), result.getName());
 		assertEquals(0, result.getTopics().size());
@@ -217,7 +220,7 @@ public class MyForumsForumTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("Fourth Test Topic");
 		post.setMessage(message);
-		PosterBean poster = ViewAllForumsSelectForum.selectAllForumsProfile(driver, post);
+		PosterBean poster = selectAllForumsProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 4);
@@ -229,7 +232,7 @@ public class MyForumsForumTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("Second Test Topic");
 		post.setMessage(message);
-		TopicBean result = ViewAllForumsSelectPost.selectAllForumsPost(driver, post);
+		TopicBean result = selectAllForumsPost(driver, post);
 		assertTrue(result != null);
 		assertEquals(message.getSubject(), result.getSubject());
 		assertEquals("root", result.getPoster().getUserId());
