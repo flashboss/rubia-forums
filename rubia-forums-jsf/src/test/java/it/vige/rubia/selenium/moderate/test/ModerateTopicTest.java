@@ -73,6 +73,7 @@ public class ModerateTopicTest {
 	public final static String SUCC_TOPIC_UNLOCKED = getBundle("ResourceJSF").getString("SUCC_TOPIC_UNLOCKED");
 	public final static String ERR_NO_DEST_FORUM = getBundle("ResourceJSF").getString("ERR_NO_DEST_FORUM");
 	public final static String SUCC_TOPIC_MOVED = getBundle("ResourceJSF").getString("SUCC_TOPIC_MOVED");
+	public final static String SUCC_VIEW_RESULTS = getBundle("ResourceJSF").getString("View_results");
 
 	@BeforeClass
 	public static void setUp() {
@@ -197,7 +198,7 @@ public class ModerateTopicTest {
 		assertEquals(ERR_NO_DEST_FORUM, message);
 		goTo(driver, topic);
 		message = moveTopic(driver, destForum, CANCEL);
-		assertEquals("", message);
+		assertTrue(message.contains(SUCC_VIEW_RESULTS));
 		message = moveTopic(driver, destForum, CONFIRM);
 		assertEquals(SUCC_TOPIC_MOVED, message);
 		topic.setForum(destForum);

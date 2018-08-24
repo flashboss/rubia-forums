@@ -9,7 +9,6 @@ import static org.openqa.selenium.By.xpath;
 
 import java.util.List;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -75,13 +74,8 @@ public class MoveTopic {
 			button = driver.findElements(className(BUTTON_CONFIRM)).get(0);
 		button.click();
 		String result = "";
-		try {
-			WebElement message = driver.findElement(className(RESULT_MOVE_TOPIC))
-					.findElement(xpath("//table/tbody/tr/td"));
-			result = message.getText();
-		} catch (NoSuchElementException e) {
-
-		}
+		WebElement message = driver.findElement(className(RESULT_MOVE_TOPIC)).findElement(xpath("//table/tbody/tr/td"));
+		result = message.getText();
 		return result;
 	}
 
