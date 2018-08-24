@@ -51,6 +51,9 @@ import static it.vige.rubia.selenium.forum.action.VerifyTopic.goTo;
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopics.goTo;
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopics.viewAllTopics;
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsRemoveTopic.viewAllTopicsRemoveTopic;
+import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectPost.selectPost;
+import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectPost.selectProfile;
+import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectTopic.selectProfile;
 import static it.vige.rubia.selenium.myforums.action.ViewAllTopicsUpdateTopic.viewAllTopicsUpdateTopic;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,8 +79,6 @@ import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
-import it.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectPost;
-import it.vige.rubia.selenium.myforums.action.ViewAllTopicsSelectTopic;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -222,7 +223,7 @@ public class MyForumsTopicTest {
 	public void verifyProfile() {
 		TopicBean topic = new TopicBean(new ForumBean("First Test Forum"), "First Test Topic",
 				asList(new PostBean[] { new PostBean("First Test Body") }));
-		PosterBean poster = ViewAllTopicsSelectTopic.selectProfile(driver, topic);
+		PosterBean poster = selectProfile(driver, topic);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 6);
@@ -234,7 +235,7 @@ public class MyForumsTopicTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("First Test Topic");
 		post.setMessage(message);
-		TopicBean result = ViewAllTopicsSelectPost.selectPost(driver, post);
+		TopicBean result = selectPost(driver, post);
 		assertTrue(result != null);
 		assertEquals(1, result.getPosts().size());
 		assertEquals("root", result.getPosts().get(0).getPoster().getUserId());
@@ -249,7 +250,7 @@ public class MyForumsTopicTest {
 		MessageBean message = new MessageBean();
 		message.setSubject("Fourth Test Topic");
 		post.setMessage(message);
-		PosterBean poster = ViewAllTopicsSelectPost.selectProfile(driver, post);
+		PosterBean poster = selectProfile(driver, post);
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
 		assertTrue(poster.getPostCount() >= 6);
