@@ -595,10 +595,10 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			em.persist(post);
 			em.flush();
 
+			topic.setLastPostDate(post.getCreateDate());
+			topic.setReplies(topic.getReplies() + 1);
 			Topic topicEntity = TopicBeanToTopic.apply(topic);
 			post.setTopic(topicEntity);
-			topicEntity.setLastPostDate(post.getCreateDate());
-			topicEntity.setReplies(topic.getReplies() + 1);
 			em.merge(topicEntity);
 			forum.addPostSize();
 			em.merge(ForumBeanToForum.apply(forum));
