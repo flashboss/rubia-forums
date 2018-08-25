@@ -1,0 +1,8 @@
+title: Rubia Forums
+description: The new jboss forums now based on javaee and working as portlet
+google_analytics: forum forums portlet javaee
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
