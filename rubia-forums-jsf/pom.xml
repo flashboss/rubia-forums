@@ -88,6 +88,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<plugins>
 					<plugin>
 						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.surefire.drone.plugin.version}</version>
 						<configuration>
 							<argLine>-Duser.language=${user.language}
 								-Duser.region=${user.country}</argLine>
