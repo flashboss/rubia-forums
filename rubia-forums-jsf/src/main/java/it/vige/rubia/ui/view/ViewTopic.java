@@ -19,6 +19,8 @@ import static it.vige.rubia.feeds.FeedConstants.TOPIC;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static java.lang.Integer.parseInt;
+import static javax.faces.context.FacesContext.getCurrentInstance;
+import static javax.faces.event.PhaseId.RESTORE_VIEW;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.event.PhaseId;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
@@ -221,7 +224,9 @@ public class ViewTopic extends BaseController {
 			if (topic == null) {
 				topic = forumsModule.findTopicById(topicId);
 			}
-			topic.setViewCount(topic.getViewCount() + 1);
+			PhaseId phaseId = getCurrentInstance().getCurrentPhaseId();
+			if (phaseId.equals(RESTORE_VIEW))
+				topic.setViewCount(topic.getViewCount() + 1);
 			forumsModule.update(topic);
 
 			int postCount = topic.getReplies() + 1;

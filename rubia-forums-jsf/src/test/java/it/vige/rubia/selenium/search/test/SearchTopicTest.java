@@ -101,7 +101,7 @@ public class SearchTopicTest {
 	@BeforeClass
 	public static void setUp() {
 		driver.get(HOME_URL);
-	/*	String message = createCategory(driver, new CategoryBean("First Test Category"));
+		String message = createCategory(driver, new CategoryBean("First Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_1_MESSAGE));
 		message = createCategory(driver, new CategoryBean("Second Test Category"));
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
@@ -170,7 +170,7 @@ public class SearchTopicTest {
 		message = createForum(driver, forum);
 		assertTrue(message.equals(CREATED_FORUM_4_MESSAGE));
 		message = registerForum(driver, forum, EMAIL_NO_NOTIFICATION, CONFIRM);
-		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Forum"));*/
+		assertTrue(message.equals("Fifth Test with Truncation over 25 characters Forum"));
 	}
 
 	@Test
@@ -194,7 +194,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -238,7 +238,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -288,7 +288,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -339,7 +339,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -385,7 +385,7 @@ public class SearchTopicTest {
 				topics.get(0).getSubject());
 		assertEquals("root", topics.get(0).getPoster().getUserId());
 		assertEquals(0, topics.get(0).getReplies());
-		assertEquals(1, topics.get(0).getViewCount());
+		assertEquals(0, topics.get(0).getViewCount());
 		assertTrue(topics.get(0).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(0).getPosts().size());
 		assertTrue(
@@ -456,7 +456,7 @@ public class SearchTopicTest {
 				topics.get(3).getSubject());
 		assertEquals("root", topics.get(3).getPoster().getUserId());
 		assertEquals(0, topics.get(3).getReplies());
-		assertEquals(1, topics.get(3).getViewCount());
+		assertEquals(0, topics.get(3).getViewCount());
 		assertTrue(topics.get(3).getLastPostDate().compareTo(today) < 0);
 		assertEquals(1, topics.get(3).getPosts().size());
 		assertTrue(
@@ -563,7 +563,7 @@ public class SearchTopicTest {
 
 	@Test
 	public void verifyPostFromTopicPageLastPost() {
-/*		goTo(driver);
+		goTo(driver);
 		SearchCriteria searchForumCriteria = new SearchCriteria();
 		searchForumCriteria.setAuthor("root");
 		searchForumCriteria.setCategory(null);
@@ -584,12 +584,12 @@ public class SearchTopicTest {
 				post.getMessage().getSubject());
 		assertTrue(poster != null);
 		assertEquals("root", poster.getUserId());
-		assertTrue(poster.getPostCount() >= 4);*/
+		assertTrue(poster.getPostCount() >= 4);
 	}
 
 	@AfterClass
 	public static void stop() {
-	/*	String message = removeTopic(driver,
+		String message = removeTopic(driver,
 				new TopicBean(new ForumBean("First Test Forum"),
 						"First Test with a large subject name triing to truncate over the 25 character Topic",
 						asList(new PostBean[] { new PostBean("First Test Body") })));
@@ -629,6 +629,6 @@ public class SearchTopicTest {
 		message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
 		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
 		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));*/
+		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }
