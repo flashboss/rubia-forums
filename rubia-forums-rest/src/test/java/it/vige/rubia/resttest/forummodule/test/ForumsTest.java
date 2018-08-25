@@ -12,6 +12,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.vige.rubia.dto.ForumBean;
@@ -23,6 +25,11 @@ public class ForumsTest extends RestCaller {
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
 	private static Logger log = getLogger(ForumsTest.class);
+
+	@BeforeAll
+	public static void setUp() {
+		log.debug("started test");
+	}
 
 	@Test
 	public void addForum() {
@@ -76,5 +83,10 @@ public class ForumsTest extends RestCaller {
 		assertEquals(0, forum2.getTopicCount(), "Forum topic count");
 		response.close();
 
+	}
+
+	@AfterAll
+	public static void stop() {
+		log.debug("stopped test");
 	}
 }
