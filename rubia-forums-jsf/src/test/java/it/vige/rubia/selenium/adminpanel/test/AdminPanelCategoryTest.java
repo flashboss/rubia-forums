@@ -74,14 +74,6 @@ public class AdminPanelCategoryTest {
 		assertTrue(message.equals(CREATED_CATEGORY_2_MESSAGE));
 	}
 
-	@AfterClass
-	public static void stop() {
-		String message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
-	}
-
 	@Test
 	public void verifyMoveCategory() {
 		Map<String, Integer> positions = moveCategory(driver, new CategoryBean("First Test Category"), UP);
@@ -98,5 +90,13 @@ public class AdminPanelCategoryTest {
 		message = updateCategory(driver, new CategoryBean("Third Test Category"),
 				new CategoryBean("First Test Category"));
 		assertFalse(message.equals(UPDATED_CATEGORY_MESSAGE));
+	}
+
+	@AfterClass
+	public static void stop() {
+		String message = removeCategory(driver, new CategoryBean("First Test Category"), SELECT_CATEGORY_TYPE);
+		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
+		message = removeCategory(driver, new CategoryBean("Second Test Category"), SELECT_CATEGORY_TYPE);
+		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

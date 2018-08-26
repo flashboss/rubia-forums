@@ -317,8 +317,9 @@ public class AdminController extends BaseController {
 
 			// add this new category to the forum instance
 			ForumInstanceBean forumInstance = forumsModule.findForumInstanceById(forumInstanceId);
-
-			forumsModule.createCategory(categoryName, forumInstance);
+			CategoryBean categoryBean = new CategoryBean(categoryName);
+			categoryBean.setForumInstance(forumInstance);
+			forumsModule.createCategory(categoryBean);
 
 			String start = getBundleMessage("ResourceJSF", "Category_created_0");
 			String end = getBundleMessage("ResourceJSF", "Category_created_1");

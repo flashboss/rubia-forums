@@ -28,12 +28,12 @@ public abstract class RestCaller {
 
 	private final static Client client = newClient();
 
-	protected Response get(String url, String authorization) {
+	protected static Response get(String url, String authorization) {
 		WebTarget target = client.target(url);
 		return target.request().header("Authorization", authorization).get();
 	}
 
-	protected Response post(String url, String authorization, Object entity) {
+	protected static Response post(String url, String authorization, Object entity) {
 		Jsonb jsonb = create();
 		String json = jsonb.toJson(entity);
 		WebTarget target = client.target(url);

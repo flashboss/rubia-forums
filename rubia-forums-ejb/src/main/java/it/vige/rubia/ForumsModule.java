@@ -469,7 +469,7 @@ public interface ForumsModule {
 	 * @throws ModuleException
 	 *             DOCUMENT_ME
 	 */
-	CategoryBean createCategory(String name, ForumInstanceBean forumInstance) throws ModuleException;
+	CategoryBean createCategory(CategoryBean category) throws ModuleException;
 
 	/**
 	 * add createForumInstance and removeForumInstance methods to manage create

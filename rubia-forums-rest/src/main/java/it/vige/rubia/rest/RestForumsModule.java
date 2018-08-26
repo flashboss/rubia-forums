@@ -317,8 +317,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public CategoryBean createCategory(String name, ForumInstanceBean forumInstance) throws ModuleException {
-		return forumsModule.createCategory(name, forumInstance);
+	public CategoryBean createCategory(CategoryBean category) throws ModuleException {
+		return forumsModule.createCategory(category);
 	}
 
 	@GET
