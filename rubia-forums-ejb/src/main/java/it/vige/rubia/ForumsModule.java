@@ -49,8 +49,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param guestUserName
-	 *            the username of the guest
+	 * @param guestUserName the username of the guest
 	 */
 	void setGuestUserName(String guestUserName);
 
@@ -64,148 +63,115 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param fromAddress
-	 *            DOCUMENT_ME
+	 * @param fromAddress DOCUMENT_ME
 	 */
 	void setFromAddress(String fromAddress);
 
 	/**
 	 * Returns all the announcements of the forum
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for the announcements
+	 * @param forum Forum in which we want to search for the announcements
 	 * @return List of topics
-	 * @throws ModuleException
-	 *             Throws an exception if unable to find the announcements.
+	 * @throws ModuleException Throws an exception if unable to find the
+	 *                         announcements.
 	 */
 	List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException;
 
 	/**
 	 * Returns some topics of a forum that are not of a certain type. Need to a
-	 * forumInstanceId argument to take only topics of a specific forum
-	 * instance. FindTopics method need to a forumInstanceId argument to take
-	 * only topics of a specific forum instance
+	 * forumInstanceId argument to take only topics of a specific forum instance.
+	 * FindTopics method need to a forumInstanceId argument to take only topics of a
+	 * specific forum instance
 	 * 
-	 * @param indexInstance
-	 *            the forum instance where find the topics
+	 * @param indexInstance the forum instance where find the topics
 	 * @return List of topics
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopics(Integer indexInstance) throws ModuleException;
 
 	/**
-	 * Returns some topics of a forum that are not of a certain type The topics
-	 * are ordered by creation date from oldest to newest
+	 * Returns some topics of a forum that are not of a certain type The topics are
+	 * ordered by creation date from oldest to newest
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for topics
-	 * @param type
-	 *            Type to avoid
-	 * @param start
-	 *            Index for fetching result
-	 * @param perPage
-	 *            Number of result to return
+	 * @param forum   Forum in which we want to search for topics
+	 * @param type    Type to avoid
+	 * @param start   Index for fetching result
+	 * @param perPage Number of result to return
 	 * @return List of perPage topics ordered by creation date.
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopicsAsc(ForumBean forum, TopicType type, int start, int perPage) throws ModuleException;
 
 	/**
 	 * Returns topics that are ordered by creation date from newest to oldest.
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for topics
-	 * @param type
-	 *            Type to avoid
-	 * @param start
-	 *            Index for fetching result
-	 * @param perPage
-	 *            Number of result to return
+	 * @param forum   Forum in which we want to search for topics
+	 * @param type    Type to avoid
+	 * @param start   Index for fetching result
+	 * @param perPage Number of result to return
 	 * @return List of perPage topics ordered by opposite creation date.
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopicsDesc(ForumBean forum, TopicType type, int start, int perPage) throws ModuleException;
 
 	/**
 	 * Returns topics that are ordered by creation date from oldest to newest.
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for topics
-	 * @param start
-	 *            Index for fetching result
-	 * @param perPage
-	 *            Number of result to return
+	 * @param forum   Forum in which we want to search for topics
+	 * @param start   Index for fetching result
+	 * @param perPage Number of result to return
 	 * @return List of perPage topics ordered by creation date.
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopicsAsc(ForumBean forum, int start, int perPage) throws ModuleException;
 
 	/**
-	 * Returns some topics of a forum that are not of a certain type The topics
-	 * are ordered by creation date from newest to oldest
+	 * Returns some topics of a forum that are not of a certain type The topics are
+	 * ordered by creation date from newest to oldest
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for topics
-	 * @param start
-	 *            Index for fetching result
-	 * @param perPage
-	 *            Number of result to return
+	 * @param forum   Forum in which we want to search for topics
+	 * @param start   Index for fetching result
+	 * @param perPage Number of result to return
 	 * @return List of perPage topics ordered by opposite creation date.
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopicsDesc(ForumBean forum, int start, int perPage) throws ModuleException;
 
 	/**
 	 * *
 	 * 
-	 * @param forum
-	 *            Forum in which we want to search for topics
+	 * @param forum Forum in which we want to search for topics
 	 * @return List of perPage topics ordered by creation date.
-	 * @throws ModuleException
-	 *             Throws an excpetion if unable to find the topics.
+	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopics(ForumBean forum) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
-	 *            DOCUMENT_ME
-	 * @param type
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param perPage
-	 *            DOCUMENT_ME
-	 * @param date
-	 *            DOCUMENT_ME
+	 * @param forum   DOCUMENT_ME
+	 * @param type    DOCUMENT_ME
+	 * @param start   DOCUMENT_ME
+	 * @param perPage DOCUMENT_ME
+	 * @param date    DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
-	List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date) throws ModuleException;
+	List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date)
+			throws ModuleException;
 
 	/**
 	 * FindTopicsHot, findTopicsByLatestPosts, findTopicsHottest,
-	 * findTopicsMostViewed methods need to a forumInstanceId argument to take
-	 * only topics of a specific forum instance
+	 * findTopicsMostViewed methods need to a forumInstanceId argument to take only
+	 * topics of a specific forum instance
 	 * 
-	 * @param replies
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param replies       DOCUMENT_ME
+	 * @param limit         DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the list of topics
 	 * 
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 
 	List<TopicBean> findTopicsHot(int replies, int limit, Integer indexInstance) throws ModuleException;
@@ -213,192 +179,150 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param limit         DOCUMENT_ME
 	 * 
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicsByLatestPosts(int limit, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param after
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param after         DOCUMENT_ME
+	 * @param limit         DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicsHottest(Date after, int limit, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param after
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param after         DOCUMENT_ME
+	 * @param limit         DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicsMostViewed(Date after, int limit, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * Find a forum by specifying its ID
 	 * 
-	 * @param id
-	 *            ID of the forum to retrieve
+	 * @param id ID of the forum to retrieve
 	 * @return Forum with specified ID
-	 * @throws ModuleException
-	 *             Throws an exception if the forum cannot be found
+	 * @throws ModuleException Throws an exception if the forum cannot be found
 	 */
 	ForumBean findForumById(Integer id) throws ModuleException;
 
 	/**
 	 * Find a forum by specifying its ID and fetch Topics of this Forum.
 	 * 
-	 * @param id
-	 *            ID of the forum to retrieve
+	 * @param id ID of the forum to retrieve
 	 * @return Forum with specified ID
-	 * @throws ModuleException
-	 *             Throws an exception if the forum cannot be found
+	 * @throws ModuleException Throws an exception if the forum cannot be found
 	 */
 	ForumBean findForumByIdFetchTopics(Integer id) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param category
-	 *            DOCUMENT_ME
-	 * @param name
-	 *            DOCUMENT_ME
-	 * @param description
-	 *            DOCUMENT_ME
+	 * @param category    DOCUMENT_ME
+	 * @param name        DOCUMENT_ME
+	 * @param description DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
-	ForumBean createForum(CategoryBean category, String name, String description) throws ModuleException;
+	ForumBean createForum(ForumBean forum) throws ModuleException;
 
 	/**
 	 * Need to a forumInstanceId argument to take only posts of a specific forum
-	 * instance. FindPosts method need to a forumInstanceId argument to take
-	 * only posts of a specific forum instance
+	 * instance. FindPosts method need to a forumInstanceId argument to take only
+	 * posts of a specific forum instance
 	 * 
-	 * @param indexInstance
-	 *            the forum instance where find the posts
+	 * @param indexInstance the forum instance where find the posts
 	 * 
 	 * @return the list of posts for the index instance
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPosts(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param id
-	 *            DOCUMENT_ME
+	 * @param id DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean findPostById(Integer id) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param userID
-	 *            DOCUMENT_ME
+	 * @param userID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PosterBean findPosterByUserId(String userID) throws ModuleException;
 
 	/**
-	 * Get all the categories of forums.. FindCategories,
-	 * findCategoriesFetchForums and findForums methods need to a
-	 * forumInstanceId argument to take only categories of a specific forum
-	 * instance. FindCategories, findCategoriesFetchForums, findForums methods
-	 * need to a forumInstanceId argument to take only objects of a specific
-	 * forum instance
+	 * Get all the categories of forums.. FindCategories, findCategoriesFetchForums
+	 * and findForums methods need to a forumInstanceId argument to take only
+	 * categories of a specific forum instance. FindCategories,
+	 * findCategoriesFetchForums, findForums methods need to a forumInstanceId
+	 * argument to take only objects of a specific forum instance
 	 * 
-	 * @param indexInstance
-	 *            the forum instance where find the categories
+	 * @param indexInstance the forum instance where find the categories
 	 * @return the list of categories
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<CategoryBean> findCategories(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * Get all the categories of forums and fetch forums.
 	 * 
-	 * @param indexInstance
-	 *            the forum instance where find the categories
+	 * @param indexInstance the forum instance where find the categories
 	 * 
 	 * @return All the categories
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<CategoryBean> findCategoriesFetchForums(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param indexInstance
-	 *            the forum instance where find the categories
+	 * @param indexInstance the forum instance where find the categories
 	 * 
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<ForumBean> findForums(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * Get all the forums of a category
 	 * 
-	 * @param category
-	 *            Category of forums
+	 * @param category Category of forums
 	 * @return Forums of one category
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<ForumBean> findForumsByCategory(CategoryBean category) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
-	 *            DOCUMENT_ME
-	 * @param message
-	 *            DOCUMENT_ME
-	 * @param creationDate
-	 *            DOCUMENT_ME
-	 * @param poster
-	 *            DOCUMENT_ME
-	 * @param poll
-	 *            DOCUMENT_ME
-	 * @param attachments
-	 *            DOCUMENT_ME
-	 * @param type
-	 *            DOCUMENT_ME
+	 * @param forum        DOCUMENT_ME
+	 * @param message      DOCUMENT_ME
+	 * @param creationDate DOCUMENT_ME
+	 * @param poster       DOCUMENT_ME
+	 * @param poll         DOCUMENT_ME
+	 * @param attachments  DOCUMENT_ME
+	 * @param type         DOCUMENT_ME
 	 * @return The new post created
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean createTopic(ForumBean forum, MessageBean message, Date creationDate, PosterBean poster, PollBean poll,
 			Collection<AttachmentBean> attachments, TopicType type) throws ModuleException;
@@ -406,38 +330,26 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum
-	 *            DOCUMENT_ME
-	 * @param userID
-	 *            DOCUMENT_ME
-	 * @param subject
-	 *            DOCUMENT_ME
-	 * @param type
-	 *            DOCUMENT_ME
+	 * @param forum   DOCUMENT_ME
+	 * @param userID  DOCUMENT_ME
+	 * @param subject DOCUMENT_ME
+	 * @param type    DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	TopicBean createTopic(ForumBean forum, String userID, String subject, TopicType type) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param forum
-	 *            DOCUMENT_ME
-	 * @param message
-	 *            DOCUMENT_ME
-	 * @param creationTime
-	 *            DOCUMENT_ME
-	 * @param poster
-	 *            DOCUMENT_ME
-	 * @param attachments
-	 *            DOCUMENT_ME
+	 * @param topic        DOCUMENT_ME
+	 * @param forum        DOCUMENT_ME
+	 * @param message      DOCUMENT_ME
+	 * @param creationTime DOCUMENT_ME
+	 * @param poster       DOCUMENT_ME
+	 * @param attachments  DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationTime, PosterBean poster,
 			Collection<AttachmentBean> attachments) throws ModuleException;
@@ -445,40 +357,32 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param poll
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
+	 * @param poll  DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PollBean addPollToTopic(TopicBean topic, PollBean poll) throws ModuleException;
 
 	/**
-	 * Need to a forumInstanceId argument to create only categories of a
-	 * specific forum instance
+	 * Need to a forumInstanceId argument to create only categories of a specific
+	 * forum instance
 	 * 
-	 * @param name
-	 *            DOCUMENT_ME
+	 * @param name          DOCUMENT_ME
 	 * 
-	 * @param forumInstance
-	 *            DOCUMENT_ME
+	 * @param forumInstance DOCUMENT_ME
 	 * 
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	CategoryBean createCategory(CategoryBean category) throws ModuleException;
 
 	/**
-	 * add createForumInstance and removeForumInstance methods to manage create
-	 * and remove of a ForumInstance.
+	 * add createForumInstance and removeForumInstance methods to manage create and
+	 * remove of a ForumInstance.
 	 * 
-	 * @param categoryId
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param categoryId DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeCategory(int categoryId) throws ModuleException;
 
@@ -487,328 +391,258 @@ public interface ForumsModule {
 	 * I add createForumInstance, removeForumInstance and findForumInstanceById
 	 * methods to manage ForumInstance object
 	 * 
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
-	 * @param name
-	 *            DOCUMENT_ME
+	 * @param name          DOCUMENT_ME
 	 * 
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	ForumInstanceBean createForumInstance(Integer indexInstance, String name) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param indexInstance
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeForumInstance(int indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forumId
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param forumId DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeForum(int forumId) throws ModuleException;
 
 	/**
 	 * Delete a post
 	 * 
-	 * @param postId
-	 *            Post to delete
+	 * @param postId     Post to delete
 	 * 
-	 * @param isLastPost
-	 *            if the post is the last of the list
+	 * @param isLastPost if the post is the last of the list
 	 * 
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removePost(int postId, boolean isLastPost) throws ModuleException;
 
 	/**
 	 * Delete a post
 	 * 
-	 * @param topic
-	 *            Post to delete
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param topic Post to delete
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removePollInTopic(TopicBean topic) throws ModuleException;
 
 	/**
 	 * Delete a topic
 	 * 
-	 * @param topicId
-	 *            Topic to delete
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param topicId Topic to delete
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeTopic(int topicId) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param categoryID
-	 *            DOCUMENT_ME
+	 * @param categoryID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	CategoryBean findCategoryById(Integer categoryID) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param categoryID
-	 *            DOCUMENT_ME
+	 * @param categoryID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	CategoryBean findCategoryByIdFetchForums(Integer categoryID) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param source
-	 *            DOCUMENT_ME
-	 * @param target
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param source DOCUMENT_ME
+	 * @param target DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void addAllForums(CategoryBean source, CategoryBean target) throws ModuleException;
 
 	/**
-	 * @param topicID
-	 *            DOCUMENT_ME
+	 * @param topicID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	TopicBean findTopicById(Integer topicID) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsByTopicId(TopicBean topic) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param posts
-	 *            DOCUMENT_ME
+	 * @param posts DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param posts
-	 *            DOCUMENT_ME
+	 * @param posts DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
+	 * @param start DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<Integer> findPostIdsAsc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
+	 * @param start DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<Integer> findPostIdsDesc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
+	 * @param start DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsByTopicIdAsc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param start
-	 *            DOCUMENT_ME
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
+	 * @param start DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
-	 * @param user
-	 *            DOCUMENT_ME
+	 * @param user DOCUMENT_ME
 	 * @return the last post date of the user
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	Date findLastPostDateForUser(User user) throws ModuleException;
 
 	/**
-	 * @param forum
-	 *            DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 * @return the last post in the forum
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean findLastPost(ForumBean forum) throws ModuleException;
 
 	/**
-	 * @param topic
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 * @return the first post of the topic
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean findFirstPost(TopicBean topic) throws ModuleException;
 
 	/**
-	 * @param topic
-	 *            DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 * @return the last post of the topic
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PostBean findLastPost(TopicBean topic) throws ModuleException;
 
 	/**
-	 * @param topics
-	 *            DOCUMENT_ME
+	 * @param topics DOCUMENT_ME
 	 * @return the last posts of the topic
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
 
 	/**
-	 * findLastPostsOfForums method need to a forumInstanceId argument to take
-	 * only posts of a specific forum instance. FindLastPostsOfForums,
+	 * findLastPostsOfForums method need to a forumInstanceId argument to take only
+	 * posts of a specific forum instance. FindLastPostsOfForums,
 	 * findForumWatchByUser, findForumWatchedByUser, findTopicWatchedByUser and
 	 * findTopicWatches methods need to a forumInstanceId argument to take only
 	 * objects of a specific forum instance
 	 * 
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the last posts of the forum instance
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	Map<Object, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
 
 	/**
-	 * findForumWatchByUser method need to a forumInstanceId argument to take
-	 * only categories of a specific forum instance
+	 * findForumWatchByUser method need to a forumInstanceId argument to take only
+	 * categories of a specific forum instance
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the forum watches list
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<ForumWatchBean> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException;
 
 	/**
-	 * findForumWatchedByUser method need to a forumInstanceId argument to take
-	 * only forums of a specific forum instance
+	 * findForumWatchedByUser method need to a forumInstanceId argument to take only
+	 * forums of a specific forum instance
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the forums watched by the user
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<ForumBean> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException;
 
 	/**
-	 * findTopicWatchedByUser method need to a forumInstanceId argument to take
-	 * only topics of a specific forum instance
+	 * findTopicWatchedByUser method need to a forumInstanceId argument to take only
+	 * topics of a specific forum instance
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the topics watched by the user
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException;
 
 	/**
-	 * findTopicWatchedByUser method need to a forumInstanceId argument to take
-	 * only topics of a specific forum instance
+	 * findTopicWatchedByUser method need to a forumInstanceId argument to take only
+	 * topics of a specific forum instance
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param date
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param date          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the topics watched by the user
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException;
 
@@ -825,14 +659,11 @@ public interface ForumsModule {
 	 * topics of a specific forum instance. This method returns a map of
 	 * Integer,TopicWatch pairs where Integer key is watched topic id.
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * 
 	 * @return the map of topic watches
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
 
@@ -841,23 +672,17 @@ public interface ForumsModule {
 	PosterBean createPoster(String userID) throws ModuleException;
 
 	/**
-	 * @param poster
-	 *            DOCUMENT_ME
-	 * @param forum
-	 *            DOCUMENT_ME
-	 * @param i
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param poster DOCUMENT_ME
+	 * @param forum  DOCUMENT_ME
+	 * @param i      DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void createWatch(PosterBean poster, ForumBean forum, int i) throws ModuleException;
 
 	/**
-	 * @param forumWatchID
-	 *            DOCUMENT_ME
+	 * @param forumWatchID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	ForumWatchBean findForumWatchById(Integer forumWatchID) throws ModuleException;
 
@@ -867,187 +692,147 @@ public interface ForumsModule {
 	 * Integer,ForumWatch pairs where Integer key is watched forum id. Need to a
 	 * forumInstanceId argument to take only forums of a specific forum instance
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param indexInstance
-	 *            DOCUMENT_ME
+	 * @param user          DOCUMENT_ME
+	 * @param indexInstance DOCUMENT_ME
 	 * @return the map of the forum watches
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param forumId
-	 *            DOCUMENT_ME
+	 * @param user    DOCUMENT_ME
+	 * @param forumId DOCUMENT_ME
 	 * @return ForumWatch
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	ForumWatchBean findForumWatchByUserAndForum(User user, int forumId) throws ModuleException;
 
 	/**
 	 * 
-	 * @param user
-	 *            DOCUMENT_ME
-	 * @param topicId
-	 *            DOCUMENT_ME
+	 * @param user    DOCUMENT_ME
+	 * @param topicId DOCUMENT_ME
 	 * @return TopicWatch
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	TopicWatchBean findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException;
 
 	/**
 	 * Search method for forum instances
 	 * 
-	 * @param forumInstanceID
-	 *            DOCUMENT_ME
+	 * @param forumInstanceID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	ForumInstanceBean findForumInstanceById(Integer forumInstanceID) throws ModuleException;
 
 	/**
-	 * @param poster
-	 *            DOCUMENT_ME
-	 * @param topic
-	 *            DOCUMENT_ME
-	 * @param mode
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param poster DOCUMENT_ME
+	 * @param topic  DOCUMENT_ME
+	 * @param mode   DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void createWatch(PosterBean poster, TopicBean topic, int mode) throws ModuleException;
 
 	/**
-	 * @param topicWatchID
-	 *            DOCUMENT_ME
+	 * @param topicWatchID DOCUMENT_ME
 	 * @return DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	TopicWatchBean findTopicWatchById(Integer topicWatchID) throws ModuleException;
 
 	/**
-	 * @param watch
-	 *            DOCUMENT_ME
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @param watch DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeWatch(WatchBean watch) throws ModuleException;
 
 	/**
-	 * @param postId
-	 *            DOCUMENT_ME
-	 * @param watchType
-	 *            DOCUMENT_ME
-	 * @param postUrl
-	 *            DOCUMENT_ME
-	 * @param replyUrl
-	 *            DOCUMENT_ME
+	 * @param postId    DOCUMENT_ME
+	 * @param watchType DOCUMENT_ME
+	 * @param postUrl   DOCUMENT_ME
+	 * @param replyUrl  DOCUMENT_ME
 	 * 
 	 */
 	void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl);
 
 	/**
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * 
 	 * @return the list of posts in the limit
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsDesc(int limit) throws ModuleException;
 
 	/**
-	 * @param limit
-	 *            DOCUMENT_ME
+	 * @param limit DOCUMENT_ME
 	 * 
 	 * @return the list of ascendent posts in the limit
-	 * @throws ModuleException
-	 *             DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsAsc(int limit) throws ModuleException;
 
 	/**
-	 * @param attachments
-	 *            DOCUMENT_ME
-	 * @param post
-	 *            DOCUMENT_ME
+	 * @param attachments DOCUMENT_ME
+	 * @param post        DOCUMENT_ME
 	 * 
 	 * @return the post where the attachment is done
 	 */
 	PostBean addAttachments(Collection<AttachmentBean> attachments, PostBean post);
 
 	/**
-	 * @param post
-	 *            DOCUMENT_ME
+	 * @param post DOCUMENT_ME
 	 * 
 	 * @return the list of attachments of the post
 	 */
 	Collection<AttachmentBean> findAttachments(PostBean post);
 
 	/**
-	 * @param post
-	 *            DOCUMENT_ME
+	 * @param post DOCUMENT_ME
 	 * @return the post where the attachments are removed
 	 */
 	PostBean removeAttachments(PostBean post);
 
 	/**
-	 * @param attachments
-	 *            DOCUMENT_ME
-	 * @param post
-	 *            DOCUMENT_ME
+	 * @param attachments DOCUMENT_ME
+	 * @param post        DOCUMENT_ME
 	 * 
 	 * @return the post where the attachments are updated
 	 */
 	PostBean updateAttachments(Collection<AttachmentBean> attachments, PostBean post);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(TopicBean topic);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(ForumBean forum);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(CategoryBean category);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(PollOptionBean pollOption);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(PostBean post);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(TopicWatchBean topicWatch);
 
 	/**
-	 * @param object
-	 *            DOCUMENT_ME
+	 * @param object DOCUMENT_ME
 	 */
 	void update(ForumWatchBean forumWatch);
 

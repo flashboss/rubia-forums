@@ -211,8 +211,8 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public ForumBean createForum(CategoryBean category, String name, String description) throws ModuleException {
-		return forumsModule.createForum(category, name, description);
+	public ForumBean createForum(ForumBean forum) throws ModuleException {
+		return forumsModule.createForum(forum);
 	}
 
 	@GET

@@ -104,20 +104,6 @@ public class AdminPanelForumTest {
 		assertTrue(message.equals(CREATED_FORUM_1_MESSAGE));
 	}
 
-	@AfterClass
-	public static void stop() {
-		String message = removeForum(driver, new ForumBean("First Test Forum"), "Second Test Forum");
-		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
-		message = removeForum(driver, new ForumBean("Second Test Forum"), SELECT_FORUM_TYPE);
-		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
-		message = removeCategory(driver, new CategoryBean("First Test Category"),
-				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
-		message = removeCategory(driver, new CategoryBean("Second Test Category"),
-				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
-		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
-	}
-
 	@Test
 	public void verifyMoveForum() {
 		Map<String, Integer> positions = moveForum(driver, new ForumBean("First Test Forum"), DOWN);
@@ -142,5 +128,19 @@ public class AdminPanelForumTest {
 		message = updateForum(driver, new ForumBean("Third Test Forum"),
 				new ForumBean("Second Test Forum", "First Test Description", new CategoryBean("First Test Category")));
 		assertTrue(message.equals(UPDATED_FORUM_0_MESSAGE));
+	}
+
+	@AfterClass
+	public static void stop() {
+		String message = removeForum(driver, new ForumBean("First Test Forum"), "Second Test Forum");
+		assertTrue(message.equals(REMOVED_FORUM_0_MESSAGE));
+		message = removeForum(driver, new ForumBean("Second Test Forum"), SELECT_FORUM_TYPE);
+		assertTrue(message.equals(REMOVED_FORUM_1_MESSAGE));
+		message = removeCategory(driver, new CategoryBean("First Test Category"),
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
+		assertTrue(message.equals(REMOVED_CATEGORY_0_MESSAGE));
+		message = removeCategory(driver, new CategoryBean("Second Test Category"),
+				AdminPanelCategoryTest.SELECT_CATEGORY_TYPE);
+		assertTrue(message.equals(REMOVED_CATEGORY_1_MESSAGE));
 	}
 }

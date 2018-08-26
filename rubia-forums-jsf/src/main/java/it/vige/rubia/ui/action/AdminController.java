@@ -434,7 +434,8 @@ public class AdminController extends BaseController {
 		try {
 			// add this new forum to the category
 			CategoryBean category = forumsModule.findCategoryById(selectedCategory);
-			forumsModule.createForum(category, forumName, forumDescription);
+			ForumBean forum = new ForumBean(forumName, forumDescription, category);
+			forumsModule.createForum(forum);
 
 			String start = getBundleMessage("ResourceJSF", "Forum_created_0");
 			String end = getBundleMessage("ResourceJSF", "Forum_created_1");

@@ -780,17 +780,17 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public ForumBean createForum(CategoryBean category, String name, String description) throws ModuleException {
+	public ForumBean createForum(ForumBean forum) throws ModuleException {
 		try {
 
-			Forum forum = new Forum();
-			forum.setCategory(em.find(Category.class, category.getId()));
-			forum.setName(name);
-			forum.setDescription(description);
-			forum.setOrder(getLastForumOrder(CategoryBeanToCategory.apply(category)) + 10);
-			em.persist(forum);
+			Forum forumResult = new Forum();
+			forumResult.setCategory(em.find(Category.class, forum.getCategory().getId()));
+			forumResult.setName(forum.getName());
+			forumResult.setDescription(forum.getDescription());
+			forumResult.setOrder(getLastForumOrder(CategoryBeanToCategory.apply(forum.getCategory())) + 10);
+			em.persist(forumResult);
 			em.flush();
-			return ForumToForumBean.apply(forum);
+			return ForumToForumBean.apply(forumResult);
 		} catch (Exception e) {
 			String errorMessage = "Cannot create forum";
 			throw new ModuleException(errorMessage, e);
