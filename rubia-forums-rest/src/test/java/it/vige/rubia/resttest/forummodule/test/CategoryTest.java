@@ -1,4 +1,4 @@
-package it.vige.rubia.resttest.forummodule.adminpanel.test;
+package it.vige.rubia.resttest.forummodule.test;
 
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +22,12 @@ import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.resttest.RestCaller;
 
-public class AdminPanelCategoryTest extends RestCaller {
+public class CategoryTest extends RestCaller {
 
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
-	private static Logger log = getLogger(AdminPanelCategoryTest.class);
+	private static Logger log = getLogger(CategoryTest.class);
 
 	@BeforeAll
 	public static void setUp() {

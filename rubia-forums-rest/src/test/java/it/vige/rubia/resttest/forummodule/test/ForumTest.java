@@ -1,4 +1,4 @@
-package it.vige.rubia.resttest.forummodule.adminpanel.test;
+package it.vige.rubia.resttest.forummodule.test;
 
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,12 +23,12 @@ import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.resttest.RestCaller;
 
-public class AdminPanelForumTest extends RestCaller {
+public class ForumTest extends RestCaller {
 
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
-	private static Logger log = getLogger(AdminPanelForumTest.class);
+	private static Logger log = getLogger(ForumTest.class);
 
 	@BeforeAll
 	public static void setUp() {
@@ -109,6 +109,46 @@ public class AdminPanelForumTest extends RestCaller {
 
 	@Test
 	public void verifyMoveForum() {
+		Response response = get(url + "findForums/1", authorization);
+		List<ForumBean> forumBeans = response.readEntity(new GenericType<List<ForumBean>>() {
+		});
+		assertEquals(4, forumBeans.size(), "Forums size");
+
+		response = get(url + "findForumById/" + forumBeans.get(1).getId(), authorization);
+		ForumBean forumBean = response.readEntity(ForumBean.class);
+		assertEquals(10, forumBean.getOrder(), "Forum is up");
+
+		response = get(url + "findForumById/" + forumBeans.get(3).getId(), authorization);
+		ForumBean forumBean2 = response.readEntity(ForumBean.class);
+		assertEquals(20, forumBean2.getOrder(), "Forum is down");
+
+		forumBean.setOrder(20);
+		response = post(url + "updateForum", authorization, forumBean);
+		response = get(url + "findForumById/" + forumBeans.get(1).getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+
+		forumBean2.setOrder(10);
+		response = post(url + "updateForum", authorization, forumBean2);
+		response = get(url + "findForumById/" + forumBeans.get(3).getId(), authorization);
+		forumBean2 = response.readEntity(ForumBean.class);
+
+		assertEquals(20, forumBean.getOrder(), "Forum is down");
+		assertEquals(10, forumBean2.getOrder(), "Forum is up");
+
+		forumBean.setOrder(10);
+		response = post(url + "updateForum", authorization, forumBean);
+		response = get(url + "findForumById/" + forumBeans.get(1).getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+
+		forumBean2.setOrder(20);
+		response = post(url + "updateForum", authorization, forumBean2);
+		response = get(url + "findForumById/" + forumBeans.get(3).getId(), authorization);
+		forumBean2 = response.readEntity(ForumBean.class);
+
+		assertEquals(10, forumBean.getOrder(), "Forum is up");
+		assertEquals(20, forumBean2.getOrder(), "Forum is down");
+
+		response.close();
 	}
 
 	@Test
