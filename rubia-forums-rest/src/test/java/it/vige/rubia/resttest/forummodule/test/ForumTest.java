@@ -1,5 +1,7 @@
 package it.vige.rubia.resttest.forummodule.test;
 
+import static it.vige.rubia.Constants.FORUM_LOCKED;
+import static it.vige.rubia.Constants.FORUM_UNLOCKED;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -153,10 +155,30 @@ public class ForumTest extends RestCaller {
 
 	@Test
 	public void verifyLockForum() {
-	}
 
-	@Test
-	public void verifyUpdateForum() {
+		Response response = get(url + "findCategories/1", authorization);
+		List<CategoryBean> categoryBeans = response.readEntity(new GenericType<List<CategoryBean>>() {
+		});
+		assertEquals(3, categoryBeans.size(), "Categories size");
+
+		CategoryBean categoryBean = categoryBeans.get(1);
+		response = post(url + "findForumsByCategory", authorization, categoryBean);
+		List<ForumBean> forumBeans = response.readEntity(new GenericType<List<ForumBean>>() {
+		});
+		assertEquals(2, forumBeans.size(), "Forums size");
+
+		ForumBean forumBean = forumBeans.get(1);
+		forumBean.setStatus(FORUM_LOCKED);
+		response = post(url + "updateForum", authorization, forumBean);
+		response = get(url + "findForumById/" + forumBean.getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+		assertEquals(FORUM_LOCKED, forumBean.getStatus(), "Forum locked");
+
+		forumBean.setStatus(FORUM_UNLOCKED);
+		response = post(url + "updateForum", authorization, forumBean);
+		response = get(url + "findForumById/" + forumBean.getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+		assertEquals(FORUM_UNLOCKED, forumBean.getStatus(), "Forum unlocked");
 	}
 
 	@AfterAll
