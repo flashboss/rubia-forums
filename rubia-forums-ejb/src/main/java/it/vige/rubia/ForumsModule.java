@@ -468,7 +468,7 @@ public interface ForumsModule {
 	 * @param target DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	void addAllForums(CategoryBean source, CategoryBean target) throws ModuleException;
+	void addAllForums(CategoryBean... category) throws ModuleException;
 
 	/**
 	 * @param topicID DOCUMENT_ME

@@ -987,14 +987,14 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public void addAllForums(CategoryBean source, CategoryBean target) throws ModuleException {
-		List<ForumBean> sourceForums = findForumsByCategory(source);
-		List<ForumBean> targetForums = findForumsByCategory(target);
+	public void addAllForums(CategoryBean... category) throws ModuleException {
+		List<ForumBean> sourceForums = findForumsByCategory(category[0]);
+		List<ForumBean> targetForums = findForumsByCategory(category[1]);
 		targetForums.addAll(sourceForums);
 		for (ForumBean forum : targetForums) {
-			forum.setCategory(target);
+			forum.setCategory(category[1]);
 		}
-		source.setForums(new ArrayList<ForumBean>());
+		category[0].setForums(new ArrayList<ForumBean>());
 	}
 
 	@Override

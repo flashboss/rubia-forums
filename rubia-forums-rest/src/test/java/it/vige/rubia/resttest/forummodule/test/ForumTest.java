@@ -2,6 +2,7 @@ package it.vige.rubia.resttest.forummodule.test;
 
 import static it.vige.rubia.Constants.FORUM_LOCKED;
 import static it.vige.rubia.Constants.FORUM_UNLOCKED;
+import static java.util.Arrays.asList;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
@@ -179,6 +182,27 @@ public class ForumTest extends RestCaller {
 		response = get(url + "findForumById/" + forumBean.getId(), authorization);
 		forumBean = response.readEntity(ForumBean.class);
 		assertEquals(FORUM_UNLOCKED, forumBean.getStatus(), "Forum unlocked");
+
+		MultivaluedMap<Integer, CategoryBean> multiValedMap = new MultivaluedHashMap<Integer, CategoryBean>();
+		multiValedMap.put(1, asList(categoryBean, categoryBeans.get(1)));
+		response = post(url + "addAllForums", authorization, multiValedMap);
+
+		response = get(url + "findForumByIdFetchTopics/" + forumBean.getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+		assertEquals(FORUM_UNLOCKED, forumBean.getStatus(), "Forum fetch topics");
+
+		multiValedMap.put(1, asList(categoryBeans.get(1), categoryBean));
+		response = post(url + "addAllForums", authorization, multiValedMap);
+
+		response = get(url + "findForumByIdFetchTopics/" + forumBean.getId(), authorization);
+		forumBean = response.readEntity(ForumBean.class);
+		assertEquals(FORUM_UNLOCKED, forumBean.getStatus(), "Forum fetch topics");
+
+		response = get(url + "findCategoryByIdFetchForums/" + categoryBeans.get(1).getId(), authorization);
+		categoryBean = response.readEntity(CategoryBean.class);
+		assertEquals("First Test Category", categoryBean.getTitle(), "Category by id fetch forum");
+
+		response.close();
 	}
 
 	@AfterAll

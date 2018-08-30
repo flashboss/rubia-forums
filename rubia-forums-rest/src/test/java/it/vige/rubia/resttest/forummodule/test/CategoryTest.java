@@ -104,7 +104,7 @@ public class CategoryTest extends RestCaller {
 
 		assertEquals(20, categoryBean.getOrder(), "Category is up");
 		assertEquals(30, categoryBean2.getOrder(), "Category is down");
-		
+
 		response.close();
 	}
 
@@ -130,6 +130,18 @@ public class CategoryTest extends RestCaller {
 		response = get(url + "findCategoryById/" + categoryBeans.get(1).getId(), authorization);
 		categoryBean = response.readEntity(CategoryBean.class);
 		assertEquals("First Test Category", categoryBean.getTitle(), "Category rechanged title");
+
+		response = get(url + "findCategoriesFetchForums/1", authorization);
+		categoryBeans = response.readEntity(new GenericType<List<CategoryBean>>() {
+		});
+		assertEquals(3, categoryBeans.size(), "Fetched Categories size");
+
+		response = get(url + "findCategoryByIdFetchForums/" + categoryBeans.get(1).getId(), authorization);
+		try {
+			categoryBean = response.readEntity(CategoryBean.class);
+			fail("Forum not created");
+		} catch (ProcessingException ex) {
+		}
 		
 		response.close();
 	}
@@ -156,7 +168,7 @@ public class CategoryTest extends RestCaller {
 			fail("Category not removed");
 		} catch (ProcessingException ex) {
 		}
-		
+
 		response.close();
 	}
 }

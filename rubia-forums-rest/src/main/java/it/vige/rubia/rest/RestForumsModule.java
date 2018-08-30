@@ -395,8 +395,8 @@ public class RestForumsModule implements ForumsModule {
 	@Path("addAllForums")
 	@Consumes(APPLICATION_JSON)
 	@Override
-	public void addAllForums(CategoryBean source, CategoryBean target) throws ModuleException {
-		forumsModule.addAllForums(source, target);
+	public void addAllForums(CategoryBean... category) throws ModuleException {
+		forumsModule.addAllForums(category);
 	}
 
 	@GET
