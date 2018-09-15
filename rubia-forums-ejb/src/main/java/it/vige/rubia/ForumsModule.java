@@ -178,9 +178,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param category    DOCUMENT_ME
-	 * @param name        DOCUMENT_ME
-	 * @param description DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
@@ -261,25 +259,16 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum        DOCUMENT_ME
-	 * @param message      DOCUMENT_ME
-	 * @param creationDate DOCUMENT_ME
-	 * @param poster       DOCUMENT_ME
-	 * @param poll         DOCUMENT_ME
-	 * @param attachments  DOCUMENT_ME
-	 * @param type         DOCUMENT_ME
+	 * @param topic        DOCUMENT_ME
 	 * @return The new post created
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	PostBean createTopic(TopicBean topicBean) throws ModuleException;
+	PostBean createTopic(TopicBean topic) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
 	 * 
 	 * @param forum   DOCUMENT_ME
-	 * @param userID  DOCUMENT_ME
-	 * @param subject DOCUMENT_ME
-	 * @param type    DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
@@ -314,9 +303,7 @@ public interface ForumsModule {
 	 * Need to a forumInstanceId argument to create only categories of a specific
 	 * forum instance
 	 * 
-	 * @param name          DOCUMENT_ME
-	 * 
-	 * @param forumInstance DOCUMENT_ME
+	 * @param category DOCUMENT_ME
 	 * 
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
@@ -410,8 +397,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param source DOCUMENT_ME
-	 * @param target DOCUMENT_ME
+	 * @param category DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void addAllForums(CategoryBean... category) throws ModuleException;
@@ -748,37 +734,37 @@ public interface ForumsModule {
 	PostBean updateAttachments(Collection<AttachmentBean> attachments, PostBean post);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 */
 	void update(TopicBean topic);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 */
 	void update(ForumBean forum);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param category DOCUMENT_ME
 	 */
 	void update(CategoryBean category);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param pollOption DOCUMENT_ME
 	 */
 	void update(PollOptionBean pollOption);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param post DOCUMENT_ME
 	 */
 	void update(PostBean post);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param topicWatch DOCUMENT_ME
 	 */
 	void update(TopicWatchBean topicWatch);
 
 	/**
-	 * @param object DOCUMENT_ME
+	 * @param forumWatch DOCUMENT_ME
 	 */
 	void update(ForumWatchBean forumWatch);
 
