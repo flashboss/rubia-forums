@@ -28,9 +28,6 @@ import java.util.List;
 
 public class TopicBean implements Serializable, Comparable<TopicBean> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3426875789016150344L;
 
 	private Integer id;

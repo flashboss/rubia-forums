@@ -50,6 +50,7 @@ import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.ui.BaseController;
 import it.vige.rubia.ui.PageNavigator;
 import it.vige.rubia.ui.action.PreferenceController;
@@ -127,8 +128,15 @@ public class ViewForum extends BaseController {
 			return announcements;
 		}
 		announcements = new ArrayList<TopicBean>();
+
+		TopicRequestBean topicRequestBean = new TopicRequestBean();
+		TopicBean topicBean = new TopicBean();
+		topicBean.setForum(forum);
+		topicBean.setType(ADVICE);
+		topicRequestBean.setTopic(topicBean);
+		topicRequestBean.setPerPage(MAX_VALUE);
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(topicRequestBean);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -150,8 +158,15 @@ public class ViewForum extends BaseController {
 			}
 		}
 		boolean present = false;
+
+		TopicRequestBean topicRequestBean = new TopicRequestBean();
+		TopicBean topicBean = new TopicBean();
+		topicBean.setForum(forum);
+		topicBean.setType(ADVICE);
+		topicRequestBean.setTopic(topicBean);
+		topicRequestBean.setPerPage(MAX_VALUE);
 		try {
-			announcements = forumsModule.findTopicsDesc(forum, ADVICE, 0, MAX_VALUE);
+			announcements = forumsModule.findTopicsDesc(topicRequestBean);
 			if (announcements != null && announcements.size() > 0) {
 				present = true;
 			}
@@ -174,9 +189,16 @@ public class ViewForum extends BaseController {
 			return stickyThreads;
 		}
 		stickyThreads = new ArrayList<TopicBean>();
+
+		TopicRequestBean topicRequestBean = new TopicRequestBean();
+		TopicBean topicBean = new TopicBean();
+		topicBean.setForum(forum);
+		topicBean.setType(IMPORTANT);
+		topicRequestBean.setTopic(topicBean);
+		topicRequestBean.setPerPage(MAX_VALUE);
 		try {
 			// ForumsModule fm = this.getForumsModule();
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(topicRequestBean);
 		} catch (Exception e) {
 			handleException(e);
 		}
@@ -198,8 +220,15 @@ public class ViewForum extends BaseController {
 			}
 		}
 		boolean present = false;
+
+		TopicRequestBean topicRequestBean = new TopicRequestBean();
+		TopicBean topicBean = new TopicBean();
+		topicBean.setForum(forum);
+		topicBean.setType(IMPORTANT);
+		topicRequestBean.setTopic(topicBean);
+		topicRequestBean.setPerPage(MAX_VALUE);
 		try {
-			stickyThreads = forumsModule.findTopicsDesc(forum, IMPORTANT, 0, MAX_VALUE);
+			stickyThreads = forumsModule.findTopicsDesc(topicRequestBean);
 			if (stickyThreads != null && stickyThreads.size() > 0) {
 				present = true;
 			}
@@ -296,7 +325,14 @@ public class ViewForum extends BaseController {
 				// Getting announcements
 				Collection<TopicBean> announcements = getAnnouncements();
 
-				normalThreads = fm.findTopicsDesc(forum, NORMAL, 0, MAX_VALUE);
+				TopicRequestBean topicRequestBean = new TopicRequestBean();
+				TopicBean topicBean = new TopicBean();
+				topicBean.setForum(forum);
+				topicBean.setType(NORMAL);
+				topicRequestBean.setTopic(topicBean);
+				topicRequestBean.setPerPage(MAX_VALUE);
+				
+				normalThreads = fm.findTopicsDesc(topicRequestBean);
 				normalThreadsDataModel = new ListDataModel<TopicBean>(normalThreads);
 
 				Collection<TopicBean> listOfTopics = new LinkedList<TopicBean>();

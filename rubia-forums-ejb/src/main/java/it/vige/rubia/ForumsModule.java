@@ -32,7 +32,7 @@ import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
-import it.vige.rubia.dto.TopicType;
+import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
 
@@ -90,52 +90,13 @@ public interface ForumsModule {
 	List<TopicBean> findTopics(Integer indexInstance) throws ModuleException;
 
 	/**
-	 * Returns some topics of a forum that are not of a certain type The topics are
-	 * ordered by creation date from oldest to newest
-	 * 
-	 * @param forum   Forum in which we want to search for topics
-	 * @param type    Type to avoid
-	 * @param start   Index for fetching result
-	 * @param perPage Number of result to return
-	 * @return List of perPage topics ordered by creation date.
-	 * @throws ModuleException Throws an excpetion if unable to find the topics.
-	 */
-	List<TopicBean> findTopicsAsc(ForumBean forum, TopicType type, int start, int perPage) throws ModuleException;
-
-	/**
 	 * Returns topics that are ordered by creation date from newest to oldest.
 	 * 
-	 * @param forum   Forum in which we want to search for topics
-	 * @param type    Type to avoid
-	 * @param start   Index for fetching result
-	 * @param perPage Number of result to return
+	 * @param topicRequestBean Topic in which we want to search for topics
 	 * @return List of perPage topics ordered by opposite creation date.
 	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
-	List<TopicBean> findTopicsDesc(ForumBean forum, TopicType type, int start, int perPage) throws ModuleException;
-
-	/**
-	 * Returns topics that are ordered by creation date from oldest to newest.
-	 * 
-	 * @param forum   Forum in which we want to search for topics
-	 * @param start   Index for fetching result
-	 * @param perPage Number of result to return
-	 * @return List of perPage topics ordered by creation date.
-	 * @throws ModuleException Throws an excpetion if unable to find the topics.
-	 */
-	List<TopicBean> findTopicsAsc(ForumBean forum, int start, int perPage) throws ModuleException;
-
-	/**
-	 * Returns some topics of a forum that are not of a certain type The topics are
-	 * ordered by creation date from newest to oldest
-	 * 
-	 * @param forum   Forum in which we want to search for topics
-	 * @param start   Index for fetching result
-	 * @param perPage Number of result to return
-	 * @return List of perPage topics ordered by opposite creation date.
-	 * @throws ModuleException Throws an excpetion if unable to find the topics.
-	 */
-	List<TopicBean> findTopicsDesc(ForumBean forum, int start, int perPage) throws ModuleException;
+	List<TopicBean> findTopicsDesc(TopicRequestBean topicRequestBean) throws ModuleException;
 
 	/**
 	 * *
@@ -145,20 +106,6 @@ public interface ForumsModule {
 	 * @throws ModuleException Throws an excpetion if unable to find the topics.
 	 */
 	List<TopicBean> findTopics(ForumBean forum) throws ModuleException;
-
-	/**
-	 * DOCUMENT_ME
-	 * 
-	 * @param forum   DOCUMENT_ME
-	 * @param type    DOCUMENT_ME
-	 * @param start   DOCUMENT_ME
-	 * @param perPage DOCUMENT_ME
-	 * @param date    DOCUMENT_ME
-	 * @return DOCUMENT_ME
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date)
-			throws ModuleException;
 
 	/**
 	 * FindTopicsHot, findTopicsByLatestPosts, findTopicsHottest,
@@ -324,8 +271,7 @@ public interface ForumsModule {
 	 * @return The new post created
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	PostBean createTopic(ForumBean forum, MessageBean message, Date creationDate, PosterBean poster, PollBean poll,
-			Collection<AttachmentBean> attachments, TopicType type) throws ModuleException;
+	PostBean createTopic(TopicBean topicBean) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -337,7 +283,7 @@ public interface ForumsModule {
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	TopicBean createTopic(ForumBean forum, String userID, String subject, TopicType type) throws ModuleException;
+	TopicBean createTopicWithPoster(TopicBean forum) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME

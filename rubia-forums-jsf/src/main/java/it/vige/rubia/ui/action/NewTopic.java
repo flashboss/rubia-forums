@@ -20,6 +20,7 @@ import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.parseInt;
+import static java.util.Arrays.asList;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -38,7 +39,9 @@ import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
+import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.TopicBean;
 
 //myfaces
 
@@ -136,9 +139,17 @@ public class NewTopic extends PostAction {
 			poster.incrementPostCount();
 			// actually create the topic in this forum
 			// use this method when poll and attachments are actually integrated
-			forumsModule.createTopic(forum, message, new Date(), poster, poll, // poll
-					attachments, // attachments
-					topicType);
+			TopicBean topicBean = new TopicBean();
+			topicBean.setForum(forum);
+			PostBean postBean = new PostBean();
+			postBean.setMessage(message);
+			postBean.setAttachments(attachments);
+			postBean.setCreateDate(new Date());
+			topicBean.setPosts(asList(new PostBean[] { postBean }));
+			topicBean.setPoster(poster);
+			topicBean.setPoll(poll);
+			topicBean.setType(topicType);
+			forumsModule.createTopic(topicBean);
 
 			// setup the navigation state
 			navState = SUCCESS;

@@ -42,7 +42,7 @@ import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
-import it.vige.rubia.dto.TopicType;
+import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
 
@@ -98,41 +98,12 @@ public class RestForumsModule implements ForumsModule {
 	}
 
 	@POST
-	@Path("findTopicsAsc")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	@Override
-	public List<TopicBean> findTopicsAsc(ForumBean forum, TopicType type, int start, int perPage)
-			throws ModuleException {
-		return forumsModule.findTopicsAsc(forum, start, perPage);
-	}
-
-	@POST
 	@Path("findTopicsDesc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public List<TopicBean> findTopicsDesc(ForumBean forum, TopicType type, int start, int perPage)
-			throws ModuleException {
-		return forumsModule.findTopicsDesc(forum, start, perPage);
-	}
-
-	@POST
-	@Path("findTopicsAsc")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	@Override
-	public List<TopicBean> findTopicsAsc(ForumBean forum, int start, int perPage) throws ModuleException {
-		return forumsModule.findTopicsAsc(forum, start, perPage);
-	}
-
-	@POST
-	@Path("findTopicsDesc")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	@Override
-	public List<TopicBean> findTopicsDesc(ForumBean forum, int start, int perPage) throws ModuleException {
-		return forumsModule.findTopicsDesc(forum, start, perPage);
+	public List<TopicBean> findTopicsDesc(TopicRequestBean topicRequestBean) throws ModuleException {
+		return forumsModule.findTopicsDesc(topicRequestBean);
 	}
 
 	@POST
@@ -142,16 +113,6 @@ public class RestForumsModule implements ForumsModule {
 	@Override
 	public List<TopicBean> findTopics(ForumBean forum) throws ModuleException {
 		return forumsModule.findTopics(forum);
-	}
-
-	@POST
-	@Path("findTopicsBefore")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	@Override
-	public List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date)
-			throws ModuleException {
-		return forumsModule.findTopicsBefore(forum, type, start, perPage, date);
 	}
 
 	@GET
@@ -278,19 +239,17 @@ public class RestForumsModule implements ForumsModule {
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public PostBean createTopic(ForumBean forum, MessageBean message, Date creationDate, PosterBean poster,
-			PollBean poll, Collection<AttachmentBean> attachments, TopicType type) throws ModuleException {
-		return forumsModule.createTopic(forum, message, creationDate, poster, poll, attachments, type);
+	public PostBean createTopic(TopicBean topic) throws ModuleException {
+		return forumsModule.createTopic(topic);
 	}
 
 	@POST
-	@Path("createTopic")
+	@Path("createTopicWithPoster")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@Override
-	public TopicBean createTopic(ForumBean forum, String userID, String subject, TopicType type)
-			throws ModuleException {
-		return forumsModule.createTopic(forum, userID, subject, type);
+	public TopicBean createTopicWithPoster(TopicBean topic) throws ModuleException {
+		return forumsModule.createTopicWithPoster(topic);
 	}
 
 	@POST

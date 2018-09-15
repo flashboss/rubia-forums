@@ -44,6 +44,7 @@ import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.ui.BaseController;
 
@@ -179,8 +180,9 @@ public class SplitTopic extends BaseController {
 			ForumBean destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in destination forum.
-			TopicBean newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(),
-					newTopicTitle, topic.getType());
+			TopicBean oldTopic = new TopicBean(destForum, newTopicTitle, null, topic.getType(), null);
+			oldTopic.setPoster(new PosterBean(getUser(userModule).getId().toString()));
+			TopicBean newTopic = forumsModule.createTopicWithPoster(oldTopic);
 
 			// Getting post id after which the topic must be splitted.
 			Integer selectedPostId = (Integer) checkboxes.keySet().iterator().next();
@@ -293,8 +295,9 @@ public class SplitTopic extends BaseController {
 			ForumBean destForum = forumsModule.findForumById(parseInt(toForumId));
 
 			// Creating new topic in selected destination forum.
-			TopicBean newTopic = forumsModule.createTopic(destForum, getUser(userModule).getId().toString(),
-					newTopicTitle, topic.getType());
+			TopicBean oldTopic = new TopicBean(destForum, newTopicTitle, null, topic.getType(), null);
+			oldTopic.setPoster(new PosterBean(getUser(userModule).getId().toString()));
+			TopicBean newTopic = forumsModule.createTopicWithPoster(oldTopic);
 
 			// Moving all selected posts to new topic.
 			selectIt = checkboxes.keySet().iterator();

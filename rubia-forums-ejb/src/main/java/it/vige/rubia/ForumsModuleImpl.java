@@ -55,6 +55,7 @@ import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.dto.TopicType;
 import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
@@ -370,56 +371,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		}
 	}
 
-	/**
-	 * 
-	 * @param forum
-	 * @param start
-	 * @param perPage
-	 * @param order
-	 * @return
-	 * @throws ModuleException
-	 */
-	private List<TopicBean> findTopics(ForumBean forum, int start, int perPage, String order) throws ModuleException {
-		try {
-
-			TypedQuery<Topic> query = em.createNamedQuery("findTopicsForum" + order, Topic.class);
-			query.setFirstResult(start);
-			query.setMaxResults(perPage);
-			query.setParameter("forumid", ForumBeanToForum.apply(forum));
-			List<Topic> list = query.getResultList();
-			return list.stream().map(t -> TopicToTopicBean.apply(t)).collect(toList());
-		} catch (Exception e) {
-			String message = "Cannot find topics";
-			throw new ModuleException(message, e);
-		}
-	}
-
 	@Override
-	public List<TopicBean> findTopicsAsc(ForumBean forum, TopicType type, int start, int perPage)
-			throws ModuleException {
-		return findTopics(forum, type, start, perPage, "asc");
-	}
-
-	@Override
-	public List<TopicBean> findTopicsDesc(ForumBean forum, TopicType type, int start, int perPage)
-			throws ModuleException {
+	public List<TopicBean> findTopicsDesc(TopicRequestBean topicRequestBean) throws ModuleException {
+		ForumBean forum = topicRequestBean.getTopic().getForum();
+		TopicType type = topicRequestBean.getTopic().getType();
+		int start = topicRequestBean.getStart();
+		int perPage = topicRequestBean.getPerPage();
 		return findTopics(forum, type, start, perPage, "desc");
-	}
-
-	@Override
-	public List<TopicBean> findTopicsAsc(ForumBean forum, int start, int perPage) throws ModuleException {
-		return findTopics(forum, start, perPage, "asc");
-	}
-
-	@Override
-	public List<TopicBean> findTopicsDesc(ForumBean forum, int start, int perPage) throws ModuleException {
-		return findTopics(forum, start, perPage, "desc");
-	}
-
-	@Override
-	public List<TopicBean> findTopicsBefore(ForumBean forum, TopicType type, int start, int perPage, Date date)
-			throws ModuleException {
-		return null;
 	}
 
 	/**
@@ -481,9 +439,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public PostBean createTopic(ForumBean forum, MessageBean message, Date creationDate, PosterBean poster,
-			PollBean poll, Collection<AttachmentBean> attachments, TopicType type) throws ModuleException {
+	public PostBean createTopic(TopicBean topicBean) throws ModuleException {
 		try {
+			PosterBean poster = topicBean.getPoster();
+			PollBean poll = topicBean.getPoll();
+			PostBean postBean = topicBean.getPosts().get(0);
+			MessageBean message = postBean.getMessage();
+			ForumBean forum = topicBean.getForum();
+			Collection<AttachmentBean> attachments = postBean.getAttachments();
+			TopicType type = topicBean.getType();
+			Date creationDate = postBean.getCreateDate();
 
 			Poster posterEntity = PosterBeanToPoster.apply(poster);
 			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null)
@@ -541,10 +506,12 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public TopicBean createTopic(ForumBean forum, String userId, String subject, TopicType type)
-			throws ModuleException {
+	public TopicBean createTopicWithPoster(TopicBean topicBean) throws ModuleException {
 		try {
-
+			String userId = topicBean.getPoster().getUserId();
+			String subject = topicBean.getSubject();
+			TopicType type = topicBean.getType();
+			ForumBean forum = topicBean.getForum();
 			Poster poster = em.find(Poster.class, findPosterByUserId(userId).getId());
 
 			if (poster == null) {
