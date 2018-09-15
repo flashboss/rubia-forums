@@ -439,15 +439,15 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public PostBean createTopic(TopicBean topicBean) throws ModuleException {
+	public PostBean createTopic(TopicBean topic) throws ModuleException {
 		try {
-			PosterBean poster = topicBean.getPoster();
-			PollBean poll = topicBean.getPoll();
-			PostBean postBean = topicBean.getPosts().get(0);
+			PosterBean poster = topic.getPoster();
+			PollBean poll = topic.getPoll();
+			PostBean postBean = topic.getPosts().get(0);
 			MessageBean message = postBean.getMessage();
-			ForumBean forum = topicBean.getForum();
+			ForumBean forum = topic.getForum();
 			Collection<AttachmentBean> attachments = postBean.getAttachments();
-			TopicType type = topicBean.getType();
+			TopicType type = topic.getType();
 			Date creationDate = postBean.getCreateDate();
 
 			Poster posterEntity = PosterBeanToPoster.apply(poster);
@@ -476,24 +476,24 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					post.addAttachment(attachmentToPersist);
 				}
 
-			Topic topic = new Topic();
-			topic.setSubject(message.getSubject());
-			topic.setForum(em.find(Forum.class, forum.getId()));
-			topic.setPoster(posterEntity);
-			post.setTopic(topic);
-			topic.setLastPostDate(creationDate);
-			topic.setType(type);
-			topic.setStatus(TOPIC_UNLOCKED);
-			topic.setPoll(pollEntity);
+			Topic topicEntity = new Topic();
+			topicEntity.setSubject(message.getSubject());
+			topicEntity.setForum(em.find(Forum.class, forum.getId()));
+			topicEntity.setPoster(posterEntity);
+			post.setTopic(topicEntity);
+			topicEntity.setLastPostDate(creationDate);
+			topicEntity.setType(type);
+			topicEntity.setStatus(TOPIC_UNLOCKED);
+			topicEntity.setPoll(pollEntity);
 
-			em.persist(topic);
+			em.persist(topicEntity);
 			em.persist(post);
 			em.flush();
 
 			forum.addTopicSize();
 			forum.addPostSize();
 			em.merge(ForumBeanToForum.apply(forum));
-			post.setTopic(topic);
+			post.setTopic(topicEntity);
 			em.persist(post);
 
 			notificationEngine.scheduleForNotification(post.getId(), MODE_POST);
@@ -506,12 +506,12 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public TopicBean createTopicWithPoster(TopicBean topicBean) throws ModuleException {
+	public TopicBean createTopicWithPoster(TopicBean topic) throws ModuleException {
 		try {
-			String userId = topicBean.getPoster().getUserId();
-			String subject = topicBean.getSubject();
-			TopicType type = topicBean.getType();
-			ForumBean forum = topicBean.getForum();
+			String userId = topic.getPoster().getUserId();
+			String subject = topic.getSubject();
+			TopicType type = topic.getType();
+			ForumBean forum = topic.getForum();
 			Poster poster = em.find(Poster.class, findPosterByUserId(userId).getId());
 
 			if (poster == null) {
@@ -519,18 +519,18 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			}
 			em.persist(poster);
 
-			Topic topic = new Topic();
-			topic.setSubject(subject);
-			topic.setForum(em.find(Forum.class, forum.getId()));
-			topic.setPoster(poster);
-			topic.setType(type);
+			Topic topicEntity = new Topic();
+			topicEntity.setSubject(subject);
+			topicEntity.setForum(em.find(Forum.class, forum.getId()));
+			topicEntity.setPoster(poster);
+			topicEntity.setType(type);
 
-			topic.setPoll(null);
+			topicEntity.setPoll(null);
 
-			em.persist(topic);
+			em.persist(topicEntity);
 			em.flush();
 
-			return TopicToTopicBean.apply(topic);
+			return TopicToTopicBean.apply(topicEntity);
 		} catch (Exception e) {
 			String errorMessage = "Cannot create topic";
 			throw new ModuleException(errorMessage, e);
