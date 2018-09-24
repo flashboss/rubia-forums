@@ -84,7 +84,7 @@ public abstract class PostAction extends BaseController {
 
 	// attachment related view data
 	protected String attachmentComment;
-	protected Collection<AttachmentBean> attachments = new ArrayList<AttachmentBean>();
+	protected List<AttachmentBean> attachments = new ArrayList<AttachmentBean>();
 
 	// navigation control related data
 	protected boolean preview;

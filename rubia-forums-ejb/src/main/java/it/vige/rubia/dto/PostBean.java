@@ -14,7 +14,6 @@
 package it.vige.rubia.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +30,6 @@ import it.vige.rubia.auth.User;
 
 public class PostBean implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private TopicBean topic;
@@ -52,7 +48,7 @@ public class PostBean implements Serializable {
 
 	private PosterBean poster;
 
-	private Collection<AttachmentBean> attachments;
+	private List<AttachmentBean> attachments;
 
 	/**
 	 * Creates a new {@link PostBean} object.
@@ -215,11 +211,11 @@ public class PostBean implements Serializable {
 	/**
 	 * @return the attachments list of the post
 	 */
-	public Collection<AttachmentBean> getAttachments() {
+	public List<AttachmentBean> getAttachments() {
 		return attachments;
 	}
 
-	public void setAttachments(Collection<AttachmentBean> attachments) {
+	public void setAttachments(List<AttachmentBean> attachments) {
 		this.attachments = attachments;
 	}
 
