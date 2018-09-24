@@ -1,7 +1,6 @@
 package it.vige.rubia.resttest.forummodule.test;
 
 import static it.vige.rubia.dto.TopicType.NORMAL;
-import static java.text.DateFormat.getInstance;
 import static java.util.Arrays.asList;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +20,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.vige.rubia.Constants;
 import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
@@ -33,7 +32,7 @@ import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.resttest.RestCaller;
 
-public class TopicTest extends RestCaller {
+public class TopicTest extends RestCaller implements Constants {
 
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
@@ -41,8 +40,6 @@ public class TopicTest extends RestCaller {
 	private static Logger log = getLogger(ForumTest.class);
 
 	private static Date today = new Date();
-
-	private DateFormat testDateFormat = getInstance();
 
 	@BeforeAll
 	public static void setUp() {
@@ -436,7 +433,7 @@ public class TopicTest extends RestCaller {
 		posts = topic.getPosts();
 		assertTrue(posts.isEmpty());
 
-		response = get(url + "findTopicsHottest/" + testDateFormat.format(today) + "/3/1", authorization);
+		response = get(url + "findTopicsHottest/" + restDateFormat.format(today) + "/3/1", authorization);
 		topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
 		});
 		assertEquals(1, topicBeans.size());
@@ -465,10 +462,19 @@ public class TopicTest extends RestCaller {
 		assertEquals(false, forum.getPruneEnable());
 		assertEquals(0, forum.getPruneNext());
 		assertEquals(0, forum.getStatus());
-		assertNull(forum.getWatches());
+		assertTrue(forum.getWatches().isEmpty());
 		topics = forum.getTopics();
-		assertEquals(1, topics.size());
-		assertEquals(topic, topics.get(0));
+		assertEquals(2, topics.size());
+		topic = topics.get(0);
+		assertNotEquals(0, topic.getId());
+		assertEquals(today, topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertTrue(topic.getSubject().isEmpty());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
 		poster = topic.getPoster();
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
@@ -483,8 +489,26 @@ public class TopicTest extends RestCaller {
 		assertEquals(0, poll.getVotesSum());
 		posts = topic.getPosts();
 		assertTrue(posts.isEmpty());
+		topic = topics.get(1);
+		assertNotEquals(0, topic.getId());
+		assertNull(topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertEquals("Second Test Topic", topic.getSubject());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
+		poster = topic.getPoster();
+		assertEquals(0, poster.getPostCount());
+		assertEquals("root", poster.getUserId());
+		assertNotEquals(0, poster.getId());
+		poll = topic.getPoll();
+		assertNull(poll);
+		posts = topic.getPosts();
+		assertTrue(posts.isEmpty());
 
-		response = get(url + "findTopicsMostViewed/" + testDateFormat.format(today) + "/3/1", authorization);
+		response = get(url + "findTopicsMostViewed/" + restDateFormat.format(today) + "/3/1", authorization);
 		topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
 		});
 		assertEquals(1, topicBeans.size());
@@ -513,10 +537,19 @@ public class TopicTest extends RestCaller {
 		assertEquals(false, forum.getPruneEnable());
 		assertEquals(0, forum.getPruneNext());
 		assertEquals(0, forum.getStatus());
-		assertNull(forum.getWatches());
+		assertTrue(forum.getWatches().isEmpty());
 		topics = forum.getTopics();
-		assertEquals(1, topics.size());
-		assertEquals(topic, topics.get(0));
+		assertEquals(2, topics.size());
+		topic = topics.get(0);
+		assertNotEquals(0, topic.getId());
+		assertEquals(today, topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertTrue(topic.getSubject().isEmpty());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
 		poster = topic.getPoster();
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
@@ -529,6 +562,24 @@ public class TopicTest extends RestCaller {
 		assertNull(poll.getTitle());
 		assertTrue(poll.getVoted().isEmpty());
 		assertEquals(0, poll.getVotesSum());
+		posts = topic.getPosts();
+		assertTrue(posts.isEmpty());
+		topic = topics.get(1);
+		assertNotEquals(0, topic.getId());
+		assertNull(topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertEquals("Second Test Topic", topic.getSubject());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
+		poster = topic.getPoster();
+		assertEquals(0, poster.getPostCount());
+		assertEquals("root", poster.getUserId());
+		assertNotEquals(0, poster.getId());
+		poll = topic.getPoll();
+		assertNull(poll);
 		posts = topic.getPosts();
 		assertTrue(posts.isEmpty());
 
@@ -561,10 +612,19 @@ public class TopicTest extends RestCaller {
 		assertEquals(false, forum.getPruneEnable());
 		assertEquals(0, forum.getPruneNext());
 		assertEquals(0, forum.getStatus());
-		assertNull(forum.getWatches());
+		assertTrue(forum.getWatches().isEmpty());
 		topics = forum.getTopics();
-		assertEquals(1, topics.size());
-		assertEquals(topic, topics.get(0));
+		assertEquals(2, topics.size());
+		topic = topics.get(0);
+		assertNotEquals(0, topic.getId());
+		assertEquals(today, topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertTrue(topic.getSubject().isEmpty());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
 		poster = topic.getPoster();
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
@@ -579,10 +639,62 @@ public class TopicTest extends RestCaller {
 		assertEquals(0, poll.getVotesSum());
 		posts = topic.getPosts();
 		assertTrue(posts.isEmpty());
+		topic = topics.get(1);
+		assertNotEquals(0, topic.getId());
+		assertNull(topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertEquals("Second Test Topic", topic.getSubject());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		assertNull(forum);
+		poster = topic.getPoster();
+		assertEquals(0, poster.getPostCount());
+		assertEquals("root", poster.getUserId());
+		assertNotEquals(0, poster.getId());
+		poll = topic.getPoll();
+		assertNull(poll);
+		posts = topic.getPosts();
+		assertTrue(posts.isEmpty());
 
+		topicBean.setSubject("Updated test subject");
 		response = post(url + "updateTopic", authorization, topicBean);
 		response.readEntity(new GenericType<List<TopicBean>>() {
 		});
+
+		response = get(url + "findTopicById/" + topicBean.getId(), authorization);
+		topic = response.readEntity(new GenericType<TopicBean>() {
+		});
+		assertNotEquals(0, topic.getId());
+		assertEquals(today, topic.getLastPostDate());
+		assertEquals(0, topic.getReplies());
+		assertEquals(0, topic.getStatus());
+		assertEquals("Updated test subject", topic.getSubject());
+		assertEquals(NORMAL, topic.getType());
+		assertEquals(0, topic.getViewCount());
+		forum = topic.getForum();
+		poll = topic.getPoll();
+		assertNull(poll.getCreationDate());
+		assertNotEquals(0, poll.getId());
+		assertEquals(0, poll.getLength());
+		assertTrue(poll.getOptions().isEmpty());
+		assertNull(poll.getTitle());
+		assertTrue(poll.getVoted().isEmpty());
+		assertEquals(0, poll.getVotesSum());
+		posts = topic.getPosts();
+		assertEquals(1, posts.size());
+		PostBean post = posts.get(0);
+		assertNotNull(post);
+		assertTrue(post.getAttachments().isEmpty());
+		assertNull(post.getCreateDate());
+		assertEquals(0, post.getEditCount());
+		assertNull(post.getEditDate());
+		assertNotEquals(0, post.getId());
+		assertNull(post.getMessage());
+		assertNull(post.getPoster());
+		assertNull(post.getTopic());
+		assertNull(post.getUser());
 	}
 
 	@AfterAll
@@ -593,6 +705,7 @@ public class TopicTest extends RestCaller {
 		List<TopicBean> topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
 		});
 		assertEquals(2, topicBeans.size(), "Topics size");
+		PosterBean posterBean = topicBeans.get(0).getPoster();
 
 		topicBeans.forEach(x -> {
 			get(url + "removeTopic/" + x.getId(), authorization);
@@ -601,6 +714,14 @@ public class TopicTest extends RestCaller {
 		topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
 		});
 		assertEquals(0, topicBeans.size(), "Topics size");
+
+		response = get(url + "removePoster/" + posterBean.getId(), authorization);
+		PosterBean removedPosterBean = response.readEntity(PosterBean.class);
+		assertNotNull(removedPosterBean, "Poster removed by poster operations");
+
+		response = get(url + "findPosterByUserId/" + removedPosterBean.getUserId(), authorization);
+		posterBean = response.readEntity(PosterBean.class);
+		assertNull(posterBean, "Poster removed verified by poster operations");
 
 		response = get(url + "findForums/1", authorization);
 		List<ForumBean> forumBeans = response.readEntity(new GenericType<List<ForumBean>>() {

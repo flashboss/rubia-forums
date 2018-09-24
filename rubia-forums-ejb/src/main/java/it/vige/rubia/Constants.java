@@ -13,6 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
@@ -786,5 +789,7 @@ public interface Constants {
 	String BY = " by ";
 
 	String MAIN_PAGE = "Rubia Forums";
+
+	DateFormat restDateFormat = new SimpleDateFormat("d-M-YY-h-m-a");
 
 }

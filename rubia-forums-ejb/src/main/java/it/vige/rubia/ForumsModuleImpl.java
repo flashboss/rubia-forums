@@ -235,6 +235,22 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
+	public PosterBean removePoster(Integer id) throws ModuleException {
+		if (id != null) {
+			try {
+				Poster poster = em.find(Poster.class, id);
+				em.remove(poster);
+				return PosterToPosterBean.apply(poster);
+			} catch (Exception e) {
+				String message = "Cannot remove poster by id " + id;
+				throw new ModuleException(message, e);
+			}
+		} else {
+			throw new IllegalArgumentException("poster id cannot be null");
+		}
+	}
+
+	@Override
 	public PosterBean createPoster(String userId) throws ModuleException {
 		if (userId != null) {
 			try {

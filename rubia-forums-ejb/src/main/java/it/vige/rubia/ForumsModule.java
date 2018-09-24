@@ -215,6 +215,15 @@ public interface ForumsModule {
 	PosterBean findPosterByUserId(String userID) throws ModuleException;
 
 	/**
+	 * DOCUMENT_ME
+	 * 
+	 * @param id DOCUMENT_ME
+	 * @return DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
+	 */
+	PosterBean removePoster(Integer id) throws ModuleException;
+
+	/**
 	 * Get all the categories of forums.. FindCategories, findCategoriesFetchForums
 	 * and findForums methods need to a forumInstanceId argument to take only
 	 * categories of a specific forum instance. FindCategories,
@@ -259,7 +268,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic        DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 * @return The new post created
 	 * @throws ModuleException DOCUMENT_ME
 	 */
@@ -268,7 +277,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum   DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */

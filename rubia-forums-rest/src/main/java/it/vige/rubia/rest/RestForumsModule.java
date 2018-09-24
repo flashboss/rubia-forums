@@ -13,10 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.rest;
 
-import static java.text.DateFormat.getInstance;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import it.vige.rubia.Constants;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.User;
@@ -50,9 +49,7 @@ import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
 
 @Path("/forums/")
-public class RestForumsModule {
-
-	private DateFormat restDateFormat = getInstance();
+public class RestForumsModule implements Constants {
 
 	@EJB
 	private ForumsModule forumsModule;
@@ -187,6 +184,13 @@ public class RestForumsModule {
 	@Produces(APPLICATION_JSON)
 	public PosterBean findPosterByUserId(@PathParam("userId") String userID) throws ModuleException {
 		return forumsModule.findPosterByUserId(userID);
+	}
+
+	@GET
+	@Path("removePoster/{id}")
+	@Produces(APPLICATION_JSON)
+	public PosterBean removePoster(@PathParam("id") Integer id) throws ModuleException {
+		return forumsModule.removePoster(id);
 	}
 
 	@GET
