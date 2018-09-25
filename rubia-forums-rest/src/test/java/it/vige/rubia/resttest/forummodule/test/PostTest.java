@@ -2,23 +2,14 @@ package it.vige.rubia.resttest.forummodule.test;
 
 import static it.vige.rubia.dto.TopicType.NORMAL;
 import static java.util.Arrays.asList;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
@@ -27,9 +18,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.vige.rubia.ModuleException;
-import it.vige.rubia.auth.User;
-import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
@@ -68,10 +56,28 @@ public class PostTest extends RestCaller {
 		postBean.setCreateDate(today);
 		TopicBean topicBean = new TopicBean(forum, "First Test Topic", asList(new PostBean[] { postBean }), NORMAL,
 				null);
-		topicBean.setPoster(new PosterBean("root"));
+		PosterBean poster = new PosterBean("root");
+		topicBean.setPoster(poster);
 		topicBean.setPoll(new PollBean());
 		response = post(url + "createTopic", authorization, topicBean);
 		PostBean post = response.readEntity(PostBean.class);
+		topicBean = post.getTopic();
+		postBean = new PostBean();
+		postBean.setTopic(topicBean);
+		postBean.setMessage(new MessageBean("First Test Post"));
+		postBean.setPoster(poster);
+		postBean.setCreateDate(today);
+		response = post(url + "createPost", authorization, postBean);
+		post = response.readEntity(PostBean.class);
+		assertNotNull(post);
+		postBean.setMessage(new MessageBean("Second Test Post"));
+		response = post(url + "createPost", authorization, postBean);
+		post = response.readEntity(PostBean.class);
+		assertNotNull(post);
+		postBean.setMessage(new MessageBean("Third Test Post"));
+		response = post(url + "createPost", authorization, postBean);
+		post = response.readEntity(PostBean.class);
+		assertNotNull(post);
 	}
 
 	@Test
@@ -219,12 +225,31 @@ public class PostTest extends RestCaller {
 	@Path("updatePost")
 	@Consumes(APPLICATION_JSON)
 	public void update(PostBean post);
+	
+	@GET
+	@Path("removePost/{postId}/{isLastPost}")
+	public void removePost(@PathParam("postId") int postId, @PathParam("isLastPost") boolean isLastPost)
+			throws ModuleException;
 */
 	@AfterAll
 	public static void stop() {
 		log.debug("stopped test");
 
-		Response response = get(url + "findTopics/1", authorization);
+		ForumInstanceBean forumInstanceBean = new ForumInstanceBean();
+		forumInstanceBean.setId(1);
+		
+		CategoryBean categoryBean = new CategoryBean("First Test Category");
+		categoryBean.setForumInstance(forumInstanceBean);
+		Response response = post(url + "findPostsFromCategoryDesc", authorization, categoryBean);
+		List<PostBean> postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+		assertEquals(3, postBeans.size(), "Topics size");
+		
+		response = get(url + "removePost/1/false", authorization);
+		response = get(url + "removePost/2/true", authorization);
+		response = get(url + "removePost/3/true", authorization);
+		
+		response = get(url + "findTopics/1", authorization);
 		List<TopicBean> topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
 		});
 		assertEquals(2, topicBeans.size(), "Topics size");
