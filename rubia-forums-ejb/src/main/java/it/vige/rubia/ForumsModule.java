@@ -26,7 +26,6 @@ import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
-import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
@@ -295,8 +294,7 @@ public interface ForumsModule {
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationTime, PosterBean poster,
-			Collection<AttachmentBean> attachments) throws ModuleException;
+	PostBean createPost(PostBean post) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME

@@ -554,10 +554,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationDate,
-			PosterBean poster, Collection<AttachmentBean> attachments) throws ModuleException {
+	public PostBean createPost(PostBean postBean) throws ModuleException {
 		try {
 
+			PosterBean poster = postBean.getPoster();
+			MessageBean message = postBean.getMessage();
+			Collection<AttachmentBean> attachments = postBean.getAttachments();
+			Date creationDate = postBean.getCreateDate();
+			TopicBean topic = postBean.getTopic();
+			ForumBean forum = topic.getForum();
+			
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
 			Poster posterNew = PosterBeanToPoster.apply(poster);
 			if (posterOld == null) {

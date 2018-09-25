@@ -38,7 +38,6 @@ import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
-import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
@@ -243,9 +242,8 @@ public class RestForumsModule implements Constants {
 	@Path("createPost")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationTime,
-			PosterBean poster, Collection<AttachmentBean> attachments) throws ModuleException {
-		return forumsModule.createPost(topic, forum, message, creationTime, poster, attachments);
+	public PostBean createPost(PostBean post) throws ModuleException {
+		return forumsModule.createPost(post);
 	}
 
 	@POST

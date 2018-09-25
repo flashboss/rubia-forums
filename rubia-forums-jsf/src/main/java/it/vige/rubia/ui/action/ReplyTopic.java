@@ -177,8 +177,14 @@ public class ReplyTopic extends PostAction {
 
 			// actually post a reply to this topic in the forum
 			poster.incrementPostCount();
-			forumsModule.createPost(topic, forum, message, new Date(), poster, attachments // attachments
-			);
+			PostBean post = new PostBean();
+			post.setCreateDate(new Date());
+			post.setPoster(poster);
+			post.setAttachments(attachments);
+			post.setMessage(message);
+			post.setTopic(topic);
+			topic.setForum(forum);
+			forumsModule.createPost(post);
 			currentTopicPage.setPage(viewTopic.getLastPageNumber());
 
 			// setup the navigation state
