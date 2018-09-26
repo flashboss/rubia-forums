@@ -14,7 +14,6 @@
 package it.vige.rubia;
 
 import static it.vige.rubia.Constants.TOPIC_UNLOCKED;
-import static it.vige.rubia.dto.TopicType.ADVICE;
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
 import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
 import static java.util.stream.Collectors.toList;
@@ -323,20 +322,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			TypedQuery<Forum> query = em.createNamedQuery("findForumsByCategoryId", Forum.class);
 			query.setParameter("categoryId", CategoryBeanToCategory.apply(category));
 			return query.getResultList().stream().map(t -> ForumToForumBean.apply(t)).collect(toList());
-		} catch (Exception e) {
-			String message = "Cannot find forums";
-			throw new ModuleException(message, e);
-		}
-	}
-
-	@Override
-	public List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findAnnouncements", Post.class);
-			query.setParameter("forumid", "" + forum.getId());
-			query.setParameter("type", "" + ADVICE);
-			return query.getResultList().stream().map(t -> PostToPostBean.apply(t)).collect(toList());
 		} catch (Exception e) {
 			String message = "Cannot find forums";
 			throw new ModuleException(message, e);
@@ -820,22 +805,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			}
 		} else {
 			throw new IllegalArgumentException("forum cannot be null");
-		}
-	}
-
-	/**
-	 * @see it.vige.rubia.ForumsModule#findPosts(java.lang.Integer)
-	 */
-	@Override
-	public List<PostBean> findPosts(Integer indexInstance) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findPosts", Post.class);
-			query.setParameter("forumInstanceId", indexInstance);
-			return query.getResultList().stream().map(t -> PostToPostBean.apply(t)).collect(toList());
-		} catch (Exception e) {
-			String message = "Cannot find posts";
-			throw new ModuleException(message, e);
 		}
 	}
 

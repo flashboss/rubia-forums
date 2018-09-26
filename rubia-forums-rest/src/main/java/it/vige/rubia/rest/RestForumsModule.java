@@ -38,6 +38,7 @@ import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.CategoryRequestBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
+import it.vige.rubia.dto.ForumRequestBean;
 import it.vige.rubia.dto.ForumWatchBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
@@ -76,14 +77,6 @@ public class RestForumsModule implements Constants {
 	@Path("setFromAddress/{fromAddress}")
 	public void setFromAddress(@PathParam("fromAddress") String fromAddress) {
 		forumsModule.setFromAddress(fromAddress);
-	}
-
-	@POST
-	@Path("findAnnouncements")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException {
-		return forumsModule.findAnnouncements(forum);
 	}
 
 	@GET
@@ -163,13 +156,6 @@ public class RestForumsModule implements Constants {
 	@Produces(APPLICATION_JSON)
 	public ForumBean createForum(ForumBean forum) throws ModuleException {
 		return forumsModule.createForum(forum);
-	}
-
-	@GET
-	@Path("findPosts/{indexInstance}")
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPosts(@PathParam("indexInstance") Integer indexInstance) throws ModuleException {
-		return forumsModule.findPosts(indexInstance);
 	}
 
 	@GET
@@ -368,32 +354,36 @@ public class RestForumsModule implements Constants {
 	@Path("findPostIdsAsc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<Integer> findPostIdsAsc(TopicBean topic, int start, int limit) throws ModuleException {
-		return forumsModule.findPostIdsAsc(topic, start, limit);
+	public List<Integer> findPostIdsAsc(TopicRequestBean topicRequestBean) throws ModuleException {
+		return forumsModule.findPostIdsAsc(topicRequestBean.getTopic(), topicRequestBean.getStart(),
+				topicRequestBean.getPerPage());
 	}
 
 	@POST
 	@Path("findPostIdsDesc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<Integer> findPostIdsDesc(TopicBean topic, int start, int limit) throws ModuleException {
-		return forumsModule.findPostIdsDesc(topic, start, limit);
+	public List<Integer> findPostIdsDesc(TopicRequestBean topicRequestBean) throws ModuleException {
+		return forumsModule.findPostIdsDesc(topicRequestBean.getTopic(), topicRequestBean.getStart(),
+				topicRequestBean.getPerPage());
 	}
 
 	@POST
 	@Path("findPostsByTopicIdAsc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByTopicIdAsc(TopicBean topic, int start, int limit) throws ModuleException {
-		return forumsModule.findPostsByTopicIdAsc(topic, start, limit);
+	public List<PostBean> findPostsByTopicIdAsc(TopicRequestBean topicRequestBean) throws ModuleException {
+		return forumsModule.findPostsByTopicIdAsc(topicRequestBean.getTopic(), topicRequestBean.getStart(),
+				topicRequestBean.getPerPage());
 	}
 
 	@POST
 	@Path("findPostsByTopicIdDesc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws ModuleException {
-		return forumsModule.findPostsByTopicIdDesc(topic, start, limit);
+	public List<PostBean> findPostsByTopicIdDesc(TopicRequestBean topicRequestBean) throws ModuleException {
+		return forumsModule.findPostsByTopicIdDesc(topicRequestBean.getTopic(), topicRequestBean.getStart(),
+				topicRequestBean.getPerPage());
 	}
 
 	@POST
@@ -479,16 +469,16 @@ public class RestForumsModule implements Constants {
 	@Path("findPostsFromForumAsc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException {
-		return forumsModule.findPostsFromForumAsc(forum, limit);
+	public List<PostBean> findPostsFromForumAsc(ForumRequestBean forumRequestBean) throws ModuleException {
+		return forumsModule.findPostsFromForumAsc(forumRequestBean.getForum(), forumRequestBean.getLimit());
 	}
 
 	@POST
 	@Path("findPostsFromForumDesc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException {
-		return forumsModule.findPostsFromForumDesc(forum, limit);
+	public List<PostBean> findPostsFromForumDesc(ForumRequestBean forumRequestBean) throws ModuleException {
+		return forumsModule.findPostsFromForumDesc(forumRequestBean.getForum(), forumRequestBean.getLimit());
 	}
 
 	@POST

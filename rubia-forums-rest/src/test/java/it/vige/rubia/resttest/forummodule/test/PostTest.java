@@ -11,8 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -22,16 +25,20 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.vige.rubia.auth.User;
 import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.CategoryRequestBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
+import it.vige.rubia.dto.ForumRequestBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.PosterBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.resttest.RestCaller;
+import it.vige.rubia.resttest.TestUser;
 
 public class PostTest extends RestCaller {
 
@@ -322,225 +329,94 @@ public class PostTest extends RestCaller {
 	@Test
 	public void findAndUpdate() {
 
+		Response response = get(url + "findPostById/1", authorization);
+		PostBean postBean = response.readEntity(PostBean.class);
+
+		TopicBean topicBean = new TopicBean();
+		response = post(url + "findPostsByTopicId", authorization, topicBean);
+		List<PostBean> postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		Collection<Integer> posts = new ArrayList<Integer>();
+		response = post(url + "findPostsByIdsAscFetchAttachmentsAndPosters", authorization, posts);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		response = post(url + "findPostsByIdsDescFetchAttachmentsAndPosters", authorization, posts);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		TopicRequestBean topicRequestBean = new TopicRequestBean();
+		response = post(url + "findPostIdsAsc", authorization, topicRequestBean);
+		List<Integer> postIds = response.readEntity(new GenericType<List<Integer>>() {
+		});
+
+		topicRequestBean = new TopicRequestBean();
+		response = post(url + "findPostIdsDesc", authorization, topicRequestBean);
+		postIds = response.readEntity(new GenericType<List<Integer>>() {
+		});
+
+		topicRequestBean = new TopicRequestBean();
+		response = post(url + "findPostsByTopicIdAsc", authorization, topicRequestBean);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		topicRequestBean = new TopicRequestBean();
+		response = post(url + "findPostsByTopicIdDesc", authorization, topicRequestBean);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		User user = new TestUser();
+		response = post(url + "findLastPostDateForUser", authorization, user);
+		Date dateForUser = response.readEntity(Date.class);
+
+		ForumBean forum = new ForumBean();
+		response = post(url + "findLastPost", authorization, forum);
+		postBean = response.readEntity(PostBean.class);
+
+		TopicBean topic = new TopicBean();
+		response = post(url + "findFirstPost", authorization, topic);
+		postBean = response.readEntity(PostBean.class);
+
+		response = post(url + "findLastPost", authorization, topic);
+		postBean = response.readEntity(PostBean.class);
+
+		List<TopicBean> topicBeans = new ArrayList<TopicBean>();
+		response = post(url + "findLastPostsOfTopics", authorization, topicBeans);
+		Map<Object, Object> mapObjects = response.readEntity(new GenericType<Map<Object, Object>>() {
+		});
+
+		response = get(url + "findLastPostsOfForums/1", authorization);
+		Map<Object, PostBean> mapPosts = response.readEntity(new GenericType<Map<Object, PostBean>>() {
+		});
+
+		ForumRequestBean forumRequestBean = new ForumRequestBean();
+		response = post(url + "findPostsFromForumAsc", authorization, forumRequestBean);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		response = post(url + "findPostsFromForumDesc", authorization, forumRequestBean);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		CategoryRequestBean categoryRequestBean = new CategoryRequestBean();
+		response = post(url + "findPostsFromCategoryDesc", authorization, categoryRequestBean);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		response = get(url + "findPostsDesc/3", authorization);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		response = get(url + "findPostsAsc/3", authorization);
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
+
+		response = post(url + "updatePost", authorization, postBean);
+		response.readEntity(new GenericType<List<PostBean>>() {
+		});
 	}
 
-	/*
-	 * @POST
-	 * 
-	 * @Path("createPost")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public PostBean createPost(TopicBean topic,
-	 * ForumBean forum, MessageBean message, Date creationTime, PosterBean poster,
-	 * Collection<AttachmentBean> attachments) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findAnnouncements")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean> findAnnouncements(ForumBean
-	 * forum) throws ModuleException;
-	 * 
-	 * @GET
-	 * 
-	 * @Path("findPosts/{indexInstance}")
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPosts(@PathParam("indexInstance") Integer indexInstance) throws
-	 * ModuleException;
-	 * 
-	 * @GET
-	 * 
-	 * @Path("findPostById/{id}")
-	 * 
-	 * @Produces(APPLICATION_JSON) public PostBean findPostById(@PathParam("id")
-	 * Integer id) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsByTopicId")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsByTopicId(TopicBean topic) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsByIdsAscFetchAttachmentsAndPosters")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts) throws
-	 * ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsByIdsDescFetchAttachmentsAndPosters")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostIdsAsc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<Integer> findPostIdsAsc(TopicBean
-	 * topic, int start, int limit) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostIdsDesc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<Integer> findPostIdsDesc(TopicBean
-	 * topic, int start, int limit) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsByTopicIdAsc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsByTopicIdAsc(TopicBean topic, int start, int limit) throws
-	 * ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsByTopicIdDesc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws
-	 * ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findLastPostDateForUser")
-	 * 
-	 * @Consumes(APPLICATION_JSON) public Date findLastPostDateForUser(User user)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findLastPost")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public PostBean findLastPost(ForumBean forum)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findFirstPost")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public PostBean findFirstPost(TopicBean topic)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findLastPost")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public PostBean findLastPost(TopicBean topic)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findLastPostsOfTopics")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public Map<Object, Object>
-	 * findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
-	 * 
-	 * @GET
-	 * 
-	 * @Path("findLastPostsOfForums/{indexInstance}")
-	 * 
-	 * @Produces(APPLICATION_JSON) public Map<Object, PostBean>
-	 * findLastPostsOfForums(@PathParam("indexInstance") Integer indexInstance)
-	 * throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsFromForumAsc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsFromForumDesc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsFromCategoryAsc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsFromCategoryAsc(CategoryBean category, int limit) throws
-	 * ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("findPostsFromCategoryDesc")
-	 * 
-	 * @Consumes(APPLICATION_JSON)
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsFromCategoryDesc(CategoryBean category, int limit) throws
-	 * ModuleException;
-	 * 
-	 * @GET
-	 * 
-	 * @Path("findPostsDesc/{limit}")
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsDesc(@PathParam("limit") int limit) throws ModuleException;
-	 * 
-	 * @GET
-	 * 
-	 * @Path("findPostsAsc/{limit}")
-	 * 
-	 * @Produces(APPLICATION_JSON) public List<PostBean>
-	 * findPostsAsc(@PathParam("limit") int limit) throws ModuleException;
-	 * 
-	 * @POST
-	 * 
-	 * @Path("updatePost")
-	 * 
-	 * @Consumes(APPLICATION_JSON) public void update(PostBean post);
-	 * 
-	 * @GET
-	 * 
-	 * @Path("removePost/{postId}/{isLastPost}") public void
-	 * removePost(@PathParam("postId") int postId, @PathParam("isLastPost") boolean
-	 * isLastPost) throws ModuleException;
-	 */
 	@AfterAll
 	public static void stop() {
 		log.debug("stopped test");

@@ -67,16 +67,6 @@ public interface ForumsModule {
 	void setFromAddress(String fromAddress);
 
 	/**
-	 * Returns all the announcements of the forum
-	 * 
-	 * @param forum Forum in which we want to search for the announcements
-	 * @return List of topics
-	 * @throws ModuleException Throws an exception if unable to find the
-	 *                         announcements.
-	 */
-	List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException;
-
-	/**
 	 * Returns some topics of a forum that are not of a certain type. Need to a
 	 * forumInstanceId argument to take only topics of a specific forum instance.
 	 * FindTopics method need to a forumInstanceId argument to take only topics of a
@@ -182,18 +172,6 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	ForumBean createForum(ForumBean forum) throws ModuleException;
-
-	/**
-	 * Need to a forumInstanceId argument to take only posts of a specific forum
-	 * instance. FindPosts method need to a forumInstanceId argument to take only
-	 * posts of a specific forum instance
-	 * 
-	 * @param indexInstance the forum instance where find the posts
-	 * 
-	 * @return the list of posts for the index instance
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	List<PostBean> findPosts(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
