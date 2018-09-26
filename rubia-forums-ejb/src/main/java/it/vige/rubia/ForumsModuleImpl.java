@@ -1273,12 +1273,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException {
-		return findPostsFromCategory(CategoryBeanToCategory.apply(category), limit, "asc").stream()
-				.map(t -> PostToPostBean.apply(t)).collect(toList());
-	}
-
-	@Override
 	public List<PostBean> findPostsFromCategoryDesc(CategoryBean category, int limit) throws ModuleException {
 		return findPostsFromCategory(CategoryBeanToCategory.apply(category), limit, "desc").stream()
 				.map(t -> PostToPostBean.apply(t)).collect(toList());

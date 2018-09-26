@@ -35,6 +35,7 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.CategoryBean;
+import it.vige.rubia.dto.CategoryRequestBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
@@ -491,19 +492,12 @@ public class RestForumsModule implements Constants {
 	}
 
 	@POST
-	@Path("findPostsFromCategoryAsc")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException {
-		return forumsModule.findPostsFromCategoryAsc(category, limit);
-	}
-
-	@POST
 	@Path("findPostsFromCategoryDesc")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsFromCategoryDesc(CategoryBean category, int limit) throws ModuleException {
-		return forumsModule.findPostsFromCategoryDesc(category, limit);
+	public List<PostBean> findPostsFromCategoryDesc(CategoryRequestBean categoryRequestBean) throws ModuleException {
+		return forumsModule.findPostsFromCategoryDesc(categoryRequestBean.getCategory(),
+				categoryRequestBean.getLimit());
 	}
 
 	@POST

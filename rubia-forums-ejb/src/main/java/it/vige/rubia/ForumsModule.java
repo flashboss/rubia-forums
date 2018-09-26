@@ -589,8 +589,6 @@ public interface ForumsModule {
 
 	List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException;
 
-	List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException;
-
 	List<PostBean> findPostsFromCategoryDesc(CategoryBean category, int limit) throws ModuleException;
 
 	/**
