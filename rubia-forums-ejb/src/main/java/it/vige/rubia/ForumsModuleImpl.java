@@ -548,7 +548,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			Date creationDate = postBean.getCreateDate();
 			TopicBean topic = postBean.getTopic();
 			ForumBean forum = topic.getForum();
-			
+
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
 			Poster posterNew = PosterBeanToPoster.apply(poster);
 			if (posterOld == null) {
@@ -966,7 +966,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
+	public Map<Integer, PostBean> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
 		try {
 
 			List<Object[]> lastPostDates = new ArrayList<Object[]>(topics.size());
@@ -978,13 +978,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			// if there are no createDates then we return an empty map
 			if (dates.size() == 0) {
-				return new HashMap<Object, Object>(0);
+				return new HashMap<Integer, PostBean>(0);
 			}
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfTopicsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
-			Map<Object, Object> forumPostMap = new HashMap<Object, Object>(dates.size());
+			Map<Integer, PostBean> forumPostMap = new HashMap<Integer, PostBean>(dates.size());
 			for (Object[] dateTopic : lastPostDates) {
 				int index = Collections.binarySearch(posts, dateTopic, new Comparator<Object>() {
 					public int compare(Object o1, Object o2) {
@@ -999,7 +999,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = (Object[]) posts.get(index);
-				forumPostMap.put(dateTopic[1], PostToPostBean.apply((Post) datePostPair[1]));
+				forumPostMap.put((Integer) dateTopic[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {

@@ -387,7 +387,7 @@ public class RestForumsModule implements Constants {
 	@Path("findLastPostsOfTopics")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<Object, Object> findLastPostsOfTopics(List<TopicBean> topics) throws ModuleException {
+	public Map<Integer, PostBean> findLastPostsOfTopics(List<TopicBean> topics) throws ModuleException {
 		return forumsModule.findLastPostsOfTopics(topics);
 	}
 

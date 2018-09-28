@@ -470,7 +470,7 @@ public interface ForumsModule {
 	 * @return the last posts of the topic
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
+	Map<Integer, PostBean> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
 
 	/**
 	 * findLastPostsOfForums method need to a forumInstanceId argument to take only

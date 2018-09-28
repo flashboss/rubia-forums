@@ -84,7 +84,7 @@ public class ViewForum extends BaseController {
 	// like facelets
 	private ForumBean forum;
 	private List<TopicBean> normalThreads = new ArrayList<TopicBean>();
-	private Map<Object, Object> topicLastPosts;
+	private Map<Integer, PostBean> topicLastPosts;
 	private List<TopicBean> stickyThreads;
 	private List<TopicBean> announcements;
 	private DataModel<TopicBean> normalThreadsDataModel = new ListDataModel<TopicBean>(normalThreads);
@@ -259,9 +259,9 @@ public class ViewForum extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Object> getTopicLastPosts() {
+	public Map<Integer, PostBean> getTopicLastPosts() {
 		if (topicLastPosts == null) {
-			topicLastPosts = new HashMap<Object, Object>();
+			topicLastPosts = new HashMap<Integer, PostBean>();
 		}
 		return topicLastPosts;
 	}
@@ -331,7 +331,7 @@ public class ViewForum extends BaseController {
 				topicBean.setType(NORMAL);
 				topicRequestBean.setTopic(topicBean);
 				topicRequestBean.setPerPage(MAX_VALUE);
-				
+
 				normalThreads = fm.findTopicsDesc(topicRequestBean);
 				normalThreadsDataModel = new ListDataModel<TopicBean>(normalThreads);
 

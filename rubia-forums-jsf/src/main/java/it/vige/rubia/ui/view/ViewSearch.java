@@ -60,9 +60,9 @@ public class ViewSearch extends BaseController {
 	private List<TopicBean> topics;
 	private DataModel<TopicBean> topicsDataModel = new ListDataModel<TopicBean>(topics);
 
-	private Map<Object, Object> topicLastPosts;
+	private Map<Integer, PostBean> topicLastPosts;
 
-	public void setTopicLastPosts(Map<Object, Object> topicLastPosts) {
+	public void setTopicLastPosts(Map<Integer, PostBean> topicLastPosts) {
 		this.topicLastPosts = topicLastPosts;
 	}
 
@@ -98,9 +98,9 @@ public class ViewSearch extends BaseController {
 		this.topics = topics;
 	}
 
-	public Map<Object, Object> getTopicLastPosts() {
+	public Map<Integer, PostBean> getTopicLastPosts() {
 		if (topicLastPosts == null) {
-			topicLastPosts = new HashMap<Object, Object>();
+			topicLastPosts = new HashMap<Integer, PostBean>();
 		}
 		return topicLastPosts;
 	}
