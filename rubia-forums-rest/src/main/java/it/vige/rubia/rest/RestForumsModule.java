@@ -394,7 +394,7 @@ public class RestForumsModule implements Constants {
 	@GET
 	@Path("findLastPostsOfForums/{indexInstance}")
 	@Produces(APPLICATION_JSON)
-	public Map<Object, PostBean> findLastPostsOfForums(@PathParam("indexInstance") Integer indexInstance)
+	public Map<Integer, PostBean> findLastPostsOfForums(@PathParam("indexInstance") Integer indexInstance)
 			throws ModuleException {
 		return forumsModule.findLastPostsOfForums(indexInstance);
 	}
@@ -429,14 +429,6 @@ public class RestForumsModule implements Constants {
 	@Produces(APPLICATION_JSON)
 	public List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException {
 		return forumsModule.findTopicWatchedByUser(user, date, indexInstance);
-	}
-
-	@POST
-	@Path("findPostsFromForumAsc")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsFromForumAsc(ForumRequestBean forumRequestBean) throws ModuleException {
-		return forumsModule.findPostsFromForumAsc(forumRequestBean.getForum(), forumRequestBean.getLimit());
 	}
 
 	@POST
@@ -557,13 +549,6 @@ public class RestForumsModule implements Constants {
 	@Produces(APPLICATION_JSON)
 	public List<PostBean> findPostsDesc(@PathParam("limit") int limit) throws ModuleException {
 		return forumsModule.findPostsDesc(limit);
-	}
-
-	@GET
-	@Path("findPostsAsc/{limit}")
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsAsc(@PathParam("limit") int limit) throws ModuleException {
-		return forumsModule.findPostsAsc(limit);
 	}
 
 	@POST

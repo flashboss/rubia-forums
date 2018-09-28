@@ -82,7 +82,7 @@ public class ViewCategory extends BaseController {
 	private Map<Integer, Collection<ForumBean>> forums = null;
 	private Map<Integer, String> forumImages = null;
 	private Map<Integer, String> forumImageDescriptions = null;
-	private Map<Object, PostBean> forumLastPosts = null;
+	private Map<Integer, PostBean> forumLastPosts = null;
 	private boolean categorySelected = false;
 
 	// ------------user
@@ -160,9 +160,9 @@ public class ViewCategory extends BaseController {
 	/**
 	 * @return Returns the a Map which contains ForumId:LastPost pairs.
 	 */
-	public Map<Object, PostBean> getForumLastPosts() {
+	public Map<Integer, PostBean> getForumLastPosts() {
 		if (forumLastPosts == null) {
-			forumLastPosts = new HashMap<Object, PostBean>();
+			forumLastPosts = new HashMap<Integer, PostBean>();
 		}
 		return forumLastPosts;
 	}

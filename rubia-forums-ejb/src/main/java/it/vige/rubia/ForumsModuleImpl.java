@@ -1012,7 +1012,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 * @see it.vige.rubia.ForumsModule#findLastPostsOfForums(java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
+	public Map<Integer, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfForums", Object[].class);
@@ -1025,13 +1025,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			// if there are no posts in all forums then return empty map
 			if (dates.size() == 0) {
-				return new HashMap<Object, PostBean>(0);
+				return new HashMap<Integer, PostBean>(0);
 			}
 
 			query = em.createNamedQuery("findLastPostsOfForumsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
-			Map<Object, PostBean> forumPostMap = new HashMap<Object, PostBean>(createDates.size());
+			Map<Integer, PostBean> forumPostMap = new HashMap<Integer, PostBean>(createDates.size());
 			for (Object[] dateForum : createDates) {
 				int index = Collections.binarySearch(posts, dateForum, new Comparator<Object>() {
 					public int compare(Object o1, Object o2) {
@@ -1046,7 +1046,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = posts.get(index);
-				forumPostMap.put(dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
+				forumPostMap.put((Integer)dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {
@@ -1153,11 +1153,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException {
-		return findPostsFromForum(forum, limit, "asc");
-	}
-
-	@Override
 	public List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException {
 		return findPostsFromForum(forum, limit, "desc");
 	}
@@ -1197,11 +1192,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			String message = "Cannot find posts";
 			throw new ModuleException(message, e);
 		}
-	}
-
-	@Override
-	public List<PostBean> findPostsAsc(int limit) throws ModuleException {
-		return findPosts(limit, "asc").stream().map(t -> PostToPostBean.apply(t)).collect(toList());
 	}
 
 	@Override

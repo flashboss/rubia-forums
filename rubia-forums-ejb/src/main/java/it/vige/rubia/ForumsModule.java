@@ -484,7 +484,7 @@ public interface ForumsModule {
 	 * @return the last posts of the forum instance
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
+	Map<Integer, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * findForumWatchByUser method need to a forumInstanceId argument to take only
@@ -534,8 +534,6 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException;
-
-	List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException;
 
 	List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException;
 
@@ -650,14 +648,6 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsDesc(int limit) throws ModuleException;
-
-	/**
-	 * @param limit DOCUMENT_ME
-	 * 
-	 * @return the list of ascendent posts in the limit
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	List<PostBean> findPostsAsc(int limit) throws ModuleException;
 
 	/**
 	 * @param attachments DOCUMENT_ME

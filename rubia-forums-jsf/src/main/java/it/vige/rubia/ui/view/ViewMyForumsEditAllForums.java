@@ -62,7 +62,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	private ThemeHelper themeHelper;
 
 	// Map<ForumId,LastPost>
-	private Map<Object, PostBean> forumsLastPosts;
+	private Map<Integer, PostBean> forumsLastPosts;
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
 	private Map<Object, Object> forumWatches;
@@ -130,7 +130,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, PostBean> getForumsLastPosts() {
+	public Map<Integer, PostBean> getForumsLastPosts() {
 		if (forumsLastPosts == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -147,7 +147,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	/**
 	 * @param forumsLastPosts the map of the forum last posts
 	 */
-	public void setForumsLastPosts(Map<Object, PostBean> forumsLastPosts) {
+	public void setForumsLastPosts(Map<Integer, PostBean> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 

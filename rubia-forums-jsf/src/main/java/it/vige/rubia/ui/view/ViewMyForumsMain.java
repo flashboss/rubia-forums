@@ -63,7 +63,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	private PreferenceController userPreferences;
 
 	// Map<ForumId,LastPost>
-	private Map<Object, PostBean> forumsLastPosts;
+	private Map<Integer, PostBean> forumsLastPosts;
 
 	private Collection<ForumBean> watchedForums;
 
@@ -172,7 +172,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, PostBean> getForumsLastPosts() {
+	public Map<Integer, PostBean> getForumsLastPosts() {
 		if (forumsLastPosts == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -190,7 +190,7 @@ public class ViewMyForumsMain extends ViewMyForumsBase {
 	/**
 	 * @param forumsLastPosts the forums last posts
 	 */
-	public void setForumsLastPosts(Map<Object, PostBean> forumsLastPosts) {
+	public void setForumsLastPosts(Map<Integer, PostBean> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
