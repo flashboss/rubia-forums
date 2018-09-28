@@ -966,69 +966,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public Date findLastPostDateForUser(User user) throws ModuleException {
-		try {
-
-			TypedQuery<Date> query = em.createNamedQuery("findLastPostDateForUser", Date.class);
-			query.setParameter("userId", "" + user.getId().toString());
-			Date lastPostDate = uniqueElement(query.getResultList());
-			return lastPostDate;
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findLastPost(ForumBean forum) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findLastPost", Post.class);
-			query.setParameter("forumId", "" + forum.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post lastPost = uniqueElement(query.getResultList());
-			return PostToPostBean.apply(lastPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findFirstPost(TopicBean topic) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findFirstPost", Post.class);
-			query.setParameter("lastPostDate", topic.getLastPostDate(), DATE);
-			query.setParameter("topicId", "" + topic.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post firstPost = uniqueElement(query.getResultList());
-			return PostToPostBean.apply(firstPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findLastPost(TopicBean topic) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findLastPostOrder", Post.class);
-			query.setParameter("topicId", "" + topic.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post lastPost = (Post) uniqueElement(query.getResultList());
-			return PostToPostBean.apply(lastPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
 	public Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
 		try {
 

@@ -16,7 +16,6 @@ package it.vige.rubia.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -336,8 +335,7 @@ public class RestForumsModule implements Constants {
 	@Path("findPostsByIdsAscFetchAttachmentsAndPosters")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByIdsAscFetchAttachmentsAndPosters(Collection<Integer> posts)
-			throws ModuleException {
+	public List<PostBean> findPostsByIdsAscFetchAttachmentsAndPosters(List<Integer> posts) throws ModuleException {
 		return forumsModule.findPostsByIdsAscFetchAttachmentsAndPosters(posts);
 	}
 
@@ -345,8 +343,7 @@ public class RestForumsModule implements Constants {
 	@Path("findPostsByIdsDescFetchAttachmentsAndPosters")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByIdsDescFetchAttachmentsAndPosters(Collection<Integer> posts)
-			throws ModuleException {
+	public List<PostBean> findPostsByIdsDescFetchAttachmentsAndPosters(List<Integer> posts) throws ModuleException {
 		return forumsModule.findPostsByIdsDescFetchAttachmentsAndPosters(posts);
 	}
 
@@ -387,41 +384,10 @@ public class RestForumsModule implements Constants {
 	}
 
 	@POST
-	@Path("findLastPostDateForUser")
-	@Consumes(APPLICATION_JSON)
-	public Date findLastPostDateForUser(User user) throws ModuleException {
-		return forumsModule.findLastPostDateForUser(user);
-	}
-
-	@POST
-	@Path("findLastPost")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean findLastPost(ForumBean forum) throws ModuleException {
-		return forumsModule.findLastPost(forum);
-	}
-
-	@POST
-	@Path("findFirstPost")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean findFirstPost(TopicBean topic) throws ModuleException {
-		return forumsModule.findFirstPost(topic);
-	}
-
-	@POST
-	@Path("findLastPost")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean findLastPost(TopicBean topic) throws ModuleException {
-		return forumsModule.findLastPost(topic);
-	}
-
-	@POST
 	@Path("findLastPostsOfTopics")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
+	public Map<Object, Object> findLastPostsOfTopics(List<TopicBean> topics) throws ModuleException {
 		return forumsModule.findLastPostsOfTopics(topics);
 	}
 
@@ -604,7 +570,7 @@ public class RestForumsModule implements Constants {
 	@Path("addAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PostBean addAttachments(Collection<AttachmentBean> attachments, PostBean post) {
+	public PostBean addAttachments(List<AttachmentBean> attachments, PostBean post) {
 		return forumsModule.addAttachments(attachments, post);
 	}
 
@@ -612,8 +578,8 @@ public class RestForumsModule implements Constants {
 	@Path("findAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Collection<AttachmentBean> findAttachments(PostBean post) {
-		return forumsModule.findAttachments(post);
+	public List<AttachmentBean> findAttachments(PostBean post) {
+		return (List<AttachmentBean>) forumsModule.findAttachments(post);
 	}
 
 	@POST
@@ -628,7 +594,7 @@ public class RestForumsModule implements Constants {
 	@Path("updateAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PostBean updateAttachments(Collection<AttachmentBean> attachments, PostBean post) {
+	public PostBean updateAttachments(List<AttachmentBean> attachments, PostBean post) {
 		return forumsModule.updateAttachments(attachments, post);
 	}
 

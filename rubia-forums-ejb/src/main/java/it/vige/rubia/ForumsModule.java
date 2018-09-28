@@ -466,34 +466,6 @@ public interface ForumsModule {
 	List<PostBean> findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
-	 * @param user DOCUMENT_ME
-	 * @return the last post date of the user
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	Date findLastPostDateForUser(User user) throws ModuleException;
-
-	/**
-	 * @param forum DOCUMENT_ME
-	 * @return the last post in the forum
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findLastPost(ForumBean forum) throws ModuleException;
-
-	/**
-	 * @param topic DOCUMENT_ME
-	 * @return the first post of the topic
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findFirstPost(TopicBean topic) throws ModuleException;
-
-	/**
-	 * @param topic DOCUMENT_ME
-	 * @return the last post of the topic
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findLastPost(TopicBean topic) throws ModuleException;
-
-	/**
 	 * @param topics DOCUMENT_ME
 	 * @return the last posts of the topic
 	 * @throws ModuleException DOCUMENT_ME

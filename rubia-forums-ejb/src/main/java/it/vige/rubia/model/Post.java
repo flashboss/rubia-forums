@@ -69,12 +69,6 @@ import it.vige.rubia.auth.User;
 		@NamedQuery(name = "findPostIdsdesc", query = "select p.id " + "from Post as p " + "where p.topic=:topicId "
 				+ "order by p.createDate desc"),
 		@NamedQuery(name = "findPostsByTopicIdNoOrder", query = "select p from Post as p where p.topic=:topicId"),
-		@NamedQuery(name = "findLastPostDateForUser", query = "select max(p.createDate) from Post as p where p.poster.userId = :userId"),
-		@NamedQuery(name = "findLastPost", query = "select p " + "from Post as p " + "join fetch p.poster "
-				+ "where p.createDate = ( " + "select DISTINCT MAX(tc.lastPostDate) " + "from Topic as tc "
-				+ "where tc.forum = :forumId " + ")"),
-		@NamedQuery(name = "findFirstPost", query = "select p " + "from Post as p " + "join fetch p.poster "
-				+ "where p.topic = :topicId " + "AND p.createDate = :lastPostDate"),
 		@NamedQuery(name = "findLastPostOrder", query = "select p from Post as p where p.topic  = :topicId order by p.createDate desc"),
 		@NamedQuery(name = "findLastPostsOfTopics", query = "select tc.lastPostDate as maxDate , tc.id "
 				+ "from Topic as tc " + "where tc.forum.id = :forumId"),
