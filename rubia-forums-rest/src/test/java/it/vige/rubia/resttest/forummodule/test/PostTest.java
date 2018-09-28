@@ -1955,7 +1955,7 @@ public class PostTest extends RestCaller {
 		Map<Object, Map<Object, Object>> mapObjects = response
 				.readEntity(new GenericType<Map<Object, Map<Object, Object>>>() {
 				});
-		assertEquals(1, mapObjects.size());
+		assertEquals(1, mapObjects.size()); 
 		Map<Object, Object> objects = mapObjects.get(topicBean.getId() + "");
 		List<Object> attachmentList = (List<Object>) objects.get("attachments");
 		assertTrue(attachmentList.isEmpty());
