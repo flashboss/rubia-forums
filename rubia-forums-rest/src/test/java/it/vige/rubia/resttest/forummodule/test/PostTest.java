@@ -1429,15 +1429,13 @@ public class PostTest extends RestCaller {
 		List<Integer> postIds = response.readEntity(new GenericType<List<Integer>>() {
 		});
 		assertEquals(2, postIds.size());
-		assertEquals(7, postIds.get(0).intValue());
-		assertEquals(8, postIds.get(1).intValue());
+		assertTrue(postIds.get(0).intValue() < postIds.get(1).intValue());
 
 		response = post(url + "findPostIdsDesc", authorization, topicRequestBean);
 		postIds = response.readEntity(new GenericType<List<Integer>>() {
 		});
 		assertEquals(2, postIds.size());
-		assertEquals(8, postIds.get(0).intValue());
-		assertEquals(7, postIds.get(1).intValue());
+		assertTrue(postIds.get(0).intValue() > postIds.get(1).intValue());
 
 		response = post(url + "findPostsByTopicIdAsc", authorization, topicRequestBean);
 		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
@@ -2081,7 +2079,7 @@ public class PostTest extends RestCaller {
 		mapPosts = response.readEntity(new GenericType<Map<String, PostBean>>() {
 		});
 		assertEquals(1, mapPosts.size());
-		post = mapPosts.get(2 + "");
+		post = mapPosts.values().iterator().next();
 		assertNotNull(post);
 		assertTrue(post.getAttachments().isEmpty());
 		assertEquals(forthDate, post.getCreateDate());
@@ -2600,14 +2598,15 @@ public class PostTest extends RestCaller {
 		response.readEntity(new GenericType<List<PostBean>>() {
 		});
 
+		categoryRequestBean.setLimit(4);
 		response = post(url + "findPostsFromCategoryDesc", authorization, categoryRequestBean);
 		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
 		});
-		assertEquals(1, postBeans.size());
-		post = postBeans.get(0);
+		assertEquals(4, postBeans.size());
+		post = postBeans.get(3);
 		assertNotNull(post);
 		assertTrue(post.getAttachments().isEmpty());
-		assertEquals(forthDate, post.getCreateDate());
+		assertEquals(firstDate, post.getCreateDate());
 		assertEquals(0, post.getEditCount());
 		assertNull(post.getEditDate());
 		assertNotEquals(0, post.getId());
@@ -2737,11 +2736,11 @@ public class PostTest extends RestCaller {
 		response = post(url + "findPostsFromCategoryDesc", authorization, categoryRequestBean);
 		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
 		});
-		assertEquals(1, postBeans.size());
-		post = postBeans.get(0);
+		assertEquals(4, postBeans.size());
+		post = postBeans.get(3);
 		assertNotNull(post);
 		assertTrue(post.getAttachments().isEmpty());
-		assertEquals(forthDate, post.getCreateDate());
+		assertNotEquals(thirdDate, post.getCreateDate());
 		assertEquals(0, post.getEditCount());
 		assertNull(post.getEditDate());
 		assertNotEquals(0, post.getId());
@@ -2751,7 +2750,7 @@ public class PostTest extends RestCaller {
 		assertTrue(message.getSignatureEnabled());
 		assertFalse(message.getSmiliesEnabled());
 		assertTrue(message.getSubject().isEmpty());
-		assertEquals("Last Test Message", message.getText());
+		assertEquals("First Test Body", message.getText());
 		poster = post.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
