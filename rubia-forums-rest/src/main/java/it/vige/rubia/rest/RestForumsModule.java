@@ -47,6 +47,7 @@ import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.dto.TopicRequestBean;
 import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
+import it.vige.rubia.dto.WatchRequestBean;
 
 @Path("/forums/")
 public class RestForumsModule implements Constants {
@@ -403,7 +404,9 @@ public class RestForumsModule implements Constants {
 	@Path("findForumWatchByUser")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<ForumWatchBean> findForumWatchByUser(User user, Integer indexInstance) throws ModuleException {
+	public List<ForumWatchBean> findForumWatchByUser(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findForumWatchByUser(user, indexInstance);
 	}
 
@@ -411,7 +414,9 @@ public class RestForumsModule implements Constants {
 	@Path("findForumWatchedByUser")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<ForumBean> findForumWatchedByUser(User user, Integer indexInstance) throws ModuleException {
+	public List<ForumBean> findForumWatchedByUser(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findForumWatchedByUser(user, indexInstance);
 	}
 
@@ -419,16 +424,16 @@ public class RestForumsModule implements Constants {
 	@Path("findTopicWatchedByUser")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<TopicBean> findTopicWatchedByUser(User user, Integer indexInstance) throws ModuleException {
-		return forumsModule.findTopicWatchedByUser(user, indexInstance);
-	}
-
-	@POST
-	@Path("findTopicWatchedByUser")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException {
-		return forumsModule.findTopicWatchedByUser(user, date, indexInstance);
+	public List<TopicBean> findTopicWatchedByUser(WatchRequestBean watchRequestBean) throws ModuleException, ParseException {
+		User user = watchRequestBean.getUser();
+		Integer indexInstance = watchRequestBean.getIndexInstance();
+		String date = watchRequestBean.getDate();
+		if (date != null) {
+			Date convertedDate = restDateFormat.parse(date);
+			return forumsModule.findTopicWatchedByUser(user, convertedDate, indexInstance);
+		} else {
+			return forumsModule.findTopicWatchedByUser(user, indexInstance);
+		}
 	}
 
 	@POST
@@ -452,7 +457,9 @@ public class RestForumsModule implements Constants {
 	@Path("findTopicWatches")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<String, TopicWatchBean> findTopicWatches(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findTopicWatches(user, indexInstance);
 	}
 
@@ -471,10 +478,13 @@ public class RestForumsModule implements Constants {
 	}
 
 	@POST
-	@Path("createWatch")
+	@Path("createForumWatch")
 	@Consumes(APPLICATION_JSON)
-	public void createWatch(PosterBean poster, ForumBean forum, int i) throws ModuleException {
-		forumsModule.createWatch(poster, forum, i);
+	public void createForumWatch(ForumWatchBean forumWatchBean) throws ModuleException {
+		PosterBean poster = forumWatchBean.getPoster();
+		ForumBean forum = forumWatchBean.getForum();
+		int mode = forumWatchBean.getMode();
+		forumsModule.createWatch(poster, forum, mode);
 	}
 
 	@GET
@@ -488,7 +498,9 @@ public class RestForumsModule implements Constants {
 	@Path("findForumWatches")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<String, ForumWatchBean> findForumWatches(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findForumWatches(user, indexInstance);
 	}
 
@@ -496,7 +508,9 @@ public class RestForumsModule implements Constants {
 	@Path("findForumWatchByUserAndForum")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public ForumWatchBean findForumWatchByUserAndForum(User user, int forumId) throws ModuleException {
+	public ForumWatchBean findForumWatchByUserAndForum(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		int forumId = watchRequestBean.getForumId();
 		return forumsModule.findForumWatchByUserAndForum(user, forumId);
 	}
 
@@ -517,9 +531,12 @@ public class RestForumsModule implements Constants {
 	}
 
 	@POST
-	@Path("createWatch")
+	@Path("createTopicWatch")
 	@Consumes(APPLICATION_JSON)
-	public void createWatch(PosterBean poster, TopicBean topic, int mode) throws ModuleException {
+	public void createTopicWatch(TopicWatchBean topicWatchBean) throws ModuleException {
+		PosterBean poster = topicWatchBean.getPoster();
+		TopicBean topic = topicWatchBean.getTopic();
+		int mode = topicWatchBean.getMode();
 		forumsModule.createWatch(poster, topic, mode);
 	}
 

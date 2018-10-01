@@ -550,7 +550,7 @@ public interface ForumsModule {
 	 * @return the map of topic watches
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
+	Map<String, TopicWatchBean> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
 
 	AttachmentBean findAttachmentById(Integer attachID) throws ModuleException;
 
@@ -582,7 +582,7 @@ public interface ForumsModule {
 	 * @return the map of the forum watches
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException;
+	Map<String, ForumWatchBean> findForumWatches(User user, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * 

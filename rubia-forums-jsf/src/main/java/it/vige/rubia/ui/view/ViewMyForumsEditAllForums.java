@@ -37,6 +37,7 @@ import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
 import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.ForumWatchBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.BaseController;
@@ -65,7 +66,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	private Map<Integer, PostBean> forumsLastPosts;
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
-	private Map<Object, Object> forumWatches;
+	private Map<String, ForumWatchBean> forumWatches;
 	private Collection<ForumBean> watchedForums;
 
 	private WatchBean watch;
@@ -167,14 +168,14 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Object> getForumWatches() {
+	public Map<String, ForumWatchBean> getForumWatches() {
 		return forumWatches;
 	}
 
 	/**
 	 * @param forumWatches the forum watches
 	 */
-	public void setForumWatches(Map<Object, Object> forumWatches) {
+	public void setForumWatches(Map<String, ForumWatchBean> forumWatches) {
 		this.forumWatches = forumWatches;
 	}
 
@@ -247,7 +248,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 
 		} catch (Exception e) {
 			handleException(e);
-			setForumWatches(new HashMap<Object, Object>(0));
+			setForumWatches(new HashMap<String, ForumWatchBean>(0));
 		}
 
 		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);

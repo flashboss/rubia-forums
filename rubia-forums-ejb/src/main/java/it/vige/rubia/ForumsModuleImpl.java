@@ -1046,7 +1046,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = posts.get(index);
-				forumPostMap.put((Integer)dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
+				forumPostMap.put((Integer) dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {
@@ -1118,16 +1118,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 *      java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<String, TopicWatchBean> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findTopicWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			Map<String, TopicWatchBean> map = new HashMap<String, TopicWatchBean>(results.size());
 			for (Object[] element : results) {
-				map.put(element[0], element[1]);
+				map.put(element[0] + "", TopicWatchToTopicWatchBean.apply((TopicWatch) element[1]));
 			}
 			return map;
 		} catch (Exception e) {
@@ -1263,16 +1263,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 *      java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<String, ForumWatchBean> findForumWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findForumWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			Map<String, ForumWatchBean> map = new HashMap<String, ForumWatchBean>(results.size());
 			for (Object[] element : results) {
-				map.put(element[0], element[1]);
+				map.put(element[0] + "", ForumWatchToForumWatchBean.apply((ForumWatch) element[1]));
 			}
 			return map;
 		} catch (Exception e) {
