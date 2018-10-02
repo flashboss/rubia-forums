@@ -424,7 +424,8 @@ public class RestForumsModule implements Constants {
 	@Path("findTopicWatchedByUser")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public List<TopicBean> findTopicWatchedByUser(WatchRequestBean watchRequestBean) throws ModuleException, ParseException {
+	public List<TopicBean> findTopicWatchedByUser(WatchRequestBean watchRequestBean)
+			throws ModuleException, ParseException {
 		User user = watchRequestBean.getUser();
 		Integer indexInstance = watchRequestBean.getIndexInstance();
 		String date = watchRequestBean.getDate();
@@ -518,7 +519,9 @@ public class RestForumsModule implements Constants {
 	@Path("findTopicWatchByUserAndTopic")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public TopicWatchBean findTopicWatchByUserAndTopic(User user, int topicId) throws ModuleException {
+	public TopicWatchBean findTopicWatchByUserAndTopic(WatchRequestBean watchRequestBean) throws ModuleException {
+		User user = watchRequestBean.getUser();
+		int topicId = watchRequestBean.getTopicId();
 		return forumsModule.findTopicWatchByUserAndTopic(user, topicId);
 	}
 
