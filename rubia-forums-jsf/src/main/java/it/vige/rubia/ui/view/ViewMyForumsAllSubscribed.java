@@ -52,7 +52,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 
 	private int topicId;
 	private WatchBean watch;
-	private Map<String, TopicWatchBean> topicWatches;
+	private Map<Integer, TopicWatchBean> topicWatches;
 
 	@PostConstruct
 	public void execute() {
@@ -142,7 +142,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<String, TopicWatchBean> getTopicWatches() {
+	public Map<Integer, TopicWatchBean> getTopicWatches() {
 		if (topicWatches == null) {
 			try {
 				// get the forumInstanceId where this forum should be added

@@ -66,7 +66,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	private Map<Integer, PostBean> forumsLastPosts;
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
-	private Map<String, ForumWatchBean> forumWatches;
+	private Map<Integer, ForumWatchBean> forumWatches;
 	private Collection<ForumBean> watchedForums;
 
 	private WatchBean watch;
@@ -168,14 +168,14 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<String, ForumWatchBean> getForumWatches() {
+	public Map<Integer, ForumWatchBean> getForumWatches() {
 		return forumWatches;
 	}
 
 	/**
 	 * @param forumWatches the forum watches
 	 */
-	public void setForumWatches(Map<String, ForumWatchBean> forumWatches) {
+	public void setForumWatches(Map<Integer, ForumWatchBean> forumWatches) {
 		this.forumWatches = forumWatches;
 	}
 
@@ -248,7 +248,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 
 		} catch (Exception e) {
 			handleException(e);
-			setForumWatches(new HashMap<String, ForumWatchBean>(0));
+			setForumWatches(new HashMap<Integer, ForumWatchBean>(0));
 		}
 
 		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);

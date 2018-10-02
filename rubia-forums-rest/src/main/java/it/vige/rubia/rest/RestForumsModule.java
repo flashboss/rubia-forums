@@ -457,7 +457,7 @@ public class RestForumsModule implements Constants {
 	@Path("findTopicWatches")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<String, TopicWatchBean> findTopicWatches(WatchRequestBean watchRequestBean) throws ModuleException {
+	public Map<Integer, TopicWatchBean> findTopicWatches(WatchRequestBean watchRequestBean) throws ModuleException {
 		User user = watchRequestBean.getUser();
 		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findTopicWatches(user, indexInstance);
@@ -498,7 +498,7 @@ public class RestForumsModule implements Constants {
 	@Path("findForumWatches")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public Map<String, ForumWatchBean> findForumWatches(WatchRequestBean watchRequestBean) throws ModuleException {
+	public Map<Integer, ForumWatchBean> findForumWatches(WatchRequestBean watchRequestBean) throws ModuleException {
 		User user = watchRequestBean.getUser();
 		Integer indexInstance = watchRequestBean.getIndexInstance();
 		return forumsModule.findForumWatches(user, indexInstance);
