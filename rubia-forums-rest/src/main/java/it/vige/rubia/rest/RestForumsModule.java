@@ -237,8 +237,11 @@ public class RestForumsModule implements Constants {
 	@Path("addPollToTopic")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PollBean addPollToTopic(TopicBean topic, PollBean poll) throws ModuleException {
-		return forumsModule.addPollToTopic(topic, poll);
+	public PollBean addPollToTopic(TopicBean topic) throws ModuleException {
+		PollBean poll = topic.getPoll();
+		poll = forumsModule.addPollToTopic(topic, poll);
+		poll.getOptions().forEach(x -> x.setPoll(null));
+		return poll;
 	}
 
 	@POST
@@ -280,13 +283,6 @@ public class RestForumsModule implements Constants {
 	public void removePost(@PathParam("postId") int postId, @PathParam("isLastPost") boolean isLastPost)
 			throws ModuleException {
 		forumsModule.removePost(postId, isLastPost);
-	}
-
-	@POST
-	@Path("removePollInTopic")
-	@Consumes(APPLICATION_JSON)
-	public void removePollInTopic(TopicBean topic) throws ModuleException {
-		forumsModule.removePollInTopic(topic);
 	}
 
 	@GET

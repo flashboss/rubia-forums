@@ -346,14 +346,6 @@ public interface ForumsModule {
 	void removePost(int postId, boolean isLastPost) throws ModuleException;
 
 	/**
-	 * Delete a post
-	 * 
-	 * @param topic Post to delete
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	void removePollInTopic(TopicBean topic) throws ModuleException;
-
-	/**
 	 * Delete a topic
 	 * 
 	 * @param topicId Topic to delete

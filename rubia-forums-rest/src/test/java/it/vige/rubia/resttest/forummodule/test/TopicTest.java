@@ -37,7 +37,7 @@ public class TopicTest extends RestCaller implements Constants {
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/forums/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
-	private static Logger log = getLogger(ForumTest.class);
+	private static Logger log = getLogger(TopicTest.class);
 
 	private static Date today = new Date();
 

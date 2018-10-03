@@ -703,23 +703,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public void removePollInTopic(TopicBean topic) throws ModuleException {
-
-		try {
-			if (topic != null && topic.getPoll() != null) {
-				Poll poll = em.find(Poll.class, topic.getPoll().getId());
-				topic.setPoll(null);
-				em.remove(poll);
-				em.flush();
-			}
-
-		} catch (Exception e) {
-			String errorMessage = "Cannot delete poll";
-			throw new ModuleException(errorMessage, e);
-		}
-	}
-
-	@Override
 	public void removeTopic(int topicId) throws ModuleException {
 
 		try {
