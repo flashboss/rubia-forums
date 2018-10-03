@@ -543,13 +543,6 @@ public class RestForumsModule implements Constants {
 		forumsModule.createWatch(poster, topic, mode);
 	}
 
-	@GET
-	@Path("findTopicWatchById/{topicWatchID}")
-	@Produces(APPLICATION_JSON)
-	public TopicWatchBean findTopicWatchById(@PathParam("topicWatchID") Integer topicWatchID) throws ModuleException {
-		return forumsModule.findTopicWatchById(topicWatchID);
-	}
-
 	@POST
 	@Path("removeWatch")
 	@Consumes(APPLICATION_JSON)

@@ -1345,19 +1345,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public TopicWatchBean findTopicWatchById(Integer topicWatchId) throws ModuleException {
-		try {
-
-			TypedQuery<TopicWatch> query = em.createNamedQuery("findTopicWatchById", TopicWatch.class);
-			query.setParameter("topicWatchId", topicWatchId.toString());
-			return TopicWatchToTopicWatchBean.apply(uniqueElement(query.getResultList()));
-		} catch (Exception e) {
-			String message = "Cannot find topic watch";
-			throw new ModuleException(message, e);
-		}
-	}
-
-	@Override
 	public void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl) {
 		notificationEngine.schedule(postId, watchType, postUrl, replyUrl);
 	}

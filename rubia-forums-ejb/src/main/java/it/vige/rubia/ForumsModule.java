@@ -620,13 +620,6 @@ public interface ForumsModule {
 	void createWatch(PosterBean poster, TopicBean topic, int mode) throws ModuleException;
 
 	/**
-	 * @param topicWatchID DOCUMENT_ME
-	 * @return DOCUMENT_ME
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	TopicWatchBean findTopicWatchById(Integer topicWatchID) throws ModuleException;
-
-	/**
 	 * @param watch DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
