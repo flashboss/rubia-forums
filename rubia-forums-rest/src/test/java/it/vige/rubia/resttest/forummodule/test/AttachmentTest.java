@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -50,10 +51,6 @@ public class AttachmentTest extends RestCaller {
 
 	private static Date secondDate;
 
-	private static Date thirdDate;
-
-	private static Date forthDate;
-
 	@BeforeAll
 	public static void setUp() {
 		log.debug("started test");
@@ -72,6 +69,21 @@ public class AttachmentTest extends RestCaller {
 		PostBean postBean = new PostBean("First Test Body");
 		firstDate = new Date();
 		postBean.setCreateDate(firstDate);
+		AttachmentBean attachmentBean = new AttachmentBean();
+		attachmentBean.setComment("A new attachment");
+		String content = "This is the first content";
+		attachmentBean.setContent(content.getBytes());
+		attachmentBean.setContentType("text/plain");
+		attachmentBean.setSize(content.length());
+		attachmentBean.setName("First attachment");
+		AttachmentBean attachmentBean2 = new AttachmentBean();
+		attachmentBean2.setComment("A second attachment");
+		String content2 = "This is the second content";
+		attachmentBean2.setContent(content2.getBytes());
+		attachmentBean2.setContentType("text/plain");
+		attachmentBean2.setSize(content2.length());
+		attachmentBean2.setName("Second attachment");
+		postBean.setAttachments(asList(attachmentBean, attachmentBean2));
 		TopicBean topicBean = new TopicBean(forum, "First Test Topic", asList(new PostBean[] { postBean }), NORMAL,
 				null);
 		PosterBean poster = new PosterBean("root");
@@ -79,46 +91,65 @@ public class AttachmentTest extends RestCaller {
 		topicBean.setPoll(new PollBean());
 		response = post(url + "createTopic", authorization, topicBean);
 		PostBean post = response.readEntity(PostBean.class);
-		topicBean = post.getTopic();
+		List<AttachmentBean> attachments = post.getAttachments();
+		assertEquals(2, attachments.size());
+		attachmentBean = attachments.get(0);
+		assertEquals("A new attachment", attachmentBean.getComment());
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("First attachment", attachmentBean.getName());
+		assertEquals(post, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean2 = attachments.get(1);
+		assertEquals("A second attachment", attachmentBean2.getComment());
+		assertEquals(content2, new String(attachmentBean2.getContent()));
+		assertEquals("text/plain", attachmentBean2.getContentType());
+		assertNotEquals(0, attachmentBean2.getId());
+		assertEquals("Second attachment", attachmentBean2.getName());
+		assertEquals(post, attachmentBean2.getPost());
+		assertEquals(content2.length(), attachmentBean2.getSize());
 		postBean = new PostBean();
-		postBean.setTopic(topicBean);
-		postBean.setMessage(new MessageBean("First Test Post"));
+		postBean.setTopic(post.getTopic());
+		postBean.setMessage(new MessageBean("Second Test Post"));
 		postBean.setPoster(post.getPoster());
 		secondDate = new Date();
 		postBean.setCreateDate(secondDate);
+		AttachmentBean attachmentBean3 = new AttachmentBean();
+		attachmentBean3.setComment("A third attachment");
+		String content3 = "This is the third content";
+		attachmentBean3.setContent(content3.getBytes());
+		attachmentBean3.setContentType("text/plain");
+		attachmentBean3.setSize(content.length());
+		attachmentBean3.setName("Third attachment");
+		AttachmentBean attachmentBean4 = new AttachmentBean();
+		attachmentBean4.setComment("A forth attachment");
+		String content4 = "This is the forth content";
+		attachmentBean4.setContent(content4.getBytes());
+		attachmentBean4.setContentType("text/plain");
+		attachmentBean4.setSize(content4.length());
+		attachmentBean4.setName("Forth attachment");
+		postBean.setAttachments(asList(attachmentBean3, attachmentBean4));
 		response = post(url + "createPost", authorization, postBean);
 		post = response.readEntity(PostBean.class);
-		poster = post.getPoster();
-		topicBean = post.getTopic();
-		poster = topicBean.getPoster();
-		forumBean = topicBean.getForum();
-		categoryBean = forumBean.getCategory();
-		topicBean = forumBean.getTopics().get(0);
-
-		thirdDate = new Date();
-		postBean.setCreateDate(thirdDate);
-		postBean.setMessage(new MessageBean("Second Test Post"));
-		response = post(url + "createPost", authorization, postBean);
-		post = response.readEntity(PostBean.class);
-		poster = post.getPoster();
-		topicBean = post.getTopic();
-		poster = topicBean.getPoster();
-		forumBean = topicBean.getForum();
-		categoryBean = forumBean.getCategory();
-		topicBean = forumBean.getTopics().get(0);
-		poster = topicBean.getPoster();
-
-		forthDate = new Date();
-		postBean.setCreateDate(forthDate);
-		postBean.setMessage(new MessageBean("Third Test Post"));
-		response = post(url + "createPost", authorization, postBean);
-		post = response.readEntity(PostBean.class);
-		poster = post.getPoster();
-		topicBean = post.getTopic();
-		poster = topicBean.getPoster();
-		forumBean = topicBean.getForum();
-		categoryBean = forumBean.getCategory();
-		topicBean = forumBean.getTopics().get(0);
+		attachments = post.getAttachments();
+		assertEquals(2, attachments.size());
+		attachmentBean3 = attachments.get(0);
+		assertEquals("A third attachment", attachmentBean3.getComment());
+		assertEquals(content3, new String(attachmentBean3.getContent()));
+		assertEquals("text/plain", attachmentBean3.getContentType());
+		assertNotEquals(0, attachmentBean3.getId());
+		assertEquals("Third attachment", attachmentBean3.getName());
+		assertEquals(post, attachmentBean3.getPost());
+		assertEquals(content3.length(), attachmentBean3.getSize());
+		attachmentBean4 = attachments.get(1);
+		assertEquals("A forth attachment", attachmentBean4.getComment());
+		assertEquals(content4, new String(attachmentBean4.getContent()));
+		assertEquals("text/plain", attachmentBean4.getContentType());
+		assertNotEquals(0, attachmentBean4.getId());
+		assertEquals("Forth attachment", attachmentBean4.getName());
+		assertEquals(post, attachmentBean4.getPost());
+		assertEquals(content4.length(), attachmentBean4.getSize());
 	}
 
 	@Test
@@ -127,6 +158,49 @@ public class AttachmentTest extends RestCaller {
 		Response response = get(url + "findPostsDesc/3", authorization);
 		List<PostBean> postBeans = response.readEntity(new GenericType<List<PostBean>>() {
 		});
+		assertEquals(2, postBeans.size());
+		PostBean post = postBeans.get(1);
+		List<AttachmentBean> attachments = post.getAttachments();
+		assertEquals(2, attachments.size());
+		AttachmentBean attachmentBean = attachments.get(0);
+		String content = "This is the first content";
+		assertEquals("A new attachment", attachmentBean.getComment());
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("First attachment", attachmentBean.getName());
+		assertEquals(post, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		AttachmentBean attachmentBean2 = attachments.get(1);
+		String content2 = "This is the second content";
+		assertEquals("A second attachment", attachmentBean2.getComment());
+		assertEquals(content2, new String(attachmentBean2.getContent()));
+		assertEquals("text/plain", attachmentBean2.getContentType());
+		assertNotEquals(0, attachmentBean2.getId());
+		assertEquals("Second attachment", attachmentBean2.getName());
+		assertEquals(post, attachmentBean2.getPost());
+		assertEquals(content2.length(), attachmentBean2.getSize());
+		post = postBeans.get(0);
+		attachments = post.getAttachments();
+		assertEquals(2, attachments.size());
+		AttachmentBean attachmentBean3 = attachments.get(0);
+		String content3 = "This is the third content";
+		assertEquals("A third attachment", attachmentBean3.getComment());
+		assertEquals(content3, new String(attachmentBean3.getContent()));
+		assertEquals("text/plain", attachmentBean3.getContentType());
+		assertNotEquals(0, attachmentBean3.getId());
+		assertEquals("Third attachment", attachmentBean3.getName());
+		assertEquals(post, attachmentBean3.getPost());
+		assertEquals(content3.length(), attachmentBean3.getSize());
+		AttachmentBean attachmentBean4 = attachments.get(1);
+		String content4 = "This is the forth content";
+		assertEquals("A forth attachment", attachmentBean4.getComment());
+		assertEquals(content4, new String(attachmentBean4.getContent()));
+		assertEquals("text/plain", attachmentBean4.getContentType());
+		assertNotEquals(0, attachmentBean4.getId());
+		assertEquals("Forth attachment", attachmentBean4.getName());
+		assertEquals(post, attachmentBean4.getPost());
+		assertEquals(content4.length(), attachmentBean4.getSize());
 	}
 
 	@POST
@@ -169,14 +243,6 @@ public class AttachmentTest extends RestCaller {
 	}
 
 	@POST
-	@Path("removeAttachments")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean removeAttachments(PostBean post) {
-		return null;
-	}
-
-	@POST
 	@Path("updateAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
@@ -200,7 +266,13 @@ public class AttachmentTest extends RestCaller {
 		response = post(url + "findPostsFromCategoryDesc", authorization, categoryRequestBean);
 		List<PostBean> postBeans = response.readEntity(new GenericType<List<PostBean>>() {
 		});
-		assertEquals(3, postBeans.size(), "Posts size");
+		assertEquals(2, postBeans.size(), "Posts size");
+		PostBean postBean = postBeans.get(0);
+		response = post(url + "removeAttachments", authorization, postBean);
+		postBean = response.readEntity(PostBean.class);
+		postBean = postBeans.get(1);
+		response = post(url + "removeAttachments", authorization, postBean);
+		postBean = response.readEntity(PostBean.class);
 
 		response = get(url + "removePost/" + postBeans.get(0).getId() + "/false", authorization);
 		response = get(url + "removePost/" + postBeans.get(1).getId() + "/false", authorization);
