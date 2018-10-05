@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.util;
 
-import static it.vige.rubia.Constants.WATCH_MODE_EMBEDED;
+import static it.vige.rubia.Constants.WATCH_MODE_EMBEDDED;
 import static it.vige.rubia.Constants.WATCH_MODE_LINKED;
 import static it.vige.rubia.Constants.WATCH_MODE_NONE;
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -244,7 +244,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 								String subject = null;
 								String text = null;
 
-								if (watch.getMode() == WATCH_MODE_EMBEDED) {
+								if (watch.getMode() == WATCH_MODE_EMBEDDED) {
 									subject = forumEmbededArgsSubject;
 									text = forumEmbededArgsText;
 								} else if (watch.getMode() == WATCH_MODE_LINKED) {
@@ -318,7 +318,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 									String subject = null;
 									String text = null;
 
-									if (watch.getMode() == WATCH_MODE_EMBEDED) {
+									if (watch.getMode() == WATCH_MODE_EMBEDDED) {
 										subject = topicEmbededArgsSubject;
 										text = topicEmbededArgsText;
 									} else if (watch.getMode() == WATCH_MODE_LINKED) {

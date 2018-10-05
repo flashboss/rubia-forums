@@ -170,6 +170,7 @@ public class TopicTest extends RestCaller implements Constants {
 		assertNull(poll);
 		posts = topic2.getPosts();
 		assertTrue(posts.isEmpty());
+		response.close();
 	}
 
 	@Test
@@ -695,6 +696,7 @@ public class TopicTest extends RestCaller implements Constants {
 		assertNull(post.getPoster());
 		assertNull(post.getTopic());
 		assertNull(post.getUser());
+		response.close();
 	}
 
 	@AfterAll
@@ -735,6 +737,7 @@ public class TopicTest extends RestCaller implements Constants {
 
 		get(url + "removeForum/" + forumBeans.get(1).getId(), authorization);
 		get(url + "removeCategory/" + categoryBeans.get(1).getId(), authorization);
+		response.close();
 	}
 
 }

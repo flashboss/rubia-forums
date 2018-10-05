@@ -76,7 +76,7 @@ public interface Constants {
 	/**
 	 * When a notification message is sent, send the message content.
 	 */
-	int WATCH_MODE_EMBEDED = 1;
+	int WATCH_MODE_EMBEDDED = 1;
 
 	/**
 	 * DOCUMENT_ME

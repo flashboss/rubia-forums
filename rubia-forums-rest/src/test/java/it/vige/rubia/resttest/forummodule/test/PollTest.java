@@ -142,6 +142,7 @@ public class PollTest extends RestCaller implements Constants {
 		assertEquals(1, pollBean.getVoted().size());
 		assertEquals("root", pollBean.getVoted().iterator().next());
 		assertEquals(0, pollBean.getVotesSum());
+		response.close();
 	}
 
 	@Test
@@ -351,6 +352,7 @@ public class PollTest extends RestCaller implements Constants {
 
 		topic = topics.get(1);
 		assertNull(topic.getPoll());
+		response.close();
 	}
 
 	@AfterAll
@@ -508,6 +510,7 @@ public class PollTest extends RestCaller implements Constants {
 
 		get(url + "removeForum/" + forumBeans.get(1).getId(), authorization);
 		get(url + "removeCategory/" + categoryBeans.get(1).getId(), authorization);
+		response.close();
 	}
 
 }

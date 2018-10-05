@@ -345,6 +345,7 @@ public class PostTest extends RestCaller {
 		assertNull(topicBean.getWatches());
 		assertNull(topicBean.getForum());
 		assertNull(forumBean.getWatches());
+		response.close();
 	}
 
 	@Test
@@ -2861,6 +2862,7 @@ public class PostTest extends RestCaller {
 		assertNull(topicBean.getWatches());
 		assertNull(topicBean.getForum());
 		assertTrue(forumBean.getWatches().isEmpty());
+		response.close();
 	}
 
 	@AfterAll
@@ -2924,6 +2926,7 @@ public class PostTest extends RestCaller {
 
 		get(url + "removeForum/" + forumBeans.get(1).getId(), authorization);
 		get(url + "removeCategory/" + categoryBeans.get(1).getId(), authorization);
+		response.close();
 	}
 
 }

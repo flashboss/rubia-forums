@@ -30,6 +30,7 @@ public class ForumInstanceTest extends RestCaller {
 		assertNotNull(forumInstance);
 		assertEquals(2, forumInstance.getId().intValue());
 		assertEquals("myforuminstance", forumInstance.getName());
+		response.close();
 	}
 
 	@Test
@@ -39,6 +40,7 @@ public class ForumInstanceTest extends RestCaller {
 		assertNotNull(forumInstance);
 		assertEquals(2, forumInstance.getId().intValue());
 		assertEquals("myforuminstance", forumInstance.getName());
+		response.close();
 	}
 
 	@AfterAll
@@ -49,5 +51,6 @@ public class ForumInstanceTest extends RestCaller {
 		response = get(url + "findForumInstanceById/2", authorization);
 		ForumInstanceBean forumInstance = response.readEntity(ForumInstanceBean.class);
 		assertNull(forumInstance);
+		response.close();
 	}
 }

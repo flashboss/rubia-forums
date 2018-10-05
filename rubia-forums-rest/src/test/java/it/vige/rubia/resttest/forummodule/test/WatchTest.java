@@ -82,7 +82,7 @@ public class WatchTest extends RestCaller implements Constants {
 		TopicWatchBean topicWatchBean = new TopicWatchBean();
 		topicWatchBean.setTopic(topic);
 		topicWatchBean.setPoster(topic.getPoster());
-		topicWatchBean.setMode(1);
+		topicWatchBean.setMode(WATCH_MODE_EMBEDDED);
 		post(url + "createTopicWatch", authorization, topicWatchBean);
 		WatchRequestBean watchRequestBean = new WatchRequestBean();
 		watchRequestBean.setIndexInstance(1);
@@ -95,7 +95,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(1, topicWatches.size());
 		topicWatchBean = topicWatches.get(topic.getId() + "");
 		assertNotEquals(0, topicWatchBean.getId());
-		assertEquals(1, topicWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, topicWatchBean.getMode());
 		PosterBean poster = topicWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -117,7 +117,7 @@ public class WatchTest extends RestCaller implements Constants {
 		ForumWatchBean forumWatchBean = new ForumWatchBean();
 		forumWatchBean.setForum(forum);
 		forumWatchBean.setPoster(poster);
-		forumWatchBean.setMode(1);
+		forumWatchBean.setMode(WATCH_MODE_EMBEDDED);
 		post(url + "createForumWatch", authorization, forumWatchBean);
 		response = post(url + "findForumWatches", authorization, watchRequestBean);
 		Map<String, ForumWatchBean> forumWatches = response.readEntity(new GenericType<Map<String, ForumWatchBean>>() {
@@ -125,7 +125,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(1, forumWatches.size());
 		forumWatchBean = forumWatches.get(forum.getId() + "");
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -144,6 +144,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, forum.getTopicCount());
 		assertTrue(forum.getTopics().isEmpty());
 		assertNull(forum.getWatches());
+		response.close();
 	}
 
 	@Test
@@ -159,7 +160,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(1, forumWatches.size());
 		ForumWatchBean forumWatchBean = forumWatches.get(0);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		PosterBean poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -185,7 +186,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(1, forumWatches.size());
 		forumWatchBean = forumWatches.get(0);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -209,7 +210,7 @@ public class WatchTest extends RestCaller implements Constants {
 		response = get(url + "findForumWatchById/" + forumBean.getWatches().get(0).getId(), authorization);
 		forumWatchBean = response.readEntity(ForumWatchBean.class);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -233,7 +234,7 @@ public class WatchTest extends RestCaller implements Constants {
 		response = post(url + "findForumWatchByUserAndForum", authorization, watchRequestBean);
 		forumWatchBean = response.readEntity(ForumWatchBean.class);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -253,12 +254,12 @@ public class WatchTest extends RestCaller implements Constants {
 		assertTrue(forum.getTopics().isEmpty());
 		assertNull(forum.getWatches());
 
-		forumWatchBean.setMode(2);
+		forumWatchBean.setMode(WATCH_MODE_NONE);
 		post(url + "updateForumWatch", authorization, forumWatchBean);
 		response = post(url + "findForumWatchByUserAndForum", authorization, watchRequestBean);
 		forumWatchBean = response.readEntity(ForumWatchBean.class);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(2, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_NONE, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -278,12 +279,12 @@ public class WatchTest extends RestCaller implements Constants {
 		assertTrue(forum.getTopics().isEmpty());
 		assertNull(forum.getWatches());
 
-		forumWatchBean.setMode(1);
+		forumWatchBean.setMode(WATCH_MODE_EMBEDDED);
 		post(url + "updateForumWatch", authorization, forumWatchBean);
 		response = post(url + "findForumWatchByUserAndForum", authorization, watchRequestBean);
 		forumWatchBean = response.readEntity(ForumWatchBean.class);
 		assertNotEquals(0, forumWatchBean.getId());
-		assertEquals(1, forumWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, forumWatchBean.getMode());
 		poster = forumWatchBean.getPoster();
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
@@ -302,6 +303,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, forum.getTopicCount());
 		assertTrue(forum.getTopics().isEmpty());
 		assertNull(forum.getWatches());
+		response.close();
 	}
 
 	@Test
@@ -343,7 +345,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(1, forum.getWatches().size());
 		WatchBean watchBean = forum.getWatches().get(0);
 		assertNotEquals(0, watchBean.getId());
-		assertEquals(0, watchBean.getMode());
+		assertEquals(WATCH_MODE_LINKED, watchBean.getMode());
 		assertNull(watchBean.getPoster());
 		List<TopicBean> topics = forum.getTopics();
 		assertEquals(2, topics.size());
@@ -444,7 +446,7 @@ public class WatchTest extends RestCaller implements Constants {
 		watchBean = forum.getWatches().get(0);
 		assertNotEquals(0, watchBean.getId());
 		assertNull(watchBean.getPoster());
-		assertEquals(0, watchBean.getMode());
+		assertEquals(WATCH_MODE_LINKED, watchBean.getMode());
 		poster = topicBean.getPoster();
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
@@ -510,7 +512,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
 		assertNotEquals(0, poster.getId());
-		assertEquals(1, watchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, watchBean.getMode());
 		response = post(url + "findTopicWatchByUserAndTopic/", authorization, watchRequestBean);
 		TopicWatchBean topicWatchBean = response.readEntity(TopicWatchBean.class);
 		assertNotEquals(0, topicWatchBean.getId());
@@ -518,7 +520,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
 		assertNotEquals(0, poster.getId());
-		assertEquals(1, topicWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, topicWatchBean.getMode());
 		topicBean = topicWatchBean.getTopic();
 		assertNotNull(topicBean);
 		assertNotEquals(0, topicBean.getId());
@@ -532,7 +534,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertNull(topicBean.getPoster());
 		assertNull(topicBean.getPoll());
 		assertTrue(topicBean.getPosts().isEmpty());
-		topicWatchBean.setMode(2);
+		topicWatchBean.setMode(WATCH_MODE_NONE);
 		post(url + "updateTopicWatch", authorization, topicWatchBean);
 		response = post(url + "findTopicWatchByUserAndTopic/", authorization, watchRequestBean);
 		topicWatchBean = response.readEntity(TopicWatchBean.class);
@@ -541,7 +543,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
 		assertNotEquals(0, poster.getId());
-		assertEquals(2, topicWatchBean.getMode());
+		assertEquals(WATCH_MODE_NONE, topicWatchBean.getMode());
 		topicBean = topicWatchBean.getTopic();
 		assertNotNull(topicBean);
 		assertNotEquals(0, topicBean.getId());
@@ -555,7 +557,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertNull(topicBean.getPoster());
 		assertNull(topicBean.getPoll());
 		assertTrue(topicBean.getPosts().isEmpty());
-		topicWatchBean.setMode(1);
+		topicWatchBean.setMode(WATCH_MODE_EMBEDDED);
 		post(url + "updateTopicWatch", authorization, topicWatchBean);
 		response = post(url + "findTopicWatchByUserAndTopic/", authorization, watchRequestBean);
 		topicWatchBean = response.readEntity(TopicWatchBean.class);
@@ -564,7 +566,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertEquals(0, poster.getPostCount());
 		assertEquals("root", poster.getUserId());
 		assertNotEquals(0, poster.getId());
-		assertEquals(1, topicWatchBean.getMode());
+		assertEquals(WATCH_MODE_EMBEDDED, topicWatchBean.getMode());
 		topicBean = topicWatchBean.getTopic();
 		assertNotNull(topicBean);
 		assertNotEquals(0, topicBean.getId());
@@ -578,6 +580,7 @@ public class WatchTest extends RestCaller implements Constants {
 		assertNull(topicBean.getPoster());
 		assertNull(topicBean.getPoll());
 		assertTrue(topicBean.getPosts().isEmpty());
+		response.close();
 	}
 
 	@AfterAll
@@ -644,6 +647,7 @@ public class WatchTest extends RestCaller implements Constants {
 
 		get(url + "removeForum/" + forumBeans.get(1).getId(), authorization);
 		get(url + "removeCategory/" + categoryBeans.get(1).getId(), authorization);
+		response.close();
 	}
 
 }

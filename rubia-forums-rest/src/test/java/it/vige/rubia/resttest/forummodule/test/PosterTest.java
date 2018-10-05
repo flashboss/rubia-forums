@@ -33,6 +33,7 @@ public class PosterTest extends RestCaller {
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
 		assertEquals(DEMO_USER, poster.getUserId());
+		response.close();
 	}
 
 	@Test
@@ -42,6 +43,7 @@ public class PosterTest extends RestCaller {
 		assertNotEquals(0, poster.getId());
 		assertEquals(0, poster.getPostCount());
 		assertEquals(DEMO_USER, poster.getUserId());
+		response.close();
 	}
 
 	@AfterAll
@@ -55,6 +57,7 @@ public class PosterTest extends RestCaller {
 		response = get(url + "findPosterByUserId/" + DEMO_USER, authorization);
 		poster = response.readEntity(PosterBean.class);
 		assertNull(poster);
+		response.close();
 	}
 
 }

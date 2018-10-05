@@ -142,6 +142,7 @@ public class AttachmentTest extends RestCaller {
 		assertEquals("Forth attachment", attachmentBean4.getName());
 		assertEquals(post, attachmentBean4.getPost());
 		assertEquals(content4.length(), attachmentBean4.getSize());
+		response.close();
 	}
 
 	@Test
@@ -324,6 +325,7 @@ public class AttachmentTest extends RestCaller {
 		assertEquals("Forth attachment", attachmentBean.getName());
 		assertEquals(postBean, attachmentBean.getPost());
 		assertEquals(content.length(), attachmentBean.getSize());
+		response.close();
 	}
 
 	@AfterAll
@@ -384,6 +386,7 @@ public class AttachmentTest extends RestCaller {
 
 		get(url + "removeForum/" + forumBeans.get(1).getId(), authorization);
 		get(url + "removeCategory/" + categoryBeans.get(1).getId(), authorization);
+		response.close();
 	}
 
 }
