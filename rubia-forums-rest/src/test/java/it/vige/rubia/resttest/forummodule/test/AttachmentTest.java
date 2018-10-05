@@ -194,36 +194,136 @@ public class AttachmentTest extends RestCaller {
 		assertEquals(post, attachmentBean4.getPost());
 		assertEquals(content4.length(), attachmentBean4.getSize());
 
-		response = post(url + "findPostsByIdsAscFetchAttachmentsAndPosters", authorization,
-				asList(postBeans.get(0).getId(), postBeans.get(1).getId()));
-		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
-		});
-
-		response = post(url + "findPostsByIdsDescFetchAttachmentsAndPosters", authorization,
-				asList(postBeans.get(0).getId(), postBeans.get(1).getId()));
-		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
-		});
-
 		response = get(url + "findAttachmentById/" + attachmentBean.getId(), authorization);
 		attachmentBean = response.readEntity(AttachmentBean.class);
+		assertEquals("A new attachment", attachmentBean.getComment());
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("First attachment", attachmentBean.getName());
+		assertEquals(postBeans.get(1), attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
 
 		PostBean postBean = postBeans.get(0);
 		attachmentBean = new AttachmentBean();
+		attachmentBean.setComment("Fifth attachment");
+		content = "This is the fifth content";
+		attachmentBean.setContent(content.getBytes());
+		attachmentBean.setContentType("text/plain");
+		attachmentBean.setSize(content.length());
+		attachmentBean.setName("Fifth attachment");
 		postBean.setAttachments(asList(attachmentBean));
-		response = post(url + "addAttachments", authorization, asList(postBean));
+		response = post(url + "addAttachments", authorization, postBean);
 		postBean = response.readEntity(PostBean.class);
+		attachments = postBean.getAttachments();
+		assertEquals(3, attachments.size());
+		attachmentBean = attachments.get(0);
+		assertEquals("A third attachment", attachmentBean.getComment());
+		content = "This is the third content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Third attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(1);
+		assertEquals("A forth attachment", attachmentBean.getComment());
+		content = "This is the forth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Forth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(2);
+		assertEquals("Fifth attachment", attachmentBean.getComment());
+		content = "This is the fifth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Fifth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
 
-		response = post(url + "findAttachments", authorization, asList(postBeans.get(0)));
+		response = post(url + "findAttachments", authorization, postBean);
 		attachments = response.readEntity(new GenericType<List<AttachmentBean>>() {
 		});
+		assertEquals(3, attachments.size());
+		attachmentBean = attachments.get(0);
+		assertEquals("A third attachment", attachmentBean.getComment());
+		content = "This is the third content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Third attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(1);
+		assertEquals("A forth attachment", attachmentBean.getComment());
+		content = "This is the forth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Forth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(2);
+		assertEquals("Fifth attachment", attachmentBean.getComment());
+		content = "This is the fifth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Fifth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
 
-		postBean.setAttachments(asList(attachmentBean));
-		response = post(url + "updateAttachments", authorization, asList(postBeans.get(0)));
+		attachments.remove(attachmentBean);
+		postBean.setAttachments(attachments);
+		response = post(url + "updateAttachments", authorization, postBean);
 		postBean = response.readEntity(PostBean.class);
+		attachments = postBean.getAttachments();
+		assertEquals(2, attachments.size());
+		attachmentBean = attachments.get(0);
+		assertEquals("A third attachment", attachmentBean.getComment());
+		content = "This is the third content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Third attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(1);
+		assertEquals("A forth attachment", attachmentBean.getComment());
+		content = "This is the forth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Forth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
 
-		response = post(url + "findAttachments", authorization, asList(postBeans.get(0)));
+		response = post(url + "findAttachments", authorization, postBean);
 		attachments = response.readEntity(new GenericType<List<AttachmentBean>>() {
 		});
+		assertEquals(2, attachments.size());
+		attachmentBean = attachments.get(0);
+		assertEquals("A third attachment", attachmentBean.getComment());
+		content = "This is the third content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Third attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
+		attachmentBean = attachments.get(1);
+		assertEquals("A forth attachment", attachmentBean.getComment());
+		content = "This is the forth content";
+		assertEquals(content, new String(attachmentBean.getContent()));
+		assertEquals("text/plain", attachmentBean.getContentType());
+		assertNotEquals(0, attachmentBean.getId());
+		assertEquals("Forth attachment", attachmentBean.getName());
+		assertEquals(postBean, attachmentBean.getPost());
+		assertEquals(content.length(), attachmentBean.getSize());
 	}
 
 	@AfterAll
