@@ -564,7 +564,8 @@ public class RestForumsModule implements Constants {
 	@Path("addAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PostBean addAttachments(List<AttachmentBean> attachments, PostBean post) {
+	public PostBean addAttachments(PostBean post) {
+		List<AttachmentBean> attachments = post.getAttachments();
 		return forumsModule.addAttachments(attachments, post);
 	}
 
@@ -588,7 +589,8 @@ public class RestForumsModule implements Constants {
 	@Path("updateAttachments")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	public PostBean updateAttachments(List<AttachmentBean> attachments, PostBean post) {
+	public PostBean updateAttachments(PostBean post) {
+		List<AttachmentBean> attachments = post.getAttachments();
 		return forumsModule.updateAttachments(attachments, post);
 	}
 

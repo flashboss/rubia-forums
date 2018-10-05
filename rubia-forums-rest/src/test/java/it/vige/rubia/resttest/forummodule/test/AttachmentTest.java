@@ -3,22 +3,15 @@ package it.vige.rubia.resttest.forummodule.test;
 import static it.vige.rubia.dto.TopicType.NORMAL;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
@@ -27,7 +20,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.vige.rubia.ModuleException;
 import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.CategoryRequestBean;
@@ -201,53 +193,37 @@ public class AttachmentTest extends RestCaller {
 		assertEquals("Forth attachment", attachmentBean4.getName());
 		assertEquals(post, attachmentBean4.getPost());
 		assertEquals(content4.length(), attachmentBean4.getSize());
-	}
 
-	@POST
-	@Path("findPostsByIdsAscFetchAttachmentsAndPosters")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByIdsAscFetchAttachmentsAndPosters(List<Integer> posts) throws ModuleException {
-		return null;
-	}
+		response = post(url + "findPostsByIdsAscFetchAttachmentsAndPosters", authorization,
+				asList(postBeans.get(0).getId(), postBeans.get(1).getId()));
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
 
-	@POST
-	@Path("findPostsByIdsDescFetchAttachmentsAndPosters")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<PostBean> findPostsByIdsDescFetchAttachmentsAndPosters(List<Integer> posts) throws ModuleException {
-		return null;
-	}
+		response = post(url + "findPostsByIdsDescFetchAttachmentsAndPosters", authorization,
+				asList(postBeans.get(0).getId(), postBeans.get(1).getId()));
+		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
+		});
 
-	@GET
-	@Path("findAttachmentById/{attachID}")
-	@Produces(APPLICATION_JSON)
-	public AttachmentBean findAttachmentById(@PathParam("attachID") Integer attachID) throws ModuleException {
-		return null;
-	}
+		response = get(url + "findAttachmentById/" + attachmentBean.getId(), authorization);
+		attachmentBean = response.readEntity(AttachmentBean.class);
 
-	@POST
-	@Path("addAttachments")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean addAttachments(List<AttachmentBean> attachments, PostBean post) {
-		return null;
-	}
+		PostBean postBean = postBeans.get(0);
+		attachmentBean = new AttachmentBean();
+		postBean.setAttachments(asList(attachmentBean));
+		response = post(url + "addAttachments", authorization, asList(postBean));
+		postBean = response.readEntity(PostBean.class);
 
-	@POST
-	@Path("findAttachments")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public List<AttachmentBean> findAttachments(PostBean post) {
-		return null;
-	}
+		response = post(url + "findAttachments", authorization, asList(postBeans.get(0)));
+		attachments = response.readEntity(new GenericType<List<AttachmentBean>>() {
+		});
 
-	@POST
-	@Path("updateAttachments")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public PostBean updateAttachments(List<AttachmentBean> attachments, PostBean post) {
-		return null;
+		postBean.setAttachments(asList(attachmentBean));
+		response = post(url + "updateAttachments", authorization, asList(postBeans.get(0)));
+		postBean = response.readEntity(PostBean.class);
+
+		response = post(url + "findAttachments", authorization, asList(postBeans.get(0)));
+		attachments = response.readEntity(new GenericType<List<AttachmentBean>>() {
+		});
 	}
 
 	@AfterAll
@@ -274,14 +250,13 @@ public class AttachmentTest extends RestCaller {
 		response = post(url + "removeAttachments", authorization, postBean);
 		postBean = response.readEntity(PostBean.class);
 
-		response = get(url + "removePost/" + postBeans.get(0).getId() + "/false", authorization);
-		response = get(url + "removePost/" + postBeans.get(1).getId() + "/false", authorization);
-		response = get(url + "removePost/" + postBeans.get(2).getId() + "/true", authorization);
-
 		response = post(url + "findPostsFromCategoryDesc", authorization, categoryRequestBean);
 		postBeans = response.readEntity(new GenericType<List<PostBean>>() {
 		});
-		assertEquals(1, postBeans.size(), "Posts size");
+		assertTrue(postBeans.get(0).getAttachments().isEmpty());
+		assertTrue(postBeans.get(1).getAttachments().isEmpty());
+
+		get(url + "removePost/" + postBeans.get(1).getId() + "/false", authorization);
 
 		response = get(url + "findTopics/1", authorization);
 		List<TopicBean> topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
@@ -292,18 +267,10 @@ public class AttachmentTest extends RestCaller {
 		topicBeans.forEach(x -> {
 			get(url + "removeTopic/" + x.getId(), authorization);
 		});
-		response = get(url + "findTopics/1", authorization);
-		topicBeans = response.readEntity(new GenericType<List<TopicBean>>() {
-		});
-		assertEquals(0, topicBeans.size(), "Topics size");
 
 		response = get(url + "removePoster/" + posterBean.getId(), authorization);
 		PosterBean removedPosterBean = response.readEntity(PosterBean.class);
 		assertNotNull(removedPosterBean, "Poster removed by poster operations");
-
-		response = get(url + "findPosterByUserId/" + removedPosterBean.getUserId(), authorization);
-		posterBean = response.readEntity(PosterBean.class);
-		assertNull(posterBean, "Poster removed verified by poster operations");
 
 		response = get(url + "findForums/1", authorization);
 		List<ForumBean> forumBeans = response.readEntity(new GenericType<List<ForumBean>>() {
