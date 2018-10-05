@@ -618,15 +618,6 @@ public interface ForumsModule {
 	void removeWatch(WatchBean watch) throws ModuleException;
 
 	/**
-	 * @param postId    DOCUMENT_ME
-	 * @param watchType DOCUMENT_ME
-	 * @param postUrl   DOCUMENT_ME
-	 * @param replyUrl  DOCUMENT_ME
-	 * 
-	 */
-	void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl);
-
-	/**
 	 * @param limit DOCUMENT_ME
 	 * 
 	 * @return the list of posts in the limit

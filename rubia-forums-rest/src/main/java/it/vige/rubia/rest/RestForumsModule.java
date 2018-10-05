@@ -547,13 +547,6 @@ public class RestForumsModule implements Constants {
 	}
 
 	@GET
-	@Path("processNotifications")
-	public void processNotifications(@PathParam("postId") Integer postId, @PathParam("watchType") int watchType,
-			@PathParam("postUrl") String postUrl, @PathParam("replyUrl") String replyUrl) {
-		forumsModule.processNotifications(postId, watchType, postUrl, replyUrl);
-	}
-
-	@GET
 	@Path("findPostsDesc/{limit}")
 	@Produces(APPLICATION_JSON)
 	public List<PostBean> findPostsDesc(@PathParam("limit") int limit) throws ModuleException {

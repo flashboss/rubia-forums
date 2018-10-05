@@ -1327,11 +1327,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 		}
 	}
 
-	@Override
-	public void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl) {
-		notificationEngine.schedule(postId, watchType, postUrl, replyUrl);
-	}
-
 	/**
 	 * @see it.vige.rubia.ForumsModule#createForumInstance(java.lang.Integer,
 	 *      java.lang.String)
