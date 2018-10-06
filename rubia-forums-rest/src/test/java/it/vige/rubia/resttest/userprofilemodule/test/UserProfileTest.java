@@ -13,31 +13,17 @@
  ******************************************************************************/
 package it.vige.rubia.resttest.userprofilemodule.test;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.logging.Logger.getLogger;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.Map;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.vige.rubia.auth.ProfileInfo;
-import it.vige.rubia.auth.User;
-import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.UserPropertyBean;
 import it.vige.rubia.resttest.RestCaller;
-import it.vige.rubia.search.ResultPage;
-import it.vige.rubia.search.SearchCriteria;
 
 public class UserProfileTest extends RestCaller {
 
@@ -46,61 +32,22 @@ public class UserProfileTest extends RestCaller {
 
 	private static Logger log = getLogger(UserProfileTest.class);
 
-	@BeforeAll
-	public static void setUp() {
-		log.debug("started test");
-	}
-
 	@Test
 	public void findAndUpdate() {
-		SearchCriteria searchCriteria = new SearchCriteria();
-		Response response = post(url + "findPosts", authorization, searchCriteria);
-		ResultPage<PostBean> posts = response.readEntity(new GenericType<ResultPage<PostBean>>() {
-		});
+		log.debug("started user profile find and update");
+		UserPropertyBean userProperty = new UserPropertyBean();
+		Response response = post(url + "getProperty", authorization, userProperty);
+		assertNull(response.getEntity());
+		response = post(url + "getProperty", authorization, userProperty);
+		assertNull(response.getEntity());
+		response = get(url + "getPropertyFromId/demo/test", authorization);
+		assertNull(response.getEntity());
+		response = post(url + "setProperty", authorization, userProperty);
+		assertNull(response.getEntity());
+		response = post(url + "getProperties", authorization, userProperty);
+		assertNotNull(response.getEntity());
+		response = get(url + "getProfileInfo", authorization);
+		assertNull(response.getEntity());
 		response.close();
-	}
-
-	@POST
-	@Path("getProperty")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public Object getProperty(User arg0, String arg1) throws IllegalArgumentException {
-		return null;
-	}
-
-	@GET
-	@Path("getPropertyFromId/{id}/{id2}")
-	@Produces(APPLICATION_JSON)
-	public Object getPropertyFromId(@PathParam("id") String arg0, @PathParam("id2") String arg1)
-			throws IllegalArgumentException {
-		return null;
-	}
-
-	@POST
-	@Path("setProperty")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException {
-
-	}
-
-	@POST
-	@Path("getProperties")
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	public Map<Object, Object> getProperties(User arg0) throws IllegalArgumentException {
-		return null;
-	}
-
-	@GET
-	@Path("getProfileInfo")
-	@Produces(APPLICATION_JSON)
-	public ProfileInfo getProfileInfo() {
-		return null;
-	}
-
-	@AfterAll
-	public static void stop() {
-		log.debug("stopped test");
 	}
 }

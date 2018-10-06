@@ -14,10 +14,10 @@
 package it.vige.rubia.ui;
 
 import static it.vige.rubia.Constants.ERROR;
-import static it.vige.rubia.util.PortalUtil.getGuestPoster;
-import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.auth.User.INFO_USER_LAST_LOGIN_DATE;
 import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
+import static it.vige.rubia.util.PortalUtil.getGuestPoster;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static java.lang.Long.valueOf;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
@@ -44,6 +44,8 @@ import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
 import it.vige.rubia.dto.PosterBean;
+import it.vige.rubia.dto.UserBean;
+import it.vige.rubia.dto.UserPropertyBean;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
@@ -311,7 +313,12 @@ public class JSFUtil {
 			if (user == null) {
 				return null;
 			}
-			Object property = userProfileModule.getProperty(user, INFO_USER_LAST_LOGIN_DATE);
+
+			UserPropertyBean userPropertyBean = new UserPropertyBean();
+			UserBean userBean = new UserBean(user);
+			userPropertyBean.setUser(userBean);
+			userPropertyBean.setKey(INFO_USER_LAST_LOGIN_DATE);
+			Object property = userProfileModule.getProperty(userPropertyBean);
 			if (property != null) {
 				long time = 0;
 				try {

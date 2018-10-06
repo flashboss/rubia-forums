@@ -17,6 +17,9 @@ import static it.vige.rubia.Constants.WATCH_MODE_EMBEDDED;
 import static it.vige.rubia.Constants.WATCH_MODE_LINKED;
 import static it.vige.rubia.Constants.WATCH_MODE_NONE;
 import static it.vige.rubia.Constants.userNA;
+import static it.vige.rubia.auth.User.INFO_USER_EMAIL_REAL;
+import static it.vige.rubia.auth.User.INFO_USER_NAME_FAMILY;
+import static it.vige.rubia.auth.User.INFO_USER_NAME_GIVEN;
 import static java.lang.Thread.currentThread;
 import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
@@ -62,6 +65,8 @@ import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.UserBean;
+import it.vige.rubia.dto.UserPropertyBean;
 import it.vige.rubia.dto.WatchBean;
 
 /**
@@ -135,11 +140,18 @@ public class NotificationEngineImpl implements NotificationEngine {
 
 	private String getFrom(PostBean post) {
 		StringBuffer fromBuf = null;
+		UserPropertyBean infoUserNameGiven = new UserPropertyBean();
+		UserPropertyBean infoUserNameFamily = new UserPropertyBean();
 		User user = userModule.findUserById(post.getPoster().getUserId());
-		if ((userProfileModule.getProperty(user, User.INFO_USER_NAME_GIVEN) != null)
-				&& (userProfileModule.getProperty(user, User.INFO_USER_NAME_FAMILY) != null)) {
-			fromBuf = new StringBuffer(userProfileModule.getProperty(user, User.INFO_USER_NAME_GIVEN) + " "
-					+ userProfileModule.getProperty(user, User.INFO_USER_NAME_FAMILY) + " <");
+		UserBean userBean = new UserBean(user);
+		infoUserNameGiven.setUser(userBean);
+		infoUserNameGiven.setKey(INFO_USER_NAME_GIVEN);
+		infoUserNameFamily.setUser(userBean);
+		infoUserNameFamily.setKey(INFO_USER_NAME_FAMILY);
+		String infoUserNameGivenProperty = (String) userProfileModule.getProperty(infoUserNameGiven);
+		String infoUserNameFamilyProperty = (String) userProfileModule.getProperty(infoUserNameFamily);
+		if ((infoUserNameGivenProperty != null) && (infoUserNameFamilyProperty != null)) {
+			fromBuf = new StringBuffer(infoUserNameGivenProperty + " " + infoUserNameFamilyProperty + " <");
 		} else {
 			fromBuf = new StringBuffer(user.getUserName() + " <");
 		}
@@ -354,7 +366,10 @@ public class NotificationEngineImpl implements NotificationEngine {
 					StringBuffer buffer = null;
 					Address[] to = null;
 					MimeMessage m = new MimeMessage(session);
-					String email = userProfileModule.getProperty(watcher, User.INFO_USER_EMAIL_REAL).toString();
+					UserPropertyBean userProperty = new UserPropertyBean();
+					userProperty.setUser(new UserBean(watcher));
+					userProperty.setKey(INFO_USER_EMAIL_REAL);
+					String email = userProfileModule.getProperty(userProperty).toString();
 					if (email != null) {
 						m.setFrom(new InternetAddress(from));
 						to = new InternetAddress[] { new InternetAddress(email) };
