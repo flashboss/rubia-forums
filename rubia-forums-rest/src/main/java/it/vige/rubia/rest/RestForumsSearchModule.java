@@ -15,6 +15,8 @@ package it.vige.rubia.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -25,11 +27,10 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.search.ForumsSearchModule;
-import it.vige.rubia.search.ResultPage;
 import it.vige.rubia.search.SearchCriteria;
 
 @Path("/search/")
-public class RestForumsSearchModule implements ForumsSearchModule {
+public class RestForumsSearchModule {
 
 	@EJB
 	private ForumsSearchModule forumsSearchModule;
@@ -38,18 +39,16 @@ public class RestForumsSearchModule implements ForumsSearchModule {
 	@Path("findPosts")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Override
-	public ResultPage<PostBean> findPosts(SearchCriteria criteria) throws ModuleException {
-		return forumsSearchModule.findPosts(criteria);
+	public List<PostBean> findPosts(SearchCriteria criteria) throws ModuleException {
+		return forumsSearchModule.findPosts(criteria).getPage();
 	}
 
 	@POST
 	@Path("findTopics")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Override
-	public ResultPage<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException {
-		return forumsSearchModule.findTopics(criteria);
+	public List<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException {
+		return forumsSearchModule.findTopics(criteria).getPage();
 	}
 
 }
