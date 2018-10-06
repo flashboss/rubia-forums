@@ -31,7 +31,7 @@ public class SearchTest extends RestCaller {
 	}
 
 	@Test
-	public void uiRootAccess() {
+	public void search() {
 		Response response = get(url + "hasAccess", authorization);
 		response.readEntity(Boolean.class);
 		response.close();
