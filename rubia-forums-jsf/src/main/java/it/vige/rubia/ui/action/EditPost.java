@@ -13,14 +13,15 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.PortalUtil.createMessage;
-import static it.vige.rubia.PortalUtil.createPoll;
-import static it.vige.rubia.PortalUtil.createPollOption;
+import static it.vige.rubia.util.PortalUtil.createMessage;
+import static it.vige.rubia.util.PortalUtil.createPoll;
+import static it.vige.rubia.util.PortalUtil.createPollOption;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.parseInt;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -35,6 +36,7 @@ import javax.interceptor.Interceptors;
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
+import it.vige.rubia.dto.AttachmentBean;
 import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
@@ -106,7 +108,7 @@ public class EditPost extends PostAction {
 				// setup poll related information
 				setupPoll(topic.getPoll());
 
-				attachments = forumsModule.findAttachments(post);
+				attachments = new ArrayList<AttachmentBean>(forumsModule.findAttachments(post));
 
 				// setup the attachment related information
 				List<PostBean> posts = forumsModule.findPostsByTopicId(topic);

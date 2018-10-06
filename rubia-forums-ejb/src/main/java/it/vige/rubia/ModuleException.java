@@ -15,9 +15,6 @@ package it.vige.rubia;
 
 public class ModuleException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8942393416113543982L;
 
 	public ModuleException() {

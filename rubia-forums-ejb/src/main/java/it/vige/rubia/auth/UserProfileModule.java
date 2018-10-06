@@ -15,15 +15,17 @@ package it.vige.rubia.auth;
 
 import java.util.Map;
 
+import it.vige.rubia.dto.UserPropertyBean;
+
 public interface UserProfileModule {
 
-	Object getProperty(User arg0, String arg1) throws IllegalArgumentException;
+	Object getProperty(UserPropertyBean userProperty) throws IllegalArgumentException;
 
 	Object getPropertyFromId(String arg0, String arg1) throws IllegalArgumentException;
 
-	void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException;
+	void setProperty(UserPropertyBean userProperty) throws IllegalArgumentException;
 
-	Map<Object, Object> getProperties(User arg0) throws IllegalArgumentException;
+	Map<String, String> getProperties(User user) throws IllegalArgumentException;
 
 	ProfileInfo getProfileInfo();
 }

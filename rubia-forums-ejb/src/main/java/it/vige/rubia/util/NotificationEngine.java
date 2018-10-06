@@ -24,7 +24,5 @@ public interface NotificationEngine {
 
 	void setFrom(String from);
 
-	void scheduleForNotification(Integer postId, int mode);
-
 	void schedule(Integer postId, int mode, String absViewURL, String absReplyURL);
 }

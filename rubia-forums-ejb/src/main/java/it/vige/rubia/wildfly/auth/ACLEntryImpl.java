@@ -132,7 +132,6 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * </p>
 	 */
 	@PrePersist
-	@SuppressWarnings("unused")
 	private void setPersistentFields() {
 		if (this.permission != null)
 			this.bitMask = this.permission.getMaskValue();
@@ -144,7 +143,6 @@ public class ACLEntryImpl implements ACLEntry, Serializable {
 	 * </p>
 	 */
 	@PostLoad
-	@SuppressWarnings("unused")
 	private void loadState() {
 		if (this.permission != null)
 			throw PicketBoxMessages.MESSAGES.aclEntryPermissionAlreadySet();

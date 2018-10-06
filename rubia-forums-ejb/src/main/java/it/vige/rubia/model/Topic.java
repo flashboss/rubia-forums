@@ -56,8 +56,6 @@ import it.vige.rubia.dto.TopicType;
  */
 
 @NamedQueries({
-		@NamedQuery(name = "findAnnouncements", query = "select t from Topic as t where t.forum=:forumid and "
-				+ "t.type = :type order by t.lastPostDate"),
 		@NamedQuery(name = "findPoll", query = "select t.poll from Topic as t where t.id=:topicid"),
 		@NamedQuery(name = "findTopics", query = "select t from Topic as t "
 				+ "where t.forum.category.forumInstance.id = :forumInstanceId"),

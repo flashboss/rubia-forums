@@ -18,7 +18,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,14 +32,10 @@ import javax.persistence.Table;
 @Table(name = "JBP_FORUMS_INSTANCES")
 public class ForumInstance implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7296482227228166251L;
 
 	@Id
 	@Column(name = "JBP_ID")
-	@GeneratedValue
 	private Integer id;
 
 	@Column(name = "JBP_NAME")
@@ -70,8 +65,7 @@ public class ForumInstance implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param name
-	 *            DOCUMENT_ME
+	 * @param name DOCUMENT_ME
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -88,8 +82,7 @@ public class ForumInstance implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param value
-	 *            DOCUMENT_ME
+	 * @param value DOCUMENT_ME
 	 */
 	public void setCategories(List<Category> value) {
 		categories = value;
@@ -98,8 +91,7 @@ public class ForumInstance implements Serializable {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param value
-	 *            DOCUMENT_ME
+	 * @param value DOCUMENT_ME
 	 */
 	public void addCategory(Category value) {
 		value.setForumInstance(this);

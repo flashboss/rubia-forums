@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 
@@ -31,6 +31,7 @@ import it.vige.rubia.auth.AuthorizationListener;
 import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.dto.TopicBean;
+import it.vige.rubia.dto.TopicWatchBean;
 import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.action.PreferenceController;
 
@@ -51,7 +52,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 
 	private int topicId;
 	private WatchBean watch;
-	private Map<Object, Object> topicWatches;
+	private Map<Integer, TopicWatchBean> topicWatches;
 
 	@PostConstruct
 	public void execute() {
@@ -83,8 +84,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param userPreferences
-	 *            The userPreferences to set.
+	 * @param userPreferences The userPreferences to set.
 	 */
 	public void setUserPreferences(PreferenceController userPreferences) {
 		this.userPreferences = userPreferences;
@@ -98,8 +98,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param watch
-	 *            the current watch to set
+	 * @param watch the current watch to set
 	 */
 	public void setWatch(WatchBean watch) {
 		this.watch = watch;
@@ -113,8 +112,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param topicId
-	 *            the topic id to set
+	 * @param topicId the topic id to set
 	 */
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
@@ -144,7 +142,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Object> getTopicWatches() {
+	public Map<Integer, TopicWatchBean> getTopicWatches() {
 		if (topicWatches == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -159,8 +157,7 @@ public class ViewMyForumsAllSubscribed extends ViewMyForumsBase {
 	}
 
 	/**
-	 * @param watchedTopics
-	 *            the watched topics to set
+	 * @param watchedTopics the watched topics to set
 	 */
 	public void setWatchedTopics(Collection<TopicBean> watchedTopics) {
 		this.watchedTopics = watchedTopics;

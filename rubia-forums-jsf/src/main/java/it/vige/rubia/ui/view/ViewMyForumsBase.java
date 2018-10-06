@@ -46,7 +46,7 @@ public abstract class ViewMyForumsBase extends BaseController {
 	 */
 	private static final long serialVersionUID = 2284310224100123687L;
 
-	private Map<Object, Object> topicsLastPosts;
+	private Map<Integer, PostBean> topicsLastPosts;
 	protected Collection<TopicBean> watchedTopics;
 	private Map<Integer, PageNavigator> topicNavigator = new HashMap<Integer, PageNavigator>();
 
@@ -59,7 +59,7 @@ public abstract class ViewMyForumsBase extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Object> getTopicsLastPosts() {
+	public Map<Integer, PostBean> getTopicsLastPosts() {
 		if (topicsLastPosts == null) {
 			try {
 				Collection<TopicBean> watched = getWatchedTopics();
@@ -82,7 +82,7 @@ public abstract class ViewMyForumsBase extends BaseController {
 	/**
 	 * @param topicsLastPosts the last posts of the topics
 	 */
-	public void setTopicsLastPosts(Map<Object, Object> topicsLastPosts) {
+	public void setTopicsLastPosts(Map<Integer, PostBean> topicsLastPosts) {
 		this.topicsLastPosts = topicsLastPosts;
 	}
 

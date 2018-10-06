@@ -11,8 +11,9 @@
  * See the License for the specific language governing permissions and        *
  * limitations under the License.                                             *
  ******************************************************************************/
-package it.vige.rubia;
+package it.vige.rubia.util;
 
+import static it.vige.rubia.Constants.userNA;
 import static java.lang.Long.parseLong;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import static org.jboss.logging.Logger.getLogger;
@@ -26,6 +27,7 @@ import java.util.TreeMap;
 
 import org.jboss.logging.Logger;
 
+import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.dto.MessageBean;
@@ -225,7 +227,7 @@ public class PortalUtil {
 			}
 		}
 		if (userName == null)
-			user = getUserNA();
+			user = userNA;
 		return user;
 	}
 
@@ -240,38 +242,6 @@ public class PortalUtil {
 			return null;
 		}
 		return (String) VIEW_NAME_TO_ID.get(name);
-	}
-
-	public static User getUserNA() {
-		return new User() {
-
-			private String id;
-			private String userName;
-
-			{
-				this.userName = GUEST_USER;
-				this.id = GUEST_USER;
-			}
-
-			public String getUserName() {
-				return userName;
-			}
-
-			@Override
-			public void setUserName(String userName) {
-				this.userName = userName;
-			}
-
-			@Override
-			public String getId() {
-				return id;
-			}
-
-			@Override
-			public void setId(String id) {
-				this.id = id;
-			}
-		};
 	}
 
 	public static PosterBean getGuestPoster(UserModule userModule, ForumsModule forumsModule) throws Exception {

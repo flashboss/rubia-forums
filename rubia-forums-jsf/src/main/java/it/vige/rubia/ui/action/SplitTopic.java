@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static java.lang.Integer.parseInt;

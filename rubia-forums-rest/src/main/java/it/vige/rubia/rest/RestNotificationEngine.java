@@ -41,13 +41,6 @@ public class RestNotificationEngine implements NotificationEngine {
 	}
 
 	@GET
-	@Path("scheduleForNotification/{postId}/{mode}")
-	@Override
-	public void scheduleForNotification(@PathParam("postId") Integer postId, @PathParam("mode") int mode) {
-		notificationEngine.scheduleForNotification(postId, mode);
-	}
-
-	@GET
 	@Path("schedule/{postId}/{mode}/{absViewURL}/{absReplyURL}")
 	@Override
 	public void schedule(@PathParam("postId") Integer postId, @PathParam("mode") int mode,

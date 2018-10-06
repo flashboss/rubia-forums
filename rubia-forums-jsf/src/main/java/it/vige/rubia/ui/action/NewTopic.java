@@ -13,9 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.PortalUtil.createMessage;
-import static it.vige.rubia.PortalUtil.createPoll;
-import static it.vige.rubia.PortalUtil.createPollOption;
+import static it.vige.rubia.util.PortalUtil.createMessage;
+import static it.vige.rubia.util.PortalUtil.createPoll;
+import static it.vige.rubia.util.PortalUtil.createPollOption;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;

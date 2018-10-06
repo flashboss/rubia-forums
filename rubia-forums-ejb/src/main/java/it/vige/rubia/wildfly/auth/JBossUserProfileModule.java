@@ -21,23 +21,24 @@ import javax.inject.Named;
 import it.vige.rubia.auth.ProfileInfo;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.dto.UserPropertyBean;
 
 @Named("userProfileModule")
 @Stateless
 public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
-	public Object getProperty(User arg0, String arg1) throws IllegalArgumentException {
+	public Object getProperty(UserPropertyBean userProperty) throws IllegalArgumentException {
 		return null;
 	}
 
 	@Override
-	public void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException {
+	public void setProperty(UserPropertyBean userProperty) throws IllegalArgumentException {
 
 	}
 
 	@Override
-	public Map<Object, Object> getProperties(User arg0) throws IllegalArgumentException {
+	public Map<String, String> getProperties(User user) throws IllegalArgumentException {
 		return null;
 	}
 

@@ -14,7 +14,6 @@
 package it.vige.rubia;
 
 import static it.vige.rubia.Constants.TOPIC_UNLOCKED;
-import static it.vige.rubia.dto.TopicType.ADVICE;
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
 import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
 import static java.util.stream.Collectors.toList;
@@ -235,6 +234,22 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
+	public PosterBean removePoster(Integer id) throws ModuleException {
+		if (id != null) {
+			try {
+				Poster poster = em.find(Poster.class, id);
+				em.remove(poster);
+				return PosterToPosterBean.apply(poster);
+			} catch (Exception e) {
+				String message = "Cannot remove poster by id " + id;
+				throw new ModuleException(message, e);
+			}
+		} else {
+			throw new IllegalArgumentException("poster id cannot be null");
+		}
+	}
+
+	@Override
 	public PosterBean createPoster(String userId) throws ModuleException {
 		if (userId != null) {
 			try {
@@ -307,20 +322,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			TypedQuery<Forum> query = em.createNamedQuery("findForumsByCategoryId", Forum.class);
 			query.setParameter("categoryId", CategoryBeanToCategory.apply(category));
 			return query.getResultList().stream().map(t -> ForumToForumBean.apply(t)).collect(toList());
-		} catch (Exception e) {
-			String message = "Cannot find forums";
-			throw new ModuleException(message, e);
-		}
-	}
-
-	@Override
-	public List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findAnnouncements", Post.class);
-			query.setParameter("forumid", "" + forum.getId());
-			query.setParameter("type", "" + ADVICE);
-			return query.getResultList().stream().map(t -> PostToPostBean.apply(t)).collect(toList());
 		} catch (Exception e) {
 			String message = "Cannot find forums";
 			throw new ModuleException(message, e);
@@ -496,7 +497,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			post.setTopic(topicEntity);
 			em.persist(post);
 
-			notificationEngine.scheduleForNotification(post.getId(), MODE_POST);
+			notificationEngine.schedule(post.getId(), MODE_POST, "", "");
 			em.flush();
 			return PostToPostBean.apply(post);
 		} catch (Exception e) {
@@ -538,9 +539,15 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationDate,
-			PosterBean poster, Collection<AttachmentBean> attachments) throws ModuleException {
+	public PostBean createPost(PostBean postBean) throws ModuleException {
 		try {
+
+			PosterBean poster = postBean.getPoster();
+			MessageBean message = postBean.getMessage();
+			Collection<AttachmentBean> attachments = postBean.getAttachments();
+			Date creationDate = postBean.getCreateDate();
+			TopicBean topic = postBean.getTopic();
+			ForumBean forum = topic.getForum();
 
 			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
 			Poster posterNew = PosterBeanToPoster.apply(poster);
@@ -569,7 +576,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			em.merge(topicEntity);
 			forum.addPostSize();
 			em.merge(ForumBeanToForum.apply(forum));
-			notificationEngine.scheduleForNotification(post.getId(), MODE_REPLY);
+			notificationEngine.schedule(post.getId(), MODE_REPLY, "", "");
 			em.flush();
 			return PostToPostBean.apply(post);
 		} catch (Exception e) {
@@ -696,23 +703,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public void removePollInTopic(TopicBean topic) throws ModuleException {
-
-		try {
-			if (topic != null && topic.getPoll() != null) {
-				Poll poll = em.find(Poll.class, topic.getPoll().getId());
-				topic.setPoll(null);
-				em.remove(poll);
-				em.flush();
-			}
-
-		} catch (Exception e) {
-			String errorMessage = "Cannot delete poll";
-			throw new ModuleException(errorMessage, e);
-		}
-	}
-
-	@Override
 	public void removeTopic(int topicId) throws ModuleException {
 
 		try {
@@ -798,22 +788,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			}
 		} else {
 			throw new IllegalArgumentException("forum cannot be null");
-		}
-	}
-
-	/**
-	 * @see it.vige.rubia.ForumsModule#findPosts(java.lang.Integer)
-	 */
-	@Override
-	public List<PostBean> findPosts(Integer indexInstance) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findPosts", Post.class);
-			query.setParameter("forumInstanceId", indexInstance);
-			return query.getResultList().stream().map(t -> PostToPostBean.apply(t)).collect(toList());
-		} catch (Exception e) {
-			String message = "Cannot find posts";
-			throw new ModuleException(message, e);
 		}
 	}
 
@@ -975,70 +949,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public Date findLastPostDateForUser(User user) throws ModuleException {
-		try {
-
-			TypedQuery<Date> query = em.createNamedQuery("findLastPostDateForUser", Date.class);
-			query.setParameter("userId", "" + user.getId().toString());
-			Date lastPostDate = uniqueElement(query.getResultList());
-			return lastPostDate;
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findLastPost(ForumBean forum) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findLastPost", Post.class);
-			query.setParameter("forumId", "" + forum.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post lastPost = uniqueElement(query.getResultList());
-			return PostToPostBean.apply(lastPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findFirstPost(TopicBean topic) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findFirstPost", Post.class);
-			query.setParameter("lastPostDate", topic.getLastPostDate(), DATE);
-			query.setParameter("topicId", "" + topic.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post firstPost = uniqueElement(query.getResultList());
-			return PostToPostBean.apply(firstPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public PostBean findLastPost(TopicBean topic) throws ModuleException {
-		try {
-
-			TypedQuery<Post> query = em.createNamedQuery("findLastPostOrder", Post.class);
-			query.setParameter("topicId", "" + topic.getId());
-			query.setFirstResult(0);
-			query.setMaxResults(1);
-			Post lastPost = (Post) uniqueElement(query.getResultList());
-			return PostToPostBean.apply(lastPost);
-		} catch (Exception e) {
-			log.error(e);
-			return null;
-		}
-	}
-
-	@Override
-	public Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
+	public Map<Integer, PostBean> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException {
 		try {
 
 			List<Object[]> lastPostDates = new ArrayList<Object[]>(topics.size());
@@ -1050,13 +961,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			// if there are no createDates then we return an empty map
 			if (dates.size() == 0) {
-				return new HashMap<Object, Object>(0);
+				return new HashMap<Integer, PostBean>(0);
 			}
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfTopicsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
-			Map<Object, Object> forumPostMap = new HashMap<Object, Object>(dates.size());
+			Map<Integer, PostBean> forumPostMap = new HashMap<Integer, PostBean>(dates.size());
 			for (Object[] dateTopic : lastPostDates) {
 				int index = Collections.binarySearch(posts, dateTopic, new Comparator<Object>() {
 					public int compare(Object o1, Object o2) {
@@ -1071,7 +982,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = (Object[]) posts.get(index);
-				forumPostMap.put(dateTopic[1], PostToPostBean.apply((Post) datePostPair[1]));
+				forumPostMap.put((Integer) dateTopic[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {
@@ -1084,7 +995,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 * @see it.vige.rubia.ForumsModule#findLastPostsOfForums(java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
+	public Map<Integer, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findLastPostsOfForums", Object[].class);
@@ -1097,13 +1008,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 
 			// if there are no posts in all forums then return empty map
 			if (dates.size() == 0) {
-				return new HashMap<Object, PostBean>(0);
+				return new HashMap<Integer, PostBean>(0);
 			}
 
 			query = em.createNamedQuery("findLastPostsOfForumsCreateDate", Object[].class);
 			query.setParameter("dates", dates);
 			List<Object[]> posts = query.getResultList();
-			Map<Object, PostBean> forumPostMap = new HashMap<Object, PostBean>(createDates.size());
+			Map<Integer, PostBean> forumPostMap = new HashMap<Integer, PostBean>(createDates.size());
 			for (Object[] dateForum : createDates) {
 				int index = Collections.binarySearch(posts, dateForum, new Comparator<Object>() {
 					public int compare(Object o1, Object o2) {
@@ -1118,7 +1029,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 					continue;
 				}
 				Object[] datePostPair = posts.get(index);
-				forumPostMap.put(dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
+				forumPostMap.put((Integer) dateForum[1], PostToPostBean.apply((Post) datePostPair[1]));
 			}
 			return forumPostMap;
 		} catch (Exception e) {
@@ -1190,16 +1101,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 *      java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<Integer, TopicWatchBean> findTopicWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findTopicWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			Map<Integer, TopicWatchBean> map = new HashMap<Integer, TopicWatchBean>(results.size());
 			for (Object[] element : results) {
-				map.put(element[0], element[1]);
+				map.put((Integer) element[0], TopicWatchToTopicWatchBean.apply((TopicWatch) element[1]));
 			}
 			return map;
 		} catch (Exception e) {
@@ -1225,11 +1136,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException {
-		return findPostsFromForum(forum, limit, "asc");
-	}
-
-	@Override
 	public List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException {
 		return findPostsFromForum(forum, limit, "desc");
 	}
@@ -1248,12 +1154,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			String message = "Cannot find posts";
 			throw new ModuleException(message, e);
 		}
-	}
-
-	@Override
-	public List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException {
-		return findPostsFromCategory(CategoryBeanToCategory.apply(category), limit, "asc").stream()
-				.map(t -> PostToPostBean.apply(t)).collect(toList());
 	}
 
 	@Override
@@ -1278,11 +1178,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	}
 
 	@Override
-	public List<PostBean> findPostsAsc(int limit) throws ModuleException {
-		return findPosts(limit, "asc").stream().map(t -> PostToPostBean.apply(t)).collect(toList());
-	}
-
-	@Override
 	public List<PostBean> findPostsDesc(int limit) throws ModuleException {
 		return findPosts(limit, "desc").stream().map(t -> PostToPostBean.apply(t)).collect(toList());
 	}
@@ -1299,12 +1194,11 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 				throw new ModuleException("forum must not be null");
 			}
 
-			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
-			Poster posterNew = PosterBeanToPoster.apply(poster);
-			if (posterOld == null) {
+			if (poster.getId() == null) {
+				Poster posterNew = PosterBeanToPoster.apply(poster);
 				em.persist(posterNew);
+				poster.setId(posterNew.getId());
 			}
-			em.merge(posterNew);
 
 			ForumWatch forumWatch = new ForumWatch();
 			forumWatch.setPoster(em.find(Poster.class, poster.getId()));
@@ -1351,16 +1245,16 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 	 *      java.lang.Integer)
 	 */
 	@Override
-	public Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException {
+	public Map<Integer, ForumWatchBean> findForumWatches(User user, Integer indexInstance) throws ModuleException {
 		try {
 
 			TypedQuery<Object[]> query = em.createNamedQuery("findForumWatches", Object[].class);
 			query.setParameter("userId", user.getId().toString());
 			query.setParameter("forumInstanceId", indexInstance);
 			List<Object[]> results = query.getResultList();
-			HashMap<Object, Object> map = new HashMap<Object, Object>(results.size());
+			Map<Integer, ForumWatchBean> map = new HashMap<Integer, ForumWatchBean>(results.size());
 			for (Object[] element : results) {
-				map.put(element[0], element[1]);
+				map.put((Integer) element[0], ForumWatchToForumWatchBean.apply((ForumWatch) element[1]));
 			}
 			return map;
 		} catch (Exception e) {
@@ -1430,24 +1324,6 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			String errorMessage = "Cannot create topic watch";
 			throw new ModuleException(errorMessage, e);
 		}
-	}
-
-	@Override
-	public TopicWatchBean findTopicWatchById(Integer topicWatchId) throws ModuleException {
-		try {
-
-			TypedQuery<TopicWatch> query = em.createNamedQuery("findTopicWatchById", TopicWatch.class);
-			query.setParameter("topicWatchId", topicWatchId.toString());
-			return TopicWatchToTopicWatchBean.apply(uniqueElement(query.getResultList()));
-		} catch (Exception e) {
-			String message = "Cannot find topic watch";
-			throw new ModuleException(message, e);
-		}
-	}
-
-	@Override
-	public void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl) {
-		notificationEngine.schedule(postId, watchType, postUrl, replyUrl);
 	}
 
 	/**

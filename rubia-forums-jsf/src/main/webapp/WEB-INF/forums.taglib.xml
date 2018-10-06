@@ -23,7 +23,7 @@
 	<!-- function to check if the application is running in a portal environment -->
 	<function>
 		<function-name>isRunningInPortal</function-name>
-		<function-class>it.vige.rubia.PortalUtil</function-class>
+		<function-class>it.vige.rubia.util.PortalUtil</function-class>
 		<function-signature>boolean isRunningInPortal()</function-signature>
 	</function>
 
@@ -75,7 +75,7 @@
 	<!-- -->
 	<function>
 		<function-name>votePercent</function-name>
-		<function-class>it.vige.rubia.PortalUtil</function-class>
+		<function-class>it.vige.rubia.util.PortalUtil</function-class>
 		<function-signature>java.lang.String
 			getVotePercent(it.vige.rubia.dto.PollBean,it.vige.rubia.dto.PollOptionBean,
 			int)</function-signature>

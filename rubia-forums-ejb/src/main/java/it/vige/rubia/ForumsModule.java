@@ -26,7 +26,6 @@ import it.vige.rubia.dto.CategoryBean;
 import it.vige.rubia.dto.ForumBean;
 import it.vige.rubia.dto.ForumInstanceBean;
 import it.vige.rubia.dto.ForumWatchBean;
-import it.vige.rubia.dto.MessageBean;
 import it.vige.rubia.dto.PollBean;
 import it.vige.rubia.dto.PollOptionBean;
 import it.vige.rubia.dto.PostBean;
@@ -66,16 +65,6 @@ public interface ForumsModule {
 	 * @param fromAddress DOCUMENT_ME
 	 */
 	void setFromAddress(String fromAddress);
-
-	/**
-	 * Returns all the announcements of the forum
-	 * 
-	 * @param forum Forum in which we want to search for the announcements
-	 * @return List of topics
-	 * @throws ModuleException Throws an exception if unable to find the
-	 *                         announcements.
-	 */
-	List<PostBean> findAnnouncements(ForumBean forum) throws ModuleException;
 
 	/**
 	 * Returns some topics of a forum that are not of a certain type. Need to a
@@ -185,18 +174,6 @@ public interface ForumsModule {
 	ForumBean createForum(ForumBean forum) throws ModuleException;
 
 	/**
-	 * Need to a forumInstanceId argument to take only posts of a specific forum
-	 * instance. FindPosts method need to a forumInstanceId argument to take only
-	 * posts of a specific forum instance
-	 * 
-	 * @param indexInstance the forum instance where find the posts
-	 * 
-	 * @return the list of posts for the index instance
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	List<PostBean> findPosts(Integer indexInstance) throws ModuleException;
-
-	/**
 	 * DOCUMENT_ME
 	 * 
 	 * @param id DOCUMENT_ME
@@ -213,6 +190,15 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	PosterBean findPosterByUserId(String userID) throws ModuleException;
+
+	/**
+	 * DOCUMENT_ME
+	 * 
+	 * @param id DOCUMENT_ME
+	 * @return DOCUMENT_ME
+	 * @throws ModuleException DOCUMENT_ME
+	 */
+	PosterBean removePoster(Integer id) throws ModuleException;
 
 	/**
 	 * Get all the categories of forums.. FindCategories, findCategoriesFetchForums
@@ -259,7 +245,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic        DOCUMENT_ME
+	 * @param topic DOCUMENT_ME
 	 * @return The new post created
 	 * @throws ModuleException DOCUMENT_ME
 	 */
@@ -268,7 +254,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param forum   DOCUMENT_ME
+	 * @param forum DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
@@ -286,8 +272,7 @@ public interface ForumsModule {
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	PostBean createPost(TopicBean topic, ForumBean forum, MessageBean message, Date creationTime, PosterBean poster,
-			Collection<AttachmentBean> attachments) throws ModuleException;
+	PostBean createPost(PostBean post) throws ModuleException;
 
 	/**
 	 * DOCUMENT_ME
@@ -359,14 +344,6 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removePost(int postId, boolean isLastPost) throws ModuleException;
-
-	/**
-	 * Delete a post
-	 * 
-	 * @param topic Post to delete
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	void removePollInTopic(TopicBean topic) throws ModuleException;
 
 	/**
 	 * Delete a topic
@@ -481,39 +458,11 @@ public interface ForumsModule {
 	List<PostBean> findPostsByTopicIdDesc(TopicBean topic, int start, int limit) throws ModuleException;
 
 	/**
-	 * @param user DOCUMENT_ME
-	 * @return the last post date of the user
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	Date findLastPostDateForUser(User user) throws ModuleException;
-
-	/**
-	 * @param forum DOCUMENT_ME
-	 * @return the last post in the forum
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findLastPost(ForumBean forum) throws ModuleException;
-
-	/**
-	 * @param topic DOCUMENT_ME
-	 * @return the first post of the topic
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findFirstPost(TopicBean topic) throws ModuleException;
-
-	/**
-	 * @param topic DOCUMENT_ME
-	 * @return the last post of the topic
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	PostBean findLastPost(TopicBean topic) throws ModuleException;
-
-	/**
 	 * @param topics DOCUMENT_ME
 	 * @return the last posts of the topic
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
+	Map<Integer, PostBean> findLastPostsOfTopics(Collection<TopicBean> topics) throws ModuleException;
 
 	/**
 	 * findLastPostsOfForums method need to a forumInstanceId argument to take only
@@ -527,7 +476,7 @@ public interface ForumsModule {
 	 * @return the last posts of the forum instance
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
+	Map<Integer, PostBean> findLastPostsOfForums(Integer indexInstance) throws ModuleException;
 
 	/**
 	 * findForumWatchByUser method need to a forumInstanceId argument to take only
@@ -578,11 +527,7 @@ public interface ForumsModule {
 	 */
 	List<TopicBean> findTopicWatchedByUser(User user, Date date, Integer indexInstance) throws ModuleException;
 
-	List<PostBean> findPostsFromForumAsc(ForumBean forum, int limit) throws ModuleException;
-
 	List<PostBean> findPostsFromForumDesc(ForumBean forum, int limit) throws ModuleException;
-
-	List<PostBean> findPostsFromCategoryAsc(CategoryBean category, int limit) throws ModuleException;
 
 	List<PostBean> findPostsFromCategoryDesc(CategoryBean category, int limit) throws ModuleException;
 
@@ -597,7 +542,7 @@ public interface ForumsModule {
 	 * @return the map of topic watches
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
+	Map<Integer, TopicWatchBean> findTopicWatches(User user, Integer indexInstance) throws ModuleException;
 
 	AttachmentBean findAttachmentById(Integer attachID) throws ModuleException;
 
@@ -629,7 +574,7 @@ public interface ForumsModule {
 	 * @return the map of the forum watches
 	 * @throws ModuleException DOCUMENT_ME
 	 */
-	Map<Object, Object> findForumWatches(User user, Integer indexInstance) throws ModuleException;
+	Map<Integer, ForumWatchBean> findForumWatches(User user, Integer indexInstance) throws ModuleException;
 
 	/**
 	 * 
@@ -667,26 +612,10 @@ public interface ForumsModule {
 	void createWatch(PosterBean poster, TopicBean topic, int mode) throws ModuleException;
 
 	/**
-	 * @param topicWatchID DOCUMENT_ME
-	 * @return DOCUMENT_ME
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	TopicWatchBean findTopicWatchById(Integer topicWatchID) throws ModuleException;
-
-	/**
 	 * @param watch DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	void removeWatch(WatchBean watch) throws ModuleException;
-
-	/**
-	 * @param postId    DOCUMENT_ME
-	 * @param watchType DOCUMENT_ME
-	 * @param postUrl   DOCUMENT_ME
-	 * @param replyUrl  DOCUMENT_ME
-	 * 
-	 */
-	void processNotifications(Integer postId, int watchType, String postUrl, String replyUrl);
 
 	/**
 	 * @param limit DOCUMENT_ME
@@ -695,14 +624,6 @@ public interface ForumsModule {
 	 * @throws ModuleException DOCUMENT_ME
 	 */
 	List<PostBean> findPostsDesc(int limit) throws ModuleException;
-
-	/**
-	 * @param limit DOCUMENT_ME
-	 * 
-	 * @return the list of ascendent posts in the limit
-	 * @throws ModuleException DOCUMENT_ME
-	 */
-	List<PostBean> findPostsAsc(int limit) throws ModuleException;
 
 	/**
 	 * @param attachments DOCUMENT_ME

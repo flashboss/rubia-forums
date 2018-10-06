@@ -13,6 +13,11 @@
  ******************************************************************************/
 package it.vige.rubia;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import it.vige.rubia.auth.User;
+
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>
  * @author <a href="mailto:ryszard.kozmik@jboss.com">Ryszard Kozmik</a>
@@ -73,7 +78,7 @@ public interface Constants {
 	/**
 	 * When a notification message is sent, send the message content.
 	 */
-	int WATCH_MODE_EMBEDED = 1;
+	int WATCH_MODE_EMBEDDED = 1;
 
 	/**
 	 * DOCUMENT_ME
@@ -407,8 +412,7 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] SORT_BY_TYPES = { "${bb.Sort_Time}", "${bb.Sort_Post_Subject}",
-			"${bb.Sort_Author}", "${bb.Sort_Forum}" };
+	String[] SORT_BY_TYPES = { "${bb.Sort_Time}", "${bb.Sort_Post_Subject}", "${bb.Sort_Author}", "${bb.Sort_Forum}" };
 
 	/**
 	 * DOCUMENT_ME
@@ -418,38 +422,31 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] PREVIOUS_DAYS_TEXT_TOPICS = { "${bb.All_Topics}", "${bb.1_Day}",
-			"${bb.7_Days}", "${bb.2_Weeks}", "${bb.1_Month}", "${bb.3_Months}",
-			"${bb.6_Months}", "${bb.1_Year}" };
+	String[] PREVIOUS_DAYS_TEXT_TOPICS = { "${bb.All_Topics}", "${bb.1_Day}", "${bb.7_Days}", "${bb.2_Weeks}",
+			"${bb.1_Month}", "${bb.3_Months}", "${bb.6_Months}", "${bb.1_Year}" };
 
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] PREVIOUS_DAYS_TEXT_POSTS = { "${bb.All_Posts}", "${bb.1_Day}",
-			"${bb.7_Days}", "${bb.2_Weeks}", "${bb.1_Month}", "${bb.3_Months}",
-			"${bb.6_Months}", "${bb.1_Year}" };
+	String[] PREVIOUS_DAYS_TEXT_POSTS = { "${bb.All_Posts}", "${bb.1_Day}", "${bb.7_Days}", "${bb.2_Weeks}",
+			"${bb.1_Month}", "${bb.3_Months}", "${bb.6_Months}", "${bb.1_Year}" };
 
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] FORUM_AUTH_FORM_FIELD_NAMES = { "auth_view", "auth_read",
-			"auth_post", "auth_reply", "auth_edit", "auth_delete",
-			"auth_sticky", "auth_announce", "auth_vote", "auth_pollcreate",
-			"auth_attachment" };
+	String[] FORUM_AUTH_FORM_FIELD_NAMES = { "auth_view", "auth_read", "auth_post", "auth_reply", "auth_edit",
+			"auth_delete", "auth_sticky", "auth_announce", "auth_vote", "auth_pollcreate", "auth_attachment" };
 
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] FORUM_AUTH_FORM_FIELD_LABELS = { "${bb.View}", "${bb.Read}",
-			"${bb.Post}", "${bb.Reply}", "${bb.Edit}", "${bb.Delete}",
-			"${bb.Sticky}", "${bb.Announce}", "${bb.Vote}", "${bb.Pollcreate}",
-			"${bb.UploadedFile}" };
+	String[] FORUM_AUTH_FORM_FIELD_LABELS = { "${bb.View}", "${bb.Read}", "${bb.Post}", "${bb.Reply}", "${bb.Edit}",
+			"${bb.Delete}", "${bb.Sticky}", "${bb.Announce}", "${bb.Vote}", "${bb.Pollcreate}", "${bb.UploadedFile}" };
 
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] FORUM_AUTH_LEVEL_LABELS = { "ALL", "REG", "PRIVATE", "MOD",
-			"ADMIN" };
+	String[] FORUM_AUTH_LEVEL_LABELS = { "ALL", "REG", "PRIVATE", "MOD", "ADMIN" };
 
 	/**
 	 * DOCUMENT_ME
@@ -474,10 +471,9 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] AUTH_TYPE_TO_MESSAGE = { null, null, "Sorry_auth_read_",
-			"Sorry_auth_post_", "Sorry_auth_reply_", "Sorry_auth_edit_",
-			"Sorry_auth_delete_", "Sorry_auth_announce_", "Sorry_auth_sticky_",
-			null, null, "Sorry_auth_vote_", null, };
+	String[] AUTH_TYPE_TO_MESSAGE = { null, null, "Sorry_auth_read_", "Sorry_auth_post_", "Sorry_auth_reply_",
+			"Sorry_auth_edit_", "Sorry_auth_delete_", "Sorry_auth_announce_", "Sorry_auth_sticky_", null, null,
+			"Sorry_auth_vote_", null, };
 
 	// modes
 
@@ -584,9 +580,8 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	int[] PMASKS = { PMASK_VOTE, PMASK_REPLY, PMASK_QUOTE, PMASK_EDIT_POST,
-			PMASK_DELETE, PMASK_POLL_DELETE, PMASK_NEW_TOPIC, PMASK_SMILIES,
-			PMASK_TOPIC_REVIEW };
+	int[] PMASKS = { PMASK_VOTE, PMASK_REPLY, PMASK_QUOTE, PMASK_EDIT_POST, PMASK_DELETE, PMASK_POLL_DELETE,
+			PMASK_NEW_TOPIC, PMASK_SMILIES, PMASK_TOPIC_REVIEW };
 
 	/**
 	 * DOCUMENT_ME
@@ -626,10 +621,8 @@ public interface Constants {
 	/**
 	 * DOCUMENT_ME
 	 */
-	String[] AUTH_PRESETS_NAMES = { "${bb.Public}", "${bb.Registered}",
-			"${bb.Registered}[${bb.Hidden}]", "${bb.Private}",
-			"${bb.Private}[${bb.Hidden}]", "${bb.Moderators}",
-			"${bb.Moderators}[${bb.Hidden}]" };
+	String[] AUTH_PRESETS_NAMES = { "${bb.Public}", "${bb.Registered}", "${bb.Registered}[${bb.Hidden}]",
+			"${bb.Private}", "${bb.Private}[${bb.Hidden}]", "${bb.Moderators}", "${bb.Moderators}[${bb.Hidden}]" };
 
 	/**
 	 * DOCUMENT_ME
@@ -656,8 +649,7 @@ public interface Constants {
 		/**
 		 * DOCUMENT_ME
 		 * 
-		 * @param mode
-		 *            DOCUMENT_ME
+		 * @param mode DOCUMENT_ME
 		 * @return DOCUMENT_ME
 		 */
 		String encodePosting(int mode) {
@@ -667,8 +659,7 @@ public interface Constants {
 		/**
 		 * DOCUMENT_ME
 		 * 
-		 * @param mode
-		 *            DOCUMENT_ME
+		 * @param mode DOCUMENT_ME
 		 * @return DOCUMENT_ME
 		 */
 		int decodePosting(String mode) {
@@ -786,5 +777,37 @@ public interface Constants {
 	String BY = " by ";
 
 	String MAIN_PAGE = "Rubia Forums";
+
+	DateFormat restDateFormat = new SimpleDateFormat("d-M-YY-h-m-a");
+
+	User userNA = new User() {
+
+		private String id;
+		private String userName;
+
+		{
+			this.userName = GUEST_USER;
+			this.id = GUEST_USER;
+		}
+
+		public String getUserName() {
+			return userName;
+		}
+
+		@Override
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+		@Override
+		public String getId() {
+			return id;
+		}
+
+		@Override
+		public void setId(String id) {
+			this.id = id;
+		}
+	};
 
 }

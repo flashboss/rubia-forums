@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.getRequestParameter;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
@@ -37,6 +37,7 @@ import it.vige.rubia.auth.SecureActionForum;
 import it.vige.rubia.auth.UserModule;
 import it.vige.rubia.auth.UserProfileModule;
 import it.vige.rubia.dto.ForumBean;
+import it.vige.rubia.dto.ForumWatchBean;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.WatchBean;
 import it.vige.rubia.ui.BaseController;
@@ -62,10 +63,10 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	private ThemeHelper themeHelper;
 
 	// Map<ForumId,LastPost>
-	private Map<Object, PostBean> forumsLastPosts;
+	private Map<Integer, PostBean> forumsLastPosts;
 	private Map<Integer, String> forumImageDescriptions;
 	private Map<Integer, String> forumImages;
-	private Map<Object, Object> forumWatches;
+	private Map<Integer, ForumWatchBean> forumWatches;
 	private Collection<ForumBean> watchedForums;
 
 	private WatchBean watch;
@@ -130,7 +131,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, PostBean> getForumsLastPosts() {
+	public Map<Integer, PostBean> getForumsLastPosts() {
 		if (forumsLastPosts == null) {
 			try {
 				// get the forumInstanceId where this forum should be added
@@ -147,7 +148,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	/**
 	 * @param forumsLastPosts the map of the forum last posts
 	 */
-	public void setForumsLastPosts(Map<Object, PostBean> forumsLastPosts) {
+	public void setForumsLastPosts(Map<Integer, PostBean> forumsLastPosts) {
 		this.forumsLastPosts = forumsLastPosts;
 	}
 
@@ -167,14 +168,14 @@ public class ViewMyForumsEditAllForums extends BaseController {
 	 */
 	@SecureActionForum
 	@Interceptors(AuthorizationListener.class)
-	public Map<Object, Object> getForumWatches() {
+	public Map<Integer, ForumWatchBean> getForumWatches() {
 		return forumWatches;
 	}
 
 	/**
 	 * @param forumWatches the forum watches
 	 */
-	public void setForumWatches(Map<Object, Object> forumWatches) {
+	public void setForumWatches(Map<Integer, ForumWatchBean> forumWatches) {
 		this.forumWatches = forumWatches;
 	}
 
@@ -247,7 +248,7 @@ public class ViewMyForumsEditAllForums extends BaseController {
 
 		} catch (Exception e) {
 			handleException(e);
-			setForumWatches(new HashMap<Object, Object>(0));
+			setForumWatches(new HashMap<Integer, ForumWatchBean>(0));
 		}
 
 		Date userLastLogin = getUserLastLoginDate(userModule, userProfileModule);

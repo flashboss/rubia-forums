@@ -126,4 +126,4 @@ To debug the application using Eclipse you can put this parameter:
 
 It will start on the 5005 port.
 
-The tests are done using Firefox 61.0.2 (64-bit) on WildFly 15.0.0.Alpha1
+The tests are done using Firefox 62.0.3 (64-bit) on WildFly 15.0.0.Alpha1

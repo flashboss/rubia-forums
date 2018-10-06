@@ -28,6 +28,7 @@ import javax.ws.rs.Produces;
 import it.vige.rubia.auth.ProfileInfo;
 import it.vige.rubia.auth.User;
 import it.vige.rubia.auth.UserProfileModule;
+import it.vige.rubia.dto.UserPropertyBean;
 
 @Path("/profile/")
 public class RestUserProfileModule implements UserProfileModule {
@@ -39,42 +40,37 @@ public class RestUserProfileModule implements UserProfileModule {
 	@Path("getProperty")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Override
-	public Object getProperty(User arg0, String arg1) throws IllegalArgumentException {
-		return userProfileModule.getProperty(arg0, arg1);
+	public Object getProperty(UserPropertyBean userProperty) throws IllegalArgumentException {
+		return userProfileModule.getProperty(userProperty);
 	}
 
 	@GET
 	@Path("getPropertyFromId/{id}/{id2}")
 	@Produces(APPLICATION_JSON)
-	@Override
-	public Object getPropertyFromId(@PathParam("id") String arg0, @PathParam("id2") String arg1)
+	public Object getPropertyFromId(@PathParam("id") String id, @PathParam("id2") String key)
 			throws IllegalArgumentException {
-		return userProfileModule.getPropertyFromId(arg0, arg1);
+		return userProfileModule.getPropertyFromId(id, key);
 	}
 
 	@POST
 	@Path("setProperty")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Override
-	public void setProperty(User arg0, String arg1, Object arg2) throws IllegalArgumentException {
-		userProfileModule.setProperty(arg0, arg1, arg2);
+	public void setProperty(UserPropertyBean userProperty) throws IllegalArgumentException {
+		userProfileModule.setProperty(userProperty);
 	}
 
 	@POST
 	@Path("getProperties")
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Override
-	public Map<Object, Object> getProperties(User arg0) throws IllegalArgumentException {
-		return userProfileModule.getProperties(arg0);
+	public Map<String, String> getProperties(User user) throws IllegalArgumentException {
+		return userProfileModule.getProperties(user);
 	}
 
 	@GET
 	@Path("getProfileInfo")
 	@Produces(APPLICATION_JSON)
-	@Override
 	public ProfileInfo getProfileInfo() {
 		return userProfileModule.getProfileInfo();
 	}
