@@ -13,7 +13,9 @@
  ******************************************************************************/
 package it.vige.rubia.resttest.notificationengine.test;
 
-import static it.vige.rubia.util.NotificationEngine.*;
+import static it.vige.rubia.util.NotificationEngine.MODE_POST;
+import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,7 @@ public class NotificationEngineTest extends RestCaller {
 	@Test
 	public void uiRootAccess() {
 		get(url + "schedule/1/" + MODE_POST + "/VIEW_URL/REPLY_URL", authorization);
-		get(url + "scheduleForNotification/1/" + MODE_POST, authorization);
+		get(url + "scheduleForNotification/1/" + MODE_REPLY, authorization);
 	}
 
 	@AfterAll

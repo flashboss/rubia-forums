@@ -13,15 +13,12 @@
  ******************************************************************************/
 package it.vige.rubia.resttest.forumsearchmodule.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.vige.rubia.auth.UIContext;
 import it.vige.rubia.resttest.RestCaller;
 
 public class SearchTest extends RestCaller {
@@ -32,11 +29,11 @@ public class SearchTest extends RestCaller {
 	@BeforeAll
 	public static void setUp() {
 	}
-	
+
 	@Test
 	public void uiRootAccess() {
-		Response response = post(url + "hasAccess", authorization, uiContext);
-		boolean value = response.readEntity(Boolean.class);
+		Response response = get(url + "hasAccess", authorization);
+		response.readEntity(Boolean.class);
 		response.close();
 	}
 
