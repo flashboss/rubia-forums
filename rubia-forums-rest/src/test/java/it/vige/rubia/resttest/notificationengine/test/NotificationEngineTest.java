@@ -14,7 +14,9 @@
 package it.vige.rubia.resttest.notificationengine.test;
 
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
+import static org.jboss.logging.Logger.getLogger;
 
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -26,8 +28,11 @@ public class NotificationEngineTest extends RestCaller {
 	private final static String url = "http://localhost:8080/rubia-forums-rest/services/notification/";
 	private final static String authorization = "Basic cm9vdDpndG4=";
 
+	private static Logger log = getLogger(NotificationEngineTest.class);
+
 	@BeforeAll
 	public static void setUp() {
+		log.debug("started test");
 		get(url + "setFrom/auser", authorization);
 	}
 
@@ -38,6 +43,7 @@ public class NotificationEngineTest extends RestCaller {
 
 	@AfterAll
 	public static void stop() {
+		log.debug("stopped test");
 		get(url + "stop", authorization);
 	}
 }

@@ -40,7 +40,6 @@ public class RestForumsSearchModule implements ForumsSearchModule {
 	@Produces(APPLICATION_JSON)
 	@Override
 	public ResultPage<PostBean> findPosts(SearchCriteria criteria) throws ModuleException {
-		// TODO Auto-generated method stub
 		return forumsSearchModule.findPosts(criteria);
 	}
 
@@ -50,7 +49,6 @@ public class RestForumsSearchModule implements ForumsSearchModule {
 	@Produces(APPLICATION_JSON)
 	@Override
 	public ResultPage<TopicBean> findTopics(SearchCriteria criteria) throws ModuleException {
-		// TODO Auto-generated method stub
 		return forumsSearchModule.findTopics(criteria);
 	}
 
