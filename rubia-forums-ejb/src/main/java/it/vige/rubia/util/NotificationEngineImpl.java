@@ -124,7 +124,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 
 			Locale locale = getDefault();
 			ClassLoader ldr = currentThread().getContextClassLoader();
-			ResourceBundle bundle = getBundle("Notifications", locale, ldr);
+			ResourceBundle bundle = getBundle("notifications.Notifications", locale, ldr);
 
 			// Create task
 			NotificationTask task = new NotificationTask(absViewURL, absReplyURL, postId, mode, bundle);
