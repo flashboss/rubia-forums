@@ -497,7 +497,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			post.setTopic(topicEntity);
 			em.persist(post);
 
-			notificationEngine.scheduleForNotification(post.getId(), MODE_POST);
+			notificationEngine.schedule(post.getId(), MODE_POST, "", "");
 			em.flush();
 			return PostToPostBean.apply(post);
 		} catch (Exception e) {
@@ -576,7 +576,7 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			em.merge(topicEntity);
 			forum.addPostSize();
 			em.merge(ForumBeanToForum.apply(forum));
-			notificationEngine.scheduleForNotification(post.getId(), MODE_REPLY);
+			notificationEngine.schedule(post.getId(), MODE_REPLY, "", "");
 			em.flush();
 			return PostToPostBean.apply(post);
 		} catch (Exception e) {
@@ -1194,12 +1194,11 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 				throw new ModuleException("forum must not be null");
 			}
 
-			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
-			Poster posterNew = PosterBeanToPoster.apply(poster);
-			if (posterOld == null) {
+			if (poster.getId() == null) {
+				Poster posterNew = PosterBeanToPoster.apply(poster);
 				em.persist(posterNew);
+				poster.setId(posterNew.getId());
 			}
-			em.merge(posterNew);
 
 			ForumWatch forumWatch = new ForumWatch();
 			forumWatch.setPoster(em.find(Poster.class, poster.getId()));

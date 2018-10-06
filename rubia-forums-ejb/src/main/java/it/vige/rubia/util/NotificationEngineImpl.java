@@ -107,10 +107,6 @@ public class NotificationEngineImpl implements NotificationEngine {
 		this.from = from;
 	}
 
-	public void scheduleForNotification(Integer postId, int mode) {
-		// TODO: IMPLEMENT NOTIFICATION FOR STANDALONE VERSION OF FORUMS.
-	}
-
 	public void schedule(Integer postId, int mode, String absViewURL, String absReplyURL) {
 		try {
 
