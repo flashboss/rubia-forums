@@ -13,8 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.ui.action;
 
-import static it.vige.rubia.PortalUtil.createMessage;
-import static it.vige.rubia.PortalUtil.getPoster;
+import static it.vige.rubia.util.PortalUtil.createMessage;
+import static it.vige.rubia.util.PortalUtil.getPoster;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;

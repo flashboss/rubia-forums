@@ -14,8 +14,8 @@
 package it.vige.rubia.ui;
 
 import static it.vige.rubia.Constants.ERROR;
-import static it.vige.rubia.PortalUtil.getGuestPoster;
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getGuestPoster;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.auth.User.INFO_USER_LAST_LOGIN_DATE;
 import static it.vige.rubia.feeds.FeedConstants.GLOBAL;
 import static java.lang.Long.valueOf;

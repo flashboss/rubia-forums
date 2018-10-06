@@ -16,7 +16,10 @@ package it.vige.rubia.util;
 import static it.vige.rubia.Constants.WATCH_MODE_EMBEDDED;
 import static it.vige.rubia.Constants.WATCH_MODE_LINKED;
 import static it.vige.rubia.Constants.WATCH_MODE_NONE;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static it.vige.rubia.Constants.userNA;
+import static java.lang.Thread.currentThread;
+import static java.util.Locale.getDefault;
+import static java.util.ResourceBundle.getBundle;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.io.StringWriter;
@@ -30,7 +33,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import javax.faces.component.UIViewRoot;
 import javax.inject.Named;
 import javax.mail.Address;
 import javax.mail.Message.RecipientType;
@@ -50,7 +52,6 @@ import org.jboss.logging.Logger;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.ModuleException;
-import it.vige.rubia.PortalUtil;
 import it.vige.rubia.auth.ForumsACLProvider;
 import it.vige.rubia.auth.UIContext;
 import it.vige.rubia.auth.User;
@@ -72,7 +73,7 @@ import it.vige.rubia.dto.WatchBean;
 public class NotificationEngineImpl implements NotificationEngine {
 
 	private static Logger log = getLogger(NotificationEngineImpl.class);
-	
+
 	@EJB
 	private ForumsACLProvider forumsACLProvider;
 
@@ -121,10 +122,9 @@ public class NotificationEngineImpl implements NotificationEngine {
 			// Too bad for now we support notifications sent in the locale of
 			// the poster :-(
 
-			UIViewRoot uiRoot = getCurrentInstance().getViewRoot();
-			Locale locale = uiRoot.getLocale();
-			ClassLoader ldr = Thread.currentThread().getContextClassLoader();
-			ResourceBundle bundle = ResourceBundle.getBundle("ResourceJSF", locale, ldr);
+			Locale locale = getDefault();
+			ClassLoader ldr = currentThread().getContextClassLoader();
+			ResourceBundle bundle = getBundle("Notifications", locale, ldr);
 
 			// Create task
 			NotificationTask task = new NotificationTask(absViewURL, absReplyURL, postId, mode, bundle);
@@ -222,7 +222,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 						User watcher = userModule.findUserById(watch.getPoster().getUserId());
 						Object watcherId = watcher.getId();
 
-						if (!notifieds.contains(watcherId) && !watcherId.equals(PortalUtil.getUserNA().getId())) {
+						if (!notifieds.contains(watcherId) && !watcherId.equals(userNA.getId())) {
 
 							boolean securityFlag = true;
 
@@ -295,7 +295,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 
 							User watcher = userModule.findUserById(watch.getPoster().getUserId());
 							Object watcherId = watcher.getId();
-							if (!notifieds.contains(watcherId) && !watcherId.equals(PortalUtil.getUserNA().getId())) {
+							if (!notifieds.contains(watcherId) && !watcherId.equals(userNA.getId())) {
 								boolean securityFlag = true;
 
 								// Creating security context for the user

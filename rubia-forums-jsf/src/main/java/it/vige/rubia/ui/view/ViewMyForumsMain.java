@@ -13,7 +13,7 @@
  ******************************************************************************/
 package it.vige.rubia.ui.view;
 
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.truncate;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static it.vige.rubia.ui.JSFUtil.handleException;

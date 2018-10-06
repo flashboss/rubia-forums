@@ -14,7 +14,7 @@
 package it.vige.rubia.auth;
 
 //core java
-import static it.vige.rubia.PortalUtil.getUser;
+import static it.vige.rubia.util.PortalUtil.getUser;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
