@@ -12,6 +12,15 @@ public class UserBean implements User, Serializable {
 
 	private String userName;
 
+	public UserBean() {
+
+	}
+
+	public UserBean(User user) {
+		id = user.getId();
+		userName = user.getUserName();
+	}
+
 	@Override
 	public String getUserName() {
 		return userName;

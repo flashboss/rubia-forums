@@ -13,26 +13,16 @@
  ******************************************************************************/
 package it.vige.rubia.resttest.usermodule.test;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.logging.Logger.getLogger;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.vige.rubia.auth.User;
-import it.vige.rubia.dto.PostBean;
+import it.vige.rubia.dto.UserBean;
 import it.vige.rubia.resttest.RestCaller;
-import it.vige.rubia.search.ResultPage;
-import it.vige.rubia.search.SearchCriteria;
 
 public class UserTest extends RestCaller {
 
@@ -41,43 +31,27 @@ public class UserTest extends RestCaller {
 
 	private static Logger log = getLogger(UserTest.class);
 
-	@BeforeAll
-	public static void setUp() {
-		log.debug("started test");
-	}
+	private final static String DEMO_USER = "demo";
+	private final static String JOHN_USER = "john";
 
 	@Test
-	public void findAndUpdate() {
-		SearchCriteria searchCriteria = new SearchCriteria();
-		Response response = post(url + "findPosts", authorization, searchCriteria);
-		ResultPage<PostBean> posts = response.readEntity(new GenericType<ResultPage<PostBean>>() {
-		});
+	public void find() {
+		log.info("find user start");
+		Response response = get(url + "findUserByUserName/" + DEMO_USER, authorization);
+		UserBean user = response.readEntity(UserBean.class);
+		assertEquals(DEMO_USER, user.getId());
+		assertEquals(DEMO_USER, user.getUserName());
+		response = get(url + "findUserByUserName/" + JOHN_USER, authorization);
+		user = response.readEntity(UserBean.class);
+		assertEquals(JOHN_USER, user.getId());
+		assertEquals(JOHN_USER, user.getUserName());
+		response = get(url + "findUserById/" + user.getId(), authorization);
+		user = response.readEntity(UserBean.class);
+		assertEquals(JOHN_USER, user.getId());
+		assertEquals(JOHN_USER, user.getUserName());
+		response = get(url + "isGuest", authorization);
+		boolean isGuest = response.readEntity(Boolean.class);
+		assertEquals(false, isGuest);
 		response.close();
-	}
-
-	@GET
-	@Path("findUserByUserName/{userName}")
-	@Produces(APPLICATION_JSON)
-	public User findUserByUserName(@PathParam("userName") String arg0) throws IllegalArgumentException {
-		return null;
-	}
-
-	@GET
-	@Path("findUserById/{id}")
-	@Produces(APPLICATION_JSON)
-	public User findUserById(@PathParam("id") String arg0) throws IllegalArgumentException {
-		return null;
-	}
-
-	@GET
-	@Path("isGuest")
-	@Produces(APPLICATION_JSON)
-	public boolean isGuest() {
-		return false;
-	}
-
-	@AfterAll
-	public static void stop() {
-		log.debug("stopped test");
 	}
 }
