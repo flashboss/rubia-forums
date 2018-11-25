@@ -553,12 +553,13 @@ public class ForumsModuleImpl implements ForumsModule, Converters {
 			TopicBean topic = postBean.getTopic();
 			ForumBean forum = topic.getForum();
 
-			Poster posterOld = em.find(Poster.class, findPosterByUserId(poster.getUserId()).getId());
-			Poster posterNew = PosterBeanToPoster.apply(poster);
-			if (posterOld == null) {
-				em.persist(posterNew);
+			Poster posterEntity = PosterBeanToPoster.apply(poster);
+			if (poster.getId() == null || em.find(Poster.class, poster.getId()) == null) {
+				em.persist(posterEntity);
+				poster.setId(posterEntity.getId());
 			}
-			em.merge(posterNew);
+			em.merge(posterEntity);
+			
 			Post post = new Post();
 			post.setMessage(MessageBeanToMessage.apply(message));
 			post.setCreateDate(creationDate);
