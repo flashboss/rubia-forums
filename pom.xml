@@ -51,8 +51,8 @@
 	</developers>
 
 	<properties>
-		<maven.compiler.source>10</maven.compiler.source>
-		<maven.compiler.target>10</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		
@@ -66,22 +66,22 @@
 		<maven.source.plugin.version>3.0.1</maven.source.plugin.version>
 		<maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
 		<maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
-		<maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
+		<maven.surefire.plugin.version>3.0.0-M1</maven.surefire.plugin.version>
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>15.0.0.Alpha1-SNAPSHOT</wildfly.version>
-		<wildfly.maven.plugin.version>1.2.2.Final</wildfly.maven.plugin.version>
+		<wildfly.version>15.0.0.CR1-SNAPSHOT</wildfly.version>
+		<wildfly.maven.plugin.version>2.0.0.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP12</picketlink.version>
 		<picketbox.version>5.0.3.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
 		<lucene.version>5.5.5</lucene.version>
-		<hibernate.version>5.3.6.Final</hibernate.version>
+		<hibernate.version>5.3.7.Final</hibernate.version>
 		<hibernate.search.version>5.10.3.Final</hibernate.search.version>
-		<rome.version>1.11.0</rome.version>
+		<rome.version>1.11.1</rome.version>
 		
-		<resteasy.version>3.6.1.Final</resteasy.version>
-		<junit.version>5.2.0</junit.version>
+		<resteasy.version>3.6.2.Final</resteasy.version>
+		<junit.version>5.3.1</junit.version>
 		<junit.surefire.version>1.3.0-M1</junit.surefire.version>
 		<junit.platform.runner.version>1.3.0-M1</junit.platform.runner.version>
 		<org.jboss.arquillian.version>1.4.0.Final</org.jboss.arquillian.version>

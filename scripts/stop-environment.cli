@@ -1,0 +1,13 @@
+/subsystem=ejb3/application-security-domain=rubia-domain:remove
+/subsystem=elytron/filesystem-realm=rubiaFsRealm:remove-identity(identity=root)
+/subsystem=elytron/filesystem-realm=rubiaFsRealm:remove-identity(identity=demo)
+/subsystem=elytron/filesystem-realm=rubiaFsRealm:remove-identity(identity=john)
+/subsystem=elytron/filesystem-realm=rubiaFsRealm:remove-identity(identity=mary)
+/subsystem=undertow/application-security-domain=rubia-domain:remove
+/subsystem=elytron/http-authentication-factory=rubia-fs-http-auth:remove
+/subsystem=elytron/security-domain=rubiaFsSD:remove
+/subsystem=elytron/filesystem-realm=rubiaFsRealm:remove
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:remove
+/subsystem=elytron/policy=jacc:remove
+/subsystem=security:write-attribute(name=initialize-jacc,value=true)
+/subsystem=datasources/data-source="java:jdbc/forums_mdefault":remove{ "outcome" => "failed", "failure-description" =>"JBAS014749: Operationhandler failed: null", "rolled-back"=> true }
