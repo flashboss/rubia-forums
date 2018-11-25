@@ -119,8 +119,8 @@
 						<artifactId>wildfly-maven-plugin</artifactId>
 						<version>${wildfly.maven.plugin.version}</version>
 						<configuration>
-							<jvm-args>${JAVA_OPTS}
-							</jvm-args>
+							<java-opts>${JAVA_OPTS}
+							</java-opts>
 						</configuration>
 						<executions>
 							<execution>
