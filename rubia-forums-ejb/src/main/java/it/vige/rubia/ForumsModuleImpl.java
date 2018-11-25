@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,6 +41,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 
 import it.vige.rubia.auth.User;
@@ -81,6 +83,8 @@ import it.vige.rubia.util.NotificationEngine;
  */
 
 @Stateless
+@RolesAllowed({ "admin", "admins", "user", "users" })
+@SecurityDomain("rubia-domain")
 public class ForumsModuleImpl implements ForumsModule, Converters {
 
 	private static Logger log = getLogger(ForumsModuleImpl.class);

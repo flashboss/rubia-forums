@@ -19,11 +19,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Named;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 import org.picketlink.idm.IdentityManagementException;
 import org.picketlink.idm.IdentityManager;
@@ -43,6 +45,8 @@ import it.vige.rubia.auth.UserModule;
 @Named("userModule")
 @Startup
 @Singleton
+@RolesAllowed({ "admin", "admins", "user", "users" })
+@SecurityDomain("rubia-domain")
 public class JBossUserModule implements UserModule, Serializable {
 
 	private static final long serialVersionUID = -8560321558665446098L;

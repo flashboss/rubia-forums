@@ -16,12 +16,14 @@ package it.vige.rubia.wildfly.auth;
 import static org.jboss.logging.Logger.getLogger;
 import static org.jboss.security.acl.BasicACLPermission.READ;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 import org.jboss.security.acl.ACLProvider;
 import org.jboss.security.acl.ACLProviderImpl;
@@ -37,6 +39,8 @@ import it.vige.rubia.auth.UIContext;
 
 @Named("forumsACLProvider")
 @Stateless
+@RolesAllowed({ "admin", "admins", "user", "users" })
+@SecurityDomain("rubia-domain")
 public class JBossACLProvider implements ForumsACLProvider {
 
 	private static final long serialVersionUID = -5490482161183021121L;

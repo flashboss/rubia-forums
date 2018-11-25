@@ -170,5 +170,11 @@
 			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.ejb3</groupId>
+			<artifactId>jboss-ejb3-ext-api</artifactId>
+			<version>${org.jboss.ejb.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>

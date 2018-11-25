@@ -15,8 +15,11 @@ package it.vige.rubia.wildfly.auth;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+
+import org.jboss.ejb3.annotation.SecurityDomain;
 
 import it.vige.rubia.auth.ProfileInfo;
 import it.vige.rubia.auth.User;
@@ -25,6 +28,8 @@ import it.vige.rubia.dto.UserPropertyBean;
 
 @Named("userProfileModule")
 @Stateless
+@RolesAllowed({ "admin", "admins", "user", "users" })
+@SecurityDomain("rubia-domain")
 public class JBossUserProfileModule implements UserProfileModule {
 
 	@Override
