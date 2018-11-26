@@ -45,7 +45,7 @@ import it.vige.rubia.auth.UserModule;
 @Named("userModule")
 @Startup
 @Singleton
-@RolesAllowed({ "admin", "admins", "user", "users" })
+@RolesAllowed({ "admin", "user", "guest" })
 @SecurityDomain("rubia-domain")
 public class JBossUserModule implements UserModule, Serializable {
 
