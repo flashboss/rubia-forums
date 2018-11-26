@@ -168,7 +168,7 @@
 								</goals>
 								<configuration>
 									<scripts>
-										<script>../scripts/start-environment.cli</script>
+										<script>../rubia-forums-scripts/start-environment.cli</script>
 									</scripts>
 								</configuration>
 							</execution>
@@ -198,7 +198,7 @@
 								<configuration>
 									<afterDeployment>
 										<scripts>
-											<script>../scripts/clean-environment.cli</script>
+											<script>../rubia-forums-scripts/clean-environment.cli</script>
 										</scripts>
 									</afterDeployment>
 								</configuration>

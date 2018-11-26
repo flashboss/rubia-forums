@@ -39,7 +39,7 @@ import it.vige.rubia.auth.UIContext;
 
 @Named("forumsACLProvider")
 @Stateless
-@RolesAllowed({ "admin", "admins", "user", "users" })
+@RolesAllowed({ "admin", "user", "guest" })
 @SecurityDomain("rubia-domain")
 public class JBossACLProvider implements ForumsACLProvider {
 
@@ -71,11 +71,11 @@ public class JBossACLProvider implements ForumsACLProvider {
 			resource = new ForumsACLResource(aclContextStr);
 		String roleId = "";
 		if (ejbContext.getCallerPrincipal().getName().equals("anonymous"))
-			roleId = "guests";
-		else if (ejbContext.isCallerInRole("admins") || ejbContext.isCallerInRole("admin"))
+			roleId = "guest";
+		else if (ejbContext.isCallerInRole("admin"))
 			return true;
-		else if (ejbContext.isCallerInRole("users") || ejbContext.isCallerInRole("user"))
-			roleId = "users";
+		else if (ejbContext.isCallerInRole("user"))
+			roleId = "user";
 		Identity identity = new SimpleIdentity(roleId);
 		boolean authorized = false;
 		try {
@@ -102,11 +102,11 @@ public class JBossACLProvider implements ForumsACLProvider {
 			resource = new ForumsACLResource(aclContextStr);
 		String roleId = "";
 		if (ejbContext.getCallerPrincipal().getName().equals("anonymous"))
-			roleId = "guests";
-		else if (ejbContext.isCallerInRole("admins") || ejbContext.isCallerInRole("admin"))
+			roleId = "guest";
+		else if (ejbContext.isCallerInRole("admin"))
 			return true;
-		else if (ejbContext.isCallerInRole("users") || ejbContext.isCallerInRole("user"))
-			roleId = "users";
+		else if (ejbContext.isCallerInRole("user"))
+			roleId = "user";
 		Identity identity = new SimpleIdentity(roleId);
 		boolean authorized = false;
 		try {

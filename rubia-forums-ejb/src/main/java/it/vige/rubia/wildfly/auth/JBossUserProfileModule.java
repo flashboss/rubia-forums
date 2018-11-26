@@ -28,7 +28,7 @@ import it.vige.rubia.dto.UserPropertyBean;
 
 @Named("userProfileModule")
 @Stateless
-@RolesAllowed({ "admin", "admins", "user", "users" })
+@RolesAllowed({ "admin", "user", "guest" })
 @SecurityDomain("rubia-domain")
 public class JBossUserProfileModule implements UserProfileModule {
 

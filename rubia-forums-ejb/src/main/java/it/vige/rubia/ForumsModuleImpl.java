@@ -83,7 +83,7 @@ import it.vige.rubia.util.NotificationEngine;
  */
 
 @Stateless
-@RolesAllowed({ "admin", "admins", "user", "users" })
+@RolesAllowed({ "admin", "user", "guest" })
 @SecurityDomain("rubia-domain")
 public class ForumsModuleImpl implements ForumsModule, Converters {
 
