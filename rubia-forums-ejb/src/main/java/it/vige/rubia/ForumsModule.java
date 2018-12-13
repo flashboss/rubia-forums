@@ -263,12 +263,7 @@ public interface ForumsModule {
 	/**
 	 * DOCUMENT_ME
 	 * 
-	 * @param topic        DOCUMENT_ME
-	 * @param forum        DOCUMENT_ME
-	 * @param message      DOCUMENT_ME
-	 * @param creationTime DOCUMENT_ME
-	 * @param poster       DOCUMENT_ME
-	 * @param attachments  DOCUMENT_ME
+	 * @param post DOCUMENT_ME
 	 * @return DOCUMENT_ME
 	 * @throws ModuleException DOCUMENT_ME
 	 */
