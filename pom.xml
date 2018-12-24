@@ -67,7 +67,7 @@
 		<maven.source.plugin.version>3.0.1</maven.source.plugin.version>
 		<maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
 		<maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
-		<maven.surefire.plugin.version>3.0.0-M1</maven.surefire.plugin.version>
+		<maven.surefire.plugin.version>3.0.0-M2</maven.surefire.plugin.version>
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
