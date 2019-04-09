@@ -18,12 +18,12 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on WildFly 16.0.0.Final.
+This draft version has been tested on WildFly 17.0.0.Beta1-SNAPSHOT.
 
 Requirements
 ------------
 
-- JDK 11
+- JDK 12
 - Maven 3.6.x
 
 
@@ -126,4 +126,4 @@ To debug the application using Eclipse you can put this parameter:
 
 It will start on the 5005 port.
 
-The tests are done using Firefox 63.0.3 (64-bit) on WildFly 16.0.0.Final
+The tests are done using Firefox 63.0.3 (64-bit) on WildFly 17.0.0.Beta1-SNAPSHOT
