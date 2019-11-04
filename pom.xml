@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>2.6.1-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -38,7 +38,7 @@
 	<scm>
 		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
 		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
-		<tag>2.6.X-SNAPSHOT</tag>
+		<tag>3.0.X-SNAPSHOT</tag>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
 	</scm>
 	<developers>
@@ -57,7 +57,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		
-		<spec.javaee.version>8.0</spec.javaee.version>
+		<spec.jakartaee.version>8.0.0</spec.jakartaee.version>
 		<primefaces.version>7.0</primefaces.version>
 		<guava.version>28.1-jre</guava.version>
 		<commons.text.version>1.8</commons.text.version>
@@ -71,7 +71,7 @@
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>17.0.0.Final</wildfly.version>
+		<wildfly.version>17.0.1.Final</wildfly.version>
 		<wildfly.maven.plugin.version>2.0.1.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP12</picketlink.version>
 		<picketbox.version>5.0.3.Final</picketbox.version>
@@ -159,9 +159,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>${spec.javaee.version}</version>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>${spec.jakartaee.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

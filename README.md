@@ -1,6 +1,6 @@
 Rubia Forums
 =============
-Is a javaee 8 based application designed as standalone application, portlet, service layer and api.
+Is a jakartaee 8 based application designed as standalone application, portlet, service layer and api.
 It is an open source project. This means you can download the Rubia Forums package, throw it into your deploy directory and gain fully featured Forums Application or Portlet.
 
 It covers the following features:
@@ -18,7 +18,7 @@ It covers the following features:
 - E-mail notifications.
 - RSS/ATOM feeds.
 
-This draft version has been tested on WildFly 17.0.0.Final.
+This draft version has been tested on WildFly 17.0.1.Final.
 
 Requirements
 ------------
@@ -126,4 +126,4 @@ To debug the application using Eclipse you can put this parameter:
 
 It will start on the 5005 port.
 
-The tests are done using Firefox 70.0.1 (64-bit) on WildFly 17.0.0.Final
+The tests are done using Firefox 70.0.1 (64-bit) on WildFly 17.0.1.Final
