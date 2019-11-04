@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>3.0.1-SNAPSHOT</version>
+	<version>3.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -38,7 +38,7 @@
 	<scm>
 		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
 		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
-		<tag>3.0.X-SNAPSHOT</tag>
+		<tag>3.1.X-SNAPSHOT</tag>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
 	</scm>
 	<developers>
@@ -71,18 +71,18 @@
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>17.0.1.Final</wildfly.version>
+		<wildfly.version>18.0.0.Final</wildfly.version>
 		<wildfly.maven.plugin.version>2.0.1.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP12</picketlink.version>
 		<picketbox.version>5.0.3.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
 		<lucene.version>5.5.5</lucene.version>
-		<hibernate.version>5.3.10.Final</hibernate.version>
-		<hibernate.search.version>5.10.5.Final</hibernate.search.version>
+		<hibernate.version>5.3.12.Final</hibernate.version>
+		<hibernate.search.version>5.10.7.Final</hibernate.search.version>
 		<org.jboss.ejb.api.version>2.3.0.Final</org.jboss.ejb.api.version>
 		<rome.version>1.12.2</rome.version>
 		
-		<resteasy.version>3.7.0.Final</resteasy.version>
+		<resteasy.version>3.9.0.Final</resteasy.version>
 		<junit.version>5.5.2</junit.version>
 		<junit.surefire.version>1.3.2</junit.surefire.version>
 		<junit.platform.runner.version>1.5.2</junit.platform.runner.version>
