@@ -265,6 +265,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${jboss.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.rometools</groupId>
 			<artifactId>rome-fetcher</artifactId>
 			<version>${rome.version}</version>
