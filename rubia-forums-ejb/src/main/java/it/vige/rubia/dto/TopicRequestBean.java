@@ -2,8 +2,6 @@ package it.vige.rubia.dto;
 
 import java.io.Serializable;
 
-import it.vige.rubia.dto.TopicBean;
-
 public class TopicRequestBean implements Serializable {
 
 	private static final long serialVersionUID = 6018210313550988529L;
