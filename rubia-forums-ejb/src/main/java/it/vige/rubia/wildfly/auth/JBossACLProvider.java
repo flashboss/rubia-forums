@@ -16,12 +16,12 @@ package it.vige.rubia.wildfly.auth;
 import static org.jboss.logging.Logger.getLogger;
 import static org.jboss.security.acl.BasicACLPermission.READ;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
@@ -49,7 +49,7 @@ public class JBossACLProvider implements ForumsACLProvider {
 	@PersistenceContext(unitName = "forums")
 	private EntityManager em;
 
-	@javax.annotation.Resource
+	@jakarta.annotation.Resource
 	private EJBContext ejbContext;
 
 	private ACLProvider provider = new ACLProviderImpl();

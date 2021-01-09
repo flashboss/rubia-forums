@@ -17,7 +17,7 @@ import it.vige.rubia.ModuleException;
 import it.vige.rubia.dto.PostBean;
 import it.vige.rubia.dto.TopicBean;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 @Local
 public interface ForumsSearchModule {

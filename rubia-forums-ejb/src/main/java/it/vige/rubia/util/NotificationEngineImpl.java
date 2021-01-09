@@ -34,22 +34,22 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import javax.ejb.EJB;
-import javax.ejb.Singleton;
-import javax.inject.Named;
-import javax.mail.Address;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Singleton;
+import jakarta.inject.Named;
+import jakarta.mail.Address;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
-import javax.transaction.Synchronization;
-import javax.transaction.Transaction;
-import javax.transaction.TransactionManager;
+import jakarta.transaction.Synchronization;
+import jakarta.transaction.Transaction;
+import jakarta.transaction.TransactionManager;
 
 import org.jboss.logging.Logger;
 

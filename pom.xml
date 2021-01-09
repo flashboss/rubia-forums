@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -51,110 +51,44 @@
 	</developers>
 
 	<properties>
-		<maven.compiler.source>13</maven.compiler.source>
-		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>15</maven.compiler.source>
+		<maven.compiler.target>15</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		
-		<spec.jakartaee.version>8.0.0</spec.jakartaee.version>
-		<primefaces.version>7.0</primefaces.version>
-		<guava.version>28.1-jre</guava.version>
-		<commons.text.version>1.8</commons.text.version>
+		<spec.jakartaee.version>9.0.0</spec.jakartaee.version>
+		<primefaces.version>8.0</primefaces.version>
+		<guava.version>30.1-jre</guava.version>
+		<commons.text.version>1.9</commons.text.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
-		<maven.war.plugin.version>3.2.3</maven.war.plugin.version>
-		<maven.ejb.plugin.version>3.0.1</maven.ejb.plugin.version>
-		<maven.source.plugin.version>3.1.0</maven.source.plugin.version>
-		<maven.javadoc.plugin.version>3.1.1</maven.javadoc.plugin.version>
+		<maven.war.plugin.version>3.3.1</maven.war.plugin.version>
+		<maven.ejb.plugin.version>3.1.0</maven.ejb.plugin.version>
+		<maven.source.plugin.version>3.2.1</maven.source.plugin.version>
+		<maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
 		<maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
-		<maven.surefire.plugin.version>3.0.0-M3</maven.surefire.plugin.version>
+		<maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
-		<ejb.version>3.2</ejb.version>
+		<ejb.version>4.0</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>18.0.0.Final</wildfly.version>
-		<wildfly.maven.plugin.version>2.0.1.Final</wildfly.maven.plugin.version>
+		<wildfly.version>21.0.1.Final</wildfly.version>
+		<wildfly.maven.plugin.version>2.0.2.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP12</picketlink.version>
 		<picketbox.version>5.0.3.Final</picketbox.version>
 		<picketbox.commons.version>1.0.0.final</picketbox.commons.version>
 		<lucene.version>5.5.5</lucene.version>
-		<hibernate.version>5.3.12.Final</hibernate.version>
+		<hibernate.version>5.4.27.Final</hibernate.version>
 		<hibernate.search.version>5.10.7.Final</hibernate.search.version>
 		<org.jboss.ejb.api.version>2.3.0.Final</org.jboss.ejb.api.version>
-		<rome.version>1.12.2</rome.version>
+		<rome.version>1.15.0</rome.version>
 		
 		<resteasy.version>3.9.0.Final</resteasy.version>
-		<junit.version>5.5.2</junit.version>
+		<junit.version>5.7.0</junit.version>
 		<junit.surefire.version>1.3.2</junit.surefire.version>
-		<junit.platform.runner.version>1.5.2</junit.platform.runner.version>
-		<org.jboss.arquillian.version>1.5.0.Final</org.jboss.arquillian.version>
+		<junit.platform.runner.version>1.7.0</junit.platform.runner.version>
+		<org.jboss.arquillian.version>1.6.0.Final</org.jboss.arquillian.version>
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
 		<selenium.version>3.13.0</selenium.version>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>redhat-all-public-repository-group</id>
-			<name>Redhat All Public Maven Repository Group</name>
-			<url>http://maven.repository.redhat.com/techpreview/all/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>redhat-early-public-repository-group</id>
-			<name>Redhat Early Public Maven Repository Group</name>
-			<url>https://maven.repository.redhat.com/nexus/content/groups/product-earlyaccess/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
