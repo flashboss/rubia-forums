@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.ejb.Local;
+import javax.ejb.Local;
 
 import it.vige.rubia.auth.User;
 import it.vige.rubia.dto.AttachmentBean;

@@ -17,8 +17,8 @@ import static it.vige.rubia.Constants.TOPIC_UNLOCKED;
 import static it.vige.rubia.util.NotificationEngine.MODE_POST;
 import static it.vige.rubia.util.NotificationEngine.MODE_REPLY;
 import static java.util.stream.Collectors.toList;
-import static jakarta.persistence.TemporalType.DATE;
-import static jakarta.persistence.TemporalType.TIMESTAMP;
+import static javax.persistence.TemporalType.DATE;
+import static javax.persistence.TemporalType.TIMESTAMP;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
@@ -31,15 +31,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.EJB;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
