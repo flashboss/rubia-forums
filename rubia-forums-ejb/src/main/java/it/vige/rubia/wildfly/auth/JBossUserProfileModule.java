@@ -15,9 +15,9 @@ package it.vige.rubia.wildfly.auth;
 
 import java.util.Map;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
-import javax.inject.Named;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 

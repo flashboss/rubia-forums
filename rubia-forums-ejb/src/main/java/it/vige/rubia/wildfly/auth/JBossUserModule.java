@@ -18,12 +18,12 @@ import static org.jboss.logging.Logger.getLogger;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJBContext;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
+import jakarta.inject.Named;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
@@ -53,7 +53,7 @@ public class JBossUserModule implements UserModule, Serializable {
 	private static Logger log = getLogger(JBossUserModule.class);
 	private IdentityManager identityManager;
 
-	@javax.annotation.Resource
+	@jakarta.annotation.Resource
 	private EJBContext ejbContext;
 
 	@PostConstruct
