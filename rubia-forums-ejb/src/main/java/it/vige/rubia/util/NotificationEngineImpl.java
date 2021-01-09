@@ -23,6 +23,7 @@ import static it.vige.rubia.auth.User.INFO_USER_NAME_GIVEN;
 import static java.lang.Thread.currentThread;
 import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
+import static javax.rmi.PortableRemoteObject.narrow;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.io.StringWriter;
@@ -46,7 +47,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.rmi.PortableRemoteObject;
 import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
@@ -359,8 +359,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 			Session session = null;
 
 			try {
-				session = (Session) PortableRemoteObject.narrow(new InitialContext().lookup("java:Mail"),
-						Session.class);
+				session = (Session) narrow(new InitialContext().lookup("java:Mail"), Session.class);
 				try {
 
 					StringBuffer buffer = null;
