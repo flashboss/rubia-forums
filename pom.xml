@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -89,24 +89,6 @@
 		<org.jboss.arquillian.drone.version>2.5.1</org.jboss.arquillian.drone.version>
 		<selenium.version>3.13.0</selenium.version>
 	</properties>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/
-            </url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
