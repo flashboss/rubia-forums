@@ -26,10 +26,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;

@@ -23,6 +23,7 @@ import static it.vige.rubia.auth.User.INFO_USER_NAME_GIVEN;
 import static java.lang.Thread.currentThread;
 import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
+import static javax.rmi.PortableRemoteObject.narrow;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.io.StringWriter;
@@ -34,22 +35,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import jakarta.ejb.EJB;
-import jakarta.ejb.Singleton;
-import jakarta.inject.Named;
-import jakarta.mail.Address;
-import jakarta.mail.Message.RecipientType;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.rmi.PortableRemoteObject;
-import jakarta.transaction.Synchronization;
-import jakarta.transaction.Transaction;
-import jakarta.transaction.TransactionManager;
 
 import org.jboss.logging.Logger;
 
@@ -68,6 +55,19 @@ import it.vige.rubia.dto.TopicBean;
 import it.vige.rubia.dto.UserBean;
 import it.vige.rubia.dto.UserPropertyBean;
 import it.vige.rubia.dto.WatchBean;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Singleton;
+import jakarta.inject.Named;
+import jakarta.mail.Address;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Synchronization;
+import jakarta.transaction.Transaction;
+import jakarta.transaction.TransactionManager;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet</a>
@@ -359,8 +359,7 @@ public class NotificationEngineImpl implements NotificationEngine {
 			Session session = null;
 
 			try {
-				session = (Session) PortableRemoteObject.narrow(new InitialContext().lookup("java:Mail"),
-						Session.class);
+				session = (Session) narrow(new InitialContext().lookup("java:Mail"), Session.class);
 				try {
 
 					StringBuffer buffer = null;

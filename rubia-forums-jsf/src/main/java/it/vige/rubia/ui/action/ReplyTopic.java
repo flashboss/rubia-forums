@@ -22,12 +22,12 @@ import static java.lang.Integer.parseInt;
 
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;

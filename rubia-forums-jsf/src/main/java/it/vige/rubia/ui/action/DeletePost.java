@@ -20,11 +20,11 @@ import static org.jboss.logging.Logger.getLogger;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import org.jboss.logging.Logger;
 

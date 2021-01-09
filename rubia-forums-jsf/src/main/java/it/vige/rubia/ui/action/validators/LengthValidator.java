@@ -15,16 +15,16 @@ package it.vige.rubia.ui.action.validators;
 
 import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 
 import java.util.Map;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.Validator;
+import jakarta.faces.validator.ValidatorException;
 
 /**
  * Abstract class for defining validators that check length of user input in a

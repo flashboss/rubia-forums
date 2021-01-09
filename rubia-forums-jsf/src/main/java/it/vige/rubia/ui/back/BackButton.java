@@ -13,17 +13,17 @@
  ******************************************************************************/
 package it.vige.rubia.ui.back;
 
-import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
+import static jakarta.faces.event.PhaseId.INVOKE_APPLICATION;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
-import javax.faces.event.PhaseListener;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIViewRoot;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.PhaseEvent;
+import jakarta.faces.event.PhaseId;
+import jakarta.faces.event.PhaseListener;
 
 public class BackButton implements PhaseListener {
 

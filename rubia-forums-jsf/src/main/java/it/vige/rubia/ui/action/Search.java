@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.model.ListDataModel;
+import jakarta.faces.model.SelectItem;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.dto.CategoryBean;

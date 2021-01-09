@@ -23,7 +23,7 @@ import static java.lang.Thread.currentThread;
 import static java.util.Locale.getDefault;
 import static java.util.Locale.Category.DISPLAY;
 import static java.util.ResourceBundle.getBundle;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 
 import java.io.StringWriter;
 import java.text.DecimalFormat;
@@ -32,8 +32,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
+import jakarta.faces.component.UIViewRoot;
+import jakarta.faces.context.FacesContext;
 
 import it.vige.rubia.format.render.bbcodehtml.ToHTMLConfig;
 import it.vige.rubia.format.render.bbcodehtml.ToHTMLRenderer;

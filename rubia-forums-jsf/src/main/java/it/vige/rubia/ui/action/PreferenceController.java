@@ -20,9 +20,9 @@ import it.vige.rubia.ui.view.SummaryMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.enterprise.context.SessionScoped;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.model.SelectItem;
+import jakarta.inject.Named;
 
 /*
  * Created on May 24, 2006

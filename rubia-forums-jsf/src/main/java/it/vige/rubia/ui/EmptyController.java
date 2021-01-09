@@ -16,8 +16,8 @@ package it.vige.rubia.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 /**
  * @author <a href="mailto:sohil.shah@jboss.com">Sohil Shah</a>

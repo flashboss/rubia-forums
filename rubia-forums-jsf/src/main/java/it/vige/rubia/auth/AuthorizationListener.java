@@ -18,11 +18,11 @@ import static it.vige.rubia.util.PortalUtil.getUser;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import javax.ejb.EJB;
-import javax.faces.FacesException;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import jakarta.ejb.EJB;
+import jakarta.faces.FacesException;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 /*
  * Created on May 17, 2006

@@ -21,9 +21,9 @@ import static it.vige.rubia.util.PortalUtil.getUser;
 import static java.lang.Long.valueOf;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
+import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,11 +33,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIViewRoot;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.User;

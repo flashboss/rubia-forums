@@ -19,23 +19,23 @@ import static it.vige.rubia.feeds.FeedConstants.TOPIC;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.createFeedLink;
 import static java.lang.Integer.parseInt;
-import static javax.faces.context.FacesContext.getCurrentInstance;
-import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.event.PhaseId.RESTORE_VIEW;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.event.PhaseId;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.event.PhaseId;
+import jakarta.faces.model.DataModel;
+import jakarta.faces.model.ListDataModel;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import org.jboss.logging.Logger;
 

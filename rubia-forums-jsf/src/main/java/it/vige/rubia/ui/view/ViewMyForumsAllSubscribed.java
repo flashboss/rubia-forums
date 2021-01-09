@@ -20,11 +20,11 @@ import static it.vige.rubia.ui.JSFUtil.handleException;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
