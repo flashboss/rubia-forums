@@ -255,6 +255,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<version>${primefaces.version}</version>
 		</dependency>
 		<dependency>
+    		<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+    		<artifactId>owasp-java-html-sanitizer</artifactId>
+    		<version>${sanizer.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
 			<version>${commons.text.version}</version>

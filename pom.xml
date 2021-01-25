@@ -60,6 +60,7 @@
 		<spec.jakartaee.version>8.0.0</spec.jakartaee.version>
 		<org.jboss.spec.javax.rmi.version>1.0.6.Final</org.jboss.spec.javax.rmi.version>
 		<primefaces.version>8.0</primefaces.version>
+		<sanizer.version>20180219.1</sanizer.version>
 		<guava.version>30.1-jre</guava.version>
 		<commons.text.version>1.9</commons.text.version>
 		<commons.jexl.version>2.1.1</commons.jexl.version>
@@ -72,7 +73,7 @@
 		<maven.surefire.drone.plugin.version>2.20</maven.surefire.drone.plugin.version>
 		<ejb.version>3.2</ejb.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
-		<wildfly.version>21.0.1.Final</wildfly.version>
+		<wildfly.version>22.0.0.Final</wildfly.version>
 		<wildfly.maven.plugin.version>2.0.2.Final</wildfly.maven.plugin.version>
 		<picketlink.version>2.5.5.SP12</picketlink.version>
 		<picketbox.version>5.0.3.Final</picketbox.version>
