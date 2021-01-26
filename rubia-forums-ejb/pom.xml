@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>it.vige</groupId>
 		<artifactId>rubia-forums</artifactId>
-		<version>3.1.1-SNAPSHOT</version>
+		<version>3.1.1</version>
 	</parent>
 
 	<artifactId>rubia-forums-ejb</artifactId>
@@ -114,7 +114,6 @@
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-common</artifactId>
 			<version>${picketlink.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketbox</groupId>
@@ -174,6 +173,12 @@
 			<groupId>org.jboss.ejb3</groupId>
 			<artifactId>jboss-ejb3-ext-api</artifactId>
 			<version>${org.jboss.ejb.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.rmi</groupId>
+			<artifactId>jboss-rmi-api_1.0_spec</artifactId>
+			<version>${org.jboss.spec.javax.rmi.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

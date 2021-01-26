@@ -43,7 +43,7 @@ import javax.ejb.EJB;
 import javax.interceptor.Interceptors;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;
@@ -527,7 +527,7 @@ public abstract class PostAction extends BaseController {
 		UploadedFile item = event.getFile();
 		AttachmentBean attachment = new AttachmentBean();
 		attachment.setComment(attachmentComment);
-		attachment.setContent(item.getContents());
+		attachment.setContent(item.getContent());
 		attachment.setContentType(item.getContentType());
 		attachment.setName(item.getFileName());
 		attachment.setSize(item.getSize());

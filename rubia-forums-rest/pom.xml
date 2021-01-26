@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>it.vige</groupId>
 		<artifactId>rubia-forums</artifactId>
-		<version>3.1.1-SNAPSHOT</version>
+		<version>3.1.1</version>
 	</parent>
 
 	<artifactId>rubia-forums-rest</artifactId>
@@ -89,6 +89,11 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${maven.surefire.plugin.version}</version>
 						<dependencies>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-api</artifactId>
+								<version>${maven.surefire.plugin.version}</version>
+							</dependency>
 							<dependency>
 								<groupId>org.junit.platform</groupId>
 								<artifactId>junit-platform-surefire-provider</artifactId>
