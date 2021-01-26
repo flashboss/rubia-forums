@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>it.vige</groupId>
 		<artifactId>rubia-forums</artifactId>
-		<version>3.1.1</version>
+		<version>3.1.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>rubia-forums-rest</artifactId>
