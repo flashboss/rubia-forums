@@ -283,6 +283,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
+			<classifier>jakarta</classifier>
 		</dependency>
 		<dependency>
     		<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
