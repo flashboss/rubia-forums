@@ -114,7 +114,6 @@
 			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-common</artifactId>
 			<version>${picketlink.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.picketbox</groupId>

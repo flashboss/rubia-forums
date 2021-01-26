@@ -1,4 +1,3 @@
-/subsystem=security:write-attribute(name=initialize-jacc,value=false)
 /subsystem=elytron/policy=jacc:add(jacc-policy={})
 /subsystem=elytron/filesystem-realm=rubiaFsRealm:add(path=fs-realm-users,relative-to=jboss.server.config.dir)
 /subsystem=elytron/filesystem-realm=rubiaFsRealm:add-identity(identity=root)
