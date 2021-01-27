@@ -16,7 +16,7 @@ package it.vige.rubia.resttest.usermodule.test;
 import static org.jboss.logging.Logger.getLogger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;

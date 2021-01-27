@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.AfterAll;

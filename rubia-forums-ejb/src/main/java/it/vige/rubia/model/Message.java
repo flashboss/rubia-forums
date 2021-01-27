@@ -17,9 +17,9 @@ import static org.hibernate.search.annotations.Index.YES;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 
 import org.hibernate.search.annotations.Field;
 

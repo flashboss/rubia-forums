@@ -24,12 +24,12 @@ https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->
 			<property
-				name="javax.persistence.schema-generation.database.action"
+				name="jakarta.persistence.schema-generation.database.action"
 				value="MAVEN_REPLACER_HBM2DDL_AUTO" />
 			<!-- Only format when you need to debug, because it slows things down -->
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="false" />
-			<property name="javax.persistence.sql-load-script-source"
+			<property name="jakarta.persistence.sql-load-script-source"
 				value="forums.import.sql" />
 			<property name="hibernate.search.lucene_version"
 				value="LUCENE_CURRENT" />
