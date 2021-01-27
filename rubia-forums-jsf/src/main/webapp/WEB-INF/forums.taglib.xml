@@ -14,10 +14,11 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-<facelet-taglib xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<facelet-taglib
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-facelettaglibrary_2_3.xsd"
-	version="2.3">
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facelettaglibrary_3_0.xsd"
+	version="3.0">
 	<namespace>http://www.jboss.com/products/jbossportal/forums</namespace>
 
 	<!-- function to check if the application is running in a portal environment -->
@@ -54,7 +55,8 @@
 		<function-name>formatMessage</function-name>
 		<function-class>it.vige.rubia.ui.ForumUtil</function-class>
 		<function-signature>java.lang.String
-			formatMessage(java.lang.String,boolean)</function-signature>
+			formatMessage(java.lang.String,boolean)
+		</function-signature>
 	</function>
 
 	<!-- function retrieves a message if one is found return null if nothing 
@@ -78,30 +80,27 @@
 		<function-class>it.vige.rubia.util.PortalUtil</function-class>
 		<function-signature>java.lang.String
 			getVotePercent(it.vige.rubia.dto.PollBean,it.vige.rubia.dto.PollOptionBean,
-			int)</function-signature>
+			int)
+		</function-signature>
 	</function>
 
 	<!-- access control tag -->
 	<tag>
 		<tag-name>isAllowed</tag-name>
-		<handler-class>it.vige.rubia.auth.ACLTagHandler
-		</handler-class>
+		<handler-class>it.vige.rubia.auth.ACLTagHandler</handler-class>
 	</tag>
 
 	<!-- conditional access control tag -->
 	<tag>
 		<tag-name>isAllowedChoose</tag-name>
-		<handler-class>it.vige.rubia.auth.ACLChooseTagHandler
-		</handler-class>
+		<handler-class>it.vige.rubia.auth.ACLChooseTagHandler</handler-class>
 	</tag>
 	<tag>
 		<tag-name>isAllowedWhen</tag-name>
-		<handler-class>it.vige.rubia.auth.ACLWhenTagHandler
-		</handler-class>
+		<handler-class>it.vige.rubia.auth.ACLWhenTagHandler</handler-class>
 	</tag>
 	<tag>
 		<tag-name>isAllowedOtherwise</tag-name>
-		<handler-class>it.vige.rubia.auth.ACLOtherwiseTagHandler
-		</handler-class>
+		<handler-class>it.vige.rubia.auth.ACLOtherwiseTagHandler</handler-class>
 	</tag>
 </facelet-taglib>
