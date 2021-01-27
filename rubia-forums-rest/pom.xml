@@ -135,6 +135,7 @@
 									<goal>start</goal>
 								</goals>
 								<configuration>
+									<artifactId>wildfly-preview-dist</artifactId>
 									<version>${wildfly.version}</version>
 									<addUser>admin:admin</addUser>
 								</configuration>

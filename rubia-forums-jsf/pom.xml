@@ -144,36 +144,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 									<goal>start</goal>
 								</goals>
 								<configuration>
-									<version>${wildfly.version}</version>
-									<addUser>admin:admin</addUser>
-								</configuration>
-							</execution>
-							<execution>
-								<id>init</id>
-								<phase>install</phase>
-								<goals>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<scripts>
-										<script>../rubia-forums-scripts/init.cli</script>
-									</scripts>
-								</configuration>
-							</execution>
-							<execution>
-								<id>shutdown</id>
-								<phase>install</phase>
-								<goals>
-									<goal>shutdown</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>run-wildfly</id>
-								<phase>install</phase>
-								<goals>
-									<goal>start</goal>
-								</goals>
-								<configuration>
+									<artifactId>wildfly-preview-dist</artifactId>
 									<version>${wildfly.version}</version>
 									<addUser>admin:admin</addUser>
 								</configuration>
