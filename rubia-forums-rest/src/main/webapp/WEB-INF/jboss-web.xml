@@ -16,7 +16,7 @@
 <!DOCTYPE xml>
 <jboss-web xmlns="http://www.jboss.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-web_12_0.xsd"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee http://www.jboss.org/j2ee/schema/jboss-web_12_0.xsd"
 	version="12.0">
 	<security-domain>rubia-domain</security-domain>
 </jboss-web>
