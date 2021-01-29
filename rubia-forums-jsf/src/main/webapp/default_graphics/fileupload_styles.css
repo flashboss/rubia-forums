@@ -117,3 +117,45 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui
 .ui-fileupload-row {
 	border: black;
 }
+
+input[type="file" i] {
+	border-bottom-color: rgb(79, 79, 79);
+	border-left-color: rgb(79, 79, 79);
+	border-right-color: rgb(79, 79, 79);
+	border-top-color: rgb(79, 79, 79);
+	font-family: Arial, sans-serif;
+}
+
+body .ui-button {
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(196, 196, 196);
+    color: rgb(79, 79, 79);
+	border-top-color: rgb(168, 168, 168);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(168, 168, 168);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(168, 168, 168);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(168, 168, 168);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    margin: 0;
+    outline: 0 none;
+    border-radius: 3px;
+    transition: none;
+    text-shadow: rgba(255, 255, 255, 0.7);
+}
