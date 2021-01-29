@@ -17,6 +17,10 @@
 	color: #656565;
 }
 
+* {
+    box-sizing: revert;
+}
+
 .scroll {
 	width: 800px;
 	overflow: auto;
@@ -1058,25 +1062,6 @@ a.ui-state-default {
 .ui-paginator-pages .ui-state-active {
 	pointer-events: none;
 	cursor: default !important;
-}
-
-.ui-fileupload {
-	border: 1px solid #a8a8a8;
-	background: #e6e7e8;
-	width: 59%;
-}
-
-.ui-fileupload-content {
-	border-left: none !important;
-	border-right: none !important;
-}
-
-.ui-fileupload-cancel {
-	float: right;
-}
-
-.ui-fileupload-row {
-	border: black;
 }
 
 .ui-button-icon-only {
