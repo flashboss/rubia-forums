@@ -76,7 +76,6 @@ body .ui-fileupload .ui-fileupload-content .ui-fileupload-cancel .ui-icon {
     text-transform: none;
     display: block;
     text-indent: -99999px !important;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo) !important;
     width: 16px;
 }
 
@@ -88,7 +87,6 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-cancel .ui
     text-transform: none;
     display: block;
     text-indent: -99999px;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo) !important;
 }
 
 body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui-icon {
@@ -99,7 +97,6 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui
     text-transform: none;
     display: block;
     text-indent: -99999px;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo) !important;
 }
 
 body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
@@ -110,7 +107,6 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui
     text-transform: none;
     display: block;
     text-indent: 0px;
-    background-image: url("/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo") !important;
 }
 
 .ui-fileupload {
