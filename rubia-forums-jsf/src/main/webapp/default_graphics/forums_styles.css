@@ -322,13 +322,13 @@
 .forumtablestyle .forumlistcentered {
 	width: 50px;
 	text-align: center !important;
-	border-left: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
 	height: 40px;
 }
 
 .forumtablestyle .forumlistlast {
 	width: 250px;
-	border-left: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
 	height: 40px;
 }
 
@@ -381,8 +381,8 @@
 }
 
 .forumtablestyle .rowline {
-	border-left: 1px solid #e6e7e8;
-	border-bottom: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
+	border-bottom: 1px solid #e6e7e8 !important;
 }
 
 .forumtablestyle .editRow {
@@ -1009,7 +1009,7 @@ a.ui-state-default {
 }
 
 .ui-datatable thead th {
-	padding: 3px 5px;
+	padding: 3px 5px !important;
 	border-style: none;
 	border-right-style: solid;
 	border-right-color: #C4C0C9;
@@ -1017,8 +1017,8 @@ a.ui-state-default {
 }
 
 .modcpbody thead th {
-	background-color: black;
-	color: #94AEBD;
+	background-color: black !important;
+	color: #94AEBD !important;
 }
 
 .modcpbody .rowlinefirst {
@@ -1098,7 +1098,7 @@ a.ui-state-default {
 }
 
 .ui-widget-content {
-	border: none;
+	border: none !important;
 }
 
 .forumseditor {
@@ -1143,4 +1143,20 @@ a.ui-state-default {
 	margin-left: 100px;
 	display: block;
 	margin-bottom: 10px;
+}
+
+.ui-datatable table {
+	border-collapse: separate;
+}
+
+body .ui-datagrid .ui-datagrid-content {
+    background: #ffffff;
+    color: #495057;
+    padding: unset;
+}
+
+body .ui-datatable .ui-datatable-footer {
+    text-align: center;
+    border: none;
+    padding: 4px 10px;
 }
