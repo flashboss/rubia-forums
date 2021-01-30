@@ -94,9 +94,6 @@
 }
 
 /* -------------------------- titles, headers & text ------------------------------- */
-.forumtitletext {
-	
-}
 
 .forumtitletext h4 {
 	margin: 5px auto;
@@ -536,7 +533,6 @@
 	border-bottom: 0px;
 	margin: 4px;
 	padding: 0;
-	spacing-border: 0;
 }
 
 .forumAttachmentTable .header {
@@ -988,6 +984,7 @@ h4 {
 	text-shadow: inherit;
 	font-size: 11px;
 	box-shadow: none;
+	background-color: rgb(222, 222, 222);
 }
 
 a.ui-state-default {

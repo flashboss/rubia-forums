@@ -17,11 +17,28 @@ body .ui-widget {
     text-decoration: none;
 }
 
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
+    font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+}
+
+body .ui-icon {
+    font-size: 11px;
+    overflow: hidden;
+    width: 16px;
+    height: 16px;
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
+    font-weight: 700;
+    text-indent: -99999px;
+    font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+}
+
 body .ui-button.ui-button-text-icon-left .ui-icon {
     position: absolute;
     top: 50%;
     margin-top: -8px;
-    left: .5em;
+    left: 5.5px;
 }
 
 body .ui-button.ui-button-text-icon-left .ui-button-text {
@@ -41,29 +58,26 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button {
     margin-right: .2em;
 }
 
-body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
-    font-family: 'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
-}
-
 body .ui-fileupload .ui-fileupload-content {
     border: none;
     background: #fff;
     color: #4f4f4f;
     padding: .55em .4em;
     border-top: 0 none;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 body .ui-fileupload .ui-fileupload-content .ui-fileupload-cancel .ui-icon {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif !important;
     font-style: normal;
     font-weight: 700;
     font-variant: normal;
     text-transform: none;
     display: block;
-    text-indent: -99999px;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo);
+    text-indent: -99999px !important;
+    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_616161_256x240.png.xhtml?ln=primefaces-aristo) !important;
+    width: 16px;
 }
 
 body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-cancel .ui-icon {
@@ -74,7 +88,7 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-cancel .ui
     text-transform: none;
     display: block;
     text-indent: -99999px;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo);
+    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo) !important;
 }
 
 body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui-icon {
@@ -85,7 +99,7 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui
     text-transform: none;
     display: block;
     text-indent: -99999px;
-    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo);
+    background-image: url(/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo) !important;
 }
 
 body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
@@ -96,7 +110,7 @@ body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui
     text-transform: none;
     display: block;
     text-indent: 0px;
-    background-image: none !important;
+    background-image: url("/rubia-forums/javax.faces.resource/images/ui-icons_38667f_256x240.png.xhtml?ln=primefaces-aristo") !important;
 }
 
 .ui-fileupload {
@@ -158,4 +172,70 @@ body .ui-button {
     border-radius: 3px;
     transition: none;
     text-shadow: rgba(255, 255, 255, 0.7);
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #a8a8a8;
+    background: #c4c4c4 url(/rubia-forums/javax.faces.resource/images/ui-bg_highlight-hard_80_c4c4c4_1x100.png.xhtml?ln=primefaces-aristo) 50% 50% repeat-x;
+    background: #c4c4c4 linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0));
+    background: #c4c4c4 -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0.8)),to(rgba(255,255,255,0)));
+    background: #c4c4c4 -moz-linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0));
+    font-weight: bold;
+    color: #4f4f4f;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 70%);
+}
+
+body .ui-button.ui-state-hover {
+	background: rgb(133, 178, 203);
+	border-color: rgb(112, 150, 171);
+	color: #313131
+}
+
+.ui-icon-plusthick {
+    background-position: -32px -128px;
+    background-position-x: -32px;
+    background-position-y: -128px;
+}
+
+body .ui-fileupload .ui-fileupload-content .ui-fileupload-files .ui-fileupload-row > div {
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+}
+
+.ui-icon-close {
+    background-position: -80px -128px;
+    background-position-x: -80px;
+    background-position-y: -128px;
+}
+
+body .ui-button.ui-button-icon-only .ui-icon {
+    left: 50%;
+    margin-left: -8px;
+}
+
+body .ui-progressbar {
+	border-radius: 10px;
+	background-color: rgb(255, 255, 255);
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: Arial,sans-serif !important;
+    font-size: 1em;
+}
+
+.ui-button-icon-only .ui-button-text {
+    padding: .3em;
+    padding-top: 0.3em;
+    padding-right: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 0.3em;
+    text-indent: -9999999px;
+}
+
+.ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
 }
