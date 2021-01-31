@@ -212,7 +212,7 @@ function selectOption(optionVal)
 							<td><label class="forumformlabelbold">
 									${resourcebundle.Posted_attachments} </label></td>
 							<td><prime:fileUpload id="fileUploadOp"
-									fileUploadListener="#{newTopic.upload}" dragDropSupport="false"
+									listener="#{newTopic.upload}" dragDropSupport="false"
 									update="info,messages" label="${resourcebundle.Add_attachment}"
 									cancelLabel="${resourcebundle.Delete_attachments}"
 									uploadLabel="${resourcebundle.Confirm}" /> <prime:growl
