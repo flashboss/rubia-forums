@@ -257,9 +257,14 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<classifier>jakarta</classifier>
 		</dependency>
 		<dependency>
-    		<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
-    		<artifactId>owasp-java-html-sanitizer</artifactId>
-    		<version>${sanizer.version}</version>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>aristo</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>${sanizer.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -313,4 +318,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>primefaces</id>
+			<url>https://repository.primefaces.org/</url>
+		</repository>
+	</repositories>
 </project>
