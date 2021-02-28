@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -39,6 +39,7 @@
 		<connection>svn:git:https://github.com/flashboss/rubia-forums.git</connection>
 		<developerConnection>svn:git:https://github.com/flashboss/rubia-forums.git</developerConnection>
 		<url>svn:git:https://github.com/flashboss/rubia-forums.git</url>
+		<tag>4.0.0</tag>
 	</scm>
 	<developers>
 		<developer>
