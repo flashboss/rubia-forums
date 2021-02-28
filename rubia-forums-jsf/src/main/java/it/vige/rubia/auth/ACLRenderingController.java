@@ -17,14 +17,14 @@ import static it.vige.rubia.util.PortalUtil.getUser;
 
 import java.util.StringTokenizer;
 
-import javax.ejb.EJB;
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.FacesException;
-import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.el.ExpressionFactory;
+import jakarta.el.ValueExpression;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.FacesException;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.facelets.FaceletContext;
+import jakarta.inject.Named;
 
 @Named("aclRenderingController")
 @RequestScoped

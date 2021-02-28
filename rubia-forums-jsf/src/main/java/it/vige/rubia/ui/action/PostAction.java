@@ -39,8 +39,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.ejb.EJB;
-import javax.interceptor.Interceptors;
+import jakarta.ejb.EJB;
+import jakarta.interceptor.Interceptors;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;

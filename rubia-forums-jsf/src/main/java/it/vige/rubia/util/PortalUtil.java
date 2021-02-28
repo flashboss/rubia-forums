@@ -15,7 +15,7 @@ package it.vige.rubia.util;
 
 import static it.vige.rubia.Constants.userNA;
 import static java.lang.Long.parseLong;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.text.DecimalFormat;

@@ -14,22 +14,22 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 -->
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
-	version="2.2">
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+	version="3.0">
 	<persistence-unit name="forums">
 		<jta-data-source>jdbc/forums_mdefault</jta-data-source>
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->
 			<property
-				name="javax.persistence.schema-generation.database.action"
+				name="jakarta.persistence.schema-generation.database.action"
 				value="MAVEN_REPLACER_HBM2DDL_AUTO" />
 			<!-- Only format when you need to debug, because it slows things down -->
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="false" />
-			<property name="javax.persistence.sql-load-script-source"
+			<property name="jakarta.persistence.sql-load-script-source"
 				value="forums.import.sql" />
 			<property name="hibernate.search.lucene_version"
 				value="LUCENE_CURRENT" />

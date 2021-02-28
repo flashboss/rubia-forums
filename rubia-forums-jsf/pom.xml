@@ -22,7 +22,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>it.vige</groupId>
 		<artifactId>rubia-forums</artifactId>
-		<version>3.1.1</version>
+		<version>4.0.0</version>
 	</parent>
 
 	<artifactId>rubia-forums-jsf</artifactId>
@@ -144,36 +144,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 									<goal>start</goal>
 								</goals>
 								<configuration>
-									<version>${wildfly.version}</version>
-									<addUser>admin:admin</addUser>
-								</configuration>
-							</execution>
-							<execution>
-								<id>init</id>
-								<phase>install</phase>
-								<goals>
-									<goal>execute-commands</goal>
-								</goals>
-								<configuration>
-									<scripts>
-										<script>../rubia-forums-scripts/init.cli</script>
-									</scripts>
-								</configuration>
-							</execution>
-							<execution>
-								<id>shutdown</id>
-								<phase>install</phase>
-								<goals>
-									<goal>shutdown</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>run-wildfly</id>
-								<phase>install</phase>
-								<goals>
-									<goal>start</goal>
-								</goals>
-								<configuration>
+									<artifactId>wildfly-preview-dist</artifactId>
 									<version>${wildfly.version}</version>
 									<addUser>admin:admin</addUser>
 								</configuration>
@@ -283,11 +254,17 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
+			<classifier>jakarta</classifier>
 		</dependency>
 		<dependency>
-    		<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
-    		<artifactId>owasp-java-html-sanitizer</artifactId>
-    		<version>${sanizer.version}</version>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>aristo</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>${sanizer.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -341,4 +318,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>primefaces</id>
+			<url>https://repository.primefaces.org/</url>
+		</repository>
+	</repositories>
 </project>

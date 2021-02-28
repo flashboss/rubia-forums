@@ -18,9 +18,9 @@ import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Integer.parseInt;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import static javax.faces.application.FacesMessage.SEVERITY_WARN;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
+import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
@@ -31,16 +31,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.Conversation;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.model.DataModel;
+import jakarta.faces.model.ListDataModel;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import org.jboss.logging.Logger;
 

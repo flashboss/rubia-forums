@@ -16,9 +16,9 @@ package it.vige.rubia.ui.view;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static org.jboss.logging.Logger.getLogger;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
 
 import org.jboss.logging.Logger;
 

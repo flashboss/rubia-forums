@@ -14,7 +14,7 @@
 package it.vige.rubia.ui.view;
 
 import static it.vige.rubia.ui.JSFUtil.handleException;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.io.IOException;
@@ -23,13 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ValueChangeEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import org.jboss.logging.Logger;
 

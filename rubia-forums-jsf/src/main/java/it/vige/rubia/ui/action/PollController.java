@@ -18,9 +18,9 @@ import static it.vige.rubia.ui.JSFUtil.getPoster;
 import static it.vige.rubia.ui.JSFUtil.handleException;
 import static java.lang.Integer.parseInt;
 
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;

@@ -20,7 +20,7 @@ import static it.vige.rubia.ui.JSFUtil.getSupportedLocales;
 import static it.vige.rubia.ui.JSFUtil.getUserLastLoginDate;
 import static java.lang.Thread.currentThread;
 import static java.util.ResourceBundle.getBundle;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -31,11 +31,11 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.ejb.EJB;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.ejb.EJB;
+import jakarta.faces.component.UIViewRoot;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import it.vige.rubia.Constants;
 import it.vige.rubia.auth.UserModule;

@@ -35,8 +35,8 @@ import static it.vige.rubia.feeds.FeedConstants.WRONG_FEED_SHOW_TYPE;
 import static it.vige.rubia.feeds.FeedConstants.WRONG_FEED_TYPE;
 import static java.lang.Integer.valueOf;
 import static java.net.URLEncoder.encode;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 import java.io.IOException;
@@ -45,11 +45,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndContentImpl;

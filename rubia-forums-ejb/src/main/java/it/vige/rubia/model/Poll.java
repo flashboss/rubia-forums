@@ -13,8 +13,8 @@
  ******************************************************************************/
 package it.vige.rubia.model;
 
-import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.FetchType.EAGER;
+import static jakarta.persistence.CascadeType.REMOVE;
+import static jakarta.persistence.FetchType.EAGER;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,14 +24,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 /**
  * @author <a href="mailto:julien@jboss.org">Julien Viet </a>

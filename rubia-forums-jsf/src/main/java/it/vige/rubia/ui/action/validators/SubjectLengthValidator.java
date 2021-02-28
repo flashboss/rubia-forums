@@ -15,8 +15,8 @@ package it.vige.rubia.ui.action.validators;
 
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.SUBJECT_LENGTH_ERROR;
 
-import javax.faces.component.UIComponent;
-import javax.faces.validator.FacesValidator;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.validator.FacesValidator;
 
 /**
  * Validator class for validating a length of user input in post subject.

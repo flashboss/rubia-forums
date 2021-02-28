@@ -17,10 +17,10 @@ import static it.vige.rubia.ui.JSFUtil.handleException;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import it.vige.rubia.ForumsModule;
 import it.vige.rubia.auth.AuthorizationListener;

@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>it.vige</groupId>
 		<artifactId>rubia-forums</artifactId>
-		<version>3.1.1</version>
+		<version>4.0.0</version>
 	</parent>
 
 	<artifactId>rubia-forums-rest</artifactId>
@@ -135,6 +135,7 @@
 									<goal>start</goal>
 								</goals>
 								<configuration>
+									<artifactId>wildfly-preview-dist</artifactId>
 									<version>${wildfly.version}</version>
 									<addUser>admin:admin</addUser>
 								</configuration>

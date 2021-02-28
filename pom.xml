@@ -19,7 +19,7 @@
 
 	<groupId>it.vige</groupId>
 	<artifactId>rubia-forums</artifactId>
-	<version>3.1.1</version>
+	<version>4.0.0</version>
 	<packaging>pom</packaging>
 	<name>Rubia Forums Parent</name>
 	<description>Rubia Forums Web and Portlet Application Parent Aggregator</description>
@@ -56,9 +56,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss.home>${env.JBOSS_HOME}</jboss.home>
 		
-		<spec.jakartaee.version>8.0.0</spec.jakartaee.version>
+		<spec.jakartaee.version>9.0.0</spec.jakartaee.version>
 		<org.jboss.spec.javax.rmi.version>1.0.6.Final</org.jboss.spec.javax.rmi.version>
-		<primefaces.version>8.0</primefaces.version>
+		<primefaces.version>10.0.0-RC1</primefaces.version>
 		<sanizer.version>20180219.1</sanizer.version>
 		<guava.version>30.1-jre</guava.version>
 		<commons.text.version>1.9</commons.text.version>
@@ -82,9 +82,9 @@
 		<hibernate.search.version>5.10.7.Final</hibernate.search.version>
 		<org.jboss.ejb.api.version>2.3.0.Final</org.jboss.ejb.api.version>
 		<rome.version>1.15.0</rome.version>
-		<jboss.logging.version>3.4.1.Final</jboss.logging.version>
+		<jboss.logging.version>3.3.2.Final</jboss.logging.version>
 		
-		<resteasy.version>3.13.2.Final</resteasy.version>
+		<resteasy.version>3.14.0.Final</resteasy.version>
 		<junit.version>5.7.0</junit.version>
 		<junit.surefire.version>1.3.2</junit.surefire.version>
 		<junit.platform.runner.version>1.7.0</junit.platform.runner.version>

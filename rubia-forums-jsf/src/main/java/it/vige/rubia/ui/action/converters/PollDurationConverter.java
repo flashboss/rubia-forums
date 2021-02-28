@@ -17,14 +17,14 @@ import static it.vige.rubia.Constants.BUNDLE_NAME;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static it.vige.rubia.ui.action.validators.ValidatorMessages.POLL_DURATION_MSG;
 import static java.lang.Integer.valueOf;
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.ConverterException;
+import jakarta.faces.convert.FacesConverter;
 
 /**
  * This is a special JSF converter for poll duration time. It's more or less

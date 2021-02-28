@@ -15,10 +15,10 @@ package it.vige.rubia.util;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.primefaces.event.data.PageEvent;
 

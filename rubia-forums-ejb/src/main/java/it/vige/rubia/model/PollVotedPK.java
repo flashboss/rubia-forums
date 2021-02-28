@@ -15,9 +15,9 @@ package it.vige.rubia.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
 
 @Embeddable
 public class PollVotedPK implements Serializable {

@@ -17,6 +17,10 @@
 	color: #656565;
 }
 
+* {
+    box-sizing: revert;
+}
+
 .scroll {
 	width: 800px;
 	overflow: auto;
@@ -90,9 +94,6 @@
 }
 
 /* -------------------------- titles, headers & text ------------------------------- */
-.forumtitletext {
-	
-}
 
 .forumtitletext h4 {
 	margin: 5px auto;
@@ -321,13 +322,13 @@
 .forumtablestyle .forumlistcentered {
 	width: 50px;
 	text-align: center !important;
-	border-left: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
 	height: 40px;
 }
 
 .forumtablestyle .forumlistlast {
 	width: 250px;
-	border-left: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
 	height: 40px;
 }
 
@@ -380,8 +381,8 @@
 }
 
 .forumtablestyle .rowline {
-	border-left: 1px solid #e6e7e8;
-	border-bottom: 1px solid #e6e7e8;
+	border-left: 1px solid #e6e7e8 !important;
+	border-bottom: 1px solid #e6e7e8 !important;
 }
 
 .forumtablestyle .editRow {
@@ -532,7 +533,6 @@
 	border-bottom: 0px;
 	margin: 4px;
 	padding: 0;
-	spacing-border: 0;
 }
 
 .forumAttachmentTable .header {
@@ -984,6 +984,7 @@ h4 {
 	text-shadow: inherit;
 	font-size: 11px;
 	box-shadow: none;
+	background-color: rgb(222, 222, 222);
 }
 
 a.ui-state-default {
@@ -1008,7 +1009,7 @@ a.ui-state-default {
 }
 
 .ui-datatable thead th {
-	padding: 3px 5px;
+	padding: 3px 5px !important;
 	border-style: none;
 	border-right-style: solid;
 	border-right-color: #C4C0C9;
@@ -1016,8 +1017,8 @@ a.ui-state-default {
 }
 
 .modcpbody thead th {
-	background-color: black;
-	color: #94AEBD;
+	background-color: black !important;
+	color: #94AEBD !important;
 }
 
 .modcpbody .rowlinefirst {
@@ -1060,25 +1061,6 @@ a.ui-state-default {
 	cursor: default !important;
 }
 
-.ui-fileupload {
-	border: 1px solid #a8a8a8;
-	background: #e6e7e8;
-	width: 59%;
-}
-
-.ui-fileupload-content {
-	border-left: none !important;
-	border-right: none !important;
-}
-
-.ui-fileupload-cancel {
-	float: right;
-}
-
-.ui-fileupload-row {
-	border: black;
-}
-
 .ui-button-icon-only {
 	top: 4px;
 }
@@ -1116,7 +1098,7 @@ a.ui-state-default {
 }
 
 .ui-widget-content {
-	border: none;
+	border: none !important;
 }
 
 .forumseditor {
@@ -1161,4 +1143,20 @@ a.ui-state-default {
 	margin-left: 100px;
 	display: block;
 	margin-bottom: 10px;
+}
+
+.ui-datatable table {
+	border-collapse: separate;
+}
+
+body .ui-datagrid .ui-datagrid-content {
+    background: #ffffff;
+    color: #495057;
+    padding: unset;
+}
+
+body .ui-datatable .ui-datatable-footer {
+    text-align: center;
+    border: none;
+    padding: 4px 10px;
 }

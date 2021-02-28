@@ -17,9 +17,9 @@ import static it.vige.rubia.util.PortalUtil.getUser;
 import static it.vige.rubia.ui.ForumUtil.getParameter;
 import static it.vige.rubia.ui.JSFUtil.getBundleMessage;
 import static java.lang.Integer.parseInt;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import static javax.faces.application.FacesMessage.SEVERITY_WARN;
-import static javax.faces.context.FacesContext.getCurrentInstance;
+import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
+import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
+import static jakarta.faces.context.FacesContext.getCurrentInstance;
 import static org.jboss.logging.Logger.getLogger;
 
 import java.util.ArrayList;
@@ -28,12 +28,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.interceptor.Interceptors;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.interceptor.Interceptors;
 
 import org.jboss.logging.Logger;
 
